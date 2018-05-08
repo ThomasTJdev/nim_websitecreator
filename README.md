@@ -53,9 +53,42 @@ Blog posts can be set as private or public.
 **Blog post edit 2**
 ![Blog](screenshots/blogpage2.png)
 
+
+## Screenshot
+
+**Frontpage**
+![Frontpage](screenshots/frontpage.png)
+
+**Settings**
+![Blog](screenshots/settings.png)
+
+**Settings head, header & footer**
+![Blog](screenshots/settings2.png)
+
+**Files**
+![Blog](screenshots/files.png)
+
+**Users**
+![Blog](screenshots/users.png)
+
+**Profile**
+![Blog](screenshots/profile.png)
+
+
 ## Plugins
 
 Plugins will be loaded at compiletime with macros. Plugins are placed in `plugins`-folder. An example plugin (mailer) is available in the `plugins`-folder.
+
+Plugins will be available at `www.example.com/e/<plugin-route-name>`
+
+### Enable plugin
+
+To enable a plugin, add the plugin name and full path to `plugin/plugin_import.txt`.
+
+Use the format (see the file for example):
+```
+pluginname:/home/full/path/to/plugin/folder
+```
 
 ### Plugin structure
 
@@ -82,22 +115,10 @@ Includes the URL routes.
 
 On compiletime the js and css file in the public folder will be copied to the official public folder, and a `<link>` and `<script>` tag will be appended to the HTML code.
 
-## Screenshot
+### Plugin: Mailer
 
-**Frontpage**
-![Frontpage](screenshots/frontpage.png)
+Add elements containing mail subject, description and date for sending the mail. When the element is saved, every 12th hour a cronjob will run to check, if it is time to send the mail.
 
-**Settings**
-![Blog](screenshots/settings.png)
+All registrered users will receive the email.
 
-**Settings head, header & footer**
-![Blog](screenshots/settings2.png)
-
-**Files**
-![Blog](screenshots/files.png)
-
-**Users**
-![Blog](screenshots/users.png)
-
-**Profile**
-![Blog](screenshots/profile.png)
+You can access the plugin at `/e/mailer`. The link can be added manually to the navbar.
