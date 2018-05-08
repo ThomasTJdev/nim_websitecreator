@@ -1,0 +1,202 @@
+#? stdtmpl | standard
+#
+#template `%`(idx: untyped): untyped =
+#  row[idx]
+#end template
+#
+#
+#
+#
+#  
+#proc genSettings(c: var TData): string =
+  #result = ""
+
+  <div style="text-align: center;">
+    <h1>Settings</h1>
+  </div>
+
+  <div id="settings">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 col-md-6">
+
+          <h5 style="text-align: center;">Blog</h5>
+          <div>
+            <a href="/blogpagenew" class="btn btn-outline-primary">Add blogpost</a>
+          </div>
+          <div>
+            <a href="/editpage/blogallpages" class="btn btn-outline-primary">Edit blogpost</a>
+          </div>
+          
+          <br>
+
+          <h5 style="text-align: center;">Pages</h5>
+          <div>
+            <a href="/pagenew" class="btn btn-outline-primary">Add page</a>
+          </div>
+          <div>
+            <a href="/editpage/allpages" class="btn btn-outline-primary">Edit pages</a>
+          </div>
+
+          <br>
+
+        </div>
+
+        <div class="col-12 col-md-6">
+
+          <h5 style="text-align: center;">Users</h5>
+          <div>
+            <a href="/users" class="btn btn-outline-primary">Users</a>
+          </div>
+          <div>
+            <a href="/users/profile" class="btn btn-outline-primary">My profile</a>
+          </div>
+
+          <br>
+
+          <h5 style="text-align: center;">Files</h5>
+          <div>
+            <a href="/files" class="btn btn-outline-primary">Files</a>
+          </div>
+
+          <br>
+          
+          <h5 style="text-align: center;">Settings</h5>
+          <div>
+            <a href="/settings/edit" class="btn btn-outline-primary">Edit settings</a>
+          </div>
+          <div>
+            <a href="/settings/editjs" class="btn btn-outline-primary">Edit JS file</a>
+          </div>
+          <div>
+            <a href="/settings/editcss" class="btn btn-outline-primary">Edit CSS file</a>
+          </div>
+
+          <br>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+#end proc
+#
+#
+#
+#
+#
+#proc genSettingsEdit(c: var TData): string =
+# result = ""
+#
+# let pageData = getAllRows(db, sql"SELECT analytics, head, navbar, footer, title FROM settings WHERE id = ?", "1")
+#
+# for page in pageData:
+
+<div id="settingsEdit">
+  <h1>Main settings</h1>
+  <form method="post" action="/settings/update">
+    <div>
+      <label>Title</label>
+      <input name="title" id="title" required value="${page[4]}" />
+    </div>
+    <div style="display: inline-flex;">
+      <div>
+        <button class="btn btn-success settingsSave">Save</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-danger settingsRestore">Restore</button>
+      </div>
+    </div>
+    <hr>
+    <div>
+      <div>HTML &lt;head&gt;</div>
+      <a href="#!" class="templateCode" data-code="head" style="display: none;">See template</a>
+      <pre class="templateCode templateCodehead" style="display: none;">${xmlEncode(head)}</pre>
+      <textarea name="head" id="summernoteSettings1" class="summernoteSettings" >${page[1]}</textarea>
+    </div>
+    <br>
+    <div>
+      <div>HTML &lt;header&gt; + &lt;navbar&gt;</div>
+      <a href="#!" class="templateCode" data-code="navbar" style="display: none;">See template</a>
+      <pre class="templateCode templateCodenavbar" style="display: none;">${xmlEncode(navbar)}</pre>
+      <textarea name="navbar" id="summernoteSettings2" class="summernoteSettings" >${page[2]}</textarea>
+    </div>
+    <br>
+    <div>
+      <div>HTML &lt;footer&gt;</div>
+      <a href="#!" class="templateCode" data-code="footer" style="display: none;">See template</a>
+      <pre class="templateCode templateCodefooter" style="display: none;">${xmlEncode(footer)}</pre>
+      <textarea name="footer" id="summernoteSettings3" class="summernoteSettings" >${page[3]}</textarea>
+    </div>
+    <div style="display: inline-flex;">
+      <div>
+        <button class="btn btn-success settingsSave">Save</button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-danger settingsRestore">Restore</button>
+      </div>
+    </div>
+  </form>   
+  
+</div>
+
+# end for
+#end proc
+#
+#
+#
+#
+#
+#proc genSettingsEditJs(c: var TData): string =
+# result = ""
+
+<div id="settingsEdit">
+  <h1>Edit main JS file</h1>
+  <h4>/js/js.js</h4>
+  <form method="post" action="/settings/updatejs">
+    <div>
+      <button class="btn btn-success settingsSaveCode" style="margin-bottom: 5px;">Save</button>
+    </div>
+    <div>
+      <textarea name="js" id="summernoteSettingsCode" >
+# for line in lines("public/js/js.js"):
+$line
+# end for
+      </textarea>
+    </div>
+    <div>
+      <button class="btn btn-success settingsSaveCode">Save</button>
+    </div>
+  </form>   
+</div>
+
+#end proc
+#
+#
+#
+#
+#
+#proc genSettingsEditCss(c: var TData): string =
+# result = ""
+
+<div id="settingsEdit">
+  <h1>Edit main CSS file</h1>
+  <h4>/css/style.css</h4>
+  <form method="post" action="/settings/updatecss">
+    <div>
+      <button class="btn btn-success settingsSaveCode" style="margin-bottom: 5px;">Save</button>
+    </div>
+    <div>
+      <textarea name="css" id="summernoteSettingsCode" >
+# for line in lines("public/css/style.css"):
+$line
+# end for
+      </textarea>
+    </div>
+    <div>
+      <button class="btn btn-success settingsSaveCode">Save</button>
+    </div>
+  </form>   
+</div>
+
+#end proc

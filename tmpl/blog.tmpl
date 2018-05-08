@@ -1,0 +1,107 @@
+#? stdtmpl | standard
+#
+#template `%`(idx: untyped): untyped =
+#  row[idx]
+#end template
+#
+#
+#proc genAllBlogPagesEdit(c: var TData): string =
+# result = ""
+# let allBlogPages = getAllRows(db, sql"SELECT url, name, description, status, modified FROM blog ORDER BY modified DESC")
+
+<div style="text-align: center;">
+  <h1>Edit a blog post</h1>
+</div>
+
+<div id="allblogPosts">
+
+# if allBlogPages.len < 1:
+#
+  <div style="text-align: center">
+    <h3><i>No blog posts</i></h3>
+  </div>
+#
+# else:
+#
+<ul class="list-group list-group-flush">
+#   for blog in allBlogPages:
+    <a href="/editpage/blog/${blog[0]}" class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">${blog[1]}</h5>
+        <div style="display: grid">
+          <small>${epochDate(blog[4], "YYYY-MM-DD")}</small>
+          # if c.loggedIn:
+          <small>${statusIntToText(blog[3])}</small>
+          # end if
+        </div>
+      </div>
+      <!--<p class="mb-1"></p>-->
+    </a>
+#   end for
+  </ul>  
+# end if
+</div>
+#end proc
+#
+#
+#
+#
+#proc genBlogAllPages(c: var TData, view = ""): string =
+# ## Show all blog post
+# ## 
+# ## View: Development = 0, Private = 1, Public = 2
+# result = ""
+#
+# var status = "(2)"
+# if c.loggedIn:
+#   status = "(0,1,2)"
+# else:
+#   status = "(2)"
+# end if
+
+
+# let allBlogPages = getAllRows(db, sql("SELECT url, name, description, status, modified FROM blog WHERE status IN " & status & " ORDER BY modified DESC"))
+
+<div style="text-align: center;">
+  <h1>All blog posts</h1>
+  # if c.loggedIn:
+    <h4>You are logged in, so all post are visible</h4>
+  # end if
+</div>
+
+<div id="allblogPosts">
+
+# if allBlogPages.len < 1:
+#
+  <div style="text-align: center">
+    <h3><i>No blog posts</i></h3>
+  </div>
+#
+# else:
+#
+  <ul class="list-group list-group-flush">
+#   for blog in allBlogPages:
+    <a href="/blog/${blog[0]}" class="list-group-item list-group-item-action flex-column align-items-start">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1">${blog[1]}</h5>
+        <div style="display: grid">
+          <small>${epochDate(blog[4], "YYYY-MM-DD")}</small>
+          # if c.loggedIn:
+          <small>${statusIntToText(blog[3])}</small>
+          # end if
+        </div>
+      </div>
+      <!--<p class="mb-1"></p>-->
+    </a>
+#   end for
+  </ul>
+#
+# end if
+
+</div>
+#end proc
+#
+#
+#
+#
+#

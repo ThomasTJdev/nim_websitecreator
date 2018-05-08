@@ -1,0 +1,91 @@
+#? stdtmpl | standard
+#
+#template `%`(idx: untyped): untyped =
+#  row[idx]
+#end template
+#
+#
+#
+#
+#  
+#proc genEditPage(c: var TData, urlName: string): string =
+# result = ""
+#
+# let pageData = getAllRows(db, sql"SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, url, status FROM pages WHERE url = ?", urlName)
+
+# if pageData.len() > 0:
+#   for page in pageData:
+<div id="newblogData">
+  <form method="post" action="/page/update">
+    <input name="urloriginal" value="$urlName" style="display: none" />
+    <div>
+      <label>Name</label>
+      <input name="name" required value="${page[7]}" />
+    </div>
+    <div>
+      <label>URL <span style="font-size: 90%;"><i>(eg. 2018/11/name)</i></span></label>
+      <input name="url" required value="${page[8]}" />
+    </div>
+    <div>
+      <label>Status</label>
+      <select name="status" class="form-control form-control-sm">
+        <option value="0" ${statusIntToCheckbox(page[9], "0")}>Development</option>
+        <option value="1" ${statusIntToCheckbox(page[9], "1")}>Private</option>
+        <option value="2" ${statusIntToCheckbox(page[9], "2")}>Public</option>
+      </select>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-success newblogSave">Save</button>
+      <button type="button" class="btn btn-secondary newblogOptions">Options</button>
+    </div>
+    <div class="newblogOptions">
+      <hr>
+      
+      <h5>HTML</h5>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-md-4">
+            <div>HTML &lt;head&gt;</div>
+            <input name="standardhead" type="checkbox" class="form-check-input" ${checkboxToChecked(page[2])}> Use standard head
+            <textarea name="head" class="form-control" >${page[1]}</textarea>
+          </div>
+          <div class="col-12 col-md-4">
+            <div>HTML &lt;navbar&gt;</div>
+            <input name="standardnavbar" type="checkbox" class="form-check-input" ${checkboxToChecked(page[2])}> Use standard navbar
+            <textarea name="navbar" class="form-control" >${page[3]}</textarea>
+          </div>
+          <div class="col-12 col-md-4">
+            <div>HTML &lt;footer&gt;</div>
+            <input name="standardfooter" type="checkbox" class="form-check-input" ${checkboxToChecked(page[2])}> Use standard footer
+            <textarea name="footer" class="form-control" >${page[6]}</textarea>
+          </div>
+        </div>
+      </div>
+
+      <hr>
+      
+      <div>
+        <h5>Images</h5>
+        <i>Upload a <a href="/files">new file</a></i>
+        <div id="imagecontainer"></div>
+      </div>
+
+    </div>
+
+
+    <hr>
+    <div>
+     <div>Blog text:</div>
+      <textarea id="summernote" name="editordata">${page[4]}</textarea>
+    </div>
+  </form>   
+  
+  <br>
+  <a href="/page/delete?url=${page[8]}" class="btn btn-danger newblogSave">Delete page</a>
+  
+</div>
+#   end for
+# else:
+  <h5 style="color: red;">Something went wrong</h5>
+# end if
+#end proc

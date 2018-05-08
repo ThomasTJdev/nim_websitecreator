@@ -1,0 +1,14 @@
+.vscode
+config/config.cfg
+data/*
+files/*
+fileslocal/*
+log/*
+nimcache
+nimcache/*
+private
+public/files/*
+public/css/mailer.css
+public/js/mailer.js
+tmp
+websitecreator

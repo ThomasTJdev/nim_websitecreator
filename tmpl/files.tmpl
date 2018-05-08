@@ -1,0 +1,115 @@
+#? stdtmpl | standard
+#
+#template `%`(idx: untyped): untyped =
+#  row[idx]
+#end template
+#
+#
+#
+#
+#  
+#proc genFiles(c: var TData): string =
+# result = ""
+#
+# let allFilesPrivate = filesListPrivate()
+# let allFilesPublic = filesListPublic()
+
+<div style="text-align: center;">
+  <h1>Files</h1>
+</div>
+
+
+# if c.loggedIn:
+<div id="fileAddContainer">
+  <button class="btn btn-secondary fileAdd">Upload new file</button>
+  <form id="fileAdd" method="post" action="/files/upload">
+    <div class="form-group">
+      <div style="margin-left: 20px;">
+        <input id="access" name="private" type="checkbox" class="form-check-input" checked> Private file
+      </div>
+      <input type="file" class="form-control-file" id="file" name="file">
+    </div>
+    <button type="button" class="btn btn-success fileUpload">Upload</button>
+  </form>
+</div>
+# end if
+
+
+<div id="files">
+
+# if c.loggedIn:
+<h4>Private files (only for logged in users)</h4>
+<ul class="list-group">
+# for file in allFilesPrivate:
+#   if file == "":
+#     continue
+#   end if
+
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a href="/files/stream/private/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
+      <span class="badge badge-danger badge-pill"><a href="/files/delete/private/${extractFilename(file)}">Delete</a></span>
+    </li>
+# end for
+</ul>  
+
+# end if
+
+<hr>
+
+<h4>Public files (available to all)</h4>
+<ul class="list-group">
+# for file in allFilesPublic:
+#   if file == "":
+#     continue
+#   end if
+
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a href="/files/stream/public/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
+      <span class="badge badge-danger badge-pill"><a href="/files/delete/public/${extractFilename(file)}">Delete</a></span>
+    </li>
+# end for
+</ul>  
+
+</div>
+  
+#end proc
+#
+#
+#
+#
+#
+#
+#proc genFilesRaw(c: var TData): string =
+# result = ""
+#
+# let allFilesPrivate = filesListPrivate()
+# let allFilesPublic = filesListPublic()
+
+<div class="container-fluid">
+<div class="row">
+# for file in allFilesPrivate:
+#   if file == "":
+#     continue
+#   end if
+
+  <div class="col-6 col-md-2 img-item">
+    <img class="col-md-12 thumbnail" data-url="/files/stream/private/${extractFilename(file)}" data-filename="${extractFilename(file)}" src="/files/stream/private/${extractFilename(file)}" alt="">
+    <i class="fa fa-check"></i>
+  </div>
+# end for
+
+# for file in allFilesPublic:
+#   if file == "":
+#     continue
+#   end if
+
+  <div class="col-6 col-md-2 img-item">
+    <img class="col-md-12 thumbnail" data-url="/files/stream/public/${extractFilename(file)}" data-filename="${extractFilename(file)}" src="/files/stream/public/${extractFilename(file)}" alt="">
+    <i class="fa fa-check"></i>
+  </div>
+# end for
+</div>
+</div>
+
+  
+#end proc

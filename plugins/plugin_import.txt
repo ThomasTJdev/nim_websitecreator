@@ -1,0 +1,1 @@
+mailer:/home/user/Documents/nim/nim_websitecreator/plugins/mailer

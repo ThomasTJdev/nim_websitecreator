@@ -1,0 +1,218 @@
+#? stdtmpl | standard
+#
+#template `%`(idx: untyped): untyped =
+#  row[idx]
+#end template
+#
+#
+#proc genFormLogin(c: var TData, errorMsg = ""): string =
+# result = ""
+# if not c.loggedIn:
+#
+#   let standardElements = getRow(db, sql"SELECT head, navbar, footer FROM settings WHERE id = ?", "1")
+
+<head>
+  ${standardElements[0]}
+</head>
+
+  <div style="text-align: center;">
+    <h1>Nim Website Creator</h1>
+    <h3><i>Login</i></h3>
+  </div>
+
+  <br>
+
+  <div id="login">
+    <form name="login" action="/dologin" method="POST">
+
+      <div style="color:#fc6969;text-align: center;font-size: 2.5rem; line-height: 3rem;"><b>$errorMsg</b></div>
+
+      <div>
+        <div for="email" class="loginLabel">Email:</div>
+        <input type="email" class="form-control" name="email" required/>
+      </div>
+      
+      <br>
+
+      <div>
+        <div for="password" class="loginLabel">Password:</div>
+        <input type="password" class="form-control" name="password" required/>
+      </div>
+
+      <br>
+
+      <input href="#" type="submit" class="btn btn-custom btn-blue-secondary" value="Login" style="width: 100px;" />
+
+      #if useCaptcha:
+      <div id="recaptcha">
+        <div class="g-recaptcha" data-sitekey="6LfPUDYUAAAAAAyFxBXIkhbUKNow2Jxd8PUqtj6Z" data-theme="light" style="transform:scale(0.93);-webkit-transform:scale(0.93);transform-origin:0 0;-webkit-transform-origin:0 0;"></div>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>      
+      </div>
+      #end if
+    </form>
+  </div>
+
+  <footer>
+    ${standardElements[2]}
+  </footer>
+  
+  #else:
+  <div style="color:#fc6969;text-align: center;font-size: 2.5rem;"><b>You are already logged in!</b></div>
+  #end if
+#end proc
+#
+#
+#
+#
+#
+#
+#proc genUsers(c: var TData): string =
+# result = ""
+#
+# let allUsers = getAllRows(db, sql"SELECT id, name, email, status, lastOnline FROM person")
+
+<div style="text-align: center;">
+  <h1>Users</h1>
+</div>
+
+<div id="users">
+
+# if c.rank in [Admin, Moderator]:
+  <div id="usersAddContainer">
+    <button class="btn btn-secondary usersAdd">Add new user</button>
+    <form id="usersAdd" method="post" action="/users/add">
+      <div>
+        <label>Name</label>
+        <input type="text" name="name" required value="" />
+      </div>
+      <div>
+        <label>Email</label>
+        <input type="email" name="email" required value="" />
+      </div>
+      <div style="display: inline-flex;">
+        <label>Status</label>
+        <select name="status" class="form-control form-control-sm">
+          <option value="User" selected>User</option>
+          <option value="Moderator">Moderator</option>
+          # if c.rank == Admin:
+          <option value="Admin">Admin</option>
+          #end if
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-success userDoAdd">Add user</button>
+    </form>
+  </div>
+# end if
+
+
+<ul class="list-group">
+# for user in allUsers:
+  <li class="list-group-item d-flex justify-content-between align-items-center">
+    <span>${user[1]} - ${user[2]}</span>
+    <div>
+      <span class="badge badge-seconday badge-pill">Last online: ${epochDate(user[4], "YYYY-MM-DD HH:mm")}</span>
+      <span class="badge badge-primary badge-pill">${user[3]}</span>
+      <span class="badge badge-danger badge-pill"><a class="delete" href="/users/delete/${user[0]}">Delete</a></span>
+    </div>
+  </li>
+# end for
+</ul>  
+
+</div>
+  
+#end proc
+#
+#
+#
+#
+#
+#
+#proc genUsersProfile(c: var TData): string =
+# result = ""
+#
+# let userData = getAllRows(db, sql"SELECT id, name, email, status, lastOnline FROM person WHERE id = ?", c.userid)
+
+<div style="text-align: center;">
+  <h1>Users</h1>
+</div>
+
+<div id="user">
+
+# for user in userData:
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 col-md-6">
+
+        <form method="POST" action="/users/profile/update">
+          <div>
+            <label>Name<span style="color: red;font-weight: 600;">*</span></label>
+            <input name="name" type="text" required value="${user[1]}" />
+          </div>
+
+          <div>
+            <label>Email<span style="color: red;font-weight: 600;">*</span></label>
+            <input name="email" type="email" required value="${user[2]}" />
+          </div>
+
+          <div>
+            <label>Password</label>
+            <input name="password" type="password" value="" />
+          </div>
+          
+          <div>
+            <label>Confirm password</label>
+            <input name="passwordConfirm" type="password" value="" placeholder="Confirm password" />
+          </div>
+          
+          <div>
+            <label>Status</label>
+            <input disabled="disabled" value="${user[3]}" />
+          </div>
+
+          <div class="save">
+            <button type="submit" class="btn btn-success save">Save</button>
+          </div>
+        </form>
+
+      </div>
+
+      <div class="col-12 col-md-6">
+
+        <h5 style="text-align: center;">Profile photo</h5>
+        <div id="editProfilePhoto">
+          <div id="userPictureDialogInside">
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+              <strong>Saved!</strong> Your profile picture was saved.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+
+            <button id="userPictureSave" class="btn btn-custom btn-blue-primary" style="display: none;">Save picture</button>
+            <button id="userPictureNewdata" class="btn btn-custom btn-blue-primary">Upload new picture</button>
+            <br><br>
+            # if fileExists(storageEFS & "/users/" & c.userid & ".png"):
+              <img id="userPictureEdit" src="/users/photo/stream/${c.userid}.png" style="max-width: 100%;">
+            # else:
+              <img id="userPictureEdit" src="/images/avatar.jpg" style="max-width: 100%;">
+            # end if
+        
+            <div style="display: none;">
+              <input type="file" id="userPictureEditTemp" />
+            </div>
+        
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+# end for
+
+
+</div>
+  
+#end proc

@@ -1,0 +1,324 @@
+/*
+  Main elements
+*/
+
+html {
+}
+
+body {
+  background: #f8f8f8;
+}
+
+#pagewrapper {
+  background: white;
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0px 20px;
+  -webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
+}
+@media only screen and (max-width: 1200px) {
+  body {
+    width: 100%
+  }
+}
+
+footer {
+  border-top: 1px solid #dee2e6;
+  margin-top: 45px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 15px;
+  text-align: center;
+}
+
+header {
+  display: inline-block;
+  width: 100%;
+}
+div#navbar{
+  margin: 20px 0px;
+  padding: 0px;
+}
+div#navbar a.nav-link {
+  color: black;
+}
+
+
+/* Navbar settings */
+div#navbarSettings a {
+  color: black
+}
+
+
+
+/*
+  General items
+*/
+input {
+  border: none;
+  border-bottom: 1px solid grey;
+  padding-left: 5px;
+}
+input:focus {
+  box-shadow: 2px 2px 5px 0px rgba(186,186,186,1);
+  outline: auto;
+}
+a.btn,
+button.btn {
+  font-size: 95%;
+  height: 26px;
+  line-height: 12px;
+  margin-top: 5px;
+}
+
+
+
+/*
+  Universal
+*/
+/* Image container loads all available files for quick injection into writing */
+#imagecontainer {
+  margin-top: 10px;
+}
+#imagecontainer img.thumbnail {
+  cursor: pointer;
+}
+
+
+
+/*
+  Login page
+*/
+div#login {
+  text-align: center;
+}
+#login form {
+  margin-right: auto;
+  margin-left: auto;
+  width: 310px;
+  padding: 10px;
+  -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+}
+#recaptcha {
+  margin-bottom: 5px;
+  margin-top: 20px;
+}
+
+
+
+/*
+  Settings overview
+*/
+div#settings {
+  text-align: center;
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+div#settings div {
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+div#settings .btn {
+  width: 120px;
+}
+
+
+/*
+  Settings page
+*/
+div#settingsEdit input {
+  border: none;
+  border-bottom: 1px solid grey;
+  padding-left: 5px;
+}
+div#settingsEdit textarea {
+  width: 100%;
+  min-height: 300px;
+  margin-bottom: 35px;
+}
+div#settingsEdit input:focus,
+div#settingsEdit textarea:focus {
+  box-shadow: 2px 2px 5px 0px rgba(186,186,186,1);
+  outline: auto;
+}
+div#settingsEdit pre.templateCode {
+  border-radius: 2px;
+  border: 1px solid grey;
+  padding: 5px;
+}
+button.settingsRestore,
+button.settingsSaveCode,
+button.settingsSave {
+  font-size: 95%;
+  height: 26px;
+  line-height: 12px;
+  margin-top: 5px;
+  width: 80px;
+}
+button.settingsRestore {
+  margin-left: 10px;
+}
+
+
+/*
+  Files
+*/
+div#fileAddContainer {
+  margin-bottom: 20px;
+}
+div#fileAdd button {
+  font-size: 95%;
+  height: 26px;
+  line-height: 12px;
+  margin-top: 5px;
+}
+form#fileAdd {
+  display: none;
+  border: 1px solid grey;
+  width: 300px;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+div#files span a {
+  color: white;
+}
+
+
+
+/*
+  Users
+*/
+div#users span a.delete {
+  color: white;
+}
+div#usersAddContainer {
+  margin-bottom: 20px;
+}
+form#usersAdd {
+  display: none;
+  border: 1px solid grey;
+  width: 300px;
+  padding: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+div#users label {
+  margin-right: 10px;
+  width: 50px;
+}
+div#users select {
+  width: 205px;
+  margin-left: 3px;
+}
+
+
+/*
+  Users profile
+*/
+div#user label {
+  width: 200px;
+}
+div#user #editProfilePhoto {
+  border-radius: 2px;
+  border: 1px solid grey;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 406px;
+  padding: 5px 2px;
+  text-align: center;
+}
+div#user div.save {
+  max-width: 406px;
+  text-align: right;
+}
+div#user button.save {
+  margin-right: 75px;
+}
+
+
+
+/*
+  New blog post
+*/
+div#newblogData {
+  padding: 0px 70px;
+}
+div#newblogData input {
+  border: none;
+  border-bottom: 1px solid grey;
+  padding-left: 5px;
+}
+div#newblogData textarea {
+  width: 100%;
+}
+div#newblogData input:focus,
+div#newblogData textarea:focus {
+  box-shadow: 2px 2px 5px 0px rgba(186,186,186,1);
+  outline: auto;
+}
+div#newblogData label {
+  width: 200px;
+}
+div#newblogData select {
+  width: 206px;
+  display: inline;
+}
+#summernote {
+  margin-bottom: 20px;
+}
+button.newblogSave,
+button.newblogOptions {
+  font-size: 95%;
+  height: 26px;
+  line-height: 12px;
+  margin-top: 5px;
+  width: 80px;
+}
+div.newblogOptions {
+  display: none;
+}
+
+
+
+/*
+    All blog posts
+*/
+div#allblogPosts .list-group {
+  margin: 40px 0px;
+}
+div#allblogPosts .list-group-item {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #bcbcbc5c;
+}
+
+
+
+/*
+    All pages
+*/
+div#allpagePosts .list-group {
+  margin: 40px 0px;
+}
+div#allpagePosts .list-group-item {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #bcbcbc5c;
+}
+
+
+/*
+    Summernote
+*/
+.note-editable.panel-body {
+  overflow-y: scroll;
+}

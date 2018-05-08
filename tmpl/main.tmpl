@@ -1,0 +1,188 @@
+#? stdtmpl | standard
+#
+#
+#
+#
+#
+#
+#
+#proc genMain(c: var TData, data: string, pageAction = ""): string = 
+# result = "" 
+#
+# let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
+#
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+# if standardElements[3] != "":
+  <title>${standardElements[3]}</title>
+# end if
+
+# if standardElements[0] != "":
+  ${standardElements[0]}
+# end if
+
+${extensionCss()}
+</head>
+
+<body class="body">
+  <div id="pagewrapper">
+#   if c.loggedIn:
+      ${genNavbarSettings(c)}
+#   end if
+
+    <header>
+      ${standardElements[1]}
+    </header>
+
+    $data
+
+    <footer>
+#     if standardElements[2] != "":
+        ${standardElements[2]}
+#     end if
+
+#     if pageAction == "edit":
+        ${genSummernoteHtml()}
+#     elif pageAction == "editjs":
+        ${genSummernoteJs()}
+#     elif pageAction == "editcss":
+        ${genSummernoteCss()}
+#     elif pageAction == "users":
+        ${genProfileJsCss()}
+#     end if
+
+      ${extensionJs()}
+    </footer>
+
+  </div>
+</body>
+</html>
+#
+#end proc
+#
+#
+#
+#
+#
+#proc genPage(c: var TData, urlName: string): string = 
+# result = ""
+#
+# let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
+#
+#
+#
+# var status = "2"
+# if c.loggedIn: 
+#   status = "0,1,2"
+# end if
+#
+# let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer FROM pages WHERE url = ? AND status IN (" & status & ")"), urlName)
+#
+<!DOCTYPE html>
+<html lang="EN">
+
+<head>
+# if standardElements[3] != "":
+    <title>${standardElements[3]}</title>
+# end if
+
+# if pageData[0] == "1":
+    ${standardElements[0]}
+# else:
+    ${pageData[1]}
+# end if
+</head>
+
+
+<body class="body">
+  <div id="pagewrapper">
+#   if c.loggedIn:
+      ${genNavbarSettings(c)}
+#   end if
+
+    <header>
+#     if pageData[2] == "1":
+        ${standardElements[1]}
+#     else:
+        ${pageData[3]}
+#     end if
+    </header>
+
+    ${pageData[4]}
+
+    <footer>
+#     if pageData[5] == "1":
+        ${standardElements[2]}
+#     else:
+        ${pageData[6]}
+#     end proc
+    </footer>
+
+  </div>
+</body>
+</html>
+
+#end proc
+#
+#
+#
+#
+#proc genPageBlog(c: var TData, urlName: string): string = 
+# result = ""
+#
+# let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
+#
+#
+# var status = "2"
+# if c.loggedIn: 
+#   status = "0,1,2"
+# end if
+#
+# let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, status FROM blog WHERE url = ? AND status IN (" & status & ")"), urlName)
+
+<!DOCTYPE html>
+<html lang="EN">
+
+
+<head>
+# if standardElements[3] != "":
+    <title>${standardElements[3]}</title>
+# end if
+
+# if pageData[0] == "1":
+    ${standardElements[0]}
+# else:
+    ${pageData[1]}
+# end if
+</head>
+
+
+<body class="body">
+  <div id="pagewrapper">
+#   if c.loggedIn:
+      ${genNavbarSettings(c)}
+#   end if
+
+    <header>
+#     if pageData[2] == "1":
+        ${standardElements[1]}
+#     else:
+        ${pageData[3]}
+#     end if
+    </header>
+
+    ${pageData[4]}
+
+    <footer>
+#     if pageData[5] == "1":
+        ${standardElements[2]}
+#     else:
+        ${pageData[6]}
+#     end proc
+    </footer>
+
+  </div>
+</body>
+</html>
+#end proc
