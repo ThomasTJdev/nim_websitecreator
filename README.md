@@ -77,17 +77,17 @@ Blog posts can be set as private or public.
 
 ## Plugins
 
-Plugins will be loaded at compiletime with macros. Plugins are placed in `plugins`-folder. An example plugin (mailer) is available in the `plugins`-folder.
+Plugins will be loaded at compiletime with macros. Plugins are placed in the `plugins`-folder. An example plugin (mailer) is available in the `plugins`-folder.
 
 Plugins will be available at `www.example.com/e/<plugin-route-name>`
 
 ### Enable plugin
 
-To enable a plugin, add the plugin name and full path to `plugin/plugin_import.txt`.
+To enable a plugin, add the plugin name and full path to `plugin/plugin_import.txt`. See the file for example.
 
-Use the format (see the file for example):
+Use the format:
 ```
-pluginname:/home/full/path/to/plugin/folder
+pluginname:/home/full/path/to/plugin/folder/pluginname
 ```
 
 ### Plugin structure
@@ -96,24 +96,26 @@ A plugin needs the following structure:
 
 ```
 mailer/
-  - html.tmpl (optional)
-  - mailer.nim (required)
-  - routes.nim (required)
-  - update.sql (optional)
+  - html.tmpl   (optional)
+  - mailer.nim  (required)
+  - routes.nim  (required)
+  - update.sql  (optional)
   - public/
-    - js.js
-    - style.css
+    - js.js     (optional)
+    - style.css (optional)
 ```
 
 ### mailer.nim
-Includes the proc() etc.
+Includes proc's etc.
 
-It is required to include a proc named `proc mailerStart*(db: DbConn) =`. If this proc is not needed, just discard the content.
+It is required to include a proc named `proc <pluginname>Start*(db: DbConn) =`. If this proc is not needed, just discard the content.
 
 ### routes.nim
 Includes the URL routes.
 
-On compiletime the js and css file in the public folder will be copied to the official public folder, and a `<link>` and `<script>` tag will be appended to the HTML code.
+### js.js and style.css
+
+On compiletime the js and css file in the plugins public folder will be copied to the official public folder, and a `<link>` and `<script>` tag will be appended to the HTML code.
 
 ### Plugin: Mailer
 
@@ -121,4 +123,4 @@ Add elements containing mail subject, description and date for sending the mail.
 
 All registrered users will receive the email.
 
-You can access the plugin at `/e/mailer`. The link can be added manually to the navbar.
+You can access the plugin at `/e/mailer`. The link can be added to the navbar manually.
