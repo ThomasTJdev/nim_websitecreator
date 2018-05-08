@@ -15,9 +15,15 @@ A quick website tool. Run the nim file and access your webpage.
 
 ## Compile
 
-To compile run:
+**Config:**
+
+Rename `config_default.cfg` to `config.cfg` and insert your data.
+
+**Compile:**
 
 `nim c -d:release -d:ssl websitecreator.nim`
+
+**First run:**
 
 On the first run it is advised to use the following parameters:
 
