@@ -44,6 +44,9 @@ Blog posts can be set as private or public.
 **Blog**
 ![Blog](screenshots/blog.png)
 
+**Blog page**
+![Blog](screenshots/blog2.png)
+
 **Blog post edit 1**
 ![Blog](screenshots/blogpage1.png)
 
