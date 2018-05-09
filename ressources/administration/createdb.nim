@@ -12,6 +12,7 @@ import ../administration/create_standarddata
 
 
 proc generateDB*() =
+  echo "Generating database"
   echo "Loading config file"
   let dict = loadConfig("config/config.cfg")
   # Database settings

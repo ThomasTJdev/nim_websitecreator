@@ -15,27 +15,35 @@ A quick website tool. Run the nim file and access your webpage.
 
 ## Compile
 
-**Config:**
+#### Config:
 
 Rename `config_default.cfg` to `config.cfg` and insert your data.
 
-**Compile:**
+#### Compile:
 
 `nim c -d:release -d:ssl websitecreator.nim`
 
-**First run:**
+### First run:
 
-On the first run it is advised to use the following parameters:
+On the first run it is advised to use the parameters below, which will create the database, add an admin user and insert base data.
 
-`nim c -d:release -d:ssl -d:newdb -d:newuser -d:insertdata websitecreator.nim`
+You can either compile with the program with parameters (-d:) or add the parameters as command line arguments.
 
-**Options:**
-* `-d:nginx` = Used to close the streaming connection when using nginx as a webserver
+#### Arguments
+
+`./websitecreator.nim newdb newuser insertdata`
+
+#### Compile first time
+
+`nim c -r -d:release -d:ssl -d:newdb -d:newuser -d:insertdata websitecreator.nim`
+
+#### Options:
 * `-d:newdb` = Generate the database
 * `-d:newuser` = Add an admin user
 * `-d:insertdata` = Insert base data
+* `-d:nginx` = Used to close the streaming connection when using nginx as a webserver
 * `-d:dev` = Development
-* `-d:devemailon` = Send email when `dev` is activate
+* `-d:devemailon` = Send email when `-d:dev` is activated
 
 ## Content
 

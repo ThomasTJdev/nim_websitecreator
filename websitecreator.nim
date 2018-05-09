@@ -6,33 +6,6 @@
 #        All rights reserved.
 #
 #
-#        -d:dev           = Develop (logs to debug.log)
-#        -d:logleveldebug = Log level debug (everything)
-#        -d:loglevelinfo  = Log level info
-#        -d:nolog         = No file logging
-#
-#        -d:devemailon    = Email is on in -d:dev
-#
-#        -d:admin         = Checks and create a new admin account
-#        -d:adminnotify   = Notify the admin (primary for watching and debugging)
-#
-#        -d:localhost     = Is needed before simulating page
-#        -d:pageCxlive      = Simulate cxmanager.live
-#        -d:pageCxdk        = Simulate cxmanager.dk
-#        -d:pageHu          = Simulate hubanize.com
-#
-#        -d:ssl           = SSL
-#
-#        -d:nginx         = When running on nginx. Important when streaming files => nginx does not allow "response.client.close()"
-#
-#        -d:ignoreefs     = Ignores production EFS, used in conjunction with release
-#
-#        Normal devrun:
-#        $ nim c -r -d:localhost -d:pageCxdk -d:ssl -d:adminnotify -d:dev -d:nolog manageit.nim
-#
-#       Compile release:
-#       $ nim c -d:release -d:ssl -d:adminnotify -d:nginx manageit.nim
-#
 
 import
   os, strutils, times, md5, strtabs, cgi, jester, asyncdispatch, asyncnet, asyncfile, sequtils, rdstdin, parseutils, parsecfg, random, re, json, macros, db_sqlite, bcrypt, recaptcha, osproc
@@ -43,6 +16,7 @@ import cookies as libcookies
 import ressources/administration/create_adminuser
 import ressources/administration/create_standarddata
 import ressources/administration/createdb
+import ressources/administration/help
 import ressources/email/email_registration
 import ressources/files/files_efs
 import ressources/files/files_utils
@@ -70,8 +44,6 @@ let db_pass = dict.getSectionValue("Database","pass")
 let db_name = dict.getSectionValue("Database","name")
 let db_host = dict.getSectionValue("Database","host")
 
-let adminEmail = dict.getSectionValue("SMTP","SMTPEmailAdmin")
-
 let mainURL = dict.getSectionValue("Server","url")
 let mainPort = parseInt dict.getSectionValue("Server","port")
 
@@ -84,8 +56,9 @@ when not defined(release):
   let logfile = dict.getSectionValue("Logging","logfiledev")
 
 
-# Generate constans with macro from configStatic file
 macro readCfgAndBuildSource*(cfgFilename: string): typed =
+  ## Generate constans with macro from configStatic file
+
   let inputString = slurp(cfgFilename.strVal)
   var source = ""
   
@@ -109,14 +82,10 @@ readCfgAndBuildSource("/config/configStatic.cfg")
 
 
 
-
 # Jester setting server settings
 settings:
   port = Port(mainPort)
   bindAddr = mainURL
-
-
-
 
 
 
@@ -132,7 +101,6 @@ proc init(c: var TData) =
 
 
     
-
 
 #[ 
       Validation check
@@ -218,6 +186,8 @@ proc login(c: var TData, email, pass: string): bool =
 
 
 proc logout(c: var TData) =
+  ## Logout
+
   const query = sql"delete from session where ip = ? and password = ?"
   c.username = ""
   c.userpass = ""
@@ -532,7 +502,20 @@ routes:
 
   get "/users/delete/@userID":
     createTFD()
-    if c.loggedIn and c.rank == Admin:
+    if c.loggedIn:
+      if c.rank notin [Admin, Moderator]:
+        redirect("/error/" & encodeUrl("Error: You are not allowed to delete users"))
+
+      if c.userid == @"userID":
+        redirect("/error/" & encodeUrl("Error: You can not delete yourself"))
+
+      let userStatus = getValue(db, sql"SELECT status FROM person WHERE id = ?", @"userID")
+      if userStatus == "":
+        redirect("/error/" & encodeUrl("Error: Missing status on user"))
+
+      if userStatus == "Admin" and c.rank != Admin:
+        redirect("/error/" & encodeUrl("Error: You can not delete an admin user"))
+
       if tryExec(db, sql"DELETE FROM person WHERE id = ?", @"userID"):
         redirect("/users")
       else:
@@ -752,6 +735,7 @@ routes:
     let urlName = c.req.path.replace("/e/", "")
     resp genMain(c, genExtension(c, db, urlName))
 
+
   post re"/e/*.":
     createTFD()
     let urlName = c.req.path.replace("/e/", "")
@@ -777,24 +761,29 @@ when isMainModule:
   echo "--------------------------------------------"
   echo ""
 
-  dbg("INFO", "Main module started at: " & $getTime())
+  # Show commandline help info
+  if "help" in commandLineParams():
+    echo commandLineHelp()
+    quit()
 
+
+  dbg("INFO", "Main module started at: " & $getTime())
 
   dbg("INFO", "Main is started")
 
 
-
   randomize()
+
 
   # Create foldsers
   dbg("INFO", "Checking dir's exists (cron, log & tmp)")
   discard existsOrCreateDir("log")
   discard existsOrCreateDir("tmp")
-    
+  
+  # Storage location
   when not defined(release):
     dbg("INFO", "Checking EFS dev (locally folders) exists")
     discard existsOrCreateDir("files")
-
   when not defined(ignoreefs) and defined(release):
     # Check access to EFS file system
     dbg("INFO", "Checking storage (EFS) access")
@@ -804,11 +793,16 @@ when isMainModule:
       quit()
 
 
+  # Generate DB
   when defined(newdb):
     generateDB()
 
-  db = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
+  if "newdb" in commandLineParams():
+    generateDB()
 
+
+  # Connect to DB
+  db = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
   try:
     db = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
     dbg("INFO", "Connection to DB is established")
@@ -819,37 +813,25 @@ when isMainModule:
 
   
 
-  # Check if admin 
+  # Add admin user
   when defined(newuser):
-    dbg("INFO", "Checking if any Admin exists in DB")
-    let anyAdmin = getAllRows(db, sqlSelect("person", ["id"], [""], ["status ="], "", "", ""), "Admin")
-    
-    if anyAdmin.len() < 1:
-      dbg("INFO", "No Admin exists. Create it!")
-      
-      if createAdminUser(db):
-        dbg("INFO", "Admin added! Moving on..")
-      else:
-        dbg("ERROR", "createAdminUser(): Something went wrong creating the admin accout")
-
+    createAdminUser(db)
+  if "newuser" in commandLineParams():
+    createAdminUser(db)
   
+
   # Activate Google reCAPTCHA
   setupReCapthca()
 
+
   # Update sql database from extensions
   extensionUpdateDB(db)
-
-  #[ Starting async cron jobs
-  asyncCheck cron12hours(db)
-  #asyncCheck cronDaily(db)
-  asyncCheck cron2days(db)
-  #asyncCheck cronWeekly(db)
-  #asyncCheck cronMonthly(db)
-  asyncCheck cronMonday(db)   # Runs a cron every next monday
-  ]#
       
+
   # Insert standard data
   when defined(insertdata):
+    createStandardData(db)
+  if "insertdata" in commandLineParams():
     createStandardData(db)
 
 
