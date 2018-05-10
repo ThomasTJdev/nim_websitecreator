@@ -99,7 +99,7 @@ Plugins will be loaded at compiletime with macros. Plugins are placed in the `pl
 
 Plugins will be available at `www.example.com/<plugin-route-name>`
 
-### Enable plugin
+### Enable a plugin
 
 To enable a plugin, add the plugin name and full path to `plugin/plugin_import.txt`. See the file for example.
 
@@ -116,12 +116,14 @@ A plugin needs the following structure:
 
 ```
 mailer/
+  - html.tmpl   (optional)
   - mailer.nim  (required)
   - routes.nim  (required)
-  - html.tmpl   (optional)
   - public/
-    - js.js     (optional)
-    - style.css (optional)
+    - js.js             (required) <- Will be appended to all pages
+    - style.css         (required) <- Will be appended to all pages
+    - js_private.js     (required) <- Needs to be imported manually
+    - style_private.css (required) <- Needs to be imported manually
 ```
 
 ### mailer.nim
@@ -132,9 +134,11 @@ It is required to include a proc named `proc <pluginname>Start*(db: DbConn) =`. 
 ### routes.nim
 Includes the URL routes.
 
-### js.js and style.css
+### *.js and *.css
 
-On compiletime the js and css file in the plugins public folder will be copied to the official public folder, and a `<link>` and `<script>` tag will be appended to the HTML code.
+On compiletime `js.js`, `js_private.js`, `style.css` and `style_private.css` are copied from the plugins public folder to the official public folder, if the files contains text.
+
+A `<link>` and `<script>` tag will be appended to the all pages, if `js.js` or `style.css` is active.
 
 ### Plugin: Mailer
 

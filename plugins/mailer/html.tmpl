@@ -31,6 +31,8 @@
 #   allMailelements = getAllRows(db, sql"SELECT mailer.id, mailer.name, mailer.description, mailer.status, mailer.maildate, mailer.modified, person.name FROM mailer LEFT JOIN person ON person.id = mailer.author_id ORDER BY maildate ASC")
 # end if
 
+<link rel="stylesheet" href="/css/mailer_private.css" />
+
 <div style="text-align: center;">
   <h1>All mail events</h1>
 </div>
@@ -68,9 +70,11 @@
   </ul>  
 # end if
 
+# if allMailelements.len > 0:
   <div style="text-align: center; margin-bottom: 20px;">
     <a href="/mailer/all" class="btn btn-secondary mailAdd">Show old mail events</a>
   </div>
+#end if
 </div>
 #end proc
 #
@@ -81,6 +85,9 @@
 # result = ""
 
 ${genSummernote()}
+
+<link rel="stylesheet" href="/css/mailer_private.css" />
+<script src="/js/mailer_private.js" defer></script>
 
 <div style="text-align: center;">
   <h1>All mail events</h1>
@@ -122,6 +129,9 @@ ${genSummernote()}
 # let mailData = getRow(db, sql"SELECT mailer.id, mailer.name, mailer.description, mailer.status, mailer.maildate, mailer.modified, person.name FROM mailer LEFT JOIN person ON person.id = mailer.author_id WHERE mailer.id = ?", mailID)
 
 ${genSummernote()}
+
+<link rel="stylesheet" href="/css/mailer_private.css" />
+<script src="/js/mailer_private.js" defer></script>
 
 <div style="text-align: center;">
   <h1>Mail</h1>

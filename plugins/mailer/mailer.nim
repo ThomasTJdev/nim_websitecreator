@@ -146,5 +146,7 @@ proc mailerStart*(db: DbConn) =
     foreign key (author_id) references person(id)
   );""", []):
     echo "Mailer plugin: Mailer table already exists"
+  else:
+    echo "Mailer plugin: Mailer table created"
 
   asyncCheck cronMailer(db)
