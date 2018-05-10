@@ -1,22 +1,45 @@
-# Copyright 2018 - Thomas T. Jarløv
+  get "/mailer":
+    createTFD()
+    if c.loggedIn:
+      resp genMain(c, genMailerMain(c, db))
 
-of "mailer":
-  return mailerMain(c, db)
+  get "/mailer/all":
+    createTFD()
+    if c.loggedIn:
+      resp genMain(c, genMailerMain(c, db, false))
 
-of "mailer/add":
-  return mailerAdd(c, db)
+  get "/mailer/add":
+    createTFD()
+    if c.loggedIn:
+      resp genMain(c, genMailerAdd(c, db))
 
-of "mailer/doadd":
-  return mailerAddMailevent(c, db)
+  post "/mailer/doadd":
+    createTFD()
+    if c.loggedIn:
+      let addStatus = mailerAddMailevent(c, db)
+      if addStatus == "OK":
+        redirect("/mailer")
+      else:
+        resp(addStatus)
 
-of "mailer/doupdate":
-  return mailerUpdateMailevent(c, db)
+  post "/mailer/doupdate":
+    createTFD()
+    if c.loggedIn:
+      resp genMain(c, mailerUpdateMailevent(c, db))
 
-of "mailer/delete":
-  return mailerDelete(c, db)
+  get "/mailer/delete":
+    createTFD()
+    if c.loggedIn:
+      mailerDelete(c, db)
+      redirect("/mailer")
 
-of "mailer/mail":
-  return mailerViewMail(c, db)
+  get "/mailer/mail":
+    createTFD()
+    if c.loggedIn:
+      resp genMain(c, genMailerViewMail(c, db, c.req.params["mailid"]))
 
-of "mailer/testmail":
-  return mailerTestmail(c, db)
+  get "/mailer/testmail":
+    createTFD()
+    if c.loggedIn:
+      mailerTestmail(c, db)
+      redirect("/mailer")

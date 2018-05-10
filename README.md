@@ -83,11 +83,21 @@ Blog posts can be set as private or public.
 ![Blog](screenshots/profile.png)
 
 
+## Auto run forever
+
+On a linux server `runwebsitecreator.sh` will ensure, that the program starts up in the case of a failure.
+
+Can be run with nohup to hide output:
+```
+nohup ./runwebsitecreator.sh &
+```
+
+
 ## Plugins
 
 Plugins will be loaded at compiletime with macros. Plugins are placed in the `plugins`-folder. An example plugin (mailer) is available in the `plugins`-folder.
 
-Plugins will be available at `www.example.com/e/<plugin-route-name>`
+Plugins will be available at `www.example.com/<plugin-route-name>`
 
 ### Enable plugin
 
@@ -95,7 +105,9 @@ To enable a plugin, add the plugin name and full path to `plugin/plugin_import.t
 
 Use the format:
 ```
-pluginname:/home/full/path/to/plugin/folder/pluginname
+pluginname:/home/full/path/to/plugin/folder/plugin_folder_name
+# eg. for the mailer plugin:
+mailer:/home/user/Documents/nim/nim_websitecreator/plugins/mailer
 ```
 
 ### Plugin structure
@@ -104,10 +116,9 @@ A plugin needs the following structure:
 
 ```
 mailer/
-  - html.tmpl   (optional)
   - mailer.nim  (required)
   - routes.nim  (required)
-  - update.sql  (optional)
+  - html.tmpl   (optional)
   - public/
     - js.js     (optional)
     - style.css (optional)
@@ -131,4 +142,4 @@ Add elements containing mail subject, description and date for sending the mail.
 
 All registrered users will receive the email.
 
-You can access the plugin at `/e/mailer`. The link can be added to the navbar manually.
+You can access the plugin at `/mailer`. The link can be added to the navbar manually.

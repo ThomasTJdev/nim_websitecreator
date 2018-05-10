@@ -1,54 +1,41 @@
-# Copyright 2018 - Thomas T. Jarløv
+#
+#
+#        TTJ
+#        (c) Copyright 2018 Thomas Toftgaard Jarløv
+#        Plugin for NimWC: Mailer
+#        License: MIT
+#
+#
 
 import strutils, os, db_sqlite, json, asyncdispatch, asyncnet, parsecfg
 
+
 from times import epochTime
-#from jester import Request
 import jester
 import ../../ressources/email/email_connection
 import ../../ressources/session/user_data
 import ../../ressources/utils/dates
 
-proc help() =
-  echo "\n"
-  echo "--------------------------------------------"
-  echo "  Mailer plugin"
-  echo "  Author:       Thomas T. Jarløv"
-  echo "  Version:      0.1"
-  echo "  Version date: 2018-05-08"
-  echo " "
-  echo "  To include Mailer in navbar, add:"
-  echo "    <li class=\"nav-item\">"
-  echo "      <a class=\"nav-link\" href=\"/e/mailer\">Mailer</a>"
-  echo "    </li>"
-  echo "--------------------------------------------"
-  echo "\n"
 
-help()
+const title       = "Mailer"
+const author      = "Thomas T. Jarløv"
+const version     = "0.2"
+const versionDate = "2018-05-10"
+
+
+proc pluginInfo() =
+  echo "\n"
+  echo "--------------------------------------------"
+  echo "  Package:      " & title & " plugin"
+  echo "  Author:       " & author
+  echo "  Version:      " & version
+  echo "  Version date: " & versionDate
+  echo "--------------------------------------------"
+  echo " "
+pluginInfo()
 
 
 include "html.tmpl"
-
-
-proc mailerMain*(c: var TData, db: DbConn): string =
-  ## View all mail events
-
-  if c.loggedIn:
-    return genMailerMain(c, db)
-
-
-proc mailerViewMail*(c: var TData, db: DbConn): string =
-  ## View a single mail event
-
-  if c.loggedIn:
-    return genMailerViewMail(c, db, c.req.params["mailid"])
-
-
-proc mailerAdd*(c: var TData, db: DbConn): string =
-  ## Form for adding a mail event
-
-  if c.loggedIn:
-    return genMailerAdd(c, db)
 
 
 proc mailerAddMailevent*(c: var TData, db: DbConn): string =
@@ -62,15 +49,16 @@ proc mailerAddMailevent*(c: var TData, db: DbConn): string =
     let maildate    = if c.req.params["timezone"].substr(0,0) == "-": dateEpoch(c.req.params["maildate"], "YYYY-MM-DD") - timezone else: dateEpoch(c.req.params["maildate"], "YYYY-MM-DD") + timezone
 
     if maildate == 0:
-      return ("Error: Maildate has a wrong format")
+      return ("Error Mailer plugin: Maildate has a wrong format")
 
     exec(db, sql"INSERT INTO mailer (name, status, description, author_id, maildate) VALUES (?, ?, ?, ?, ?)", name, status, description, c.userid, maildate)
     
-    return genMailerMain(c, db)
+    return ("OK")
+
 
 
 proc mailerUpdateMailevent*(c: var TData, db: DbConn): string =
-  ## Add a mail event
+  ## Update a mail event
 
   if c.loggedIn:
     let name        = c.req.params["name"]
@@ -80,14 +68,14 @@ proc mailerUpdateMailevent*(c: var TData, db: DbConn): string =
     let maildate    = if c.req.params["timezone"].substr(0,0) == "-": dateEpoch(c.req.params["maildate"], "YYYY-MM-DD") - timezone else: dateEpoch(c.req.params["maildate"], "YYYY-MM-DD") + timezone
 
     if maildate == 0 or maildate == 7200:
-      return ("Error: Maildate has a wrong format")
+      return ("Error Mailer plugin: Maildate has a wrong format")
 
     exec(db, sql"UPDATE mailer SET name = ?, status = ?, description = ?, author_id = ?, maildate = ? WHERE id = ?", name, status, description, c.userid, maildate, c.req.params["mailid"])
     
     return genMailerViewMail(c, db, c.req.params["mailid"])
 
 
-proc mailerTestmail*(c: var TData, db: DbConn): string =
+proc mailerTestmail*(c: var TData, db: DbConn) =
   ## Send a test mail
 
   if c.loggedIn:
@@ -95,26 +83,17 @@ proc mailerTestmail*(c: var TData, db: DbConn): string =
     let email = getValue(db, sql"SELECT email FROM person WHERE id = ?", c.userid)
     asyncCheck sendMailNow("Reminder: " & mail[1], mail[2], email)
     
-    return genMailerMain(c, db)
 
 
-proc mailerDelete*(c: var TData, db: DbConn): string =
+proc mailerDelete*(c: var TData, db: DbConn) =
   ## Delete a mail event
 
   if c.loggedIn:
     exec(db, sql"DELETE FROM mailer WHERE id = ?", c.req.params["mailid"])
-    return genMailerMain(c, db)
+    
 
 
-  
-let dict = loadConfig("config/config.cfg")
-let db_user = dict.getSectionValue("Database","user")
-let db_pass = dict.getSectionValue("Database","pass")
-let db_name = dict.getSectionValue("Database","name")
-let db_host = dict.getSectionValue("Database","host")
-var dbCron = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
-
-proc cronMailer() {.async.} =
+proc cronMailer(db: DbConn) {.async.} =
   ## Cron mail
   ## Check every nth hour if a mail is scheduled for sending
   
@@ -130,9 +109,9 @@ proc cronMailer() {.async.} =
     let currentTime = toInt(epochTime())
     let currentTime12 = toInt(epochTime() + 43200)
 
-    let allMails = getAllRows(dbCron, sql"SELECT mailer.id, mailer.name, mailer.description, person.name FROM mailer LEFT JOIN person ON person.id = mailer.author_id WHERE maildate > ? AND maildate < ?", currentTime, currentTime12)
+    let allMails = getAllRows(db, sql"SELECT mailer.id, mailer.name, mailer.description, person.name FROM mailer LEFT JOIN person ON person.id = mailer.author_id WHERE maildate > ? AND maildate < ?", currentTime, currentTime12)
 
-    let allRecipients = getAllRows(dbCron, sql"SELECT email FROM person")
+    let allRecipients = getAllRows(db, sql"SELECT email FROM person")
 
     for mail in allMails:
       let mailSubject = "Reminder: " & mail[1]
@@ -146,12 +125,12 @@ proc cronMailer() {.async.} =
 
 
 proc mailerStart*(db: DbConn) =
-  ## Required proc
+  ## Required proc. Will run on each program start
   ##
   ## If there's no need for changes in the DB, just
   ## discard. The proc may not be removed.
 
-  echo "Updating database with: Mailer"
+  echo "Mailer plugin: Updating database with Mailer table if not exists"
   
   if not db.tryExec(sql"""
   create table if not exists mailer(
@@ -166,6 +145,6 @@ proc mailerStart*(db: DbConn) =
 
     foreign key (author_id) references person(id)
   );""", []):
-    echo "mailer table already exists"
+    echo "Mailer plugin: Mailer table already exists"
 
-  asyncCheck cronMailer()
+  asyncCheck cronMailer(db)

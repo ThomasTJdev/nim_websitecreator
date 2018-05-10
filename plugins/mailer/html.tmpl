@@ -21,10 +21,15 @@
 #
 #
 #
-#proc genMailerMain(c: var TData, db: DbConn): string =
+#proc genMailerMain*(c: var TData, db: DbConn, onlyNew = true): string =
 # result = ""
 #
-# let allMailelements = getAllRows(db, sql"SELECT mailer.id, mailer.name, mailer.description, mailer.status, mailer.maildate, mailer.modified, person.name FROM mailer LEFT JOIN person ON person.id = mailer.author_id ORDER BY maildate ASC")
+# var allMailelements: seq[Row]
+# if onlyNew:
+#   allMailelements = getAllRows(db, sql"SELECT mailer.id, mailer.name, mailer.description, mailer.status, mailer.maildate, mailer.modified, person.name FROM mailer LEFT JOIN person ON person.id = mailer.author_id WHERE mailer.maildate > ? ORDER BY maildate ASC", $toInt(epochTime()))
+# else:
+#   allMailelements = getAllRows(db, sql"SELECT mailer.id, mailer.name, mailer.description, mailer.status, mailer.maildate, mailer.modified, person.name FROM mailer LEFT JOIN person ON person.id = mailer.author_id ORDER BY maildate ASC")
+# end if
 
 <div style="text-align: center;">
   <h1>All mail events</h1>
@@ -32,7 +37,7 @@
 
 <div id="allMailevents">
   <div style="text-align: center; margin-bottom: 20px;">
-    <a href="/e/mailer/add" class="btn btn-secondary mailAdd">Add mail event</a>
+    <a href="/mailer/add" class="btn btn-secondary mailAdd">Add mail event</a>
   </div>
 
 # if allMailelements.len < 1:
@@ -45,12 +50,16 @@
 #
 <ul class="list-group list-group-flush">
 #   for mail in allMailelements:
-    <a href="/e/mailer/mail?mailid=${mail[0]}" class="list-group-item list-group-item-action flex-column align-items-start">
+#     var color = ""
+#     if parseInt(mail[4]) < toInt(epochTime()):
+#       color = "background: #f0f0f0; color: grey;"
+#     end if
+    <a href="/mailer/mail?mailid=${mail[0]}" class="list-group-item list-group-item-action flex-column align-items-start" style="$color">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">${mail[1]}</h5>
         <div style="display: grid">
             <small>Author: ${mail[6]}</small>
-            <small>Modified: ${epochDate(mail[5], "YYYY-MM-DD")}</small>
+            <small>Modified: ${epochDate(mail[4], "YYYY-MM-DD")}</small>
           </div>
       </div>
       <!--<p class="mb-1"></p>-->
@@ -58,13 +67,17 @@
 #   end for
   </ul>  
 # end if
+
+  <div style="text-align: center; margin-bottom: 20px;">
+    <a href="/mailer/all" class="btn btn-secondary mailAdd">Show old mail events</a>
+  </div>
 </div>
 #end proc
 #
 #
 #
 #
-#proc genMailerAdd(c: var TData, db: DbConn): string =
+#proc genMailerAdd*(c: var TData, db: DbConn): string =
 # result = ""
 
 ${genSummernote()}
@@ -74,7 +87,7 @@ ${genSummernote()}
 </div>
 
 <div id="allMailevents">
-  <form id="mailerAdd" class="mailerForm" method="post" action="/e/mailer/doadd">
+  <form id="mailerAdd" class="mailerForm" method="post" action="/mailer/doadd?mailid=unknown">
     <div>
       <label>Name</label>
       <input type="text" name="name" required value="" />
@@ -103,7 +116,7 @@ ${genSummernote()}
 #
 #
 #
-#proc genMailerViewMail(c: var TData, db: DbConn, mailID: string): string =
+#proc genMailerViewMail*(c: var TData, db: DbConn, mailID: string): string =
 # result = ""
 #
 # let mailData = getRow(db, sql"SELECT mailer.id, mailer.name, mailer.description, mailer.status, mailer.maildate, mailer.modified, person.name FROM mailer LEFT JOIN person ON person.id = mailer.author_id WHERE mailer.id = ?", mailID)
@@ -115,7 +128,7 @@ ${genSummernote()}
 </div>
 
 <div id="allMailevents">
-  <form id="mailerUpdate" class="mailerForm" method="post" action="/e/mailer/doupdate?mailid=${mailData[0]}">
+  <form id="mailerUpdate" class="mailerForm" method="post" action="/mailer/doupdate?mailid=${mailData[0]}">
     <div>
       <label>Name</label>
       <input type="text" name="name" required value="${mailData[1]}" />
@@ -138,8 +151,8 @@ ${genSummernote()}
 
     <div style="text-align: center; margin-top: 20px;">
       <button type="submig" class="btn btn-success">Update mail</button>
-      <a href="/e/mailer/testmail?mailid=${mailData[0]}" class="btn btn-secondary mailDelete">Send test mail</a>
-      <a href="/e/mailer/delete?mailid=${mailData[0]}" class="btn btn-danger mailDelete">Delete mail event</a>
+      <a href="/mailer/testmail?mailid=${mailData[0]}" class="btn btn-secondary mailDelete">Send test mail</a>
+      <a href="/mailer/delete?mailid=${mailData[0]}" class="btn btn-danger mailDelete">Delete mail event</a>
     </div>
   </form>
 </div>
