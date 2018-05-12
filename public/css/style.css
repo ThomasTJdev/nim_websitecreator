@@ -38,15 +38,24 @@ header {
   display: inline-block;
   width: 100%;
 }
-div#navbar{
-  margin: 20px 0px;
-  padding: 0px;
+nav#navbar{
+  background-color: transparent;
+  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 15px;
 }
-div#navbar h3 {
-  text-align: center;
-}
-div#navbar a.nav-link {
+nav#navbar .navbar-brand {
   color: black;
+}
+nav#navbar a.nav-link {
+  color: black;
+}
+nav#navbar .navbar-toggler {
+  border: none;
+}
+@media only screen and (min-width: 768px) {
+  nav#navbar {
+    display: block;
+  }
 }
 
 
@@ -325,3 +334,4 @@ div#allpagePosts .list-group-item {
 .note-editable.panel-body {
   overflow-y: scroll;
 }
+

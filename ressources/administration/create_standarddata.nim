@@ -22,26 +22,25 @@ const head* = """
 """
 
 const navbar* = """
-<div id="navbar" class="container-fluid">
-  <div class="row">
-    <div class="col-12 col-md-12">
-      <h3>
-        Nim Website Creator
-      </h3>
-      <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Frontpage</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/blog">Blog</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/p/about">About</a>
-        </li>
-      </ul>
-    </div>
+<nav id="navbar" class="navbar navbar-expand-md navbar-light">
+  <a class="navbar-brand" href="/">Nim Website Creator</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Frontpage</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/blog">Blog</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/p/about">About</a>
+      </li>
+    </ul>
   </div>
-</div>
+</nav>
 """
 
 
