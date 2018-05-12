@@ -392,7 +392,7 @@ routes:
   get "/blogpage/delete":
     createTFD()
     if c.loggedIn:
-      let url = urlEncoderCustom(@"url")
+      let url = @"url"
       exec(db, sql"DELETE FROM blog WHERE url = ?", url)
       redirect("/")
 

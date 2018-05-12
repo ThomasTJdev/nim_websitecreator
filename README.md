@@ -2,6 +2,8 @@
 
 A quick website tool. Run the nim file and access your webpage.
 
+Online test page: [Nim Website Creator](https://nimwc.org)
+
 ## Main features:
 - Webserver hosting your page on 127.0.0.1:7000
 - Blog - add and edit blog posts
@@ -44,6 +46,7 @@ You can either compile with the program with parameters (-d:) or add the paramet
 * `-d:nginx` = Used to close the streaming connection when using nginx as a webserver
 * `-d:dev` = Development
 * `-d:devemailon` = Send email when `-d:dev` is activated
+* `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org)
 
 ## Content
 
