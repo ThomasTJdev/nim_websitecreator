@@ -24,6 +24,7 @@ import ressources/password/password_generate
 import ressources/password/salt_generate
 import ressources/session/user_data
 import ressources/web/google_recaptcha
+import ressources/web/urltools
 import ressources/utils/dates
 import ressources/utils/logging
 import ressources/utils/random_generator
@@ -204,6 +205,10 @@ __________________________________________________]#
 proc login(c: var TData, email, pass: string): bool =
   ## User login
 
+  when not defined(demo):
+    if email == "test@test.com":
+      return false
+
   # get form data:
   const query = sql"select id, name, password, email, salt, status, secretUrl from person where email = ?"
   if email.len == 0:
@@ -347,6 +352,17 @@ generateRoutes()
 
 
 
+#[ 
+      Proc's for demo usage
+__________________________________________________]#
+when defined(demo):
+  proc emptyDB(db: DbConn) {.async.} =
+    await sleepAsync((60*10) * 1000)
+    createStandardData(db)
+
+
+
+
 #[
       Main module
 __________________________________________________]#
@@ -419,7 +435,14 @@ when isMainModule:
     createAdminUser(db)
   if "newuser" in commandLineParams():
     createAdminUser(db)
-  
+
+  # Add test user
+  when defined(demo):
+    dbg("INFO", "Demo option is activated")
+    echo "  Demo option is activated"
+    createTestUser(db)
+    asyncCheck emptyDB(db)
+
 
   # Activate Google reCAPTCHA
   setupReCapthca()

@@ -13,7 +13,7 @@ let dict = loadConfig(getAppDir() & "/config/config.cfg")
 
 # Web settings
 let recaptchaSecretKey = dict.getSectionValue("reCAPTCHA","Secretkey")
-let recaptchaSiteKey = dict.getSectionValue("reCAPTCHA","Sitekey")
+let recaptchaSiteKey* = dict.getSectionValue("reCAPTCHA","Sitekey")
 
 
 proc setupReCapthca*() =

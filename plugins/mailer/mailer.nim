@@ -100,7 +100,7 @@ proc cronMailer(db: DbConn) {.async.} =
   echo "Mailer plugin: Cron mail is started"
   while true:
     when defined(dev):
-      echo "Mailer plugin: Waiting time between cron mails is 1 minute"
+      echo "Mailer plugin: Waiting time between cron mails is 5 minute"
       await sleepAsync(60 * 1000) # 5 minutes
       
     when not defined(dev):  

@@ -42,7 +42,7 @@ $(function() {
     toolbar: [
       // [groupName, [list of button]]
       ['insert', ['bricks']],
-      ['style', ['fontname', 'fontsize', 'bold', 'italic', 'underline']],
+      ['style', ['style', 'fontname', 'fontsize', 'bold', 'italic', 'underline']],
       ['font', ['strikethrough', 'superscript', 'subscript']],
       ['color', ['color']],
       ['para', ['ul', 'ol', 'paragraph']],

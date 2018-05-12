@@ -84,6 +84,17 @@ function uploadFile(projectID) {
 
 
 /*
+  Users
+*/
+$(function() {
+  $('button.usersAdd').click(function () {
+    $("form#usersAdd").toggle();
+  });
+});
+
+
+
+/*
   Users profile
 */
 

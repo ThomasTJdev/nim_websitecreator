@@ -107,7 +107,11 @@ const about = """
 </div>
 """
 
-const frontpage = """<h1 style="text-align: center;">Welcome</h1>"""
+const frontpage = """<h1 style="text-align: center; ">Welcome to</h1>
+<h3 style="text-align: center;">Nim Website Creator</h3>
+<p style="text-align: center;"><br></p>
+<p style="text-align: center;">A quick tool to setup a website in no time.</p>
+<p style="text-align: center;">Visit the <a href="https://github.com/ThomasTJdev/nim_websitecreator">Github page</a>&nbsp;for installation instructions or try to <a href="https://nimwc.com" target="_blank">login</a>.</p>"""
 
 
 proc standardDataSettings*(db: DbConn) =

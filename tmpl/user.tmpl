@@ -22,8 +22,19 @@
 
   <br>
 
+  
   <div id="login">
+
     <form name="login" action="/dologin" method="POST">
+    
+      # when defined(demo):
+        <div style="width: 200px; margin-left: auto; margin-right: auto; text-align: left;">
+          <h4>Test user</h4>
+          <div><b>User: </b>test@test.com</div>
+          <div><b>Pass: </b>test</div>
+        </div>
+        <hr>
+      # end when
 
       <div style="color:#fc6969;text-align: center;font-size: 2.5rem; line-height: 3rem;"><b>$errorMsg</b></div>
 
@@ -45,7 +56,7 @@
 
       #if useCaptcha:
       <div id="recaptcha">
-        <div class="g-recaptcha" data-sitekey="6LfPUDYUAAAAAAyFxBXIkhbUKNow2Jxd8PUqtj6Z" data-theme="light" style="transform:scale(0.93);-webkit-transform:scale(0.93);transform-origin:0 0;-webkit-transform-origin:0 0;"></div>
+        <div class="g-recaptcha" data-sitekey="${recaptchaSiteKey}" data-theme="light" style="transform:scale(0.93);-webkit-transform:scale(0.93);transform-origin:0 0;-webkit-transform-origin:0 0;"></div>
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>      
       </div>
       #end if
@@ -108,6 +119,11 @@
 
 <ul class="list-group">
 # for user in allUsers:
+#   when defined(demo):
+#     if user[3] == "Admin":
+#       continue
+#     end if
+#   end when
   <li class="list-group-item d-flex justify-content-between align-items-center">
     <span>${user[1]} - ${user[2]}</span>
     <div>
@@ -132,6 +148,9 @@
 # result = ""
 #
 # let userData = getAllRows(db, sql"SELECT id, name, email, status, lastOnline FROM person WHERE id = ?", c.userid)
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.js" defer></script>
 
 <div style="text-align: center;">
   <h1>Users</h1>

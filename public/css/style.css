@@ -20,7 +20,7 @@ body {
   box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
 }
 @media only screen and (max-width: 1200px) {
-  body {
+  #pagewrapper {
     width: 100%
   }
 }
@@ -41,6 +41,9 @@ header {
 div#navbar{
   margin: 20px 0px;
   padding: 0px;
+}
+div#navbar h3 {
+  text-align: center;
 }
 div#navbar a.nav-link {
   color: black;

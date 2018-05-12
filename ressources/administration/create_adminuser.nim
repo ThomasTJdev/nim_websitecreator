@@ -30,3 +30,24 @@ proc createAdminUser*(db: DbConn) =
   else:
     dbg("INFO", "Admin user already exists. Skipping it.")
   
+
+proc createTestUser*(db: DbConn) = 
+  ## Create new admin user
+  ## Input is done through stdin
+  
+  dbg("INFO", "Checking if any test@test.com exists in DB")
+  let anyAdmin = getAllRows(db, sql"SELECT id FROM person WHERE email = ?", "test@test.com")
+  
+  if anyAdmin.len() < 1:
+    dbg("INFO", "No test user exists. Create it!")
+    
+    let salt = makeSalt()
+    let password = makePassword("test", salt)
+
+    discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", "Testuser", "test@test.com", password, salt, "Moderator")
+
+    dbg("INFO", "Test user added! Moving on..")
+
+  else:
+    dbg("INFO", "Test user already exists. Skipping it.")
+  

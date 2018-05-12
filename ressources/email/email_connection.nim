@@ -13,6 +13,9 @@ let adminEmail     = dict.getSectionValue("SMTP","SMTPEmailAdmin")
 proc sendMailNow*(subject, message, recipient: string) {.async.} =
   ## Send the email through smtp
 
+  when defined(demo):
+    echo "Demo is true, email is not send"
+
   when defined(dev) and not defined(devemailon):
     echo "Dev is true, email is not send"
     return

@@ -1,6 +1,5 @@
 # Copyright 2018 - Thomas T. Jarløv
 
-
   
 routes:
 
@@ -33,7 +32,7 @@ routes:
 
   get "/error/@errorMsg":
     createTFD()
-    resp decodeUrl(@"errorMsg")
+    resp genMain(c, "<h2>" & decodeUrl(@"errorMsg") & "</h2>")
 
 
 
@@ -154,6 +153,10 @@ routes:
 
     createTFD()
     if c.loggedIn:
+      when defined(demo):
+        if c.email == "test@test.com":
+          resp("Error: The test user can not upload files")
+          
       let filename  = request.formData["file"].fields["filename"]
       let access    = if @"access" == "private": "private" else: "public"
       let path = storageEFS & "/files/" & access & "/" & filename
@@ -208,7 +211,11 @@ routes:
 
   post "/users/profile/update":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn:
+      when defined(demo):
+        if c.email == "test@test.com":
+          redirect("/error/" & encodeUrl("Error: The test user can not change profile settings"))
+
       if @"name" == "" or @"email" == "":
         redirect("/error/" & encodeUrl("Error: Name and email are required"))
 
@@ -233,6 +240,10 @@ routes:
   get "/users/delete/@userID":
     createTFD()
     if c.loggedIn:
+      when defined(demo):
+        if c.email == "test@test.com":
+          redirect("/error/" & encodeUrl("Error: The test user can not delete users"))
+
       if c.rank notin [Admin, Moderator]:
         redirect("/error/" & encodeUrl("Error: You are not allowed to delete users"))
 
@@ -255,12 +266,20 @@ routes:
   post "/users/add":
     createTFD()
     if c.loggedIn:
+      when defined(demo):
+        if c.email == "test@test.com":
+          redirect("/error/" & encodeUrl("Error: The test user can not add new users"))
+
       cond(@"status" in ["User", "Moderator", "Admin", "Deactivated"])
+
       if (c.rank != Admin and @"status" == "Admin") or c.rank == User:
         redirect("/error/" & encodeUrl("Error: You are not allowed to add a user with this status"))
 
       if @"name" == "" or @"email" == "" or @"status" == "":
         redirect("/error/" & encodeUrl("Error: Name, email and status are required"))
+
+      if @"email" == "test@test.com":
+        redirect("/error/" & encodeUrl("Error: test@test.com is taken by the system"))
 
       let emailExist = getValue(db, sql"SELECT id FROM person WHERE email = ?", @"email")
       if emailExist != "":
@@ -356,22 +375,25 @@ routes:
   post "/blogpagenew/save":
     createTFD()
     if c.loggedIn:
-      let url = @"url".replace(" ", "-")
+      let url = urlEncoderCustom(@"url")
       discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, head, navbar, footer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer")
-      redirect("/blog/" & @"url")
+      redirect("/blog/" & url)
 
 
   post "/blogpage/update":
     createTFD()
     if c.loggedIn:
-      discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE url = ?", c.userid, @"status", @"url", @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", @"urloriginal")
+      let url = urlEncoderCustom(@"url")
+      let urloriginal = urlEncoderCustom(@"urloriginal")
+      discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE url = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", urloriginal)
       redirect("/editpage/blog/" & @"url")
 
 
   get "/blogpage/delete":
     createTFD()
     if c.loggedIn:
-      exec(db, sql"DELETE FROM blog WHERE url = ?", @"url")
+      let url = urlEncoderCustom(@"url")
+      exec(db, sql"DELETE FROM blog WHERE url = ?", url)
       redirect("/")
 
 
@@ -385,6 +407,11 @@ routes:
     createTFD()
     if c.loggedIn:  
       let urlName = c.req.path.replace("/editpage/blog/", "")
+      
+      when defined(demo):
+        if urlName == "frontpage":
+          redirect("/editpage/blogallpages")
+          
       resp genMain(c, genEditBlog(c, urlName), "edit")
 
 
@@ -429,7 +456,7 @@ routes:
   post "/pagenew/save":
     createTFD()
     if c.loggedIn:
-      let url = @"url".replace(" ", "-")
+      let url = urlEncoderCustom(@"url")
       discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, head, navbar, footer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer")
       if url == "frontpage":
         redirect("/")
@@ -440,7 +467,9 @@ routes:
   post "/page/update":
     createTFD()
     if c.loggedIn:
-      discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE url = ?", c.userid, @"status", @"url", @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", @"urloriginal")
+      let url = urlEncoderCustom(@"url")
+      let urloriginal = urlEncoderCustom(@"urloriginal")
+      discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE url = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", urloriginal)
       redirect("/editpage/page/" & @"url")
 
 
