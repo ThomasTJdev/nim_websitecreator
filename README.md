@@ -110,7 +110,7 @@ Use the format:
 ```
 pluginname:/home/full/path/to/plugin/folder/plugin_folder_name
 # eg. for the mailer plugin:
-mailer:/home/user/Documents/nim/nim_websitecreator/plugins/mailer
+mailer:/home/user/nim/nim_websitecreator/plugins/mailer
 ```
 
 ### Plugin structure
@@ -150,3 +150,9 @@ Add elements containing mail subject, description and date for sending the mail.
 All registrered users will receive the email.
 
 You can access the plugin at `/mailer`. The link can be added to the navbar manually.
+
+### Plugin: Contact
+
+A simple contact form for non-logged in users. The email will be sent to the info-email specified in the `config.cfg` file.
+
+You can access the plugin at `/contact`. The link can be added to the navbar manually.

@@ -19,13 +19,16 @@ macro extensionCss*(): string =
 
   var css = ""
   for importit in plugins:
+    if importit.substr(0, 0) == "#" or importit == "":
+      continue
+
     if staticRead(importit.split(":")[1] & "/public/style.css") != "":
-      echo staticExec("cp " & importit.split(":")[1] & "/public/style.css ../../public/css/mailer.css")
+      echo staticExec("cp " & importit.split(":")[1] & "/public/style.css ../../public/css/" & importit.split(":")[0] & ".css")
 
       css.add("<link rel=\"stylesheet\" href=\"/css/" & importit.split(":")[0] & ".css\">\n")
 
     if staticRead(importit.split(":")[1] & "/public/style_private.css") != "":
-      echo staticExec("cp " & importit.split(":")[1] & "/public/style_private.css ../../public/css/mailer_private.css")
+      echo staticExec("cp " & importit.split(":")[1] & "/public/style_private.css ../../public/css/" & importit.split(":")[0] & "_private.css")
 
   return css
 
@@ -42,6 +45,9 @@ macro extensionJs*(): string =
 
   var js = ""
   for importit in plugins:
+    if importit.substr(0, 0) == "#" or importit == "":
+      continue
+
     if staticRead(importit.split(":")[1] & "/public/js.js") != "":
       echo staticExec("cp " & importit.split(":")[1] & "/public/js.js ../../public/js/" & importit.split(":")[0] & ".js")
 

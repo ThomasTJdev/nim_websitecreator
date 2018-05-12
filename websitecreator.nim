@@ -46,11 +46,16 @@ macro extensionImport(): untyped =
   var plugins = (staticRead("plugins/plugin_import.txt").split("\n"))
 
   var extensions = ""
-  for importit in plugins:
-    extensions.add("import " & importit.split(":")[1] & "/" & importit.split(":")[0] & "\n")
+  
+  if plugins.len() > 0:
+    for importit in plugins:
+      if importit.substr(0, 0) == "#" or importit == "":
+        continue
 
-  when defined(dev):
-    echo extensions
+      extensions.add("import " & importit.split(":")[1] & "/" & importit.split(":")[0] & "\n")
+
+    when defined(dev):
+      echo extensions
 
   result = parseStmt(extensions)
 
@@ -72,12 +77,16 @@ macro extensionUpdateDatabase(): untyped =
 
   var extensions = ""
  
-  extensions.add("proc extensionUpdateDB*(db: DbConn) =")
-  for importit in plugins:
-    extensions.add("  " & importit.split(":")[0] & "Start(db)")
+  if plugins.len() > 0:
+    extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
+    for importit in plugins:
+      if importit.substr(0, 0) == "#" or importit == "":
+        continue
+        
+      extensions.add("  " & importit.split(":")[0] & "Start(db)\n")
 
-  when defined(dev):
-    echo extensions
+    when defined(dev):
+      echo extensions
 
   result = parseStmt(extensions)
 
@@ -340,6 +349,9 @@ macro generateRoutes(): typed =
   var extensions = staticRead("ressources/web/routes.nim")
     
   for caseit in plugins:
+    if caseit.substr(0, 0) == "#" or caseit == "":
+      continue
+
     extensions.add("\n")
     extensions.add(staticRead(caseit.split(":")[1] & "/routes.nim"))
   

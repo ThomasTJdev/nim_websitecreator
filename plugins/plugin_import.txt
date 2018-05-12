@@ -1,1 +1,2 @@
-mailer:/home/user/Documents/nim/nim_websitecreator/plugins/mailer
+contact:/home/user/nim/nim_websitecreator/plugins/contact
+mailer:/home/user/nim/nim_websitecreator/plugins/mailer

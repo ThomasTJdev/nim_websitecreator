@@ -1,0 +1,7 @@
+/* This plugin style_private.css file will be added to the public folder, but no automated import of the file will be generated */
+
+div#contact form.contact {
+  width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}

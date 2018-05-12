@@ -2,7 +2,7 @@
 #
 #        TTJ
 #        (c) Copyright 2018 Thomas Toftgaard Jarløv
-#        Plugin for NimWC: Mailer
+#        Plugin for Nim Website Creator: Mailer
 #        License: MIT
 #
 #
@@ -17,19 +17,19 @@ import ../../ressources/session/user_data
 import ../../ressources/utils/dates
 
 
-const title       = "Mailer"
-const author      = "Thomas T. Jarløv"
-const version     = "0.2"
-const versionDate = "2018-05-10"
+const pluginTitle       = "Mailer"
+const pluginAuthor      = "Thomas T. Jarløv"
+const pluginVersion     = "0.2"
+const pluginVersionDate = "2018-05-10"
 
 
 proc pluginInfo() =
   echo "\n"
   echo "--------------------------------------------"
-  echo "  Package:      " & title & " plugin"
-  echo "  Author:       " & author
-  echo "  Version:      " & version
-  echo "  Version date: " & versionDate
+  echo "  Package:      " & pluginTitle & " plugin"
+  echo "  Author:       " & pluginAuthor
+  echo "  Version:      " & pluginVersion
+  echo "  Version date: " & pluginVersionDate
   echo "--------------------------------------------"
   echo " "
 pluginInfo()
@@ -127,8 +127,8 @@ proc cronMailer(db: DbConn) {.async.} =
 proc mailerStart*(db: DbConn) =
   ## Required proc. Will run on each program start
   ##
-  ## If there's no need for changes in the DB, just
-  ## discard. The proc may not be removed.
+  ## If there's no need for this proc, just
+  ## discard it. The proc may not be removed.
 
   echo "Mailer plugin: Updating database with Mailer table if not exists"
   
