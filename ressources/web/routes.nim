@@ -144,7 +144,7 @@ routes:
     
     file.close()
     
-    when not defined(nginx):
+    if "nginx" notin commandLineParams() and not defined(nginx):
       response.client.close()
 
 
@@ -333,7 +333,7 @@ routes:
     
     file.close()
     
-    when not defined(nginx):
+    if "nginx" notin commandLineParams() and not defined(nginx):
       response.client.close()
 
 

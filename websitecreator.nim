@@ -12,7 +12,6 @@ import
 
 import cookies as libcookies
 
-
 import ressources/administration/create_adminuser
 import ressources/administration/create_standarddata
 import ressources/administration/createdb
@@ -28,8 +27,17 @@ import ressources/web/urltools
 import ressources/utils/dates
 import ressources/utils/logging
 import ressources/utils/random_generator
-
 import ressources/utils/extensions
+
+
+macro configExists(): untyped =
+  if not fileExists("config/config.cfg"):
+    echo "\nERROR: Config file (config.cfg) could not be found."
+    echo "Please create the config.cfg in the config folder or"
+    echo "make a copy of the template (config_default.cfg).\n"
+    quit()
+
+configExists()
 
 
 macro extensionImport(): untyped =
@@ -423,10 +431,10 @@ when isMainModule:
 
 
   # Generate DB
-  when defined(newdb):
-    generateDB()
+  #when defined(newdb):
+  #  generateDB()
 
-  if "newdb" in commandLineParams():
+  if "newdb" in commandLineParams() or defined(newdb): 
     generateDB()
 
 
@@ -443,9 +451,9 @@ when isMainModule:
   
 
   # Add admin user
-  when defined(newuser):
-    createAdminUser(db)
-  if "newuser" in commandLineParams():
+  #when defined(newuser):
+  #  createAdminUser(db)
+  if "newuser" in commandLineParams() or defined(newuser):
     createAdminUser(db)
 
   # Add test user
@@ -465,9 +473,9 @@ when isMainModule:
       
 
   # Insert standard data
-  when defined(insertdata):
-    createStandardData(db)
-  if "insertdata" in commandLineParams():
+  #when defined(insertdata):
+  #  createStandardData(db)
+  if "insertdata" in commandLineParams() or defined(insertdata):
     createStandardData(db)
 
 

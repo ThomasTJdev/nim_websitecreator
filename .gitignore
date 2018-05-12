@@ -1,3 +1,4 @@
+# Ignore
 .vscode
 config/config.cfg
 data/*
@@ -6,10 +7,14 @@ fileslocal/*
 log/*
 nimcache
 nimcache/*
-private
+private/*
 public/files/*
 public/css/mailer.css
 public/js/mailer.js
+runwebsitecreator.sh
 tmp
 websitecreator
 website_rt11
+
+# Allow
+!private/screenshots/

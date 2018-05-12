@@ -6,6 +6,7 @@ import ../email/email_admin
 let fileDebug = getAppDir() & "/log/debug.log"
 let fileProd = getAppDir() & "/log/log.log"
 
+discard existsOrCreateDir("log")
 
 template dbg*(logLevel, msg: string) =
   ## Echo debug
