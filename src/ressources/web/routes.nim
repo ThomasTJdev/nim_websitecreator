@@ -1,6 +1,5 @@
 # Copyright 2018 - Thomas T. Jarløv
-
-  
+ 
 routes:
 
   get "/":
@@ -16,8 +15,9 @@ routes:
   post "/dologin":
     createTFD()
     when not defined(dev):
-      if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
-        resp genMain(c, genFormLogin(c, "Error: You need to verify, that you are not a robot!"))
+      if useCaptcha:
+        if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
+          resp genMain(c, genFormLogin(c, "Error: You need to verify, that you are not a robot!"))
     
     if login(c, @"email", replace(@"password", " ", "")):
       jester.setCookie("sid", c.userpass, daysForward(7))

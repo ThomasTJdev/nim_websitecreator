@@ -1,6 +1,9 @@
 import asyncdispatch, smtp, strutils, os, htmlparser, asyncnet, parsecfg, times
 
-var dict = loadConfig(getAppDir() & "/config/config.cfg")
+# Changing app dir due to, that module is not imported from main module
+setCurrentDir(getAppDir())
+
+var dict = loadConfig("config/config.cfg")
 
 let smtpAddress    = dict.getSectionValue("SMTP","SMTPAddress")
 let smtpPort       = dict.getSectionValue("SMTP","SMTPPort")
@@ -50,13 +53,17 @@ proc sendAdminMailNow*(subject, message: string) {.async.} =
   ## Send the email through smtp
   ## Clean admin mailing
 
-  let recipient = adminEmail
-  let from_addr = adminEmail
-  const otherHeaders = @[("Content-Type", "text/html; charset=\"UTF-8\"")]  
-
   when defined(dev):
     echo "Dev is true, email is not send"
     return
+
+  if adminEmail == "":
+    echo "No admin email specified"
+    return
+
+  let recipient = adminEmail
+  let from_addr = adminEmail
+  const otherHeaders = @[("Content-Type", "text/html; charset=\"UTF-8\"")]  
 
   var client = newAsyncSmtp(useSsl = true, debug = false)
 

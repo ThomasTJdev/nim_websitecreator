@@ -62,7 +62,7 @@ const footer* = """
         Nim Website Creator
       </h5>
       <p>
-        <p>License: GNUv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator" style="color: black;"><u>Github</u></a></p>
+        <p>License: GPLv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator" style="color: black;"><u>Github</u></a></p>
       </p>
     </div>
   </div>

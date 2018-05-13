@@ -20,6 +20,10 @@ proc generateDB*() =
   let db_pass = dict.getSectionValue("Database","pass")
   let db_name = dict.getSectionValue("Database","name")
   let db_host = dict.getSectionValue("Database","host")
+  let db_folder = dict.getSectionValue("Database","folder")
+
+  # Creating folder
+  discard existsOrCreateDir(db_folder)  
 
   # Open DB
   echo "Opening database"

@@ -1,13 +1,20 @@
 import parsecfg, os, strutils, osproc, os
 
 
-# Using config.ini
-let dict = loadConfig(getAppDir() & "/config/config.cfg")
+import ../utils/logging
+
+
 let appDir = getAppDir()
 
+let dict = loadConfig("config/config.cfg")
+
+
+# Create folders
+dbg("INFO", "Checking that required 'files' folders exists")
 discard existsOrCreateDir("files")
 discard existsOrCreateDir("files/efs")
 discard existsOrCreateDir("fileslocal")
+
 
 
 # Storage settings
@@ -21,6 +28,7 @@ when defined(dev):
   discard existsOrCreateDir(temp & "/files/public")
   discard existsOrCreateDir(temp & "/users")
   
+  dbg("INFO", "Symlinking " & temp & " to files/efs")
   discard execCmd("ln -sf " & appDir & "/" & temp & "/* " & appDir & "/files/efs/")
 
 
@@ -34,9 +42,10 @@ when not defined(dev):
   discard existsOrCreateDir(temp & "/files/public")
   discard existsOrCreateDir(temp & "/users")
 
+  dbg("INFO", "Symlinking " & temp & " to files/efs")
   discard execCmd("ln -sf " & temp & "/* " & appDir & "/files/efs/")
   
-  echo "ln -sf " & temp & "/* " & appDir & "/files/efs/"
+  #echo "ln -sf " & temp & "/* " & appDir & "/files/efs/"
 
 
 let storageEFS* = "files/efs"

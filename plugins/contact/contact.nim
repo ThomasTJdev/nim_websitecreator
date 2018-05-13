@@ -12,10 +12,10 @@ import strutils, os, db_sqlite, json, asyncdispatch, asyncnet, parsecfg, uri
 
 from times import epochTime
 import jester
-import ../../ressources/email/email_connection
-import ../../ressources/session/user_data
-import ../../ressources/utils/dates
-import ../../ressources/web/google_recaptcha
+import ../../src/ressources/email/email_connection
+import ../../src/ressources/session/user_data
+import ../../src/ressources/utils/dates
+import ../../src/ressources/web/google_recaptcha
 
 
 const pluginTitle       = "Contact"
@@ -25,7 +25,7 @@ const pluginVersionDate = "2018-05-12"
 
 
 proc pluginInfo() =
-  echo "\n"
+  echo " "
   echo "--------------------------------------------"
   echo "  Package:      " & pluginTitle & " plugin"
   echo "  Author:       " & pluginAuthor

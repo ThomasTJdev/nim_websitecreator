@@ -2,103 +2,222 @@
 #
 #        TTJ
 #        (c) Copyright 2018 Thomas Toftgaard Jarløv
-#        Look at License.txt for more info.
+#        Look at LICENSE for more info.
 #        All rights reserved.
 #
 #
 
 import
-  os, strutils, times, md5, strtabs, cgi, jester, asyncdispatch, asyncnet, asyncfile, sequtils, rdstdin, parseutils, parsecfg, random, re, json, macros, db_sqlite, bcrypt, recaptcha, osproc
+  asyncdispatch, 
+  asyncfile, 
+  asyncnet, 
+  bcrypt, 
+  cgi, 
+  db_sqlite, 
+  jester, 
+  json, 
+  macros, 
+  md5, 
+  os, 
+  osproc,
+  parsecfg, 
+  parseutils, 
+  random, 
+  rdstdin, 
+  re, 
+  recaptcha, 
+  sequtils, 
+  strtabs, 
+  strutils,
+  times,
+  oswalkdir as oc
 
 import cookies as libcookies
 
-import ressources/administration/create_adminuser
-import ressources/administration/create_standarddata
-import ressources/administration/createdb
-import ressources/administration/help
-import ressources/email/email_registration
-import ressources/files/files_efs
-import ressources/files/files_utils
-import ressources/password/password_generate
-import ressources/password/salt_generate
-import ressources/session/user_data
-import ressources/web/google_recaptcha
-import ressources/web/urltools
-import ressources/utils/dates
-import ressources/utils/logging
-import ressources/utils/random_generator
-import ressources/utils/extensions
-
 
 macro configExists(): untyped =
-  if not fileExists("config/config.cfg"):
+  ## Macro to check if the config file is present
+
+  let (dir, name, file) = splitFile(currentSourcePath())
+  discard name 
+  discard file
+
+  if not fileExists(dir & "/config/config.cfg"):
     echo "\nERROR: Config file (config.cfg) could not be found."
-    echo "Please create the config.cfg in the config folder or"
-    echo "make a copy of the template (config_default.cfg).\n"
+    echo "A copy of the template (config_default.cfg) has been"
+    echo "copied to config/config.cfg."
+    echo " "
+    echo "The program will now quit. Please configure it"
+    echo "and restart the program."
+    echo " "
+
+    discard staticExec("cp " & dir & "/config/config_default.cfg " & dir & "/config/config.cfg")
+
     quit()
 
 configExists()
 
 
+import src/ressources/administration/create_adminuser
+import src/ressources/administration/create_standarddata
+import src/ressources/administration/createdb
+import src/ressources/administration/help
+import src/ressources/email/email_registration
+import src/ressources/files/files_efs
+import src/ressources/files/files_utils
+import src/ressources/password/password_generate
+import src/ressources/password/salt_generate
+import src/ressources/session/user_data
+import src/ressources/utils/dates
+import src/ressources/utils/logging
+import src/ressources/utils/random_generator
+import src/ressources/web/google_recaptcha
+import src/ressources/web/urltools
+
+
+setCurrentDir(getAppDir())
+
+
+when defined(windows):
+  echo "\nWindows is not supported\n"
+  quit()
+
+
+
+proc getPluginsPath*(): seq[string] {.compileTime.} =
+  
+  let (dir, name, file) = splitFile(currentSourcePath())
+  discard name 
+  discard file
+  var plugins = (staticRead(dir & "/plugins/plugin_import.txt").split("\n"))
+
+  var extensions: seq[string]
+  for plugin in oc.walkDir("plugins/"):
+    let (pd, ppath) = plugin
+    discard pd
+  
+    if ppath in plugins:
+      if extensions.len() == 0:
+        extensions = @[dir & "/" & ppath]
+      else:
+        extensions.add(dir & "/" & ppath)
+
+  return extensions
+
+
+
+
 macro extensionImport(): untyped =
-  ## Macro with 2 functions
+  ## Macro to import plugins
   ##
-  ## 1) Generate code for importing modules from extensions.
+  ## Generate code for importing modules from extensions.
   ## The extensions main module needs to be in plugins/plugin_import.txt
   ## to be activated. Only 1 module will be imported.
-  ##
-  ## 2) Generate proc for updating the database with new tables etc.
-  ## The extensions main module shall contain a proc named 'proc <extensionname>Start(db: DbConn) ='
-  ## The proc will be executed when the program is executed.
-
-  var plugins = (staticRead("plugins/plugin_import.txt").split("\n"))
 
   var extensions = ""
+  for ppath in getPluginsPath():
+    let splitted = split(ppath, "/")
+    extensions.add("import " & ppath & "/" & splitted[splitted.len-1] & "\n")
+    
+  when defined(dev):
+    echo "Plugins - imports:"
+    echo extensions
   
-  if plugins.len() > 0:
-    for importit in plugins:
-      if importit.substr(0, 0) == "#" or importit == "":
-        continue
-
-      extensions.add("import " & importit.split(":")[1] & "/" & importit.split(":")[0] & "\n")
-
-    when defined(dev):
-      echo extensions
-
   result = parseStmt(extensions)
 
 extensionImport()
 
 
 macro extensionUpdateDatabase(): untyped =
-  ## Macro with 2 functions
+  ## Macro to generate proc for plugins init proc
   ##
-  ## 1) Generate code for importing modules from extensions.
-  ## The extensions main module needs to be in plugins/plugin_import.txt
-  ## to be activated. Only 1 module will be imported.
-  ##
-  ## 2) Generate proc for updating the database with new tables etc.
+  ## Generate proc for updating the database with new tables etc.
   ## The extensions main module shall contain a proc named 'proc <extensionname>Start(db: DbConn) ='
   ## The proc will be executed when the program is executed.
 
-  var plugins = (staticRead("plugins/plugin_import.txt").split("\n"))
-
   var extensions = ""
- 
-  if plugins.len() > 0:
-    extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
-    for importit in plugins:
-      if importit.substr(0, 0) == "#" or importit == "":
-        continue
-        
-      extensions.add("  " & importit.split(":")[0] & "Start(db)\n")
 
-    when defined(dev):
-      echo extensions
+  extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
+  if getPluginsPath().len == 0:
+    extensions.add("  discard")
+
+  else:
+    for ppath in getPluginsPath():
+      let splitted = split(ppath, "/")
+      extensions.add("  " & splitted[splitted.len-1] & "Start(db)\n")
+    
+    extensions.add("  echo \" \"")
+
+  when defined(dev):
+    echo "Plugins - required proc:"
+    echo extensions
 
   result = parseStmt(extensions)
 
 extensionUpdateDatabase()
+
+
+macro extensionCss(): string =
+  ## Macro with 2 functions
+  ##
+  ## 1) Copy the plugins style.css to the public css/ folder and
+  ## renaming to <extensionname>.css
+  ##
+  ## 2) Insert <style>-link into HTML
+
+  let (dir, name, file) = splitFile(currentSourcePath())
+  discard name 
+  discard file
+
+  var extensions = ""
+  for ppath in getPluginsPath():
+    let splitted = split(ppath, "/")
+
+    if staticRead(ppath & "/public/style.css") != "":
+      discard staticExec("cp " & ppath & "/public/style.css " & dir & "/public/css/" & splitted[splitted.len-1] & ".css")
+
+      extensions.add("<link rel=\"stylesheet\" href=\"/css/" & splitted[splitted.len-1] & ".css\">\n")
+
+    if staticRead(ppath & "/public/style_private.css") != "":
+      discard staticExec("cp " & ppath & "/" & "/public/style_private.css " & dir & "/public/css/" & splitted[splitted.len-1] & "_private.css")
+    
+  when defined(dev):
+    echo "Plugins - CSS:"
+    echo extensions
+
+  return extensions
+
+
+macro extensionJs*(): string =
+  ## Macro with 2 functions
+  ##
+  ## 1) Copy the plugins js.js to the public js/ folder and
+  ## renaming to <extensionname>.js
+  ##
+  ## 2) Insert <js>-link into HTML
+
+  let (dir, name, file) = splitFile(currentSourcePath())
+  discard name 
+  discard file
+
+  var extensions = ""
+  for ppath in getPluginsPath():
+    let splitted = split(ppath, "/")
+
+    if staticRead(ppath & "/public/js.js") != "":
+      discard staticExec("cp " & ppath & "/public/js.js " & dir & "/public/js/" & splitted[splitted.len-1] & ".js")
+
+      extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer></script>\n")
+
+    if staticRead(ppath & "/public/js_private.js") != "":
+      discard staticExec("cp " & ppath & "/public/js_private.js " & dir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
+
+  when defined(dev):
+    echo "Plugins - JS:"
+    echo extensions
+
+  return extensions
+
 
 
 
@@ -149,7 +268,7 @@ macro readCfgAndBuildSource*(cfgFilename: string): typed =
   echo source
   result = parseStmt(source)
 
-readCfgAndBuildSource("/config/configStatic.cfg")
+readCfgAndBuildSource("config/configStatic.cfg")
 
 
 
@@ -329,17 +448,17 @@ template statusIntToCheckbox(status, value: string): string =
       Include HTML files
 __________________________________________________]#
 
-include "tmpl/utils.tmpl"
-include "tmpl/blog.tmpl"
-include "tmpl/blogedit.tmpl"
-include "tmpl/blognew.tmpl"
-include "tmpl/files.tmpl"
-include "tmpl/page.tmpl"
-include "tmpl/pageedit.tmpl"
-include "tmpl/pagenew.tmpl"
-include "tmpl/settings.tmpl"
-include "tmpl/user.tmpl"
-include "tmpl/main.tmpl"
+include "src/tmpl/utils.tmpl"
+include "src/tmpl/blog.tmpl"
+include "src/tmpl/blogedit.tmpl"
+include "src/tmpl/blognew.tmpl"
+include "src/tmpl/files.tmpl"
+include "src/tmpl/page.tmpl"
+include "src/tmpl/pageedit.tmpl"
+include "src/tmpl/pagenew.tmpl"
+include "src/tmpl/settings.tmpl"
+include "src/tmpl/user.tmpl"
+include "src/tmpl/main.tmpl"
 
 
 
@@ -352,17 +471,22 @@ macro generateRoutes(): typed =
   ## Routes are found in the ressources/web/routes.nim.
   ## All plugins 'routes.nim' are also included.
 
-  var plugins = (staticRead("plugins/plugin_import.txt").split("\n"))
 
-  var extensions = staticRead("ressources/web/routes.nim")
-    
-  for caseit in plugins:
+  var extensions = staticRead("src/ressources/web/routes.nim")
+  
+  for ppath in getPluginsPath():
+
+    extensions.add("\n")
+    extensions.add(staticRead(ppath & "/routes.nim"))
+
+  #[for caseit in plugins:
     if caseit.substr(0, 0) == "#" or caseit == "":
       continue
 
     extensions.add("\n")
-    extensions.add(staticRead(caseit.split(":")[1] & "/routes.nim"))
-  
+    #extensions.add(staticRead(caseit.split(":")[1] & "/routes.nim"))
+  ]#
+
   when defined(dev):
     echo extensions
 
@@ -387,16 +511,22 @@ when defined(demo):
       Main module
 __________________________________________________]#
 when isMainModule:
-  echo ""
+  let compileParametersCfg = readFile("websitecreator.nim.cfg")
+
+  echo "\n"
   echo "--------------------------------------------"
-  echo "  Package:       " & cfgPackageName
-  echo "  Version:       " & cfgPackageVersion & " - " & cfgPackageDate
-  echo "  Description:   " & cfgPackageDescription
-  echo "  Author name:   " & cfgAuthorName
-  echo "  Author email:  " & cfgAuthorEmail
-  echo "  Current time:  " & $getTime()
+  echo "  Package:        " & cfgPackageName
+  echo "  Version:        " & cfgPackageVersion & " - " & cfgPackageDate
+  echo "  Description:    " & cfgPackageDescription
+  echo "  Author name:    " & cfgAuthorName
+  echo "  Author email:   " & cfgAuthorEmail
+  echo "  Current time:   " & $getTime()
+  
+  if compileParametersCfg != "":
+    echo "  Compile params:"
+    echo compileParametersCfg
   echo "--------------------------------------------"
-  echo ""
+  echo "\n"
 
   # Show commandline help info
   if "help" in commandLineParams():
@@ -406,35 +536,23 @@ when isMainModule:
 
   dbg("INFO", "Main module started at: " & $getTime())
 
-  dbg("INFO", "Main is started")
-
 
   randomize()
 
 
-  # Create folders
-  dbg("INFO", "Checking dir's exists (cron, log & tmp)")
-  discard existsOrCreateDir("log")
-  discard existsOrCreateDir("tmp")
-  
   # Storage location
-  when not defined(release):
-    dbg("INFO", "Checking EFS dev (locally folders) exists")
-    discard existsOrCreateDir("files")
+  # Folders are created in the module files_efs.nim
   when not defined(ignoreefs) and defined(release):
     # Check access to EFS file system
-    dbg("INFO", "Checking storage (EFS) access")
+    dbg("INFO", "Checking storage access")
     if not existsDir(storageEFS):
-      dbg("ERROR", "isMainModule: No access to storage (EFS). Critical")
+      dbg("ERROR", "isMainModule: No access to storage in release mode. Critical")
       sleep(2000)
       quit()
 
 
   # Generate DB
-  #when defined(newdb):
-  #  generateDB()
-
-  if "newdb" in commandLineParams() or defined(newdb): 
+  if "newdb" in commandLineParams() or defined(newdb) or not fileExists(db_host): 
     generateDB()
 
 
@@ -451,10 +569,9 @@ when isMainModule:
   
 
   # Add admin user
-  #when defined(newuser):
-  #  createAdminUser(db)
   if "newuser" in commandLineParams() or defined(newuser):
     createAdminUser(db)
+
 
   # Add test user
   when defined(demo):
@@ -473,8 +590,6 @@ when isMainModule:
       
 
   # Insert standard data
-  #when defined(insertdata):
-  #  createStandardData(db)
   if "insertdata" in commandLineParams() or defined(insertdata):
     createStandardData(db)
 

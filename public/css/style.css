@@ -128,7 +128,7 @@ div#login {
 */
 div#settings {
   text-align: center;
-  width: 500px;
+  max-width: 500px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -253,6 +253,21 @@ div#user div.save {
 div#user button.save {
   margin-right: 75px;
 }
+@media only screen and (max-width: 768px) {
+
+  div#user label {
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
+  div#user div.save {
+    text-align: left;
+    margin-bottom: 20px;
+  }
+  div#user button.save {
+    margin-top: 15px;
+    margin-right: auto;
+  }
+}
 
 
 
@@ -295,6 +310,18 @@ button.newblogOptions {
 }
 div.newblogOptions {
   display: none;
+}
+@media only screen and (max-width: 768px) {
+  div#newblogData {
+    padding: 0px 0px;
+  }
+  div#newblogData label {
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
+  div#newblogData button {
+    margin-top: 15px;
+  }
 }
 
 

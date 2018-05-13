@@ -9,9 +9,14 @@ nimcache
 nimcache/*
 private/*
 public/files/*
+public/css/contact.css
+public/js/contact.js
+public/css/contact_private.css
+public/js/contact_private.js
 public/css/mailer.css
 public/js/mailer.js
-runwebsitecreator.sh
+public/css/mailer_private.css
+public/js/mailer_private.js
 tmp
 websitecreator
 website_rt11

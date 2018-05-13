@@ -9,7 +9,7 @@ var
   
 
 # Using config.ini
-let dict = loadConfig(getAppDir() & "/config/config.cfg")
+let dict = loadConfig("config/config.cfg")
 
 # Web settings
 let recaptchaSecretKey = dict.getSectionValue("reCAPTCHA","Secretkey")

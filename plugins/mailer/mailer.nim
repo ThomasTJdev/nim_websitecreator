@@ -12,9 +12,10 @@ import strutils, os, db_sqlite, json, asyncdispatch, asyncnet, parsecfg
 
 from times import epochTime
 import jester
-import ../../ressources/email/email_connection
-import ../../ressources/session/user_data
-import ../../ressources/utils/dates
+import ../../src/ressources/email/email_connection
+import ../../src/ressources/session/user_data
+import ../../src/ressources/utils/dates
+import ../../src/ressources/utils/logging
 
 
 const pluginTitle       = "Mailer"
@@ -24,7 +25,7 @@ const pluginVersionDate = "2018-05-10"
 
 
 proc pluginInfo() =
-  echo "\n"
+  echo " "
   echo "--------------------------------------------"
   echo "  Package:      " & pluginTitle & " plugin"
   echo "  Author:       " & pluginAuthor
@@ -97,11 +98,11 @@ proc cronMailer(db: DbConn) {.async.} =
   ## Cron mail
   ## Check every nth hour if a mail is scheduled for sending
   
-  echo "Mailer plugin: Cron mail is started"
+  dbg("INFO", "Mailer plugin: Cron mail is started")
   while true:
     when defined(dev):
-      echo "Mailer plugin: Waiting time between cron mails is 5 minute"
-      await sleepAsync(60 * 1000) # 5 minutes
+      dbg("DEBUG", "Mailer plugin: Waiting time between cron mails is 5 minute")
+      await sleepAsync(60 * 5 * 1000) # 5 minutes
       
     when not defined(dev):  
       await sleepAsync(43200 * 1000) # 12 hours
@@ -130,9 +131,9 @@ proc mailerStart*(db: DbConn) =
   ## If there's no need for this proc, just
   ## discard it. The proc may not be removed.
 
-  echo "Mailer plugin: Updating database with Mailer table if not exists"
+  dbg("INFO", "Mailer plugin: Updating database with Mailer table if not exists")
   
-  if not db.tryExec(sql"""
+  if db.tryExec(sql"""
   create table if not exists mailer(
     id INTEGER primary key,
     author_id INTEGER NOT NULL,
@@ -145,8 +146,6 @@ proc mailerStart*(db: DbConn) =
 
     foreign key (author_id) references person(id)
   );""", []):
-    echo "Mailer plugin: Mailer table already exists"
-  else:
-    echo "Mailer plugin: Mailer table created"
+    dbg("INFO", "Mailer plugin: Mailer table created in database")
 
   asyncCheck cronMailer(db)

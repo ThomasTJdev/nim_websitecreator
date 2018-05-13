@@ -3,10 +3,11 @@ import os, parsecfg, strutils, times
 import ../email/email_admin
 
 
-let fileDebug = getAppDir() & "/log/debug.log"
-let fileProd = getAppDir() & "/log/log.log"
+let dict = loadConfig("config/config.cfg")
 
-discard existsOrCreateDir("log")
+let fileDebug = dict.getSectionValue("Logging","logfiledev")
+let fileProd = dict.getSectionValue("Logging","logfile")
+
 
 template dbg*(logLevel, msg: string) =
   ## Echo debug
@@ -38,7 +39,7 @@ template dbg*(logLevel, msg: string) =
       elif loglevel in ["ERROR", "WARNING"]:
         logFile(fileProd, $getTime() & " - " & logLevel &  ": " & msg)
 
-        when defined adminnotify:
+        if "adminnotify" in commandLineParams() or  defined(adminnotify):
           discard sendEmailAdminError($getTime() & " - " & logLevel &  ": " & msg)
 
 
@@ -55,3 +56,7 @@ template logFile*(filename, msg: string, mode = fmAppend): typed =
       close(f)
   else:
     quit("cannot open: " & fn)
+
+
+dbg("DEBUG", "Checking that required 'log' folder exists")
+discard existsOrCreateDir("log")
