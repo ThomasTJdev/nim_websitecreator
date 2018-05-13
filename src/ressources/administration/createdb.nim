@@ -13,20 +13,23 @@ import ../administration/create_standarddata
 
 proc generateDB*() =
   echo "Generating database"
-  echo "Loading config file"
   let dict = loadConfig("config/config.cfg")
-  # Database settings
   let db_user = dict.getSectionValue("Database","user")
   let db_pass = dict.getSectionValue("Database","pass")
   let db_name = dict.getSectionValue("Database","name")
   let db_host = dict.getSectionValue("Database","host")
   let db_folder = dict.getSectionValue("Database","folder")
 
+  let dbexists = if fileExists(db_host): true else: false
+
+  if dbexists:
+    echo " - Database already exists. Inserting standard tables if they do not exist."
+  
   # Creating folder
   discard existsOrCreateDir(db_folder)  
 
   # Open DB
-  echo "Opening database"
+  echo " - Opening database"
   var db = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
 
 
@@ -50,7 +53,7 @@ proc generateDB*() =
     secretUrl VARCHAR(250),
     lastOnline timestamp not null default (STRFTIME('%s', 'now'))
   );""" % [TUserName, TPassword, TEmail]), []):
-    echo "person table already exists"
+    echo " - Database: person table already exists"
 
 
 
@@ -66,7 +69,7 @@ proc generateDB*() =
     lastModified timestamp not null default (STRFTIME('%s', 'now')),
     foreign key (userid) references person(id)
   );""" % [TPassword]), []):
-    echo "session table already exists"
+    echo " - Database: session table already exists"
 
 
 
@@ -82,7 +85,7 @@ proc generateDB*() =
     text VARCHAR(1000),
     creation timestamp not null default (STRFTIME('%s', 'now'))
   );""", []):
-    echo "history table already exists"
+    echo " - Database: history table already exists"
 
 
 
@@ -98,7 +101,7 @@ proc generateDB*() =
     title TEXT,
     disabled INTEGER
   );""", []):
-    echo "history table already exists"
+    echo " - Database: history table already exists"
 
   # ----------------------- Pages ----------------------------------------------
 
@@ -128,7 +131,7 @@ proc generateDB*() =
 
     foreign key (author_id) references person(id)
   );""", []):
-    echo "pages table already exists"
+    echo " - Database: pages table already exists"
 
 
 
@@ -160,15 +163,13 @@ proc generateDB*() =
 
     foreign key (author_id) references person(id)
   );""", []):
-    echo "blog table already exists"
+    echo " - Database:blog table already exists"
 
 
+  if not dbexists:
+    echo "Inserting standard elements"
+    createStandardData(db)
 
-
-  echo "Inserting standard elements"
-  createStandardData(db)
-
-  echo "Closing database"
+  echo " - Database: Closing database"
   close(db)
 
-  echo "Creating database finished"

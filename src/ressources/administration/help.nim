@@ -8,9 +8,10 @@ proc commandLineHelp*(): string =
     A quick website tool. Run the file and access your webpage.
 
     Commandline arguments:
-      - newdb
-      - newuser
-      - insertdata
+      - newdb       = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if the no database exists.
+      - newuser     = Add the Admin user
+      - insertdata  = Insert standard data (this will override existing data)
+      - nginx       = Used to close the streaming connection when using nginx as a webserver
       - help
   _____________________________________
   """

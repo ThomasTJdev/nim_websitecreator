@@ -258,7 +258,6 @@ macro readCfgAndBuildSource*(cfgFilename: string): typed =
     var chunks = split(line, " = ")
     #if chunks.len != 2: continue
     if chunks.len != 2:
-      echo("Skipped cfg, got: " & line)
       continue
     
     source &= "const cfg" & chunks[0] & "= \"" & chunks[1] & "\"\n"
@@ -591,7 +590,10 @@ when isMainModule:
 
   # Insert standard data
   if "insertdata" in commandLineParams() or defined(insertdata):
-    createStandardData(db)
+    echo "\nInsert standard data?"
+    echo "This will override existing data (y/N):"
+    if readLine(stdin) == "y":
+      createStandardData(db)
 
 
   dbg("INFO", "Up and running!")

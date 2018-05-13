@@ -27,81 +27,65 @@ Online test page: [Nim Website Creator](https://nimwc.org)
 
 ## Compiling / Installing
 
-To compile (and install) you need [Nim](https://nim-lang.org/). You can easily [install Nim](https://nim-lang.org/install_unix.html) with:
+To compile (and install) you need [Nim](https://nim-lang.org/). You can easily install Nim using [choosenim](https://nim-lang.org/install_unix.html) with:
 ```
 curl https://nim-lang.org/choosenim/init.sh -sSf | sh
 ```
 
-### 1) Config:
-
-Rename `config_default.cfg` to `config.cfg` and insert your data.
-
-You only need to perform 2a **or** 2b - not both of them.
+You only need to perform 1a **or** 1b - not both of them.
 
 
-### 2a) Install:
+### 1a) Install:
 
 If you are using [Nimble](https://github.com/nim-lang/nimble) an executable will be generated and symlinked to `websitecreator`, which then can be executed anywhere on your system.
 
-```
-nimble install nim_websitecreator
+```bash
+# Install websitecreator with nimble
+nimble install websitecreator
+
+# Edit the config.cfg accordingly
+# (change the path to your nimble folder and the correct package version)
+nano ~/.nimble/pkgs/websitecreator-0.1.0/config/config.cfg
+
+# Run websitecreator
+# (to add an Admin user append "newuser": websitecreator newuser)
 websitecreator
 ```
 
 
-### 2b) Compile:
+### 1b) Compile:
 
 This will generate the executable in the folder. 
 
-**Please see the section below regarding the first run (first compile).**
+```bash
+# Clone the repository
+git clone https://github.com/ThomasTJdev/nim_websitecreator
+cd nim_websitecreator
 
-```
+# Generate and edit the config.cfg accordingly
+cp config/config_default.cfg config/config.cfg
+nano config.cfg
+
+# Compile websitecreator
 nim c -d:release -d:ssl websitecreator.nim
+
+# Run websitecreator
+# (to add an Admin user append "newuser": ./websitecreator newuser)
 ./websitecreator
-```
-
-
-## First run:
-
-On the first run it is advised to use the parameters below, which will create the database, add an admin user and insert base data.
-
-You can either compile the program with parameters (-d:) or add the parameters as command line arguments. You only need to perform 1a **or** 1b - not both of them.
-
-Arguments can also be used after compiling the program or after installing the progam with Nimble.
-
-
-### 1a) Arguments on first run
-
-Install the program with Nimble and then:
-
-```
-./websitecreator.nim newdb newuser insertdata
-```
-
-
-### 1b) Compile on first run
-
-First run:
-
-```
-nim c -d:release -d:ssl -d:newdb -d:newuser -d:insertdata websitecreator.nim
-```
-
-Then run:
-
-```
-nim c -r -d:release -d:ssl websitecreator.nim
 ```
 
 
 ## Compile/argument options:
 
-*To use the options as arguments remove the `-d:`*
+*To use the options as arguments remove the `-d:` and append:*
 
-* `-d:newdb` = Generate the database
-* `-d:newuser` = Add an admin user
-* `-d:insertdata` = Insert base data
+* `-d:newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
+* `-d:newuser` = Add the Admin user
+* `-d:insertdata` = Insert standard data (this will override existing data)
 * `-d:nginx` = Used to close the streaming connection when using nginx as a webserver
+
+*These options are only available at compiletime:*
+
 * `-d:adminnotify` = Send error logs (ERROR) to the specified admin email
 * `-d:dev` = Development
 * `-d:devemailon` = Send email when `-d:dev` is activated

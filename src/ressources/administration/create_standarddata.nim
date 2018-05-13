@@ -115,7 +115,7 @@ const frontpage = """<h1 style="text-align: center; ">Welcome to</h1>
 
 proc standardDataSettings*(db: DbConn) =
   # Settings
-  echo "Inserting settings-data"
+  echo " - Standard data: Inserting settings-data"
   let settingsExists = getValue(db, sql"SELECT id FROM settings WHERE id = ?", "1")
   if settingsExists != "":
     exec(db, sql"DELETE FROM settings WHERE id = ?", "1")
@@ -125,7 +125,7 @@ proc standardDataSettings*(db: DbConn) =
 
 proc standardDataFrontpage*(db: DbConn) =
   # Frontpage
-  echo "Inserting frontpage-data"
+  echo " - Standard data: Inserting frontpage-data"
   let frontpageExists = getValue(db, sql"SELECT id FROM pages WHERE url = ?", "frontpage")
   if frontpageExists != "":
     exec(db, sql"DELETE FROM pages WHERE url = ?", "frontpage")
@@ -135,7 +135,7 @@ proc standardDataFrontpage*(db: DbConn) =
 
 proc standardDataAbout*(db: DbConn) =
   # About
-  echo "Inserting about-data"
+  echo " - Standard data: Inserting about-data"
   let aboutExists = getValue(db, sql"SELECT id FROM pages WHERE url = ?", "about")
   if aboutExists != "":
     exec(db, sql"DELETE FROM pages WHERE url = ?", "about")
@@ -145,7 +145,7 @@ proc standardDataAbout*(db: DbConn) =
 
 proc createStandardData*(db: DbConn) =
   ## Insert basic data
-  echo "Inserting standard data"
+  echo "Standard data: Inserting standard data"
   standardDataSettings(db)
   standardDataFrontpage(db)
   standardDataAbout(db)
