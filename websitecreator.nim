@@ -263,8 +263,11 @@ macro readCfgAndBuildSource*(cfgFilename: string): typed =
     source &= "const cfg" & chunks[0] & "= \"" & chunks[1] & "\"\n"
 
   if source.len < 1: error("Input file empty!")
-  echo "Constant vars compiled from configStatic.cfg:"
-  echo source
+
+  when defined(dev):
+    echo "Constant vars compiled from configStatic.cfg:"
+    echo source
+
   result = parseStmt(source)
 
 readCfgAndBuildSource("config/configStatic.cfg")
@@ -296,7 +299,7 @@ proc init(c: var TData) =
 __________________________________________________]#
 proc loggedIn(c: TData): bool =
   ## Check if user is logged in
-  ## by verifying that c.username is used
+  ## by verifying that c.username is more than 0:int
 
   result = c.username.len > 0
 
@@ -313,15 +316,15 @@ proc checkLoggedIn(c: var TData) =
   if not c.req.cookies.hasKey("sid"): return
   let pass = c.req.cookies["sid"]
   if execAffectedRows(db,
-      sql("update session set lastModified = " & $toInt(epochTime()) & " " &
-           "where ip = ? and password = ?"),
+      sql("UPDATE session SET lastModified = " & $toInt(epochTime()) & " " &
+           "WHERE ip = ? AND password = ?"),
            c.req.ip, pass) > 0:
     c.userpass  = pass
     c.userid    = getValue(db,
-      sql"select userid from session where ip = ? and password = ?",
+      sql"SELECT userid FROM session WHERE ip = ? AND password = ?",
       c.req.ip, pass)
 
-    let row = getRow(db, sql"select name, email, status from person where id = ?", c.userid)
+    let row = getRow(db, sql"SELECT name, email, status FROM person WHERE id = ?", c.userid)
     c.username  = row[0]
     c.email     = toLowerAscii(row[1])
     c.rank      = parseEnum[Rank](row[2])
@@ -345,7 +348,7 @@ proc login(c: var TData, email, pass: string): bool =
       return false
 
   # get form data:
-  const query = sql"select id, name, password, email, salt, status, secretUrl from person where email = ?"
+  const query = sql"SELECT id, name, password, email, salt, status, secretUrl FROM person WHERE email = ?"
   if email.len == 0:
     return false
 
@@ -368,7 +371,7 @@ proc login(c: var TData, email, pass: string): bool =
   if success:
     # create session:
     exec(db,
-      sql"insert into session (ip, password, userid) values (?, ?, ?)",
+      sql"INSERT INTO session (ip, password, userid) VALUES (?, ?, ?)",
       c.req.ip, c.userpass, c.userid)
     dbg("INFO", "Login successful")
     return true
@@ -381,7 +384,7 @@ proc login(c: var TData, email, pass: string): bool =
 proc logout(c: var TData) =
   ## Logout
 
-  const query = sql"delete from session where ip = ? and password = ?"
+  const query = sql"DELETE FROM session WHERE ip = ? AND password = ?"
   c.username = ""
   c.userpass = ""
   exec(db, query, c.req.ip, c.req.cookies["sid"])
@@ -409,18 +412,29 @@ template createTFD() =
 
 
 template checkboxToInt(checkboxOnOff: string): string =
+  ## When posting checkbox data from HTML form
+  ## an "on" is sent when true. Convert to 1 or 0.
+
   if checkboxOnOff == "on":
     "1"
   else:
     "0"
 
+
 template checkboxToChecked(checkboxOnOff: string): string =
+  ## When parsing DB data on checkboxes convert
+  ## 1 or 0 to HTML checked to set checkbox
+
   if checkboxOnOff == "1":
     "checked"
   else:
     ""
 
+
 template statusIntToText(status: string): string =
+  ## When parsing DB status convert
+  ## 0, 1 and 3 to human names
+  
   if status == "0":
     "Development"
   elif status ==  "1":
@@ -432,6 +446,9 @@ template statusIntToText(status: string): string =
 
 
 template statusIntToCheckbox(status, value: string): string =
+  ## When parsing DB status convert
+  ## to HTML selected on selects
+
   if status == "0" and value == "0":
     "selected"
   elif status ==  "1" and value == "1":
@@ -474,17 +491,8 @@ macro generateRoutes(): typed =
   var extensions = staticRead("src/resources/web/routes.nim")
   
   for ppath in getPluginsPath():
-
     extensions.add("\n")
     extensions.add(staticRead(ppath & "/routes.nim"))
-
-  #[for caseit in plugins:
-    if caseit.substr(0, 0) == "#" or caseit == "":
-      continue
-
-    extensions.add("\n")
-    #extensions.add(staticRead(caseit.split(":")[1] & "/routes.nim"))
-  ]#
 
   when defined(dev):
     echo extensions
