@@ -1,0 +1,21 @@
+/* This plugin style_private.css file will be added to the public folder, but no automated import of the file will be generated */
+
+/*
+  register page
+*/
+div#register {
+  text-align: center;
+}
+#register form {
+  margin-right: auto;
+  margin-left: auto;
+  width: 310px;
+  padding: 10px;
+  -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+}
+#recaptcha {
+  margin-bottom: 5px;
+  margin-top: 20px;
+}

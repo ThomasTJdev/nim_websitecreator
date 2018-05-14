@@ -7,6 +7,7 @@ type
     Moderator
     Admin
     Deactivated
+    NotLoggedin
 
 type
   ## TSession - parent of TData

@@ -5,7 +5,7 @@ routes:
   get "/":
     createTFD()
     resp genPage(c, "frontpage")
-  
+
 
   get "/login":
     createTFD()
@@ -17,13 +17,13 @@ routes:
     when not defined(dev):
       if useCaptcha:
         if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
-          resp genMain(c, genFormLogin(c, "Error: You need to verify, that you are not a robot!"))
+          resp genFormLogin(c, "Error: You need to verify, that you are not a robot!")
     
     if login(c, @"email", replace(@"password", " ", "")):
       jester.setCookie("sid", c.userpass, daysForward(7))
       redirect("/settings")
     else:
-      resp genMain(c, genFormLogin(c, "Error in login"))
+      resp genFormLogin(c, "Error in login")
   
   get "/logout":
     createTFD()
@@ -32,7 +32,7 @@ routes:
 
   get "/error/@errorMsg":
     createTFD()
-    resp genMain(c, "<h2>" & decodeUrl(@"errorMsg") & "</h2>")
+    resp genMain(c, "<h3>" & decodeUrl(@"errorMsg") & "</h3>")
 
 
 
@@ -280,6 +280,9 @@ routes:
 
       if @"email" == "test@test.com":
         redirect("/error/" & encodeUrl("Error: test@test.com is taken by the system"))
+      
+      if "@" notin @"email" and "." notin @"email":
+        redirect("/error/" & encodeUrl("Error: Your email has a wrong format"))
 
       let emailExist = getValue(db, sql"SELECT id FROM person WHERE email = ?", @"email")
       if emailExist != "":

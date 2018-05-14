@@ -224,28 +224,6 @@ macro extensionJs*(): string =
 #[ 
       Defining variables
 __________________________________________________]#
-var
-  db: DbConn
-  
-let dict = loadConfig("config/config.cfg")
-
-let db_user = dict.getSectionValue("Database","user")
-let db_pass = dict.getSectionValue("Database","pass")
-let db_name = dict.getSectionValue("Database","name")
-let db_host = dict.getSectionValue("Database","host")
-
-let mainURL = dict.getSectionValue("Server","url")
-let mainPort = parseInt dict.getSectionValue("Server","port")
-
-let proxyURL = dict.getSectionValue("Proxy","url")
-let proxyPath = dict.getSectionValue("Proxy","path")
-
-when defined(release):
-  let logfile = dict.getSectionValue("Logging","logfile")
-when not defined(release):
-  let logfile = dict.getSectionValue("Logging","logfiledev")
-
-
 macro readCfgAndBuildSource*(cfgFilename: string): typed =
   ## Generate constans with macro from configStatic file
 
@@ -273,6 +251,28 @@ macro readCfgAndBuildSource*(cfgFilename: string): typed =
 readCfgAndBuildSource("config/configStatic.cfg")
 
 
+var db: DbConn
+  
+let dict = loadConfig("config/config.cfg")
+
+let db_user = dict.getSectionValue("Database","user")
+let db_pass = dict.getSectionValue("Database","pass")
+let db_name = dict.getSectionValue("Database","name")
+let db_host = dict.getSectionValue("Database","host")
+
+let mainURL   = dict.getSectionValue("Server","url")
+let mainPort  = parseInt dict.getSectionValue("Server","port")
+
+let proxyURL  = dict.getSectionValue("Proxy","url")
+let proxyPath = dict.getSectionValue("Proxy","path")
+
+when defined(release):
+  let logfile = dict.getSectionValue("Logging","logfile")
+when not defined(release):
+  let logfile = dict.getSectionValue("Logging","logfiledev")
+
+
+
 
 # Jester setting server settings
 settings:
@@ -287,7 +287,7 @@ proc init(c: var TData) =
   c.username      = ""
   c.userid        = ""
   c.timezone      = ""
-  c.rank          = Deactivated
+  c.rank          = NotLoggedin
   c.loggedIn      = false
   c.urlpath       = proxyURL & proxyPath
 
