@@ -225,3 +225,10 @@ You can access the plugin at `/mailer`. This link can be added to the navbar man
 A simple contact form for non-logged in users. The email will be sent to the info-email specified in the `config.cfg` file.
 
 You can access the plugin at `/contact`. This link can be added to the navbar manually.
+
+
+### Plugin: Open registration
+
+Opens up for public registration. Anyone can register an account and get a user with user role "User".
+
+You can access the plugin at `/register`.
