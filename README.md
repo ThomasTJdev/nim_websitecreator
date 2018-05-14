@@ -27,7 +27,7 @@ Online test page: [Nim Website Creator](https://nimwc.org)
 
 ## Compiling / Installing
 
-To compile (and install) you need [Nim](https://nim-lang.org/). You can easily install Nim using [choosenim](https://nim-lang.org/install_unix.html) with:
+To compile and install you need [Nim](https://nim-lang.org/). You can easily install Nim using [choosenim](https://nim-lang.org/install_unix.html) with:
 ```
 curl https://nim-lang.org/choosenim/init.sh -sSf | sh
 ```
@@ -44,7 +44,7 @@ If you are using [Nimble](https://github.com/nim-lang/nimble) an executable will
 nimble install websitecreator
 
 # Edit the config.cfg accordingly
-# (change the path to your nimble folder and the correct package version)
+# (change the confg.cfg path to your nimble folder and the correct package version)
 nano ~/.nimble/pkgs/websitecreator-0.1.0/config/config.cfg
 
 # Run websitecreator
@@ -137,14 +137,16 @@ To activate Google reCAPTCHA claim you site and server key and insert them into 
 
 ## Plugins
 
-Plugins will be loaded at compiletime with macros. Plugins are placed in the `plugins`-folder. Two example plugin (contact & mailer) are available in the `plugins`-folder.
+Plugins will be loaded at compiletime with macros. Plugins are placed in the `plugins`-folder. Two example plugin (contact & mailer) are available and enabled in the `plugins`-folder.
 
 
 ### Enable a plugin
 
-To enable a plugin add the following lines to `plugin/plugin_import.txt`:
+To enable a plugin add the path to the plugins and pluginname to `plugin/plugin_import.txt`:
 
 ```
+# plugins = folder
+# pluginname = the name of the plugin
 plugins/pluginname
 
 # eg. for the contact plugin:
