@@ -58,21 +58,21 @@ macro configExists(): untyped =
 configExists()
 
 
-import src/ressources/administration/create_adminuser
-import src/ressources/administration/create_standarddata
-import src/ressources/administration/createdb
-import src/ressources/administration/help
-import src/ressources/email/email_registration
-import src/ressources/files/files_efs
-import src/ressources/files/files_utils
-import src/ressources/password/password_generate
-import src/ressources/password/salt_generate
-import src/ressources/session/user_data
-import src/ressources/utils/dates
-import src/ressources/utils/logging
-import src/ressources/utils/random_generator
-import src/ressources/web/google_recaptcha
-import src/ressources/web/urltools
+import src/resources/administration/create_adminuser
+import src/resources/administration/create_standarddata
+import src/resources/administration/createdb
+import src/resources/administration/help
+import src/resources/email/email_registration
+import src/resources/files/files_efs
+import src/resources/files/files_utils
+import src/resources/password/password_generate
+import src/resources/password/salt_generate
+import src/resources/session/user_data
+import src/resources/utils/dates
+import src/resources/utils/logging
+import src/resources/utils/random_generator
+import src/resources/web/google_recaptcha
+import src/resources/web/urltools
 
 
 setCurrentDir(getAppDir())
@@ -467,11 +467,11 @@ __________________________________________________]#
 
 macro generateRoutes(): typed =
   ## The macro generates the routes for Jester.
-  ## Routes are found in the ressources/web/routes.nim.
+  ## Routes are found in the resources/web/routes.nim.
   ## All plugins 'routes.nim' are also included.
 
 
-  var extensions = staticRead("src/ressources/web/routes.nim")
+  var extensions = staticRead("src/resources/web/routes.nim")
   
   for ppath in getPluginsPath():
 

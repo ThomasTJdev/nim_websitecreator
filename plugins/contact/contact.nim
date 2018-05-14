@@ -12,10 +12,10 @@ import strutils, os, db_sqlite, json, asyncdispatch, asyncnet, parsecfg, uri
 
 from times import epochTime
 import jester
-import ../../src/ressources/email/email_connection
-import ../../src/ressources/session/user_data
-import ../../src/ressources/utils/dates
-import ../../src/ressources/web/google_recaptcha
+import ../../src/resources/email/email_connection
+import ../../src/resources/session/user_data
+import ../../src/resources/utils/dates
+import ../../src/resources/web/google_recaptcha
 
 
 const pluginTitle       = "Contact"
