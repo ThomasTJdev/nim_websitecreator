@@ -282,12 +282,12 @@ routes:
       if @"email" == "test@test.com":
         redirect("/error/" & encodeUrl("Error: test@test.com is taken by the system"))
       
-      if "@" notin @"email" and "." notin @"email":
+      if not ("@" in @"email" and "." in @"email"):
         redirect("/error/" & encodeUrl("Error: Your email has a wrong format"))
 
       let emailExist = getValue(db, sql"SELECT id FROM person WHERE email = ?", @"email")
       if emailExist != "":
-        redirect("/error/" & encodeUrl("Error: A user with that email already exists"))
+        redirect("/error/" & encodeUrl("Error: A user with that email does already exists"))
       
       let salt = makeSalt()
       let passwordOriginal = randomString(12)

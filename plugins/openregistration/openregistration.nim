@@ -50,7 +50,7 @@ proc openregistrationRegister*(db: DbConn, name, email: string): tuple[b: bool, 
     return (false, "Open registration is not enabled")
 
   # Check email formatting
-  if "@" notin email and "." notin email:
+  if not ("@" in email and "." in email):
     return (false, "Error: Your email has a wrong format")
 
   # Check if email alreay exists

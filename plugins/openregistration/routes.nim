@@ -24,14 +24,14 @@
             redirect("/error/" & encodeUrl("Error: The test user can not add new users"))
 
         if @"name" == "" or @"email" == "":
-          resp genMain(c, genUsersRegister(db, "Error: Name, email and status are required"))
+          resp genUsersRegister(db, "Error: Name, email and status are required")
 
         if @"email" == "test@test.com":
-          resp genMain(c, genUsersRegister(db, "Error: test@test.com is taken by the system"))
+          resp genUsersRegister(db, "Error: test@test.com is taken by the system")
         
         let (regiB, regiS) = openregistrationRegister(db, @"name", @"email")
 
         if regiB:
           resp genFormLogin(c, "Please click on the confirmation link in your email")
         else:
-          resp genMain(c, genUsersRegister(db, regiS))
+          resp genUsersRegister(db, regiS)
