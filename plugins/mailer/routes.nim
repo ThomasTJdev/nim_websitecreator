@@ -10,12 +10,12 @@
 
   get "/mailer/add":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       resp genMain(c, genMailerAdd(c, db))
 
   post "/mailer/doadd":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       let addStatus = mailerAddMailevent(c, db)
       if addStatus == "OK":
         redirect("/mailer")
@@ -24,12 +24,12 @@
 
   post "/mailer/doupdate":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       resp genMain(c, mailerUpdateMailevent(c, db))
 
   get "/mailer/delete":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       mailerDelete(c, db)
       redirect("/mailer")
 
@@ -40,6 +40,6 @@
 
   get "/mailer/testmail":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       mailerTestmail(c, db)
       redirect("/mailer")

@@ -92,7 +92,29 @@ nim c -d:release -d:ssl websitecreator.nim
 * `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org)
 
 
-## Content
+## User profiles
+
+There are 3 main user profiles:
+* User
+* Moderator
+* Admin
+
+The access rights below applies to main program. Plugins can have their own definition of user rights.
+
+### User
+
+The "User" can login and see private pages and blog pages. This user has no access to adding or editing anything.
+
+### Moderator
+
+The "Moderator" can login and see private pages and blog pages. This user **can** add and edit anything. The user **can** add and delete users, but cannot delete or add "Admin" users.
+
+### Admin
+
+The "Admin" has access to anything.
+
+
+## Screenshots
 
 Blog posts can be set as private or public.
 
@@ -107,9 +129,6 @@ Blog posts can be set as private or public.
 
 **Blog post edit 2**
 ![Blog](private/screenshots/blogpage2.png)
-
-
-## Screenshot
 
 **Frontpage**
 ![Frontpage](private/screenshots/frontpage.png)

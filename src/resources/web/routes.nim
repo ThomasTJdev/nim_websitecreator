@@ -45,34 +45,34 @@ routes:
 
   get "/settings":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       resp genMain(c, genSettings(c))
   
   get "/settings/edit":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       resp genMain(c, genSettingsEdit(c), "edit")
 
   get "/settings/editrestore":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       standardDataSettings(db)
       redirect("/settings/edit")
 
   post "/settings/update":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       discard execAffectedRows(db, sql"UPDATE settings SET title = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", @"title", @"head", @"navbar", @"footer", "1")
       redirect("/settings/edit")
 
   get "/settings/editjs":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       resp genMain(c, genSettingsEditJs(c), "editjs")
 
   post "/settings/updatejs":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       try:
         writeFile("public/js/js.js", @"js")
         redirect("/settings/editjs")
@@ -81,12 +81,12 @@ routes:
 
   get "/settings/editcss":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       resp genMain(c, genSettingsEditCss(c), "editcss")
 
   post "/settings/updatecss":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       try:
         writeFile("public/css/style.css", @"css")
         redirect("/settings/editcss")
@@ -104,13 +104,13 @@ routes:
 
   get "/files":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       resp genMain(c, genFiles(c), "edit")
 
 
   get "/files/raw":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       resp genFilesRaw(c)
 
 
@@ -152,7 +152,7 @@ routes:
     ## Upload a file
 
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       when defined(demo):
         if c.email == "test@test.com":
           resp("Error: The test user can not upload files")
@@ -179,7 +179,7 @@ routes:
     ## Delete a file
 
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       let filepath = storageEFS & "/files/" & @"access" & "/" & @"filename"
       echo filepath
       if tryRemoveFile(filepath): 
@@ -239,7 +239,7 @@ routes:
 
   get "/users/delete/@userID":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       when defined(demo):
         if c.email == "test@test.com":
           redirect("/error/" & encodeUrl("Error: The test user can not delete users"))
@@ -258,6 +258,7 @@ routes:
         redirect("/error/" & encodeUrl("Error: You can not delete an admin user"))
 
       if tryExec(db, sql"DELETE FROM person WHERE id = ?", @"userID"):
+        exec(db, sql"DELETE FROM session WHERE userid = ?", @"userID")
         redirect("/users")
       else:
         redirect("/error/" & encodeUrl("Could not delete user"))
@@ -265,7 +266,7 @@ routes:
 
   post "/users/add":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       when defined(demo):
         if c.email == "test@test.com":
           redirect("/error/" & encodeUrl("Error: The test user can not add new users"))
@@ -371,13 +372,13 @@ routes:
 
   get "/blogpagenew":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       resp genMain(c, genNewBlog(c), "edit")
 
 
   post "/blogpagenew/save":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       let url = urlEncoderCustom(@"url")
       discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, head, navbar, footer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer")
       redirect("/blog/" & url)
@@ -385,7 +386,7 @@ routes:
 
   post "/blogpage/update":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       let url = urlEncoderCustom(@"url")
       let urloriginal = urlEncoderCustom(@"urloriginal")
       discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE url = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", urloriginal)
@@ -394,7 +395,7 @@ routes:
 
   get "/blogpage/delete":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       let url = @"url"
       exec(db, sql"DELETE FROM blog WHERE url = ?", url)
       redirect("/")
@@ -402,13 +403,13 @@ routes:
 
   get "/editpage/blogallpages":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       resp genMain(c, genAllBlogPagesEdit(c))
 
 
   get re"/editpage/blog/*.":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       let urlName = c.req.path.replace("/editpage/blog/", "")
       
       when defined(demo):
@@ -439,26 +440,26 @@ routes:
 
   get "/editpage/allpages":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       resp genMain(c, genAllPagesEdit(c))
 
 
   get re"/editpage/page/*.":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       let urlName = c.req.path.replace("/editpage/page/", "")
       resp genMain(c, genEditPage(c, urlName), "edit")
 
 
   get "/pagenew":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn and c.rank in [Admin, Moderator]:  
       resp genMain(c, genNewPage(c), "edit")
 
 
   post "/pagenew/save":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       let url = urlEncoderCustom(@"url")
       discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, head, navbar, footer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer")
       if url == "frontpage":
@@ -469,7 +470,7 @@ routes:
 
   post "/page/update":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       let url = urlEncoderCustom(@"url")
       let urloriginal = urlEncoderCustom(@"urloriginal")
       discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE url = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", urloriginal)
@@ -478,7 +479,7 @@ routes:
 
   get "/page/delete":
     createTFD()
-    if c.loggedIn:
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       if @"url" in "frontpage":
         resp("Error: You can not delete the frontpage")
 

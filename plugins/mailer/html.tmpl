@@ -25,10 +25,17 @@
 # result = ""
 #
 # var allMailelements: seq[Row]
+# var allMailelementsOld: seq[Row]
 # if onlyNew:
+#
 #   allMailelements = getAllRows(db, sql"SELECT mailer.id, mailer.name, mailer.description, mailer.status, mailer.maildate, mailer.modified, person.name FROM mailer LEFT JOIN person ON person.id = mailer.author_id WHERE mailer.maildate > ? ORDER BY maildate ASC", $toInt(epochTime()))
+#
+#   allMailelementsOld = getAllRows(db, sql"SELECT mailer.id, mailer.name, mailer.description, mailer.status, mailer.maildate, mailer.modified, person.name FROM mailer LEFT JOIN person ON person.id = mailer.author_id WHERE mailer.maildate < ? ORDER BY maildate ASC", $toInt(epochTime()))
+#
 # else:
+#
 #   allMailelements = getAllRows(db, sql"SELECT mailer.id, mailer.name, mailer.description, mailer.status, mailer.maildate, mailer.modified, person.name FROM mailer LEFT JOIN person ON person.id = mailer.author_id ORDER BY maildate ASC")
+#
 # end if
 
 <link rel="stylesheet" href="/css/mailer_private.css" />
@@ -38,14 +45,16 @@
 </div>
 
 <div id="allMailevents">
+# if c.rank in [Admin, Moderator]:
   <div style="text-align: center; margin-bottom: 20px;">
     <a href="/mailer/add" class="btn btn-secondary mailAdd">Add mail event</a>
   </div>
+# end if
 
 # if allMailelements.len < 1:
 #
   <div style="text-align: center">
-    <h3><i>No mail events</i></h3>
+    <h3><i>No future mail events</i></h3>
   </div>
 #
 # else:
@@ -70,9 +79,9 @@
   </ul>  
 # end if
 
-# if allMailelements.len > 0:
-  <div style="text-align: center; margin-bottom: 20px;">
-    <a href="/mailer/all" class="btn btn-secondary mailAdd">Show old mail events</a>
+# if allMailelementsOld.len > 0:
+  <div style="text-align: center; margin-bottom: 20px; margin-top: 20px;">
+    <a href="/mailer/all" class="btn btn-secondary mailAdd">Show old mail events (${$(allMailelementsOld.len)})</a>
   </div>
 #end if
 </div>

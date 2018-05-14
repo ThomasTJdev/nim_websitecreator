@@ -27,8 +27,10 @@ ${extensionCss()}
 
 <body class="body">
   <div id="pagewrapper">
-#   if c.loggedIn:
-      ${genNavbarSettings(c)}
+#   if c.loggedIn and c.rank != User:
+      ${genNavbarLoggedinSettings(c)}
+#   elif c.loggedIn:
+      ${genNavbarLoggedin(c)}
 #   end if
 
     <header>
@@ -101,8 +103,10 @@ ${extensionCss()}
 
 <body class="body">
   <div id="pagewrapper">
-#   if c.loggedIn:
-      ${genNavbarSettings(c)}
+#   if c.loggedIn and c.rank != User:
+      ${genNavbarLoggedinSettings(c)}
+#   elif c.loggedIn:
+      ${genNavbarLoggedin(c)}
 #   end if
 
     <header>
@@ -170,8 +174,10 @@ ${extensionCss()}
 
 <body class="body">
   <div id="pagewrapper">
-#   if c.loggedIn:
-      ${genNavbarSettings(c)}
+#   if c.loggedIn and c.rank != User:
+      ${genNavbarLoggedinSettings(c)}
+#   elif c.loggedIn:
+      ${genNavbarLoggedin(c)}
 #   end if
 
     <header>

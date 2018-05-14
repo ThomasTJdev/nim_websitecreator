@@ -328,6 +328,8 @@ proc checkLoggedIn(c: var TData) =
     c.username  = row[0]
     c.email     = toLowerAscii(row[1])
     c.rank      = parseEnum[Rank](row[2])
+    if c.rank notin [Admin, Moderator, User]:
+      c.loggedIn = false
     
     discard tryExec(db, sql"UPDATE person SET lastOnline = ? WHERE id = ?", toInt(epochTime()), c.userid)
 
@@ -356,6 +358,10 @@ proc login(c: var TData, email, pass: string): bool =
   for row in fastRows(db, query, toLowerAscii(email)):
     if row[6] != "":
       dbg("INFO", "Login failed. Account not activated")
+      return false
+
+    if parseEnum[Rank](row[5]) notin [Admin, Moderator, User]:
+      dbg("INFO", "Login failed. Your account is not active.")
       return false
 
     if row[2] == makePassword(pass, row[4], row[2]):

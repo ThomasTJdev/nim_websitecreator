@@ -8,7 +8,7 @@
 #
 #
 #
-#proc genNavbarSettings(c: var TData): string =
+#proc genNavbarLoggedinSettings(c: var TData): string =
 # result = ""
 <div id="navbarSettings" class="container-fluid">
   <div class="row">
@@ -25,6 +25,24 @@
           <a class="dropdown-item" href="/pagenew">Add page</a>
           <a class="dropdown-item" href="/editpage/allpages">Edit page</a>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+#end proc
+#
+#
+#
+#
+#
+#proc genNavbarLoggedin(c: var TData): string =
+# result = ""
+<div id="navbarSettings" class="container-fluid">
+  <div class="row">
+    <div class="col-12 col-md-12">
+      <div style="display: inline-flex; float: right;">
+        <span class="nav-item" style="margin-right: 15px;"><a href="/logout">Logout</a></span>
+        <span class="nav-item"><a href="/users/profile">${c.username}</a></span>
       </div>
     </div>
   </div>
