@@ -122,6 +122,46 @@ div#login {
 }
 
 
+/*
+  Plugins
+*/
+ul.pluginSettings {
+  padding-left: 10px;
+}
+li.pluginSettings {
+  border: 1px solid rgba(128, 128, 128, 0.55);
+  list-style-type: none;
+  padding: 10px 15px;
+  width: 350px;
+}
+li.pluginSettings.disabled {
+  background: rgba(128, 128, 128, 0.36);
+}
+li.pluginSettings>div {
+  display: inline-block;
+}
+li.pluginSettings .name {
+  width: 240px;
+}
+li.pluginSettings .name i {
+  font-size: 90%;
+}
+li.pluginSettings .enablePlugin,
+li.pluginSettings .disablePlugin {
+  width: 25px;
+  padding: 0px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+li.pluginSettings .enablePlugin {
+  background: rgba(0, 128, 0, 0.5);
+  margin-right: 10px;
+}
+li.pluginSettings .disablePlugin {
+  background: rgba(194, 54, 54, 0.5);
+}
+
+
 
 /*
   Settings overview

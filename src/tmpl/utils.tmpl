@@ -109,7 +109,7 @@
 
 <script src="/js/initsummernote.js" defer></script>
 
-# end proc
+#end proc
 #
 #
 #
@@ -118,4 +118,18 @@
 # result = ""
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.js" defer></script>
+#end proc
+#
+#
+#
+#  
+#proc genPlugins(c: var TData): string =
+# result = ""
+
+<h1>Plugins</h1>
+
+<ul class="pluginSettings">
+  ${genExtensionSettings()}
+</ul>
+
 #end proc

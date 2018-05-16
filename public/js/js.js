@@ -18,6 +18,27 @@ $(document).ready(function() {
 
 
 /*
+    Plugins
+*/
+
+$(document).ready(function() {
+  $( ".enablePlugin" ).click(function() {
+    var pluginName = $(this).parent("li.pluginSettings").attr("data-plugin");
+    var pluginStatus = $(this).parent("li.pluginSettings").attr("data-enabled");
+    pluginChangeStatus(pluginName, pluginStatus)
+  });
+  $( ".disablePlugin" ).click(function() {
+    var pluginName = $(this).parent("li.pluginSettings").attr("data-plugin");
+    var pluginStatus = $(this).parent("li.pluginSettings").attr("data-enabled");
+    pluginChangeStatus(pluginName, pluginStatus)
+  });
+});
+function pluginChangeStatus(pluginName, pluginStatus) {
+  window.location.href = "/plugins/status?pluginname=" + pluginName + "&status=" + pluginStatus;
+}
+
+
+/*
     Settings
 */
 
