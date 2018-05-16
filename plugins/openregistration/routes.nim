@@ -1,3 +1,9 @@
+  get "/openregistration/settings":
+    createTFD()
+    if c.loggedIn and c.rank in [Admin, Moderator]:
+      resp genMain(c, genUsersRegisterSettings(c))
+
+
   get "/register":
     createTFD()
     if openregistrationCheck():

@@ -1,3 +1,8 @@
+  get "/mailer/settings":
+    createTFD()
+    if c.loggedIn and c.rank in [Admin, Moderator]:
+      resp genMain(c, genMailerSettings(c))
+
   get "/mailer":
     createTFD()
     if c.loggedIn:

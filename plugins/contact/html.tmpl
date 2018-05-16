@@ -7,6 +7,31 @@
 #
 #
 #
+#proc genContactSettings*(c: var TData): string =
+# result = ""
+
+<link rel="stylesheet" href="/css/contact_private.css" />
+
+<div style="text-align: center;">
+  <h1>Contact settings</h1>
+</div>
+
+<div id="contact" style="width: 300px; margin-left: auto; margin-right: auto;">
+
+  <div>----------------------------------------------------------------</div>
+  <div> Package:      $pluginTitle plugin</div>
+  <div> Author:       $pluginAuthor</div>
+  <div> Version:      $pluginVersion</div>
+  <div> Version date: $pluginVersionDate</div>
+  <div>----------------------------------------------------------------</div>
+
+</div>
+
+#end proc
+#
+#
+#
+#
 #proc genContactMain*(c: var TData, db: DbConn, onlyNew = true): string =
 # result = ""
 #

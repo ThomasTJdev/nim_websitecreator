@@ -201,6 +201,8 @@ For the mailer plugin this would be: `proc mailerStart*(db: DbConn) =` . If this
 ### routes.nim
 Includes the URL routes.
 
+It is required to include a route with `/<pluginname>/settings`. This page should show information about the plugin, and if the plugin has any options, which can be changed - this is the place.
+
 
 ### *.js and *.css
 

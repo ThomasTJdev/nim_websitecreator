@@ -57,29 +57,30 @@ routes:
     ## How to compile and restart the program?
 
     createTFD()
-    if c.loggedIn and c.rank in [Admin, Moderator]:
+    if c.loggedIn and c.rank notin [Admin, Moderator]:
+      resp("/error/" & encodeUrl("You are not authorize to access this area"))
 
-      let pluginPath = if @"status" == "false": ("#plugins/" & @"pluginname") else: ("plugins/" & @"pluginname")
+    let pluginPath = if @"status" == "false": ("#plugins/" & @"pluginname") else: ("plugins/" & @"pluginname")
 
-      var newFile = ""
-      for line in lines("plugins/plugin_import.txt"):
-        if line == "":
-          continue
+    var newFile = ""
+    for line in lines("plugins/plugin_import.txt"):
+      if line == "":
+        continue
 
-        if line == pluginPath:
-          if @"status" == "false":
-            newFile.add("plugins/" & @"pluginname")
-          else:
-            newFile.add("#plugins/" & @"pluginname")
-
+      if line == pluginPath:
+        if @"status" == "false":
+          newFile.add("plugins/" & @"pluginname")
         else:
-          newFile.add(line)
+          newFile.add("#plugins/" & @"pluginname")
 
-        newFile.add("\n")
+      else:
+        newFile.add(line)
 
-      writeFile("plugins/plugin_import.txt", newFile)
+      newFile.add("\n")
 
-      redirect("/plugins")
+    writeFile("plugins/plugin_import.txt", newFile)
+
+    redirect("/plugins")
 
 
 

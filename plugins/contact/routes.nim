@@ -1,3 +1,8 @@
+  get "/contact/settings":
+    createTFD()
+    if c.loggedIn and c.rank in [Admin, Moderator]:
+      resp genMain(c, genContactSettings(c))
+  
   get "/contact":
     createTFD()
     resp genMain(c, genContactMain(c, db))
