@@ -177,7 +177,7 @@ macro genExtensionSettings(): untyped =
       extensions.add("disabled\" data-enabled=\"false\"")
 
     extensions.add(">")
-    extensions.add("<div class=\"name\">" & pluginName & " <i>[" & status & "]</i></div>")
+    extensions.add("<div class=\"name\"><a href=\"/" & pluginName & "/settings\">" & pluginName & " <i>[" & status & "]</i></a></div>")
     extensions.add("<div class=\"enablePlugin\">&nbsp;</div>")
     extensions.add("<div class=\"disablePlugin\">&nbsp;</div>")
     extensions.add("</li>")
