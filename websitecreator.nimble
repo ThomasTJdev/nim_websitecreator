@@ -1,11 +1,12 @@
 # Package
-version       = "0.1.1"
+version       = "0.1.2"
 author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev)"
 description   = "Generate and host a website. Run the package and access your new webpage."
 license       = "GPLv3"
 bin           = @["websitecreator"]
-skipDirs      = @["files", "fileslocal", "log", "private", "src", "tmp"]
-skipExt       = @["nim"]
+skipDirs      = @["private"]
+#skipExt       = @["nim"]
+
 
 
 # Dependencies
@@ -25,7 +26,7 @@ task setup, "Generating executable":
   if not fileExists("config/config.cfg"):
     exec "cp config/config_default.cfg config/config.cfg"
   
-  exec "nim c -d:release -d:ssl websitecreator.nim"
+  exec "nim c -d:release websitecreator.nim"
 
 before install:
     setupTask()

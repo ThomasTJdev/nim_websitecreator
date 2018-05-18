@@ -80,8 +80,31 @@ routes:
 
     writeFile("plugins/plugin_import.txt", newFile)
 
-    redirect("/plugins")
+    if @"status" == "false":
+      redirect("/plugins/updating?pluginActivity=" & encodeUrl("installing " & @"pluginname"))
+    else:
+      redirect("/plugins/updating?pluginActivity=" & encodeUrl("uninstalling " & @"pluginname"))
+  
 
+  get "/plugins/updating":
+    createTFD()
+    if c.loggedIn and c.rank notin [Admin, Moderator]:
+      resp("/error/" & encodeUrl("You are not authorize to access this area"))
+      
+    await response.sendHeaders()
+    await response.send("Updating plugins: " & decodeUrl(@"pluginActivity") & "<br>")
+    await response.send("Please wait while the program is compiling ..<br>")
+
+    let output = execCmd("nim c " & checkCompileOptions() & " -o:websitecreator_main_new " & getAppDir() & "/websitecreator_main.nim")
+    if output == 1:
+      echo "\nAn error occured"
+      await response.send("<br><br>An error occured<br>")
+      await response.send("<a href=\"/\">Click here to go to the plugin page</a>")
+    else:
+      echo "\nCompiling done. Starting websitecreator:"
+      await response.send("<br><br>Compiling done. Starting websitecreator<br>")
+      await response.send("<a href=\"/\">Compiling is done, click here to reload</a>")
+    quit()
 
 
 
