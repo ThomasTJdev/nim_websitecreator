@@ -1,8 +1,10 @@
-/*style_darkish.css*/
+/*style_parallax.css*/
 /*
-  Theme: Darkish
+  Theme: Parallax
   Do not change the lines above
   This is the default stylesheet  
+
+  To use this themes parallax features
 */
 
 /*
@@ -13,16 +15,35 @@ html {
 }
 
 body {
-  background: #1c1a33;
+  background: rgb(28, 26, 51);
 }
+body [class*="para_"]:nth-child(2n) {
+  box-shadow: inset 0 0 1em #111;
+}
+body .para {
+  background-attachment: fixed;
+  background-position: top center;
+  background-size: cover;
+  height: 100vh;
+  position: relative;
+}
+/*
+body .para_foo {
+  background-image: url(/images/par1.jpeg);
+}
+body .para_bar {
+  background-image: url(/images/par2.jpeg);
+}
+body .para_baz {
+  background-image: url(/images/par3.jpeg);
+}*/
 
 #pagewrapper {
-  background: #1c1a33;;
+  background: rgb(28, 26, 51);
   width: 100%;
   color: white;
   margin-left: auto;
   margin-right: auto;
-  padding: 0px 20px;
 }
 @media only screen and (max-width: 1200px) {
   #pagewrapper {
@@ -31,18 +52,33 @@ body {
 }
 
 #page {
-  max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 48px;
+  margin-bottom: 96px;
+}
+#page.true {
+  margin-top: 72px;
+}
+@media only screen and (max-width: 768px) {
+  #page {
+    margin-bottom: 0px;
+    margin-top: 35px;
+  }
 }
 
 footer {
   border-top: 1px solid #dee2e6;
-  margin-top: 45px;
   margin-left: auto;
   margin-right: auto;
   padding-top: 15px;
   text-align: center;
+  position: fixed;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  background: rgb(28, 26, 51);
+  z-index: 999;
 }
 footer #footerInside {
   max-width: 1200px;
@@ -54,6 +90,12 @@ footer .footerMiddle,
 footer .footerRight u {
   color:white;
 }
+@media only screen and (max-width: 768px) {
+  footer {
+    position: initial;
+    bottom: auto;
+  }
+}
 
 header {
   display: inline-block;
@@ -62,7 +104,13 @@ header {
 nav#navbar{
   background-color: transparent;
   border-bottom: 1px solid #dee2e6;
-  margin-bottom: 15px;
+  display: block;
+  z-index: 999;
+  background: #1c1a33;
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+  top: 0;
 }
 nav#navbar #navbarInside {
   max-width: 1200px;
@@ -78,6 +126,9 @@ nav#navbar a.nav-link {
 nav#navbar .navbar-toggler {
   border: none;
 }
+nav#navbar .navbar-toggler-icon {
+  border: 1px solid white;
+}
 @media only screen and (min-width: 768px) {
   nav#navbar {
     display: block;
@@ -86,6 +137,11 @@ nav#navbar .navbar-toggler {
 
 
 /* Navbar settings */
+div#navbarSettings {
+  z-index: 1000;
+  top: 0;
+  position: fixed;
+}
 div#navbarSettings a {
   color: white;
 }
@@ -172,11 +228,12 @@ li.pluginSettings.enabled {
 li.pluginSettings.disabled {
   background: rgba(128, 128, 128, 0.36);
 }
-li.pluginSettings>div {
+li.pluginSettings&gt;div {
   display: inline-block;
 }
 li.pluginSettings .name {
   width: 240px;
+  display: inline;
 }
 li.pluginSettings .name i {
   font-size: 90%;
@@ -384,6 +441,7 @@ div#newblogData {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
+  padding-top: 20px;
 }
 div#newblogData input {
   border: none;

@@ -558,7 +558,7 @@ routes:
       redirect("/")
   
 
-  get re"/p/*.":
+  get re"/p/.*":
     createTFD()
     let urlName = c.req.path.replace("/p/", "")
     resp genPage(c, urlName)

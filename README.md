@@ -213,6 +213,8 @@ The files will be renamed to `mailer<_private>.js` and `mailer<_private>.css`.
 A `<link>` and a `<script>` tag will be appended to the all pages, if `js.js` or `style.css` contains text.
 
 
+## Available plugins
+
 ### Plugin: Backup
 
 Create an instant backup file. Schedule continuously backups. Download backups.

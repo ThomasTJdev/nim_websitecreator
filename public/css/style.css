@@ -156,6 +156,7 @@ li.pluginSettings>div {
   display: inline-block;
 }
 li.pluginSettings .name {
+  display: inline;
   width: 240px;
 }
 li.pluginSettings .name i {

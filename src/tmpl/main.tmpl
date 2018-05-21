@@ -10,7 +10,7 @@
 # result = "" 
 #
 # let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
-#
+# let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
 <html lang="EN">
 <head>
@@ -38,7 +38,7 @@ ${extensionCss()}
     </header>
 
     <main>
-      <div id="page">
+      <div id="page" class="$loggedIn">
         $data
       </div>
     </main>
@@ -84,7 +84,7 @@ ${extensionCss()}
 # end if
 #
 # let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer FROM pages WHERE url = ? AND status IN (" & status & ")"), urlName)
-#
+# let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
 <html lang="EN">
 
@@ -120,7 +120,7 @@ ${extensionCss()}
     </header>
 
     <main>
-      <div id="page">
+      <div id="page" class="$loggedIn">
         ${pageData[4]}
       </div>
     </main>
@@ -156,7 +156,7 @@ ${extensionCss()}
 # end if
 #
 # let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, status FROM blog WHERE url = ? AND status IN (" & status & ")"), urlName)
-
+# let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
 <html lang="EN">
 
@@ -193,7 +193,7 @@ ${extensionCss()}
     </header>
 
     <main>
-      <div id="page">
+      <div id="page" class="$loggedIn">
         ${pageData[4]}
       </div>
     </main>
