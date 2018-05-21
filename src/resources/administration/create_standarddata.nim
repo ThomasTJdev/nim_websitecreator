@@ -47,22 +47,22 @@ const navbar* = """
 const footer* = """
 <div class="container-fluid">
   <div class="row">
-    <div class="col-12 col-md-3">
+    <div class="col-12 col-md-3 footerLeft">
       <h5>
         Copyright
       </h5>
       <p>
-        <p>&#169; 2018 - <a href="https://ttj.dk" style="color: black;"><u>Thomas T. Jarløv</u></a></p>
+        <p>&#169; 2018 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a></p>
       </p>
     </div>
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-6 footerMiddle">
     </div>
-    <div class="col-12 col-md-3">
+    <div class="col-12 col-md-3 footerRight">
       <h5>
         Nim Website Creator
       </h5>
       <p>
-        <p>License: GPLv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator" style="color: black;"><u>Github</u></a></p>
+        <p>License: GPLv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></p>
       </p>
     </div>
   </div>

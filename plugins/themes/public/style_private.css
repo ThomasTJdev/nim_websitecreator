@@ -1,0 +1,37 @@
+/* This plugin style_private.css file will be added to the public folder, but no automated import of the file will be generated */
+
+div#themes {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+div#themes li.stylesheet a {
+  margin-right: 10px;
+}
+div#themes li.stylesheet.active {
+  background: rgba(13, 155, 13, 0.27);
+}
+div#themes li.stylesheet.active a:hover {
+  text-decoration: none;
+  cursor: default;
+}
+div#themes li.stylesheet.active a.update {
+  float: right;
+}
+div#themes ul.stylesheet {
+  padding: 0px;
+}
+div#themes li.stylesheet {
+  border: 1px solid rgba(128, 128, 128, 0.55);
+  list-style-type: none;
+  padding: 10px 15px;
+  width: 100%;
+}
+div#themes form.stylesheet {
+  margin-bottom: 20px;
+}
+div#themes form.stylesheet i,
+div#themes form.stylesheet label {
+  display: block;
+}

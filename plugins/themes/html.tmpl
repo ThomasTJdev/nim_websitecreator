@@ -1,0 +1,78 @@
+#? stdtmpl | standard
+#
+#template `%`(idx: untyped): untyped =
+#  row[idx]
+#end template
+#
+#
+#
+#proc genThemesSettings*(c: var TData, msg = ""): string =
+# result = ""
+
+<link rel="stylesheet" href="/css/themes_private.css">
+
+# if msg != "":
+<div style="color: red">
+  $msg
+</div>
+# end if
+
+<div id="themes">
+  <div>
+    <h1>Themes settings</h1>
+  </div>
+  
+  <div id="themesFront" style="width: 300px; margin-right: auto;">
+  
+    <div>----------------------------------------------------------------</div>
+    <div> Package:      $pluginTitle plugin</div>
+    <div> Author:       $pluginAuthor</div>
+    <div> Version:      $pluginVersion</div>
+    <div> Version date: $pluginVersionDate</div>
+    <div>----------------------------------------------------------------</div>
+  
+  </div>
+
+  <form class="stylesheet" method="get" action="/themes/newsheet">
+    <label>New stylesheet name</label>
+    <input name="stylesheetname" required />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <i>This will save your current style.css under new template name</i>
+  </form>
+
+  <ul class="stylesheet">
+
+#   let currentStylesheet = currentStylesheet()      
+#
+#   # Add default stylesheet
+#   if currentStylesheet == "style.css":
+      <li class="stylesheet active"><a href="#!">Active</a><span>style.css (default)</span><a class="update" href="/themes/update?stylesheetname=style.css">Update</a></li>
+#   else:
+      <li class="stylesheet"><a href="/themes/apply?stylesheetname=style.css">Apply</a><span>style.css (default)</span></li>
+#   end if
+#
+#   var defaultSheet = false
+#   for plugin in walkDir("plugins/themes/stylesheets/"):
+#     let (pd, ppath) = plugin
+#     discard pd
+#     let pluginName = replace(ppath, "plugins/themes/stylesheets/", "")
+#
+#     if pluginName == "style.css":
+#       continue
+#     end if
+#     
+#     if pluginName == currentStylesheet:
+        <li class="stylesheet active"><a href="#!">Active</a><span>$pluginName</span><a class="update" href="/themes/update?stylesheetname=$pluginName">Update</a></li>
+#     else:
+        <li class="stylesheet"><a href="/themes/apply?stylesheetname=$pluginName">Apply</a><span>$pluginName</span></li>
+#     end if
+        
+#   end for
+  </ul>
+  
+  <div>
+    <i>If you update the template stylesheet will be overridden with your current css sheet.</i>
+  </div>
+</div>
+
+#end proc
