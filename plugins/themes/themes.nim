@@ -7,7 +7,8 @@ import
   os,
   osproc,
   parseCfg,
-  strutils
+  strutils,
+  uri
 
 
 import ../../src/resources/email/email_registration
@@ -37,6 +38,10 @@ pluginInfo()
 
 
 proc currentStylesheet*(): string =
+  ## Get the name of the current stylesheet (style.css)
+  ## The first line in style.css will be read, and the
+  ## first 2 and last 2 chars will be removed
+  
   let stylesheet = open("public/css/style.css", fmRead)
   let currentSheetLine = readLine(stylesheet)
   return currentSheetLine.substr(2, currentSheetLine.len() - 3)

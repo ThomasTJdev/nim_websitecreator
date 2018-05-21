@@ -114,6 +114,10 @@ proc epochDate*(epochTime, format: string, timeZone = "0"): string =
       let toTime = $(utc(fromUnix(parseInt(epochTime))) + initInterval(hours=parseInt(timeZone)))
       return toTime.substr(0, 3)
 
+    of "YYYY_MM_DD-HH_mm":
+      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initInterval(hours=parseInt(timeZone)))
+      return toTime.substr(0, 3) & "_" & toTime.substr(5, 6) & "_" & toTime.substr(8, 9) & "-" & toTime.substr(11, 12) & "_" & toTime.substr(14, 15)
+
     of "YYYY MM DD":
       let toTime = $(utc(fromUnix(parseInt(epochTime))) + initInterval(hours=parseInt(timeZone)))
       return toTime.substr(0, 3) & " " & toTime.substr(5, 6) & " " & toTime.substr(8, 9)
