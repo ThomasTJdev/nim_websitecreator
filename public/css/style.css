@@ -1,3 +1,10 @@
+/*style.css*/
+/*
+  Theme: Blue
+  Do not change the lines above
+  This is the default stylesheet  
+*/
+
 /*
   Main elements
 */
@@ -32,6 +39,11 @@ footer {
   margin-right: auto;
   padding-top: 15px;
   text-align: center;
+}
+footer .footerLeft u,
+footer .footerMiddle,
+footer .footerRight u {
+  color: black;
 }
 
 header {
@@ -127,6 +139,9 @@ div#login {
 */
 ul.pluginSettings {
   padding-left: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 350px;
 }
 li.pluginSettings {
   border: 1px solid rgba(128, 128, 128, 0.55);
@@ -148,17 +163,23 @@ li.pluginSettings .name i {
 }
 li.pluginSettings .enablePlugin,
 li.pluginSettings .disablePlugin {
-  width: 25px;
-  padding: 0px 15px;
   border-radius: 10px;
   cursor: pointer;
+  float: right;
+  padding: 0px 15px;
+  width: 25px;
 }
 li.pluginSettings .enablePlugin {
   background: rgba(0, 128, 0, 0.5);
-  margin-right: 10px;
+}
+li.pluginSettings.enabled .enablePlugin {
+  display: none;
 }
 li.pluginSettings .disablePlugin {
   background: rgba(194, 54, 54, 0.5);
+}
+li.pluginSettings.disabled .disablePlugin {
+  display: none;
 }
 
 
@@ -184,6 +205,11 @@ div#settings .btn {
 /*
   Settings page
 */
+div#settingsEdit {
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+}
 div#settingsEdit input {
   border: none;
   border-bottom: 1px solid grey;
@@ -221,6 +247,12 @@ button.settingsRestore {
 /*
   Files
 */
+div#fileAddContainer,
+div#files {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
 div#fileAddContainer {
   margin-bottom: 20px;
 }
@@ -247,6 +279,11 @@ div#files span a {
 /*
   Users
 */
+div#users {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
 div#users span a.delete {
   color: white;
 }
@@ -274,8 +311,15 @@ div#users select {
 /*
   Users profile
 */
+div#user {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
 div#user label {
   width: 200px;
+  margin-bottom: 0px;
+  margin-top: .5rem;
 }
 div#user #editProfilePhoto {
   border-radius: 2px;
@@ -285,13 +329,6 @@ div#user #editProfilePhoto {
   max-width: 406px;
   padding: 5px 2px;
   text-align: center;
-}
-div#user div.save {
-  max-width: 406px;
-  text-align: right;
-}
-div#user button.save {
-  margin-right: 75px;
 }
 @media only screen and (max-width: 768px) {
 
@@ -315,7 +352,9 @@ div#user button.save {
   New blog post
 */
 div#newblogData {
-  padding: 0px 70px;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
 }
 div#newblogData input {
   border: none;

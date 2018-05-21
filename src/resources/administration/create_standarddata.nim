@@ -23,47 +23,51 @@ const head* = """
 
 const navbar* = """
 <nav id="navbar" class="navbar navbar-expand-md navbar-light">
-  <a class="navbar-brand" href="/">Nim Website Creator</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="collapsibleNavbar">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="/">Frontpage</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/blog">Blog</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/p/about">About</a>
-      </li>
-    </ul>
+  <div id="navbarInside">
+    <a class="navbar-brand" href="/">Nim Website Creator</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Frontpage</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/p/about">About</a>
+        </li>
+      </ul>
+    </div>
   </div>
 </nav>
 """
 
 
 const footer* = """
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-12 col-md-3 footerLeft">
-      <h5>
-        Copyright
-      </h5>
-      <p>
-        <p>&#169; 2018 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a></p>
-      </p>
-    </div>
-    <div class="col-12 col-md-6 footerMiddle">
-    </div>
-    <div class="col-12 col-md-3 footerRight">
-      <h5>
-        Nim Website Creator
-      </h5>
-      <p>
-        <p>License: GPLv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></p>
-      </p>
+<div id="footerInside">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12 col-md-3 footerLeft">
+        <h5>
+          Copyright
+        </h5>
+        <p>
+          <p>&#169; 2018 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a></p>
+        </p>
+      </div>
+      <div class="col-12 col-md-6 footerMiddle">
+      </div>
+      <div class="col-12 col-md-3 footerRight">
+        <h5>
+          Nim Website Creator
+        </h5>
+        <p>
+          <p>License: GPLv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></p>
+        </p>
+      </div>
     </div>
   </div>
 </div>
