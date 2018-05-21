@@ -213,6 +213,13 @@ The files will be renamed to `mailer<_private>.js` and `mailer<_private>.css`.
 A `<link>` and a `<script>` tag will be appended to the all pages, if `js.js` or `style.css` contains text.
 
 
+### Plugin: Backup
+
+Create an instant backup file. Schedule continuously backups. Download backups.
+
+You can access the plugin at `/backup`.
+
+
 ### Plugin: Mailer
 
 Add mailselements containing subject, description and a date for sending the mail. Every 12th hour a cronjob will run to check, if it is time to send the mail.
@@ -234,3 +241,10 @@ You can access the plugin at `/contact`. This link can be added to the navbar ma
 Opens up for public registration. Anyone can register an account and get a user with user role "User".
 
 You can access the plugin at `/register`.
+
+
+### Plugin: Themes
+
+Switch between themes. Save custom themes from the browser.
+
+You can access the plugin at `/themes`.
