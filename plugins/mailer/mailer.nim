@@ -133,7 +133,7 @@ proc mailerStart*(db: DbConn) =
 
   dbg("INFO", "Mailer plugin: Updating database with Mailer table if not exists")
   
-  if db.tryExec(sql"""
+  if not db.tryExec(sql"""
   create table if not exists mailer(
     id INTEGER primary key,
     author_id INTEGER NOT NULL,
