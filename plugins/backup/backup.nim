@@ -64,7 +64,7 @@ proc cronBackup*(db: DbConn) {.async.} =
     let backupmodified = getValue(db, sql"SELECT modified FROM backup WHERE id = ?", "1")
     let backuptime = getValue(db, sql"SELECT backuptime FROM backup WHERE id = ?", "1")
 
-    if backuptime == "" or backuptime == "":
+    if backuptime == "" or backuptime == "0":
       runBackup = false
       dbg("DEBUG", "Backup plugin: No backuptime specified. Quitting loop.")
 

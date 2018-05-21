@@ -36,6 +36,8 @@ proc checkCompileOptions(): string =
     result.add(" -d:devemailon")
   when defined(demo):
     result.add(" -d:demo")
+
+  return result
   
 let compileOptions = checkCompileOptions()
 

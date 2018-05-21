@@ -57,8 +57,11 @@ routes:
     ## How to compile and restart the program?
 
     createTFD()
-    if c.loggedIn and c.rank notin [Admin, Moderator]:
-      resp("/error/" & encodeUrl("You are not authorize to access this area"))
+    when defined(demo):
+      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+
+    if not c.loggedIn or c.rank notin [Admin, Moderator]:
+      resp("/error/" & encodeUrl("You are not authorized to access this area"))
 
     let pluginPath = if @"status" == "false": ("#plugins/" & @"pluginname") else: ("plugins/" & @"pluginname")
 
@@ -88,8 +91,11 @@ routes:
 
   get "/plugins/updating":
     createTFD()
-    if c.loggedIn and c.rank notin [Admin, Moderator]:
-      resp("/error/" & encodeUrl("You are not authorize to access this area"))
+    when defined(demo):
+      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+
+    if not c.loggedIn or c.rank notin [Admin, Moderator]:
+      resp("/error/" & encodeUrl("You are not authorized to access this area"))
       
     await response.sendHeaders()
     await response.send("Updating plugins: " & decodeUrl(@"pluginActivity") & "<br>")
@@ -126,12 +132,18 @@ routes:
 
   get "/settings/editrestore":
     createTFD()
+    when defined(demo):
+      redirect("/error/" & encodeUrl("Error: The test user can not change the main settings"))
+
     if c.loggedIn and c.rank in [Admin, Moderator]:
       standardDataSettings(db)
       redirect("/settings/edit")
 
   post "/settings/update":
     createTFD()
+    when defined(demo):
+      redirect("/error/" & encodeUrl("Error: The test user can not change the main settings"))
+
     if c.loggedIn and c.rank in [Admin, Moderator]:  
       discard execAffectedRows(db, sql"UPDATE settings SET title = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", @"title", @"head", @"navbar", @"footer", "1")
       redirect("/settings/edit")
@@ -143,6 +155,9 @@ routes:
 
   post "/settings/updatejs":
     createTFD()
+    when defined(demo):
+      redirect("/error/" & encodeUrl("Error: The test user can not change the main settings"))
+
     if c.loggedIn and c.rank in [Admin, Moderator]:  
       try:
         writeFile("public/js/js.js", @"js")
@@ -157,6 +172,9 @@ routes:
 
   post "/settings/updatecss":
     createTFD()
+    when defined(demo):
+      redirect("/error/" & encodeUrl("Error: The test user can not change the main settings"))
+      
     if c.loggedIn and c.rank in [Admin, Moderator]:  
       try:
         writeFile("public/css/style.css", @"css")
@@ -484,7 +502,7 @@ routes:
       let urlName = c.req.path.replace("/editpage/blog/", "")
       
       when defined(demo):
-        if urlName == "frontpage":
+        if urlName == "frontpage" or urlName == "about":
           redirect("/editpage/blogallpages")
           
       resp genMain(c, genEditBlog(c, urlName), "edit")

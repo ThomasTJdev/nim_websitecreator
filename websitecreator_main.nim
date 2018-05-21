@@ -605,7 +605,17 @@ __________________________________________________]#
 when defined(demo):
   proc emptyDB(db: DbConn) {.async.} =
     await sleepAsync((60*10) * 1000)
-    createStandardData(db)
+    var standarddata = true
+    when defined(demoloadbackup):
+      standarddata = false
+      let execOutput = execCmd("cp data/website.bak.db data/website.db")
+      if execOutput != 0:
+        dbg("ERROR", "emptyDB(): Error backing up the database")
+        await sleepAsync(2000)
+        discard execCmd("cp data/website.bak.db data/website.db")
+
+    if standarddata:
+      createStandardData(db)
 
 
 
@@ -679,6 +689,8 @@ when isMainModule:
   when defined(demo):
     dbg("INFO", "Demo option is activated")
     echo "  Demo option is activated"
+    when defined(demoloadbackup):
+      discard execCmd("cp data/website.db data/website.bak.db")
     createTestUser(db)
     asyncCheck emptyDB(db)
 

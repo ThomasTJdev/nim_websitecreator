@@ -90,6 +90,7 @@ nim c -d:release -d:ssl websitecreator.nim
 * `-d:dev` = Development
 * `-d:devemailon` = Send email when `-d:dev` is activated
 * `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org)
+* `-d:demoloadbackup` = Used with -d:demo. This option will create a backup of the empty database and override the database each hour. You can customize the page and make a copy of the database and naming it `website.bak.db`, then it will be used by this feature.
 
 
 ## User profiles
