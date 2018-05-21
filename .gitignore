@@ -9,6 +9,10 @@ nimcache
 nimcache/*
 private/*
 public/files/*
+public/css/backup.css
+public/js/backup.js
+public/css/backup_private.css
+public/js/backup_private.js
 public/css/contact.css
 public/js/contact.js
 public/css/contact_private.css
@@ -21,9 +25,12 @@ public/css/openregistration.css
 public/js/openregistration.js
 public/css/openregistration_private.css
 public/js/openregistration_private.js
+public/css/themes_private.css
+plugins/themes/stylesheets/style.css
 tmp
 TODO.md
 websitecreator
+websitecreator_main
 website_rt11
 
 # Allow
