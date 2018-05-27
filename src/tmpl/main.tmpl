@@ -50,10 +50,12 @@ ${extensionCss()}
 
 #     if pageAction == "edit":
         ${genSummernoteHtml()}
+#     elif pageAction == "edithtml":
+        ${genEditHtml()}
 #     elif pageAction == "editjs":
-        ${genSummernoteJs()}
+        ${genEditJs()}
 #     elif pageAction == "editcss":
-        ${genSummernoteCss()}
+        ${genEditCss()}
 #     elif pageAction == "users":
         ${genProfileJsCss()}
 #     end if

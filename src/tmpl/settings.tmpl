@@ -101,14 +101,14 @@
 
 <div id="settingsEdit">
   <h1>Main settings</h1>
-  <form method="post" action="/settings/update">
+  <form class="standard settings" method="post" action="/settings/update">
     <div>
       <label>Title</label>
       <input name="title" id="title" required value="${page[4]}" />
     </div>
     <div style="display: inline-flex;">
       <div>
-        <button class="btn btn-success settingsSave">Save</button>
+        <button type="submit" class="btn btn-success settingsSave">Save</button>
       </div>
       <div>
         <button type="button" class="btn btn-danger settingsRestore">Restore</button>
@@ -119,25 +119,25 @@
       <div>HTML &lt;head&gt;</div>
       <a href="#!" class="templateCode" data-code="head" style="display: none;">See template</a>
       <pre class="templateCode templateCodehead" style="display: none;">${xmlEncode(head)}</pre>
-      <textarea name="head" id="summernoteSettings1" class="summernoteSettings" >${page[1]}</textarea>
+      <textarea name="head" id="htmlSettings1" class="summernoteSettings" >${page[1]}</textarea>
     </div>
     <br>
     <div>
       <div>HTML &lt;header&gt; + &lt;navbar&gt;</div>
       <a href="#!" class="templateCode" data-code="navbar" style="display: none;">See template</a>
       <pre class="templateCode templateCodenavbar" style="display: none;">${xmlEncode(navbar)}</pre>
-      <textarea name="navbar" id="summernoteSettings2" class="summernoteSettings" >${page[2]}</textarea>
+      <textarea name="navbar" id="htmlSettings2" class="summernoteSettings" >${page[2]}</textarea>
     </div>
     <br>
     <div>
       <div>HTML &lt;footer&gt;</div>
       <a href="#!" class="templateCode" data-code="footer" style="display: none;">See template</a>
       <pre class="templateCode templateCodefooter" style="display: none;">${xmlEncode(footer)}</pre>
-      <textarea name="footer" id="summernoteSettings3" class="summernoteSettings" >${page[3]}</textarea>
+      <textarea name="footer" id="htmlSettings3" class="summernoteSettings" >${page[3]}</textarea>
     </div>
     <div style="display: inline-flex;">
       <div>
-        <button class="btn btn-success settingsSave">Save</button>
+        <button type="submit" class="btn btn-success settingsSave">Save</button>
       </div>
       <div>
         <button type="button" class="btn btn-danger settingsRestore">Restore</button>
@@ -147,6 +147,9 @@
   
 </div>
 
+<div id="notifySaved">
+  Saved HTML
+</div>
 # end for
 #end proc
 #
@@ -156,27 +159,35 @@
 #
 #proc genSettingsEditJs(c: var TData): string =
 # result = ""
-
+<style>
+  .CodeMirror {
+    border: 1px solid #eee;
+    height: auto!important;
+  }
+</style>
 <div id="settingsEdit">
   <h1>Edit main JS file</h1>
   <h4>/js/js.js</h4>
-  <form method="post" action="/settings/updatejs">
+  <form class="standard settings" method="post" action="/settings/updatejs">
     <div>
-      <button class="btn btn-success settingsSaveCode" style="margin-bottom: 5px;">Save</button>
+      <button type="submit" class="btn btn-success settingsSaveCode" style="margin-bottom: 5px;">Save</button>
     </div>
     <div>
-      <textarea name="js" id="summernoteSettingsCode" >
+      <textarea name="js" id="settingsCode" >
 # for line in lines("public/js/js.js"):
 $line
 # end for
       </textarea>
     </div>
     <div>
-      <button class="btn btn-success settingsSaveCode">Save</button>
+      <button type="submit" class="btn btn-success settingsSaveCode">Save</button>
     </div>
   </form>   
 </div>
 
+<div id="notifySaved">
+  Saved JS
+</div>
 #end proc
 #
 #
@@ -185,25 +196,33 @@ $line
 #
 #proc genSettingsEditCss(c: var TData): string =
 # result = ""
-
+<style>
+  .CodeMirror {
+    border: 1px solid #eee;
+    height: auto!important;
+  }
+</style>
 <div id="settingsEdit">
   <h1>Edit main CSS file</h1>
   <h4>/css/style.css</h4>
-  <form method="post" action="/settings/updatecss">
+  <form class="standard settings" method="post" action="/settings/updatecss">
     <div>
-      <button class="btn btn-success settingsSaveCode" style="margin-bottom: 5px;">Save</button>
+      <button type="submit" class="btn btn-success settingsSaveCode" style="margin-bottom: 5px;">Save</button>
     </div>
     <div>
-      <textarea name="css" id="summernoteSettingsCode" >
+      <textarea name="css" id="settingsCode" >
 # for line in lines("public/css/style.css"):
 $line
 # end for
       </textarea>
     </div>
     <div>
-      <button class="btn btn-success settingsSaveCode">Save</button>
+      <button type="submit" class="btn btn-success settingsSaveCode">Save</button>
     </div>
   </form>   
 </div>
 
+<div id="notifySaved">
+  Saved CSS
+</div>
 #end proc

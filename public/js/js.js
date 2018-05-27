@@ -1,16 +1,4 @@
 /*
-    Submit form
-    - Disable codeview to get container data
-*/
-$(function() {
-  $( ".newblogSave" ).click(function() {
-    $(".btn-codeview").click();
-    $("#newblogData form").submit();
-  });
-});
-
-
-/*
     New blog post
 */
 

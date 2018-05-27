@@ -45,8 +45,6 @@ when not defined(dev):
   dbg("INFO", "Symlinking " & temp & " to files/efs")
   discard execCmd("ln -sf " & temp & "/* " & appDir & "/files/efs/")
   
-  #echo "ln -sf " & temp & "/* " & appDir & "/files/efs/"
-
 
 let storageEFS* = "files/efs"
 

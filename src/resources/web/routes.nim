@@ -57,7 +57,7 @@ routes:
     ## How to compile and restart the program?
 
     createTFD()
-    when defined(demo):
+    if c.rank != Admin and defined(demo):
       resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
 
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
@@ -91,7 +91,7 @@ routes:
 
   get "/plugins/updating":
     createTFD()
-    when defined(demo):
+    if c.rank != Admin and defined(demo):
       resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
 
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
@@ -128,11 +128,11 @@ routes:
   get "/settings/edit":
     createTFD()
     if c.loggedIn and c.rank in [Admin, Moderator]:  
-      resp genMain(c, genSettingsEdit(c), "edit")
+      resp genMain(c, genSettingsEdit(c), "edithtml")
 
   get "/settings/editrestore":
     createTFD()
-    when defined(demo):
+    if c.rank != Admin and defined(demo):
       redirect("/error/" & encodeUrl("Error: The test user can not change the main settings"))
 
     if c.loggedIn and c.rank in [Admin, Moderator]:
@@ -141,11 +141,13 @@ routes:
 
   post "/settings/update":
     createTFD()
-    when defined(demo):
+    if c.rank != Admin and defined(demo):
       redirect("/error/" & encodeUrl("Error: The test user can not change the main settings"))
 
     if c.loggedIn and c.rank in [Admin, Moderator]:  
       discard execAffectedRows(db, sql"UPDATE settings SET title = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", @"title", @"head", @"navbar", @"footer", "1")
+      if @"inbackground" == "true":
+        resp("OK")
       redirect("/settings/edit")
 
   get "/settings/editjs":
@@ -155,12 +157,14 @@ routes:
 
   post "/settings/updatejs":
     createTFD()
-    when defined(demo):
+    if c.rank != Admin and defined(demo):
       redirect("/error/" & encodeUrl("Error: The test user can not change the main settings"))
 
     if c.loggedIn and c.rank in [Admin, Moderator]:  
       try:
         writeFile("public/js/js.js", @"js")
+        if @"inbackground" == "true":
+          resp("OK")
         redirect("/settings/editjs")
       except:
         resp "Error"
@@ -172,12 +176,14 @@ routes:
 
   post "/settings/updatecss":
     createTFD()
-    when defined(demo):
+    if c.rank != Admin and defined(demo):
       redirect("/error/" & encodeUrl("Error: The test user can not change the main settings"))
       
     if c.loggedIn and c.rank in [Admin, Moderator]:  
       try:
         writeFile("public/css/style.css", @"css")
+        if @"inbackground" == "true":
+          resp("OK")
         redirect("/settings/editcss")
       except:
         resp "Error"
@@ -213,10 +219,10 @@ routes:
     if @"access" == "private":
       if not c.loggedIn:
         resp("Error: You are not authorized")
-      filepath = "files/efs/files/private/" & filename
+      filepath = storageEFS & "/files/private/" & filename
 
     else:
-      filepath = "files/efs/files/public/" & filename
+      filepath = storageEFS & "/files/public/" & filename
 
     if not fileExists(filepath):
       resp("Error: File was not found")
@@ -242,7 +248,7 @@ routes:
 
     createTFD()
     if c.loggedIn and c.rank in [Admin, Moderator]:
-      when defined(demo):
+      if c.rank != Admin and defined(demo):
         if c.email == "test@test.com":
           resp("Error: The test user can not upload files")
           
@@ -301,7 +307,7 @@ routes:
   post "/users/profile/update":
     createTFD()
     if c.loggedIn:
-      when defined(demo):
+      if c.rank != Admin and defined(demo):
         if c.email == "test@test.com":
           redirect("/error/" & encodeUrl("Error: The test user can not change profile settings"))
 
@@ -329,7 +335,7 @@ routes:
   get "/users/delete/@userID":
     createTFD()
     if c.loggedIn and c.rank in [Admin, Moderator]:
-      when defined(demo):
+      if c.rank != Admin and defined(demo):
         if c.email == "test@test.com":
           redirect("/error/" & encodeUrl("Error: The test user can not delete users"))
 
@@ -356,7 +362,7 @@ routes:
   post "/users/add":
     createTFD()
     if c.loggedIn and c.rank in [Admin, Moderator]:
-      when defined(demo):
+      if c.rank != Admin and defined(demo):
         if c.email == "test@test.com":
           redirect("/error/" & encodeUrl("Error: The test user can not add new users"))
 
@@ -479,6 +485,9 @@ routes:
       let url = urlEncoderCustom(@"url")
       let urloriginal = urlEncoderCustom(@"urloriginal")
       discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE url = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", urloriginal)
+
+      if @"inbackground" == "true":
+        resp("OK")
       redirect("/editpage/blog/" & @"url")
 
 
@@ -501,7 +510,7 @@ routes:
     if c.loggedIn and c.rank in [Admin, Moderator]:  
       let urlName = c.req.path.replace("/editpage/blog/", "")
       
-      when defined(demo):
+      if c.rank != Admin and defined(demo):
         if urlName == "frontpage" or urlName == "about":
           redirect("/editpage/blogallpages")
           
@@ -563,6 +572,9 @@ routes:
       let url = urlEncoderCustom(@"url")
       let urloriginal = urlEncoderCustom(@"urloriginal")
       discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE url = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", urloriginal)
+
+      if @"inbackground" == "true":
+        resp("OK")
       redirect("/editpage/page/" & @"url")
 
 

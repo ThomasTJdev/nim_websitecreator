@@ -15,8 +15,14 @@
 
 # if pageData.len() > 0:
 #   for page in pageData:
+<style>
+  .CodeMirror {
+    border: 1px solid #eee;
+    height: auto!important;
+  }
+</style>
 <div id="newblogData">
-  <form method="post" action="/blogpage/update">
+  <form class="standard page" method="post" action="/blogpage/update">
     <input name="urloriginal" value="$urlName" style="display: none" />
     <div>
       <label>Name</label>
@@ -83,6 +89,10 @@
   <br>
   <a href="/blogpage/delete?url=${page[8]}" class="btn btn-danger newblogSave">Delete blogpost</a>
 
+</div>
+
+<div id="notifySaved">
+  Saved blog
 </div>
 #   end for
 # else:
