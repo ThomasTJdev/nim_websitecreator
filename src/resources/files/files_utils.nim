@@ -6,30 +6,21 @@ import ../files/files_efs
 
 proc filesListPrivate*(): seq[string] =
   ## Get all filenames for project files
-  var filenames: seq[string] = @[""]
+  result = @[]
 
   for file in walkFiles(storageEFS & "/files/private/*.*"):
-    filenames.add(file)
-
-  return filenames
-
-
+    result.add(file)
 
 proc filesListPublic*(): seq[string] =
   ## Get all filenames for project files
-  var filenames: seq[string] = @[""]
+  result = @[]
 
   for file in walkFiles(storageEFS & "/files/public/*.*"):
-    filenames.add(file)
-
-  return filenames
-
+    result.add(file)
 
 proc filesListPublicFolder*(): seq[string] =
   ## Get all filenames for project files
-  var filenames: seq[string] = @[""]
+  result = @[]
 
   for file in walkFiles("public/files/*.*"):
-    filenames.add(file)
-
-  return filenames
+    result.add(file)
