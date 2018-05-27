@@ -8,7 +8,7 @@ proc makeSalt*(): string =
   ## Generate random salt. Uses cryptographically secure /dev/urandom
   ## on platforms where it is available, and Nim's random module in other cases.
   result = ""
-  if not useUrandom:
+  if useUrandom:
     var randomBytes: array[0..127, char]
     discard urandom.readBuffer(addr(randomBytes), 128)
     for ch in randomBytes:
