@@ -27,7 +27,7 @@ proc currentDatetime*(formatting: string): string=
 
 
 
-proc getDaysInMonthU*(month, year: int): int=
+proc getDaysInMonthU*(month, year: int): int =
   ## Gets the number of days in the month and year
   ##
   ## Examples:
@@ -35,35 +35,12 @@ proc getDaysInMonthU*(month, year: int): int=
   runnableExamples:
     doAssert getDaysInMonthU(02, 2018) == 28
     doAssert getDaysInMonthU(10, 2020) == 31
-
-  case month
-  of 01:
-    return getDaysInMonth(mJan, year)
-  of 02:
-    return getDaysInMonth(mFeb, year)
-  of 03:
-    return getDaysInMonth(mMar, year)
-  of 04:
-    return getDaysInMonth(mApr, year)
-  of 05:
-    return getDaysInMonth(mMay, year)
-  of 06:
-    return getDaysInMonth(mJun, year)
-  of 07:
-    return getDaysInMonth(mJul, year)
-  of 08:
-    return getDaysInMonth(mAug, year)
-  of 09:
-    return getDaysInMonth(mSep, year)
-  of 10:
-    return getDaysInMonth(mOct, year)
-  of 11:
-    return getDaysInMonth(mNov, year)
-  of 12:
-    return getDaysInMonth(mDec, year)
-  else:
+  if month notin {1..12}:
     dbg("WARNING", "getDaysInMonthU() wrong format input")
     discard
+  else:
+    result = getDaysInMonth(Month(month), year)
+
 
 
 
