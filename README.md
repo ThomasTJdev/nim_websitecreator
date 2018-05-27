@@ -25,6 +25,28 @@ Online test page: [Nim Website Creator](https://nimwc.org)
   - bcrypt >= 0.2.1
 
 
+## Upgrading to 1.0.4
+*Inspired by https://github.com/nim-lang/nimforum/*
+
+Sessions is now used. Therefore, you need to make som changes to your database. This is only applicable if your database is created in versions below 1.0.4.
+
+In the session table password has been renamed to key - this is essential. In the person table the VARCHAR length has been expanded to 300 from 110 - this is optional.
+
+```
+cd data
+echo '.dump' | sqlite3 website.db > upgrade.dump
+# Find and change:
+# 1a) password varchar(110) not null
+# to
+# 1b) password varchar(300) not null,
+#
+# 2a) password $# not null,
+# to
+# 2b) key $# not null,
+cat upgrade.dump | sqlite3 website.db
+```
+
+
 ## Compiling / Installing
 
 To compile and install you need [Nim](https://nim-lang.org/). You can easily install Nim using [choosenim](https://nim-lang.org/install_unix.html) with:

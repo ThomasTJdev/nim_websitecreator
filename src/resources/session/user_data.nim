@@ -10,15 +10,12 @@ type
     NotLoggedin
 
 type
-  ## TSession - parent of TData
-  TSession* = object of RootObj
+  Session* = object of RootObj
     loggedIn*: bool
     username*, userpass*, email*: string
     
-  TData* = ref object of TSession
+  TData* = ref object of Session
     req*: Request
-    startTime*: float
-    urlpath*: string        # Url path (proxy + path)
     userid*: string         # User ID
     timezone*: string       # User timezone
     rank*: Rank             # User status (rank)

@@ -43,7 +43,7 @@ proc generateDB*() =
   create table if not exists person(
     id integer primary key,
     name varchar(60) not null,
-    password varchar(110) not null,
+    password varchar(300) not null,
     email varchar(60) not null,
     creation timestamp not null default (STRFTIME('%s', 'now')),
     modified timestamp not null default (STRFTIME('%s', 'now')),
@@ -64,7 +64,7 @@ proc generateDB*() =
   create table if not exists session(
     id integer primary key,
     ip inet not null,
-    password $# not null,
+    key $# not null,
     userid integer not null,
     lastModified timestamp not null default (STRFTIME('%s', 'now')),
     foreign key (userid) references person(id)

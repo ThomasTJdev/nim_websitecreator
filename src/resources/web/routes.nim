@@ -19,11 +19,12 @@ routes:
         if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
           resp genFormLogin(c, "Error: You need to verify, that you are not a robot!")
     
-    if login(c, @"email", replace(@"password", " ", "")):
-      jester.setCookie("sid", c.userpass, daysForward(7))
+    let (loginB, loginS) = login(c, @"email", replace(@"password", " ", ""))
+    if loginB:
+      jester.setCookie("sid", loginS, daysForward(7))
       redirect("/settings")
     else:
-      resp genFormLogin(c, "Error in login")
+      resp genFormLogin(c, loginS)
   
   get "/logout":
     createTFD()

@@ -352,7 +352,6 @@ proc init(c: var TData) =
   c.timezone      = ""
   c.rank          = NotLoggedin
   c.loggedIn      = false
-  c.urlpath       = proxyURL & proxyPath
 
 
     
@@ -377,15 +376,10 @@ proc checkLoggedIn(c: var TData) =
   ## Check if user is logged in
 
   if not c.req.cookies.hasKey("sid"): return
-  let pass = c.req.cookies["sid"]
-  if execAffectedRows(db,
-      sql("UPDATE session SET lastModified = " & $toInt(epochTime()) & " " &
-           "WHERE ip = ? AND password = ?"),
-           c.req.ip, pass) > 0:
-    c.userpass  = pass
-    c.userid    = getValue(db,
-      sql"SELECT userid FROM session WHERE ip = ? AND password = ?",
-      c.req.ip, pass)
+  let sid = c.req.cookies["sid"]
+  if execAffectedRows(db, sql("UPDATE session SET lastModified = " & $toInt(epochTime()) & " " & "WHERE ip = ? AND key = ?"), c.req.ip, sid) > 0:
+    
+    c.userid = getValue(db, sql"SELECT userid FROM session WHERE ip = ? AND key = ?", c.req.ip, sid)
 
     let row = getRow(db, sql"SELECT name, email, status FROM person WHERE id = ?", c.userid)
     c.username  = row[0]
@@ -405,27 +399,25 @@ proc checkLoggedIn(c: var TData) =
       User login
 __________________________________________________]#
 
-proc login(c: var TData, email, pass: string): bool =
+proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
   ## User login
 
   when not defined(demo):
     if email == "test@test.com":
-      return false
+      return (false, "Email may not be test@test.com")
 
-  # get form data:
-  const query = sql"SELECT id, name, password, email, salt, status, secretUrl FROM person WHERE email = ?"
-  if email.len == 0:
-    return false
+  const query = sql"SELECT id, name, password, email, salt, status, secretUrl FROM person WHERE email = ? AND status <> 'Deactivated'"
+  if email.len == 0 or pass.len == 0:
+    return (false, "Missing password or username")
 
-  var success = false
   for row in fastRows(db, query, toLowerAscii(email)):
     if row[6] != "":
       dbg("INFO", "Login failed. Account not activated")
-      return false
+      return (false, "Your account is not activated")
 
     if parseEnum[Rank](row[5]) notin [Admin, Moderator, User]:
       dbg("INFO", "Login failed. Your account is not active.")
-      return false
+      return (false, "Your account is not active")
 
     if row[2] == makePassword(pass, row[4], row[2]):
       c.userid   = row[0]
@@ -433,27 +425,22 @@ proc login(c: var TData, email, pass: string): bool =
       c.userpass = row[2]
       c.email    = toLowerAscii(row[3])
       c.rank     = parseEnum[Rank](row[5])
-      
-      success = true
-      break
 
-  if success:
-    # create session:
-    exec(db,
-      sql"INSERT INTO session (ip, password, userid) VALUES (?, ?, ?)",
-      c.req.ip, c.userpass, c.userid)
-    dbg("INFO", "Login successful")
-    return true
-  else:
-    dbg("INFO", "Login failed")
-    return false
+      let key = makeSessionKey()
+      exec(db, sql"INSERT INTO session (ip, key, userid) VALUES (?, ?, ?)", c.req.ip, key, row[0])
+      
+      dbg("INFO", "Login successful")
+      return (true, key)
+
+  dbg("INFO", "Login failed")
+  return (false, "Login failed")
 
 
 
 proc logout(c: var TData) =
   ## Logout
 
-  const query = sql"DELETE FROM session WHERE ip = ? AND password = ?"
+  const query = sql"DELETE FROM session WHERE ip = ? AND key = ?"
   c.username = ""
   c.userpass = ""
   exec(db, query, c.req.ip, c.req.cookies["sid"])
@@ -474,7 +461,6 @@ template createTFD() =
   new(c)
   init(c)
   c.req = request
-  c.startTime = epochTime()
   if request.cookies.len > 0:
     checkLoggedIn(c)
   c.loggedIn = loggedIn(c)
