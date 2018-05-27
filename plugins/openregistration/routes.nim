@@ -25,7 +25,7 @@
               resp genUsersRegister(db, "Error: You need to verify, that you are not a robot!")
 
 
-        when defined(demo) or c.email == "test@test.com":
+        if c.email == "test@test.com" or defined(demo):
           redirect("/error/" & encodeUrl("Error: The test user can not add new users"))
 
         if @"name" == "" or @"email" == "":
