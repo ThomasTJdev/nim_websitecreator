@@ -37,7 +37,6 @@ proc getDaysInMonthU*(month, year: int): int =
     doAssert getDaysInMonthU(10, 2020) == 31
   if month notin {1..12}:
     dbg("WARNING", "getDaysInMonthU() wrong format input")
-    discard
   else:
     result = getDaysInMonth(Month(month), year)
 
