@@ -41,10 +41,6 @@
 <h4>Private files (only for logged in users)</h4>
 <ul class="list-group">
 # for file in allFilesPrivate:
-#   if file == "":
-#     continue
-#   end if
-
     <li class="list-group-item d-flex justify-content-between align-items-center">
       <a href="/files/stream/private/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
       <span class="badge badge-danger badge-pill"><a href="/files/delete/private/${extractFilename(file)}">Delete</a></span>
@@ -59,10 +55,6 @@
 <h4>Public files (available to all)</h4>
 <ul class="list-group">
 # for file in allFilesPublic:
-#   if file == "":
-#     continue
-#   end if
-
     <li class="list-group-item d-flex justify-content-between align-items-center">
       <a href="/files/stream/public/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
       <span class="badge badge-danger badge-pill"><a href="/files/delete/public/${extractFilename(file)}">Delete</a></span>
