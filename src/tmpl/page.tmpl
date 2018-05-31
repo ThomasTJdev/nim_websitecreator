@@ -7,7 +7,7 @@
 #
 #proc genAllPagesEdit(c: var TData): string =
 # result = ""
-# let allPages = getAllRows(db, sql"SELECT url, name, description, status, modified FROM pages ORDER BY modified DESC")
+# let allPages = getAllRows(db, sql"SELECT id, name, description, status, modified FROM pages ORDER BY modified DESC")
 
 <div style="text-align: center;">
   <h1>Edit a page</h1>

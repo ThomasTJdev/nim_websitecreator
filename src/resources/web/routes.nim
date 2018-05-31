@@ -4,7 +4,8 @@ routes:
 
   get "/":
     createTFD()
-    resp genPage(c, "frontpage")
+    let pageid = getValue(db, sql"SELECT id FROM pages WHERE url = ?", "frontpage")
+    resp genPage(c, pageid)
 
 
   get "/login":
@@ -484,19 +485,17 @@ routes:
     createTFD()
     if c.loggedIn and c.rank in [Admin, Moderator]:
       let url = urlEncoderCustom(@"url")
-      let urloriginal = urlEncoderCustom(@"urloriginal")
-      discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE url = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", urloriginal)
+      discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", @"blogid")
 
       if @"inbackground" == "true":
         resp("OK")
-      redirect("/editpage/blog/" & @"url")
+      redirect("/editpage/blog/" & @"blogid")
 
 
   get "/blogpage/delete":
     createTFD()
     if c.loggedIn and c.rank in [Admin, Moderator]:
-      let url = @"url"
-      exec(db, sql"DELETE FROM blog WHERE url = ?", url)
+      exec(db, sql"DELETE FROM blog WHERE id = ?", @"blogid")
       redirect("/")
 
 
@@ -506,16 +505,10 @@ routes:
       resp genMain(c, genAllBlogPagesEdit(c))
 
 
-  get re"/editpage/blog/*.":
+  get "/editpage/blog/@blogid":
     createTFD()
-    if c.loggedIn and c.rank in [Admin, Moderator]:  
-      let urlName = c.req.path.replace("/editpage/blog/", "")
-      
-      if c.rank != Admin and defined(demo):
-        if urlName == "frontpage" or urlName == "about":
-          redirect("/editpage/blogallpages")
-          
-      resp genMain(c, genEditBlog(c, urlName), "edit")
+    if c.loggedIn and c.rank in [Admin, Moderator]:        
+      resp genMain(c, genEditBlog(c, @"blogid"), "edit")
 
 
   get "/blog":
@@ -525,8 +518,8 @@ routes:
 
   get re"/blog/*.":
     createTFD()
-    let urlName = c.req.path.replace("/blog/", "")
-    resp genPageBlog(c, urlName)
+    let blogid = getValue(db, sql"SELECT id FROM blog WHERE url = ?", c.req.path.replace("/blog/", ""))
+    resp genPageBlog(c, blogid)
 
 
 
@@ -543,11 +536,10 @@ routes:
       resp genMain(c, genAllPagesEdit(c))
 
 
-  get re"/editpage/page/*.":
+  get "/editpage/page/@pageid":
     createTFD()
     if c.loggedIn and c.rank in [Admin, Moderator]:  
-      let urlName = c.req.path.replace("/editpage/page/", "")
-      resp genMain(c, genEditPage(c, urlName), "edit")
+      resp genMain(c, genEditPage(c, @"pageid"), "edit")
 
 
   get "/pagenew":
@@ -571,25 +563,21 @@ routes:
     createTFD()
     if c.loggedIn and c.rank in [Admin, Moderator]:
       let url = urlEncoderCustom(@"url")
-      let urloriginal = urlEncoderCustom(@"urloriginal")
-      discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE url = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", urloriginal)
+      discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", @"pageid")
 
       if @"inbackground" == "true":
         resp("OK")
-      redirect("/editpage/page/" & @"url")
+      redirect("/editpage/page/" & @"pageid")
 
 
   get "/page/delete":
     createTFD()
     if c.loggedIn and c.rank in [Admin, Moderator]:
-      if @"url" in "frontpage":
-        resp("Error: You can not delete the frontpage")
-
-      exec(db, sql"DELETE FROM pages WHERE url = ?", @"url")
+      exec(db, sql"DELETE FROM pages WHERE id = ?", @"pageid")
       redirect("/")
   
 
   get re"/p/.*":
     createTFD()
-    let urlName = c.req.path.replace("/p/", "")
-    resp genPage(c, urlName)
+    let pageid = getValue(db, sql"SELECT id FROM pages WHERE url = ?", c.req.path.replace("/p/", ""))
+    resp genPage(c, pageid)

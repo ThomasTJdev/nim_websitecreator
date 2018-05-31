@@ -7,7 +7,7 @@
 #
 #proc genAllBlogPagesEdit(c: var TData): string =
 # result = ""
-# let allBlogPages = getAllRows(db, sql"SELECT url, name, description, status, modified FROM blog ORDER BY modified DESC")
+# let allBlogPages = getAllRows(db, sql"SELECT id, name, description, status, modified FROM blog ORDER BY modified DESC")
 
 <div style="text-align: center;">
   <h1>Edit a blog post</h1>

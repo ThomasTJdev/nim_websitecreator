@@ -8,10 +8,10 @@
 #
 #
 #  
-#proc genEditPage(c: var TData, urlName: string): string =
+#proc genEditPage(c: var TData, pageid: string): string =
 # result = ""
 #
-# let pageData = getAllRows(db, sql"SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, url, status FROM pages WHERE url = ?", urlName)
+# let pageData = getAllRows(db, sql"SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, url, status FROM pages WHERE id = ?", pageid)
 
 # if pageData.len() > 0:
 #   for page in pageData:
@@ -23,7 +23,7 @@
 </style>
 <div id="newblogData">
   <form class="standard blog" method="post" action="/page/update">
-    <input name="urloriginal" value="$urlName" style="display: none" />
+    <input name="pageid" value="$pageid" style="display: none" />
     <div>
       <label>Name</label>
       <input name="name" required value="${page[7]}" />
@@ -87,7 +87,7 @@
   </form>   
   
   <br>
-  <a href="/page/delete?url=${page[8]}" class="btn btn-danger newblogSave">Delete page</a>
+  <a href="/page/delete?url=$pageid" class="btn btn-danger newblogSave">Delete page</a>
   
 </div>
 

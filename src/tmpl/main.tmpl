@@ -73,7 +73,7 @@ ${extensionCss()}
 #
 #
 #
-#proc genPage(c: var TData, urlName: string): string = 
+#proc genPage(c: var TData, pageid: string): string = 
 # result = ""
 #
 # let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
@@ -85,7 +85,7 @@ ${extensionCss()}
 #   status = "0,1,2"
 # end if
 #
-# let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer FROM pages WHERE url = ? AND status IN (" & status & ")"), urlName)
+# let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer FROM pages WHERE id = ? AND status IN (" & status & ")"), pageid)
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
 <html lang="EN">
@@ -146,7 +146,7 @@ ${extensionCss()}
 #
 #
 #
-#proc genPageBlog(c: var TData, urlName: string): string = 
+#proc genPageBlog(c: var TData, blogid: string): string = 
 # result = ""
 #
 # let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
@@ -157,7 +157,7 @@ ${extensionCss()}
 #   status = "0,1,2"
 # end if
 #
-# let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, status FROM blog WHERE url = ? AND status IN (" & status & ")"), urlName)
+# let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, status FROM blog WHERE id = ? AND status IN (" & status & ")"), blogid)
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
 <html lang="EN">
