@@ -655,7 +655,6 @@ when isMainModule:
 
 
   # Connect to DB
-  db = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
   try:
     db = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
     dbg("INFO", "Connection to DB is established")
