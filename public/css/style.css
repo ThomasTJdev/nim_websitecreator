@@ -187,7 +187,6 @@ li.pluginSettings .disablePlugin {
   cursor: pointer;
   float: right;
   padding: 0px 15px;
-  width: 25px;
 }
 li.pluginSettings .enablePlugin {
   background: rgba(0, 128, 0, 0.5);
@@ -200,6 +199,32 @@ li.pluginSettings .disablePlugin {
 }
 li.pluginSettings.disabled .disablePlugin {
   display: none;
+}
+
+
+
+/*
+  Plugins repo
+*/
+ul.pluginRepo {
+  padding-left: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+}
+li.pluginRepo {
+  border: 1px solid rgba(128, 128, 128, 0.55);
+  list-style-type: none;
+  padding: 10px 15px;
+}
+li.pluginRepo span.version {
+  background: rgb(236, 236, 236);
+  border-radius: 5px;
+  border: 1px solid grey;
+  padding: 0px 2px;
+}
+li.pluginRepo span.version.git {
+  background-color: #ffc107;
 }
 
 

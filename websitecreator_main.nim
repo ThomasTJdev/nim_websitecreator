@@ -69,6 +69,7 @@ import src/resources/password/salt_generate
 import src/resources/session/user_data
 import src/resources/utils/dates
 import src/resources/utils/logging
+import src/resources/utils/plugins
 import src/resources/utils/random_generator
 import src/resources/web/google_recaptcha
 import src/resources/web/urltools
@@ -142,7 +143,7 @@ proc extensionSettings(): seq[string] {.compileTime.} =
     let (pd, ppath) = plugin
     discard pd
 
-    if ppath == "plugins/plugin_import.txt" or ppath == "plugins/plugins_reload.sh" or ppath == "plugins/nimcache":
+    if ppath in ["plugins/nimwc_plugins", "plugins/plugin_import.txt"]:
       continue
   
     if ppath in plugins:
@@ -182,8 +183,8 @@ macro genExtensionSettings(): untyped =
     else:
       extensions.add("  " & pluginName & " <i>[" & status & "]</i>")
     extensions.add("</div>")
-    extensions.add("<div class=\"enablePlugin\">&nbsp;</div>")
-    extensions.add("<div class=\"disablePlugin\">&nbsp;</div>")
+    extensions.add("<div class=\"enablePlugin\">Start</div>")
+    extensions.add("<div class=\"disablePlugin\">Stop</div>")
     extensions.add("</li>")
 
   return extensions
@@ -528,6 +529,7 @@ include "src/tmpl/page.tmpl"
 include "src/tmpl/pageedit.tmpl"
 include "src/tmpl/pagenew.tmpl"
 include "src/tmpl/settings.tmpl"
+include "src/tmpl/plugins.tmpl"
 include "src/tmpl/user.tmpl"
 include "src/tmpl/main.tmpl"
 

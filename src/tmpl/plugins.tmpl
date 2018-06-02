@@ -1,0 +1,85 @@
+#? stdtmpl | standard
+#
+#template `%`(idx: untyped): untyped =
+#  row[idx]
+#end template
+#
+#
+#
+#  
+#proc genPlugins(c: var TData): string =
+# result = ""
+
+<h1 style="text-align: center">Plugins</h1>
+
+<ul class="pluginSettings">
+  ${genExtensionSettings()}
+</ul>
+
+#end proc
+#
+#
+#
+#  
+#proc genPluginsRepo(c: var TData): string =
+# result = ""
+
+<h1 style="text-align: center">Plugins repository</h1>
+
+# if not pluginCheckGit():
+
+  <h3>Git (git) is not installed. Please install it. E.g. pacman -S git, apt install git, etc.</h3>
+
+# elif not fileExists("plugins/nimwc_plugins/plugins.json"):
+
+  <div style="text-align: center;">
+    <div>Please download the repository with the plugins.</div>
+    <a href="/plugins/repo/download">Download</a>
+  </div>
+
+# else:
+
+# let plugins = parseJson(readFile("plugins/nimwc_plugins/plugins.json"))
+
+  <div class="updateRepo" style="text-align: center;">
+    <div><a href="/plugins/repo/update">Update</a> plugin repository</div>
+  </div>
+
+  <br>
+
+  <ul class="pluginRepo">
+
+#   for plugin in items(plugins):
+#     let installed = if dirExists("plugins/" & plugin["foldername"].getStr()): true else: false
+
+      <li id="${plugin["foldername"].getStr()}" class="pluginRepo">
+        <div class="name">
+          <h5><a href="${plugin["web"].getStr()}" target="_blank">${plugin["name"].getStr()}</a></h5>
+        </div>
+        <div class="version">
+#         if installed:
+#           let installedPlugin = parseJson(readFile("plugins/" & plugin["foldername"].getStr() & "/plugin.json"))
+            <span class="version"><b>Installed version: ${plugin["version"].getStr()}</b></span>
+            <span class="version git"><b>Git version: ${plugin["version"].getStr()}</b></span>
+#         else:
+            <span class="version"><b>Git version: ${plugin["version"].getStr()}</b></span>
+#         end if
+        </div>
+        <div class="description">
+          ${plugin["description"].getStr()}
+        </div>
+        <div>
+#         if installed:
+            <a href="/plugins/repo/updateplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-warning">Update plugin</a>
+#         else:
+            <a href="/plugins/repo/downloadplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginrepo=${plugin["url"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-success">Download plugin</a>
+#         end if
+        </div>
+      </li>
+
+  # end for
+
+  </ul>
+# end if
+
+#end proc

@@ -89,9 +89,17 @@ routes:
       redirect("/plugins/updating?pluginActivity=" & encodeUrl("installing " & @"pluginname"))
     else:
       redirect("/plugins/updating?pluginActivity=" & encodeUrl("uninstalling " & @"pluginname"))
-  
+
 
   get "/plugins/updating":
+    ## Enable or disable a plugin
+    ##
+    ## This will re-compile the program due to plugins
+    ## are loaded at compiletime. The newly compile filename
+    ## will be named ..._new. After compiling the program
+    ## will quit, and the launcher will activate the
+    ## the new file.
+
     createTFD()
     if c.rank != Admin and defined(demo):
       resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
@@ -114,6 +122,82 @@ routes:
       await response.send("<a href=\"/\">Compiling is done, click here to reload</a>")
     quit()
 
+
+  get "/plugins/repo":
+    ## Shows all the plugins in the plugin repo
+
+    createTFD()
+    if c.rank != Admin and defined(demo):
+      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+
+    if not c.loggedIn or c.rank notin [Admin, Moderator]:
+      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+
+    resp genMain(c, genPluginsRepo(c))
+
+  
+  get "/plugins/repo/download":
+    ## Shows all the plugins in the plugin repo
+
+    createTFD()
+    if c.rank != Admin and defined(demo):
+      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+
+    if not c.loggedIn or c.rank notin [Admin, Moderator]:
+      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+
+    if not pluginRepoClone():
+      resp("/error/" & encodeUrl("Something went wrong downloading the repository."))
+
+    resp genMain(c, genPluginsRepo(c))
+
+
+  get "/plugins/repo/update":
+    ## Shows all the plugins in the plugin repo
+
+    createTFD()
+    if c.rank != Admin and defined(demo):
+      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+
+    if not c.loggedIn or c.rank notin [Admin, Moderator]:
+      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+
+    if not pluginRepoUpdate():
+      resp("/error/" & encodeUrl("Something went wrong downloading the repository."))
+
+    resp genMain(c, genPluginsRepo(c))
+
+
+  get "/plugins/repo/updateplugin":
+    ## Updates an installed plugin
+
+    createTFD()
+    if c.rank != Admin and defined(demo):
+      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+
+    if not c.loggedIn or c.rank notin [Admin, Moderator]:
+      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+
+    if pluginUpdate(@"pluginfolder"):
+      redirect("/plugins/updating?pluginActivity=" & encodeUrl(@"pluginname"))
+    else:
+      resp("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginfolder"))
+
+
+  get "/plugins/repo/downloadplugin":
+    ## Download a plugin from a specified repo
+
+    createTFD()
+    if c.rank != Admin and defined(demo):
+      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+
+    if not c.loggedIn or c.rank notin [Admin, Moderator]:
+      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+
+    if pluginDownload(@"pluginrepo", @"pluginfolder"):
+      redirect("/plugins/updating?pluginActivity=" & encodeUrl("downloading " & @"pluginname"))
+    else:
+      resp("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginrepo"))
 
 
   #[
