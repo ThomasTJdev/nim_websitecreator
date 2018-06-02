@@ -27,16 +27,6 @@ body .para {
   height: 100vh;
   position: relative;
 }
-/*
-body .para_foo {
-  background-image: url(/images/par1.jpeg);
-}
-body .para_bar {
-  background-image: url(/images/par2.jpeg);
-}
-body .para_baz {
-  background-image: url(/images/par3.jpeg);
-}*/
 
 #pagewrapper {
   background: rgb(28, 26, 51);
@@ -174,6 +164,27 @@ button.btn {
 
 
 /*
+  Saved notification
+*/
+#notifySaved {
+  display: none;
+  position: absolute;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #27cb4ede;
+  text-align: center;
+  line-height: 2.5;
+  overflow: hidden;
+  -webkit-box-shadow: 0 0 5px black;
+  -moz-box-shadow: 0 0 5px black;
+  box-shadow: 0 0 5px black;
+}
+
+
+
+/*
   Universal
 */
 /* Image container loads all available files for quick injection into writing */
@@ -249,20 +260,46 @@ li.pluginSettings .disablePlugin {
   cursor: pointer;
   float: right;
   padding: 0px 15px;
-  width: 25px;
 }
 li.pluginSettings .enablePlugin {
-  background: rgba(26, 182, 26, 0.87);
+  background: rgba(0, 128, 0, 0.5);
 }
 li.pluginSettings.enabled .enablePlugin {
   display: none;
 }
 li.pluginSettings .disablePlugin {
-  background: rgba(194, 54, 54, 0.74);
+  background: rgba(194, 54, 54, 0.5);
 }
 li.pluginSettings.disabled .disablePlugin {
   display: none;
 }
+
+
+
+/*
+  Plugins repo
+*/
+ul.pluginRepo {
+  padding-left: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 800px;
+}
+li.pluginRepo {
+  border: 1px solid rgba(128, 128, 128, 0.55);
+  list-style-type: none;
+  padding: 10px 15px;
+}
+li.pluginRepo span.version {
+  background: rgb(236, 236, 236);
+  border-radius: 5px;
+  border: 1px solid grey;
+  padding: 0px 2px;
+}
+li.pluginRepo span.version.git {
+  background-color: #ffc107;
+}
+
 
 
 

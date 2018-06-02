@@ -1,8 +1,10 @@
-/*style.css*/
+/*style_parallax.css*/
 /*
-  Theme: Blue
+  Theme: Parallax
   Do not change the lines above
   This is the default stylesheet  
+
+  To use this themes parallax features
 */
 
 /*
@@ -13,18 +15,25 @@ html {
 }
 
 body {
-  background: #f8f8f8;
+  background: rgb(28, 26, 51);
+}
+body [class*="para_"]:nth-child(2n) {
+  box-shadow: inset 0 0 1em #111;
+}
+body .para {
+  background-attachment: fixed;
+  background-position: top center;
+  background-size: cover;
+  height: 100vh;
+  position: relative;
 }
 
 #pagewrapper {
-  background: white;
-  width: 1200px;
+  background: rgb(28, 26, 51);
+  width: 100%;
+  color: white;
   margin-left: auto;
   margin-right: auto;
-  padding: 0px 20px;
-  -webkit-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.75);
 }
 @media only screen and (max-width: 1200px) {
   #pagewrapper {
@@ -32,18 +41,50 @@ body {
   }
 }
 
+#page {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 72px;
+  margin-bottom: 96px;
+}
+#page.true {
+  margin-top: 72px;
+}
+@media only screen and (max-width: 768px) {
+  #page {
+    margin-bottom: 0px;
+    margin-top: 35px;
+  }
+}
+
 footer {
   border-top: 1px solid #dee2e6;
-  margin-top: 45px;
   margin-left: auto;
   margin-right: auto;
   padding-top: 15px;
   text-align: center;
+  position: fixed;
+  bottom: 0;
+  display: block;
+  width: 100%;
+  background: rgb(28, 26, 51);
+  z-index: 999;
+}
+footer #footerInside {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 footer .footerLeft u,
 footer .footerMiddle,
 footer .footerRight u {
-  color: black;
+  color:white;
+}
+@media only screen and (max-width: 768px) {
+  footer {
+    position: initial;
+    bottom: auto;
+  }
 }
 
 header {
@@ -53,16 +94,30 @@ header {
 nav#navbar{
   background-color: transparent;
   border-bottom: 1px solid #dee2e6;
-  margin-bottom: 15px;
+  display: block;
+  z-index: 999;
+  background: #1c1a33;
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+  top: 0;
+}
+nav#navbar #navbarInside {
+  max-width: 1200px;
+  margin-right: auto;
+  margin-left: auto;
 }
 nav#navbar .navbar-brand {
-  color: black;
+  color: white;
 }
 nav#navbar a.nav-link {
-  color: black;
+  color: white;
 }
 nav#navbar .navbar-toggler {
   border: none;
+}
+nav#navbar .navbar-toggler-icon {
+  border: 1px solid white;
 }
 @media only screen and (min-width: 768px) {
   nav#navbar {
@@ -72,8 +127,16 @@ nav#navbar .navbar-toggler {
 
 
 /* Navbar settings */
+div#navbarSettings {
+  z-index: 1000;
+  top: 0;
+  position: fixed;
+}
 div#navbarSettings a {
-  color: black
+  color: white;
+}
+div#navbarSettings .dropdown-menu a {
+  color: black;
 }
 
 
@@ -99,6 +162,7 @@ button.btn {
 }
 
 
+
 /*
   Saved notification
 */
@@ -117,6 +181,7 @@ button.btn {
   -moz-box-shadow: 0 0 5px black;
   box-shadow: 0 0 5px black;
 }
+
 
 
 /*
@@ -139,8 +204,10 @@ div#login {
   text-align: center;
 }
 #login form {
+  color: white;
   margin-right: auto;
   margin-left: auto;
+  margin-bottom: 100px;
   width: 310px;
   padding: 10px;
   -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
@@ -150,6 +217,9 @@ div#login {
 #recaptcha {
   margin-bottom: 5px;
   margin-top: 20px;
+}
+.login {
+  color: white;
 }
 
 
@@ -168,15 +238,18 @@ li.pluginSettings {
   padding: 10px 15px;
   width: 350px;
 }
+li.pluginSettings.enabled {
+  background: white;
+}
 li.pluginSettings.disabled {
   background: rgba(128, 128, 128, 0.36);
 }
-li.pluginSettings>div {
+li.pluginSettings&gt;div {
   display: inline-block;
 }
 li.pluginSettings .name {
-  display: inline;
   width: 240px;
+  display: inline;
 }
 li.pluginSettings .name i {
   font-size: 90%;
@@ -229,6 +302,7 @@ li.pluginRepo span.version.git {
 
 
 
+
 /*
   Settings overview
 */
@@ -244,6 +318,9 @@ div#settings div {
 }
 div#settings .btn {
   width: 120px;
+  color: black;
+  border-color: white;
+  background: white;
 }
 
 
@@ -334,6 +411,7 @@ div#users span a.delete {
 }
 div#usersAddContainer {
   margin-bottom: 20px;
+  color: black;
 }
 form#usersAdd {
   display: none;
@@ -343,9 +421,13 @@ form#usersAdd {
   border-radius: 10px;
   margin-top: 10px;
 }
+div#users ul.list-group {
+  color: black;
+}
 div#users label {
   margin-right: 10px;
   width: 50px;
+  color: white;
 }
 div#users select {
   width: 205px;
@@ -375,6 +457,7 @@ div#user #editProfilePhoto {
   padding: 5px 2px;
   text-align: center;
 }
+
 @media only screen and (max-width: 768px) {
 
   div#user label {
@@ -400,6 +483,7 @@ div#newblogData {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
+  padding-top: 20px;
 }
 div#newblogData input {
   border: none;
@@ -486,3 +570,14 @@ div#allpagePosts .list-group-item {
   overflow-y: scroll;
 }
 
+
+/*
+    Plugin: Themes
+*/
+div#themes li.stylesheet {
+  background: white;
+  color: black;
+}
+div#themes li.stylesheet.active {
+  background: rgba(142, 226, 142, 0.94)!important;
+}
