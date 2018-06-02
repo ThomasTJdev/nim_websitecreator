@@ -6,7 +6,7 @@ import ../password/salt_generate
 import ../utils/logging
 
 
-proc createAdminUser*(db: DbConn) = 
+proc createAdminUser*(db: DbConn, args: seq[string]) = 
   ## Create new admin user
   ## Input is done through stdin
   
@@ -16,9 +16,20 @@ proc createAdminUser*(db: DbConn) =
   if anyAdmin.len() < 1:
     dbg("INFO", "No Admin exists. Create it!")
     
-    let iName = readLineFromStdin "Input admin name:     "
-    let iEmail = readLineFromStdin "Input admin email:    "
-    let iPwd = readLineFromStdin "Input admin password: "
+    var iName = ""
+    var iEmail = ""
+    var iPwd = ""
+
+    for arg in args:
+      if arg.substr(0, 2) == "-u:":
+        iName = arg.substr(3, arg.len())
+      elif arg.substr(0, 2) == "-p:":
+        iPwd = arg.substr(3, arg.len())
+      elif arg.substr(0, 2) == "-e:":
+        iEmail = arg.substr(3, arg.len())
+
+    if iName == "" or iPwd == "" or iEmail == "":
+      dbg("ERROR", "Missing either name, password or email to create the admin user")
 
     let salt = makeSalt()
     let password = makePassword(iPwd, salt)
@@ -26,9 +37,8 @@ proc createAdminUser*(db: DbConn) =
     discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", $iName, $iEmail, password, salt, "Admin")
 
     dbg("INFO", "Admin added! Moving on..")
-
   else:
-    dbg("INFO", "Admin user already exists. Skipping it.")
+    dbg("ERROR", "Admin user already exists. Skipping it.")
   
 
 proc createTestUser*(db: DbConn) = 

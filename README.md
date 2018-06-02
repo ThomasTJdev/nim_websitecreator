@@ -98,22 +98,28 @@ nim c websitecreator.nim
 ```
 
 
-## Compile/argument options:
+## Argument (args):
 
-*To use the options as arguments remove the `-d:` and append:*
+*These args should be prepended to file, e.g. ./websitecreator newuser:*
 
-* `-d:newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
-* `-d:newuser` = Add the Admin user
-* `-d:insertdata` = Insert standard data (this will override existing data)
-* `-d:nginx` = Used to close the streaming connection when using nginx as a webserver
+* `newuser` = Add the Admin user. The `-u:<username>`, `-p:<password>` and `-e:<email>` args are required
+  * `-u:<admin username>`
+  * `-p:<admin password>`
+  * `-e:<admin email>`
+* `nginx` = Used to close the streaming connection when using nginx as a webserver
+* `insertdata` = Insert standard data (this will override existing data)
+* `newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
+
+## Compile options:
 
 *These options are only available at compiletime:*
 
+* `-d:nginx` = Used to close the streaming connection when using nginx as a webserver
 * `-d:adminnotify` = Send error logs (ERROR) to the specified admin email
 * `-d:dev` = Development
 * `-d:devemailon` = Send email when `-d:dev` is activated
 * `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org)
-* `-d:demoloadbackup` = Used with -d:demo. This option will create a backup of the empty database and override the database each hour. You can customize the page and make a copy of the database and naming it `website.bak.db`, then it will be used by this feature.
+* `-d:demoloadbackup` = Used with -d:demo. This option will override the database each hour with the file named `website.bak.db`. You can customize the page and make a copy of the database and name it `website.bak.db`, then it will be used by this feature.
 
 
 # User profiles

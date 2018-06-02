@@ -102,11 +102,11 @@ routes:
     if output == 1:
       echo "\nAn error occured"
       await response.send("<br><br>An error occured<br>")
-      await response.send("<a href=\"/\">Click here to go to the plugin page</a>")
+      await response.send("<a href=\"/plugins\">Click here to go to the plugin page</a>")
     else:
       echo "\nCompiling done. Starting websitecreator:"
       await response.send("<br><br>Compiling done. Starting websitecreator<br>")
-      await response.send("<a href=\"/\">Compiling is done, click here to reload</a>")
+      await response.send("<a href=\"/plugins\">Compiling is done, click here to reload</a>")
     quit()
 
 

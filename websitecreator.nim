@@ -20,12 +20,6 @@ proc checkCompileOptions(): string =
   
   result = ""
 
-  when defined(newdb):
-    result.add(" -d:newdb")
-  when defined(newuser):
-    result.add(" -d:newuser")
-  when defined(insertdata):
-    result.add(" -d:insertdata")
   when defined(nginx):
     result.add(" -d:nginx")
   when defined(adminnotify):
@@ -61,10 +55,11 @@ proc launcherActivated() =
     if fileExists(getAppDir() & "/websitecreator_main_new"):
       moveFile(getAppDir() & "/websitecreator_main_new", getAppDir() & "/websitecreator_main")
     echo "Starting program"
-    discard execProcess(getAppDir() & "/websitecreator_main" & addArgs(true))
-    echo "Program exited. In 3 seconds, the program starts again."
+    echo addArgs(true)
+    discard execCmd(getAppDir() & "/websitecreator_main" & addArgs(true))
+    echo "Program exited. In 1.5 seconds, the program starts again."
     echo "To fully exit pres ctrl+c"
-    sleep(3000)
+    sleep(1500)
   echo "Nim Website Creator: Quitted"
   quit()
 
@@ -82,8 +77,19 @@ if not fileExists(getAppDir() & "/websitecreator_main") or compileOptions != "":
   if output == 1:
     echo "\nAn error occured"
   else:
-    echo "\nCompiling done. Starting websitecreator:"
-    launcherActivated()
+    echo "\n"
+    echo """Compiling done. 
+    
+  - To start Nim Website Creator and access at 127.0.0.1:<port>
+    ./websitecreator
+    
+  - To add an admin user, append args:
+    ./websitecreator newuser -u:name -p:password -e:email
+    
+  - To insert standard data in the database, append args:
+    ./websitecreator insertdata
+
+    """
 
 else:
   launcherActivated()

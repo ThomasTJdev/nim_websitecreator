@@ -482,12 +482,6 @@ proc checkCompileOptions*(): string {.compileTime.} =
   
   result = ""
 
-  when defined(newdb):
-    result.add(" -d:newdb")
-  when defined(newuser):
-    result.add(" -d:newuser")
-  when defined(insertdata):
-    result.add(" -d:insertdata")
   when defined(nginx):
     result.add(" -d:nginx")
   when defined(adminnotify):
@@ -588,7 +582,7 @@ when isMainModule:
 
 
   # Generate DB
-  if "newdb" in commandLineParams() or defined(newdb) or not fileExists(db_host): 
+  if "newdb" in commandLineParams() or not fileExists(db_host): 
     generateDB()
 
 
@@ -604,8 +598,8 @@ when isMainModule:
   
 
   # Add admin user
-  if "newuser" in commandLineParams() or defined(newuser):
-    createAdminUser(db)
+  if "newuser" in commandLineParams():
+    createAdminUser(db, commandLineParams())
 
 
   # Add test user
@@ -627,7 +621,7 @@ when isMainModule:
       
 
   # Insert standard data
-  if "insertdata" in commandLineParams() or defined(insertdata):
+  if "insertdata" in commandLineParams():
     echo "\nInsert standard data?"
     echo "This will override existing data (y/N):"
     if readLine(stdin) == "y":
