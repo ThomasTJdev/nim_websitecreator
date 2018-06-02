@@ -295,6 +295,7 @@ li.pluginRepo span.version {
   border-radius: 5px;
   border: 1px solid grey;
   padding: 0px 2px;
+  color: black;
 }
 li.pluginRepo span.version.git {
   background-color: #ffc107;
