@@ -46,6 +46,7 @@ body .para {
   margin-right: auto;
   margin-top: 72px;
   margin-bottom: 96px;
+  padding: 0px 10px;
 }
 #page.true {
   margin-top: 72px;
@@ -485,6 +486,12 @@ div#newblogData {
   margin-left: auto;
   margin-right: auto;
   padding-top: 20px;
+}
+div#newblogData .images {
+  background: white;
+  color: black;
+  padding: 10px;
+  border-radius: 5px;
 }
 div#newblogData input {
   border: none;

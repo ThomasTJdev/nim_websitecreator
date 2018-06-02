@@ -52,7 +52,7 @@
         <div class="row">
           <div class="col-12 col-md-4">
             <div>HTML &lt;head&gt;</div>
-            <input name="standardhead" type="checkbox" class="form-check-input" ${checkboxToChecked(page[2])}> <div>Use standard head</div> <i style="font-size: 90%;">(uncheck to use custom page header below)</i>
+            <input name="standardhead" type="checkbox" class="form-check-input" ${checkboxToChecked(page[2])}> <div>Use standard head</div> <i style="font-size: 90%;">(uncheck to use custom page head below)</i>
             <textarea name="head" class="form-control" >${page[1]}</textarea>
           </div>
           <div class="col-12 col-md-4">
@@ -70,7 +70,7 @@
 
       <hr>
       
-      <div>
+      <div class="images">
         <h5>Images</h5>
         <i>Upload a <a href="/files">new file</a></i>
         <div id="imagecontainer"></div>
