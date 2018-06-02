@@ -182,20 +182,10 @@ To activate Google reCAPTCHA claim you site and server key and insert them into 
 
 These plugins are standard and available. *[They will be moved to separated repos in the future]*
 
-### Enable a plugin
+### Enable/disable a plugin
 
-To enable a plugin add the path to the plugins and pluginname to `plugin/plugin_import.txt`:
+To enable or disable a plugin go to `<webpage>/plugins`
 
-```
-# plugins = folder
-# pluginname = the name of the plugin
-plugins/pluginname
-
-# eg. for the contact plugin:
-plugins/contact
-# eg. for the mailer plugin:
-plugins/mailer
-```
 
 ### Plugin: Backup
 
@@ -218,13 +208,6 @@ You can access the plugin at `/mailer`. This link can be added to the navbar man
 A simple contact form for non-logged in users. The email will be sent to the info-email specified in the `config.cfg` file.
 
 You can access the plugin at `/contact`. This link can be added to the navbar manually.
-
-
-### Plugin: Open registration
-
-Opens up for public registration. Anyone can register an account and get a user with user role "User".
-
-You can access the plugin at `/register`.
 
 
 ### Plugin: Themes

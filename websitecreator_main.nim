@@ -125,71 +125,7 @@ macro extensionImport(): untyped =
   
   result = parseStmt(extensions)
 
-extensionImport()
-
-
-proc extensionSettings(): seq[string] {.compileTime.} =
-  ## Macro to check if plugins listed in plugins_imported.txt
-  ## are enabled or disabled. The result will be "true:pluginname"
-  ## or "false:pluginname".
-
-  let (dir, name, file) = splitFile(currentSourcePath())
-  discard name 
-  discard file
-  var plugins = (staticRead(dir & "/plugins/plugin_import.txt").split("\n"))
-
-  var extensions: seq[string]
-  for plugin in oc.walkDir("plugins/"):
-    let (pd, ppath) = plugin
-    discard pd
-
-    if ppath in ["plugins/nimwc_plugins", "plugins/plugin_import.txt"]:
-      continue
-  
-    if ppath in plugins:
-      if extensions.len() == 0:
-        extensions = @["true:" & ppath]
-      else:
-        extensions.add("true:" & ppath)
-
-    else:
-      if extensions.len() == 0:
-        extensions = @["false:" & ppath]
-      else:
-        extensions.add("false:" & ppath)
-  
-  return extensions
-
-
-macro genExtensionSettings(): untyped =
-  ## Generate HTML list items with plugins
-
-  var extensions = ""
-  for plugin in extensionSettings():
-    let pluginName = replace((split(plugin, ":"))[1], "plugins/", "")
-    let status = if (split(plugin, ":"))[0] == "true": "enabled" else: "disabled"
-
-    extensions.add("<li data-plugin=\"" & pluginName & "\" class=\"pluginSettings ")
-
-    if (split(plugin, ":"))[0] == "true":
-      extensions.add("enabled\" data-enabled=\"true\"")
-    else:
-      extensions.add("disabled\" data-enabled=\"false\"")
-
-    extensions.add(">")
-    extensions.add("<div class=\"name\">")
-    if (split(plugin, ":"))[0] == "true":
-      extensions.add("  <a href=\"/" & pluginName & "/settings\">" & pluginName & " <i>[" & status & "]</i></a>")
-    else:
-      extensions.add("  " & pluginName & " <i>[" & status & "]</i>")
-    extensions.add("</div>")
-    extensions.add("<div class=\"enablePlugin\">Start</div>")
-    extensions.add("<div class=\"disablePlugin\">Stop</div>")
-    extensions.add("</li>")
-
-  return extensions
-
-  
+extensionImport()  
 
 
 macro extensionUpdateDatabase(): untyped =

@@ -56,7 +56,10 @@ routes:
   get "/plugins/status":
     ## Change the status of a plugin
     ##
-    ## How to compile and restart the program?
+    ## @"status" == false => Plugin is not enabled
+    ##                       this will enable the plugin (add a line)
+    ## @"status" == true  => Plugin is enabled, 
+    ##                       this will disable the plugin (remove the line)
 
     createTFD()
     if c.rank != Admin and defined(demo):
@@ -65,25 +68,9 @@ routes:
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
       resp("/error/" & encodeUrl("You are not authorized to access this area"))
 
-    let pluginPath = if @"status" == "false": ("#plugins/" & @"pluginname") else: ("plugins/" & @"pluginname")
+    let pluginPath = if @"status" == "false": "" else: ("plugins/" & @"pluginname")
 
-    var newFile = ""
-    for line in lines("plugins/plugin_import.txt"):
-      if line == "":
-        continue
-
-      if line == pluginPath:
-        if @"status" == "false":
-          newFile.add("plugins/" & @"pluginname")
-        else:
-          newFile.add("#plugins/" & @"pluginname")
-
-      else:
-        newFile.add(line)
-
-      newFile.add("\n")
-
-    writeFile("plugins/plugin_import.txt", newFile)
+    pluginEnableDisable(pluginPath, @"pluginname", @"status")
 
     if @"status" == "false":
       redirect("/plugins/updating?pluginActivity=" & encodeUrl("installing " & @"pluginname"))
@@ -149,7 +136,7 @@ routes:
     if not pluginRepoClone():
       resp("/error/" & encodeUrl("Something went wrong downloading the repository."))
 
-    resp genMain(c, genPluginsRepo(c))
+    redirect("/plugins/repo")
 
 
   get "/plugins/repo/update":
@@ -165,7 +152,7 @@ routes:
     if not pluginRepoUpdate():
       resp("/error/" & encodeUrl("Something went wrong downloading the repository."))
 
-    resp genMain(c, genPluginsRepo(c))
+    redirect("/plugins/repo")
 
 
   get "/plugins/repo/updateplugin":
@@ -179,13 +166,39 @@ routes:
       resp("/error/" & encodeUrl("You are not authorized to access this area"))
 
     if pluginUpdate(@"pluginfolder"):
-      redirect("/plugins/updating?pluginActivity=" & encodeUrl(@"pluginname"))
+      redirect("/plugins/updating?pluginActivity=" & encodeUrl("installing " & @"pluginname"))
+    else:
+      resp("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginfolder"))
+
+
+  get "/plugins/repo/deleteplugin":
+    ## Updates an installed plugin
+
+    createTFD()
+    if c.rank != Admin and defined(demo):
+      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+
+    if not c.loggedIn or c.rank notin [Admin, Moderator]:
+      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+
+    if pluginDelete(@"pluginfolder"):
+      var isInstalled = false
+      for line in lines("plugins/plugin_import.txt"):
+        if ("plugins/" & @"pluginfolder") == line:
+          isInstalled = true
+          break
+          
+      if isInstalled:    
+        pluginEnableDisable(("plugins/" & @"pluginfolder"), @"pluginfolder", "true")
+        redirect("/plugins/updating?pluginActivity=" & encodeUrl("uninstalling " & @"pluginname"))
+          
+      redirect("/plugins/repo")
     else:
       resp("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginfolder"))
 
 
   get "/plugins/repo/downloadplugin":
-    ## Download a plugin from a specified repo
+    ## Download a plugin
 
     createTFD()
     if c.rank != Admin and defined(demo):
@@ -195,7 +208,7 @@ routes:
       resp("/error/" & encodeUrl("You are not authorized to access this area"))
 
     if pluginDownload(@"pluginrepo", @"pluginfolder"):
-      redirect("/plugins/updating?pluginActivity=" & encodeUrl("downloading " & @"pluginname"))
+      redirect("/plugins/repo")
     else:
       resp("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginrepo"))
 

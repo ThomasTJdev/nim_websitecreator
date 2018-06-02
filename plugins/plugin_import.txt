@@ -1,5 +1,4 @@
 plugins/backup
 plugins/contact
 plugins/mailer
-#plugins/openregistration
 plugins/themes
