@@ -1,22 +1,25 @@
 import osproc, os, sequtils
 
+from times import local, getTime
 
 var runInLoop = true
+var nimhaMain: Process
 
 proc handler() {.noconv.} =
   ## Catch ctrl+c from user
 
   runInLoop = false
-  discard execCmd("pkill nimwc")
+  kill(nimhaMain)
   echo "Program quitted."
+  quit()
 
 setControlCHook(handler)
 
 
 proc checkCompileOptions(): string =
-  # Checking for known compile options
-  # and returning them as a space separated string.
-  # See README.md for explation of the options.
+  ## Checking for known compile options
+  ## and returning them as a space separated string.
+  ## See README.md for explation of the options.
   
   result = ""
 
@@ -38,31 +41,46 @@ proc checkCompileOptions(): string =
 let compileOptions = checkCompileOptions()
 
 
-# User specified args
 template addArgs(inExec = false): string =
+  ## User specified args
+
   let args = foldl(commandLineParams(), a & (b & " "), "")
 
-  if inExec:
+  if args == "":
+    ""
+
+  elif inExec:
     " --run " & args
+
   else:
     " " & args
 
 
 proc launcherActivated() =
-  # 1) Executing the main-program in a loop.
-  # 2) Each time the main-program quits, there's a check
-  # for a new version
-  echo "Nim Website Creator: Launcher initialized"
+  ## 1) Executing the main-program in a loop.
+  ## 2) Each time a new compiled file is available,
+  ##    the program exits the running process and starts a new
+  echo $local(getTime()) & ": Nim Website Creator: Launcher initialized"
+
+  nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & addArgs(true), options = {poParentStreams})
+
   while runInLoop:
     if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
-      moveFile(getAppDir() & "/nimwcpkg/nimwc_main_new", getAppDir() & "/nimwc_main")
-    echo "Starting program"
-    echo addArgs(true)
-    discard execCmd(getAppDir() & "/nimwcpkg/nimwc_main" & addArgs(true))
-    echo "Program exited. In 1.5 seconds, the program starts again."
-    echo "To fully exit pres ctrl+c"
+      kill(nimhaMain)
+      moveFile(getAppDir() & "/nimwcpkg/nimwc_main_new", getAppDir() & "/nimwcpkg/nimwc_main")
+    
+    if not running(nimhaMain):
+      echo $local(getTime()) & ": Restarting program"
+      
+      let args = addArgs(true)
+      if args != "":
+        echo " Using args: " & args
+
+      nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & addArgs(true), options = {poParentStreams})
+   
     sleep(1500)
-  echo "Nim Website Creator: Quitted"
+
+  echo $local(getTime()) & ": Nim Website Creator: Quitted"
   quit()
 
 
@@ -99,5 +117,5 @@ if not fileExists(getAppDir() & "/nimwcpkg/nimwc_main") or defined(rc):
 
     """
 
-else:
-  launcherActivated()
+
+launcherActivated()

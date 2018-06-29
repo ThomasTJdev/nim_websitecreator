@@ -98,7 +98,7 @@ routes:
     await response.send("Updating plugins: " & decodeUrl(@"pluginActivity") & "<br>")
     await response.send("Please wait while the program is compiling ..<br>")
 
-    let output = execCmd("nim c " & checkCompileOptions() & " -o:nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
+    let output = execCmd("nim c " & checkCompileOptions() & " -o:nimwcpkg/nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
     if output == 1:
       echo "\nAn error occured"
       await response.send("<br><br>An error occured<br>")
@@ -107,7 +107,7 @@ routes:
       echo "\nCompiling done. Starting nimwc:"
       await response.send("<br><br>Compiling done. Starting nimwc<br>")
       await response.send("<a href=\"/plugins\">Compiling is done, click here to reload</a>")
-    quit()
+    #quit()
 
 
   get "/plugins/repo":
@@ -140,7 +140,7 @@ routes:
 
 
   get "/plugins/repo/update":
-    ## Shows all the plugins in the plugin repo
+    ## Updates the plugins repo
 
     createTFD()
     if c.rank != Admin and defined(demo):

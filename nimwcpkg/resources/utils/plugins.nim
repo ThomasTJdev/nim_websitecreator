@@ -31,7 +31,7 @@ proc pluginRepoClone*(): bool =
   if not pluginCheckGit():
     return false
 
-  let output = execCmd("git clone " & pluginRepo & " " & getAppDir() & "/plugins/" & pluginRepoName)
+  let output = execCmd("git clone " & pluginRepo & " " & replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginRepoName)
 
   if output != 0:
     return false
@@ -56,7 +56,7 @@ proc pluginRepoUpdate*(): bool =
 proc pluginDownload*(pluginGit, pluginFolder: string): bool =
   ## Downloads an external plugin with clone
 
-  let output = execProcess("git clone " & pluginGit & " " & getAppDir() & "/plugins/" & pluginFolder)
+  let output = execProcess("git clone " & pluginGit & " " & replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginFolder)
 
   if output == ("fatal: repository '" & pluginGit & "' does not exists"):
     false
