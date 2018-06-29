@@ -70,6 +70,8 @@ proc launcherActivated() =
     
     if not running(nimhaMain):
       echo $getTime() & ": Restarting program"
+
+      discard execCmd("pkill nimwc")
       
       let args = addArgs(true)
       if args != "":
@@ -77,7 +79,7 @@ proc launcherActivated() =
 
       nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & addArgs(true), options = {poParentStreams, poEvalCommand})
    
-    sleep(1500)
+    sleep(2000)
 
   echo $getTime() & ": Nim Website Creator: Quitted"
   quit()

@@ -59,5 +59,5 @@ template logFile*(filename, msg: string, mode = fmAppend): typed =
     quit("cannot open: " & fn)
 
 
-dbg("DEBUG", "Checking that required 'log' folder exists")
 discard existsOrCreateDir("log")
+dbg("DEBUG", "Checking that required 'log' folder exists")
