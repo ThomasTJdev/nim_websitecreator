@@ -29,6 +29,7 @@ public/js/openregistration_private.js
 public/css/themes_private.css
 plugins/themes/stylesheets/style.css
 tmp
+tmp/*
 TODO.md
 nimwc
 nimwc_main
