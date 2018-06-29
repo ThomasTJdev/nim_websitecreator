@@ -11,14 +11,14 @@ import
   uri
 
 
-import ../../src/resources/email/email_registration
-import ../../src/resources/password/password_generate
-import ../../src/resources/password/salt_generate
-import ../../src/resources/session/user_data
-import ../../src/resources/utils/dates
-import ../../src/resources/utils/logging
-import ../../src/resources/utils/random_generator
-import ../../src/resources/web/google_recaptcha
+import ../../nimwcpkg/resources/email/email_registration
+import ../../nimwcpkg/resources/password/password_generate
+import ../../nimwcpkg/resources/password/salt_generate
+import ../../nimwcpkg/resources/session/user_data
+import ../../nimwcpkg/resources/utils/dates
+import ../../nimwcpkg/resources/utils/logging
+import ../../nimwcpkg/resources/utils/random_generator
+import ../../nimwcpkg/resources/web/google_recaptcha
 
 
 const pluginTitle       = "Backup"

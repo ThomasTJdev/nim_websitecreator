@@ -1,5 +1,7 @@
 import recaptcha, parsecfg, asyncdispatch, os
 
+from strutils import replace
+
 import ../utils/logging
 
 
@@ -9,7 +11,7 @@ var
   
 
 # Using config.ini
-let dict = loadConfig("config/config.cfg")
+let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
 # Web settings
 let recaptchaSecretKey = dict.getSectionValue("reCAPTCHA","Secretkey")

@@ -1,7 +1,10 @@
 
 import parsecfg
 
-let dict = loadConfig("config/config.cfg")
+from os import getAppDir
+from strutils import replace
+
+let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 let title = dict.getSectionValue("Server","title")
 let website = dict.getSectionValue("Server","website")
 

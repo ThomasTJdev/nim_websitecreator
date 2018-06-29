@@ -12,10 +12,10 @@ import strutils, os, db_sqlite, json, asyncdispatch, asyncnet, parsecfg
 
 from times import epochTime
 import jester
-import ../../src/resources/email/email_connection
-import ../../src/resources/session/user_data
-import ../../src/resources/utils/dates
-import ../../src/resources/utils/logging
+import ../../nimwcpkg/resources/email/email_connection
+import ../../nimwcpkg/resources/session/user_data
+import ../../nimwcpkg/resources/utils/dates
+import ../../nimwcpkg/resources/utils/logging
 
 
 const pluginTitle       = "Mailer"

@@ -12,10 +12,10 @@ import strutils, os, db_sqlite, json, asyncdispatch, asyncnet, parsecfg, uri
 
 from times import epochTime
 import jester
-import ../../src/resources/email/email_connection
-import ../../src/resources/session/user_data
-import ../../src/resources/utils/dates
-import ../../src/resources/web/google_recaptcha
+import ../../nimwcpkg/resources/email/email_connection
+import ../../nimwcpkg/resources/session/user_data
+import ../../nimwcpkg/resources/utils/dates
+import ../../nimwcpkg/resources/web/google_recaptcha
 
 
 const pluginTitle       = "Contact"
@@ -35,7 +35,7 @@ proc pluginInfo() =
   echo " "
 pluginInfo()
 
-let dict = loadConfig("config/config.cfg")
+let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 let emailSupport = dict.getSectionValue("SMTP","SMTPEmailSupport")
 let title = dict.getSectionValue("Server","title")
 

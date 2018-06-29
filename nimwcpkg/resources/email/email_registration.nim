@@ -6,7 +6,7 @@ import ../email/email_generate_message
 from times import getTime, getGMTime, format
 
 
-let dict = loadConfig("config/config.cfg")
+let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
 let title = dict.getSectionValue("Server","title")
 let website = dict.getSectionValue("Server","website")

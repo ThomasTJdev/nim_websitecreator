@@ -34,6 +34,8 @@ import
 
 import cookies as libcookies
 
+#setCurrentDir(getAppDir().replace("/nimwcpkg", "") & "/")
+#echo getCurrentDir()
 
 macro configExists(): untyped =
   ## Macro to check if the config file is present
@@ -41,7 +43,7 @@ macro configExists(): untyped =
   discard name 
   discard file
 
-  if not fileExists(dir & "/config/config.cfg"):
+  if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
     echo "\nERROR: Config file (config.cfg) could not be found."
     echo "A copy of the template (config_default.cfg) has been"
     echo "copied to config/config.cfg."
@@ -57,22 +59,22 @@ macro configExists(): untyped =
 configExists()
 
 
-import src/resources/administration/create_adminuser
-import src/resources/administration/create_standarddata
-import src/resources/administration/createdb
-import src/resources/administration/help
-import src/resources/email/email_registration
-import src/resources/files/files_efs
-import src/resources/files/files_utils
-import src/resources/password/password_generate
-import src/resources/password/salt_generate
-import src/resources/session/user_data
-import src/resources/utils/dates
-import src/resources/utils/logging
-import src/resources/utils/plugins
-import src/resources/utils/random_generator
-import src/resources/web/google_recaptcha
-import src/resources/web/urltools
+import resources/administration/create_adminuser
+import resources/administration/create_standarddata
+import resources/administration/createdb
+import resources/administration/help
+import resources/email/email_registration
+import resources/files/files_efs
+import resources/files/files_utils
+import resources/password/password_generate
+import resources/password/salt_generate
+import resources/session/user_data
+import resources/utils/dates
+import resources/utils/logging
+import resources/utils/plugins
+import resources/utils/random_generator
+import resources/web/google_recaptcha
+import resources/web/urltools
 
 
 #setCurrentDir(getAppDir())
@@ -89,7 +91,9 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
   let (dir, name, file) = splitFile(currentSourcePath())
   discard name 
   discard file
-  var plugins = (staticRead(dir & "/plugins/plugin_import.txt").split("\n"))
+  let realPath = replace(dir, "/nimwcpkg", "")
+
+  var plugins = (staticRead(realPath & "/plugins/plugin_import.txt").split("\n"))
 
   var extensions: seq[string]
   for plugin in oc.walkDir("plugins/"):
@@ -98,9 +102,9 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
   
     if ppath in plugins:
       if extensions.len() == 0:
-        extensions = @[dir & "/" & ppath]
+        extensions = @[realPath & "/" & ppath]
       else:
-        extensions.add(dir & "/" & ppath)
+        extensions.add(realPath & "/" & ppath)
 
   return extensions
 
@@ -168,6 +172,7 @@ macro extensionCss(): string =
   let (dir, name, file) = splitFile(currentSourcePath())
   discard name 
   discard file
+  
 
   var extensions = ""
   for ppath in getPluginsPath():
@@ -253,7 +258,7 @@ readCfgAndBuildSource("config/configStatic.cfg")
 
 var db: DbConn
   
-let dict = loadConfig("config/config.cfg")
+let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
 let db_user = dict.getSectionValue("Database","user")
 let db_pass = dict.getSectionValue("Database","pass")
@@ -456,18 +461,18 @@ template statusIntToCheckbox(status, value: string): string =
       Include HTML files
 __________________________________________________]#
 
-include "src/tmpl/utils.tmpl"
-include "src/tmpl/blog.tmpl"
-include "src/tmpl/blogedit.tmpl"
-include "src/tmpl/blognew.tmpl"
-include "src/tmpl/files.tmpl"
-include "src/tmpl/page.tmpl"
-include "src/tmpl/pageedit.tmpl"
-include "src/tmpl/pagenew.tmpl"
-include "src/tmpl/settings.tmpl"
-include "src/tmpl/plugins.tmpl"
-include "src/tmpl/user.tmpl"
-include "src/tmpl/main.tmpl"
+include "tmpl/utils.tmpl"
+include "tmpl/blog.tmpl"
+include "tmpl/blogedit.tmpl"
+include "tmpl/blognew.tmpl"
+include "tmpl/files.tmpl"
+include "tmpl/page.tmpl"
+include "tmpl/pageedit.tmpl"
+include "tmpl/pagenew.tmpl"
+include "tmpl/settings.tmpl"
+include "tmpl/plugins.tmpl"
+include "tmpl/user.tmpl"
+include "tmpl/main.tmpl"
 
 
 
@@ -502,7 +507,7 @@ macro generateRoutes(): typed =
   ## All plugins 'routes.nim' are also included.
 
 
-  var extensions = staticRead("src/resources/web/routes.nim")
+  var extensions = staticRead("resources/web/routes.nim")
   
   for ppath in getPluginsPath():
     extensions.add("\n")
@@ -541,7 +546,6 @@ when defined(demo):
       Main module
 __________________________________________________]#
 when isMainModule:
-  let compileParametersCfg = readFile("websitecreator_main.nim.cfg")
 
   echo "\n"
   echo "--------------------------------------------"
@@ -551,10 +555,6 @@ when isMainModule:
   echo "  Author name:    " & cfgAuthorName
   echo "  Author email:   " & cfgAuthorEmail
   echo "  Current time:   " & $getTime()
-  
-  if compileParametersCfg != "":
-    echo "  Compile params:"
-    echo compileParametersCfg
   echo "--------------------------------------------"
   echo "\n"
 

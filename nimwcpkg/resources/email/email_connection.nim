@@ -3,7 +3,7 @@ import asyncdispatch, smtp, strutils, os, htmlparser, asyncnet, parsecfg, times
 # Changing app dir due to, that module is not imported from main module
 setCurrentDir(getAppDir())
 
-var dict = loadConfig("config/config.cfg")
+var dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
 let smtpAddress    = dict.getSectionValue("SMTP","SMTPAddress")
 let smtpPort       = dict.getSectionValue("SMTP","SMTPPort")

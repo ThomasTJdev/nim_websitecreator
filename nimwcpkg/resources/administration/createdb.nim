@@ -13,7 +13,7 @@ import ../administration/create_standarddata
 
 proc generateDB*() =
   echo "Generating database"
-  let dict = loadConfig("config/config.cfg")
+  let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
   let db_user = dict.getSectionValue("Database","user")
   let db_pass = dict.getSectionValue("Database","pass")
   let db_name = dict.getSectionValue("Database","name")

@@ -3,11 +3,12 @@ import os, parsecfg, strutils, times
 import ../email/email_admin
 
 
-let dict = loadConfig("config/config.cfg")
+setCurrentDir(getAppDir().replace("/nimwcpkg", "") & "/")
+
+let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
 let fileDebug = dict.getSectionValue("Logging","logfiledev")
-let fileProd = dict.getSectionValue("Logging","logfile")
-
+let fileProd =  dict.getSectionValue("Logging","logfile")
 
 template dbg*(logLevel, msg: string) =
   ## Echo debug

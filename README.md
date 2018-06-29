@@ -59,19 +59,19 @@ You only need to perform 1a **or** 1b - not both of them.
 
 ## 1a) Install:
 
-If you are using [Nimble](https://github.com/nim-lang/nimble) an executable will be generated and symlinked to `websitecreator`, which then can be executed anywhere on your system.
+If you are using [Nimble](https://github.com/nim-lang/nimble) an executable will be generated and symlinked to `nimwc`, which then can be executed anywhere on your system.
 
 ```bash
-# Install websitecreator with nimble
-nimble install websitecreator
+# Install nimwc with nimble
+nimble install nimwc
 
 # Edit the config.cfg accordingly
 # (change the confg.cfg path to your nimble folder and the correct package version)
-nano ~/.nimble/pkgs/websitecreator-0.1.0/config/config.cfg
+nano ~/.nimble/pkgs/nimwc-0.1.0/config/config.cfg
 
-# Run websitecreator
-# (to add an Admin user append "newuser": websitecreator newuser)
-websitecreator
+# Run nimwc
+# (to add an Admin user append "newuser": nimwc newuser)
+nimwc
 ```
 
 
@@ -81,26 +81,27 @@ This will generate the executable in the folder.
 
 ```bash
 # Clone the repository
-git clone https://github.com/ThomasTJdev/nim_websitecreator
-cd nim_websitecreator
+git clone https://github.com/ThomasTJdev/nim_nimwc
+cd nim_nimwc
 
 # Generate and edit the config.cfg accordingly
 cp config/config_default.cfg config/config.cfg
 nano config.cfg
 
-# Compile websitecreator
-# Compile options are specified in websitecreator_main.nim.cfg
-nim c websitecreator.nim
+# Compile nimwc
+nim c -d:ssl nimwc.nim
 
-# Run websitecreator
-# (to add an Admin user append "newuser": ./websitecreator newuser)
-./websitecreator
+# Run nimwc
+# (to add an Admin user append "newuser": ./nimwc newuser)
+./nimwc
+
+# To recompile just add compileoption -d:rc
 ```
 
 
 ## Argument (args):
 
-*These args should be prepended to file, e.g. ./websitecreator newuser:*
+*These args should be prepended to file, e.g. ./nimwc newuser:*
 
 * `newuser` = Add the Admin user. The `-u:<username>`, `-p:<password>` and `-e:<email>` args are required
   * `-u:<admin username>`
@@ -302,3 +303,9 @@ To make plugin public accessible, you need to add it to the `plugins.json` in th
 Make a pull request where you have added your plugin data to `plugins.json`.
 
 When you release a new version of your plugin, you need to increase the version in your plugin repo and in this repo. Otherwise the users will not notice, that your have release a new version.
+
+
+
+# Trouble
+
+Remove nimcache and nimwcpkg/nimcache and re-compile

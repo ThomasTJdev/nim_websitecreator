@@ -98,14 +98,14 @@ routes:
     await response.send("Updating plugins: " & decodeUrl(@"pluginActivity") & "<br>")
     await response.send("Please wait while the program is compiling ..<br>")
 
-    let output = execCmd("nim c " & checkCompileOptions() & " -o:websitecreator_main_new " & getAppDir() & "/websitecreator_main.nim")
+    let output = execCmd("nim c " & checkCompileOptions() & " -o:nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
     if output == 1:
       echo "\nAn error occured"
       await response.send("<br><br>An error occured<br>")
       await response.send("<a href=\"/plugins\">Click here to go to the plugin page</a>")
     else:
-      echo "\nCompiling done. Starting websitecreator:"
-      await response.send("<br><br>Compiling done. Starting websitecreator<br>")
+      echo "\nCompiling done. Starting nimwc:"
+      await response.send("<br><br>Compiling done. Starting nimwc<br>")
       await response.send("<a href=\"/plugins\">Compiling is done, click here to reload</a>")
     quit()
 

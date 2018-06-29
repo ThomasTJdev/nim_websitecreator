@@ -6,7 +6,7 @@ import ../utils/logging
 
 let appDir = getAppDir()
 
-let dict = loadConfig("config/config.cfg")
+let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
 
 # Create folders

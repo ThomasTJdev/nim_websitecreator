@@ -3,9 +3,8 @@ version       = "0.1.4"
 author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev)"
 description   = "Generate and host a website. Run the package and access your new webpage."
 license       = "GPLv3"
-bin           = @["websitecreator"]
+bin           = @["nimwc"]
 skipDirs      = @["private"]
-#skipExt       = @["nim"]
 
 
 
@@ -26,7 +25,7 @@ task setup, "Generating executable":
   if not fileExists("config/config.cfg"):
     exec "cp config/config_default.cfg config/config.cfg"
   
-  exec "nim c -d:release websitecreator.nim"
+  exec "nim c -d:release -d:ssl nimwc.nim"
 
 before install:
     setupTask()
