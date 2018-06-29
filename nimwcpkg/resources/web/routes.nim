@@ -18,7 +18,7 @@ routes:
     when not defined(dev):
       if useCaptcha:
         if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
-          resp genFormLogin(c, "Error: You need to verify, that you are not a robot!")
+          resp genFormLogin(c, decodeUrl("Error: You need to verify, that you are not a robot!"))
     
     let (loginB, loginS) = login(c, @"email", replace(@"password", " ", ""))
     if loginB:
