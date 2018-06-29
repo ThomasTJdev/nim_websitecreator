@@ -255,7 +255,7 @@ macro readCfgAndBuildSource*(cfgFilename: string): typed =
 
   result = parseStmt(source)
 
-readCfgAndBuildSource("config/configStatic.cfg")
+readCfgAndBuildSource("../config/configStatic.cfg")
 
 
 var db: DbConn
