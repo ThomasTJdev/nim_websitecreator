@@ -184,3 +184,59 @@ function userUploadProfilePictures(dataURL) {
     }
   });
 }
+
+
+/*
+  Design / Animation
+*/
+$(function() {
+  $('#pagewrapper').fadeTo(1500, 0.90);
+});
+if ($('#frontpageContainer').length) {
+  setTimeout(function(){
+    $("#frontpageContainer .title h1").addClass("reveal-show");
+  	$("#frontpageContainer .title h2").addClass("reveal-show");
+  }, 600);
+  
+  $(window).scroll(function() {
+     var hT = $('#frontpageContainer .text2').offset().top,
+         hH = $('#frontpageContainer .text2').outerHeight(),
+         wH = $(window).height(),
+         wS = $(this).scrollTop();
+     if (wS > (hT+hH-wH) && (hT > wS) && (wS+wH > hT+hH)){
+        $('#frontpageContainer .text2').addClass('reveal-show')
+     }/* else {
+        $('h1').removeClass('view')
+     }*/
+  });
+
+  $(window).scroll(function() {
+     var hT = $('#frontpageContainer .text5 .sub1').offset().top,
+         hH = $('#frontpageContainer .text5 .sub1').outerHeight(),
+         wH = $(window).height(),
+         wS = $(this).scrollTop();
+     if (wS > (hT+hH-wH) && (hT > wS) && (wS+wH > hT+hH)){
+        $('#frontpageContainer .text5 .sub1').addClass('reveal-show')
+     }/* else {
+        $('h1').removeClass('view')
+     }*/
+  });
+
+  $(window).scroll(function() {
+     var hT = $('#frontpageContainer .text5 .sub2').offset().top,
+         hH = $('#frontpageContainer .text5 .sub2').outerHeight(),
+         wH = $(window).height(),
+         wS = $(this).scrollTop();
+     if (wS > (hT+hH-wH) && (hT > wS) && (wS+wH > hT+hH)){
+        $('#frontpageContainer .text5 .sub2').addClass('reveal-show')
+     }/* else {
+        $('h1').removeClass('view')
+     }*/
+  });
+}
+
+if ($('#aboutContainer').length) {
+  setTimeout(function(){
+    $("#aboutContainer .title").addClass("reveal-show");
+  }, 600);
+}

@@ -1,10 +1,8 @@
-/*style_parallax.css*/
+/*style_nimwc.css*/
 /*
-  Theme: Parallax
+  Theme: NimWC
   Do not change the lines above
   This is the default stylesheet  
-
-  To use this themes parallax features
 */
 
 /*
@@ -15,25 +13,20 @@ html {
 }
 
 body {
-  background: rgb(28, 26, 51);
-}
-body [class*="para_"]:nth-child(2n) {
-  box-shadow: inset 0 0 1em #111;
-}
-body .para {
+  background-image: url("/images/bgbuilding.jpeg");
   background-attachment: fixed;
   background-position: top center;
   background-size: cover;
-  height: 100vh;
+  min-height: 100vh;
   position: relative;
 }
 
 #pagewrapper {
-  background: rgb(28, 26, 51);
-  width: 100%;
-  color: white;
+  background: white; /*rgba(255, 255, 255, 0.94);*/
   margin-left: auto;
   margin-right: auto;
+  padding: 0px 20px;
+  min-height: 100vh;
 }
 @media only screen and (max-width: 1200px) {
   #pagewrapper {
@@ -41,84 +34,48 @@ body .para {
   }
 }
 
-#page {
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 72px;
-  margin-bottom: 96px;
-  padding: 0px 10px;
-}
-#page.true {
-  margin-top: 72px;
-}
-@media only screen and (max-width: 768px) {
-  #page {
-    margin-bottom: 0px;
-    margin-top: 35px;
-  }
-}
-
 footer {
   border-top: 1px solid #dee2e6;
+  margin-top: 45px;
   margin-left: auto;
   margin-right: auto;
   padding-top: 15px;
   text-align: center;
-  position: fixed;
-  bottom: 0;
-  display: block;
-  width: 100%;
-  background: rgb(28, 26, 51);
-  z-index: 999;
-}
-footer #footerInside {
-  max-width: 1200px;
+  width: 1200px;
   margin-left: auto;
   margin-right: auto;
+  display: block;
 }
 footer .footerLeft u,
 footer .footerMiddle,
 footer .footerRight u {
-  color:white;
-}
-@media only screen and (max-width: 768px) {
-  footer {
-    position: initial;
-    bottom: auto;
-  }
+  color: black;
 }
 
 header {
-  display: inline-block;
-  width: 100%;
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
 }
 nav#navbar{
   background-color: transparent;
-  border-bottom: 1px solid #dee2e6;
-  display: block;
-  z-index: 999;
-  background: #1c1a33;
-  position: fixed;
-  width: 100%;
-  overflow: hidden;
-  top: 0;
-}
-nav#navbar #navbarInside {
-  max-width: 1200px;
-  margin-right: auto;
-  margin-left: auto;
+  margin-bottom: 15px;
 }
 nav#navbar .navbar-brand {
-  color: white;
+  color: #0059b8;
+  font-weight: 400;
+  font-size: 28px;
 }
 nav#navbar a.nav-link {
-  color: white;
+  color: #0059b8;
+  text-transform: capitalize;
+  font-variant: small-caps;
+  font-size: 20px;
+  margin-right: 25px;
 }
 nav#navbar .navbar-toggler {
   border: none;
-}
-nav#navbar .navbar-toggler-icon {
-  border: 1px solid white;
 }
 @media only screen and (min-width: 768px) {
   nav#navbar {
@@ -128,16 +85,8 @@ nav#navbar .navbar-toggler-icon {
 
 
 /* Navbar settings */
-div#navbarSettings {
-  z-index: 1000;
-  top: 0;
-  position: fixed;
-}
 div#navbarSettings a {
-  color: white;
-}
-div#navbarSettings .dropdown-menu a {
-  color: black;
+  color: black
 }
 
 
@@ -163,7 +112,6 @@ button.btn {
 }
 
 
-
 /*
   Saved notification
 */
@@ -182,7 +130,6 @@ button.btn {
   -moz-box-shadow: 0 0 5px black;
   box-shadow: 0 0 5px black;
 }
-
 
 
 /*
@@ -205,10 +152,8 @@ div#login {
   text-align: center;
 }
 #login form {
-  color: white;
   margin-right: auto;
   margin-left: auto;
-  margin-bottom: 100px;
   width: 310px;
   padding: 10px;
   -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
@@ -218,9 +163,6 @@ div#login {
 #recaptcha {
   margin-bottom: 5px;
   margin-top: 20px;
-}
-.login {
-  color: white;
 }
 
 
@@ -239,18 +181,15 @@ li.pluginSettings {
   padding: 10px 15px;
   width: 350px;
 }
-li.pluginSettings.enabled {
-  background: white;
-}
 li.pluginSettings.disabled {
   background: rgba(128, 128, 128, 0.36);
 }
-li.pluginSettings&gt;div {
+li.pluginSettings>div {
   display: inline-block;
 }
 li.pluginSettings .name {
-  width: 240px;
   display: inline;
+  width: 240px;
 }
 li.pluginSettings .name i {
   font-size: 90%;
@@ -296,12 +235,10 @@ li.pluginRepo span.version {
   border-radius: 5px;
   border: 1px solid grey;
   padding: 0px 2px;
-  color: black;
 }
 li.pluginRepo span.version.git {
   background-color: #ffc107;
 }
-
 
 
 
@@ -320,9 +257,6 @@ div#settings div {
 }
 div#settings .btn {
   width: 120px;
-  color: black;
-  border-color: white;
-  background: white;
 }
 
 
@@ -413,7 +347,6 @@ div#users span a.delete {
 }
 div#usersAddContainer {
   margin-bottom: 20px;
-  color: black;
 }
 form#usersAdd {
   display: none;
@@ -423,13 +356,9 @@ form#usersAdd {
   border-radius: 10px;
   margin-top: 10px;
 }
-div#users ul.list-group {
-  color: black;
-}
 div#users label {
   margin-right: 10px;
   width: 50px;
-  color: white;
 }
 div#users select {
   width: 205px;
@@ -459,7 +388,6 @@ div#user #editProfilePhoto {
   padding: 5px 2px;
   text-align: center;
 }
-
 @media only screen and (max-width: 768px) {
 
   div#user label {
@@ -485,13 +413,6 @@ div#newblogData {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 20px;
-}
-div#newblogData .images {
-  background: white;
-  color: black;
-  padding: 10px;
-  border-radius: 5px;
 }
 div#newblogData input {
   border: none;
@@ -579,13 +500,115 @@ div#allpagePosts .list-group-item {
 }
 
 
+
 /*
-    Plugin: Themes
+	Animate
 */
-div#themes li.stylesheet {
-  background: white;
-  color: black;
+.reveal {
+opacity:0;transform:translate3d(0,100px,0);transition:opacity 2s cubic-bezier(.215,.61,.355,1),transform 2s cubic-bezier(.215,.61,.355,1)
 }
-div#themes li.stylesheet.active {
-  background: rgba(142, 226, 142, 0.94)!important;
+.reveal-show {
+  opacity:1;transform:translateZ(0)
 }
+      
+
+
+/*
+	Pages
+*/
+/*
+	Frontpage
+_________________*/
+#frontpageContainer {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.title {
+  align-items: center;
+  min-height: calc(100vh - 324px);
+  margin-top: 100px;
+}
+.title h1 {
+  font-size: 3.6rem;
+  font-weight: 300;
+}
+.title h2,
+.text2 h2,
+.text5 h2 {
+  font-size: 3.0rem;
+  font-weight: 300;
+}
+.text2 h2,
+.text5 h2 {
+  text-align: left;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #005bbc;
+}
+.text5 h2 {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+.text5 {
+  margin-top: 75px;
+}
+.text3 {
+  margin-top: 150px;
+  margin-bottom: 150px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  border: 1px solid #d9d9d9e8;
+  border-radius: 15px;
+}
+.text3 .text3element {
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.text3 .text3element h4 {
+  font-weight: 400;
+  font-size: 1.9rem;
+}
+.text3 .text3element p {
+  line-height: 2rem;
+  font-size: 20px;
+  font-weight: 300;
+}
+.text4 h2,
+.text6 h2 {
+  font-size: 3.3rem;
+  font-weight: 300;
+  color: #005bbc;
+}
+.text6 {
+  margin-top: 150px;
+}
+.spacer {
+  height: 150px;
+} 
+
+/*
+	About
+___________________*/
+#aboutContainer {
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.title {
+  align-items: center;
+  min-height: 250px;
+  margin-top: 100px;
+}
+.title h1 {
+  font-size: 3.6rem;
+  font-weight: 300;
+}
+.text1 h2 {
+  font-size: 3.3rem;
+  font-weight: 300;
+  color: #005bbc;
+}
+      

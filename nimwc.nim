@@ -1,6 +1,4 @@
-import osproc, os, sequtils
-
-from times import local, getTime
+import osproc, os, sequtils, times
 
 var runInLoop = true
 var nimhaMain: Process

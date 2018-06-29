@@ -107,7 +107,7 @@ nim c -d:ssl nimwc.nim
   * `-u:<admin username>`
   * `-p:<admin password>`
   * `-e:<admin email>`
-* `nginx` = Used to close the streaming connection when using nginx as a webserver
+* `nginx` = Used to close the streaming connection when using Nginx as a webserver
 * `insertdata` = Insert standard data (this will override existing data)
 * `newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
 
@@ -149,26 +149,29 @@ The "Admin" has access to anything.
 
 Blog posts can be set as private or public.
 
-**Blog**
+**Frontpage**
+![Frontpage](private/screenshots/frontpage.png)
+
+**Blog view**
 ![Blog](private/screenshots/blog.png)
 
 **Blog page**
 ![Blog](private/screenshots/blog2.png)
 
-**Blog post edit 1**
+**Blog post edit**
 ![Blog](private/screenshots/blogpage1.png)
 
-**Blog post edit 2**
+**Blog post detailed edit**
 ![Blog](private/screenshots/blogpage2.png)
-
-**Frontpage**
-![Frontpage](private/screenshots/frontpage.png)
 
 **Settings**
 ![Blog](private/screenshots/settings.png)
 
 **Settings head, header & footer**
 ![Blog](private/screenshots/settings2.png)
+
+**Plugin repo**
+![Blog](private/screenshots/pluginrepo.png)
 
 **Files**
 ![Blog](private/screenshots/files.png)
@@ -180,6 +183,10 @@ Blog posts can be set as private or public.
 ![Blog](private/screenshots/profile.png)
 
 
+# Shortcuts
+
+When editing a blogpage or normal page press Ctrl+S to save.
+
 # Google reCAPTCHA
 
 To activate Google reCAPTCHA claim you site and server key and insert them into you `config.cfg`.
@@ -187,37 +194,12 @@ To activate Google reCAPTCHA claim you site and server key and insert them into 
 
 # Standard plugins
 
-These plugins are standard and available. *[They will be moved to separated repos in the future]*
-
-### Enable/disable a plugin
+## Enable/disable a plugin
 
 To enable or disable a plugin go to `<webpage>/plugins`
 
 
-### Plugin: Backup
-
-Create an instant backup file. Schedule continuously backups. Download backups.
-
-You can access the plugin at `/backup`.
-
-
-### Plugin: Mailer
-
-Add mailselements containing subject, description and a date for sending the mail. Every 12th hour a cronjob will run to check, if it is time to send the mail.
-
-All registrered users will receive the email.
-
-You can access the plugin at `/mailer`. This link can be added to the navbar manually.
-
-
-### Plugin: Contact
-
-A simple contact form for non-logged in users. The email will be sent to the info-email specified in the `config.cfg` file.
-
-You can access the plugin at `/contact`. This link can be added to the navbar manually.
-
-
-### Plugin: Themes
+## Plugin: Themes
 
 Switch between themes. Save custom themes from the browser.
 
@@ -229,8 +211,36 @@ You can access the plugin at `/themes`.
 
 Plugins are loaded at compiletime with macros. Only plugins placed in the `plugins`-folder are included.
 
-*Example plugins are available in the `plugins`-folder.*
+*Example plugin are available in the `plugins`-folder.*
 
+
+## Plugin repo
+
+If you develop a plugin, please add it to https://github.com/ThomasTJdev/nimwc_plugins to make it public accessible. 
+
+Available plugins:
+
+### Plugin: Backup
+
+Create an instant backup file. Schedule continuously backups. Download backups.
+
+You can access the plugin at `/backup`.
+
+
+### Plugin: Mailer
+
+Add mail elements containing subject, description and a date for sending the mail. Every 12th hour a cronjob will run to check, if it is time to send the mail.
+
+All registered users will receive the email.
+
+You can access the plugin at `/mailer`. This link can be added to the navbar manually.
+
+
+### Plugin: Contact
+
+A simple contact form for non-logged in users. The email will be sent to the info-email specified in the `config.cfg` file.
+
+You can access the plugin at `/contact`. This link can be added to the navbar manually.
 
 
 ## Plugin structure

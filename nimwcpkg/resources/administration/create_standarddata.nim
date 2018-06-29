@@ -72,94 +72,172 @@ const footer* = """
 
 
 const about = """
-<style>
-body .para {
-  height: 100vh;
-}
-</style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/css3-animate-it/1.0.3/css/animations.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/css3-animate-it/1.0.3/js/css3-animate-it.min.js" defer=""></script>
-<div>
-  <div class="para para_foo" style="background-image: url(/images/par1b.jpeg)">
-    <div class="animatedParent" style="padding-top: 150px;max-width: 200px;margin-left: auto;margin-right: auto;">
-      <div class="animated bounceInRight go" style="background: black;color: white;padding: 20px;border-radius: 10px;text-align: center;">
-        <h1>What</h1>
-        <p>A small and quick website creator.</p>
+<div id="aboutContainer">
+  <div class="title reveal">
+    <h1 class="">The reason to use NimWC</h1>
+  </div>
+  
+  <div class="text1">
+    <h2>Flexibility</h2>    
+  	<hr>
+      
+    <div class="container-fluid">
+      <div class="row">
+        
+    	<div class="col col-md-6">
+          <div class="text1element">
+            <h4>Customizable</h4>
+            <p>
+              NimWC is designed for users who has a little knowledge about HTML, CSS and JS.
+              It is possible to customize the frontend code for all pages or for specific pages.
+              This flexibility gives the user the power instead of given the power to the platform.
+            </p>
+          </div>
+        </div>
+        
+        <div class="col col-md-6">
+          <div class="text1element">
+            <h4>Wordpress</h4>
+            <p>
+              NimWC is not a replacement for Wordpress but an alternative.
+              NimWC is a self-hosted solution with a minimum of requirements
+              which also ensures, that there fewer dependencies.
+          </p></div>
+        </div>
       </div>
-    </div>
-  </div>
-  <div class="para para_bar" style="background-image: url(/images/par2b.jpeg)">
-    <div class="animatedParent" data-appear-top-offset="-300" style="padding-top: 150px;max-width: 200px;margin-left: auto;margin-right: auto;">
-      <div class="animated fadeInUp" style="background: white;color: black;padding: 20px;border-radius: 10px;text-align: center;">
-        <h1>Why</h1>
-        <p>Quick setup of a website with custom configuration</p><p>
-      </p></div>
-    </div>
-  </div>
-  <div class="para para_baz" style="background-image: url(/images/par3b.jpeg)">
-    <div class="animatedParent" data-appear-top-offset="-300" style="padding-top: 150px;max-width: 200px;margin-left: auto;margin-right: auto;">
-      <div class="animated growIn" style="background: rgb(88, 234, 94);color: rgb(165, 68, 236);padding: 20px;border-radius: 10px;text-align: center;">
-        <h1>How</h1>
-        <p>Clone the GIT repo and you're ready to go!</p>
+        
+      <div class="row">
+    	<div class="col col-md-6">
+          <div class="text1element">
+            <h4>Self-hosting</h4>
+            <p>
+              By utilizing the powerfull language Nim, NimWC is compiled to C code,
+              which is runnable on almost all platforms. This further more makes it incredible easy
+              to host NimWC on e.g. Amazon or on a Raspberry Pi.
+            </p>
+          </div>
+        </div>
+        
+        <div class="col col-md-6">
+          <div class="text1element">
+            <h4>Open source</h4>
+            <p>
+              All of NimWC code is available to the public. Any Nim programmer can contribute with
+              improvements and new features. The codebase is built up upon modules, which makes it 
+              easy to add new features and plugins.
+          	</p>
+          </div>
+        </div>
       </div>
+        
     </div>
+    <hr>
   </div>
+  
+  <div class="spacer"></div>
 </div>
 """
 
 const frontpage = """
-<style>
-body .para {
-  height: 70vh;
-}
-.para>div {
-  padding-top:150px;
-  max-width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-@media only screen and (max-width: 768px) {
- .para>div {
-    padding-top: 50px;
-  }
-}
-</style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/css3-animate-it/1.0.3/css/animations.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/css3-animate-it/1.0.3/js/css3-animate-it.min.js" defer=""></script>
-<div>
-  <div class="para para_foo" style="background-image: url(/images/par1a.jpeg);">
-    <div class="animatedParent animateOnce">
-      <div class="animated bounceInRight go" style="background: white;color: black;border: 1px solid grey;padding: 20px;border-radius: 10px;text-align: center;">
-        <h1 style="text-align: center; ">Nim Website Creator</h1>
-		<br>
-        <h4 style="text-align: center;">Website in 5 minutes</h4>
-		<p style="text-align: center;">A quick tool to setup a website in no time. Run the program and POW - the website is ready!</p>
+<div id="frontpageContainer">
+  <div class="title">
+    <h1 class="reveal">Nim Website Creator</h1>
+    <h2 class="reveal">Your website creator tool</h2>
+  </div>
+  
+  <div class="text2 reveal">
+    <h2>NimWC is a new tool for<br>generating websites on the fly</h2>
+  </div>
+    
+  <div class="text3">
+  	<div class="container-fluid">
+      <div class="row">
+        
+        <div class="col col-md-4">
+          <div class="text3element">
+            <h4>One click install</h4>
+            <p>Install with Nim's package manager Nimble or compile yourself. Just run the file, and your website is up and running.</p>
+          </div>
+        </div>
+        
+        <div class="col col-md-4">
+          <div class="text3element">
+            <h4>Plugins</h4>
+            <p>Install plugins within the browser, e.g. backup function, themes, etc. Easy development of new plugins.</p>
+          </div>
+        </div>
+        
+        <div class="col col-md-4">
+          <div class="text3element">
+            <h4>Speed and security</h4>
+            <p>NimWC is developed with the programming language Nim to ensure high speed and stability.</p>
+          </div>
+        </div>
+    
       </div>
     </div>
   </div>
-  <div class="para para_bar" style="background-image: url(/images/par2a.jpeg);">
-    <div class="animatedParent animateOnce" data-appear-top-offset="-150">
-      <div class="animated fadeInUp" style="background: white;color: black;border: 1px solid grey;padding: 20px;border-radius: 10px;text-align: center;">
-        <h2>From beginner to expert</h2>
-        <p style="text-align: center;">All the pages can be edited without any HTML (programming) knowledge. Advanced users can edit the header, navbar, footer etc.</p>
-        <br>
-        <h2>Plugins</h2>
-        <p style="text-align: center;">Multiple plugins are available: Schedule mails to all users, backup the database continuously, change themes and more.</p><p>
-      </p></div>
-    </div>
-  </div>
-  <div class="para para_baz" style="background-image: url(/images/par3a.jpeg);">
-    <div class="animatedParent animateOnce" data-appear-top-offset="-150">
-      <div class="animated growIn" style="background: black;color: white;padding: 20px;border-radius: 10px;text-align: center;">
-        <h2>Get started</h2>
-        <p style="text-align: center;">Visit the <a href="https://github.com/ThomasTJdev/nim_websitecreator">Github page</a>&nbsp;for installation instructions or try the <a href="https://nimwc.org/login">test user</a>.</p>
-        <br>
-        <h2>Customize it</h2>
-        <p style="text-align: center;">Nim Website Creator is programmed with Nim-lang. Visit the Github page to learn more.</p>  
+    
+  <div class="text4">
+    <h2>Installation</h2>    
+  	<hr>
+      
+    <div class="container-fluid">
+      <div class="row">
+    	<div class="col col-md-6">
+          <div class="text4element">
+            <h4>Nimble</h4>
+            <p style="margin-bottom: 0rem;"><label style="width: 70px;">Install:</label><kbd>nimble install nimwc</kbd></p>
+            <p><label style="width: 70px;">Run:</label><kbd>nimwc</kbd></p>
+          </div>
+        </div>
+        
+        <div class="col col-md-6">
+          <div class="text4element">
+            <h4>Compile</h4>
+            <p style="margin-bottom: 0rem;"><label style="width: 70px;">Clone:</label><kbd>git clone https://git.io/f4AfL</kbd></p>
+            <p><label style="width: 70px;">Compile:</label><kbd>nim c -r nimwc.nim</kbd></p>
+          </div>
+        </div>
       </div>
     </div>
+    <hr>
   </div>
+      
+  <div class="text5">
+    <h2 class="sub1 reveal">NimWC is 100% free</h2>
+    <h2 class="sub2 reveal">NimWC is 100% open source</h2>
+  </div>
+      
+  <div class="text6">
+    <h2>Next step</h2>    
+  	<hr>
+      <div class="container-fluid">
+      <div class="row">
+    	<div class="col col-md-6">
+          <div class="text6element">
+            <h4>Try NimWC</h4>
+            <p style="margin-bottom: 0.3rem;">Try the test user without registration</p>
+            <p>Go to <a href="/login">the login page</a> and login with the test user.</p>
+          </div>
+        </div>
+        
+        <div class="col col-md-6">
+          <div class="text6element">
+            <h4>Learn more &amp; Features</h4>
+            <p style="margin-bottom: 0.3rem;">You can visit the <a href="https://git.io/f4AfL">Github page</a> to see the code</p>
+            <p>Checkout the features and see the examples on how to use NimWC</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
+      
+  <div class="spacer"></div>
+  
 </div>
+
 """
 
 
@@ -173,63 +251,86 @@ const blogpost1 = """
  </div>
 </div>
   
-<div style="height: 50px; background: transparent;"></div>
+  <div style="height: 50px; background: transparent;"></div>
   
-<div class="container-fluid" style="max-width: 1200px;">
-  <div class="row">
-    <div class="col-12 col-sm-6">
-      <div style="background: white; color: black; padding: 25px; border-radius: 10px; margin-bottom: 20px;">
-      <h2 style="text-align: center;">UNO</h2>
+  <div class="container-fluid" style="max-width: 1200px;">
+    <div class="row">
+      <div class="col-12 col-sm-6">
+        <div style="background: white; color: black; padding: 25px; border-radius: 10px;">
+	      <h2 style="text-align: center;">UNO</h2>
+        </div>
       </div>
-    </div>
-    <div class="col-12 col-sm-6">
-      <div style="background: white; color: black; padding: 25px; border-radius: 10px; margin-bottom: 20px;">
-      <h2 style="text-align: center;">DOS</h2>
+      <div class="col-12 col-sm-6">
+        <div style="background: white; color: black; padding: 25px; border-radius: 10px;">
+	      <h2 style="text-align: center;">DUO</h2>
+        </div>
       </div>
     </div>
   </div>
-</div>
   
-<div style="height: 50px; background: transparent;"></div>
+  <div style="height: 50px; background: transparent;"></div>
   
-<div style="background: white; color: black; padding: 20px; max-width: 1200px; padding: 20px; border-radius: 10px; margin-left: auto; margin-right: auto; margin-bottom: 150px; text-align: right;">
-  <h1 style="text-align: right;">Standard blog</h1>
+  <div style="background: white; color: black; padding: 20px; max-width: 1200px; padding: 20px; border-radius: 10px; margin-left: auto; margin-right: auto; margin-bottom: 150px; text-align: right;">
+ <h1 style="text-align: right;">Standard blog</h1>
   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p><p><br></p>
   
-  <div>
-    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?<br></p>
-  </div>
+ <div>
+  <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?<br></p>
+ </div>
 </div>
 """
 
 const blogpost2 = """
-<h1 style="color: white; text-align: center;">Blog post</h1>
-<div class="container-fluid" style="max-width: 1200px; padding-top: 20px;">
-  <div class="row">
-    <div class="col-12 col-sm-4">
-      <div style="background: white; color: black; padding: 25px; border-radius: 10px; margin-bottom: 20px;">
-      <h2 style="text-align: center;">UNO</h2>
-        <p>
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        </p>
-      </div>
-    </div>
-    <div class="col-12 col-sm-4">
-      <div style="background: white; color: black; padding: 25px; border-radius: 10px; text-align: center; margin-bottom: 20px;">
-      <h2 style="text-align: center;">DOS</h2>
-        <img src="/images/avatar.jpg">
-      </div>
-    </div>
-    <div class="col-12 col-sm-4">
-      <div style="background: white; color: black; padding: 25px; border-radius: 10px; margin-bottom: 20px;">
-      <h2 style="text-align: center;">TRES</h2>
-        <p>
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-        </p>
+<style>
+body [class*="para_"] {
+  position: relative;
+  height: 300px;
+  background-attachment: fixed;
+  background-position: top center;
+  background-size: cover;
+}
+body [class*="para_"]:nth-child(2n) {
+  box-shadow: inset 0 0 1em #111;
+}
+body .para {
+  height: 100vh;
+}
+body .para_foo {
+  background-image: url(/images/par1b.jpeg);
+}
+body .para_bar {
+  background-image: url(/images/par2b.jpeg);
+}
+body .para_baz {
+  background-image: url(/images/par3b.jpeg);
+}
+
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/css3-animate-it/1.0.3/css/animations.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/css3-animate-it/1.0.3/js/css3-animate-it.min.js" defer=""></script>
+<div>
+  <div class="para para_foo">
+    <div class="animatedParent" style="padding-top: 150px;max-width: 200px;margin-left: auto;margin-right: auto;">
+      <div class="animated bounceInRight go" style="background: black;color: white;padding: 20px;border-radius: 10px;text-align: center;">
+        <h1>First parallax</h1>
       </div>
     </div>
   </div>
-</div>  
+  <div class="para para_bar">
+    <div class="animatedParent" data-appear-top-offset="-300" style="padding-top: 150px;max-width: 200px;margin-left: auto;margin-right: auto;">
+      <div class="animated fadeInUp" style="background: white;color: black;padding: 20px;border-radius: 10px;text-align: center;">
+        <h1>Second parallax</h1>
+      </div>
+    </div>
+  </div>
+  <div class="para para_baz">
+    <div class="animatedParent" data-appear-top-offset="-300" style="padding-top: 150px;max-width: 200px;margin-left: auto;margin-right: auto;">
+      <div class="animated growIn" style="background: rgb(88, 234, 94);color: rgb(165, 68, 236);padding: 20px;border-radius: 10px;text-align: center;">
+        <h1>Third parallax</h1>
+      </div>
+    </div>
+  </div>
+</div>
 """
 
 proc standardDataSettings*(db: DbConn) =
@@ -278,7 +379,7 @@ proc standardDataBlogpost2*(db: DbConn) =
   if blogExists != "":
     exec(db, sql"DELETE FROM blog WHERE id = ?", blogExists)
 
-  discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv2", "Standard post v2", blogpost2, "1", "1", "1")
+  discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv2", "Parallax post v2", blogpost2, "1", "1", "1")
 
 
 proc createStandardData*(db: DbConn) =

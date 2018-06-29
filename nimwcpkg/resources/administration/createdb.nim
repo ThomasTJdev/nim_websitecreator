@@ -101,7 +101,7 @@ proc generateDB*() =
     title TEXT,
     disabled INTEGER
   );""", []):
-    echo " - Database: history table already exists"
+    echo " - Database: settings table already exists"
 
   # ----------------------- Pages ----------------------------------------------
 

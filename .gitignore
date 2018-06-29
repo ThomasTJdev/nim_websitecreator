@@ -27,7 +27,10 @@ public/js/openregistration.js
 public/css/openregistration_private.css
 public/js/openregistration_private.js
 public/css/themes_private.css
+public/css/templates_private.css
 plugins/themes/stylesheets/style.css
+plugins/templates
+plugins/templates/*
 tmp
 tmp/*
 TODO.md

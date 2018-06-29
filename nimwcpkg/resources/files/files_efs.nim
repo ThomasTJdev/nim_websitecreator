@@ -4,7 +4,7 @@ import parsecfg, os, strutils, osproc, os
 import ../utils/logging
 
 
-let appDir = getAppDir()
+let appDir = replace(getAppDir(), "/nimwcpkg", "")
 
 let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
