@@ -1,4 +1,4 @@
-import osproc, os, sequtils, times
+import osproc, os, sequtils, times, strutils
 
 var runInLoop = true
 var nimhaMain: Process
@@ -42,7 +42,8 @@ let compileOptions = checkCompileOptions()
 template addArgs(inExec = false): string =
   ## User specified args
 
-  let args = foldl(commandLineParams(), a & (b & " "), "")
+  #var args = foldl(commandLineParams(), a & (b & ""), "")
+  var args = commandLineParams().join(" ")
 
   if args == "":
     ""
@@ -60,7 +61,7 @@ proc launcherActivated() =
   ##    the program exits the running process and starts a new
   echo $getTime() & ": Nim Website Creator: Launcher initialized"
 
-  nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & addArgs(true), options = {poParentStreams})
+  nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & addArgs(true), options = {poParentStreams, poEvalCommand})
 
   while runInLoop:
     if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
@@ -74,7 +75,7 @@ proc launcherActivated() =
       if args != "":
         echo " Using args: " & args
 
-      nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & addArgs(true), options = {poParentStreams})
+      nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & addArgs(true), options = {poParentStreams, poEvalCommand})
    
     sleep(1500)
 
