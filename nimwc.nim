@@ -60,7 +60,7 @@ proc launcherActivated() =
   ## 1) Executing the main-program in a loop.
   ## 2) Each time a new compiled file is available,
   ##    the program exits the running process and starts a new
-  echo $local(getTime()) & ": Nim Website Creator: Launcher initialized"
+  echo $getTime() & ": Nim Website Creator: Launcher initialized"
 
   nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & addArgs(true), options = {poParentStreams})
 
@@ -70,7 +70,7 @@ proc launcherActivated() =
       moveFile(getAppDir() & "/nimwcpkg/nimwc_main_new", getAppDir() & "/nimwcpkg/nimwc_main")
     
     if not running(nimhaMain):
-      echo $local(getTime()) & ": Restarting program"
+      echo $getTime() & ": Restarting program"
       
       let args = addArgs(true)
       if args != "":
@@ -80,7 +80,7 @@ proc launcherActivated() =
    
     sleep(1500)
 
-  echo $local(getTime()) & ": Nim Website Creator: Quitted"
+  echo $getTime() & ": Nim Website Creator: Quitted"
   quit()
 
 

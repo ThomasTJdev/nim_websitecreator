@@ -1,3 +1,1 @@
-plugins/contact
 plugins/themes
-plugins/mailer

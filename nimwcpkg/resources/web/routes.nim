@@ -83,9 +83,9 @@ routes:
     ##
     ## This will re-compile the program due to plugins
     ## are loaded at compiletime. The newly compile filename
-    ## will be named ..._new. After compiling the program
-    ## will quit, and the launcher will activate the
-    ## the new file.
+    ## will be named ..._new. After compiling the launcher
+    ## identify the newly compiled file within 1,5 sec
+    ## and restart the process.
 
     createTFD()
     if c.rank != Admin and defined(demo):
@@ -107,7 +107,6 @@ routes:
       echo "\nCompiling done. Starting nimwc:"
       await response.send("<br><br>Compiling done. Starting nimwc<br>")
       await response.send("<a href=\"/plugins\">Compiling is done, click here to reload</a>")
-    #quit()
 
 
   get "/plugins/repo":
