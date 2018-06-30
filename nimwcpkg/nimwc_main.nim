@@ -34,8 +34,6 @@ import
 
 import cookies as libcookies
 
-#setCurrentDir(getAppDir().replace("/nimwcpkg", "") & "/")
-#echo getCurrentDir()
 
 macro configExists(): untyped =
   ## Macro to check if the config file is present
