@@ -69,9 +69,10 @@ proc launcherActivated() =
       moveFile(getAppDir() & "/nimwcpkg/nimwc_main_new", getAppDir() & "/nimwcpkg/nimwc_main")
     
     if not running(nimhaMain):
-      echo $getTime() & ": Restarting program"
+      echo $getTime() & ": Restarting program in 1 second"
 
-      discard execCmd("pkill nimwc")
+      discard execCmd("pkill nimwc_main")
+      sleep(1000)
       
       let args = addArgs(true)
       if args != "":
