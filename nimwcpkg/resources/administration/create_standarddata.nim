@@ -19,13 +19,33 @@ const head* = """
 """
 
 const navbar* = """
-<nav id="navbar" class="navbar navbar-expand-md navbar-dark">
+<nav id="navbar" class="navbar navbar-expand-md navbar-light">
   <div id="navbarInside">
     <a class="navbar-brand" href="/">Nim Website Creator</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <div class="navbar-toggler mainMenu">
+      <div class="baricon bar1"></div>
+      <div class="baricon bar2"></div>
+      <div class="baricon bar3"></div>
+    </div>
+    <div class="menu" id="mainMenu">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Frontpage</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/p/about">About</a>
+        </li>
+      </ul>
+    </div>
+    <div class="menu" id="mobileMenu">
+      <div class="navbar-toggler">
+        <div class="baricon bar1"></div>
+        <div class="baricon bar2"></div>
+        <div class="baricon bar3"></div>
+      </div>
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-link" href="/">Frontpage</a>
@@ -74,64 +94,64 @@ const footer* = """
 const about = """
 <div id="aboutContainer">
   <div class="title reveal">
-    <h1 class="">The reason to use NimWC</h1>
+    <h1>Learn more about NimWC</h1>
+    <h2>Get involved.</h2>
   </div>
   
   <div class="text1">
     <h2>Flexibility</h2>    
-  	<hr>
-      
-    <div class="container-fluid">
-      <div class="row">
-        
-    	<div class="col col-md-6">
-          <div class="text1element">
-            <h4>Customizable</h4>
-            <p>
-              NimWC is designed for users who has a little knowledge about HTML, CSS and JS.
-              It is possible to customize the frontend code for all pages or for specific pages.
-              This flexibility gives the user the power instead of given the power to the platform.
-            </p>
+  	<div class="text1container">
+      <div class="container-fluid">
+        <div class="row">
+          
+        <div class="col-12 col-md-6">
+            <div class="text1element">
+              <h4>Customizable</h4>
+              <p>
+                NimWC is designed for users who has a little knowledge about HTML, CSS and JS.
+                It is possible to customize the frontend code for all pages or for specific pages.
+                This flexibility gives the user the power instead of given the power to the platform.
+              </p>
+            </div>
+          </div>
+          
+          <div class="col-12 col-md-6">
+            <div class="text1element">
+              <h4>Wordpress</h4>
+              <p>
+                NimWC is not a replacement for Wordpress but an alternative.
+                NimWC is a self-hosted solution with a minimum of requirements
+                which also ensures, that there fewer dependencies.
+            </p></div>
           </div>
         </div>
-        
-        <div class="col col-md-6">
-          <div class="text1element">
-            <h4>Wordpress</h4>
-            <p>
-              NimWC is not a replacement for Wordpress but an alternative.
-              NimWC is a self-hosted solution with a minimum of requirements
-              which also ensures, that there fewer dependencies.
-          </p></div>
+          
+        <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="text1element">
+              <h4>Self-hosting</h4>
+              <p>
+                By utilizing the powerfull language Nim, NimWC is compiled to C code,
+                which is runnable on almost all platforms. This further more makes it incredible easy
+                to host NimWC on e.g. Amazon or on a Raspberry Pi.
+              </p>
+            </div>
+          </div>
+          
+          <div class="col-12 col-md-6">
+            <div class="text1element">
+              <h4>Open source</h4>
+              <p>
+                All of NimWC code is available to the public. Any Nim programmer can contribute with
+                improvements and new features. The codebase is built up upon modules, which makes it 
+                easy to add new features and plugins.
+              </p>
+            </div>
+          </div>
+
         </div>
       </div>
-        
-      <div class="row">
-    	<div class="col col-md-6">
-          <div class="text1element">
-            <h4>Self-hosting</h4>
-            <p>
-              By utilizing the powerfull language Nim, NimWC is compiled to C code,
-              which is runnable on almost all platforms. This further more makes it incredible easy
-              to host NimWC on e.g. Amazon or on a Raspberry Pi.
-            </p>
-          </div>
-        </div>
-        
-        <div class="col col-md-6">
-          <div class="text1element">
-            <h4>Open source</h4>
-            <p>
-              All of NimWC code is available to the public. Any Nim programmer can contribute with
-              improvements and new features. The codebase is built up upon modules, which makes it 
-              easy to add new features and plugins.
-          	</p>
-          </div>
-        </div>
-      </div>
-        
     </div>
-    <hr>
   </div>
   
   <div class="spacer"></div>
@@ -142,7 +162,7 @@ const frontpage = """
 <div id="frontpageContainer">
   <div class="title">
     <h1 class="reveal">Nim Website Creator</h1>
-    <h2 class="reveal">Your website creator tool</h2>
+    <h2 class="reveal">Websites on the fly</h2>
   </div>
   
   <div class="text2 reveal">
@@ -153,21 +173,21 @@ const frontpage = """
   	<div class="container-fluid">
       <div class="row">
         
-        <div class="col col-md-4">
+        <div class="col-12 col-md-4">
           <div class="text3element">
             <h4>One click install</h4>
             <p>Install with Nim's package manager Nimble or compile yourself. Just run the file, and your website is up and running.</p>
           </div>
         </div>
         
-        <div class="col col-md-4">
+        <div class="col-12 col-md-4">
           <div class="text3element">
             <h4>Plugins</h4>
             <p>Install plugins within the browser, e.g. backup function, themes, etc. Easy development of new plugins.</p>
           </div>
         </div>
         
-        <div class="col col-md-4">
+        <div class="col-12 col-md-4">
           <div class="text3element">
             <h4>Speed and security</h4>
             <p>NimWC is developed with the programming language Nim to ensure high speed and stability.</p>
@@ -180,28 +200,27 @@ const frontpage = """
     
   <div class="text4">
     <h2>Installation</h2>    
-  	<hr>
-      
-    <div class="container-fluid">
-      <div class="row">
-    	<div class="col col-md-6">
-          <div class="text4element">
-            <h4>Nimble</h4>
-            <p style="margin-bottom: 0rem;"><label style="width: 70px;">Install:</label><kbd>nimble install nimwc</kbd></p>
-            <p><label style="width: 70px;">Run:</label><kbd>nimwc</kbd></p>
+  	<div class="text4container">
+      <div class="container-fluid">
+        <div class="row">
+        <div class="col-12 col-md-6">
+            <div class="text4element">
+              <h4>Nimble</h4>
+              <p style="margin-bottom: 0rem;"><label style="width: 70px;">Install:</label><kbd>nimble install nimwc</kbd></p>
+              <p><label style="width: 70px;">Run:</label><kbd>nimwc</kbd></p>
+            </div>
           </div>
-        </div>
-        
-        <div class="col col-md-6">
-          <div class="text4element">
-            <h4>Compile</h4>
-            <p style="margin-bottom: 0rem;"><label style="width: 70px;">Clone:</label><kbd>git clone https://git.io/f4AfL</kbd></p>
-            <p><label style="width: 70px;">Compile:</label><kbd>nim c -r nimwc.nim</kbd></p>
+          
+          <div class="col-12 col-md-6">
+            <div class="text4element">
+              <h4>Compile</h4>
+              <p style="margin-bottom: 0rem;"><label style="width: 70px;">Clone:</label><kbd>git clone https://git.io/f4AfL</kbd></p>
+              <p><label style="width: 70px;">Compile:</label><kbd>nim c -r nimwc.nim</kbd></p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <hr>
   </div>
       
   <div class="text5">
@@ -211,27 +230,27 @@ const frontpage = """
       
   <div class="text6">
     <h2>Next step</h2>    
-  	<hr>
+  	<div class="text6container">
       <div class="container-fluid">
-      <div class="row">
-    	<div class="col col-md-6">
-          <div class="text6element">
-            <h4>Try NimWC</h4>
-            <p style="margin-bottom: 0.3rem;">Try the test user without registration</p>
-            <p>Go to <a href="/login">the login page</a> and login with the test user.</p>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="text6element">
+              <h4>Try NimWC</h4>
+              <p style="margin-bottom: 0.3rem;">Try the test user without registration</p>
+              <p>Go to <a href="/login">the login page</a> and login with the test user.</p>
+            </div>
           </div>
-        </div>
-        
-        <div class="col col-md-6">
-          <div class="text6element">
-            <h4>Learn more &amp; Features</h4>
-            <p style="margin-bottom: 0.3rem;">You can visit the <a href="https://git.io/f4AfL">Github page</a> to see the code</p>
-            <p>Checkout the features and see the examples on how to use NimWC</p>
+          
+          <div class="col-12 col-md-6">
+            <div class="text6element">
+              <h4>Learn more</h4>
+              <p style="margin-bottom: 0.3rem;">You can visit the <a href="https://git.io/f4AfL">Github page</a> to see the code</p>
+              <p>Checkout the features and see the examples on how to use NimWC</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-    <hr>
   </div>
       
   <div class="spacer"></div>

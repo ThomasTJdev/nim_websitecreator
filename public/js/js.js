@@ -1,4 +1,24 @@
 /*
+    Navbar
+*/
+
+$(document).ready(function() {
+  $("nav#navbar div.navbar-toggler.mainMenu").click(function() {
+    $("nav#navbar div#mobileMenu").show(350);
+    setTimeout(function(){
+      $("nav#navbar div#mobileMenu").addClass("active");
+    }, 350);
+  });
+  $("nav#navbar div#mobileMenu div.navbar-toggler").click(function() {
+    $("nav#navbar div#mobileMenu").hide(350);
+    $("nav#navbar div#mobileMenu").removeClass("active");
+  });
+
+});
+
+
+
+/*
     New blog post
 */
 
@@ -190,7 +210,7 @@ function userUploadProfilePictures(dataURL) {
   Design / Animation
 */
 $(function() {
-  $('#pagewrapper').fadeTo(1500, 0.90);
+  $('#background').fadeTo(1500, 0.50);
 });
 if ($('#frontpageContainer').length) {
   setTimeout(function(){
@@ -240,3 +260,4 @@ if ($('#aboutContainer').length) {
     $("#aboutContainer .title").addClass("reveal-show");
   }, 600);
 }
+      
