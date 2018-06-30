@@ -191,6 +191,37 @@ When editing a blogpage or normal page press Ctrl+S to save.
 
 To activate Google reCAPTCHA claim you site and server key and insert them into you `config.cfg`.
 
+# systemctl
+
+## Service file
+
+Create a new file called nimha.service inside /lib/systemd/system/nimwc.service
+
+```
+[Unit]
+Description=nimwc
+After=network.target
+
+[Service]
+User=ubuntu
+Type=simple
+WorkingDirectory=/home/<user>/.nimble/pkgs/nimwc-1.0.0/
+ExecStart=/home/<user>/.nimble/pkgs/nimwc-1.0.0/nimwc
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+```
+
+## Enable auto start and start it:
+```
+sudo systemctl enable nimwc
+sudo systemctl start nimwc
+sudo systemctl status nimwc
+```
+
+
 
 # Standard plugins
 
