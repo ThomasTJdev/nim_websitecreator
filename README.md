@@ -144,43 +144,11 @@ The "Moderator" can login and see private pages and blog pages. This user **can*
 
 The "Admin" has access to anything.
 
+# Plugins
 
-# Screenshots
+Multiple plugins are available. You can download them within the program at `<webpage>/plugins/repo`.
 
-Blog posts can be set as private or public.
-
-**Frontpage**
-![Frontpage](private/screenshots/frontpage.png)
-
-**Blog view**
-![Blog](private/screenshots/blog.png)
-
-**Blog page**
-![Blog](private/screenshots/blog2.png)
-
-**Blog post edit**
-![Blog](private/screenshots/blogpage1.png)
-
-**Blog post detailed edit**
-![Blog](private/screenshots/blogpage2.png)
-
-**Settings**
-![Blog](private/screenshots/settings.png)
-
-**Settings head, header & footer**
-![Blog](private/screenshots/settings2.png)
-
-**Plugin repo**
-![Blog](private/screenshots/pluginrepo.png)
-
-**Files**
-![Blog](private/screenshots/files.png)
-
-**Users**
-![Blog](private/screenshots/users.png)
-
-**Profile**
-![Blog](private/screenshots/profile.png)
+The plugin repo are located here: [NimWC plugin repo](https://github.com/ThomasTJdev/nimwc_plugins)
 
 
 # Shortcuts
@@ -220,131 +188,6 @@ sudo systemctl enable nimwc
 sudo systemctl start nimwc
 sudo systemctl status nimwc
 ```
-
-
-
-# Standard plugins
-
-## Enable/disable a plugin
-
-To enable or disable a plugin go to `<webpage>/plugins`
-
-
-## Plugin: Themes
-
-Switch between themes. Save custom themes from the browser.
-
-You can access the plugin at `/themes`.
-
-
-
-# Plugins
-
-Plugins are loaded at compiletime with macros. Only plugins placed in the `plugins`-folder are included.
-
-*Example plugin are available in the `plugins`-folder.*
-
-
-## Plugin repo
-
-If you develop a plugin, please add it to https://github.com/ThomasTJdev/nimwc_plugins to make it public accessible. 
-
-Available plugins:
-
-### Plugin: Backup
-
-Create an instant backup file. Schedule continuously backups. Download backups.
-
-You can access the plugin at `/backup`.
-
-
-### Plugin: Mailer
-
-Add mail elements containing subject, description and a date for sending the mail. Every 12th hour a cronjob will run to check, if it is time to send the mail.
-
-All registered users will receive the email.
-
-You can access the plugin at `/mailer`. This link can be added to the navbar manually.
-
-
-### Plugin: Contact
-
-A simple contact form for non-logged in users. The email will be sent to the info-email specified in the `config.cfg` file.
-
-You can access the plugin at `/contact`. This link can be added to the navbar manually.
-
-
-## Plugin structure
-
-A plugin needs the following structure:
-
-```
-mailer/
-  - html.tmpl   (optional)
-  - mailer.nim  (required)
-  - routes.nim  (required)
-  - plugin.json (required)
-  - public/
-    - js.js             (required) <- Will be appended to all pages
-    - style.css         (required) <- Will be appended to all pages
-    - js_private.js     (required) <- Needs to be imported manually
-    - style_private.css (required) <- Needs to be imported manually
-```
-
-### plugin.json
-This file contains information about the plugin. *(Standard plugins does not have this file)*
-
-The file needs this formatting:
-```JSON
-[
-  {
-    "name": "templates",
-    "foldername": "nimwc_templates",
-    "version": "0.1",
-    "url": "https://github.com/ThomasTJdev/nimwc_templates.git",
-    "method": "git",
-    "tags": [
-      "templates"
-    ],
-    "description": "Full templates. Includes database, css, js and other public files.",
-    "license": "MIT",
-    "web": "https://github.com/ThomasTJdev/nimwc_templates"
-  }
-]
-```
-
-
-### mailer.nim
-Includes the plugins proc()'s etc.
-
-It is required to include a proc named `proc <pluginname>Start*(db: DbConn) =`
-
-For the mailer plugin this would be: `proc mailerStart*(db: DbConn) =` . If this proc is not needed, just `discard` the content.
-
-
-### routes.nim
-Includes the URL routes.
-
-It is required to include a route with `/<pluginname>/settings`. This page should show information about the plugin and any options which can be changed.
-
-
-### *.js and *.css
-
-On compiletime `js.js`, `js_private.js`, `style.css` and `style_private.css` are copied from the plugins public folder to the official public folder, if the files contains text.
-
-The files will be renamed to `mailer.js`, `mailer_private.js`, `mailer.css` and `mailer<_private>.css`.
-
-A `<link>` and/or a `<script>` tag to `mailer.css`/`mailer.js` will be appended to the all pages, if `js.js` or `style.css` contains text. The `private` files needs to be included manually.
-
-
-## Plugin repo
-
-To make plugin public accessible, you need to add it to the `plugins.json` in the [plugin repo](https://github.com/ThomasTJdev/nimwc_plugins).
-
-Make a pull request where you have added your plugin data to `plugins.json`.
-
-When you release a new version of your plugin, you need to increase the version in your plugin repo and in this repo. Otherwise the users will not notice, that your have release a new version.
-
 
 
 # Trouble
