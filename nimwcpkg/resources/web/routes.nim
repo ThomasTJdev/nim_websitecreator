@@ -349,10 +349,18 @@ routes:
       if c.rank != Admin and defined(demo):
         if c.email == "test@test.com":
           resp("Error: The test user can not upload files")
-          
+      
+      if @"access" notin ["private", "public", "publicimage"]:
+        resp("Error: Missing access right")
+
       let filename  = request.formData["file"].fields["filename"]
-      let access    = if @"access" == "private": "private" else: "public"
-      let path = storageEFS & "/files/" & access & "/" & filename
+      var path: string
+
+      if @"access" == "publicimage":
+        path = "public/images/" & filename
+
+      else:
+        path = storageEFS & "/files/" & @"access" & "/" & filename
       
       if fileExists(path):
         resp("Error: A file with the same name exists")
@@ -363,7 +371,7 @@ routes:
           redirect("/files")
 
       except:
-        resp("Error")
+        resp("Error: Something went wrong adding the file")
 
       resp("Error: Something went wrong")
 
@@ -373,9 +381,15 @@ routes:
 
     createTFD()
     if c.loggedIn and c.rank in [Admin, Moderator]:
-      let filepath = storageEFS & "/files/" & @"access" & "/" & @"filename"
-      echo filepath
-      if tryRemoveFile(filepath): 
+      var fileDeleted = false
+
+      if @"access" == "publicimage":
+        fileDeleted = tryRemoveFile("public/images/" & decodeUrl(@"filename"))
+
+      else:
+        fileDeleted = tryRemoveFile(storageEFS & "/files/" & @"access" & "/" & decodeUrl(@"filename")) 
+
+      if fileDeleted:
         redirect("/files")
 
       else: 
