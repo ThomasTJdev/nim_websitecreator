@@ -312,6 +312,8 @@ li.pluginRepo {
   border: 1px solid rgba(128, 128, 128, 0.55);
   list-style-type: none;
   padding: 10px 15px;
+  background: #ffffffd9;
+  margin-bottom: 10px;
 }
 li.pluginRepo span.version {
   background: rgb(236, 236, 236);
@@ -329,10 +331,12 @@ li.pluginRepo span.version.git {
   Settings overview
 */
 div#settings {
-  text-align: center;
-  max-width: 500px;
+  background: #ffffffd6;
+  border-radius: 10px;
   margin-left: auto;
   margin-right: auto;
+  max-width: 500px;
+  text-align: center;
 }
 div#settings div {
   margin-bottom: 15px;
@@ -340,6 +344,7 @@ div#settings div {
 }
 div#settings .btn {
   width: 120px;
+  background: white;
 }
 
 
@@ -347,9 +352,12 @@ div#settings .btn {
   Settings page
 */
 div#settingsEdit {
-  max-width: 1400px;
+  background: #ffffffd6;
+  border-radius: 10px;
   margin-left: auto;
   margin-right: auto;
+  max-width: 1400px;
+  padding: 10px;
 }
 div#settingsEdit input {
   border: none;
@@ -390,9 +398,12 @@ button.settingsRestore {
 */
 div#fileAddContainer,
 div#files {
-  max-width: 1000px;
+  background: #ffffffd6;
+  border-radius: 10px;
   margin-left: auto;
   margin-right: auto;
+  max-width: 1000px;
+  padding: 10px;
 }
 div#fileAddContainer {
   margin-bottom: 20px;
@@ -421,9 +432,12 @@ div#files span a {
   Users
 */
 div#users {
-  max-width: 800px;
+  background: #ffffffd6;
+  border-radius: 10px;
   margin-left: auto;
   margin-right: auto;
+  max-width: 800px;
+  padding: 10px;
 }
 div#users span a.delete {
   color: white;
