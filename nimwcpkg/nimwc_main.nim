@@ -357,6 +357,8 @@ proc checkCompileOptions*(): string {.compileTime.} =
     result.add(" -d:devemailon")
   when defined(demo):
     result.add(" -d:demo")
+  when defined(demoloadbackup):
+    result.add(" -d:demoloadbackup")
   when defined(ssl):
     result.add(" -d:ssl")
 
@@ -684,7 +686,7 @@ when isMainModule:
   when defined(demo):
     dbg("INFO", "Demo option is activated")
     when defined(demoloadbackup):
-      if not fileExists("data/website.bak.db"):
+      if not fileExists(replace(getAppDir(), "/nimwcpkg", "") & "/data/website.bak.db"):
         discard execCmd("cp data/website.db data/website.bak.db")
     createTestUser(db)
     asyncCheck emptyDB(db)
