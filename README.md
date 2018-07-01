@@ -18,9 +18,9 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 ## Requirements
 - Linux
-- Nim
+- Nim devel (0.18.1)
 - Nim modules (automated when using Nimble):
-  - jester >= 0.2.0
+  - jester = HEAD
   - reCAPTCHA >= 1.0.2
   - bcrypt >= 0.2.1
 
