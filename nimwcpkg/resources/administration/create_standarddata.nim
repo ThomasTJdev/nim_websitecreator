@@ -152,7 +152,7 @@ const about = """
               <h4>Open source</h4>
               <p>
                 All of NimWC code is available to the public. Any Nim programmer can contribute with
-                improvements and new features. The codebase is built up upon modules, which makes it 
+                improvements and new features. The codebase is built upon modules, which makes it 
                 easy to add new features and plugins.
               </p>
             </div>
