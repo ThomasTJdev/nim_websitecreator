@@ -1,8 +1,8 @@
 # Nim Website Creator
 
-A quick website tool. Run the nim file and access your webpage.
+A quick website tool. Run the nim file and access your webpage. Website: [https://nimwc.org](https://nimwc.org)
 
-Online test page: [Nim Website Creator](https://nimwc.org)
+<img src="private/screenshots/NimWC_logo_shadow.png" style="max-height: 250px; display: block;" />
 
 
 ## Main features:
@@ -25,39 +25,20 @@ Online test page: [Nim Website Creator](https://nimwc.org)
   - bcrypt >= 0.2.1
 
 
-## Upgrading from 1.0.3
-*Inspired by https://github.com/nim-lang/nimforum/*
-
-Sessions is now used. Therefore, you need to make som changes to your database. This is only applicable if your database is created in versions below 1.0.4.
-
-In the session table password has been renamed to key - this is essential. In the person table the VARCHAR length has been expanded to 300 from 110 - this is optional.
-
-```
-cd data
-echo '.dump' | sqlite3 website.db > upgrade.dump
-# Find and change:
-# 1a) password varchar(110) not null
-# to
-# 1b) password varchar(300) not null,
-#
-# 2a) password $# not null,
-# to
-# 2b) key $# not null,
-cat upgrade.dump | sqlite3 website.db
-```
-
-
 # Compiling / Installing
 
+## Install Nim
 To compile and install you need [Nim](https://nim-lang.org/). You can easily install Nim using [choosenim](https://nim-lang.org/install_unix.html) with:
 ```
 curl https://nim-lang.org/choosenim/init.sh -sSf | sh
 ```
 
+## Install NimWC
+
 You only need to perform 1a **or** 1b - not both of them.
 
 
-## 1a) Install:
+### 1a) Install:
 
 If you are using [Nimble](https://github.com/nim-lang/nimble) an executable will be generated and symlinked to `nimwc`, which then can be executed anywhere on your system.
 
@@ -75,7 +56,7 @@ nimwc
 ```
 
 
-## 1b) Compile:
+### 1b) Compile:
 
 This will generate the executable in the folder. 
 
@@ -101,7 +82,7 @@ nim c -d:ssl nimwc.nim
 
 ## Argument (args):
 
-*These args should be prepended to file, e.g. ./nimwc newuser:*
+These arguments should be prepended to executable file, e.g. `./nimwc insertdata`
 
 * `newuser` = Add the Admin user. The `-u:<username>`, `-p:<password>` and `-e:<email>` args are required
   * `-u:<admin username>`
@@ -113,7 +94,7 @@ nim c -d:ssl nimwc.nim
 
 ## Compile options:
 
-*These options are only available at compiletime:*
+These options are only available at compiletime:
 
 * `-d:nginx` = Used to close the streaming connection when using nginx as a webserver
 * `-d:adminnotify` = Send error logs (ERROR) to the specified admin email
@@ -148,33 +129,37 @@ The "Admin" has access to anything.
 
 Multiple plugins are available. You can download them within the program at `<webpage>/plugins/repo`.
 
-The plugin repo are located here: [NimWC plugin repo](https://github.com/ThomasTJdev/nimwc_plugins)
+The plugin repository are located here: [NimWC plugin repository](https://github.com/ThomasTJdev/nimwc_plugins)
 
 
 # Shortcuts
 
-When editing a blogpage or normal page press Ctrl+S to save.
+When editing a blogpage or a normal page press Ctrl+S to save.
 
 # Google reCAPTCHA
 
-To activate Google reCAPTCHA claim you site and server key and insert them into you `config.cfg`.
+To activate Google reCAPTCHA [claim you site and server key](https://www.google.com/recaptcha/admin) and insert them into `config.cfg`.
 
-# systemctl
+# Autorun - systemctl
 
 ## Service file
 
-Create a new file called nimha.service inside /lib/systemd/system/nimwc.service
+Create a new file called nimwc.service inside /lib/systemd/system/:
+```
+sudo nano /lib/systemd/system/nimwc.service
+```
 
+Add the following to the file:
 ```
 [Unit]
 Description=nimwc
 After=network.target
 
 [Service]
-User=ubuntu
+User=ubuntu # MODIFY to your username
 Type=simple
-WorkingDirectory=/home/<user>/.nimble/pkgs/nimwc-1.0.0/
-ExecStart=/home/<user>/.nimble/pkgs/nimwc-1.0.0/nimwc
+WorkingDirectory=/home/<user>/.nimble/pkgs/nimwc-1.0.0/ # MODIFY to your installation path
+ExecStart=/home/<user>/.nimble/pkgs/nimwc-1.0.0/nimwc   # MODIFY to your installation path
 Restart=always
 RestartSec=3
 
@@ -192,4 +177,4 @@ sudo systemctl status nimwc
 
 # Trouble
 
-Remove nimcache and nimwcpkg/nimcache and re-compile
+Remove `nimcache` and `nimwcpkg/nimcache` and re-compile
