@@ -229,7 +229,7 @@ routes:
 
   post "/settings/update":
     createTFD()
-    restrictTestuser()
+    restrictTestuser("GET")
 
     if c.loggedIn and c.rank in [Admin, Moderator]:  
       discard execAffectedRows(db, sql"UPDATE settings SET title = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", @"title", @"head", @"navbar", @"footer", "1")
@@ -244,7 +244,7 @@ routes:
 
   post "/settings/updatejs":
     createTFD()
-    restrictTestuser()
+    restrictTestuser("GET")
 
     if c.loggedIn and c.rank in [Admin, Moderator]:  
       try:
@@ -262,7 +262,7 @@ routes:
 
   post "/settings/updatecss":
     createTFD()
-    restrictTestuser()
+    restrictTestuser("GET")
       
     if c.loggedIn and c.rank in [Admin, Moderator]:  
       try:
@@ -409,7 +409,7 @@ routes:
 
   post "/users/profile/update":
     createTFD()
-    restrictTestuser()
+    restrictTestuser("GET")
 
     if c.loggedIn:
       if @"name" == "" or @"email" == "":
@@ -457,7 +457,7 @@ routes:
 
   post "/users/add":
     createTFD()
-    restrictTestuser()
+    restrictTestuser("GET")
 
     if c.loggedIn and c.rank in [Admin, Moderator]:
       cond(@"status" in ["User", "Moderator", "Admin", "Deactivated"])
@@ -535,7 +535,7 @@ routes:
 
     createTFD()
     restrictTestuser()
-    
+
     if c.loggedIn:
       let path = storageEFS & "/users/" & c.userid
       let base64 = split(c.req.body, ",")[1]

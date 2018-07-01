@@ -507,13 +507,17 @@ proc checkCompileOptions*(): string {.compileTime.} =
   return result
 
 
-template restrictTestuser() =
-  ## Check if this is the testuser. If it is, return
-  ## true and error message.
+template restrictTestuser(httpMeth = "") =
+  ## Check if this is the testuser. If it is true, return
+  ## error message based on HTTP method (GET/POST).
+  ##
+  ## It is possible to override the method with the param
+  ## httpMeth.
 
   when defined(demo):
     if c.loggedIn and c.rank != Admin:
-      if $c.req.reqMeth == "POST":
+      let httpMethod = if httpMeth == "": $c.req.reqMeth else: httpMeth
+      if httpMethod == "POST":
         resp("Error: The test user does not have access to this area")
       else:
         redirect("/error/" & encodeUrl("Error: The test user does not have access to this area"))
