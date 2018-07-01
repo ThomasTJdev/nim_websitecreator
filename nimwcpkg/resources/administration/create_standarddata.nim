@@ -117,7 +117,7 @@ const about = """
             <div class="text1element">
               <h4>Customizable</h4>
               <p>
-                NimWC is designed for users who has a little knowledge about HTML, CSS and JS.
+                NimWC is designed for users who have a little knowledge about HTML, CSS and JS.
                 It is possible to customize the frontend code for all pages or for specific pages.
                 This flexibility gives the user the power instead of given the power to the platform.
               </p>
@@ -130,7 +130,7 @@ const about = """
               <p>
                 NimWC is not a replacement for Wordpress but an alternative.
                 NimWC is a self-hosted solution with a minimum of requirements
-                which also ensures, that there fewer dependencies.
+                which also ensures, that there are fewer dependencies.
             </p></div>
           </div>
         </div>
@@ -140,8 +140,8 @@ const about = """
             <div class="text1element">
               <h4>Self-hosting</h4>
               <p>
-                By utilizing the powerfull language Nim, NimWC is compiled to C code,
-                which is runnable on almost all platforms. This further more makes it incredible easy
+                By utilizing the powerful language Nim, NimWC is compiled to C code,
+                which is runnable on almost all platforms. This further more makes it incredibly easy
                 to host NimWC on e.g. Amazon or on a Raspberry Pi.
               </p>
             </div>
