@@ -10,7 +10,7 @@ routes:
 
   get "/login":
     createTFD()
-    resp genFormLogin(c)
+    resp genFormLogin(c, decodeUrl(@"msg"))
 
 
   post "/dologin":
@@ -18,14 +18,14 @@ routes:
     when not defined(dev):
       if useCaptcha:
         if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
-          resp genFormLogin(c, decodeUrl("Error: You need to verify, that you are not a robot!"))
+          redirect("/login?msg=" & encodeUrl("Error: You need to verify, that you are not a robot!"))
     
     let (loginB, loginS) = login(c, @"email", replace(@"password", " ", ""))
     if loginB:
       jester.setCookie("sid", loginS, daysForward(7))
       redirect("/settings")
     else:
-      resp genFormLogin(c, loginS)
+      redirect("/login?msg=" & encodeUrl(loginS))
   
   get "/logout":
     createTFD()
@@ -34,7 +34,7 @@ routes:
 
   get "/error/@errorMsg":
     createTFD()
-    resp genMain(c, "<h3>" & decodeUrl(@"errorMsg") & "</h3>")
+    resp genMain(c, "<h3 style=\"text-align: center; color: red;\">" & decodeUrl(@"errorMsg") & "</h3>")
 
 
 
@@ -62,11 +62,10 @@ routes:
     ##                       this will disable the plugin (remove the line)
 
     createTFD()
-    if c.rank != Admin and defined(demo):
-      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+    restrictTestuser()
 
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
-      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+      redirect("/error/" & encodeUrl("You are not authorized to access this area"))
 
     let pluginPath = if @"status" == "false": "" else: ("plugins/" & @"pluginname")
 
@@ -88,11 +87,10 @@ routes:
     ## and restart the process.
 
     createTFD()
-    if c.rank != Admin and defined(demo):
-      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+    restrictTestuser()
 
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
-      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+      redirect("/error/" & encodeUrl("You are not authorized to access this area"))
       
     await response.sendHeaders()
     await response.send("Updating plugins: " & decodeUrl(@"pluginActivity") & "<br>")
@@ -113,11 +111,9 @@ routes:
     ## Shows all the plugins in the plugin repo
 
     createTFD()
-    if c.rank != Admin and defined(demo):
-      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
 
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
-      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+      redirect("/error/" & encodeUrl("You are not authorized to access this area"))
 
     resp genMain(c, genPluginsRepo(c))
 
@@ -126,14 +122,13 @@ routes:
     ## Shows all the plugins in the plugin repo
 
     createTFD()
-    if c.rank != Admin and defined(demo):
-      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+    restrictTestuser()
 
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
-      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+      redirect("/error/" & encodeUrl("You are not authorized to access this area"))
 
     if not pluginRepoClone():
-      resp("/error/" & encodeUrl("Something went wrong downloading the repository."))
+      redirect("/error/" & encodeUrl("Something went wrong downloading the repository."))
 
     redirect("/plugins/repo")
 
@@ -142,14 +137,13 @@ routes:
     ## Updates the plugins repo
 
     createTFD()
-    if c.rank != Admin and defined(demo):
-      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+    restrictTestuser()
 
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
-      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+      redirect("/error/" & encodeUrl("You are not authorized to access this area"))
 
     if not pluginRepoUpdate():
-      resp("/error/" & encodeUrl("Something went wrong downloading the repository."))
+      redirect("/error/" & encodeUrl("Something went wrong downloading the repository."))
 
     redirect("/plugins/repo")
 
@@ -158,27 +152,25 @@ routes:
     ## Updates an installed plugin
 
     createTFD()
-    if c.rank != Admin and defined(demo):
-      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+    restrictTestuser()
 
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
-      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+      redirect("/error/" & encodeUrl("You are not authorized to access this area"))
 
     if pluginUpdate(@"pluginfolder"):
       redirect("/plugins/updating?pluginActivity=" & encodeUrl("installing " & @"pluginname"))
     else:
-      resp("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginfolder"))
+      redirect("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginfolder"))
 
 
   get "/plugins/repo/deleteplugin":
     ## Updates an installed plugin
 
     createTFD()
-    if c.rank != Admin and defined(demo):
-      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+    restrictTestuser()
 
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
-      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+      redirect("/error/" & encodeUrl("You are not authorized to access this area"))
 
     if pluginDelete(@"pluginfolder"):
       var isInstalled = false
@@ -193,23 +185,22 @@ routes:
           
       redirect("/plugins/repo")
     else:
-      resp("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginfolder"))
+      redirect("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginfolder"))
 
 
   get "/plugins/repo/downloadplugin":
     ## Download a plugin
 
     createTFD()
-    if c.rank != Admin and defined(demo):
-      resp("/error/" & encodeUrl("The test user is not authorized to access this area"))
+    restrictTestuser()
 
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
-      resp("/error/" & encodeUrl("You are not authorized to access this area"))
+      redirect("/error/" & encodeUrl("You are not authorized to access this area"))
 
     if pluginDownload(@"pluginrepo", @"pluginfolder"):
       redirect("/plugins/repo")
     else:
-      resp("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginrepo"))
+      redirect("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginrepo"))
 
 
   #[
@@ -230,8 +221,7 @@ routes:
 
   get "/settings/editrestore":
     createTFD()
-    if c.rank != Admin and defined(demo):
-      redirect("/error/" & encodeUrl("Error: The test user can not change the main settings"))
+    restrictTestuser()
 
     if c.loggedIn and c.rank in [Admin, Moderator]:
       standardDataSettings(db)
@@ -239,8 +229,7 @@ routes:
 
   post "/settings/update":
     createTFD()
-    if c.rank != Admin and defined(demo):
-      redirect("/error/" & encodeUrl("Error: The test user can not change the main settings"))
+    restrictTestuser()
 
     if c.loggedIn and c.rank in [Admin, Moderator]:  
       discard execAffectedRows(db, sql"UPDATE settings SET title = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", @"title", @"head", @"navbar", @"footer", "1")
@@ -255,8 +244,7 @@ routes:
 
   post "/settings/updatejs":
     createTFD()
-    if c.rank != Admin and defined(demo):
-      redirect("/error/" & encodeUrl("Error: The test user can not change the main settings"))
+    restrictTestuser()
 
     if c.loggedIn and c.rank in [Admin, Moderator]:  
       try:
@@ -274,8 +262,7 @@ routes:
 
   post "/settings/updatecss":
     createTFD()
-    if c.rank != Admin and defined(demo):
-      redirect("/error/" & encodeUrl("Error: The test user can not change the main settings"))
+    restrictTestuser()
       
     if c.loggedIn and c.rank in [Admin, Moderator]:  
       try:
@@ -345,10 +332,12 @@ routes:
     ## Upload a file
 
     createTFD()
+    restrictTestuser()
+
     if c.loggedIn and c.rank in [Admin, Moderator]:
-      if c.rank != Admin and defined(demo):
-        if c.email == "test@test.com":
-          resp("Error: The test user can not upload files")
+      #if c.rank != Admin and defined(demo):
+      #  if c.email == "test@test.com":
+      #    resp("Error: The test user can not upload files")
       
       if @"access" notin ["private", "public", "publicimage"]:
         resp("Error: Missing access right")
@@ -380,6 +369,8 @@ routes:
     ## Delete a file
 
     createTFD()
+    restrictTestuser()
+
     if c.loggedIn and c.rank in [Admin, Moderator]:
       var fileDeleted = false
 
@@ -418,11 +409,9 @@ routes:
 
   post "/users/profile/update":
     createTFD()
-    if c.loggedIn:
-      if c.rank != Admin and defined(demo):
-        if c.email == "test@test.com":
-          redirect("/error/" & encodeUrl("Error: The test user can not change profile settings"))
+    restrictTestuser()
 
+    if c.loggedIn:
       if @"name" == "" or @"email" == "":
         redirect("/error/" & encodeUrl("Error: Name and email are required"))
 
@@ -446,14 +435,9 @@ routes:
 
   get "/users/delete/@userID":
     createTFD()
+    restrictTestuser()
+
     if c.loggedIn and c.rank in [Admin, Moderator]:
-      if c.rank != Admin and defined(demo):
-        if c.email == "test@test.com":
-          redirect("/error/" & encodeUrl("Error: The test user can not delete users"))
-
-      if c.rank notin [Admin, Moderator]:
-        redirect("/error/" & encodeUrl("Error: You are not allowed to delete users"))
-
       if c.userid == @"userID":
         redirect("/error/" & encodeUrl("Error: You can not delete yourself"))
 
@@ -473,11 +457,9 @@ routes:
 
   post "/users/add":
     createTFD()
-    if c.loggedIn and c.rank in [Admin, Moderator]:
-      if c.rank != Admin and defined(demo):
-        if c.email == "test@test.com":
-          redirect("/error/" & encodeUrl("Error: The test user can not add new users"))
+    restrictTestuser()
 
+    if c.loggedIn and c.rank in [Admin, Moderator]:
       cond(@"status" in ["User", "Moderator", "Admin", "Deactivated"])
 
       if (c.rank != Admin and @"status" == "Admin") or c.rank == User:
@@ -552,6 +534,8 @@ routes:
     ## Uploads a new profile image for a user
 
     createTFD()
+    restrictTestuser()
+    
     if c.loggedIn:
       let path = storageEFS & "/users/" & c.userid
       let base64 = split(c.req.body, ",")[1]

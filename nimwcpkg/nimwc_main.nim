@@ -507,6 +507,18 @@ proc checkCompileOptions*(): string {.compileTime.} =
   return result
 
 
+template restrictTestuser() =
+  ## Check if this is the testuser. If it is, return
+  ## true and error message.
+
+  when defined(demo):
+    if c.loggedIn and c.rank != Admin:
+      if $c.req.reqMeth == "POST":
+        resp("Error: The test user does not have access to this area")
+      else:
+        redirect("/error/" & encodeUrl("Error: The test user does not have access to this area"))
+
+
 macro generateRoutes(): typed =
   ## The macro generates the routes for Jester.
   ## Routes are found in the resources/web/routes.nim.
@@ -541,12 +553,13 @@ when defined(demo):
     ##
     ## This proc is used, when the platform needs to run
     ## as a test with e.g. public access.
-
+    
     await sleepAsync((60*10) * 1000)
     var standarddata = true
     when defined(demoloadbackup):
       standarddata = false
       let execOutput = execCmd("cp data/website.bak.db data/website.db")
+
       if execOutput != 0:
         dbg("ERROR", "emptyDB(): Error backing up the database")
         await sleepAsync(2000)
@@ -620,7 +633,6 @@ when isMainModule:
   # Add test user
   when defined(demo):
     dbg("INFO", "Demo option is activated")
-    echo "  Demo option is activated"
     when defined(demoloadbackup):
       discard execCmd("cp data/website.db data/website.bak.db")
     createTestUser(db)
