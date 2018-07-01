@@ -346,6 +346,9 @@ div#settings .btn {
   width: 120px;
   background: white;
 }
+div#settings .btn:hover {
+  color: #042c57;
+}
 
 
 /*
