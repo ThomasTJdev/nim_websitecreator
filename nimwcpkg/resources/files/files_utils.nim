@@ -18,9 +18,16 @@ proc filesListPublic*(): seq[string] =
   for file in walkFiles(storageEFS & "/files/public/*.*"):
     result.add(file)
 
-proc filesListPublicFolder*(): seq[string] =
+proc filesListPublicFolderFiles*(): seq[string] =
   ## Get all filenames for project files
   result = @[]
 
   for file in walkFiles("public/files/*.*"):
+    result.add(file)
+
+proc filesListPublicFolderImages*(): seq[string] =
+  ## Get all filenames for project files
+  result = @[]
+
+  for file in walkFiles("public/images/*.*"):
     result.add(file)

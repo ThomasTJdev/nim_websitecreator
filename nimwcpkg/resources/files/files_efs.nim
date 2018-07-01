@@ -5,7 +5,6 @@ import ../utils/logging
 
 
 setCurrentDir(getAppDir().replace("/nimwcpkg", ""))
-echo getAppDir()
 let appDir = replace(getAppDir(), "/nimwcpkg", "")
 
 let dict = loadConfig("config/config.cfg")

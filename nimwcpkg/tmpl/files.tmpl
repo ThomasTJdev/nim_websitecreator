@@ -11,33 +11,54 @@
 #proc genFiles(c: var TData): string =
 # result = ""
 #
-# let allFilesPrivate = filesListPrivate()
-# let allFilesPublic = filesListPublic()
+# let allFilesPrivate       = filesListPrivate()
+# let allFilesPublic        = filesListPublic()
+# let allFilesPublicImages  = filesListPublicFolderImages()
 
 <div style="text-align: center;">
   <h1>Files</h1>
 </div>
 
-
-# if c.loggedIn:
 <div id="fileAddContainer">
   <button class="btn btn-secondary fileAdd">Upload new file</button>
   <form id="fileAdd" method="post" action="/files/upload">
     <div class="form-group">
-      <div style="margin-left: 20px;">
-        <input id="access" name="private" type="checkbox" class="form-check-input" checked> Private file
+      <div style="margin-bottom: 10px;">
+
+        <div class="custom-control custom-radio">
+          <input data-value="publicimage" type="radio" id="fileRadio1" name="fileRadio" class="custom-control-input" checked>
+          <label class="custom-control-label" for="fileRadio1">Public image</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input data-value="private" type="radio" id="fileRadio2" name="fileRadio" class="custom-control-input">
+          <label class="custom-control-label" for="fileRadio2">Private file</label>
+        </div>
+        <div class="custom-control custom-radio">
+          <input data-value="public" type="radio" id="fileRadio3" name="fileRadio" class="custom-control-input">
+          <label class="custom-control-label" for="fileRadio3">Public file</label>
+        </div>
+
       </div>
       <input type="file" class="form-control-file" id="file" name="file">
     </div>
     <button type="button" class="btn btn-success fileUpload">Upload</button>
   </form>
 </div>
-# end if
-
 
 <div id="files">
+  
+<h4>Public images (public/images)</h4>
+<ul class="list-group">
+# for file in allFilesPublicImages:
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a href="/images/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
+      <span class="badge badge-danger badge-pill"><a href="/files/delete/publicimage/${extractFilename(file)}">Delete</a></span>
+    </li>
+# end for
+</ul>  
 
-# if c.loggedIn:
+<hr>
+
 <h4>Private files (only for logged in users)</h4>
 <ul class="list-group">
 # for file in allFilesPrivate:
@@ -47,8 +68,6 @@
     </li>
 # end for
 </ul>  
-
-# end if
 
 <hr>
 
