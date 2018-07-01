@@ -88,16 +88,10 @@ $(document).ready(function() {
 });
 
 function uploadFile(projectID) {
-  var access = "private"
-  if (document.getElementById('access').checked) {
-    access = "private";
-  } else {
-    access = "off";
-  }
-
-  var file = $('#file').get(0).files[0];
-  var filename = file.name;
-  var formData = new FormData();
+  var access    = $('input[name=fileRadio]:checked').attr("data-value");
+  var file      = $('#file').get(0).files[0];
+  var filename  = file.name;
+  var formData  = new FormData();
   formData.append('file', file);
   $.ajax({
     url: "/files/upload/" + access,
