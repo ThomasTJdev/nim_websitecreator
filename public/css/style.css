@@ -275,6 +275,8 @@ li.pluginSettings {
   list-style-type: none;
   padding: 10px 15px;
   width: 350px;
+  background: white;
+  margin-bottom: 5px;
 }
 li.pluginSettings.disabled {
   background: rgba(128, 128, 128, 0.36);
