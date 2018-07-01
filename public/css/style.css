@@ -81,6 +81,17 @@ nav#navbar .navbar-brand {
   font-weight: 400;
   font-size: 28px;
 }
+nav#navbar .navbar-brand div,
+nav#navbar .navbar-brand img {
+}
+nav#navbar .navbar-brand div {
+  display: inline;
+  vertical-align: bottom;
+  padding-left: 10px;
+}
+nav#navbar .navbar-brand img {
+  max-height: 70px;
+}
 nav#navbar a.nav-link {
   color: #0059b8;
   text-transform: capitalize;
@@ -95,9 +106,10 @@ nav#navbar div.navbar-toggler {
   text-align: right;
   border: none;
   float: right;
+  margin-top: 20px;
 }
 nav#navbar div#mobileMenu div.navbar-toggler {
-  margin-top: 10px;
+  margin-top: 30px;
   margin-right: 35px;
 }
 nav#navbar div.baricon {
@@ -146,7 +158,7 @@ nav#navbar div#mobileMenu.active .bar3 {
   header {
     width: auto;
   }
-  nav#navbar .navbar-brand {
+  nav#navbar .navbar-brand div {
     display: none;
   }
   nav#navbar ul.navbar-nav {

@@ -9,6 +9,12 @@ const head* = """
 <meta name="description" content="Nim Website Creator">
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
 
+<link rel="shortcut icon" href="/images/logo/favicon.ico">
+<link rel="icon" type="image/png" href="/images/logo/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/images/logo/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/images/logo/favicon-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" sizes="180x180" href="/images/logo/favicon-180x180.png">
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="/css/style.css">
 
@@ -21,7 +27,10 @@ const head* = """
 const navbar* = """
 <nav id="navbar" class="navbar navbar-expand-md navbar-light">
   <div id="navbarInside">
-    <a class="navbar-brand" href="/">Nim Website Creator</a>
+    <a class="navbar-brand" href="/">
+      <img src="/images/logo/NimWC_logo_blue.png" />
+      <div>Nim Website Creator</div>
+    </a>
     <div class="navbar-toggler mainMenu">
       <div class="baricon bar1"></div>
       <div class="baricon bar2"></div>
