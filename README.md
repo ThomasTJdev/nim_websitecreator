@@ -62,8 +62,8 @@ This will generate the executable in the folder.
 
 ```bash
 # Clone the repository
-git clone https://github.com/ThomasTJdev/nim_nimwc
-cd nim_nimwc
+git clone https://github.com/ThomasTJdev/nim_websitecreator
+cd nim_websitecreator
 
 # Generate and edit the config.cfg accordingly
 cp config/config_default.cfg config/config.cfg
