@@ -67,14 +67,10 @@ routes:
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
       redirect("/error/" & encodeUrl("You are not authorized to access this area"))
 
-    let pluginPath = if @"status" == "false": "" else: ("plugins/" & @"pluginname")
-
-    pluginEnableDisable(pluginPath, @"pluginname", @"status")
-
     if @"status" == "false":
-      redirect("/plugins/updating?pluginActivity=" & encodeUrl("installing " & @"pluginname"))
+      redirect("/plugins/updating?status=" & @"status" & "&pluginname=" & @"pluginname" & "&pluginActivity=" & encodeUrl("installing " & @"pluginname"))
     else:
-      redirect("/plugins/updating?pluginActivity=" & encodeUrl("uninstalling " & @"pluginname"))
+      redirect("/plugins/updating?status=" & @"status" & "&pluginname=" & @"pluginname" & "&pluginActivity=" & encodeUrl("uninstalling " & @"pluginname"))
 
 
   get "/plugins/updating":
@@ -103,6 +99,9 @@ routes:
       await response.send("<br><br>An error occured<br>")
       await response.send("<a href=\"/plugins\">Click here to go to the plugin page</a>")
     else:
+      let pluginPath = if @"status" == "false": "" else: ("plugins/" & @"pluginname")
+      pluginEnableDisable(pluginPath, @"pluginname", @"status")
+
       echo "\nCompiling done. Starting nimwc:"
       await response.send("<br><br>Compiling done. Starting nimwc<br>")
       await response.send("<a href=\"/plugins\">Compiling is done, click here to reload</a>")
