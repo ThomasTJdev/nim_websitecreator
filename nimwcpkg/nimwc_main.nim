@@ -357,6 +357,8 @@ proc checkCompileOptions*(): string {.compileTime.} =
     result.add(" -d:devemailon")
   when defined(demo):
     result.add(" -d:demo")
+  when defined(ssl):
+    result.add(" -d:ssl")
 
   return result
 
