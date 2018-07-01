@@ -682,7 +682,8 @@ when isMainModule:
   when defined(demo):
     dbg("INFO", "Demo option is activated")
     when defined(demoloadbackup):
-      discard execCmd("cp data/website.db data/website.bak.db")
+      if not fileExists("data/website.bak.db"):
+        discard execCmd("cp data/website.db data/website.bak.db")
     createTestUser(db)
     asyncCheck emptyDB(db)
 
