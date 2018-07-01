@@ -8,26 +8,26 @@
 #
 
 import
-  asyncdispatch, 
-  asyncfile, 
-  asyncnet, 
-  bcrypt, 
-  cgi, 
-  db_sqlite, 
-  jester, 
-  json, 
-  macros, 
-  md5, 
-  os, 
+  asyncdispatch,
+  asyncfile,
+  asyncnet,
+  bcrypt,
+  cgi,
+  db_sqlite,
+  jester,
+  json,
+  macros,
+  md5,
+  os,
   osproc,
-  parsecfg, 
-  parseutils, 
-  random, 
-  rdstdin, 
-  re, 
-  recaptcha, 
-  sequtils, 
-  strtabs, 
+  parsecfg,
+  parseutils,
+  random,
+  rdstdin,
+  re,
+  recaptcha,
+  sequtils,
+  strtabs,
   strutils,
   times,
   oswalkdir as oc
@@ -38,7 +38,7 @@ import cookies as libcookies
 macro configExists(): untyped =
   ## Macro to check if the config file is present
   let (dir, name, file) = splitFile(currentSourcePath())
-  discard name 
+  discard name
   discard file
 
   if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
@@ -85,9 +85,9 @@ when defined(windows):
 
 
 proc getPluginsPath*(): seq[string] {.compileTime.} =
-  
+
   let (dir, name, file) = splitFile(currentSourcePath())
-  discard name 
+  discard name
   discard file
   let realPath = replace(dir, "/nimwcpkg", "")
 
@@ -97,7 +97,7 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
   for plugin in oc.walkDir("plugins/"):
     let (pd, ppath) = plugin
     discard pd
-  
+
     if ppath in plugins:
       if extensions.len() == 0:
         extensions = @[realPath & "/" & ppath]
@@ -120,14 +120,14 @@ macro extensionImport(): untyped =
   for ppath in getPluginsPath():
     let splitted = split(ppath, "/")
     extensions.add("import " & ppath & "/" & splitted[splitted.len-1] & "\n")
-    
+
   when defined(dev):
     echo "Plugins - imports:"
     echo extensions
-  
+
   result = parseStmt(extensions)
 
-extensionImport()  
+extensionImport()
 
 
 macro extensionUpdateDatabase(): untyped =
@@ -147,7 +147,7 @@ macro extensionUpdateDatabase(): untyped =
     for ppath in getPluginsPath():
       let splitted = split(ppath, "/")
       extensions.add("  " & splitted[splitted.len-1] & "Start(db)\n")
-    
+
     extensions.add("  echo \" \"")
 
   when defined(dev):
@@ -168,10 +168,10 @@ macro extensionCss(): string =
   ## 2) Insert <style>-link into HTML
 
   let (dir, name, file) = splitFile(currentSourcePath())
-  discard name 
+  discard name
   discard file
   let mainDir = replace(dir, "nimwcpkg", "")
-  
+
 
   var extensions = ""
   for ppath in getPluginsPath():
@@ -184,7 +184,7 @@ macro extensionCss(): string =
 
     if staticRead(ppath & "/public/style_private.css") != "":
       discard staticExec("cp " & ppath & "/" & "/public/style_private.css " & mainDir & "/public/css/" & splitted[splitted.len-1] & "_private.css")
-    
+
   when defined(dev):
     echo "Plugins - CSS:"
     echo extensions
@@ -201,7 +201,7 @@ macro extensionJs*(): string =
   ## 2) Insert <js>-link into HTML
 
   let (dir, name, file) = splitFile(currentSourcePath())
-  discard name 
+  discard name
   discard file
   let mainDir = replace(dir, "nimwcpkg", "")
 
@@ -226,7 +226,7 @@ macro extensionJs*(): string =
 
 
 
-#[ 
+#[
       Defining variables
 __________________________________________________]#
 macro readCfgAndBuildSource*(cfgFilename: string): typed =
@@ -234,7 +234,7 @@ macro readCfgAndBuildSource*(cfgFilename: string): typed =
 
   let inputString = slurp(cfgFilename.strVal)
   var source = ""
-  
+
   for line in inputString.splitLines:
     # Ignore empty lines
     if line.len < 1 and line.substr(0, 0) != "[": continue
@@ -242,7 +242,7 @@ macro readCfgAndBuildSource*(cfgFilename: string): typed =
     #if chunks.len != 2: continue
     if chunks.len != 2:
       continue
-    
+
     source &= "const cfg" & chunks[0] & "= \"" & chunks[1] & "\"\n"
 
   if source.len < 1: error("Input file empty!")
@@ -256,14 +256,16 @@ macro readCfgAndBuildSource*(cfgFilename: string): typed =
 readCfgAndBuildSource("../config/configStatic.cfg")
 
 
+
+# Load config file
 var db: DbConn
-  
+
 let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
-let db_user = dict.getSectionValue("Database","user")
-let db_pass = dict.getSectionValue("Database","pass")
-let db_name = dict.getSectionValue("Database","name")
-let db_host = dict.getSectionValue("Database","host")
+let db_user   = dict.getSectionValue("Database","user")
+let db_pass   = dict.getSectionValue("Database","pass")
+let db_name   = dict.getSectionValue("Database","name")
+let db_host   = dict.getSectionValue("Database","host")
 
 let mainURL   = dict.getSectionValue("Server","url")
 let mainPort  = parseInt dict.getSectionValue("Server","port")
@@ -288,17 +290,17 @@ settings:
 
 proc init(c: var TData) =
   ## Empty out user session data
-  c.userpass      = ""
-  c.username      = ""
-  c.userid        = ""
-  c.timezone      = ""
-  c.rank          = NotLoggedin
-  c.loggedIn      = false
+  c.userpass = ""
+  c.username = ""
+  c.userid   = ""
+  c.timezone = ""
+  c.rank     = NotLoggedin
+  c.loggedIn = false
 
 
-    
 
-#[ 
+
+#[
       Validation check
 __________________________________________________]#
 proc loggedIn(c: TData): bool =
@@ -310,7 +312,7 @@ proc loggedIn(c: TData): bool =
 
 
 
-#[ 
+#[
       Check if user is signed in
 __________________________________________________]#
 
@@ -320,7 +322,7 @@ proc checkLoggedIn(c: var TData) =
   if not c.req.cookies.hasKey("sid"): return
   let sid = c.req.cookies["sid"]
   if execAffectedRows(db, sql("UPDATE session SET lastModified = " & $toInt(epochTime()) & " " & "WHERE ip = ? AND key = ?"), c.req.ip, sid) > 0:
-    
+
     c.userid = getValue(db, sql"SELECT userid FROM session WHERE ip = ? AND key = ?", c.req.ip, sid)
 
     let row = getRow(db, sql"SELECT name, email, status FROM person WHERE id = ?", c.userid)
@@ -329,7 +331,7 @@ proc checkLoggedIn(c: var TData) =
     c.rank      = parseEnum[Rank](row[2])
     if c.rank notin [Admin, Moderator, User]:
       c.loggedIn = false
-    
+
     discard tryExec(db, sql"UPDATE person SET lastOnline = ? WHERE id = ?", toInt(epochTime()), c.userid)
 
   else:
@@ -337,7 +339,7 @@ proc checkLoggedIn(c: var TData) =
 
 
 
-#[ 
+#[
       User login
 __________________________________________________]#
 
@@ -370,7 +372,7 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
 
       let key = makeSessionKey()
       exec(db, sql"INSERT INTO session (ip, key, userid) VALUES (?, ?, ?)", c.req.ip, key, row[0])
-      
+
       dbg("INFO", "Login successful")
       return (true, key)
 
@@ -390,10 +392,7 @@ proc logout(c: var TData) =
 
 
 
-
-
-
-#[ 
+#[
       Check if logged in
 __________________________________________________]#
 template createTFD() =
@@ -408,6 +407,11 @@ template createTFD() =
   c.loggedIn = loggedIn(c)
 
 
+
+
+#[
+      HTML tools
+__________________________________________________]#
 template checkboxToInt(checkboxOnOff: string): string =
   ## When posting checkbox data from HTML form
   ## an "on" is sent when true. Convert to 1 or 0.
@@ -431,7 +435,7 @@ template checkboxToChecked(checkboxOnOff: string): string =
 template statusIntToText(status: string): string =
   ## When parsing DB status convert
   ## 0, 1 and 3 to human names
-  
+
   if status == "0":
     "Development"
   elif status ==  "1":
@@ -448,16 +452,16 @@ template statusIntToCheckbox(status, value: string): string =
 
   if status == "0" and value == "0":
     "selected"
-  elif status ==  "1" and value == "1":
+  elif status == "1" and value == "1":
     "selected"
-  elif status ==  "2" and value == "2":
+  elif status == "2" and value == "2":
     "selected"
   else:
     ""
 
 
 
-#[ 
+#[
       Include HTML files
 __________________________________________________]#
 
@@ -476,15 +480,17 @@ include "tmpl/main.tmpl"
 
 
 
-#[ 
+#[
       Routes for WWW
 __________________________________________________]#
 
 proc checkCompileOptions*(): string {.compileTime.} =
-  # Checking for known compile options
-  # and returning them as a space separated string.
-  # See README.md for explation of the options.
-  
+  ## Checking for known compile options
+  ## and returning them as a space separated string.
+  ##
+  ## Proc used within plugin route, where a recompile
+  ## is required to include/exclude a plugin.
+
   result = ""
 
   when defined(nginx):
@@ -497,7 +503,7 @@ proc checkCompileOptions*(): string {.compileTime.} =
     result.add(" -d:devemailon")
   when defined(demo):
     result.add(" -d:demo")
-  
+
   return result
 
 
@@ -506,9 +512,8 @@ macro generateRoutes(): typed =
   ## Routes are found in the resources/web/routes.nim.
   ## All plugins 'routes.nim' are also included.
 
-
   var extensions = staticRead("resources/web/routes.nim")
-  
+
   for ppath in getPluginsPath():
     extensions.add("\n")
     extensions.add(staticRead(ppath & "/routes.nim"))
@@ -522,11 +527,21 @@ generateRoutes()
 
 
 
-#[ 
+#[
       Proc's for demo usage
 __________________________________________________]#
 when defined(demo):
   proc emptyDB(db: DbConn) {.async.} =
+    ## When defined(demo) activate proc
+    ##
+    ## There is 2 outcome. If defined(demoloadbackup)
+    ## the database will be overridden with a backup
+    ## (website.bak.db) every hour. If not, the standard
+    ## data will be applied.
+    ##
+    ## This proc is used, when the platform needs to run
+    ## as a test with e.g. public access.
+
     await sleepAsync((60*10) * 1000)
     var standarddata = true
     when defined(demoloadbackup):
@@ -582,7 +597,7 @@ when isMainModule:
 
 
   # Generate DB
-  if "newdb" in commandLineParams() or not fileExists(db_host): 
+  if "newdb" in commandLineParams() or not fileExists(db_host):
     generateDB()
 
 
@@ -595,7 +610,7 @@ when isMainModule:
     sleep(5000)
     quit()
 
-  
+
 
   # Add admin user
   if "newuser" in commandLineParams():
@@ -618,7 +633,7 @@ when isMainModule:
 
   # Update sql database from extensions
   extensionUpdateDB(db)
-      
+
 
   # Insert standard data
   if "insertdata" in commandLineParams():
@@ -629,9 +644,9 @@ when isMainModule:
 
 
   dbg("INFO", "Up and running!")
-  
-  
+
+
   runForever()
   db.close()
   dbg("INFO", "Connection to DB is closed")
-  
+
