@@ -75,8 +75,6 @@ import resources/web/google_recaptcha
 import resources/web/urltools
 
 
-#setCurrentDir(getAppDir())
-
 
 when defined(windows):
   echo "\nWindows is not supported\n"
@@ -84,7 +82,12 @@ when defined(windows):
 
 
 
+
+#[
+      Macros
+__________________________________________________]#
 proc getPluginsPath*(): seq[string] {.compileTime.} =
+  ## Get all plugins path
 
   let (dir, name, file) = splitFile(currentSourcePath())
   discard name
@@ -224,6 +227,37 @@ macro extensionJs*(): string =
   return extensions
 
 
+macro generateFavicon*(): string =
+  ## Macro with 2 functions
+  ##
+  ## 1) Copy the plugins js.js to the public js/ folder and
+  ## renaming to <extensionname>.js
+  ##
+  ## 2) Insert <js>-link into HTML
+
+  let (dir, name, file) = splitFile(currentSourcePath())
+  discard name
+  discard file
+  let mainDir = replace(dir, "nimwcpkg", "")
+
+  var extensions = ""
+  for ppath in getPluginsPath():
+    let splitted = split(ppath, "/")
+
+    if staticRead(ppath & "/public/js.js") != "":
+      discard staticExec("cp " & ppath & "/public/js.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
+
+      extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer></script>\n")
+
+    if staticRead(ppath & "/public/js_private.js") != "":
+      discard staticExec("cp " & ppath & "/public/js_private.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
+
+  when defined(dev):
+    echo "Plugins - JS:"
+    echo extensions
+
+  return extensions
+
 
 
 #[
@@ -257,7 +291,9 @@ readCfgAndBuildSource("../config/configStatic.cfg")
 
 
 
-# Load config file
+#[
+      Loading config file
+__________________________________________________]#
 var db: DbConn
 
 let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
@@ -297,6 +333,38 @@ proc init(c: var TData) =
   c.rank     = NotLoggedin
   c.loggedIn = false
 
+
+
+#[
+      Recompile
+__________________________________________________]#
+proc checkCompileOptions*(): string {.compileTime.} =
+  ## Checking for known compile options
+  ## and returning them as a space separated string.
+  ##
+  ## Proc used within plugin route, where a recompile
+  ## is required to include/exclude a plugin.
+
+  result = ""
+
+  when defined(nginx):
+    result.add(" -d:nginx")
+  when defined(adminnotify):
+    result.add(" -d:adminnotify")
+  when defined(dev):
+    result.add(" -d:dev")
+  when defined(devemailon):
+    result.add(" -d:devemailon")
+  when defined(demo):
+    result.add(" -d:demo")
+
+  return result
+
+
+proc recompile*(): int =
+  ## Recompile nimwc_main
+
+  return execCmd("nim c " & checkCompileOptions() & " -o:nimwcpkg/nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
 
 
 
@@ -483,30 +551,6 @@ include "tmpl/main.tmpl"
 #[
       Routes for WWW
 __________________________________________________]#
-
-proc checkCompileOptions*(): string {.compileTime.} =
-  ## Checking for known compile options
-  ## and returning them as a space separated string.
-  ##
-  ## Proc used within plugin route, where a recompile
-  ## is required to include/exclude a plugin.
-
-  result = ""
-
-  when defined(nginx):
-    result.add(" -d:nginx")
-  when defined(adminnotify):
-    result.add(" -d:adminnotify")
-  when defined(dev):
-    result.add(" -d:dev")
-  when defined(devemailon):
-    result.add(" -d:devemailon")
-  when defined(demo):
-    result.add(" -d:demo")
-
-  return result
-
-
 template restrictTestuser(httpMeth = "") =
   ## Check if this is the testuser. If it is true, return
   ## error message based on HTTP method (GET/POST).

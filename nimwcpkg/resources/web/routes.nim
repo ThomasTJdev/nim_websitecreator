@@ -96,7 +96,8 @@ routes:
     await response.send("Updating plugins: " & decodeUrl(@"pluginActivity") & "<br>")
     await response.send("Please wait while the program is compiling ..<br>")
 
-    let output = execCmd("nim c " & checkCompileOptions() & " -o:nimwcpkg/nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
+    #let output = execCmd("nim c " & checkCompileOptions() & " -o:nimwcpkg/nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
+    let output = recompile()
     if output == 1:
       echo "\nAn error occured"
       await response.send("<br><br>An error occured<br>")
