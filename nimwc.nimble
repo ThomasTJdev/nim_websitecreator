@@ -10,7 +10,7 @@ skipDirs      = @["private", "tmp"]
 
 # Dependencies
 requires "nim >= 0.18.1"
-requires "jester >= 0.3.0"
+requires "jester >= 0.2.0"
 requires "recaptcha >= 1.0.2"
 requires "bcrypt >= 0.2.1"
 
