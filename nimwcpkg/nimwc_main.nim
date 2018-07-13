@@ -14,8 +14,6 @@ import
   bcrypt,
   cgi,
   db_sqlite,
-  #"jester-0.2.0/jester",
-  #"/home/user/.nimble/pkgs/jester-#081e5bd82e6eedeff8646e4259bd94996f3478e3/jester",
   "jester-#081e5bd82e6eedeff8646e4259bd94996f3478e3/jester",
   json,
   macros,
