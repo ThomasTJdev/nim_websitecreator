@@ -98,7 +98,7 @@ proc pluginEnableDisable*(pluginPath, pluginName, status: string) =
   for line in lines("plugins/plugin_import.txt"):
     if line == "":
       continue
-    if line == pluginPath and status == "true":
+    if line == pluginPath:
       continue
     else:
       newFile.add(line)

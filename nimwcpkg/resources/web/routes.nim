@@ -87,24 +87,16 @@ routes:
 
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
       redirect("/error/" & encodeUrl("You are not authorized to access this area"))
-      
-    await response.sendHeaders()
-    await response.send("Updating plugins: " & decodeUrl(@"pluginActivity") & "<br>")
-    await response.send("Please wait while the program is compiling ..<br>")
 
-    #let output = execCmd("nim c " & checkCompileOptions() & " -o:nimwcpkg/nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
+    let pluginPath = if @"status" == "false": "" else: ("plugins/" & @"pluginname")
+    pluginEnableDisable(pluginPath, @"pluginname", @"status")
+
     let output = recompile()
     if output == 1:
-      echo "\nAn error occured"
-      await response.send("<br><br>An error occured<br>")
-      await response.send("<a href=\"/plugins\">Click here to go to the plugin page</a>")
+      echo "\nrecompile(): An error occured"
+      redirect("/plugins")
     else:
-      let pluginPath = if @"status" == "false": "" else: ("plugins/" & @"pluginname")
-      pluginEnableDisable(pluginPath, @"pluginname", @"status")
-
-      echo "\nCompiling done. Starting nimwc:"
-      await response.send("<br><br>Compiling done. Starting nimwc<br>")
-      await response.send("<a href=\"/plugins\">Compiling is done, click here to reload</a>")
+      redirect("/plugins")
 
 
   get "/plugins/repo":
@@ -311,21 +303,8 @@ routes:
 
     if not fileExists(filepath):
       resp("Error: File was not found")
-      
-    # Serve the file
-    let ext = splitFile(filename).ext
-    await response.sendHeaders(Http200, {"Content-Disposition": "", "Content-Type": "application/" & ext}.newStringTable())
-    var file = openAsync(filepath, fmRead)
-    var data = await file.read(4000)
 
-    while data.len != 0:
-      await response.client.send(data)
-      data = await file.read(4000)
-    
-    file.close()
-    
-    if "nginx" notin commandLineParams() and not defined(nginx):
-      response.client.close()
+    sendFile(filepath)
 
 
   post "/files/upload/@access":
@@ -513,21 +492,8 @@ routes:
 
     if not fileExists(filepath):
       resp("")
-      
-    # Serve the file
-    let ext = splitFile(filename).ext
-    await response.sendHeaders(Http200, {"Content-Disposition": "", "Content-Type": "application/" & ext}.newStringTable())
-    var file = openAsync(filepath, fmRead)
-    var data = await file.read(4000)
-
-    while data.len != 0:
-      await response.client.send(data)
-      data = await file.read(4000)
     
-    file.close()
-    
-    if "nginx" notin commandLineParams() and not defined(nginx):
-      response.client.close()
+    sendFile(filepath)
 
 
   post "/users/photo/upload":

@@ -14,7 +14,9 @@ import
   bcrypt,
   cgi,
   db_sqlite,
-  jester,
+  #"jester-0.2.0/jester",
+  #"/home/user/.nimble/pkgs/jester-#081e5bd82e6eedeff8646e4259bd94996f3478e3/jester",
+  "jester-#081e5bd82e6eedeff8646e4259bd94996f3478e3/jester",
   json,
   macros,
   md5,
@@ -533,63 +535,6 @@ template statusIntToCheckbox(status, value: string): string =
 
 
 
-#[
-      Include HTML files
-__________________________________________________]#
-
-include "tmpl/utils.tmpl"
-include "tmpl/blog.tmpl"
-include "tmpl/blogedit.tmpl"
-include "tmpl/blognew.tmpl"
-include "tmpl/files.tmpl"
-include "tmpl/page.tmpl"
-include "tmpl/pageedit.tmpl"
-include "tmpl/pagenew.tmpl"
-include "tmpl/settings.tmpl"
-include "tmpl/plugins.tmpl"
-include "tmpl/user.tmpl"
-include "tmpl/main.tmpl"
-
-
-
-#[
-      Routes for WWW
-__________________________________________________]#
-template restrictTestuser(httpMeth = "") =
-  ## Check if this is the testuser. If it is true, return
-  ## error message based on HTTP method (GET/POST).
-  ##
-  ## It is possible to override the method with the param
-  ## httpMeth.
-
-  when defined(demo):
-    if c.loggedIn and c.rank != Admin:
-      let httpMethod = if httpMeth == "": $c.req.reqMeth else: httpMeth
-      if httpMethod == "POST":
-        resp("Error: The test user does not have access to this area")
-      else:
-        redirect("/error/" & encodeUrl("Error: The test user does not have access to this area"))
-
-
-macro generateRoutes(): typed =
-  ## The macro generates the routes for Jester.
-  ## Routes are found in the resources/web/routes.nim.
-  ## All plugins 'routes.nim' are also included.
-
-  var extensions = staticRead("resources/web/routes.nim")
-
-  for ppath in getPluginsPath():
-    extensions.add("\n")
-    extensions.add(staticRead(ppath & "/routes.nim"))
-
-  when defined(dev):
-    echo extensions
-
-  result = parseStmt(extensions)
-
-generateRoutes()
-
-
 
 #[
       Proc's for demo usage
@@ -625,6 +570,7 @@ when defined(demo):
 #[
       Main module
 __________________________________________________]#
+#proc startUp() =
 when isMainModule:
 
   echo "\n"
@@ -711,7 +657,67 @@ when isMainModule:
   dbg("INFO", "Up and running!")
 
 
-  runForever()
-  db.close()
-  dbg("INFO", "Connection to DB is closed")
+  #runForever()
+  #db.close()
+  #dbg("INFO", "Connection to DB is closed")
 
+#startUp()
+
+
+
+
+#[
+      Include HTML files
+__________________________________________________]#
+
+include "tmpl/utils.tmpl"
+include "tmpl/blog.tmpl"
+include "tmpl/blogedit.tmpl"
+include "tmpl/blognew.tmpl"
+include "tmpl/files.tmpl"
+include "tmpl/page.tmpl"
+include "tmpl/pageedit.tmpl"
+include "tmpl/pagenew.tmpl"
+include "tmpl/settings.tmpl"
+include "tmpl/plugins.tmpl"
+include "tmpl/user.tmpl"
+include "tmpl/main.tmpl"
+
+
+
+#[
+      Routes for WWW
+__________________________________________________]#
+template restrictTestuser(httpMeth = "") =
+  ## Check if this is the testuser. If it is true, return
+  ## error message based on HTTP method (GET/POST).
+  ##
+  ## It is possible to override the method with the param
+  ## httpMeth.
+
+  when defined(demo):
+    if c.loggedIn and c.rank != Admin:
+      let httpMethod = if httpMeth == "": $c.req.reqMeth else: httpMeth
+      if httpMethod == "POST":
+        resp("Error: The test user does not have access to this area")
+      else:
+        redirect("/error/" & encodeUrl("Error: The test user does not have access to this area"))
+
+
+macro generateRoutes(): typed =
+  ## The macro generates the routes for Jester.
+  ## Routes are found in the resources/web/routes.nim.
+  ## All plugins 'routes.nim' are also included.
+
+  var extensions = staticRead("resources/web/routes.nim")
+
+  for ppath in getPluginsPath():
+    extensions.add("\n")
+    extensions.add(staticRead(ppath & "/routes.nim"))
+
+  when defined(dev):
+    echo extensions
+
+  result = parseStmt(extensions)
+
+generateRoutes()
