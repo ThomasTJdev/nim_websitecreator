@@ -20,7 +20,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Linux
 - Nim devel (0.18.1)
 - Nim modules (automated when using Nimble):
-  - jester >= 0.3.0
+  - jester >= 0.4.0
   - reCAPTCHA >= 1.0.2
   - bcrypt >= 0.2.1
 
@@ -48,7 +48,7 @@ nimble install nimwc
 
 # Edit the config.cfg accordingly
 # (change the confg.cfg path to your nimble folder and the correct package version)
-nano ~/.nimble/pkgs/nimwc-0.1.0/config/config.cfg
+nano ~/.nimble/pkgs/nimwc-1.1.0/config/config.cfg
 
 # Run nimwc
 # (to add an Admin user append "newuser": nimwc newuser)
@@ -158,8 +158,8 @@ After=network.target
 [Service]
 User=ubuntu # MODIFY to your username
 Type=simple
-WorkingDirectory=/home/<user>/.nimble/pkgs/nimwc-1.0.0/ # MODIFY to your installation path
-ExecStart=/home/<user>/.nimble/pkgs/nimwc-1.0.0/nimwc   # MODIFY to your installation path
+WorkingDirectory=/home/<user>/.nimble/pkgs/nimwc-1.1.0/ # MODIFY to your installation path
+ExecStart=/home/<user>/.nimble/pkgs/nimwc-1.1.0/nimwc   # MODIFY to your installation path
 Restart=always
 RestartSec=3
 
