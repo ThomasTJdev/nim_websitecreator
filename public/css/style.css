@@ -648,6 +648,16 @@ _________________*/
   font-size: 3.6rem;
   font-weight: 300;
 }
+#frontpageContainer h2.seemore a{
+  text-align: center;
+  border: 1px solid white;
+  padding: 0.5rem 1.7rem;
+  background: #8181819c;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  color: white;
+  font-size: 1.5rem;
+}
 #frontpageContainer .title h2,
 #frontpageContainer .text2 h2,
 #frontpageContainer .text5 h2 {

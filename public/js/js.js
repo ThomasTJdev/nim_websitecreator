@@ -255,3 +255,18 @@ if ($('#aboutContainer').length) {
   }, 600);
 }
       
+
+
+$('a[href*="#"]:not([href="#"])').click(function() {
+  var offset = -97; // <-- change the value here
+  if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+      if (target.length) {
+          $('html, body').animate({
+              scrollTop: target.offset().top + offset
+          }, 800);
+          return false;
+      }
+  }
+});

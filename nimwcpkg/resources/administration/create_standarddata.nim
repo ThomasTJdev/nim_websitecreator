@@ -172,9 +172,12 @@ const frontpage = """
   <div class="title">
     <h1 class="reveal">Nim Website Creator</h1>
     <h2 class="reveal">Websites on the fly</h2>
+    <h2 class="reveal seemore">
+      <a href="#start">See more</a>
+    </h2>
   </div>
   
-  <div class="text2 reveal">
+  <div id="start" class="text2 reveal">
     <h2>NimWC is a new tool for<br>generating websites on the fly</h2>
   </div>
     
