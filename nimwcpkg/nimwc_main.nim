@@ -260,36 +260,6 @@ macro generateFavicon*(): string =
 
 
 
-#[
-      Defining variables
-__________________________________________________]#
-macro readCfgAndBuildSource*(cfgFilename: string): typed =
-  ## Generate constans with macro from configStatic file
-
-  let inputString = slurp(cfgFilename.strVal)
-  var source = ""
-
-  for line in inputString.splitLines:
-    # Ignore empty lines
-    if line.len < 1 and line.substr(0, 0) != "[": continue
-    var chunks = split(line, " = ")
-    #if chunks.len != 2: continue
-    if chunks.len != 2:
-      continue
-
-    source &= "const cfg" & chunks[0] & "= \"" & chunks[1] & "\"\n"
-
-  if source.len < 1: error("Input file empty!")
-
-  when defined(dev):
-    echo "Constant vars compiled from configStatic.cfg:"
-    echo source
-
-  result = parseStmt(source)
-
-readCfgAndBuildSource("../config/configStatic.cfg")
-
-
 
 #[
       Loading config file
@@ -573,11 +543,9 @@ when isMainModule:
 
   echo "\n"
   echo "--------------------------------------------"
-  echo "  Package:        " & cfgPackageName
-  echo "  Version:        " & cfgPackageVersion & " - " & cfgPackageDate
-  echo "  Description:    " & cfgPackageDescription
-  echo "  Author name:    " & cfgAuthorName
-  echo "  Author email:   " & cfgAuthorEmail
+  echo "  Package:        " & "Nim Website Creator"
+  echo "  Description:    " & "Website creator build with Nim"
+  echo "  Author name:    " & "Thomas Toftgaard Jarløv (TTJ)"
   echo "  Current time:   " & $getTime()
   echo "--------------------------------------------"
   echo "\n"
