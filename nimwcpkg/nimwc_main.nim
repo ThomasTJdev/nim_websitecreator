@@ -109,6 +109,8 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
 
   return extensions
 
+let pluginsPath = getPluginsPath()
+
 
 macro extensionImport(): untyped =
   ## Macro to import plugins
@@ -118,7 +120,7 @@ macro extensionImport(): untyped =
   ## to be activated. Only 1 module will be imported.
 
   var extensions = ""
-  for ppath in getPluginsPath():
+  for ppath in pluginsPath:
     let splitted = split(ppath, "/")
     extensions.add("import " & ppath & "/" & splitted[splitted.len-1] & "\n")
 
@@ -141,11 +143,11 @@ macro extensionUpdateDatabase(): untyped =
   var extensions = ""
 
   extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
-  if getPluginsPath().len == 0:
+  if pluginsPath.len == 0:
     extensions.add("  discard")
 
   else:
-    for ppath in getPluginsPath():
+    for ppath in pluginsPath:
       let splitted = split(ppath, "/")
       extensions.add("  " & splitted[splitted.len-1] & "Start(db)\n")
 
@@ -175,7 +177,7 @@ macro extensionCss(): string =
 
 
   var extensions = ""
-  for ppath in getPluginsPath():
+  for ppath in pluginsPath:
     let splitted = split(ppath, "/")
 
     if staticRead(ppath & "/public/style.css") != "":
@@ -207,7 +209,7 @@ macro extensionJs*(): string =
   let mainDir = replace(dir, "nimwcpkg", "")
 
   var extensions = ""
-  for ppath in getPluginsPath():
+  for ppath in pluginsPath:
     let splitted = split(ppath, "/")
 
     if staticRead(ppath & "/public/js.js") != "":
@@ -239,7 +241,7 @@ macro generateFavicon*(): string =
   let mainDir = replace(dir, "nimwcpkg", "")
 
   var extensions = ""
-  for ppath in getPluginsPath():
+  for ppath in pluginsPath:
     let splitted = split(ppath, "/")
 
     if staticRead(ppath & "/public/js.js") != "":
@@ -664,7 +666,7 @@ macro generateRoutes(): typed =
 
   var extensions = staticRead("resources/web/routes.nim")
 
-  for ppath in getPluginsPath():
+  for ppath in pluginsPath:
     extensions.add("\n")
     extensions.add(staticRead(ppath & "/routes.nim"))
 
