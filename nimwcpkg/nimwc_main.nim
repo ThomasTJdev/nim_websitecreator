@@ -9,30 +9,22 @@
 
 import
   asyncdispatch,
-  asyncfile,
-  asyncnet,
   bcrypt,
   cgi,
   db_sqlite,
   jester,
   json,
   macros,
-  md5,
   os,
   osproc,
   parsecfg,
-  parseutils,
   random,
-  rdstdin,
   re,
   recaptcha,
   sequtils,
-  strtabs,
   strutils,
   times,
   oswalkdir as oc
-
-import cookies as libcookies
 
 
 macro configExists(): untyped =
