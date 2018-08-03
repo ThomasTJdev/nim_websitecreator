@@ -106,7 +106,7 @@ proc pluginEnableDisable*(pluginPath, pluginName, status: string) =
     newFile.add("\n")
 
   if status == "false":
-    newFile.add("plugins/" & pluginName)
+    newFile.add(pluginName)
 
   writeFile("plugins/plugin_import.txt", newFile)
 
@@ -118,25 +118,30 @@ proc extensionSettings(): seq[string] =
 
   let plugins = (readFile("plugins/plugin_import.txt").split("\n"))
 
+  # Walk through files and folders in the plugin directory
   var extensions: seq[string]
   for plugin in walkDir("plugins/"):
     let (pd, ppath) = plugin
     discard pd
+    let ppathName = replace(ppath, "plugins/", "")
 
-    if ppath in ["plugins/nimwc_plugins", "plugins/plugin_import.txt"]:
+    # Skip these files/folders
+    if ppathName in ["nimwc_plugins", "plugin_import.txt"]:
       continue
   
-    if ppath in plugins:
+    # If the plugins is present in plugin_import, set the 
+    # plugin status to true, else false
+    if ppathName in plugins:
       if extensions.len() == 0:
-        extensions = @["true:" & ppath]
+        extensions = @["true:" & ppathName]
       else:
-        extensions.add("true:" & ppath)
+        extensions.add("true:" & ppathName)
 
     else:
       if extensions.len() == 0:
-        extensions = @["false:" & ppath]
+        extensions = @["false:" & ppathName]
       else:
-        extensions.add("false:" & ppath)
+        extensions.add("false:" & ppathName)
   
   return extensions
 
@@ -146,7 +151,7 @@ proc genExtensionSettings*(): string =
 
   var extensions = ""
   for plugin in extensionSettings():
-    let pluginName = replace((split(plugin, ":"))[1], "plugins/", "")
+    let pluginName = (split(plugin, ":"))[1]
     let status = if (split(plugin, ":"))[0] == "true": "enabled" else: "disabled"
 
     extensions.add("<li data-plugin=\"" & pluginName & "\" class=\"pluginSettings ")

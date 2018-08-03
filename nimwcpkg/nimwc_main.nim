@@ -101,15 +101,13 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
     let (pd, ppath) = plugin
     discard pd
 
-    if ppath in plugins:
+    if replace(ppath, "plugins/", "") in plugins:
       if extensions.len() == 0:
         extensions = @[realPath & "/" & ppath]
       else:
         extensions.add(realPath & "/" & ppath)
 
   return extensions
-
-
 
 
 macro extensionImport(): untyped =
@@ -357,7 +355,6 @@ proc loggedIn(c: TData): bool =
 #[
       Check if user is signed in
 __________________________________________________]#
-
 proc checkLoggedIn(c: var TData) =
   ## Check if user is logged in
 
@@ -384,7 +381,6 @@ proc checkLoggedIn(c: var TData) =
 #[
       User login
 __________________________________________________]#
-
 proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
   ## User login
 
@@ -480,9 +476,9 @@ template statusIntToText(status: string): string =
 
   if status == "0":
     "Development"
-  elif status ==  "1":
+  elif status == "1":
     "Private"
-  elif status ==  "2":
+  elif status == "2":
     "Public"
   else:
     "Error"
@@ -538,7 +534,6 @@ when defined(demo):
 #[
       Main module
 __________________________________________________]#
-#proc startUp() =
 when isMainModule:
 
   echo "\n"
@@ -621,14 +616,6 @@ when isMainModule:
 
 
   dbg("INFO", "Up and running!")
-
-
-  #runForever()
-  #db.close()
-  #dbg("INFO", "Connection to DB is closed")
-
-#startUp()
-
 
 
 

@@ -88,7 +88,7 @@ routes:
     if not c.loggedIn or c.rank notin [Admin, Moderator]:
       redirect("/error/" & encodeUrl("You are not authorized to access this area"))
 
-    let pluginPath = if @"status" == "false": "" else: ("plugins/" & @"pluginname")
+    let pluginPath = if @"status" == "false": "" else: (@"pluginname")
     pluginEnableDisable(pluginPath, @"pluginname", @"status")
 
     let output = recompile()
