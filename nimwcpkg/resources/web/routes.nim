@@ -576,7 +576,7 @@ routes:
     resp genMain(c, genBlogAllPages(c))
   
 
-  get re"/blog/*.":
+  get re"/blog//*.":
     createTFD()
     let blogid = getValue(db, sql"SELECT id FROM blog WHERE url = ?", c.req.path.replace("/blog/", ""))
     resp genPageBlog(c, blogid)
@@ -637,7 +637,7 @@ routes:
       redirect("/")
   
 
-  get re"/p/.*":
+  get re"/p//.*":
     createTFD()
     let pageid = getValue(db, sql"SELECT id FROM pages WHERE url = ?", c.req.path.replace("/p/", ""))
     resp genPage(c, pageid)
