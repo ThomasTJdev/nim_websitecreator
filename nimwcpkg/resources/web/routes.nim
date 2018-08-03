@@ -190,7 +190,7 @@ routes:
       redirect("/error/" & encodeUrl("You are not authorized to access this area"))
 
     if pluginDownload(@"pluginrepo", @"pluginfolder"):
-      redirect("/plugins/repo")
+      redirect("/plugins")
     else:
       redirect("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginrepo"))
 
