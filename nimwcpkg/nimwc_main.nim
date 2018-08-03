@@ -96,11 +96,13 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
 
   var plugins = (staticRead(realPath & "/plugins/plugin_import.txt").split("\n"))
 
+  # Loop through all files and folders
   var extensions: seq[string]
   for plugin in oc.walkDir("plugins/"):
     let (pd, ppath) = plugin
     discard pd
 
+    # If the path matches a name in the plugin_import.txt
     if replace(ppath, "plugins/", "") in plugins:
       if extensions.len() == 0:
         extensions = @[realPath & "/" & ppath]
@@ -667,9 +669,8 @@ macro generateRoutes(): typed =
   var extensions = staticRead("resources/web/routes.nim")
 
   for ppath in pluginsPath:
-    extensions.add("\n")
-    extensions.add(staticRead(ppath & "/routes.nim"))
-
+    extensions.add("\n\n" & staticRead(ppath & "/routes.nim"))
+    
   when defined(dev):
     echo extensions
 
