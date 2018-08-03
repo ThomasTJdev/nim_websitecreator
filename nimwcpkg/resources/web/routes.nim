@@ -177,7 +177,7 @@ routes:
           
       redirect("/plugins/repo")
     else:
-      redirect("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginfolder"))
+      redirect("/error/" & encodeUrl("Something went wrong. Please ensure, that you have disabled the plugin in /plugins"))
 
 
   get "/plugins/repo/downloadplugin":

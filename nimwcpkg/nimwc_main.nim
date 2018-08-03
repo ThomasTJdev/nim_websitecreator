@@ -88,6 +88,8 @@ when defined(windows):
 __________________________________________________]#
 proc getPluginsPath*(): seq[string] {.compileTime.} =
   ## Get all plugins path
+  ##
+  ## Generates a seq[string] with the path to the plugins
 
   let (dir, name, file) = splitFile(currentSourcePath())
   discard name

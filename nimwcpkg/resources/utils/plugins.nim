@@ -77,6 +77,9 @@ proc pluginUpdate*(pluginFolder: string): bool =
 
 proc pluginDelete*(pluginFolder: string): bool =
   ## Updates an external plugin with pull
+  for line in lines("plugins/plugin_import.txt"):
+    if line == pluginFolder:
+      return false
 
   let output = execProcess("rm -rf plugins/" & pluginFolder)
 
