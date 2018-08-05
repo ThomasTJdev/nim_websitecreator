@@ -74,7 +74,6 @@ when defined(windows):
 
 
 
-
 #[
       Macros
 __________________________________________________]#
@@ -279,7 +278,6 @@ when defined(release):
   let logfile = dict.getSectionValue("Logging","logfile")
 when not defined(release):
   let logfile = dict.getSectionValue("Logging","logfiledev")
-
 
 
 
@@ -620,7 +618,6 @@ when isMainModule:
 #[
       Include HTML files
 __________________________________________________]#
-
 include "tmpl/utils.tmpl"
 include "tmpl/blog.tmpl"
 include "tmpl/blogedit.tmpl"
@@ -639,7 +636,7 @@ include "tmpl/main.tmpl"
 #[
       Routes for WWW
 __________________________________________________]#
-template restrictTestuser(httpMeth = "") =
+template restrictTestuser(httpMeth: HttpMethod) =
   ## Check if this is the testuser. If it is true, return
   ## error message based on HTTP method (GET/POST).
   ##
@@ -648,11 +645,19 @@ template restrictTestuser(httpMeth = "") =
 
   when defined(demo):
     if c.loggedIn and c.rank != Admin:
-      let httpMethod = if httpMeth == "": $c.req.reqMeth else: httpMeth
-      if httpMethod == "POST":
+      #let httpMethod = if httpMeth == "": $c.req.reqMethod else: httpMeth
+      if httpMethod == HttpPost:
         resp("Error: The test user does not have access to this area")
       else:
         redirect("/error/" & encodeUrl("Error: The test user does not have access to this area"))
+
+
+template restrictAccessTo(c: var TData, ranks: varargs[Rank]) =
+  if not c.loggedIn or c.rank notin ranks:
+    if c.req.reqMethod == HttpGet:
+      redirect("/")
+    else:
+      resp(Http404, "")
 
 
 macro generateRoutes(): typed =
