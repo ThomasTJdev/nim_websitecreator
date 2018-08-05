@@ -1,6 +1,11 @@
 # Copyright 2018 - Thomas T. Jarløv
  
 routes:
+  error Http404:
+    redirect("/")
+  # Duplicated issue #152 & #155
+  error Http404:
+    discard
 
   get "/":
     createTFD()
