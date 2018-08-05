@@ -203,8 +203,11 @@ routes:
 
   get "/settings":
     createTFD()
-    if c.loggedIn and c.rank in [Admin, Moderator]:
-      resp genMain(c, genSettings(c))
+    if c.loggedIn:
+      if c.rank in [Admin, Moderator]:
+        resp genMain(c, genSettings(c))
+      else:
+        redirect("/")
   
   get "/settings/edit":
     createTFD()
@@ -478,9 +481,9 @@ routes:
 
     if secretUrlConfirm != "":
       exec(db, sql"UPDATE person SET secretUrl = NULL WHERE id = ? AND secretUrl = ?", @"id", @"ident")
-      redirect("/login")
+      redirect("/login?msg=" & encodeUrl("Your account is now activated"))
     else:
-      redirect("/error/" & encodeUrl("Error: This is not a valid confirmation link"))
+      redirect("/error/" & encodeUrl("Please login using your username and password"))
 
 
   get "/users/photo/stream/@filename":
