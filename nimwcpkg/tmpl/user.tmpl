@@ -80,7 +80,7 @@
 #proc genUsers(c: var TData): string =
 # result = ""
 #
-# let allUsers = getAllRows(db, sql"SELECT id, name, email, status, lastOnline FROM person")
+# let allUsers = getAllRows(db, sql"SELECT id, name, email, status, lastOnline, secretUrl FROM person")
 
 <div style="text-align: center;">
   <h1>Users</h1>
@@ -127,8 +127,12 @@
   <li class="list-group-item d-flex justify-content-between align-items-center">
     <span>${user[1]} - ${user[2]}</span>
     <div>
+#   if user[5] == "":
       <span class="badge badge-seconday badge-pill">Last online: ${epochDate(user[4], "YYYY-MM-DD HH:mm")}</span>
       <span class="badge badge-primary badge-pill">${user[3]}</span>
+#   else:
+      <span class="badge badge-primary badge-pill">Email not confirmed</span>
+#   end if
       <span class="badge badge-danger badge-pill"><a class="delete" href="/users/delete/${user[0]}">Delete</a></span>
     </div>
   </li>
