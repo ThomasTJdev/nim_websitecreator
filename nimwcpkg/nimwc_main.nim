@@ -636,7 +636,7 @@ include "tmpl/main.tmpl"
 #[
       Routes for WWW
 __________________________________________________]#
-template restrictTestuser(httpMeth: HttpMethod) =
+template restrictTestuser(httpMethod: HttpMethod) =
   ## Check if this is the testuser. If it is true, return
   ## error message based on HTTP method (GET/POST).
   ##
