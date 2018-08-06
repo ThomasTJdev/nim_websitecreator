@@ -521,56 +521,37 @@ div#user #editProfilePhoto {
 
 
 /*
-  New blog post
+  Blog & Page post
 */
-div#newblogData {
-  max-width: 1400px;
+div#blogData,
+div#pageData {
+  width: 100%;
   margin-left: auto;
   margin-right: auto;
 }
-div#newblogData input {
-  border: none;
-  border-bottom: 1px solid grey;
-  padding-left: 5px;
-}
-div#newblogData textarea {
-  width: 100%;
-}
-div#newblogData input:focus,
-div#newblogData textarea:focus {
-  box-shadow: 2px 2px 5px 0px rgba(186,186,186,1);
-  outline: auto;
-}
-div#newblogData label {
-  width: 200px;
-}
-div#newblogData select {
-  width: 206px;
-  display: inline;
-}
-#summernote {
-  margin-bottom: 20px;
+div#blogHeader,
+div#pageHeader {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
 }
 button.newblogSave,
-button.newblogOptions {
+button.blogOptions,
+button.newpageSave,
+button.pageOptions {
   font-size: 95%;
   height: 26px;
   line-height: 12px;
   margin-top: 5px;
   width: 80px;
 }
-div.newblogOptions {
+div.blogOptions,
+div.pageOptions {
   display: none;
 }
 @media only screen and (max-width: 768px) {
-  div#newblogData {
-    padding: 0px 0px;
-  }
-  div#newblogData label {
-    margin-top: 15px;
-    margin-bottom: 0px;
-  }
-  div#newblogData button {
+  div#blogData button,
+  div#pageData button {
     margin-top: 15px;
   }
 }
@@ -607,12 +588,11 @@ div#allpagePosts .list-group-item {
 
 
 /*
-    Summernote
+	Utils
 */
-.note-editable.panel-body {
-  overflow-y: scroll;
+.CodeMirror {
+  height: 100% !important;
 }
-
 
 
 /*
@@ -783,3 +763,7 @@ ___________________*/
     margin-top: 25px;
   }
 }
+
+
+
+      

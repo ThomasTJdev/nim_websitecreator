@@ -1,11 +1,11 @@
 # Copyright 2018 - Thomas T. Jarløv
  
 routes:
-  error Http404:
-    redirect("/")
+  #error Http404:
+  #  redirect("/")
   # Duplicated issue #152 & #155
-  error Http404:
-    discard
+  #error Http404:
+  #  discard
 
   get "/":
     createTFD()
@@ -95,7 +95,7 @@ routes:
 
     let output = recompile()
     if output == 1:
-      echo "\nrecompile(): An error occured"
+      echo "\nrecompile(): An error occurred"
       redirect("/plugins")
     else:
       redirect("/plugins")
@@ -304,13 +304,37 @@ routes:
     sendFile(filepath)
 
 
+  post "/files/upload/grapesjs":
+    # Upload a file via GrapesJS
+
+    createTFD()
+    restrictTestuser(c.req.reqMethod)
+    restrictAccessTo(c, [Admin, Moderator])
+
+    let filename = request.formData["file[]"].fields["filename"]
+    let path = "public/images/" & filename
+
+    if fileExists(path):
+      resp("ERROR")
+
+    try:
+      writeFile(path, request.formData.getOrDefault("file[]").body)
+      if fileExists(path):
+        resp("[\"/images/" & filename & "\"]")
+
+    except:
+      resp("ERROR")
+    
+    resp("ERROR")
+
+
   post "/files/upload/@access":
     ## Upload a file
 
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-  
+    
     if @"access" notin ["private", "public", "publicimage"]:
       resp("Error: Missing access right")
 
@@ -325,7 +349,7 @@ routes:
     
     if fileExists(path):
       resp("Error: A file with the same name exists")
-    
+
     try:
       writeFile(path, request.formData.getOrDefault("file").body)
       if fileExists(path):
@@ -532,7 +556,8 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     
     let url = urlEncoderCustom(@"url")
-    discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, head, navbar, footer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer")
+    discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"))
+    
     redirect("/blog/" & url)
 
 
@@ -541,7 +566,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     
     let url = urlEncoderCustom(@"url")
-    discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", @"blogid")
+    discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"blogid")
 
     if @"inbackground" == "true":
       resp("OK")
@@ -615,7 +640,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
 
     let url = urlEncoderCustom(@"url")
-    discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, head, navbar, footer) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer")
+    discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"))
     if url == "frontpage":
       redirect("/")
     else:
@@ -627,7 +652,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
 
     let url = urlEncoderCustom(@"url")
-    discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"head", @"navbar", @"footer", @"pageid")
+    discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"pageid")
 
     if @"inbackground" == "true":
       resp("OK")
@@ -642,7 +667,7 @@ routes:
     redirect("/")
   
 
-  get re"/p//.*":
+  get re"/p//*.":
     createTFD()
     let pageid = getValue(db, sql"SELECT id FROM pages WHERE url = ?", c.req.path.replace("/p/", ""))
     resp genPage(c, pageid)

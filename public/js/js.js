@@ -19,23 +19,6 @@ $(document).ready(function() {
 
 
 /*
-    New blog post
-*/
-
-$(document).ready(function() {
-  $( "button.newblogOptions" ).click(function() {
-    $("div.newblogOptions").toggle();
-
-    $("#imagecontainer").load("/files/raw");
-  });
-
-  $("#imagecontainer").on("click", "img.thumbnail", function() {
-    $('#summernote').summernote('insertImage', $(this).attr("data-url"), $(this).attr("data-filename"));
-  });
-});
-
-
-/*
     Plugins
 */
 
@@ -108,7 +91,7 @@ function uploadFile(projectID) {
       }
     },
     error: function (e) {
-      notifyError("Error: An error occured");
+      notifyError("Error: An error occurred");
     }
   });
   return false;
@@ -219,9 +202,7 @@ if ($('#frontpageContainer').length) {
          wS = $(this).scrollTop();
      if (wS > (hT+hH-wH) && (hT > wS) && (wS+wH > hT+hH)){
         $('#frontpageContainer .text2').addClass('reveal-show')
-     }/* else {
-        $('h1').removeClass('view')
-     }*/
+     }
   });
 
   $(window).scroll(function() {
@@ -231,9 +212,7 @@ if ($('#frontpageContainer').length) {
          wS = $(this).scrollTop();
      if (wS > (hT+hH-wH) && (hT > wS) && (wS+wH > hT+hH)){
         $('#frontpageContainer .text5 .sub1').addClass('reveal-show')
-     }/* else {
-        $('h1').removeClass('view')
-     }*/
+     }
   });
 
   $(window).scroll(function() {
@@ -243,9 +222,7 @@ if ($('#frontpageContainer').length) {
          wS = $(this).scrollTop();
      if (wS > (hT+hH-wH) && (hT > wS) && (wS+wH > hT+hH)){
         $('#frontpageContainer .text5 .sub2').addClass('reveal-show')
-     }/* else {
-        $('h1').removeClass('view')
-     }*/
+     }
   });
 }
 
@@ -256,17 +233,19 @@ if ($('#aboutContainer').length) {
 }
       
 
-
 $('a[href*="#"]:not([href="#"])').click(function() {
-  var offset = -97; // <-- change the value here
-  if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-      var target = $(this.hash);
-      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-      if (target.length) {
-          $('html, body').animate({
-              scrollTop: target.offset().top + offset
-          }, 800);
-          return false;
-      }
+  if($('#gls').length <= 0 ){
+    var offset = -97; // <-- change the value here
+    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+        if (target.length) {
+            $('html, body').animate({
+                scrollTop: target.offset().top + offset
+            }, 800);
+            return false;
+        }
+    }
   }
 });
+

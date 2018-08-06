@@ -49,9 +49,7 @@ ${extensionCss()}
         ${standardElements[2]}
 #     end if
 
-#     if pageAction == "edit":
-        ${genSummernoteHtml()}
-#     elif pageAction == "edithtml":
+#     if pageAction == "edithtml":
         ${genEditHtml()}
 #     elif pageAction == "editjs":
         ${genEditJs()}
@@ -98,8 +96,6 @@ ${extensionCss()}
 
 # if pageData[0] == "1":
     ${standardElements[0]}
-# else:
-    ${pageData[1]}
 # end if
 
 ${extensionCss()}
@@ -118,8 +114,6 @@ ${extensionCss()}
     <header>
 #     if pageData[2] == "1":
         ${standardElements[1]}
-#     else:
-        ${pageData[3]}
 #     end if
     </header>
 
@@ -136,8 +130,6 @@ ${extensionCss()}
     <footer>
 #     if pageData[5] == "1":
         ${standardElements[2]}
-#     else:
-        ${pageData[6]}
 #     end proc
 
       ${extensionJs()}
@@ -176,8 +168,6 @@ ${extensionCss()}
 
 # if pageData[0] == "1":
     ${standardElements[0]}
-# else:
-    ${pageData[1]}
 # end if
 
 ${extensionCss()}
@@ -196,8 +186,6 @@ ${extensionCss()}
     <header>
 #     if pageData[2] == "1":
         ${standardElements[1]}
-#     else:
-        ${pageData[3]}
 #     end if
     </header>
 
@@ -214,8 +202,6 @@ ${extensionCss()}
     <footer>
 #     if pageData[5] == "1":
         ${standardElements[2]}
-#     else:
-        ${pageData[6]}
 #     end proc
 
       ${extensionJs()}

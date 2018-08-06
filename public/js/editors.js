@@ -1,3 +1,128 @@
+
+  
+/*
+    Blog post
+*/
+$(document).ready(function() {
+  $( "button.blogOptions" ).click(function() {
+    $("div.blogOptions").toggle();
+  });
+
+  $( ".newblogSave" ).click(function() {
+    $("#gjshidden").val(editor.getHtml() + "<style>" + editor.getCss() + "</style>")
+    $("#blogData form").submit();
+  });
+
+  $( ".blogSave" ).click(function() {
+    $("#gjshidden").val(editor.getHtml() + "<style>" + editor.getCss() + "</style>")
+    savePage();
+  });
+});
+
+
+/*
+    Page
+*/
+$(document).ready(function() {
+  $( "button.pageOptions" ).click(function() {
+    $("div.pageOptions").toggle();
+  });
+
+  $( ".newpageSave" ).click(function() {
+    $("#gjshidden").val(editor.getHtml() + "<style>" + editor.getCss() + "</style>")
+    $("#pageData form").submit();
+  });
+
+  $( ".pageSave" ).click(function() {
+    $("#gjshidden").val(editor.getHtml() + "<style>" + editor.getCss() + "</style>")
+    savePage();
+  });
+});
+
+
+
+/*
+    Save page
+*/
+function savePage() {
+  $.ajax({
+    url: $("form.standard").attr("action") + "?inbackground=true",
+    type: 'POST',
+    data: $("form.standard").serialize(),
+    success: function(response) {
+      if (response == "OK") {
+        $("#save").attr("data-ischanged", "0");
+        $("#notifySaved").css("top", $('#navbar').offset().top);
+        $("#notifySaved").text("Saved");
+        $("#notifySaved").show(400);
+        setTimeout(function(){ 
+          $("#notifySaved").hide(400);
+        }, 1700);
+      } else {
+        $("#notifySaved").css("background", "#cb274bde");
+        $("#notifySaved").css("top", $('#navbar').offset().top);
+        $("#notifySaved").text(response);
+        $("#notifySaved").show(400);
+        setTimeout(function(){
+          $("#notifySaved").hide(400);
+          $("#notifySaved").css("background", "#27cb4ede");
+        }, 1700);
+      }
+    }
+  });
+}
+
+
+/*
+    Check if data is saved
+*/
+$(window).bind("beforeunload", function() {
+  if ($("#save").attr("data-ischanged") == "1") {
+    return "You have unsaved changes that is not saved. Change page?";
+  }
+});
+
+
+$(function() {
+  /*
+      Initialize editors
+  */
+
+  if($('#htmlSettings1').length > 0 ){
+    var settingsCode1 = CodeMirror.fromTextArea($('#htmlSettings1')[0], {lineNumbers: true});
+    settingsCode1.on('change', function () {
+      $("#save").attr("data-ischanged", "1");
+      settingsCode1.save();
+    });
+  }
+
+  if($('#htmlSettings2').length > 0 ){
+    var settingsCode2 = CodeMirror.fromTextArea($('#htmlSettings2')[0], {lineNumbers: true});
+    settingsCode2.on('change', function () {
+      $("#save").attr("data-ischanged", "1");
+      settingsCode2.save();
+    });
+  }
+
+  if($('#htmlSettings3').length > 0 ){
+    var settingsCode3 = CodeMirror.fromTextArea($('#htmlSettings3')[0], {lineNumbers: true});
+    settingsCode3.on('change', function () {
+      $("#save").attr("data-ischanged", "1");
+      settingsCode3.save();
+    });
+  }
+
+  if($('#settingsCode').length > 0 ){
+    var settingsCode = CodeMirror.fromTextArea($('#settingsCode')[0], {lineNumbers: true});
+    settingsCode.on('change', function () {
+      $("#save").attr("data-ischanged", "1");
+      settingsCode.save();
+    });
+  }
+});
+
+
+
 $(function() {
   /*!
   * jquery.key.js 0.2 - https://github.com/yckart/jquery.key.js
@@ -39,159 +164,13 @@ $(function() {
     Key bindings
   */
   $.key('ctrl+s', function() {
-    if($('#settingsCode').length > 0 || $('#htmlSettings1').length > 0 || $('#summernote').length > 0){
+    if($('#settingsCode').length > 0 || $('#htmlSettings1').length > 0 || $('#gls').length > 0){
       event.preventDefault();
 
-      // Summernote in code-view does not post updated data. Refresh data:
-      if ($('#summernote').length > 0) {
-        var scrollPos = $(document).scrollTop();
-        var scrollPosSum = $(".note-editor").offset().top
-        $(".btn-codeview").click();
-      }
-
-      $.ajax({
-        url: $("form.standard").attr("action") + "?inbackground=true",
-        type: 'POST',
-        data: $("form.standard").serialize(),
-        success: function(response) {
-          if (response == "OK") {
-            $("#save").attr("data-ischanged", "0");
-            $("#notifySaved").css("top", $('#navbar').offset().top);
-            $("#notifySaved").text("Saved");
-            $("#notifySaved").show(400);
-            setTimeout(function(){ 
-              $("#notifySaved").hide(400);
-            }, 1700);
-          } else {
-            $("#notifySaved").css("background", "#cb274bde");
-            $("#notifySaved").css("top", $('#navbar').offset().top);
-            $("#notifySaved").text(response);
-            $("#notifySaved").show(400);
-            setTimeout(function(){
-              $("#notifySaved").hide(400);
-              $("#notifySaved").css("background", "#27cb4ede");
-            }, 1700);
-          }
-        }
-      });
-
-      if ($('#summernote').length > 0) {
-        $(".btn-codeview").click();
-        setTimeout(function(){  
-          $('html, body').animate({
-            scrollTop: scrollPos
-          }, 400);
-          $('.note-editor').animate({
-            scrollTop: scrollPosSum
-          }, 400);
-        }, 1000);
-      }
+      savePage();
     }
   });
 
-
-
-  /*
-    Submit forms
-  */
-  $( ".newblogSave" ).click(function() {
-    $(".btn-codeview").click();
-    $("#newblogData form").submit();
-  });
-
-
-
-  /*
-      Check if data is saved
-  */
-  $(window).bind("beforeunload", function() {
-    if ($("#save").attr("data-ischanged") == "1") {
-      return "You have unsaved changes that is not saved. Change page?";
-    }
-  });
-
-  $(document).submit(function(){
-    $("#save").attr("data-ischanged", "0")
-  });
-
-
-
-  /*
-      Initialize editors
-  */
-  if($('#summernote').length > 0 ){
-    $('#summernote').summernote({
-      minHeight: 300,
-      toolbar: [
-        ['insert', ['bricks']],
-        ['style', ['style', 'fontname', 'fontsize', 'bold', 'italic', 'underline']],
-        ['font', ['strikethrough', 'superscript', 'subscript']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['height', ['height']],
-        ['misc', ['codeview', 'fullscreen']]
-      ],
-      codemirror: { 
-        theme: 'monokai'
-      },
-      callbacks: {
-        onKeydown: function(e) {
-          $("#save").attr("data-ischanged", "1");
-        },
-        onInit: function() {
-        }
-      }
-    });
-  }
-
-
-  if($('#htmlSettings1').length > 0 ){
-    var settingsCode1 = CodeMirror.fromTextArea($('#htmlSettings1')[0], {lineNumbers: true});
-    settingsCode1.on('change', function () {
-      $("#save").attr("data-ischanged", "1");
-      settingsCode1.save();
-    });
-  }
-
-  if($('#htmlSettings2').length > 0 ){
-    var settingsCode2 = CodeMirror.fromTextArea($('#htmlSettings2')[0], {lineNumbers: true});
-    settingsCode2.on('change', function () {
-      $("#save").attr("data-ischanged", "1");
-      settingsCode2.save();
-    });
-  }
-
-  if($('#htmlSettings3').length > 0 ){
-    var settingsCode3 = CodeMirror.fromTextArea($('#htmlSettings3')[0], {lineNumbers: true});
-    settingsCode3.on('change', function () {
-      $("#save").attr("data-ischanged", "1");
-      settingsCode3.save();
-    });
-  }
-
-  if($('#settingsCode').length > 0 ){
-    var settingsCode = CodeMirror.fromTextArea($('#settingsCode')[0], {lineNumbers: true});
-    settingsCode.on('change', function () {
-      $("#save").attr("data-ischanged", "1");
-      settingsCode.save();
-    });
-  }
-
-  /*Saving on ctrl+s = todo
-    settingsCode.on("keyup", function (cm, event) {
-    event = {
-      type: "keydown",
-      keyCode: event.keyCode,
-      ctrlKey: event.ctrlKey,
-      shiftKey: event.shiftKey,
-      altKey: event.altKey,
-      metaKey: event.metaKey
-    };
-    if (event.keyCode == 27 && event.ctrlKey == true) {
-      console.log("Saving");
-      cm.triggerOnKeyDown(event);		
-    }
-  });*/
 });
 
 

@@ -6,77 +6,154 @@
 #
 #
 #proc genNewBlog(c: var TData): string =
-  #result = ""
-<style>
-  .CodeMirror {
-    border: 1px solid #eee;
-    height: auto!important;
-  }
-</style>
-<div id="newblogData">
-  <h1>New blog post</h1>
-  <form method="post" action="/blogpagenew/save">
-    <div>
-      <label>Name</label>
-      <input name="name" required />
-    </div>
-    <div>
-      <label>URL <span style="font-size: 90%;"><i>(eg. 2018/11/name)</i></span></label>
-      <input name="url" required />
-    </div>
-    <div>
-      <label>Status</label>
-      <select name="status" class="form-control form-control-sm">
-        <option value="0">Development</option>
-        <option value="1">Private</option>
-        <option value="2">Public</option>
-      </select>
-    </div>
-    <div>
-      <button type="submit" class="btn btn-success newblogSave">Save</button>
-      <button type="button" class="btn btn-secondary newblogOptions">Options</button>
-    </div>
-    <div class="newblogOptions">
-      <hr>
-      
-      <h5>HTML</h5>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12 col-md-4">
-            <div>HTML &lt;head&gt;</div>
-            <input name="standardhead" type="checkbox" class="form-check-input" checked> <div>Use standard head</div> <i style="font-size: 90%;">(uncheck to use custom page head below)</i>
-            <textarea name="head" class="form-control" ></textarea>
+# result = ""
+<div id="blogData">
+  <form method="POST" action="/blogpagenew/save">
+
+    <div id="blogHeader">
+      <h1>New blog post</h1>
+      <div style="max-width: 300px;">
+        <div class="input-group input-group-sm actAddItem">
+          <div class="input-group-prepend">
+            <span class="input-group-text actAddItemLabel" style="width: 80px;">
+                Name
+            </span>
           </div>
-          <div class="col-12 col-md-4">
-            <div>HTML &lt;navbar&gt;</div>
-            <input name="standardnavbar" type="checkbox" class="form-check-input" checked> <div>Use standard header</div> <i style="font-size: 90%;">(uncheck to use custom page header below)</i>
-            <textarea name="navbar" class="form-control" ></textarea>
+          <input id="name" name="name" class="form-control" required> 
+        </div>
+
+        <div class="input-group input-group-sm actAddItem">
+          <div class="input-group-prepend">
+            <span class="input-group-text actAddItemLabel" style="width: 80px;">
+                URL
+            </span>
           </div>
-          <div class="col-12 col-md-4">
-            <div>HTML &lt;footer&gt;</div>
-            <input name="standardfooter" type="checkbox" class="form-check-input" checked> <div>Use standard footer</div> <i style="font-size: 90%;">(uncheck to use custom page footer below)</i>
-            <textarea name="footer" class="form-control" ></textarea>
+          <input id="url" name="url" class="form-control" required placeholder="eg. 2018/11/name"> 
+        </div>
+
+        <div class="input-group input-group-sm actAddItem">
+          <div class="input-group-prepend">
+            <span class="input-group-text actAddItemLabel" style="width: 80px;">
+                Status
+            </span>
           </div>
+          <select id="status" name="status" class="form-control form-control-sm">
+            <option value="0">Development</option>
+            <option value="1">Private</option>
+            <option value="2">Public</option>
+          </select>
         </div>
       </div>
 
+      <div>
+        <button type="submit" class="btn btn-success newblogSave">Save</button>
+        <button type="button" class="btn btn-secondary blogOptions">Options</button>
+      </div>
+      <div class="blogOptions">
+        <hr>
+        
+        <h5>HTML</h5>
+        <div style="max-width: 250px;">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input id="standardhead" name="standardhead" type="checkbox" checked> 
+              </div>
+            </div>
+            <div class="form-control">
+              Use standard head &lt;head&gt;
+            </div>
+          </div>
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input id="standardnavbar" name="standardnavbar" type="checkbox" checked> 
+              </div>
+            </div>
+            <div class="form-control">
+                Use standard navbar &lt;navbar&gt;
+            </div>
+          </div>
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <div class="input-group-text">
+                <input id="standardfooter" name="standardfooter" type="checkbox" checked> 
+              </div>
+            </div>
+            <div class="form-control">
+                Use standard footer &lt;footer&gt;
+            </div>
+          </div>
+        </div>
+        <hr>
+      </div>
       <hr>
-      
-      <div class="images">
-        <h5>Images</h5>
-        <i>Upload a <a href="/files">new file</a></i>
-        <div id="imagecontainer"></div>
+    </div>
+    
+    <div>
+
+      <div id="gjs" class="gls">
+        <div id="mainContainer" class="container-fluid bg-white border border-secondary rounded">
+          <h1>Title
+          </h1>
+          <p>The first paragraph
+          </p>
+          <hr/>
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <p>Column 1
+              </p>
+            </div>
+            <div class="col-12 col-md-6">
+              <p>Column 2
+              </p>
+            </div>
+          </div>
+        </div>
+        <style>
+          body.gjs-dashed {
+            background-color: transparent;
+          }
+          .container-fluid.bg-white.border.border-secondary.rounded{
+            min-height:200px;
+            padding:15px 15px 15px 15px;
+            padding-top:15px;
+            padding-right:15px;
+            padding-bottom:15px;
+            padding-left:15px;
+            border:1px solid #b0b3b5;
+          }
+        </style>
       </div>
 
+      <textarea id="gjshidden" name="editordata" style="display: none"></textarea>
     </div>
 
-
-    <hr>
-    <div>
-     <div>Blog text:</div>
-      <textarea id="summernote" name="editordata"></textarea>
-    </div>
-  </form>      
+  </form>
 </div>
 
+<script src="https://unpkg.com/grapesjs" defer></script>
+<script src="/js/grapeb4.min.js" defer></script>
+<script src="/js/grape.min.js" defer></script>
+<script src="/js/editors.js" defer></script>
+<link rel="stylesheet" href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" />
+<script>
+function grapeJsLoadAssets() {
+  const am = editor.AssetManager;
+  am.add([
+
+# var multiple = false
+# for file in walkFiles("public/images/*"):
+#   if multiple:
+      ,{src: '${replace(file, "public", "")}'}
+#   else:
+      {src: '${replace(file, "public", "")}'}
+#     multiple = true
+#   end if
+# end for  
+
+  ]);
+  am.render();
+}
+</script>
 #end proc

@@ -15,74 +15,94 @@
 
 # if pageData.len() > 0:
 #   for page in pageData:
-<style>
-  .CodeMirror {
-    border: 1px solid #eee;
-    height: auto!important;
-  }
-</style>
-<div id="newblogData">
-  <form class="standard blog" method="post" action="/page/update">
+<div id="pageData">
+  <form class="standard page" method="post" action="/page/update">
     <input name="pageid" value="$pageid" style="display: none" />
-    <div>
-      <label>Name</label>
-      <input name="name" required value="${page[7]}" />
-    </div>
-    <div>
-      <label>URL <span style="font-size: 90%;"><i>(eg. 2018/11/name)</i></span></label>
-      <input name="url" required value="${decodeUrl(page[8])}" />
-    </div>
-    <div>
-      <label>Status</label>
-      <select name="status" class="form-control form-control-sm">
-        <option value="0" ${statusIntToCheckbox(page[9], "0")}>Development</option>
-        <option value="1" ${statusIntToCheckbox(page[9], "1")}>Private</option>
-        <option value="2" ${statusIntToCheckbox(page[9], "2")}>Public</option>
-      </select>
-    </div>
-    <div>
-      <button type="button" class="btn btn-success newblogSave">Save</button>
-      <button type="button" class="btn btn-secondary newblogOptions">Options</button>
-    </div>
-    <div class="newblogOptions">
-      <hr>
-      
-      <h5>HTML</h5>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12 col-md-4">
-            <div>HTML &lt;head&gt;</div>
-            <input name="standardhead" type="checkbox" class="form-check-input" ${checkboxToChecked(page[2])}> <div>Use standard head</div> <i style="font-size: 90%;">(uncheck to use custom page head below)</i>
-            <textarea name="head" class="form-control" >${page[1]}</textarea>
+    
+    <div id="pageHeader">
+      <h1>Edit page</h1>
+      <div style="max-width: 300px;">
+
+        <div class="input-group input-group-sm actAddItem">
+          <div class="input-group-prepend">
+            <span class="input-group-text actAddItemLabel" style="width: 80px;">
+                Name
+            </span>
           </div>
-          <div class="col-12 col-md-4">
-            <div>HTML &lt;navbar&gt;</div>
-            <input name="standardnavbar" type="checkbox" class="form-check-input" ${checkboxToChecked(page[2])}> <div>Use standard header</div> <i style="font-size: 90%;">(uncheck to use custom page header below)</i>
-            <textarea name="navbar" class="form-control" >${page[3]}</textarea>
+          <input id="name" name="name" class="form-control" required value="${page[7]}"> 
+        </div>
+        <div class="input-group input-group-sm actAddItem">
+          <div class="input-group-prepend">
+            <span class="input-group-text actAddItemLabel" style="width: 80px;">
+                URL
+            </span>
           </div>
-          <div class="col-12 col-md-4">
-            <div>HTML &lt;footer&gt;</div>
-            <input name="standardfooter" type="checkbox" class="form-check-input" ${checkboxToChecked(page[2])}> <div>Use standard footer</div> <i style="font-size: 90%;">(uncheck to use custom page footer below)</i>
-            <textarea name="footer" class="form-control" >${page[6]}</textarea>
+          <input id="url" name="url" class="form-control" required placeholder="eg. 2018/11/name" value="${decodeUrl(page[8])}"> 
+        </div>
+        <div class="input-group input-group-sm actAddItem">
+          <div class="input-group-prepend">
+            <span class="input-group-text actAddItemLabel" style="width: 80px;">
+                Status
+            </span>
           </div>
+          <select id="status" name="status" class="form-control form-control-sm">
+            <option value="0" ${statusIntToCheckbox(page[9], "0")}>Development</option>
+            <option value="1" ${statusIntToCheckbox(page[9], "1")}>Private</option>
+            <option value="2" ${statusIntToCheckbox(page[9], "2")}>Public</option>
+          </select>
+        </div>
+        <div>
+          <button type="button" class="btn btn-success pageSave">Save</button>
+          <button type="button" class="btn btn-secondary pageOptions">Options</button>
+        </div>
+        <div class="pageOptions">
+          <hr>
+
+          <h5>HTML</h5>
+          <div style="max-width: 250px;">
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input id="standardhead" name="standardhead" type="checkbox" ${checkboxToChecked(page[2])}> 
+                </div>
+              </div>
+              <div class="form-control">
+                Use standard head &lt;head&gt;
+              </div>
+            </div>
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input id="standardnavbar" name="standardnavbar" type="checkbox" ${checkboxToChecked(page[2])}> 
+                </div>
+              </div>
+              <div class="form-control">
+                  Use standard navbar &lt;navbar&gt;
+              </div>
+            </div>
+            <div class="input-group input-group-sm">
+              <div class="input-group-prepend">
+                <div class="input-group-text">
+                  <input id="standardfooter" name="standardfooter" type="checkbox" ${checkboxToChecked(page[2])}> 
+                </div>
+              </div>
+              <div class="form-control">
+                  Use standard footer &lt;footer&gt;
+              </div>
+            </div>
+          </div>
+
+          <hr>
+            
         </div>
       </div>
-
-      <hr>
-      
-      <div class="images">
-        <h5>Images</h5>
-        <i>Upload a <a href="/files">new file</a></i>
-        <div id="imagecontainer"></div>
-      </div>
-
     </div>
 
-
     <hr>
+
     <div>
-     <div>Page text:</div>
-      <textarea id="summernote" name="editordata">${page[4]}</textarea>
+      <div id="gjs" class="gls">${page[4]}</div>
+      <textarea id="gjshidden" name="editordata" style="display: none"></textarea>
     </div>
   </form>   
   
@@ -99,4 +119,28 @@
   <h5 style="color: red;">Something went wrong</h5>
 # end if
 
+<script src="https://unpkg.com/grapesjs" defer></script>
+<script src="/js/grapeb4.min.js" defer></script>
+<script src="/js/grape.min.js" defer></script>
+<script src="/js/editors.js" defer></script>
+<link rel="stylesheet" href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" />
+<script>
+function grapeJsLoadAssets() {
+  const am = editor.AssetManager;
+  am.add([
+
+# var multiple = false
+# for file in walkFiles("public/images/*"):
+#   if multiple:
+      ,{src: '${replace(file, "public", "")}'}
+#   else:
+      {src: '${replace(file, "public", "")}'}
+#     multiple = true
+#   end if
+# end for  
+
+  ]);
+  am.render();
+}
+</script>
 #end proc
