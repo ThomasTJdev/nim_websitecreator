@@ -168,30 +168,50 @@
     <div class="row">
       <div class="col-12 col-md-6">
 
-        <form method="POST" action="/users/profile/update">
-          <div>
-            <label>Name<span style="color: red;font-weight: 600;">*</span></label>
-            <input name="name" type="text" required value="${user[1]}" />
+        <form method="POST" action="/users/profile/update" style="background: white; padding: 10px; border: 1px solid grey; border-radius: 4px;">
+          <div class="input-group input-group-sm" style="margin-bottom: 10px;">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width: 80px;">
+                  Name<span style="color: red;font-weight: 600;">*</span>
+              </span>
+            </div>
+            <input id="name" name="name" type="text" class="form-control" required value="${user[1]}"> 
           </div>
 
-          <div>
-            <label>Email<span style="color: red;font-weight: 600;">*</span></label>
-            <input name="email" type="email" required value="${user[2]}" />
+          <div class="input-group input-group-sm" style="margin-bottom: 10px;">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width: 80px;">
+                  Email<span style="color: red;font-weight: 600;">*</span>
+              </span>
+            </div>
+            <input id="email" name="email" type="email" class="form-control" required value="${user[2]}"> 
           </div>
 
-          <div>
-            <label>Password</label>
-            <input name="password" type="password" value="" />
+          <div class="input-group input-group-sm" style="margin-bottom: 10px;">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width: 80px;">
+                Password
+              </span>
+            </div>
+            <input id="password" name="password" type="password" class="form-control" required value=""> 
           </div>
-          
-          <div>
-            <label>Confirm password</label>
-            <input name="passwordConfirm" type="password" value="" placeholder="Confirm password" />
+
+          <div class="input-group input-group-sm" style="margin-bottom: 10px;">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width: 80px;">
+                Password
+              </span>
+            </div>
+            <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control" required placeholder="Confirm password" value=""> 
           </div>
-          
-          <div>
-            <label>Status</label>
-            <input disabled="disabled" value="${user[3]}" />
+
+          <div class="input-group input-group-sm" style="margin-bottom: 10px;">
+            <div class="input-group-prepend">
+              <span class="input-group-text" style="width: 80px;">
+                Status
+              </span>
+            </div>
+            <input type="text" class="form-control" disabled="disabled" value="${user[3]}"> 
           </div>
 
           <div class="save">
@@ -203,7 +223,6 @@
 
       <div class="col-12 col-md-6">
 
-        <h5 style="text-align: center;">Profile photo</h5>
         <div id="editProfilePhoto">
           <div id="userPictureDialogInside">
             <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
