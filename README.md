@@ -7,6 +7,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 ## Main features:
 - Webserver hosting your page on 127.0.0.1:7000
+- Edit your pages with CodeMirror or drag'n'drop with GrapesJS
 - Blog - add and edit blog posts
 - Pages - add and edit pages
 - Custom head, navbar and footer
@@ -88,9 +89,9 @@ These arguments should be prepended to executable file, e.g. `./nimwc insertdata
   * `-u:<admin username>`
   * `-p:<admin password>`
   * `-e:<admin email>`
-* `nginx` = Used to close the streaming connection when using Nginx as a webserver
 * `insertdata` = Insert standard data (this will override existing data)
 * `newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
+* `gitupdate` = Updates and force a hard reset (backups style.css and js.js)
 
 ## Compile options:
 
@@ -102,6 +103,7 @@ These options are only available at compiletime:
 * `-d:devemailon` = Send email when `-d:dev` is activated
 * `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org)
 * `-d:demoloadbackup` = Used with -d:demo. This option will override the database each hour with the file named `website.bak.db`. You can customize the page and make a copy of the database and name it `website.bak.db`, then it will be used by this feature.
+* `-d:gitupdate` = Updates and force a hard reset (backups style.css and js.js)
 
 
 # User profiles
@@ -158,8 +160,8 @@ After=network.target
 [Service]
 User=ubuntu # MODIFY to your username
 Type=simple
-WorkingDirectory=/home/<user>/.nimble/pkgs/nimwc-1.1.0/ # MODIFY to your installation path
-ExecStart=/home/<user>/.nimble/pkgs/nimwc-1.1.0/nimwc   # MODIFY to your installation path
+WorkingDirectory=/home/<user>/.nimble/pkgs/nimwc-2.0.0/ # MODIFY to your installation path
+ExecStart=/home/<user>/.nimble/pkgs/nimwc-2.0.0/nimwc   # MODIFY to your installation path
 Restart=always
 RestartSec=3
 
