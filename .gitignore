@@ -21,6 +21,9 @@ public/css/*
 public/js/*
 !public/css/style.css
 !public/js/js.js
+!public/js/editor.js
+!public/js/grapesjsbs4.min.js
+!public/js/grapesjs_custom.js
 
 plugins/*
 !plugins/plugin_import.txt
