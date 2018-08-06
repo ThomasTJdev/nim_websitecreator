@@ -396,6 +396,7 @@ div#settingsEdit pre.templateCode {
   border: 1px solid grey;
   padding: 5px;
 }
+button.templateCode,
 button.settingsRestore,
 button.settingsSaveCode,
 button.settingsSave {
@@ -404,6 +405,10 @@ button.settingsSave {
   line-height: 12px;
   margin-top: 5px;
   width: 80px;
+}
+button.templateCode {
+  width: 120px;
+  margin-left: 10px;
 }
 button.settingsRestore {
   margin-left: 10px;

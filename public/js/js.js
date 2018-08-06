@@ -49,8 +49,8 @@ $(document).ready(function() {
     window.location.href = "/settings/editrestore";
   });
 
-  $("a.templateCode").click(function() {
-    $("pre.templateCode" + $(this).attr("data-code")).toggle();
+  $("button.templateCode").click(function() {
+    $("pre.templateCode").toggle();
   });
 });
 
