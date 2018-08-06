@@ -88,39 +88,61 @@ proc launcherActivated() =
   quit()
 
 
-# Checking if the main-program file exists. If not it will
-# be compiled with args and compiler options (compiler
-# options should be specified in the *.nim.pkg)
-if not fileExists(getAppDir() & "/nimwcpkg/nimwc_main") or defined(rc):
-  echo "Compiling"
-  echo " - Using params:" & addArgs()
-  echo " - Using compile options in *.nim.cfg"
-  echo " "
-  echo " .. please wait while compiling"
-  let output = execCmd("nim c " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
-  if output == 1:
-    echo "\nAn error occurred\n"
+proc startupCheck() =
+  ## Checking if the main-program file exists. If not it will
+  ## be compiled with args and compiler options (compiler
+  ## options should be specified in the *.nim.pkg)
+  if not fileExists(getAppDir() & "/nimwcpkg/nimwc_main") or defined(rc):
+    echo "Compiling"
+    echo " - Using params:" & addArgs()
+    echo " - Using compile options in *.nim.cfg"
+    echo " "
+    echo " .. please wait while compiling"
+    let output = execCmd("nim c " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
+    if output == 1:
+      echo "\nAn error occurred\n"
+      quit()
+    else:
+      echo "\n"
+      echo """Compiling done. 
+      
+    - To start Nim Website Creator and access at 127.0.0.1:<port>
+      # Manually compiled
+      ./nimwc
+
+      # Through nimble, then just run with symlink
+      nimwc
+      
+    - To add an admin user, append args:
+      ./nimwc newuser -u:name -p:password -e:email
+      
+    - To insert standard data in the database, append args:
+      ./nimwc insertdata
+
+
+
+      """
+
+
+proc updateNimwc() =
+  ## GIT hard update
+
+  if "gitupdate" in commandLineParams() or defined(gitupdate):
+    discard existsOrCreateDir("tmp")
+    discard execCmd("mv public/css/style.css tmp/style.css")
+    discard execCmd("mv public/js/js.js tmp/js.js")
+
+    discard execCmd("git fetch --all")
+    discard execCmd("git reset --hard origin/master")
+
+    discard execCmd("mv tmp/style.css public/css/style.css")
+    discard execCmd("mv tmp/js.js public/js/js.js")
+
+    echo "\n\nNimWC has been updated\n\n"
     quit()
-  else:
-    echo "\n"
-    echo """Compiling done. 
-    
-  - To start Nim Website Creator and access at 127.0.0.1:<port>
-    # Manually compiled
-    ./nimwc
-
-    # Through nimble, then just run with symlink
-    nimwc
-    
-  - To add an admin user, append args:
-    ./nimwc newuser -u:name -p:password -e:email
-    
-  - To insert standard data in the database, append args:
-    ./nimwc insertdata
 
 
 
-    """
-
-
+updateNimwc()
+startupCheck()
 launcherActivated()
