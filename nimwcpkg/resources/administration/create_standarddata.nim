@@ -173,7 +173,7 @@ const frontpage = """
     <h1 class="reveal">Nim Website Creator</h1>
     <h2 class="reveal">Websites on the fly</h2>
     <h2 class="reveal seemore">
-      <a href="#start">See more</a>
+      <a href="#start" class="jump">See more</a>
     </h2>
   </div>
   

@@ -234,7 +234,7 @@ if ($('#aboutContainer').length) {
       
 
 $('a[href*="#"]:not([href="#"])').click(function() {
-  if($('#gls').length <= 0 ){
+  if($(this).hasClass("jump")){
     var offset = -97; // <-- change the value here
     if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
         var target = $(this.hash);
