@@ -70,15 +70,15 @@ function savePage() {
     success: function(response) {
       if (response == "OK") {
         $("#save").attr("data-ischanged", "0");
-        $("#notifySaved").css("top", $('#navbar').offset().top);
+        $("#notifySaved").css("top", "50%");
         $("#notifySaved").text("Saved");
         $("#notifySaved").show(400);
         setTimeout(function(){ 
           $("#notifySaved").hide(400);
-        }, 1700);
+        }, 1200);
       } else {
         $("#notifySaved").css("background", "#cb274bde");
-        $("#notifySaved").css("top", $('#navbar').offset().top);
+        $("#notifySaved").css("top", "50%");
         $("#notifySaved").text(response);
         $("#notifySaved").show(400);
         setTimeout(function(){
