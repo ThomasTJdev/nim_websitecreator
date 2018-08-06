@@ -129,12 +129,14 @@ proc updateNimwc() =
     discard existsOrCreateDir("tmp")
     discard execCmd("mv public/css/style.css tmp/style.css")
     discard execCmd("mv public/js/js.js tmp/js.js")
+    discard execCmd("mv plugins/plugin_import.txt tmp/plugin_import.txt")
 
     discard execCmd("git fetch --all")
     discard execCmd("git reset --hard origin/master")
 
     discard execCmd("mv tmp/style.css public/css/style.css")
     discard execCmd("mv tmp/js.js public/js/js.js")
+    discard execCmd("mv tmp/plugin_import.txt plugins/plugin_import.txt")
 
     echo "\n\nNimWC has been updated\n\n"
     quit()
