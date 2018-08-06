@@ -99,7 +99,7 @@ if not fileExists(getAppDir() & "/nimwcpkg/nimwc_main") or defined(rc):
   echo " .. please wait while compiling"
   let output = execCmd("nim c " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
   if output == 1:
-    echo "\nAn error occured\n"
+    echo "\nAn error occurred\n"
     quit()
   else:
     echo "\n"
