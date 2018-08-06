@@ -11,7 +11,7 @@ proc sendEmailAdminError*(msg: string) {.async.} =
 
   let message = """Hi Admin
 <br><br>
-An error occured.
+An error occurred.
 <br><br>
 $1
 <br><br>
