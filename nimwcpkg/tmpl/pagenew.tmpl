@@ -106,7 +106,7 @@
         <textarea name="editordata" id="editordataCodemirror"></textarea>
       # else:
       <div id="gjs" class="gls">
-          <div id="mainContainer" class="container-fluid bg-white border border-secondary rounded">
+          <div id="mainContainer" class="">
             <h1>Title
             </h1>
             <p>The first paragraph
@@ -146,7 +146,7 @@
 </div>
 
 # if c.req.cookies.hasKey("rawhtml") and c.req.cookies["rawhtml"] == "true":
-  ${genEditMixed()}
+  ${genEditMixed(true)}
 # else:
 <script src="https://unpkg.com/grapesjs" defer></script>
 <script src="/js/grapesjsbs4.min.js" defer></script>
