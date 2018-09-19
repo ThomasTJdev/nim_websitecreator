@@ -124,18 +124,16 @@ proc startupCheck() =
 
 proc updateNimwc() =
   ## GIT hard update
+  ##
+  ## This needs to be modified! What if there's a new stylesheet or js?
 
   if "gitupdate" in commandLineParams() or defined(gitupdate):
     discard existsOrCreateDir("tmp")
-    discard execCmd("mv public/css/style.css tmp/style.css")
-    discard execCmd("mv public/js/js.js tmp/js.js")
     discard execCmd("mv plugins/plugin_import.txt tmp/plugin_import.txt")
 
     discard execCmd("git fetch --all")
     discard execCmd("git reset --hard origin/master")
 
-    discard execCmd("mv tmp/style.css public/css/style.css")
-    discard execCmd("mv tmp/js.js public/js/js.js")
     discard execCmd("mv tmp/plugin_import.txt plugins/plugin_import.txt")
 
     echo "\n\nNimWC has been updated\n\n"

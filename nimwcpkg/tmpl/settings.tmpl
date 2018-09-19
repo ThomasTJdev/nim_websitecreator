@@ -76,10 +76,16 @@
             <a href="/settings/edit" class="btn btn-outline-primary">Edit HTML</a>
           </div>
           <div>
-            <a href="/settings/editjs" class="btn btn-outline-primary">Edit JS file</a>
+            <a href="/settings/editjs" class="btn btn-outline-primary">Edit core JS file</a>
           </div>
           <div>
-            <a href="/settings/editcss" class="btn btn-outline-primary">Edit CSS file</a>
+            <a href="/settings/editjscustom" class="btn btn-outline-primary">Edit custom JS file</a>
+          </div>
+          <div>
+            <a href="/settings/editcss" class="btn btn-outline-primary">Edit core CSS file</a>
+          </div>
+          <div>
+            <a href="/settings/editcsscustom" class="btn btn-outline-primary">Edit custom CSS file</a>
           </div>
 
           <br>
@@ -165,8 +171,14 @@
 #
 #
 #
-#proc genSettingsEditJs(c: var TData): string =
+#proc genSettingsEditJs(c: var TData, customJs: bool): string =
 # result = ""
+# var jsFile: string
+# if customJs:
+#   jsFile = "public/js/js_custom.js"
+# else:
+#   jsFile = "public/js/js.js"
+# end if
 <style>
   .CodeMirror {
     border: 1px solid #eee;
@@ -174,15 +186,16 @@
   }
 </style>
 <div id="settingsEdit">
-  <h1>Edit main JS file</h1>
-  <h4>/js/js.js</h4>
+  <h1>Edit JS file</h1>
+  <h4>${jsFile}</h4>
   <form class="standard settings" method="post" action="/settings/updatejs">
+    <input name="customJs" value="${customJs}" style="display: none">
     <div>
       <button type="submit" class="btn btn-success settingsSaveCode" style="margin-bottom: 5px;">Save</button>
     </div>
     <div>
       <textarea name="js" id="settingsCode" >
-# for line in lines("public/js/js.js"):
+# for line in lines(jsFile):
 $line
 # end for
       </textarea>
@@ -194,7 +207,7 @@ $line
 </div>
 
 <div id="notifySaved">
-  Saved JS
+  Saved ${jsFile}
 </div>
 #end proc
 #
@@ -202,8 +215,14 @@ $line
 #
 #
 #
-#proc genSettingsEditCss(c: var TData): string =
+#proc genSettingsEditCss(c: var TData, customCss: bool): string =
 # result = ""
+# var cssFile: string
+# if customCss:
+#   cssFile = "public/css/style_custom.css"
+# else:
+#   cssFile = "public/css/style.css"
+# end if
 <style>
   .CodeMirror {
     border: 1px solid #eee;
@@ -211,15 +230,16 @@ $line
   }
 </style>
 <div id="settingsEdit">
-  <h1>Edit main CSS file</h1>
-  <h4>/css/style.css</h4>
+  <h1>Edit CSS file</h1>
+  <h4>${cssFile}</h4>
   <form class="standard settings" method="post" action="/settings/updatecss">
+    <input name="customCss" value="${customCss}" style="display: none">
     <div>
       <button type="submit" class="btn btn-success settingsSaveCode" style="margin-bottom: 5px;">Save</button>
     </div>
     <div>
       <textarea name="css" id="settingsCode" >
-# for line in lines("public/css/style.css"):
+# for line in lines(cssFile):
 $line
 # end for
       </textarea>
@@ -231,6 +251,6 @@ $line
 </div>
 
 <div id="notifySaved">
-  Saved CSS
+  Saved ${cssFile}
 </div>
 #end proc

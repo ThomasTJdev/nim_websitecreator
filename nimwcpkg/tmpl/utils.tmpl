@@ -52,10 +52,11 @@
 #
 #
 #  
-#proc genEditMixed(): string =
+#proc genEditMixed(newPage = true): string =
 # result = ""
+# if not newPage:
 <div id="save" data-ischanged="0" style="display: none;"></div>
-
+# end if
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.css" integrity="sha256-I8NyGs4wjbMuBSUE40o55W6k6P7tu/7G28/JGUUYCIs=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/theme/monokai.min.css" integrity="sha256-jAukb65gp2gG6t4FtxpHgB3eFwM/rDUwrE2OaAp6+o8=" crossorigin="anonymous" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.js" integrity="sha256-uRIJ6Wfou5cTtmcCvQNA9lvsYl8sUbZXxnfG+P79ssY=" crossorigin="anonymous"></script>

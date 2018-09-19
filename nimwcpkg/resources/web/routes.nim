@@ -225,15 +225,23 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator]) 
     
-    resp genMain(c, genSettingsEditJs(c), "editjs")
+    resp genMain(c, genSettingsEditJs(c, false), "editjs")
+
+  get "/settings/editjscustom":
+    createTFD()
+    restrictAccessTo(c, [Admin, Moderator]) 
+    
+    resp genMain(c, genSettingsEditJs(c, true), "editjs")
 
   post "/settings/updatejs":
     createTFD()
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin, Moderator])
 
+    let jsFile = if @"customJs" == "true": "public/js/js_custom.js" else: "public/js/js.js"
+
     try:
-      writeFile("public/js/js.js", @"js")
+      writeFile(jsFile, @"js")
       if @"inbackground" == "true":
         resp("OK")
       redirect("/settings/editjs")
@@ -244,15 +252,23 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMain(c, genSettingsEditCss(c), "editcss")
+    resp genMain(c, genSettingsEditCss(c, false), "editcss")
+
+  get "/settings/editcsscustom":
+    createTFD()
+    restrictAccessTo(c, [Admin, Moderator])
+
+    resp genMain(c, genSettingsEditCss(c, true), "editcss")
 
   post "/settings/updatecss":
     createTFD()
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin, Moderator])
 
+    let cssFile = if @"customJs" == "true": "public/css/style_custom.css" else: "public/css/style.css"
+
     try:
-      writeFile("public/css/style.css", @"css")
+      writeFile(cssFile, @"css")
       if @"inbackground" == "true":
         resp("OK")
       redirect("/settings/editcss")
