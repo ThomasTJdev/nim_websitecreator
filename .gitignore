@@ -20,7 +20,9 @@ public/files/*
 public/css/*
 public/js/*
 !public/css/style.css
+!public/css/style_custom.css
 !public/js/js.js
+!public/js/js_custom.js
 !public/js/editor.js
 !public/js/codemirror_formatting.js
 !public/js/grapesjsbs4.min.js
