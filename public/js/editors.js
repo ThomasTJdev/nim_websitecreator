@@ -107,7 +107,7 @@ $(window).bind("beforeunload", function() {
 */
 $(function() {
   if($('#editordataCodemirror').length > 0 ){
-    var editor = CodeMirror.fromTextArea($('#editordataCodemirror')[0], {lineNumbers: true, mode: "htmlmixed"});
+    var editor = CodeMirror.fromTextArea($('#editordataCodemirror')[0], {lineNumbers: true, lineWrapping: true, mode: "htmlmixed"});
     editor.on('change', function () {
       $("#save").attr("data-ischanged", "1");
       editor.save();
