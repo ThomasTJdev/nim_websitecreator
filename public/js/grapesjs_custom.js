@@ -22,21 +22,23 @@ const editor = grapesjs.init({
   },
 
   plugins: ['grapesjs-blocks-bootstrap4'],
-    pluginsOpts: {
-      'grapesjs-blocks-bootstrap4': {}
-    },
-    canvas: {
-      styles: [
-        'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
-        '/css/style.css'
-      ],
-      scripts: [
-        'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js',
-        'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js',
-        'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js',
-        '/js/js.js'
-      ],
-    }
+  pluginsOpts: {
+    'grapesjs-blocks-bootstrap4': {}
+  },
+  canvas: {
+    styles: [
+      'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css',
+      '/css/style.css',
+      '/css/style_custom.css'
+    ],
+    scripts: [
+      'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js',
+      'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js',
+      '/js/js.js',
+      '/js/js_custom.js'
+    ],
+  }
 });
 
 
