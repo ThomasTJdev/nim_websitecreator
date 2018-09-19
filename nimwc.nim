@@ -124,8 +124,6 @@ proc startupCheck() =
 
 proc updateNimwc() =
   ## GIT hard update
-  ##
-  ## This needs to be modified! What if there's a new stylesheet or js?
 
   if "gitupdate" in commandLineParams() or defined(gitupdate):
     discard existsOrCreateDir("tmp")
