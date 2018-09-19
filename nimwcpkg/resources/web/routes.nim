@@ -244,7 +244,11 @@ routes:
       writeFile(jsFile, @"js")
       if @"inbackground" == "true":
         resp("OK")
-      redirect("/settings/editjs")
+
+      if @"customJs" == "true":
+        redirect("/settings/editjscustom")
+      else:
+        redirect("/settings/editjs")
     except:
       resp "Error"
 
@@ -271,7 +275,11 @@ routes:
       writeFile(cssFile, @"css")
       if @"inbackground" == "true":
         resp("OK")
-      redirect("/settings/editcss")
+
+      if @"customJs" == "true":
+        redirect("/settings/editcsscustom")
+      else:
+        redirect("/settings/editcss")
     except:
       resp "Error"
 
