@@ -6,7 +6,6 @@ import os, strutils, db_sqlite, rdstdin
 const title = "Nim Website Creator"
 
 const head* = """
-<meta name="description" content="Nim Website Creator">
 <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <link rel="shortcut icon" href="/images/logo/favicon.ico">

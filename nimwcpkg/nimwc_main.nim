@@ -270,6 +270,7 @@ let db_host   = dict.getSectionValue("Database","host")
 
 let mainURL   = dict.getSectionValue("Server","url")
 let mainPort  = parseInt dict.getSectionValue("Server","port")
+let mainWebsite = dict.getSectionValue("Server","website")
 
 let proxyURL  = dict.getSectionValue("Proxy","url")
 let proxyPath = dict.getSectionValue("Proxy","path")
@@ -608,6 +609,10 @@ when isMainModule:
     if readLine(stdin) == "y":
       createStandardData(db)
 
+  
+  # Create robots.txt
+  writeFile("public/robots.txt", "User-agent: *\nSitemap: " & mainWebsite & "/sitemap.xml\nDisallow: /login")
+
 
   dbg("INFO", "Up and running!")
 
@@ -628,7 +633,7 @@ include "tmpl/settings.tmpl"
 include "tmpl/plugins.tmpl"
 include "tmpl/user.tmpl"
 include "tmpl/main.tmpl"
-
+include "tmpl/sitemap.tmpl"
 
 
 #[

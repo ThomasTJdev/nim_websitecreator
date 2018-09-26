@@ -17,7 +17,7 @@
   background-size: 100%;
   background-size: cover;
   filter:alpha(opacity=05);
-  opacity: 0.05;
+  opacity: 0.05; /* uses JS to transform to 0.5 */
   height: 100%;
   left: 0;
   position: fixed;
@@ -28,6 +28,8 @@
 
 body {
   min-height: 100vh;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 #pagewrapper {
@@ -180,8 +182,20 @@ nav#navbar div#mobileMenu.active .bar3 {
 
 
 /* Navbar settings */
-div#navbarSettings a {
-  color: black
+div#navbarSettings {
+  background: whitesmoke;
+  position: fixed;
+  z-index: 666;
+  width: 100%;
+  margin: 0px -20px;
+  -webkit-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
+}
+div#navbarSettings span.nav-item a,
+div#navbarSettings a.nav-link {
+  color: black;
+  
 }
 
 
@@ -206,25 +220,6 @@ button.btn {
   margin-top: 5px;
 }
 
-
-/*
-  Saved notification
-*/
-#notifySaved {
-  display: none;
-  position: fixed;
-  z-index: 9999;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: #27cb4ede;
-  text-align: center;
-  line-height: 2.5;
-  overflow: hidden;
-  -webkit-box-shadow: 0 0 5px black;
-  -moz-box-shadow: 0 0 5px black;
-  box-shadow: 0 0 5px black;
-}
 
 
 /*
@@ -261,307 +256,6 @@ div#login {
 }
 
 
-/*
-  Plugins
-*/
-ul.pluginSettings {
-  padding-left: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 350px;
-}
-li.pluginSettings {
-  border: 1px solid rgba(128, 128, 128, 0.55);
-  list-style-type: none;
-  padding: 10px 15px;
-  width: 350px;
-  background: white;
-  margin-bottom: 5px;
-}
-li.pluginSettings.disabled {
-  background: rgba(128, 128, 128, 0.36);
-}
-li.pluginSettings>div {
-  display: inline-block;
-}
-li.pluginSettings .name {
-  display: inline;
-  width: 240px;
-}
-li.pluginSettings .name i {
-  font-size: 90%;
-}
-li.pluginSettings .enablePlugin,
-li.pluginSettings .disablePlugin {
-  border-radius: 10px;
-  cursor: pointer;
-  float: right;
-  padding: 0px 15px;
-}
-li.pluginSettings .enablePlugin {
-  background: rgba(0, 128, 0, 0.5);
-}
-li.pluginSettings.enabled .enablePlugin {
-  display: none;
-}
-li.pluginSettings .disablePlugin {
-  background: rgba(194, 54, 54, 0.5);
-}
-li.pluginSettings.disabled .disablePlugin {
-  display: none;
-}
-
-
-
-/*
-  Plugins repo
-*/
-ul.pluginRepo {
-  padding-left: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 800px;
-}
-li.pluginRepo {
-  border: 1px solid rgba(128, 128, 128, 0.55);
-  list-style-type: none;
-  padding: 10px 15px;
-  background: #ffffffd9;
-  margin-bottom: 10px;
-}
-li.pluginRepo span.version {
-  background: rgb(236, 236, 236);
-  border-radius: 5px;
-  border: 1px solid grey;
-  padding: 0px 2px;
-}
-li.pluginRepo span.version.git {
-  background-color: #ffc107;
-}
-
-
-
-/*
-  Settings overview
-*/
-div#settings {
-  background: #ffffffd6;
-  border-radius: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 500px;
-  text-align: center;
-}
-div#settings div {
-  margin-bottom: 15px;
-  margin-top: 15px;
-}
-div#settings .btn {
-  width: 200px;
-  background: white;
-}
-div#settings .btn:hover {
-  color: #042c57;
-}
-
-
-/*
-  Settings page
-*/
-div#settingsEdit {
-  background: #ffffffd6;
-  border-radius: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1400px;
-  padding: 10px;
-}
-div#settingsEdit input {
-  border: none;
-  border-bottom: 1px solid grey;
-  padding-left: 5px;
-}
-div#settingsEdit textarea {
-  width: 100%;
-  min-height: 300px;
-  margin-bottom: 35px;
-}
-div#settingsEdit input:focus,
-div#settingsEdit textarea:focus {
-  box-shadow: 2px 2px 5px 0px rgba(186,186,186,1);
-  outline: auto;
-}
-div#settingsEdit pre.templateCode {
-  border-radius: 2px;
-  border: 1px solid grey;
-  padding: 5px;
-}
-button.templateCode,
-button.settingsRestore,
-button.settingsSaveCode,
-button.settingsSave {
-  font-size: 95%;
-  height: 26px;
-  line-height: 12px;
-  margin-top: 5px;
-  width: 80px;
-}
-button.templateCode {
-  width: 120px;
-  margin-left: 10px;
-}
-button.settingsRestore {
-  margin-left: 10px;
-}
-
-
-/*
-  Files
-*/
-div#fileAddContainer,
-div#files {
-  background: #ffffffd6;
-  border-radius: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 1000px;
-  padding: 10px;
-}
-div#fileAddContainer {
-  margin-bottom: 20px;
-}
-div#fileAdd button {
-  font-size: 95%;
-  height: 26px;
-  line-height: 12px;
-  margin-top: 5px;
-}
-form#fileAdd {
-  display: none;
-  border: 1px solid grey;
-  width: 300px;
-  padding: 10px;
-  border-radius: 10px;
-  margin-top: 10px;
-}
-div#files span a {
-  color: white;
-}
-
-
-
-/*
-  Users
-*/
-div#users {
-  background: #ffffffd6;
-  border-radius: 10px;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 800px;
-  padding: 10px;
-}
-div#users span a.delete {
-  color: white;
-}
-div#usersAddContainer {
-  margin-bottom: 20px;
-}
-form#usersAdd {
-  display: none;
-  border: 1px solid grey;
-  width: 300px;
-  padding: 10px;
-  border-radius: 10px;
-  margin-top: 10px;
-}
-div#users label {
-  margin-right: 10px;
-  width: 50px;
-}
-div#users select {
-  width: 205px;
-  margin-left: 3px;
-}
-
-
-/*
-  Users profile
-*/
-div#user {
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-div#user label {
-  width: 200px;
-  margin-bottom: 0px;
-  margin-top: .5rem;
-}
-div#user #editProfilePhoto {
-  border-radius: 2px;
-  border: 1px solid grey;
-  margin-left: auto;
-  margin-right: auto;
-  max-width: 406px;
-  padding: 5px 2px;
-  text-align: center;
-  background: white;
-}
-@media only screen and (max-width: 768px) {
-  div#user label {
-    margin-top: 15px;
-    margin-bottom: 0px;
-  }
-  div#user div.save {
-    text-align: left;
-    margin-bottom: 20px;
-  }
-  div#user button.save {
-    margin-top: 15px;
-    margin-right: auto;
-  }
-}
-
-
-
-/*
-  Blog & Page post
-*/
-div#blogData,
-div#pageData {
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-}
-div#blogHeader,
-div#pageHeader {
-  max-width: 1100px;
-  margin-left: auto;
-  margin-right: auto;
-}
-button.newblogSave,
-button.blogOptions,
-button.newpageSave,
-button.pageOptions {
-  font-size: 95%;
-  height: 26px;
-  line-height: 12px;
-  margin-top: 5px;
-  width: 80px;
-}
-div.blogOptions,
-div.pageOptions {
-  display: none;
-}
-@media only screen and (max-width: 768px) {
-  div#blogData button,
-  div#pageData button {
-    margin-top: 15px;
-  }
-}
-
-
 
 /*
     All blog posts
@@ -574,6 +268,22 @@ div#allblogPosts .list-group-item {
   margin-left: auto;
   margin-right: auto;
   border: 1px solid #bcbcbc5c;
+}
+
+
+/*
+    Standard blogpage
+*/
+.blogpage {
+  background: white; 
+  color: black; 
+  padding: 20px; 
+  max-width: 1200px; 
+  padding: 20px; 
+  border-radius: 10px; 
+  margin-left: auto; 
+  margin-right: auto; 
+  margin-top: 100px;
 }
 
 
@@ -593,25 +303,20 @@ div#allpagePosts .list-group-item {
 
 
 /*
-	CodeMirror
+    Standard page
 */
-.CodeMirror {
-  height: 100% !important;
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
+.standardpage {
+  background: white; 
+  color: black; 
+  padding: 20px; 
+  max-width: 1200px; 
+  padding: 20px; 
+  border-radius: 10px; 
+  margin-left: auto; 
+  margin-right: auto; 
+  margin-top: 100px;
 }
 
-
-/*
-	GrapeJS
-*/
-.gjs-mdl-dialog {
-  margin-top: 75px!important;
-  max-height: 100vh;
-  overflow: auto;
-}
 
 
 /*

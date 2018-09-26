@@ -92,6 +92,14 @@ function savePage() {
 
 
 /*
+    When checkbox is changed
+*/
+$(".checkbox").change(function() {
+  $("#save").attr("data-ischanged", "1")
+});
+
+
+/*
     Check if data is saved
 */
 $(window).bind("beforeunload", function() {
@@ -128,7 +136,7 @@ $(function() {
 
 
   if($('#htmlSettings1').length > 0 ){
-    var settingsCode1 = CodeMirror.fromTextArea($('#htmlSettings1')[0], {lineNumbers: true});
+    var settingsCode1 = CodeMirror.fromTextArea($('#htmlSettings1')[0], {lineNumbers: true, lineWrapping: true});
     settingsCode1.on('change', function () {
       $("#save").attr("data-ischanged", "1");
       settingsCode1.save();
@@ -136,7 +144,7 @@ $(function() {
   }
 
   if($('#htmlSettings2').length > 0 ){
-    var settingsCode2 = CodeMirror.fromTextArea($('#htmlSettings2')[0], {lineNumbers: true});
+    var settingsCode2 = CodeMirror.fromTextArea($('#htmlSettings2')[0], {lineNumbers: true, lineWrapping: true});
     settingsCode2.on('change', function () {
       $("#save").attr("data-ischanged", "1");
       settingsCode2.save();
@@ -144,7 +152,7 @@ $(function() {
   }
 
   if($('#htmlSettings3').length > 0 ){
-    var settingsCode3 = CodeMirror.fromTextArea($('#htmlSettings3')[0], {lineNumbers: true});
+    var settingsCode3 = CodeMirror.fromTextArea($('#htmlSettings3')[0], {lineNumbers: true, lineWrapping: true});
     settingsCode3.on('change', function () {
       $("#save").attr("data-ischanged", "1");
       settingsCode3.save();
@@ -152,7 +160,7 @@ $(function() {
   }
 
   if($('#settingsCode').length > 0 ){
-    var settingsCode = CodeMirror.fromTextArea($('#settingsCode')[0], {lineNumbers: true});
+    var settingsCode = CodeMirror.fromTextArea($('#settingsCode')[0], {lineNumbers: true, lineWrapping: true});
     settingsCode.on('change', function () {
       $("#save").attr("data-ischanged", "1");
       settingsCode.save();

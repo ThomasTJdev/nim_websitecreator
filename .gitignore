@@ -17,6 +17,8 @@ private/*
 
 public/files/*
 
+public/robots.txt
+public/sitemap.xml
 public/css/*
 public/js/*
 !public/css/style.css

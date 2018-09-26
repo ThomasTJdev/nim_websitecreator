@@ -56,7 +56,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMain(c, genPlugins(c))
+    resp genMainAdmin(c, genPlugins(c))
 
 
   get "/plugins/status":
@@ -107,7 +107,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMain(c, genPluginsRepo(c))
+    resp genMainAdmin(c, genPluginsRepo(c))
 
   
   get "/plugins/repo/download":
@@ -195,13 +195,13 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMain(c, genSettings(c))
+    resp genMainAdmin(c, genSettings(c))
     
   get "/settings/edit":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMain(c, genSettingsEdit(c), "edithtml")
+    resp genMainAdmin(c, genSettingsEdit(c), "edithtml")
 
   get "/settings/editrestore":
     createTFD()
@@ -225,13 +225,13 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator]) 
     
-    resp genMain(c, genSettingsEditJs(c, false), "editjs")
+    resp genMainAdmin(c, genSettingsEditJs(c, false), "editjs")
 
   get "/settings/editjscustom":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator]) 
     
-    resp genMain(c, genSettingsEditJs(c, true), "editjs")
+    resp genMainAdmin(c, genSettingsEditJs(c, true), "editjs")
 
   post "/settings/updatejs":
     createTFD()
@@ -256,13 +256,13 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMain(c, genSettingsEditCss(c, false), "editcss")
+    resp genMainAdmin(c, genSettingsEditCss(c, false), "editcss")
 
   get "/settings/editcsscustom":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMain(c, genSettingsEditCss(c, true), "editcss")
+    resp genMainAdmin(c, genSettingsEditCss(c, true), "editcss")
 
   post "/settings/updatecss":
     createTFD()
@@ -296,7 +296,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
     
-    resp genMain(c, genFiles(c), "edit")
+    resp genMainAdmin(c, genFiles(c), "edit")
 
 
   get "/files/raw":
@@ -418,13 +418,13 @@ routes:
   get "/users":
     createTFD()
     if c.loggedIn:  
-      resp genMain(c, genUsers(c))
+      resp genMainAdmin(c, genUsers(c))
 
 
   get "/users/profile":
     createTFD()
     if c.loggedIn:  
-      resp genMain(c, genUsersProfile(c), "users")
+      resp genMainAdmin(c, genUsersProfile(c), "users")
 
 
   post "/users/profile/update":
@@ -572,7 +572,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
      
-    resp genMain(c, genNewBlog(c), "edit")
+    resp genMainAdmin(c, genNewBlog(c), "edit")
 
 
   post "/blogpagenew/save":
@@ -580,7 +580,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     
     let url = urlEncoderCustom(@"url")
-    discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"))
+    discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
     
     redirect("/blog/" & url)
 
@@ -590,7 +590,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     
     let url = urlEncoderCustom(@"url")
-    discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"blogid")
+    discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"blogid")
 
     if @"inbackground" == "true":
       resp("OK")
@@ -609,14 +609,14 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMain(c, genAllBlogPagesEdit(c))
+    resp genMainAdmin(c, genAllBlogPagesEdit(c))
 
 
   get "/editpage/blog/@blogid":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMain(c, genEditBlog(c, @"blogid"), "edit")
+    resp genMainAdmin(c, genEditBlog(c, @"blogid"), "edit")
 
 
   get "/blog":
@@ -642,21 +642,21 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
     
-    resp genMain(c, genAllPagesEdit(c))
+    resp genMainAdmin(c, genAllPagesEdit(c))
 
 
   get "/editpage/page/@pageid":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMain(c, genEditPage(c, @"pageid"), "edit")
+    resp genMainAdmin(c, genEditPage(c, @"pageid"), "edit")
 
 
   get "/pagenew":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
     
-    resp genMain(c, genNewPage(c), "edit")
+    resp genMainAdmin(c, genNewPage(c), "edit")
 
 
   post "/pagenew/save":
@@ -664,7 +664,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
 
     let url = urlEncoderCustom(@"url")
-    discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"))
+    discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
     if url == "frontpage":
       redirect("/")
     else:
@@ -676,7 +676,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
 
     let url = urlEncoderCustom(@"url")
-    discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"pageid")
+    discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"pageid")
 
     if @"inbackground" == "true":
       resp("OK")
@@ -695,3 +695,13 @@ routes:
     createTFD()
     let pageid = getValue(db, sql"SELECT id FROM pages WHERE url = ?", c.req.path.replace("/p/", ""))
     resp genPage(c, pageid)
+
+  
+  #[
+
+      Sitemap
+
+  ]#
+  get "/sitemap.xml":
+    writeFile("public/sitemap.xml", genSitemap())
+    sendFile("public/sitemap.xml")

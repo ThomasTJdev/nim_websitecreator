@@ -12,126 +12,86 @@
 
     <div id="blogHeader">
       <h1>New blog post</h1>
-      <div style="max-width: 300px;">
-        <div class="input-group input-group-sm actAddItem">
-          <div class="input-group-prepend">
-            <span class="input-group-text actAddItemLabel" style="width: 80px;">
-                Name
-            </span>
-          </div>
-          <input id="name" name="name" class="form-control" required> 
-        </div>
-
-        <div class="input-group input-group-sm actAddItem">
-          <div class="input-group-prepend">
-            <span class="input-group-text actAddItemLabel" style="width: 80px;">
-                URL
-            </span>
-          </div>
-          <input id="url" name="url" class="form-control" required placeholder="eg. 2018/11/name"> 
-        </div>
-
-        <div class="input-group input-group-sm actAddItem">
-          <div class="input-group-prepend">
-            <span class="input-group-text actAddItemLabel" style="width: 80px;">
-                Status
-            </span>
-          </div>
-          <select id="status" name="status" class="form-control form-control-sm">
-            <option value="0">Development</option>
-            <option value="1">Private</option>
-            <option value="2">Public</option>
-          </select>
-        </div>
-      </div>
-
       <div>
-        <button type="submit" class="btn btn-success newblogSave">Save</button>
-        <button type="button" class="btn btn-secondary blogOptions">Options</button>
+        <div style="max-width: 300px;">
+          <div class="input-group input-group-sm actAddItem">
+            <div class="input-group-prepend">
+              <span class="input-group-text actAddItemLabel" style="width: 80px;">
+                  Name
+              </span>
+            </div>
+            <input id="name" name="name" class="form-control" required> 
+          </div>
+
+          <div class="input-group input-group-sm actAddItem">
+            <div class="input-group-prepend">
+              <span class="input-group-text actAddItemLabel" style="width: 80px;">
+                  URL
+              </span>
+            </div>
+            <input id="url" name="url" class="form-control" required placeholder="eg. 2018/11/name"> 
+          </div>
+
+          <div class="input-group input-group-sm actAddItem">
+            <div class="input-group-prepend">
+              <span class="input-group-text actAddItemLabel" style="width: 80px;">
+                  Status
+              </span>
+            </div>
+            <select id="status" name="status" class="form-control form-control-sm">
+              <option value="0">Development</option>
+              <option value="1">Private</option>
+              <option value="2">Public</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <button type="submit" class="btn btn-success newblogSave">Save</button>
+          <button type="button" class="btn btn-secondary blogOptions">Options</button>
+        </div>
       </div>
       <div class="blogOptions">
-        <hr>
-        <h5>Change editor</h5>
-        <div style="margin-bottom: 20px;">
-          # if c.req.cookies.hasKey("rawhtml") and c.req.cookies["rawhtml"] == "true":
-          <button type="button" class="btn btn-primary switchEditorGrapesJS">Switch to GrapesJS</button>
-          # else:
-          <button type="button" class="btn btn-primary switchEditorRawHTML">Switch to raw HTML</button>
-          # end if
-        </div>
         
-        <h5>HTML</h5>
-        <div style="max-width: 250px;">
-          <div class="input-group input-group-sm">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <input id="standardhead" name="standardhead" type="checkbox" checked> 
-              </div>
-            </div>
-            <div class="form-control">
-              Use standard head &lt;head&gt;
-            </div>
-          </div>
-          <div class="input-group input-group-sm">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <input id="standardnavbar" name="standardnavbar" type="checkbox" checked> 
-              </div>
-            </div>
-            <div class="form-control">
-                Use standard navbar &lt;navbar&gt;
-            </div>
-          </div>
-          <div class="input-group input-group-sm">
-            <div class="input-group-prepend">
-              <div class="input-group-text">
-                <input id="standardfooter" name="standardfooter" type="checkbox" checked> 
-              </div>
-            </div>
-            <div class="form-control">
-                Use standard footer &lt;footer&gt;
-            </div>
-          </div>
-        </div>
-        <hr>
-      </div>
-      <hr>
+        ${genPageOptions(c, false, true, false, "", "1", "1", "1")}
+
     </div>
     
     <div>
       # if c.req.cookies.hasKey("rawhtml") and c.req.cookies["rawhtml"] == "true":
-        <textarea name="editordata" id="editordataCodemirror"></textarea>
-      # else:
-        <div id="gjs" class="gls">
-          <div id="mainContainer" class="">
-            <h1>Title
-            </h1>
-            <p>The first paragraph
-            </p>
+        <textarea name="editordata" id="editordataCodemirror">
+          <div id="mainContainer" class="blogpage">
+            <h1>Title</h1>
+            <p>The first paragraph</p>
             <hr/>
             <div class="row">
               <div class="col-12 col-md-6">
-                <p>Column 1
-                </p>
+                <p>Column 1</p>
               </div>
               <div class="col-12 col-md-6">
-                <p>Column 2
-                </p>
+                <p>Column 2</p>
+              </div>
+            </div>
+          </div>
+        </textarea>
+      # else:
+        <div id="gjs" class="gls">
+          <div id="mainContainer" class="blogpage">
+            <h1>Title</h1>
+            <p>The first paragraph</p>
+            <hr/>
+            <div class="row">
+              <div class="col-12 col-md-6">
+                <p>Column 1</p>
+              </div>
+              <div class="col-12 col-md-6">
+                <p>Column 2</p>
               </div>
             </div>
           </div>
           <style>
             body.gjs-dashed {
-              background-color: transparent;
-            }
-            .container-fluid.bg-white.border.border-secondary.rounded{
-              min-height:200px;
-              padding:15px 15px 15px 15px;
-              padding-top:15px;
-              padding-right:15px;
-              padding-bottom:15px;
-              padding-left:15px;
-              border:1px solid #b0b3b5;
+              background: transparent;
             }
           </style>
         </div>
