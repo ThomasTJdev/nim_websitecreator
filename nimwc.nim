@@ -128,11 +128,15 @@ proc updateNimwc() =
   if "gitupdate" in commandLineParams() or defined(gitupdate):
     discard existsOrCreateDir("tmp")
     discard execCmd("mv plugins/plugin_import.txt tmp/plugin_import.txt")
+    discard execCmd("mv plugins/css/style_custom.css tmp/style_custom.css")
+    discard execCmd("mv plugins/js/js_custom.js tmp/js_custom.js")
 
     discard execCmd("git fetch --all")
     discard execCmd("git reset --hard origin/master")
 
     discard execCmd("mv tmp/plugin_import.txt plugins/plugin_import.txt")
+    discard execCmd("mv tmp/style_custom.css plugins/css/style_custom.css")
+    discard execCmd("mv tmp/js_custom.js plugins/js/js_custom.js")
 
     echo "\n\nNimWC has been updated\n\n"
     quit()
