@@ -11,7 +11,6 @@ proc commandLineHelp*(): string =
       - newdb       = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if the no database exists.
       - newuser     = Add the Admin user
       - insertdata  = Insert standard data (this will override existing data)
-      - nginx       = Used to close the streaming connection when using nginx as a webserver
       - help
   _____________________________________
   """

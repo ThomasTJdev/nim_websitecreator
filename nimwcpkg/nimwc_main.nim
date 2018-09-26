@@ -311,8 +311,6 @@ proc checkCompileOptions*(): string {.compileTime.} =
 
   result = ""
 
-  when defined(nginx):
-    result.add(" -d:nginx")
   when defined(adminnotify):
     result.add(" -d:adminnotify")
   when defined(dev):

@@ -83,7 +83,7 @@ nim c -d:ssl nimwc.nim
 
 ## Argument (args):
 
-These arguments should be prepended to executable file, e.g. `./nimwc insertdata`
+These arguments should be prepended to executable file, e.g. `./nimwc cdata`
 
 * `newuser` = Add the Admin user. The `-u:<username>`, `-p:<password>` and `-e:<email>` args are required
   * `-u:<admin username>`
@@ -97,7 +97,6 @@ These arguments should be prepended to executable file, e.g. `./nimwc insertdata
 
 These options are only available at compiletime:
 
-* `-d:nginx` = Used to close the streaming connection when using nginx as a webserver
 * `-d:adminnotify` = Send error logs (ERROR) to the specified admin email
 * `-d:dev` = Development
 * `-d:devemailon` = Send email when `-d:dev` is activated
