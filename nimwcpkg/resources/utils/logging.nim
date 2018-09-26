@@ -23,25 +23,25 @@ template dbg*(logLevel, msg: string) =
   when not defined(release):
     debugEcho $getTime() & " - " & logLevel & ": " & msg
     when not defined(nolog) and logLevel in ["DEBUG", "INFO", "WARNING", "ERROR"]:
-      logFile(fileDebug, $getTime() & " - " & logLevel &  ": " & msg)
+      logFile(fileDebug, $getTime() & " - " & logLevel & ": " & msg)
 
 
   when defined release:
     if logLevel == "ERROR":
-      debugEcho $getTime() & " - " & logLevel &  ": " & msg
+      debugEcho $getTime() & " - " & logLevel & ": " & msg
 
     when not defined(nolog):
       when defined(logleveldebug) and logLevel in ["DEBUG", "INFO", "WARNING", "ERROR"]:
-        logFile(fileProd, $getTime() & " - " & logLevel &  ": " & msg)
+        logFile(fileProd, $getTime() & " - " & logLevel & ": " & msg)
       
       when defined(loglevelinfo) and logLevel in ["INFO", "WARNING", "ERROR"]:
-        logFile(fileProd, $getTime() & " - " & logLevel &  ": " & msg)
+        logFile(fileProd, $getTime() & " - " & logLevel & ": " & msg)
         
       elif loglevel in ["ERROR", "WARNING"]:
-        logFile(fileProd, $getTime() & " - " & logLevel &  ": " & msg)
+        logFile(fileProd, $getTime() & " - " & logLevel & ": " & msg)
 
         if "adminnotify" in commandLineParams() or  defined(adminnotify):
-          discard sendEmailAdminError($getTime() & " - " & logLevel &  ": " & msg)
+          discard sendEmailAdminError($getTime() & " - " & logLevel & ": " & msg)
 
 
 template logFile*(filename, msg: string, mode = fmAppend): typed =

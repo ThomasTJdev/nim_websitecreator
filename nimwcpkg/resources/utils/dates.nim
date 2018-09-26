@@ -87,43 +87,43 @@ proc epochDate*(epochTime, format: string, timeZone = "0"): string =
   try:
     case format
     of "YYYY":
-      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initInterval(hours=parseInt(timeZone)))
+      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initTimeInterval(hours=parseInt(timeZone)))
       return toTime.substr(0, 3)
 
     of "YYYY_MM_DD-HH_mm":
-      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initInterval(hours=parseInt(timeZone)))
+      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initTimeInterval(hours=parseInt(timeZone)))
       return toTime.substr(0, 3) & "_" & toTime.substr(5, 6) & "_" & toTime.substr(8, 9) & "-" & toTime.substr(11, 12) & "_" & toTime.substr(14, 15)
 
     of "YYYY MM DD":
-      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initInterval(hours=parseInt(timeZone)))
+      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initTimeInterval(hours=parseInt(timeZone)))
       return toTime.substr(0, 3) & " " & toTime.substr(5, 6) & " " & toTime.substr(8, 9)
 
     of "YYYY-MM-DD":
-      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initInterval(hours=parseInt(timeZone)))
+      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initTimeInterval(hours=parseInt(timeZone)))
       return toTime.substr(0, 9)
 
     of "YYYY-MM-DD HH:mm":
-      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initInterval(hours=parseInt(timeZone)))
+      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initTimeInterval(hours=parseInt(timeZone)))
       return toTime.substr(0, 9) & " - " & toTime.substr(11, 15)
 
     of "DD MM YYYY":
-      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initInterval(hours=parseInt(timeZone)))
+      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initTimeInterval(hours=parseInt(timeZone)))
       return toTime.substr(8, 9) & " " & toTime.substr(5, 6) & " " & toTime.substr(0, 3)
 
     of "DD":
-      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initInterval(hours=parseInt(timeZone)))
+      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initTimeInterval(hours=parseInt(timeZone)))
       return toTime.substr(8, 9)
 
     of "MMM DD":
-      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initInterval(hours=parseInt(timeZone)))
+      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initTimeInterval(hours=parseInt(timeZone)))
       return monthNames[parseInt(toTime.substr(5, 6))] & " " & toTime.substr(8, 9)
 
     of "MMM":
-      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initInterval(hours=parseInt(timeZone)))
+      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initTimeInterval(hours=parseInt(timeZone)))
       return monthNames[parseInt(toTime.substr(5, 6))]
 
     else:
-      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initInterval(hours=parseInt(timeZone)))
+      let toTime = $(utc(fromUnix(parseInt(epochTime))) + initTimeInterval(hours=parseInt(timeZone)))
       dbg("WARNING", "epochDate() no input specified")
       return toTime.substr(0, 9)
 
