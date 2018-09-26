@@ -3,12 +3,12 @@
 */
 $(document).ready(function() {
   $( "button.switchEditorGrapesJS" ).click(function() {
-    document.cookie = "rawhtml=false"
+    document.cookie = "rawhtml=false;path=/"
     location.reload();
   });
 
   $( "button.switchEditorRawHTML" ).click(function() {
-    document.cookie = "rawhtml=true";
+    document.cookie = "rawhtml=true;path=/";
     location.reload();
   });
 });
