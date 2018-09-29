@@ -16,11 +16,11 @@ Update your SQLite database with the following queries.
 $ sqlite3 data/website.db
 $ [paste and run]
 */
-ALTER TABLE pages ADD COLUMN title
-ALTER TABLE pages ADD COLUMN metadescription
-ALTER TABLE pages ADD COLUMN metakeywords
+ALTER TABLE pages ADD COLUMN title;
+ALTER TABLE pages ADD COLUMN metadescription;
+ALTER TABLE pages ADD COLUMN metakeywords;
 
-ALTER TABLE blogpost ADD COLUMN title
-ALTER TABLE blogpost ADD COLUMN metadescription
-ALTER TABLE blogpost ADD COLUMN metakeywords
+ALTER TABLE blog ADD COLUMN title;
+ALTER TABLE blog ADD COLUMN metadescription;
+ALTER TABLE blog ADD COLUMN metakeywords;
 ```
