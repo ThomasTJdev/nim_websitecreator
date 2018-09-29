@@ -1,5 +1,5 @@
 # Package
-version       = "3.0.2"
+version       = "3.0.3"
 author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev)"
 description   = "Generate and host a website. Run the package and access your new webpage."
 license       = "GPLv3"
