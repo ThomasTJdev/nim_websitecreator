@@ -25,7 +25,7 @@ routes:
         if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
           redirect("/login?msg=" & encodeUrl("Error: You need to verify, that you are not a robot!"))
     
-    let (loginB, loginS) = login(c, @"email", replace(@"password", " ", ""))
+    let (loginB, loginS) = login(c, toLowerAscii(@"email"), replace(@"password", " ", ""))
     if loginB:
       jester.setCookie("sid", loginS, daysForward(7))
       redirect("/settings")
@@ -494,7 +494,8 @@ routes:
     if not ("@" in @"email" and "." in @"email"):
       redirect("/error/" & encodeUrl("Error: Your email has a wrong format"))
 
-    let emailExist = getValue(db, sql"SELECT id FROM person WHERE email = ?", @"email")
+    let emailReady = toLowerAscii(@"email")
+    let emailExist = getValue(db, sql"SELECT id FROM person WHERE email = ?", emailReady)
     if emailExist != "":
       redirect("/error/" & encodeUrl("Error: A user with that email does already exists"))
     
@@ -503,9 +504,9 @@ routes:
     let password = makePassword(passwordOriginal, salt)
     let secretUrl = randomStringDigitAlpha(99)
 
-    let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, salt, secretUrl) VALUES (?, ?, ?, ?, ?, ?)", @"name", @"email", @"status", password, salt, secretUrl)
+    let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, salt, secretUrl) VALUES (?, ?, ?, ?, ?, ?)", @"name", emailReady, @"status", password, salt, secretUrl)
 
-    asyncCheck sendEmailActivationManual(@"email", @"name", passwordOriginal, "/users/activate?id=" & $userID & "&ident=" & secretUrl, c.username)
+    asyncCheck sendEmailActivationManual(emailReady, @"name", passwordOriginal, "/users/activate?id=" & $userID & "&ident=" & secretUrl, c.username)
 
     redirect("/users")
 
