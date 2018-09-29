@@ -283,7 +283,35 @@ routes:
     except:
       resp "Error"
 
+  get "/settings/blog":
+    createTFD()
+    restrictAccessTo(c, [Admin, Moderator])
 
+    resp genMainAdmin(c, genSettingsBlog(c))
+
+  post "/settings/updateblogsettings":
+    createTFD()
+    restrictTestuser(HttpGet)
+    restrictAccessTo(c, [Admin, Moderator])
+
+    var blogorder: string
+    case @"blogorder"
+    of "url":
+      blogorder = "url"
+    of "published":
+      blogorder = "creation"
+    of "modified":
+      blogorder = "modified"
+    of "name":
+      blogorder = "name"
+    else:
+      redirect("/settings/blog")
+
+    if @"blogsort" notin ["ASC", "DESC"]:
+      redirect("/settings/blog")
+
+    exec(db, sql"UPDATE settings SET blogorder = ?, blogsort = ?", blogorder, @"blogsort")
+    redirect("/settings/blog")
 
 
   #[
@@ -581,7 +609,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     
     let url = urlEncoderCustom(@"url")
-    discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
+    discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
     
     redirect("/blog/" & url)
 
@@ -665,7 +693,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
 
     let url = urlEncoderCustom(@"url")
-    discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
+    discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
     if url == "frontpage":
       redirect("/")
     else:

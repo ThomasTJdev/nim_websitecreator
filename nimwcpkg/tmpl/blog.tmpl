@@ -7,7 +7,16 @@
 #
 #proc genAllBlogPagesEdit(c: var TData): string =
 # result = ""
-# let allBlogPages = getAllRows(db, sql"SELECT id, name, description, status, modified FROM blog ORDER BY modified DESC")
+#
+# let blogorder = getValue(db, sql"SELECT blogorder FROM settings")
+# let blogsort = getValue(db, sql"SELECT blogsort FROM settings")
+# 
+# var allBlogPages: seq[Row]
+# if blogorder == "":
+#   allBlogPages = getAllRows(db, sql"SELECT id, name, description, status, modified FROM blog ORDER BY modified DESC")
+# else:
+#   allBlogPages = getAllRows(db, sql("SELECT id, name, description, status, modified FROM blog ORDER BY " & blogorder & " " & blogsort))
+# end if
 
 <div style="text-align: center;">
   <h1>Edit a blog post</h1>
@@ -57,9 +66,17 @@
 # else:
 #   status = "(2)"
 # end if
-
-
-# let allBlogPages = getAllRows(db, sql("SELECT url, name, description, status, modified FROM blog WHERE status IN " & status & " ORDER BY modified DESC"))
+#
+#
+# let blogorder = getValue(db, sql"SELECT blogorder FROM settings")
+# let blogsort = getValue(db, sql"SELECT blogsort FROM settings")
+# 
+# var allBlogPages: seq[Row]
+# if blogorder == "":
+#   allBlogPages = getAllRows(db, sql("SELECT url, name, description, status, modified FROM blog WHERE status IN " & status & " ORDER BY modified DESC"))
+# else:
+#   allBlogPages = getAllRows(db, sql("SELECT url, name, description, status, modified FROM blog WHERE status IN " & status & " ORDER BY " & blogorder & " " & blogsort))
+# end if
 
 <div style="text-align: center;">
   <h1>All blog posts</h1>
