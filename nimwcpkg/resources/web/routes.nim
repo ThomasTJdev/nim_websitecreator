@@ -269,14 +269,14 @@ routes:
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin, Moderator])
 
-    let cssFile = if @"customJs" == "true": "public/css/style_custom.css" else: "public/css/style.css"
+    let cssFile = if @"customCss" == "true": "public/css/style_custom.css" else: "public/css/style.css"
 
     try:
       writeFile(cssFile, @"css")
       if @"inbackground" == "true":
         resp("OK")
 
-      if @"customJs" == "true":
+      if @"customCss" == "true":
         redirect("/settings/editcsscustom")
       else:
         redirect("/settings/editcss")
