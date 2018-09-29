@@ -1,3 +1,20 @@
+## v3.1.0
+### Changes
+- Custom blog order
+
+### Breaking changes
+- Database tables ``settings`` has been updated with the columns: ``blogorder``.
+```sql
+/*
+Update your SQLite database with the following queries.
+
+$ sqlite3 data/website.db
+$ [paste and run]
+*/
+ALTER TABLE settings ADD COLUMN blogorder TEXT;
+ALTER TABLE settings ADD COLUMN blogsort TEXT;
+```
+
 ## v3.0.0
 ### Changes
 - Bugfixes
@@ -16,11 +33,11 @@ Update your SQLite database with the following queries.
 $ sqlite3 data/website.db
 $ [paste and run]
 */
-ALTER TABLE pages ADD COLUMN title;
-ALTER TABLE pages ADD COLUMN metadescription;
-ALTER TABLE pages ADD COLUMN metakeywords;
+ALTER TABLE pages ADD COLUMN title TEXT;
+ALTER TABLE pages ADD COLUMN metadescription TEXT;
+ALTER TABLE pages ADD COLUMN metakeywords TEXT;
 
-ALTER TABLE blog ADD COLUMN title;
-ALTER TABLE blog ADD COLUMN metadescription;
-ALTER TABLE blog ADD COLUMN metakeywords;
+ALTER TABLE blog ADD COLUMN title TEXT;
+ALTER TABLE blog ADD COLUMN metadescription TEXT;
+ALTER TABLE blog ADD COLUMN metakeywords TEXT;
 ```
