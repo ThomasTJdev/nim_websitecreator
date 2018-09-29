@@ -22,8 +22,10 @@ public/sitemap.xml
 public/css/*
 public/js/*
 !public/css/style.css
+!public/css/style_admin.css
 !public/css/style_custom.css
 !public/js/js.js
+!public/js/js_admin.js
 !public/js/js_custom.js
 !public/js/editor.js
 !public/js/codemirror_formatting.js

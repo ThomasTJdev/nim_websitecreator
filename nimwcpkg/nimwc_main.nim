@@ -614,6 +614,13 @@ when isMainModule:
   writeFile("public/robots.txt", "User-agent: *\nSitemap: " & mainWebsite & "/sitemap.xml\nDisallow: /login")
 
 
+  # Check if custom js and css exists
+  if not fileExists("public/css/style_custom.css"):
+    writeFile("public/css/style_custom.css", "")
+  if not fileExists("public/js/js_custom.js"):
+    writeFile("public/js/js_custom.js", "")
+
+
   dbg("INFO", "Up and running!")
 
 
