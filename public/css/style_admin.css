@@ -23,6 +23,7 @@ body {
   min-height: 100vh;
   font-weight: 300;
   font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
 }
 
 #pagewrapper {
@@ -275,6 +276,35 @@ div.pageOptions {
 }
 
 
+
+/*
+    All blog posts
+*/
+div#allblogPosts .list-group {
+  margin: 40px 0px;
+}
+div#allblogPosts .list-group-item {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #bcbcbc5c;
+}
+
+
+/*
+    All pages
+*/
+div#allpagePosts .list-group {
+  margin: 40px 0px;
+}
+div#allpagePosts .list-group-item {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid #bcbcbc5c;
+}
+
+
 /*
   Users
 */
@@ -514,4 +544,15 @@ li.pluginRepo span.version.git {
   font-size: 2em!important;
   line-height: 1em!important;
   padding: 6px!important;
+}
+
+
+
+/*
+	GrapeJS
+*/
+#summernoteContainer {
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
 }

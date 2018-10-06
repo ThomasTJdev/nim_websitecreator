@@ -58,77 +58,15 @@
     </div>
 
     <hr>
-    <div>
-      # if c.req.cookies.hasKey("rawhtml") and c.req.cookies["rawhtml"] == "true":
-        <textarea name="editordata" id="editordataCodemirror">
-          <div id="mainContainer" class="blogpage">
-            <h1>Title</h1>
-            <p>The first paragraph</p>
-            <hr/>
-            <div class="row">
-              <div class="col-12 col-md-6">
-                <p>Column 1</p>
-              </div>
-              <div class="col-12 col-md-6">
-                <p>Column 2</p>
-              </div>
-            </div>
-          </div>
-        </textarea>
-      # else:
-      <div id="gjs" class="gls">
-          <div id="mainContainer" class="standardpage">
-            <h1>Title</h1>
-            <p>The first paragraph</p>
-            <hr/>
-            <div class="row">
-              <div class="col-12 col-md-6">
-                <p>Column 1</p>
-              </div>
-              <div class="col-12 col-md-6">
-                <p>Column 2</p>
-              </div>
-            </div>
-          </div>
-          <style>
-            body.gjs-dashed {
-              background: transparent;
-            }
-          </style>
-        </div>
 
-        <textarea id="gjshidden" name="editordata" style="display: none"></textarea>
-      # end if
+    <div>
+      
+      ${genPageEditorMainNew(c, "standardpage")}
+
     </div>
   </form>      
 </div>
 
-# if c.req.cookies.hasKey("rawhtml") and c.req.cookies["rawhtml"] == "true":
-  ${genEditMixed(true)}
-# else:
-<script src="https://unpkg.com/grapesjs" defer></script>
-<script src="/js/grapesjsbs4.min.js" defer></script>
-<script src="/js/grapesjs_custom.js" defer></script>
-<script src="/js/editors.js" defer></script>
-<link rel="stylesheet" href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" />
-<script>
-function grapeJsLoadAssets() {
-  const am = editor.AssetManager;
-  am.add([
+${genPageEditorImport(c, true)}
 
-# var multiple = false
-# for file in walkFiles("public/images/*"):
-#   if multiple:
-      ,{src: '${replace(file, "public", "")}'}
-#   else:
-      {src: '${replace(file, "public", "")}'}
-#     multiple = true
-#   end if
-# end for  
-
-  ]);
-  am.render();
-}
-</script>
-# end if
 #end proc

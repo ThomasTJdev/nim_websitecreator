@@ -289,20 +289,6 @@ div#allblogPosts .list-group-item {
 
 
 /*
-    All pages
-*/
-div#allpagePosts .list-group {
-  margin: 40px 0px;
-}
-div#allpagePosts .list-group-item {
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  border: 1px solid #bcbcbc5c;
-}
-
-
-/*
     Standard page
 */
 .standardpage {

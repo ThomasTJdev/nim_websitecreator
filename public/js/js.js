@@ -84,3 +84,18 @@ $('a[href*="#"]:not([href="#"])').click(function() {
   }
 });
 
+
+
+if($(".prismOn").length > 0) {
+  $('head').append('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.min.css" />');
+  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js" defer></script>');
+
+  $('head').append('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.css" />');
+  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.js" defer></script>');
+
+  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-nim.min.js" defer></script>');
+  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-css.min.js" defer></script>');
+  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-javascript.min.js" defer></script>');
+  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-python.min.js" defer></script>');
+  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-bash.min.js" defer></script>');
+}

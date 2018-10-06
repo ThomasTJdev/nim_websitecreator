@@ -3,12 +3,17 @@
 */
 $(document).ready(function() {
   $( "button.switchEditorGrapesJS" ).click(function() {
-    document.cookie = "rawhtml=false;path=/"
+    document.cookie = "editor=grape;path=/"
+    location.reload();
+  });
+
+  $( "button.switchEditorSummernote" ).click(function() {
+    document.cookie = "editor=summernote;path=/";
     location.reload();
   });
 
   $( "button.switchEditorRawHTML" ).click(function() {
-    document.cookie = "rawhtml=true;path=/";
+    document.cookie = "editor=html;path=/";
     location.reload();
   });
 });
@@ -23,8 +28,11 @@ $(document).ready(function() {
   });
 
   $( ".newblogSave" ).click(function() {
-    if($('#gjshidden').length > 0 ){
+    if($('#gjshidden').length > 0){
       $("#gjshidden").val(editor.getHtml() + "<style>" + editor.getCss() + "</style>")
+    }
+    if($('#summernote').length > 0) {
+      $("#summernoteHidden").html($('#summernote').summernote('code'));
     }
     $("#blogData form").submit();
   });
@@ -63,6 +71,10 @@ $(document).ready(function() {
     Save page
 */
 function savePage() {
+  if($('#summernote').length > 0) {
+    $("#summernoteHidden").html($('#summernote').summernote('code'));
+    charCount = 0;
+  }
   $.ajax({
     url: $("form.standard").attr("action") + "?inbackground=true",
     type: 'POST',
@@ -111,7 +123,120 @@ $(window).bind("beforeunload", function() {
 
 
 /*
-    Initialize Codemirror editors
+    Initialize summernote
+*/
+$(function() {
+  if($('#summernote').length) {
+    summernoteInit();
+  }
+});
+var charCount = 0;
+function summernoteInit() {
+  console.log("Summernote initialize");
+  
+  var SaveButton = function (context) {
+    var ui = $.summernote.ui;
+
+    var button = ui.button({
+      contents: '<i class="fa fa-floppy-o"></i> Save',
+      click: function () {
+        savePage();
+      }
+    });
+    return button.render();
+  };
+
+  var CodeButton = function (context) {
+    var ui = $.summernote.ui;
+
+    var button = ui.buttonGroup([
+      ui.button({
+        contents: 'Code block',
+        data: { toggle: 'dropdown' },
+        click: function () {
+          context.invoke('editor.saveRange');
+        }
+      }),
+      ui.dropdown({
+        className: 'drodown-style',
+        contents: "<ol class='summernote-button'><li data-lang='html'>HTML</li><li data-lang='css'>CSS</li><li data-lang='javascript'>JS</li><li data-lang='nim'>Nim</li><li data-lang='python'>Python</li><li data-lang='bash'>Bash</li></ol>",
+        callback: function ($dropdown) {
+          $dropdown.find('li').each(function () {
+            $(this).click(function(e) {
+              context.invoke('editor.restoreRange');
+              context.invoke('editor.focus');
+              var lang = $(this).attr("data-lang");
+              var codeBlock = '<pre><code class="prismOn language-' + lang + ' line-numbers">Place your code here.</code></pre>';
+              context.invoke('editor.pasteHTML', '<span id="codeblockReplace"></span>');
+              $("span#codeblockReplace").replaceWith(codeBlock);
+              Prism.highlightAll();
+            });
+          });
+        }
+      })
+    ]);
+    return button.render();
+  }
+
+  var calHeight = 500;
+  var gWindowHeight = $(window).height();
+  if (gWindowHeight < 700) {
+    calHeight = 200;
+  } else if (gWindowHeight < 900) {
+    calHeight = 450;
+  } else if (gWindowHeight < 1200) {
+    calHeight = 850;
+  } else if (gWindowHeight < 1400) {
+    calHeight = 1050;
+  }
+
+  $('#summernote').summernote({
+    minHeight: 250,
+    height: calHeight,
+    width: "auto",
+    focus: true,
+    dialogsInBody: true,
+    dialogsFade: true,
+    toolbar: [
+      ['custom', ['save', 'settings']],
+      ['para', ['style']],
+      ['fontsize', ['fontsize']],
+      ['style', ['bold', 'italic', 'underline', 'clear']],
+      ['para', ['ul', 'ol', 'paragraph']],
+      ['font', ['strikethrough', 'superscript']],
+      ['color', ['color']],
+      ['insert', ['picture', 'table', 'link', 'hr', 'codeblock', 'checkbox']],
+      ['misc', ['print', 'codeview', 'fullscreen']]
+    ],
+    buttons: {
+      codeblock: CodeButton,
+      save: SaveButton
+    },
+    callbacks: {
+      onKeydown: function (e) {
+        if (e.keyCode != 116) {
+          charCount += 1;
+          if (charCount == 2) {
+            $("#save").attr("data-ischanged", "1");
+            //charCount = 0;
+            //savePage();
+          }
+          $("#onenoteNote").attr("data-save", "1");
+        }
+      },
+      onBlur: function () {
+        Prism.highlightAll();
+      },
+      onInit: function () {
+        Prism.highlightAll();
+      }
+    }
+  });
+}
+
+
+/*
+    Initialize Codemirror editor
 */
 $(function() {
   if($('#editordataCodemirror').length > 0 ){
@@ -212,7 +337,7 @@ $(function() {
 */
 $(function() {
   $.key('ctrl+s', function() {
-    if($('#settingsCode').length > 0 || $('#htmlSettings1').length > 0 || $('#gls').length > 0 || $('#editordataCodemirror').length > 0){
+    if($('#settingsCode').length > 0 || $('#htmlSettings1').length > 0 || $('#gls').length > 0 || $('#editordataCodemirror').length > 0 || $('#summernote').length > 0){
       event.preventDefault();
 
       savePage();

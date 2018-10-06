@@ -144,11 +144,9 @@
 # result = ""
 <h5>Change editor</h5>
 <div style="margin-bottom: 20px;">
-  # if c.req.cookies.hasKey("rawhtml") and c.req.cookies["rawhtml"] == "true":
   <button type="button" class="btn btn-primary switchEditorGrapesJS">Switch to GrapesJS</button>
-  # else:
+  <button type="button" class="btn btn-primary switchEditorSummernote">Switch to Summernote</button>
   <button type="button" class="btn btn-primary switchEditorRawHTML">Switch to raw HTML</button>
-  # end if
 </div>
 
 # if edit:
@@ -221,4 +219,154 @@
   </div>
     
 </div>
+#end proc
+#
+#
+#
+#  
+#proc genPageEditorMainNew(c: var TData, classBlogPage: string): string =
+# result = ""
+#
+# if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "html":
+  <textarea name="editordata" id="editordataCodemirror">
+    <div id="mainContainer" class="${classBlogPage}">
+      <h1>Title</h1>
+      <p>The first paragraph</p>
+      <hr/>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <p>Column 1</p>
+        </div>
+        <div class="col-12 col-md-6">
+          <p>Column 2</p>
+        </div>
+      </div>
+    </div>
+  </textarea>
+# elif c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "summernote":
+  <textarea id="summernoteHidden" name="editordata" style="display: none;"></textarea>
+
+  <div id="summernote" class="summernote">
+    <div id="mainContainer" class="${classBlogPage}">
+      <h1>Title</h1>
+      <p>The first paragraph</p>
+      <hr/>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <p>Column 1</p>
+        </div>
+        <div class="col-12 col-md-6">
+          <p>Column 2</p>
+        </div>
+      </div>
+    </div>
+  </div>
+# else:
+  <div id="gjs" class="gls">
+    <div id="mainContainer" class="${classBlogPage}">
+      <h1>Title</h1>
+      <p>The first paragraph</p>
+      <hr/>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <p>Column 1</p>
+        </div>
+        <div class="col-12 col-md-6">
+          <p>Column 2</p>
+        </div>
+      </div>
+    </div>
+    <style>
+      body.gjs-dashed {
+        background: transparent;
+      }
+    </style>
+  </div>
+
+  <textarea id="gjshidden" name="editordata" style="display: none"></textarea>
+# end if
+#end proc
+#
+#
+#
+#  
+#proc genPageEditorMainEdit(c: var TData, content: string): string =
+# result = ""
+#
+# if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "html":
+#
+  <textarea name="editordata" id="editordataCodemirror">${content}</textarea>
+#
+# elif c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "summernote":
+#
+  <div id="summernoteContainer">
+    <textarea id="summernoteHidden" name="editordata" style="display: none;"></textarea>
+    <div id="summernote" class="summernote">
+      ${content}
+    </div>
+  </div>
+#
+# else:
+#
+  <div id="gjs" class="gls">${content}</div>
+  <textarea id="gjshidden" name="editordata" style="display: none"></textarea>
+#
+# end if
+#
+#end proc
+#
+#
+#
+#  
+#proc genPageEditorImport(c: var TData, isNewPage: bool): string =
+# result = ""
+# if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "html":
+#
+  ${genEditMixed(isNewPage)}
+#
+# elif c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "summernote":
+#
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote-bs4.css" integrity="sha256-fPUAOwSYkVTnL8xdLidCEi5IxW+ZVfcmNJ4m/+EGVI8=" crossorigin="anonymous" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.10/summernote-bs4.js" integrity="sha256-D7wVIdz0dDoz21KQ/Z1cFnFXyrPcomZKBrVGLWE8vhg=" crossorigin="anonymous" defer></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js" defer></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.js" defer></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-nim.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-css.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-javascript.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-python.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-bash.min.js" defer></script>
+<script src="/js/editors.js" defer></script>
+#
+# else:
+#
+<script src="https://unpkg.com/grapesjs" defer></script>
+<script src="/js/grapesjsbs4.min.js" defer></script>
+<script src="/js/grapesjs_custom.js" defer></script>
+<script src="/js/editors.js" defer></script>
+<link rel="stylesheet" href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" />
+<script>
+function grapeJsLoadAssets() {
+  const am = editor.AssetManager;
+  am.add([
+
+# var multiple = false
+# for file in walkFiles("public/images/*"):
+#   if multiple:
+      ,{src: '${replace(file, "public", "")}'}
+#   else:
+      {src: '${replace(file, "public", "")}'}
+#     multiple = true
+#   end if
+# end for  
+
+  ]);
+  am.render();
+}
+</script>
+# end if
 #end proc
