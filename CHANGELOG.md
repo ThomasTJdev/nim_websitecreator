@@ -1,4 +1,8 @@
-## v3.1.0
+## v3.2.0
+### Changes
+- Include Summernote as editor
+
+## v3.1.1
 ### Changes
 - Custom blog order
 
