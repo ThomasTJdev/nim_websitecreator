@@ -278,12 +278,23 @@ div#allblogPosts .list-group-item {
   background: white; 
   color: black; 
   padding: 20px; 
-  max-width: 1200px; 
+  max-width: 1000px; 
   padding: 20px; 
   border-radius: 10px; 
   margin-left: auto; 
   margin-right: auto; 
   margin-top: 100px;
+}
+.blogpage h1,
+.blogpage h2,
+.blogpage h3,
+.blogpage h4,
+.blogpage h5 {
+  margin-top: 2rem;
+}
+.blogpage img.fullwidth {
+  width: 100%;
+  height: auto;
 }
 
 

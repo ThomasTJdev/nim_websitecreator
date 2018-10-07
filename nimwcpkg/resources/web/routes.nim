@@ -638,7 +638,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMainAdmin(c, genAllBlogPagesEdit(c))
+    resp genMainAdmin(c, genBlogAllPages(c, true))
 
 
   get "/editpage/blog/@blogid":

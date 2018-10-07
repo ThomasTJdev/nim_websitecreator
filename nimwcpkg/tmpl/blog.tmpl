@@ -5,59 +5,8 @@
 #end template
 #
 #
-#proc genAllBlogPagesEdit(c: var TData): string =
-# result = ""
-#
-# let blogorder = getValue(db, sql"SELECT blogorder FROM settings")
-# let blogsort = getValue(db, sql"SELECT blogsort FROM settings")
-# 
-# var allBlogPages: seq[Row]
-# if blogorder == "":
-#   allBlogPages = getAllRows(db, sql"SELECT id, name, description, status, modified FROM blog ORDER BY modified DESC")
-# else:
-#   allBlogPages = getAllRows(db, sql("SELECT id, name, description, status, modified FROM blog ORDER BY " & blogorder & " " & blogsort))
-# end if
-
-<div style="text-align: center;">
-  <h1>Edit a blog post</h1>
-</div>
-
-<div id="allblogPosts">
-
-# if allBlogPages.len < 1:
-#
-  <div style="text-align: center">
-    <h3><i>No blog posts</i></h3>
-  </div>
-#
-# else:
-#
-<ul class="list-group list-group-flush">
-#   for blog in allBlogPages:
-    <a href="/editpage/blog/${blog[0]}" class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">${blog[1]}</h5>
-        <div style="display: grid">
-          <small>${epochDate(blog[4], "YYYY-MM-DD")}</small>
-          # if c.loggedIn:
-          <small>${statusIntToText(blog[3])}</small>
-          # end if
-        </div>
-      </div>
-    </a>
-#   end for
-  </ul>  
-# end if
-</div>
-#end proc
-#
-#
-#
-#
-#proc genBlogAllPages(c: var TData, view = ""): string =
+#proc genBlogAllPages(c: var TData, edit = false): string =
 # ## Show all blog post
-# ## 
-# ## View: Development = 0, Private = 1, Public = 2
 # result = ""
 #
 # var status = "(2)"
@@ -73,9 +22,9 @@
 # 
 # var allBlogPages: seq[Row]
 # if blogorder == "":
-#   allBlogPages = getAllRows(db, sql("SELECT url, name, description, status, modified FROM blog WHERE status IN " & status & " ORDER BY modified DESC"))
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, modified, metadescription FROM blog WHERE status IN " & status & " ORDER BY modified DESC"))
 # else:
-#   allBlogPages = getAllRows(db, sql("SELECT url, name, description, status, modified FROM blog WHERE status IN " & status & " ORDER BY " & blogorder & " " & blogsort))
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, modified, metadescription FROM blog WHERE status IN " & status & " ORDER BY " & blogorder & " " & blogsort))
 # end if
 
 <div style="text-align: center;">
@@ -97,18 +46,38 @@
 #
   <ul class="list-group list-group-flush">
 #   for blog in allBlogPages:
-    <a href="/blog/${blog[0]}" class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">${blog[1]}</h5>
-        <div style="display: grid">
-          <small>${epochDate(blog[4], "YYYY-MM-DD")}</small>
-          # if c.loggedIn:
-          <small>${statusIntToText(blog[3])}</small>
-          # end if
+#     var blogTitle = ""
+#     if edit:
+#       blogTitle = "<h5><span class='editChip'><a href='/editpage/blog/" & blog[0] & "'>edit</a></span> - <a class='blognameEdit' href='/blog/" & blog[1] / "'>" & blog[2] & "</a>"
+#     else:
+#       blogTitle = "<h5>" & blog[2] & "</h5>"
+#     end if
+#
+#     if edit:
+      <li class="list-group-item list-group-item-action flex-column align-items-start" style="padding: .75rem 0rem;">
+#     else:
+      <a href="/blog/${blog[1]}" class="list-group-item list-group-item-action flex-column align-items-start" style="padding: .75rem 0rem;">
+#     end if
+#
+        <div class="d-flex w-100 justify-content-between">
+          <div class="mb-1 col-12 col-md-10">
+            $blogTitle
+            <small class="d-block d-md-none">${epochDate(blog[5], "YYYY-MM-DD")}</small>
+            <div style="margin-top: 10px;">${blog[6]}</div>
+          </div>
+          <div class="col-2 d-none d-md-block">
+            <small>${epochDate(blog[5], "YYYY-MM-DD")}</small>
+            # if c.loggedIn:
+            <small>${statusIntToText(blog[4])}</small>
+            # end if
+          </div>
         </div>
-      </div>
-      <!--<p class="mb-1"></p>-->
-    </a>
+#     if edit:
+      </li>
+#     else:
+      </a>
+#     end if
+#
 #   end for
   </ul>
 #

@@ -289,6 +289,19 @@ div#allblogPosts .list-group-item {
   margin-right: auto;
   border: 1px solid #bcbcbc5c;
 }
+div#allblogPosts .editChip {
+  font-size: 0.8rem;
+  background: grey;
+  color: white;
+  padding: 6px;
+  border-radius: 10px;
+}
+div#allblogPosts .editChip a {
+  color: white;
+}
+div#allblogPosts a.blognameEdit {
+  color: black;
+}
 
 
 /*

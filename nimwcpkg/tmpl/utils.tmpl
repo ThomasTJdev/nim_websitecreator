@@ -142,6 +142,19 @@
 #  
 #proc genPageOptions(c: var TData, page, blog, edit: bool, pageid, stdHead, stdNav, stdFoot: string): string =
 # result = ""
+#
+# var title = ""
+# var metadescription = ""
+# var metakeywords = ""
+#
+# if not edit:
+#   let pageOrBlog = if page == true: "pages" else: "blog"
+#   let seoData = getRow(db, sql("SELECT title, metadescription, metakeywords FROM " & pageOrBlog & " WHERE id = ?"), pageid)
+#
+#   title = seoData[0]
+#   metadescription = seoData[1]
+#   metakeywords = seoData[2]
+# end if
 <h5>Change editor</h5>
 <div style="margin-bottom: 20px;">
   <button type="button" class="btn btn-primary switchEditorGrapesJS">Switch to GrapesJS</button>
@@ -196,26 +209,27 @@
 </div>
 
 <h5>SEO</h5>
+<i>HTML is not allowed!</i>
 <div style="margin-bottom: 20px;">
   <div class="input-group input-group-sm">
     <div class="input-group-prepend">
       <span class="input-group-text" style="width: 122px;">Title</span>
     </div>
-    <input name="title" class="form-control">
+    <input name="title" class="form-control" value="${title}">
   </div>
 
   <div class="input-group input-group-sm">
     <div class="input-group-prepend">
       <span class="input-group-text" style="width: 122px;">Meta description</span>
     </div>
-    <textarea name="metadescription" class="form-control"></textarea>
+    <textarea name="metadescription" class="form-control">${metadescription}</textarea>
   </div>
 
   <div class="input-group input-group-sm">
     <div class="input-group-prepend">
       <span class="input-group-text" style="width: 122px;">Meta keywords</span>
     </div>
-    <textarea name="metakeywords" class="form-control" placeholder="Separate each keywords with a comma, e.g. blog,design,code"></textarea>
+    <textarea name="metakeywords" class="form-control" placeholder="Separate each keywords with a comma, e.g. blog,design,code">${metakeywords}</textarea>
   </div>
     
 </div>
