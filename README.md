@@ -7,7 +7,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 ## Main features:
 - Webserver hosting your page on 127.0.0.1:7000
-- Edit your pages with CodeMirror or drag'n'drop with GrapesJS
+- Edit your pages with Summernote, raw HTML (CodeMirror) or drag'n'drop with GrapesJS
 - Blog - add and edit blog posts
 - Pages - add and edit pages
 - Custom head, navbar and footer
@@ -19,7 +19,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 ## Requirements
 - Linux
-- Nim devel (0.18.1)
+- Nim (0.18.1)
 - Nim modules (automated when using Nimble):
   - jester >= 0.4.0
   - reCAPTCHA >= 1.0.2
