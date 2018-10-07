@@ -43,6 +43,13 @@ $(document).ready(function() {
   $( ".blogSave" ).click(function() {
     savePage();
   });
+
+  $( "span.blogDelete" ).click(function() {
+    var result = confirm("Delete blogpost?");
+    if (result) {
+      window.location.href = $(this).attr("data-url");
+    }
+  });
 });
 
 
@@ -69,6 +76,13 @@ $(document).ready(function() {
 
   $( ".pageSave" ).click(function() {
     savePage();
+  });
+
+  $( "span.pageDelete" ).click(function() {
+    var result = confirm("Delete page?");
+    if (result) {
+      window.location.href = $(this).attr("data-url");
+    }
   });
 });
 

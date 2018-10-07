@@ -52,7 +52,7 @@
 # for file in allFilesPublicImages:
     <li class="list-group-item d-flex justify-content-between align-items-center">
       <a href="/images/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
-      <span class="badge badge-danger badge-pill"><a href="/files/delete/publicimage/${extractFilename(file)}">Delete</a></span>
+      <span class="badge badge-danger badge-pill"><span class="deleteFile" data-url="/files/delete/publicimage/${extractFilename(file)}">Delete</span></span>
     </li>
 # end for
 </ul>  
@@ -64,7 +64,7 @@
 # for file in allFilesPrivate:
     <li class="list-group-item d-flex justify-content-between align-items-center">
       <a href="/files/stream/private/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
-      <span class="badge badge-danger badge-pill"><a href="/files/delete/private/${extractFilename(file)}">Delete</a></span>
+      <span class="badge badge-danger badge-pill"><span class="deleteFile" data-url="/files/delete/private/${extractFilename(file)}">Delete</span></span>
     </li>
 # end for
 </ul>  
@@ -76,7 +76,7 @@
 # for file in allFilesPublic:
     <li class="list-group-item d-flex justify-content-between align-items-center">
       <a href="/files/stream/public/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
-      <span class="badge badge-danger badge-pill"><a href="/files/delete/public/${extractFilename(file)}">Delete</a></span>
+      <span class="badge badge-danger badge-pill"><span class="deleteFile" data-url="/files/delete/public/${extractFilename(file)}">Delete</span></span>
     </li>
 # end for
 </ul>  

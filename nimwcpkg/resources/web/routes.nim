@@ -631,7 +631,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
 
     exec(db, sql"DELETE FROM blog WHERE id = ?", @"blogid")
-    redirect("/")
+    redirect("/editpage/blogallpages")
 
 
   get "/editpage/blogallpages":
@@ -701,7 +701,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
 
     exec(db, sql"DELETE FROM pages WHERE id = ?", @"pageid")
-    redirect("/")
+    redirect("/editpage/allpages")
 
   
   get "/editpage/allpages":

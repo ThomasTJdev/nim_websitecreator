@@ -45,6 +45,12 @@ $(document).ready(function() {
   $( "button.fileUpload" ).click(function() {
     uploadFile();
   });
+  $( "span.deleteFile" ).click(function() {
+    var result = confirm("Delete file?");
+    if (result) {
+      window.location.href = $(this).attr("data-url");
+    }
+  });
 
 });
 

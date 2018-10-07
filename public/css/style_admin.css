@@ -258,6 +258,13 @@ button.pageOptions {
   margin-top: 5px;
   width: 80px;
 }
+span.blogDelete,
+span.pageDelete {
+  font-size: 95%;
+  height: 26px;
+  line-height: 12px;
+  margin-top: 5px;
+}
 div.blogOptions,
 div.pageOptions {
   display: none;
