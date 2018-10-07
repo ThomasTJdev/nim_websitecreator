@@ -1,3 +1,7 @@
+## v4.0.4
+### Changes
+- Include meta info on pages
+
 ## v4.0.2
 ### Changes
 - The user are prompted before deleting a file, page and blogpost.
