@@ -1,4 +1,6 @@
-
+## v4.0.2
+### Changes
+- The user are prompted before deleting a file, page and blogpost.
 
 ## v4.0.0
 ### Changes
