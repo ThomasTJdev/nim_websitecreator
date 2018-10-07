@@ -609,9 +609,9 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     
     let url = urlEncoderCustom(@"url")
-    discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
+    let blogID = insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
     
-    redirect("/blog/" & url)
+    resp genMainAdmin(c, genEditBlog(c, $blogID, true), "edit")
 
 
   post "/blogpage/update":
@@ -667,20 +667,6 @@ routes:
 
   ]#
 
-  get "/editpage/allpages":
-    createTFD()
-    restrictAccessTo(c, [Admin, Moderator])
-    
-    resp genMainAdmin(c, genAllPagesEdit(c))
-
-
-  get "/editpage/page/@pageid":
-    createTFD()
-    restrictAccessTo(c, [Admin, Moderator])
-
-    resp genMainAdmin(c, genEditPage(c, @"pageid"), "edit")
-
-
   get "/pagenew":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
@@ -693,11 +679,9 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
 
     let url = urlEncoderCustom(@"url")
-    discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
-    if url == "frontpage":
-      redirect("/")
-    else:
-      redirect("/p/" & url)
+    let pageID = insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
+    
+    resp genMainAdmin(c, genEditPage(c, $pageID, true), "edit")
 
 
   post "/page/update":
@@ -718,7 +702,21 @@ routes:
 
     exec(db, sql"DELETE FROM pages WHERE id = ?", @"pageid")
     redirect("/")
+
   
+  get "/editpage/allpages":
+    createTFD()
+    restrictAccessTo(c, [Admin, Moderator])
+    
+    resp genMainAdmin(c, genAllPagesEdit(c))
+
+
+  get "/editpage/page/@pageid":
+    createTFD()
+    restrictAccessTo(c, [Admin, Moderator])
+
+    resp genMainAdmin(c, genEditPage(c, @"pageid"), "edit")
+
 
   get re"/p//*.":
     createTFD()

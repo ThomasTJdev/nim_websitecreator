@@ -34,13 +34,13 @@ $(document).ready(function() {
     if($('#summernote').length > 0) {
       $("#summernoteHidden").html($('#summernote').summernote('code'));
     }
-    $("#blogData form").submit();
+
+    if ($("#name").val() != "" && $("#url").val() != "") {
+      $("#blogData form").submit();
+    }
   });
 
   $( ".blogSave" ).click(function() {
-    if($('#gjshidden').length > 0 ){
-      $("#gjshidden").val(editor.getHtml() + "<style>" + editor.getCss() + "</style>")
-    }
     savePage();
   });
 });
@@ -55,12 +55,19 @@ $(document).ready(function() {
   });
 
   $( ".newpageSave" ).click(function() {
-    $("#gjshidden").val(editor.getHtml() + "<style>" + editor.getCss() + "</style>")
-    $("#pageData form").submit();
+    if($('#gjshidden').length > 0){
+      $("#gjshidden").val(editor.getHtml() + "<style>" + editor.getCss() + "</style>")
+    }
+    if($('#summernote').length > 0) {
+      $("#summernoteHidden").html($('#summernote').summernote('code'));
+    }
+
+    if ($("#name").val() != "" && $("#url").val() != "") {
+      $("#pageData form").submit();
+    }
   });
 
   $( ".pageSave" ).click(function() {
-    $("#gjshidden").val(editor.getHtml() + "<style>" + editor.getCss() + "</style>")
     savePage();
   });
 });
@@ -71,6 +78,9 @@ $(document).ready(function() {
     Save page
 */
 function savePage() {
+  if($('#gjshidden').length > 0 ){
+    $("#gjshidden").val(editor.getHtml() + "<style>" + editor.getCss() + "</style>")
+  }
   if($('#summernote').length > 0) {
     $("#summernoteHidden").html($('#summernote').summernote('code'));
     charCount = 0;
