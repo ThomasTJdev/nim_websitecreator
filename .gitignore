@@ -21,6 +21,7 @@ public/robots.txt
 public/sitemap.xml
 public/css/*
 public/js/*
+public/images/*
 !public/css/style.css
 !public/css/style_admin.css
 !public/js/js.js
