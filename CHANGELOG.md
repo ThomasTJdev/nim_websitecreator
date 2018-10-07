@@ -1,3 +1,10 @@
+
+
+## v4.0.0
+### Changes
+- When adding a new page only basic information is available. Right after saving the new page, the user is redirected to the editing page.
+- When viewing all the blogpost the metadescription is inserted below.
+
 ## v3.2.0
 ### Changes
 - Include Summernote as editor
