@@ -184,15 +184,20 @@ ${extensionCss()}
 #   status = "0,1,2"
 # end if
 #
-# let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer FROM pages WHERE id = ? AND status IN (" & status & ")"), pageid)
+# let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, title, metadescription, metakeywords  FROM pages WHERE id = ? AND status IN (" & status & ")"), pageid)
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
 <html lang="EN">
 
 <head>
-# if standardElements[3] != "":
-    <title>${standardElements[3]}</title>
+# if pageData[7] != "":
+  <title>${pageData[7]}</title>
+# elif standardElements[3] != "":
+  <title>${standardElements[3]}</title>
 # end if
+
+<meta name="description" content="${pageData[8]}">
+<meta name="keywords" content="${pageData[9]}">
 
 # if pageData[0] == "1":
     ${standardElements[0]}

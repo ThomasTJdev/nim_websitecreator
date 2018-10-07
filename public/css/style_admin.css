@@ -432,6 +432,9 @@ form#fileAdd {
 div#files span a {
   color: white;
 }
+div#files span.deleteFile {
+  cursor: pointer;
+}
 
 
 
