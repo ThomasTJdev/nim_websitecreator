@@ -21,12 +21,12 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
     var iPwd = ""
 
     for arg in args:
-      if arg.substr(0, 2) == "-u:":
-        iName = arg.substr(3, arg.len())
-      elif arg.substr(0, 2) == "-p:":
-        iPwd = arg.substr(3, arg.len())
-      elif arg.substr(0, 2) == "-e:":
-        iEmail = arg.substr(3, arg.len())
+      if arg.substr(0, 1) == "u:":
+        iName = arg.substr(2, arg.len())
+      elif arg.substr(0, 1) == "p:":
+        iPwd = arg.substr(2, arg.len())
+      elif arg.substr(0, 1) == "e:":
+        iEmail = arg.substr(2, arg.len())
 
     if iName == "" or iPwd == "" or iEmail == "":
       dbg("ERROR", "Missing either name, password or email to create the admin user")

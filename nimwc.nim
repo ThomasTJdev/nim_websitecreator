@@ -1,7 +1,51 @@
 import osproc, os, sequtils, times, strutils
 
+
+let doc = """
+nimwc: Nim Website Creator.
+A quick website tool. Run the nim file and access your webpage.
+
+Usage:
+  nimwc <optional params>
+
+Options:
+  -h --help             Show this output.
+  --newuser             Add an admin user. Combine with -u, -p and -e.
+    -u:<admin username>
+    -p:<admin password>
+    -e:<admin email>`
+  --insertdata          Insert standard data (this will override existing data).
+  --newdb               Generates the database with standard tables (does **not**
+                        override or delete tables). `newdb` will be initialized
+                        automatic, if no database exists.
+  --gitupdate           Updates and force a hard reset.
+
+Compile options:
+  -d:rc                 Recompile. NinmWC is using a launcher, it is therefore
+                        needed to force a recompile.
+  -d:adminnotify        Send error logs (ERROR) to the specified admin email
+  -d:dev                Development (ignore reCaptcha)
+  -d:devemailon         Send email when `-d:dev` is activated
+  -d:demo               Used on public test site. Enables a test user.
+  -d:demoloadbackup     Used with -d:demo. This option will override the
+                        database each hour with the file named `website.bak.db`.
+                        You can customize the page and make a copy of the
+                        database and name it `website.bak.db`, then it will be
+                        used by this feature.
+  -d:gitupdate          Updates and force a hard reset
+"""
+
+
+## Vars
 var runInLoop = true
 var nimhaMain: Process
+
+
+## Parse commandline params
+let args = replace(commandLineParams().join(" "), "-", "")
+let userArgs = if args == "": "" else: " " & args
+let userArgsRun = if args == "": "" else: " --run " & args
+
 
 proc handler() {.noconv.} =
   ## Catch ctrl+c from user
@@ -39,21 +83,6 @@ proc checkCompileOptions(): string =
 let compileOptions = checkCompileOptions()
 
 
-template addArgs(inExec = false): string =
-  ## User specified args
-
-  #var args = foldl(commandLineParams(), a & (b & ""), "")
-  var args = commandLineParams().join(" ")
-
-  if args == "":
-    ""
-
-  elif inExec:
-    " --run " & args
-
-  else:
-    " " & args
-
 
 proc launcherActivated() =
   ## 1) Executing the main-program in a loop.
@@ -61,7 +90,7 @@ proc launcherActivated() =
   ##    the program exits the running process and starts a new
   echo $getTime() & ": Nim Website Creator: Launcher initialized"
 
-  nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & addArgs(true), options = {poParentStreams, poEvalCommand})
+  nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
 
   while runInLoop:
     if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
@@ -74,11 +103,10 @@ proc launcherActivated() =
       discard execCmd("pkill nimwc_main")
       sleep(1000)
       
-      let args = addArgs(true)
-      if args != "":
-        echo " Using args: " & args
+      if userArgsRun != "":
+        echo " Using args: " & userArgsRun
 
-      nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & addArgs(true), options = {poParentStreams, poEvalCommand})
+      nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
    
     sleep(2000)
 
@@ -92,7 +120,7 @@ proc startupCheck() =
   ## options should be specified in the *.nim.pkg)
   if not fileExists(getAppDir() & "/nimwcpkg/nimwc_main") or defined(rc):
     echo "Compiling"
-    echo " - Using params:" & addArgs()
+    echo " - Using params:" & userArgs
     echo " - Using compile options in *.nim.cfg"
     echo " "
     echo " .. please wait while compiling"
@@ -108,16 +136,14 @@ proc startupCheck() =
       # Manually compiled
       ./nimwc
 
-      # Through nimble, then just run with symlink
+      # Through nimble
       nimwc
       
     - To add an admin user, append args:
-      ./nimwc newuser -u:name -p:password -e:email
+      ./nimwc --newuser -u:name -p:password -e:email
       
-    - To insert standard data in the database, append args:
-      ./nimwc insertdata
-
-
+    - To insert standard data in the database:
+      ./nimwc --insertdata
 
       """
 
@@ -142,6 +168,16 @@ proc updateNimwc() =
     quit()
 
 
+if "help" in args:
+  echo doc
+  quit(0)
+
+if "version" in args:
+  for line in lines("nimwc.nimble"):
+    if line.substr(0, 6) == "version":
+      echo "nimwc: Nim Website Creator."
+      echo line
+      quit(0)
 
 updateNimwc()
 startupCheck()

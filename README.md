@@ -74,7 +74,7 @@ nano config.cfg
 nim c -d:ssl nimwc.nim
 
 # Run nimwc
-# (to add an Admin user append "newuser": ./nimwc newuser)
+# (to add an Admin user append "--newuser": ./nimwc --newuser -u:admin -p:pass -e:a@a.com)
 ./nimwc
 
 # To recompile just add compileoption -d:rc
@@ -85,18 +85,19 @@ nim c -d:ssl nimwc.nim
 
 These arguments should be prepended to executable file, e.g. `./nimwc cdata`
 
-* `newuser` = Add the Admin user. The `-u:<username>`, `-p:<password>` and `-e:<email>` args are required
+* `--newuser` = Add the Admin user. The `-u:<username>`, `-p:<password>` and `-e:<email>` args are required. E.g. `--newuser -u:admin -p:pass -e:a@a.com`
   * `-u:<admin username>`
   * `-p:<admin password>`
   * `-e:<admin email>`
-* `insertdata` = Insert standard data (this will override existing data)
-* `newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
-* `gitupdate` = Updates and force a hard reset (backups style.css and js.js)
+* `--insertdata` = Insert standard data (this will override existing data)
+* `--newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
+* `--gitupdate` = Updates and force a hard reset
 
 ## Compile options:
 
 These options are only available at compiletime:
 
+* `-d:rc` = Recompile. NimWC is using a launcher, it is therefore needed to force a recompile.
 * `-d:adminnotify` = Send error logs (ERROR) to the specified admin email
 * `-d:dev` = Development
 * `-d:devemailon` = Send email when `-d:dev` is activated
