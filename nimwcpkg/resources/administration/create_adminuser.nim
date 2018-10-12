@@ -1,4 +1,4 @@
-import os, strutils, db_sqlite, rdstdin
+import os, strutils, db_sqlite
 
 
 import ../password/password_generate
