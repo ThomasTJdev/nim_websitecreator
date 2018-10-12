@@ -65,7 +65,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/mode/css/css.min.js" integrity="sha256-YVb7n24DLwrjN0DghcwJYL17MI/X7e3c4EJZr6PwNdY=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/mode/htmlmixed/htmlmixed.min.js" integrity="sha256-CcVYnZJocbbLCyjOo/tA2QEH56hhTBEPZX+che0RYSo=" crossorigin="anonymous"></script>
 
-<script src="/js/codemirror_formatting.js" defer></script>
+<script src="/js/codemirror_custom.js" defer></script>
 
 <script src="/js/editors.js" defer></script>
 
@@ -85,7 +85,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/xml/xml.min.js" integrity="sha256-QmQ8vh5c1+UzpnyWXYB7nnY1aqpJmXPVkFWtJHJkLnE=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/htmlmixed/htmlmixed.min.js" integrity="sha256-CcVYnZJocbbLCyjOo/tA2QEH56hhTBEPZX+che0RYSo=" crossorigin="anonymous"></script>
 
-<script src="/js/codemirror_formatting.js" defer></script>
+<script src="/js/codemirror_custom.js" defer></script>
 
 <script src="/js/editors.js" defer></script>
 
@@ -103,6 +103,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.min.js" integrity="sha256-U/4XQwZXDFDdAHjIZt1Lm7sFfmMiFDZzFYprq6XJ0gk=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/javascript/javascript.min.js" integrity="sha256-MyRbKGolllWYWwxW8jH3jYdhK0p0LpgNjR8PqCa/UNQ=" crossorigin="anonymous"></script>
+
+<script src="/js/codemirror_custom.js" defer></script>
 
 <script src="/js/editors.js" defer></script>
 
@@ -123,6 +125,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.min.js" integrity="sha256-U/4XQwZXDFDdAHjIZt1Lm7sFfmMiFDZzFYprq6XJ0gk=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/css/css.min.js" integrity="sha256-YVb7n24DLwrjN0DghcwJYL17MI/X7e3c4EJZr6PwNdY=" crossorigin="anonymous"></script>
+
+<script src="/js/codemirror_custom.js" defer></script>
 
 <script src="/js/editors.js" defer></script>
 
@@ -244,41 +248,7 @@
 #proc genPageEditorMainNew(c: var TData, classBlogPage: string): string =
 # result = ""
 #
-# if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "html":
-  <textarea name="editordata" id="editordataCodemirror">
-    <div id="mainContainer" class="${classBlogPage}">
-      <h1>Title</h1>
-      <p>The first paragraph</p>
-      <hr/>
-      <div class="row">
-        <div class="col-12 col-md-6">
-          <p>Column 1</p>
-        </div>
-        <div class="col-12 col-md-6">
-          <p>Column 2</p>
-        </div>
-      </div>
-    </div>
-  </textarea>
-# elif c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "summernote":
-  <textarea id="summernoteHidden" name="editordata" style="display: none;"></textarea>
-
-  <div id="summernote" class="summernote">
-    <div id="mainContainer" class="${classBlogPage}">
-      <h1>Title</h1>
-      <p>The first paragraph</p>
-      <hr/>
-      <div class="row">
-        <div class="col-12 col-md-6">
-          <p>Column 1</p>
-        </div>
-        <div class="col-12 col-md-6">
-          <p>Column 2</p>
-        </div>
-      </div>
-    </div>
-  </div>
-# else:
+# if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "grape":
   <div id="gjs" class="gls">
     <div id="mainContainer" class="${classBlogPage}">
       <h1>Title</h1>
@@ -299,8 +269,41 @@
       }
     </style>
   </div>
-
   <textarea id="gjshidden" name="editordata" style="display: none"></textarea>
+# elif c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "summernote":
+  <textarea id="summernoteHidden" name="editordata" style="display: none;"></textarea>
+
+  <div id="summernote" class="summernote">
+    <div id="mainContainer" class="${classBlogPage}">
+      <h1>Title</h1>
+      <p>The first paragraph</p>
+      <hr/>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <p>Column 1</p>
+        </div>
+        <div class="col-12 col-md-6">
+          <p>Column 2</p>
+        </div>
+      </div>
+    </div>
+  </div>
+# else:
+  <textarea name="editordata" id="editordataCodemirror">
+    <div id="mainContainer" class="${classBlogPage}">
+      <h1>Title</h1>
+      <p>The first paragraph</p>
+      <hr/>
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <p>Column 1</p>
+        </div>
+        <div class="col-12 col-md-6">
+          <p>Column 2</p>
+        </div>
+      </div>
+    </div>
+  </textarea>
 # end if
 #end proc
 #
@@ -310,9 +313,10 @@
 #proc genPageEditorMainEdit(c: var TData, content: string): string =
 # result = ""
 #
-# if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "html":
+# if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "grape":
 #
-  <textarea name="editordata" id="editordataCodemirror">${content}</textarea>
+  <div id="gjs" class="gls">${content}</div>
+  <textarea id="gjshidden" name="editordata" style="display: none"></textarea>
 #
 # elif c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "summernote":
 #
@@ -325,8 +329,7 @@
 #
 # else:
 #
-  <div id="gjs" class="gls">${content}</div>
-  <textarea id="gjshidden" name="editordata" style="display: none"></textarea>
+  <textarea name="editordata" id="editordataCodemirror">${content}</textarea>
 #
 # end if
 #
@@ -337,9 +340,32 @@
 #  
 #proc genPageEditorImport(c: var TData, isNewPage: bool): string =
 # result = ""
-# if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "html":
+# if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "grape":
 #
-  ${genEditMixed(isNewPage)}
+  <script src="https://unpkg.com/grapesjs" defer></script>
+  <script src="/js/grapesjsbs4.min.js" defer></script>
+  <script src="/js/grapesjs_custom.js" defer></script>
+  <script src="/js/editors.js" defer></script>
+  <link rel="stylesheet" href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" />
+  <script>
+  function grapeJsLoadAssets() {
+    const am = editor.AssetManager;
+    am.add([
+
+  # var multiple = false
+  # for file in walkFiles("public/images/*"):
+  #   if multiple:
+        ,{src: '${replace(file, "public", "")}'}
+  #   else:
+        {src: '${replace(file, "public", "")}'}
+  #     multiple = true
+  #   end if
+  # end for  
+
+    ]);
+    am.render();
+  }
+  </script>
 #
 # elif c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "summernote":
 #
@@ -361,29 +387,7 @@
 #
 # else:
 #
-<script src="https://unpkg.com/grapesjs" defer></script>
-<script src="/js/grapesjsbs4.min.js" defer></script>
-<script src="/js/grapesjs_custom.js" defer></script>
-<script src="/js/editors.js" defer></script>
-<link rel="stylesheet" href="https://unpkg.com/grapesjs/dist/css/grapes.min.css" />
-<script>
-function grapeJsLoadAssets() {
-  const am = editor.AssetManager;
-  am.add([
-
-# var multiple = false
-# for file in walkFiles("public/images/*"):
-#   if multiple:
-      ,{src: '${replace(file, "public", "")}'}
-#   else:
-      {src: '${replace(file, "public", "")}'}
-#     multiple = true
-#   end if
-# end for  
-
-  ]);
-  am.render();
-}
-</script>
+  ${genEditMixed(isNewPage)}
+#
 # end if
 #end proc
