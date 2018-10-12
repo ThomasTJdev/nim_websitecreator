@@ -14,7 +14,9 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
   let anyAdmin = getAllRows(db, sql"SELECT id FROM person WHERE status = ?", "Admin")
   
   if anyAdmin.len() < 1:
-    dbg("INFO", "No Admin exists. Create it!")
+    dbg("INFO", "No Admin exists. Adding an admin!")
+  else:
+    dbg("INFO", $anyAdmin.len() & " admin already exists. Adding another admin!")
     
     var iName = ""
     var iEmail = ""
@@ -37,9 +39,7 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
     discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", $iName, $iEmail, password, salt, "Admin")
 
     dbg("INFO", "Admin added! Moving on..")
-  else:
-    dbg("ERROR", "Admin user already exists. Skipping it.")
-  
+ 
 
 proc createTestUser*(db: DbConn) = 
   ## Create new admin user
