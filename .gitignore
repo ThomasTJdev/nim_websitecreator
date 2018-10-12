@@ -27,7 +27,7 @@ public/images/*
 !public/js/js.js
 !public/js/js_admin.js
 !public/js/editor.js
-!public/js/codemirror_formatting.js
+!public/js/codemirror_custom.js
 !public/js/grapesjsbs4.min.js
 !public/js/grapesjs_custom.js
 
