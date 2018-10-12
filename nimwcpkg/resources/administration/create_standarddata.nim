@@ -382,7 +382,7 @@ proc standardDataFrontpage*(db: DbConn) =
   if frontpageExists != "":
     exec(db, sql"DELETE FROM pages WHERE id = ?", frontpageExists)
 
-  discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "frontpage", "Frontpage", frontpage, "1", "1", "1")
+  discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "frontpage", "Frontpage", frontpage, "1", "1", "1", "NimWC Nim Website Creator", "NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.", "website,blog,nim,nimwc")
 
 
 proc standardDataAbout*(db: DbConn) =
@@ -392,7 +392,7 @@ proc standardDataAbout*(db: DbConn) =
   if aboutExists != "":
     exec(db, sql"DELETE FROM pages WHERE id = ?", aboutExists)
 
-  discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "about", "About", about, "1", "1", "1")
+  discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "about", "About", about, "1", "1", "1", "About Nim Website Creator", "NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.", "website,blog,nim,nimwc")
 
 
 proc standardDataBlogpost1*(db: DbConn) =
@@ -402,7 +402,7 @@ proc standardDataBlogpost1*(db: DbConn) =
   if blogExists != "":
     exec(db, sql"DELETE FROM blog WHERE id = ?", blogExists)
 
-  discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpost", "Standard post", blogpost1, "1", "1", "1")
+  discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpost", "Standard post", blogpost1, "1", "1", "1", "NimWC Example blogpost", "This is an example blogpost created with NimWC.", "website,blog,nim,nimwc")
 
 proc standardDataBlogpost2*(db: DbConn) =
   # Blog post
@@ -411,7 +411,7 @@ proc standardDataBlogpost2*(db: DbConn) =
   if blogExists != "":
     exec(db, sql"DELETE FROM blog WHERE id = ?", blogExists)
 
-  discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv2", "Parallax post v2", blogpost2, "1", "1", "1")
+  discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv2", "Parallax post v2", blogpost2, "1", "1", "1", "NimWC Example blogpost parallax", "This is an example blogpost using parallax created with NimWC.", "website,blog,nim,nimwc,parallax")
 
 
 proc createStandardData*(db: DbConn) =
