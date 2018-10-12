@@ -1,4 +1,4 @@
-import osproc, os, sequtils, times, strutils, terminal
+import json, os, osproc, rdstdin, sequtils, strutils, times, terminal
 
 const
   update_cmds = [
@@ -33,6 +33,9 @@ const
   - To insert standard data in the database, append args:
     ./nimwc insertdata
 
+  - To insert standard data in the database:
+    ./nimwc --insertdata
+
   - Access Settings page at http://127.0.0.1:<port>/settings
   """  ## Message to show when finished Compiling OK.
 
@@ -42,9 +45,52 @@ const
     Check the Configuration of NimWC and its Plugins.
   """  ## Message to show when Compiling Failed.
 
+  doc = """
+  nimwc: Nim Website Creator.
+  A quick website tool. Run the nim file and access your webpage.
+
+  Usage:
+    nimwc <optional params>
+
+  Options:
+    -h --help             Show this output.
+    --newuser             Add an admin user. Combine with -u, -p and -e.
+      -u:<admin username>
+      -p:<admin password>
+      -e:<admin email>`
+    --insertdata          Insert standard data (this will override existing data).
+    --newdb               Generates the database with standard tables (does **not**
+                          override or delete tables). `newdb` will be initialized
+                          automatic, if no database exists.
+    --gitupdate           Updates and force a hard reset.
+    --initplugin          Create plugin skeleton inside tmp/
+
+  Compile options:
+    -d:rc                 Recompile. NinmWC is using a launcher, it is therefore
+                          needed to force a recompile.
+    -d:adminnotify        Send error logs (ERROR) to the specified admin email
+    -d:dev                Development (ignore reCaptcha)
+    -d:devemailon         Send email when `-d:dev` is activated
+    -d:demo               Used on public test site. Enables a test user.
+    -d:demoloadbackup     Used with -d:demo. This option will override the
+                          database each hour with the file named `website.bak.db`.
+                          You can customize the page and make a copy of the
+                          database and name it `website.bak.db`, then it will be
+                          used by this feature.
+    -d:gitupdate          Updates and force a hard reset
+  """
+
+
 var
   runInLoop = true
   nimhaMain: Process
+
+
+## Parse commandline params
+let args = replace(commandLineParams().join(" "), "-", "")
+let userArgs = if args == "": "" else: " " & args
+let userArgsRun = if args == "": "" else: " --run " & args
+
 
 proc handler() {.noconv.} =
   ## Catch ctrl+c from user
@@ -82,21 +128,6 @@ proc checkCompileOptions(): string =
 let compileOptions = checkCompileOptions()
 
 
-template addArgs(inExec = false): string =
-  ## User specified args
-
-  #var args = foldl(commandLineParams(), a & (b & ""), "")
-  var args = commandLineParams().join(" ")
-
-  if args == "":
-    ""
-
-  elif inExec:
-    " --run " & args
-
-  else:
-    " " & args
-
 
 proc launcherActivated() =
   ## 1) Executing the main-program in a loop.
@@ -104,7 +135,7 @@ proc launcherActivated() =
   ##    the program exits the running process and starts a new
   styledEcho(fgGreen, bgBlack, $now() & ": Nim Website Creator: Launcher initialized")
 
-  nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & addArgs(true), options = {poParentStreams, poEvalCommand})
+  nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
 
   while runInLoop:
     if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
@@ -117,11 +148,10 @@ proc launcherActivated() =
       discard execCmd("pkill nimwc_main")
       sleep(1000)
 
-      let args = addArgs(true)
-      if args != "":
-        echo " Using args: " & args
+      if userArgsRun != "":
+        echo " Using args: " & userArgsRun
 
-      nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & addArgs(true), options = {poParentStreams, poEvalCommand})
+      nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
 
     sleep(2000)
 
@@ -134,7 +164,7 @@ proc startupCheck() =
   ## be compiled with args and compiler options (compiler
   ## options should be specified in the *.nim.pkg)
   if not fileExists(getAppDir() & "/nimwcpkg/nimwc_main") or defined(rc):
-    styledEcho(fgGreen, bgBlack, compile_start_msg & addArgs())
+    styledEcho(fgGreen, bgBlack, compile_start_msg & userArgs)
     let output = execCmd("nim c " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
     if output == 1:
       styledEcho(fgRed, bgBlack, compile_fail_msg)
@@ -152,6 +182,61 @@ proc updateNimwc() =
     styledEcho(fgGreen, bgBlack, "\n\nNimWC has been updated\n\n")
     quit()
 
+
+proc pluginSkeleton() =
+  ## Creates the skeleton (folders and files) for a plugin
+
+  echo "nimwc: Creating plugin skeleton\nThe plugin will be created inside tmp/"
+  let pluginName = normalize(readLineFromStdin("Plugin name: "))
+  echo ""
+  let pluginOptional = readLineFromStdin("Include optional files (y/N): ")
+
+  # Create dirs
+  discard existsOrCreateDir("tmp")
+  discard existsOrCreateDir("tmp/" & pluginName)
+  discard existsOrCreateDir("tmp/" & pluginName & "/public")
+
+  # Create files
+  writeFile("tmp/" & pluginName & "/" & pluginName & ".nim", "")
+  writeFile("tmp/" & pluginName & "/routes.nim", "")
+  writeFile("tmp/" & pluginName & "/public/js.js", "")
+  writeFile("tmp/" & pluginName & "/public/style.css", "")
+
+  if pluginOptional == "y" or pluginOptional == "Y":
+    writeFile("tmp/" & pluginName & "/html.tmpl", "")
+    writeFile("tmp/" & pluginName & "/public/js_private.js", "")
+    writeFile("tmp/" & pluginName & "/public/style_private.css", "")
+
+  let pluginJson = """[
+  {
+    "name": """" & capitalizeAscii(pluginName) & """",
+    "foldername": """" & pluginName & """",
+    "version": "0.1",
+    "url": "",
+    "method": "git",
+    "description": "",
+    "license": "MIT",
+    "web": ""
+  }
+]"""
+
+  writeFile("tmp/" & pluginName & "/plugin.json", pluginJson)
+
+
+if "help" in args:
+  echo doc
+  quit(0)
+
+if "version" in args:
+  for line in lines("nimwc.nimble"):
+    if line.substr(0, 6) == "version":
+      echo "nimwc: Nim Website Creator."
+      echo line
+      quit(0)
+
+if "initplugin" in args:
+  pluginSkeleton()
+  quit(0)
 
 updateNimwc()
 startupCheck()

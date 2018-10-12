@@ -1,4 +1,4 @@
-import os, strutils, db_sqlite, rdstdin
+import os, strutils, db_sqlite
 
 
 import ../password/password_generate
@@ -14,19 +14,21 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
   let anyAdmin = getAllRows(db, sql"SELECT id FROM person WHERE status = ?", "Admin")
   
   if anyAdmin.len() < 1:
-    dbg("INFO", "No Admin exists. Create it!")
+    dbg("INFO", "No Admin exists. Adding an admin!")
+  else:
+    dbg("INFO", $anyAdmin.len() & " admin already exists. Adding another admin!")
     
     var iName = ""
     var iEmail = ""
     var iPwd = ""
 
     for arg in args:
-      if arg.substr(0, 2) == "-u:":
-        iName = arg.substr(3, arg.len())
-      elif arg.substr(0, 2) == "-p:":
-        iPwd = arg.substr(3, arg.len())
-      elif arg.substr(0, 2) == "-e:":
-        iEmail = arg.substr(3, arg.len())
+      if arg.substr(0, 1) == "u:":
+        iName = arg.substr(2, arg.len())
+      elif arg.substr(0, 1) == "p:":
+        iPwd = arg.substr(2, arg.len())
+      elif arg.substr(0, 1) == "e:":
+        iEmail = arg.substr(2, arg.len())
 
     if iName == "" or iPwd == "" or iEmail == "":
       dbg("ERROR", "Missing either name, password or email to create the admin user")
@@ -37,9 +39,7 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
     discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", $iName, $iEmail, password, salt, "Admin")
 
     dbg("INFO", "Admin added! Moving on..")
-  else:
-    dbg("ERROR", "Admin user already exists. Skipping it.")
-  
+ 
 
 proc createTestUser*(db: DbConn) = 
   ## Create new admin user

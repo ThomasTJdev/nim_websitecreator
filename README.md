@@ -11,8 +11,8 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Blog - add and edit blog posts
 - Pages - add and edit pages
 - Custom head, navbar and footer
-- Edit js/js.js and css/style.css
-- Define your own JS and CSS imports
+- Custom title, metadescription and keywords for each page
+- Edit core or custom js- and css-files
 - Upload files (private or public)
 - Multiple users
 - Add plugins
@@ -52,8 +52,12 @@ nimble install nimwc
 nano ~/.nimble/pkgs/nimwc-1.1.0/config/config.cfg
 
 # Run nimwc
-# (to add an Admin user append "newuser": nimwc newuser)
+# (to add an Admin user append "newuser": nimwc --newuser -u:admin -p:pass -e:a@a.com)
+# (to include some standard pages: nimwc --insertdata)
 nimwc
+
+# Login
+127.0.0.1:7000/login
 ```
 
 
@@ -74,10 +78,12 @@ nano config.cfg
 nim c -d:ssl nimwc.nim
 
 # Run nimwc
-# (to add an Admin user append "newuser": ./nimwc newuser)
+# (to add an Admin user append "--newuser": ./nimwc --newuser -u:admin -p:pass -e:a@a.com)
+# (to include some standard pages: nimwc --insertdata)
 ./nimwc
 
-# To recompile just add compileoption -d:rc
+# Login
+127.0.0.1:7000/login
 ```
 
 
@@ -85,24 +91,26 @@ nim c -d:ssl nimwc.nim
 
 These arguments should be prepended to executable file, e.g. `./nimwc cdata`
 
-* `newuser` = Add the Admin user. The `-u:<username>`, `-p:<password>` and `-e:<email>` args are required
+* `--newuser` = Add the Admin user. The `-u:<username>`, `-p:<password>` and `-e:<email>` args are required. E.g. `--newuser -u:admin -p:pass -e:a@a.com`
   * `-u:<admin username>`
   * `-p:<admin password>`
   * `-e:<admin email>`
-* `insertdata` = Insert standard data (this will override existing data)
-* `newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
-* `gitupdate` = Updates and force a hard reset (backups style.css and js.js)
+* `--insertdata` = Insert standard data (this will override existing data)
+* `--newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
+* `--gitupdate` = Updates and force a hard reset
+* `--initplugin` = Create plugin skeleton inside tmp/
 
 ## Compile options:
 
 These options are only available at compiletime:
 
+* `-d:rc` = Recompile. NimWC is using a launcher, it is therefore needed to force a recompile.
 * `-d:adminnotify` = Send error logs (ERROR) to the specified admin email
 * `-d:dev` = Development
 * `-d:devemailon` = Send email when `-d:dev` is activated
 * `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org)
 * `-d:demoloadbackup` = Used with -d:demo. This option will override the database each hour with the file named `website.bak.db`. You can customize the page and make a copy of the database and name it `website.bak.db`, then it will be used by this feature.
-* `-d:gitupdate` = Updates and force a hard reset (backups style.css and js.js)
+* `-d:gitupdate` = Updates and force a hard reset
 
 
 # User profiles
@@ -120,7 +128,7 @@ The "User" can login and see private pages and blog pages. This user has no acce
 
 ## Moderator
 
-The "Moderator" can login and see private pages and blog pages. This user **can** add and edit anything. The user **can** add and delete users, but cannot delete or add "Admin" users.
+The "Moderator" can login and see private pages and blog pages. The user **can** add and delete users, but cannot delete or add "Admin" users. The user **cannot** edit JS, CSS and core HTML - only within the pages and blogposts.
 
 ## Admin
 
@@ -175,6 +183,10 @@ sudo systemctl start nimwc
 sudo systemctl status nimwc
 ```
 
+# To Bootstrap or not to Bootstrap
+jQuery and Bootstrap is standard components when using the arg `--insertdata`, using the settings menu and working with GrapeJS. You can remove jQuery and Bootstrap from your blogpost and page by editing the main `<head>` in: Settings => Edit head, navbar, footer => head
+
+To use GrapeJS with another CSS file, you have to edit `public/js/grapejs_custom.js` and `public/js/grapejsbs4.min.js` .
 
 # Trouble
 

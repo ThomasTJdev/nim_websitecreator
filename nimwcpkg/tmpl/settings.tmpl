@@ -71,6 +71,14 @@
 
           <br>
 
+          # when defined(demo):
+          #   if c.loggedIn and c.rank != Admin:
+                <p>The test user does not have access to edit the settings and JS, CSS and HTML core code.</p>
+          #   end if
+          # end when
+          #
+          # if c.rank == Admin:
+
           <h5 style="text-align: center;">Blog settings</h5>
           <div>
             <a href="/settings/blog" class="btn btn-outline-primary">Blog settings</a>
@@ -80,7 +88,7 @@
           
           <h5 style="text-align: center;">Settings</h5>
           <div>
-            <a href="/settings/edit" class="btn btn-outline-primary">Edit HTML</a>
+            <a href="/settings/edit" class="btn btn-outline-primary">Edit Hear, Navbar, Footer</a>
           </div>
           <div>
             <a href="/settings/editjs" class="btn btn-outline-primary">Edit core JS file</a>
@@ -96,6 +104,8 @@
           </div>
 
           <br>
+
+          # end if
 
         </div>
       </div>

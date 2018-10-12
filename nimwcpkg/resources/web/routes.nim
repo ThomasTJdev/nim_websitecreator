@@ -199,22 +199,25 @@ routes:
     
   get "/settings/edit":
     createTFD()
-    restrictAccessTo(c, [Admin, Moderator])
+    restrictAccessTo(c, [Admin])
 
     resp genMainAdmin(c, genSettingsEdit(c), "edithtml")
 
   get "/settings/editrestore":
     createTFD()
     restrictTestuser(c.req.reqMethod)
-    restrictAccessTo(c, [Admin, Moderator])
+    restrictAccessTo(c, [Admin])
 
     standardDataSettings(db)
     redirect("/settings/edit")
 
   post "/settings/update":
     createTFD()
-    restrictTestuser(HttpGet)
-    restrictAccessTo(c, [Admin, Moderator])
+    if @"inbackground" == "true":
+      restrictTestuser(c.req.reqMethod)
+    else:
+      restrictTestuser(HttpGet)
+    restrictAccessTo(c, [Admin])
 
     discard execAffectedRows(db, sql"UPDATE settings SET title = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", @"title", @"head", @"navbar", @"footer", "1")
     if @"inbackground" == "true":
@@ -223,20 +226,19 @@ routes:
 
   get "/settings/editjs":
     createTFD()
-    restrictAccessTo(c, [Admin, Moderator]) 
+    restrictAccessTo(c, [Admin]) 
     
     resp genMainAdmin(c, genSettingsEditJs(c, false), "editjs")
 
   get "/settings/editjscustom":
     createTFD()
-    restrictAccessTo(c, [Admin, Moderator]) 
+    restrictAccessTo(c, [Admin]) 
     
     resp genMainAdmin(c, genSettingsEditJs(c, true), "editjs")
 
   post "/settings/updatejs":
     createTFD()
-    restrictTestuser(HttpGet)
-    restrictAccessTo(c, [Admin, Moderator])
+    restrictAccessTo(c, [Admin])
 
     let jsFile = if @"customJs" == "true": "public/js/js_custom.js" else: "public/js/js.js"
 
@@ -254,20 +256,19 @@ routes:
 
   get "/settings/editcss":
     createTFD()
-    restrictAccessTo(c, [Admin, Moderator])
+    restrictAccessTo(c, [Admin])
 
     resp genMainAdmin(c, genSettingsEditCss(c, false), "editcss")
 
   get "/settings/editcsscustom":
     createTFD()
-    restrictAccessTo(c, [Admin, Moderator])
+    restrictAccessTo(c, [Admin])
 
     resp genMainAdmin(c, genSettingsEditCss(c, true), "editcss")
 
   post "/settings/updatecss":
     createTFD()
-    restrictTestuser(HttpGet)
-    restrictAccessTo(c, [Admin, Moderator])
+    restrictAccessTo(c, [Admin])
 
     let cssFile = if @"customCss" == "true": "public/css/style_custom.css" else: "public/css/style.css"
 
@@ -285,14 +286,13 @@ routes:
 
   get "/settings/blog":
     createTFD()
-    restrictAccessTo(c, [Admin, Moderator])
+    restrictAccessTo(c, [Admin])
 
     resp genMainAdmin(c, genSettingsBlog(c))
 
   post "/settings/updateblogsettings":
     createTFD()
-    restrictTestuser(HttpGet)
-    restrictAccessTo(c, [Admin, Moderator])
+    restrictAccessTo(c, [Admin])
 
     var blogorder: string
     case @"blogorder"
@@ -698,6 +698,7 @@ routes:
 
   get "/page/delete":
     createTFD()
+    restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
 
     exec(db, sql"DELETE FROM pages WHERE id = ?", @"pageid")
