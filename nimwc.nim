@@ -1,4 +1,4 @@
-import osproc, os, sequtils, times, strutils
+import json, os, osproc, rdstdin, sequtils, strutils, times
 
 
 let doc = """
@@ -19,6 +19,7 @@ Options:
                         override or delete tables). `newdb` will be initialized
                         automatic, if no database exists.
   --gitupdate           Updates and force a hard reset.
+  --initplugin          Create plugin skeleton inside tmp/
 
 Compile options:
   -d:rc                 Recompile. NinmWC is using a launcher, it is therefore
@@ -168,6 +169,46 @@ proc updateNimwc() =
     quit()
 
 
+proc pluginSkeleton() =
+  ## Creates the skeleton (folders and files) for a plugin
+
+  echo "nimwc: Creating plugin skeleton\nThe plugin will be created inside tmp/"
+  let pluginName = normalize(readLineFromStdin("Plugin name: "))
+  echo ""
+  let pluginOptional = readLineFromStdin("Include optional files (y/N): ")
+
+  # Create dirs
+  discard existsOrCreateDir("tmp")
+  discard existsOrCreateDir("tmp/" & pluginName)
+  discard existsOrCreateDir("tmp/" & pluginName & "/public")
+
+  # Create files
+  writeFile("tmp/" & pluginName & "/" & pluginName & ".nim", "")
+  writeFile("tmp/" & pluginName & "/routes.nim", "")
+  writeFile("tmp/" & pluginName & "/public/js.js", "")
+  writeFile("tmp/" & pluginName & "/public/style.css", "")
+  
+  if pluginOptional == "y" or pluginOptional == "Y":
+    writeFile("tmp/" & pluginName & "/html.tmpl", "")
+    writeFile("tmp/" & pluginName & "/public/js_private.js", "")
+    writeFile("tmp/" & pluginName & "/public/style_private.css", "")
+    
+  let pluginJson = """[
+  {
+    "name": """" & capitalizeAscii(pluginName) & """",
+    "foldername": """" & pluginName & """",
+    "version": "0.1",
+    "url": "",
+    "method": "git",
+    "description": "",
+    "license": "MIT",
+    "web": ""
+  }
+]"""
+  
+  writeFile("tmp/" & pluginName & "/plugin.json", pluginJson)
+
+
 if "help" in args:
   echo doc
   quit(0)
@@ -178,6 +219,10 @@ if "version" in args:
       echo "nimwc: Nim Website Creator."
       echo line
       quit(0)
+
+if "initplugin" in args:
+  pluginSkeleton()
+  quit(0)
 
 updateNimwc()
 startupCheck()
