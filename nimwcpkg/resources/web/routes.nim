@@ -213,7 +213,10 @@ routes:
 
   post "/settings/update":
     createTFD()
-    restrictTestuser(HttpGet)
+    if @"inbackground" == "true":
+      restrictTestuser(c.req.reqMethod)
+    else:
+      restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin, Moderator])
 
     discard execAffectedRows(db, sql"UPDATE settings SET title = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", @"title", @"head", @"navbar", @"footer", "1")
