@@ -267,7 +267,10 @@ div#allblogPosts .list-group-item {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid #bcbcbc5c;
+  border: 1px solid #938c8c;
+}
+div#allblogPosts h5.blogName {
+  font-weight: 600;
 }
 
 
@@ -284,6 +287,7 @@ div#allblogPosts .list-group-item {
   margin-left: auto; 
   margin-right: auto; 
   margin-top: 100px;
+  margin-bottom: 15px;
 }
 .blogpage h1,
 .blogpage h2,
