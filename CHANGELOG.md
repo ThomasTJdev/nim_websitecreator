@@ -1,3 +1,7 @@
+## v4.0.5
+### Changes
+- Drop Bootstrap+JQuery, Add Bulma CSS Framework. Code Clean out.
+
 ## v4.0.4
 ### Changes
 - Include meta info on pages
