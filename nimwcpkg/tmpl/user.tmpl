@@ -15,50 +15,47 @@
   ${standardElements[0]}
 </head>
 
-  <div class="login" style="text-align: center;">
-    <h1>Nim Website Creator</h1>
-    <h3><i>Login</i></h3>
-  </div>
-
-  <br>
-
-  
-  <div id="login">
+  <div id="login" class="box">
 
     <form name="login" action="/dologin" method="POST">
-    
+
       # when defined(demo):
-        <div style="width: 200px; margin-left: auto; margin-right: auto; text-align: left;">
-          <h4>Test user</h4>
-          <div><b>User: </b>test@test.com</div>
-          <div><b>Pass: </b>test</div>
+        <div class="notification is-link">
+          <p><b>User:</b> test@test.com</p>
+          <p><b>Pass:</b> test</p>
         </div>
-        <hr>
       # end when
 
-      <div style="color:#fc6969;text-align: center;font-size: 1.2rem; line-height: 1.8rem;"><b>$errorMsg</b></div>
+      <div class="notification is-danger" style="text-align: center;font-size: 1.2rem; line-height: 1.8rem;"><b>$errorMsg</b></div>
 
-      <div>
-        <div for="email" class="loginLabel">Email:</div>
-        <input type="email" class="form-control" name="email" required/>
+      <div class="field">
+        <label class="label">Email</label>
+        <div class="control has-icons-left has-icons-right">
+          <input type="email" class="form-control input is-primary is-large is-rounded" name="email" placeholder="Email" minlength="5" required autofocus
+          # when defined(demo):
+            value="test@test.com"
+          # end when
+          >
+        </div>
       </div>
-      
-      <br>
-
-      <div>
-        <div for="password" class="loginLabel">Password:</div>
-        <input type="password" class="form-control" name="password" required/>
+      <div class="field">
+        <label class="label">Password</label>
+        <div class="control has-icons-left has-icons-right">
+          <input type="password" class="form-control input is-primary is-large is-rounded" name="password" autocomplete="current-password" minlength="4" placeholder="Password" required
+          # when defined(demo):
+            value="test"
+          # end when
+          >
+        </div>
       </div>
 
-      <br>
-
-      <input href="#" type="submit" class="btn btn-custom btn-blue-secondary" value="Login" style="width: 100px;" />
+      <input href="#" type="submit" class="btn btn-custom btn-blue-secondary button is-primary is-large is-fullwidth is-rounded" value="Login" />
 
       #if useCaptcha:
-      <div id="recaptcha">
-        <div class="g-recaptcha" data-sitekey="${recaptchaSiteKey}" data-theme="light" style="transform:scale(0.93);-webkit-transform:scale(0.93);transform-origin:0 0;-webkit-transform-origin:0 0;"></div>
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>      
-      </div>
+        <div id="recaptcha">
+          <div class="g-recaptcha" data-sitekey="${recaptchaSiteKey}" data-theme="light" style="transform:scale(0.93);-webkit-transform:scale(0.93);transform-origin:0 0;-webkit-transform-origin:0 0;"></div>
+          <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+        </div>
       #end if
     </form>
   </div>
@@ -66,9 +63,11 @@
   <footer>
     ${standardElements[2]}
   </footer>
-  
+
   #else:
-  <div style="color:#fc6969;text-align: center;font-size: 1.2rem;"><b>You are already logged in!</b></div>
+    <div class="notification is-danger" style="text-align: center">
+      <h1>You are already logged in!</h1>
+    </div>
   #end if
 #end proc
 #
@@ -137,10 +136,10 @@
     </div>
   </li>
 # end for
-</ul>  
+</ul>
 
 </div>
-  
+
 #end proc
 #
 #
@@ -175,7 +174,7 @@
                   Name<span style="color: red;font-weight: 600;">*</span>
               </span>
             </div>
-            <input id="name" name="name" type="text" class="form-control" required value="${user[1]}"> 
+            <input id="name" name="name" type="text" class="form-control" required value="${user[1]}">
           </div>
 
           <div class="input-group input-group-sm" style="margin-bottom: 10px;">
@@ -184,7 +183,7 @@
                   Email<span style="color: red;font-weight: 600;">*</span>
               </span>
             </div>
-            <input id="email" name="email" type="email" class="form-control" required value="${user[2]}"> 
+            <input id="email" name="email" type="email" class="form-control" required value="${user[2]}">
           </div>
 
           <div class="input-group input-group-sm" style="margin-bottom: 10px;">
@@ -193,7 +192,7 @@
                 Password
               </span>
             </div>
-            <input id="password" name="password" type="password" class="form-control" required value=""> 
+            <input id="password" name="password" type="password" class="form-control" required value="">
           </div>
 
           <div class="input-group input-group-sm" style="margin-bottom: 10px;">
@@ -202,7 +201,7 @@
                 Password
               </span>
             </div>
-            <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control" required placeholder="Confirm password" value=""> 
+            <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control" required placeholder="Confirm password" value="">
           </div>
 
           <div class="input-group input-group-sm" style="margin-bottom: 10px;">
@@ -211,7 +210,7 @@
                 Status
               </span>
             </div>
-            <input type="text" class="form-control" disabled="disabled" value="${user[3]}"> 
+            <input type="text" class="form-control" disabled="disabled" value="${user[3]}">
           </div>
 
           <div class="save">
@@ -240,11 +239,11 @@
             # else:
               <img id="userPictureEdit" src="/images/avatar.jpg" style="max-width: 100%;">
             # end if
-        
+
             <div style="display: none;">
               <input type="file" id="userPictureEditTemp" />
             </div>
-        
+
           </div>
         </div>
 
@@ -256,5 +255,5 @@
 
 
 </div>
-  
+
 #end proc
