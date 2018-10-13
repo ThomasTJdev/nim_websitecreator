@@ -203,18 +203,20 @@ proc pluginSkeleton() =
     writeFile("tmp/" & pluginName & "/public/js_private.js", "")
     writeFile("tmp/" & pluginName & "/public/style_private.css", "")
 
-  let pluginJson = """[
-  {
-    "name": """" & capitalizeAscii(pluginName) & """",
-    "foldername": """" & pluginName & """",
-    "version": "0.1",
-    "url": "",
-    "method": "git",
-    "description": "",
-    "license": "MIT",
-    "web": ""
-  }
-]"""
+  let pluginJson = """
+  [
+    {
+      "name": """" & capitalizeAscii(pluginName) & """",
+      "foldername": """" & pluginName & """",
+      "version": "0.1",
+      "url": "",
+      "method": "git",
+      "description": "",
+      "license": "MIT",
+      "web": ""
+    }
+  ]
+  """
 
   writeFile("tmp/" & pluginName & "/plugin.json", pluginJson)
 
