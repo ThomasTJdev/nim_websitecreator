@@ -6,104 +6,73 @@
 #
 #
 #
-#
-#  
 #proc genSettings(c: var TData): string =
   #result = ""
-
-  <div style="text-align: center;">
-    <h1>Settings</h1>
-  </div>
 
   <div id="settings">
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 col-md-6">
 
-          <h5 style="text-align: center;">Blog</h5>
-          <div>
-            <a href="/blogpagenew" class="btn btn-outline-primary">Add blogpost</a>
-          </div>
-          <div>
-            <a href="/editpage/blogallpages" class="btn btn-outline-primary">Edit blogpost</a>
-          </div>
-          
-          <br>
-
-          <h5 style="text-align: center;">Pages</h5>
-          <div>
-            <a href="/pagenew" class="btn btn-outline-primary">Add page</a>
-          </div>
-          <div>
-            <a href="/editpage/allpages" class="btn btn-outline-primary">Edit pages</a>
+          <label class="label">Blog</label>
+          <div class="buttons">
+            <a href="/blogpagenew" class="btn btn-outline-primary button is-small">Add blogpost</a>
+            <a href="/editpage/blogallpages" class="btn btn-outline-primary button is-small">Edit blogpost</a>
           </div>
 
-          <br>
-
-          <h5 style="text-align: center;">Plugins</h5>
-          <div>
-            <a href="/plugins" class="btn btn-outline-primary">Plugins</a>
-          </div>
-          <div>
-            <a href="/plugins/repo" class="btn btn-outline-primary">Plugins repo</a>
+          <label class="label">Pages</label>
+          <div class="buttons">
+            <a href="/pagenew" class="btn btn-outline-primary button is-small">Add page</a>
+            <a href="/editpage/allpages" class="btn btn-outline-primary button is-small">Edit pages</a>
           </div>
 
-          <br>
-
-          <h5 style="text-align: center;">Users</h5>
-          <div>
-            <a href="/users" class="btn btn-outline-primary">Users</a>
-          </div>
-          <div>
-            <a href="/users/profile" class="btn btn-outline-primary">My profile</a>
+          <label class="label">Plugins</label>
+          <div class="buttons">
+            <a href="/plugins" class="btn btn-outline-primary button is-small">Plugins</a>
+            <a href="/plugins/repo" class="btn btn-outline-primary button is-small">Plugins repo</a>
           </div>
 
-          <br>
+          <label class="label">Users</label>
+          <div class="buttons">
+            <a href="/users" class="btn btn-outline-primary button is-small">Users</a>
+            <a href="/users/profile" class="btn btn-outline-primary button is-small">My profile</a>
+          </div>
 
         </div>
 
         <div class="col-12 col-md-6">
 
-          <h5 style="text-align: center;">Files</h5>
-          <div>
-            <a href="/files" class="btn btn-outline-primary">Files</a>
+          <label class="label">Files</label>
+          <div class="buttons">
+            <a href="/files" class="btn btn-outline-primary button is-small">Files</a>
           </div>
-
-          <br>
 
           # when defined(demo):
           #   if c.loggedIn and c.rank != Admin:
-                <p>The test user does not have access to edit the settings and JS, CSS and HTML core code.</p>
+                <div class="notification is-danger">
+                  <button class="delete"></button>
+                  <p>The test user does not have access to edit the Settings, JS,
+                     CSS and HTML of the core. Some options are hidden.
+                  </p>
+                </div>
           #   end if
           # end when
           #
           # if c.rank == Admin:
 
-          <h5 style="text-align: center;">Blog settings</h5>
-          <div>
-            <a href="/settings/blog" class="btn btn-outline-primary">Blog settings</a>
+          <label class="label">Blog settings</label>
+          <div class="buttons">
+            <a href="/settings/blog" class="btn btn-outline-primary button is-small">Blog settings</a>
           </div>
 
-          <br>
-          
-          <h5 style="text-align: center;">Settings</h5>
-          <div>
-            <a href="/settings/edit" class="btn btn-outline-primary">Edit Hear, Navbar, Footer</a>
+          <label class="label">Settings</label>
+          <div class="buttons">
+            <a href="/settings/edit" class="btn btn-outline-primary button is-small">Edit Hear, Navbar, Footer</a>
+            <a href="/settings/editjs" class="btn btn-outline-primary button is-small">Edit core JS file</a>
+            <a href="/settings/editjscustom" class="btn btn-outline-primary button is-small">Edit custom JS file</a>
+            <a href="/settings/editcss" class="btn btn-outline-primary button is-small">Edit core CSS file</a>
+            <a href="/settings/editcsscustom" class="btn btn-outline-primary button is-small">Edit custom CSS file</a>
           </div>
-          <div>
-            <a href="/settings/editjs" class="btn btn-outline-primary">Edit core JS file</a>
-          </div>
-          <div>
-            <a href="/settings/editjscustom" class="btn btn-outline-primary">Edit custom JS file</a>
-          </div>
-          <div>
-            <a href="/settings/editcss" class="btn btn-outline-primary">Edit core CSS file</a>
-          </div>
-          <div>
-            <a href="/settings/editcsscustom" class="btn btn-outline-primary">Edit custom CSS file</a>
-          </div>
-
-          <br>
 
           # end if
 
@@ -174,8 +143,8 @@
         <button type="button" class="btn btn-danger settingsRestore">Restore</button>
       </div>
     </div>
-  </form>   
-  
+  </form>
+
 </div>
 
 <div id="notifySaved">
@@ -220,7 +189,7 @@ $line
     <div>
       <button type="submit" class="btn btn-success settingsSaveCode">Save</button>
     </div>
-  </form>   
+  </form>
 </div>
 
 <div id="notifySaved">
@@ -264,7 +233,7 @@ $line
     <div>
       <button type="submit" class="btn btn-success settingsSaveCode">Save</button>
     </div>
-  </form>   
+  </form>
 </div>
 
 <div id="notifySaved">
@@ -311,6 +280,6 @@ $line
     <div>
       <button type="submit" class="btn btn-success">Save</button>
     </div>
-  </form>   
+  </form>
 </div>
 #end proc
