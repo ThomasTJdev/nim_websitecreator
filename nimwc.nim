@@ -40,6 +40,7 @@ const
   """  ## Message to show when finished Compiling OK.
 
   compile_fail_msg = """Compiling Failed.
+
   - A Compile-time or Configuration error occurred.
     You can check your source code with: nim check
     Check the Configuration of NimWC and its Plugins.
@@ -87,9 +88,10 @@ var
 
 
 ## Parse commandline params
-let args = replace(commandLineParams().join(" "), "-", "")
-let userArgs = if args == "": "" else: " " & args
-let userArgsRun = if args == "": "" else: " --run " & args
+let
+  args = replace(commandLineParams().join(" "), "-", "")
+  userArgs = if args == "": "" else: " " & args
+  userArgsRun = if args == "": "" else: " --run " & args
 
 
 proc handler() {.noconv.} =
@@ -107,9 +109,6 @@ proc checkCompileOptions(): string =
   ## Checking for known compile options
   ## and returning them as a space separated string.
   ## See README.md for explanation of the options.
-
-  result = ""
-
   when defined(adminnotify):
     result.add(" -d:adminnotify")
   when defined(dev):
@@ -123,10 +122,7 @@ proc checkCompileOptions(): string =
   when defined(ssl):
     result.add(" -d:ssl")
 
-  return result
-
 let compileOptions = checkCompileOptions()
-
 
 
 proc launcherActivated() =
