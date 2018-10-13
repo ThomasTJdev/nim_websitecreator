@@ -7,7 +7,7 @@
 #
 #
 #
-#  
+#
 #proc genEditPage(c: var TData, pageid: string, newPage = false): string =
 # result = ""
 #
@@ -18,49 +18,45 @@
 <div id="pageData">
   <form class="standard page" method="post" action="/page/update">
     <input name="pageid" value="$pageid" style="display: none" />
-    
+
     <div id="pageHeader">
       <h1>Edit page</h1>
-      <div>
-        <div style="max-width: 300px;">
-          <div class="input-group input-group-sm actAddItem">
-            <div class="input-group-prepend">
-              <span class="input-group-text actAddItemLabel" style="width: 80px;">
-                  Name
-              </span>
-            </div>
-            <input id="name" name="name" class="form-control" required value="${page[7]}"> 
-          </div>
-          <div class="input-group input-group-sm actAddItem">
-            <div class="input-group-prepend">
-              <span class="input-group-text actAddItemLabel" style="width: 80px;">
-                  URL
-              </span>
-            </div>
-            <input id="url" name="url" class="form-control" required placeholder="eg. 2018/11/name" value="${decodeUrl(page[8])}"> 
-          </div>
-          <div class="input-group input-group-sm actAddItem">
-            <div class="input-group-prepend">
-              <span class="input-group-text actAddItemLabel" style="width: 80px;">
-                  Status
-              </span>
-            </div>
-            <select id="status" name="status" class="form-control form-control-sm">
-              <option value="0" ${statusIntToCheckbox(page[9], "0")}>Development</option>
-              <option value="1" ${statusIntToCheckbox(page[9], "1")}>Private</option>
-              <option value="2" ${statusIntToCheckbox(page[9], "2")}>Public</option>
-            </select>
-          </div>
-          <div>
-            <button type="button" class="btn btn-success pageSave">Save</button>
-            <button type="button" class="btn btn-secondary pageOptions">Options</button>
-            <a href="/p/${page[8]}" class="btn btn-secondary">View page</a>
-          </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="label">Name</label>
+          <input class="input" type="text" id="name" name="name" minlength="2" maxlength="128" placeholder="Type Name for new Page" required value="${page[7]}">
         </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="label">URL</label>
+          <input class="input" type="url" id="url" name="url" minlength="2" maxlength="128" placeholder="eg. portfolio" value="${decodeUrl(page[8])}" required >
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Status</label>
+        <div class="control select">
+          <select id="status" name="status" class="form-control form-control-sm" required >
+            <option value="0" ${statusIntToCheckbox(page[9], "0")}>Development</option>
+            <option value="1" ${statusIntToCheckbox(page[9], "1")}>Private</option>
+            <option value="2" ${statusIntToCheckbox(page[9], "2")}>Public</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="submit" class="btn btn-success newpageSave button is-success">Save</button>
+        <button type="button" class="btn btn-secondary pageOptions button">Options</button>
+        <a href="/p/${page[8]}" class="btn btn-secondary button is-success">View page</a>
+      </div>
+
         <div class="pageOptions">
-          
+
           ${genPageOptions(c, true, false, true, $pageid, page[0], page[2], page[5])}
-            
+
         </div>
       </div>
     </div>
@@ -74,8 +70,8 @@
         ${genPageEditorMainEdit(c, page[4])}
       # end if
     </div>
-  </form>   
-  
+  </form>
+
 </div>
 
 <div id="notifySaved">
