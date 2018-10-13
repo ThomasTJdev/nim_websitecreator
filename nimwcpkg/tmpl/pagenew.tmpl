@@ -12,52 +12,45 @@
 
     <div id="pageHeader">
       <h1>New page</h1>
-      <div>
-        <div style="max-width: 300px;">
-          <div class="input-group input-group-sm actAddItem">
-            <div class="input-group-prepend">
-              <span class="input-group-text actAddItemLabel" style="width: 80px;">
-                  Name
-              </span>
-            </div>
-            <input id="name" name="name" class="form-control" required> 
-          </div>
 
-          <div class="input-group input-group-sm actAddItem">
-            <div class="input-group-prepend">
-              <span class="input-group-text actAddItemLabel" style="width: 80px;">
-                  URL
-              </span>
-            </div>
-            <input id="url" name="url" class="form-control" required placeholder="eg. portfolio"> 
-          </div>
-
-          <div class="input-group input-group-sm actAddItem">
-            <div class="input-group-prepend">
-              <span class="input-group-text actAddItemLabel" style="width: 80px;">
-                  Status
-              </span>
-            </div>
-            <select id="status" name="status" class="form-control form-control-sm">
-              <option value="0">Development</option>
-              <option value="1">Private</option>
-              <option value="2">Public</option>
-            </select>
-          </div>
+      <div class="field">
+        <div class="control">
+          <label class="label">Name</label>
+          <input class="input" type="text" id="name" name="name" minlength="2" maxlength="128" placeholder="Type Name for new Page" required >
         </div>
+      </div>
+
+      <div class="field">
+        <div class="control">
+          <label class="label">URL</label>
+          <input class="input" type="url" id="url" name="url" minlength="2" maxlength="128" placeholder="eg. portfolio" required >
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Status</label>
+        <div class="control select">
+          <select id="status" name="status" class="form-control form-control-sm" required >
+            <option disabled selected >Choose 1 Option</option>
+            <option value="0">Development Draft</option>
+            <option value="1">Private</option>
+            <option value="2">Public</option>
+          </select>
+        </div>
+      </div>
 
         <div>
-          <button type="submit" class="btn btn-success newpageSave">Save</button>
-          <button type="button" class="btn btn-secondary pageOptions">Options</button>
+          <button type="submit" class="btn btn-success newpageSave button is-success">Save</button>
+          <button type="button" class="btn btn-secondary pageOptions button">Options</button>
         </div>
       </div>
       <div class="pageOptions" style="display: block;">
-        
+
         ${genPageOptions(c, true, false, false, "", "1", "1", "1")}
 
     </div>
 
-  </form>      
+  </form>
 </div>
 
 ${genPageEditorImport(c, true)}
