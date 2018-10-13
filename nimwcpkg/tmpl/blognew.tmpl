@@ -10,52 +10,44 @@
 <div id="blogData">
   <form method="POST" action="/blogpagenew/save">
 
-    <div id="blogHeader">
-      <h1>New blog post</h1>
-      <div>
         <div style="max-width: 300px;">
-          <div class="input-group input-group-sm actAddItem">
-            <div class="input-group-prepend">
-              <span class="input-group-text actAddItemLabel" style="width: 80px;">
-                  Name
-              </span>
+
+          <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+              <input id="name" name="name" class="form-control input" type="text" placeholder="Name" minlength="2" maxlength="256" required >
             </div>
-            <input id="name" name="name" class="form-control" required> 
           </div>
 
-          <div class="input-group input-group-sm actAddItem">
-            <div class="input-group-prepend">
-              <span class="input-group-text actAddItemLabel" style="width: 80px;">
-                  URL
-              </span>
+          <div class="field">
+            <label class="label">URL</label>
+            <div class="control">
+              <input id="url" name="url" class="form-control input" type="text" placeholder="eg. 2018/11/name" minlength="2" maxlength="256" required >
             </div>
-            <input id="url" name="url" class="form-control" required placeholder="eg. 2018/11/name"> 
           </div>
 
-          <div class="input-group input-group-sm actAddItem">
-            <div class="input-group-prepend">
-              <span class="input-group-text actAddItemLabel" style="width: 80px;">
-                  Status
-              </span>
+          <div class="field">
+            <label class="label">Status</label>
+            <div class="control select">
+              <select id="status" name="status" class="form-control form-control-sm" required >
+                <option disabled selected >Choose 1 Option</option>
+                <option value="0">Development Draft</option>
+                <option value="1">Private</option>
+                <option value="2">Public</option>
+              </select>
             </div>
-            <select id="status" name="status" class="form-control form-control-sm">
-              <option value="0">Development</option>
-              <option value="1">Private</option>
-              <option value="2">Public</option>
-            </select>
           </div>
-        </div>
 
         <div>
-          <button type="submit" class="btn btn-success newblogSave">Save</button>
-          <button type="button" class="btn btn-secondary blogOptions">Options</button>
+          <button type="submit" class="btn btn-success newblogSave button is-success">Save</button>
+          <button type="button" class="btn btn-secondary blogOptions button">Options</button>
         </div>
       </div>
       <div class="blogOptions" style="display: block;">
-        
+
         ${genPageOptions(c, false, true, false, "", "1", "1", "1")}
 
-    </div>
+      </div>
 
   </form>
 </div>
