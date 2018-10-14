@@ -81,15 +81,14 @@
 #
 # let allUsers = getAllRows(db, sql"SELECT id, name, email, status, lastOnline, secretUrl FROM person")
 
-<div style="text-align: center;">
-  <h1>Users</h1>
-</div>
+<h1>Users</h1>
 
 <div id="users">
 
 # if c.rank in [Admin, Moderator]:
   <div id="usersAddContainer">
-    <button class="btn btn-secondary usersAdd">Add new user</button>
+    <button class="btn btn-secondary usersAdd button is-success is-fullwidth">Add new user</button>
+
     <form id="usersAdd" method="post" action="/users/add">
       <div>
         <label>Name</label>
@@ -116,28 +115,55 @@
 # end if
 
 
-<ul class="list-group">
+<table class="table is-bordered is-striped is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>User</th>
+      <th>Mail</th>
+      <th>Last online</th>
+      <th>Rank</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>#</th>
+      <th>User</th>
+      <th>Mail</th>
+      <th>Last online</th>
+      <th>Rank</th>
+      <th>Delete</th>
+    </tr>
+  </tfoot>
+  <tbody>
+# var counter: int
 # for user in allUsers:
+#   counter += 1
 #   when defined(demo):
 #     if user[3] == "Admin":
 #       continue
 #     end if
 #   end when
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-    <span>${user[1]} - ${user[2]}</span>
-    <div>
-#   if user[5] == "":
-      <span class="badge badge-seconday badge-pill">Last online: ${epochDate(user[4], "YYYY-MM-DD HH:mm")}</span>
-      <span class="badge badge-primary badge-pill">${user[3]}</span>
-#   else:
-      <span class="badge badge-primary badge-pill">Email not confirmed</span>
-#   end if
-      <span class="badge badge-danger badge-pill"><a class="delete" href="/users/delete/${user[0]}">Delete</a></span>
-    </div>
-  </li>
+  <tr>
+    <td> $counter </td>
+    <td> ${user[1]} </td>
+    <td> ${user[2]} </td>
+    #   if user[5] == "":
+      <td> ${epochDate(user[4], "YYYY-MM-DD HH:mm")} </td>
+      <td> ${user[3]} </td>
+    #   else:
+      <td> Mail unconfirmed </td>
+      <td> Mail unconfirmed </td>
+    #   end if
+    <td class="is-danger"><a class="delete" href="/users/delete/${user[0]}" title="Kill ${user[1]} ?"></a></td>
 # end for
-</ul>
-
+    </tbody>
+  </table>
+  <br>
+  <div class="notification is-danger">
+    Deleting Users can not be undone.
+  </div>
 </div>
 
 #end proc
