@@ -7,7 +7,6 @@
 #
 #
 #
-#  
 #proc genFiles(c: var TData): string =
 # result = ""
 #
@@ -15,12 +14,12 @@
 # let allFilesPublic        = filesListPublic()
 # let allFilesPublicImages  = filesListPublicFolderImages()
 
-<div style="text-align: center;">
-  <h1>Files</h1>
-</div>
+<center>
+  <h1 class="h1">Files</h1>
+</center>
 
 <div id="fileAddContainer">
-  <button class="btn btn-secondary fileAdd">Upload new file</button>
+  <button class="btn btn-secondary fileAdd button is-success is-fullwidth">Upload new file</button>
   <form id="fileAdd" method="post" action="/files/upload">
     <div class="form-group">
       <div style="margin-bottom: 10px;">
@@ -46,45 +45,122 @@
 </div>
 
 <div id="files">
-  
-<h4>Public images (public/images)</h4>
-<ul class="list-group">
-# for file in allFilesPublicImages:
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <a href="/images/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
-      <span class="badge badge-danger badge-pill"><span class="deleteFile" data-url="/files/delete/publicimage/${extractFilename(file)}">Delete</span></span>
-    </li>
-# end for
-</ul>  
 
+<h4>Public images (public/images)</h4>
+
+<table class="table is-bordered is-striped is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Filename</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>#</th>
+      <th>Filename</th>
+      <th>Delete</th>
+    </tr>
+  </tfoot>
+  <tbody>
+# var counter: int
+# for file in allFilesPublicImages:
+#  inc counter
+  <tr>
+    <td class="is-narrow"> $counter </td>
+    <td><a href="/images/${extractFilename(file)}" title="/images/${extractFilename(file)}" target="_blank">
+        ${extractFilename(file)}</a>
+    </td>
+    <td class="is-danger is-narrow">
+      <span class="deleteFile delete" data-url="/files/delete/publicimage/${extractFilename(file)}" title="Delete ${extractFilename(file)}">Delete</span>
+    </td>
+  </tr>
+# end for
+  </tbody>
+</table>
+<b>Total files:</b> <code> $counter </code>
 <hr>
+
 
 <h4>Private files (only for logged in users)</h4>
-<ul class="list-group">
-# for file in allFilesPrivate:
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <a href="/files/stream/private/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
-      <span class="badge badge-danger badge-pill"><span class="deleteFile" data-url="/files/delete/private/${extractFilename(file)}">Delete</span></span>
-    </li>
-# end for
-</ul>  
 
+<table class="table is-bordered is-striped is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Filename</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>#</th>
+      <th>Filename</th>
+      <th>Delete</th>
+    </tr>
+  </tfoot>
+  <tbody>
+# var counte: int
+# for file in allFilesPrivate:
+#  inc counte
+  <tr>
+    <td class="is-narrow"> $counte </td>
+    <td><a href="/files/stream/private/${extractFilename(file)}" title="${extractFilename(file)}" target="_blank">
+      ${extractFilename(file)}</a>
+    </td>
+    <td class="is-danger is-narrow">
+      <span class="deleteFile" data-url="/files/delete/private/${extractFilename(file)}" title="Delete ${extractFilename(file)}">Delete</span>
+    </td>
+  </tr>
+# end for
+  </tbody>
+</table>
+<b>Total files:</b> <code> $counte </code>
 <hr>
 
-<h4>Public files (available to all)</h4>
-<ul class="list-group">
-# for file in allFilesPublic:
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <a href="/files/stream/public/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
-      <span class="badge badge-danger badge-pill"><span class="deleteFile" data-url="/files/delete/public/${extractFilename(file)}">Delete</span></span>
-    </li>
-# end for
-</ul>  
 
+<h4>Public files (available to all)</h4>
+
+<table class="table is-bordered is-striped is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Filename</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>#</th>
+      <th>Filename</th>
+      <th>Delete</th>
+    </tr>
+  </tfoot>
+  <tbody>
+# var coun: int
+# for file in allFilesPublic:
+#  inc coun
+  <tr>
+    <td class="is-narrow"> $coun </td>
+    <td><a href="/files/stream/public/${extractFilename(file)}" title="${extractFilename(file)}" target="_blank">
+      ${extractFilename(file)}</a>
+    </td>
+    <td class="is-danger is-narrow">
+      <span class="deleteFile" data-url="/files/delete/public/${extractFilename(file)}" title="Delete ${extractFilename(file)}">Delete</span>
+    </td>
+  </tr>
+# end for
+  </tbody>
+</table>
+<b>Total files:</b> <code> $coun </code>
+<br>
+<div class="notification is-danger">
+  Deleting files can not be undone.
 </div>
-  
+</div>
+
 #end proc
-#
 #
 #
 #
@@ -122,5 +198,5 @@
 </div>
 </div>
 
-  
+
 #end proc
