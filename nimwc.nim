@@ -81,6 +81,8 @@ const
     -d:gitupdate          Updates and force a hard reset
   """
 
+  nimwc_version = filter_it(readFile("nimwc.nimble").splitLines, it.substr(0, 6) == "version")[0]  ## Get NimWC Version at Compile-Time.
+
 
 var
   runInLoop = true
@@ -206,9 +208,9 @@ proc pluginSkeleton() =
   let pluginJson = """
   [
     {
-      "name": """" & capitalizeAscii(pluginName) & """",
-      "foldername": """" & pluginName & """",
-      "version": "0.1",
+      "name": "$1",
+      "foldername": "$2",
+      "version": "0.0.1",
       "url": "",
       "method": "git",
       "description": "",
@@ -216,21 +218,18 @@ proc pluginSkeleton() =
       "web": ""
     }
   ]
-  """
+  """.format(capitalizeAscii(pluginName), pluginName)
 
   writeFile("tmp/" & pluginName & "/plugin.json", pluginJson)
-
+  styledEcho(fgGreen, bgBlack, "NimWC: Created plugin skeleton.")
 
 if "help" in args:
   styledEcho(fgGreen, bgBlack, doc)
   quit(0)
 
 if "version" in args:
-  for line in lines("nimwc.nimble"):
-    if line.substr(0, 6) == "version":
-      styledEcho(fgCyan, bgBlack, "NimWC: Nim Website Creator.")
-      echo line
-      quit(0)
+  styledEcho(fgCyan, bgBlack, nimwc_version)
+  quit(0)
 
 if "initplugin" in args:
   pluginSkeleton()
