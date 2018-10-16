@@ -8,27 +8,27 @@
 #
 
 import
-  asyncdispatch,
-  bcrypt,
-  cgi,
-  db_sqlite,
-  jester,
-  json,
-  macros,
-  os,
-  osproc,
-  parsecfg,
-  random,
-  re,
-  recaptcha,
-  sequtils,
-  strutils,
-  times,
-  oswalkdir as oc
+  asyncdispatch, bcrypt, cgi, db_sqlite, jester, json, macros, os, osproc,
+  parsecfg, random, re, recaptcha, sequtils, strutils, times, oswalkdir as oc
 
-when defined(windows):
-  echo "\nWindows is not supported\n"
-  quit()
+  resources/administration/create_adminuser
+  resources/administration/create_standarddata
+  resources/administration/createdb
+  resources/administration/help
+  resources/email/email_registration
+  resources/files/files_efs
+  resources/files/files_utils
+  resources/password/password_generate
+  resources/password/salt_generate
+  resources/session/user_data
+  resources/utils/dates
+  resources/utils/logging
+  resources/utils/plugins
+  resources/utils/random_generator
+  resources/web/google_recaptcha
+  resources/web/urltools
+
+when defined(windows): quit("\n Windows is not supported \n")
 
 const
   config_not_found_msg = """
@@ -43,6 +43,16 @@ const
   Description:    Website creator build with Nim
   Author name:    Thomas Toftgaard Jarløv (TTJ)
   Current time:   """
+
+  checkCompileOptions* = ["",
+    when defined(adminnotify): " -d:adminnotify",
+    when defined(dev): " -d:dev",
+    when defined(devemailon): " -d:devemailon",
+    when defined(demo): " -d:demo",
+    when defined(demoloadbackup): " -d:demoloadbackup",
+    when defined(ssl): " -d:ssl",
+  ].join  ## Checking for known compile options and returning them as a space separated string.
+  # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
 
 macro configExists(): untyped =
@@ -59,24 +69,6 @@ macro configExists(): untyped =
     quit()
 
 configExists()
-
-
-import resources/administration/create_adminuser
-import resources/administration/create_standarddata
-import resources/administration/createdb
-import resources/administration/help
-import resources/email/email_registration
-import resources/files/files_efs
-import resources/files/files_utils
-import resources/password/password_generate
-import resources/password/salt_generate
-import resources/session/user_data
-import resources/utils/dates
-import resources/utils/logging
-import resources/utils/plugins
-import resources/utils/random_generator
-import resources/web/google_recaptcha
-import resources/web/urltools
 
 
 #[
@@ -266,25 +258,24 @@ macro generateFavicon*(): string =
 __________________________________________________]#
 var db: DbConn
 
-let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
+let
+  dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
-let db_user   = dict.getSectionValue("Database","user")
-let db_pass   = dict.getSectionValue("Database","pass")
-let db_name   = dict.getSectionValue("Database","name")
-let db_host   = dict.getSectionValue("Database","host")
+  db_user   = dict.getSectionValue("Database","user")
+  db_pass   = dict.getSectionValue("Database","pass")
+  db_name   = dict.getSectionValue("Database","name")
+  db_host   = dict.getSectionValue("Database","host")
 
-let mainURL   = dict.getSectionValue("Server","url")
-let mainPort  = parseInt dict.getSectionValue("Server","port")
-let mainWebsite = dict.getSectionValue("Server","website")
+  mainURL   = dict.getSectionValue("Server","url")
+  mainPort  = parseInt dict.getSectionValue("Server","port")
+  mainWebsite = dict.getSectionValue("Server","website")
 
-let proxyURL  = dict.getSectionValue("Proxy","url")
-let proxyPath = dict.getSectionValue("Proxy","path")
+  proxyURL  = dict.getSectionValue("Proxy","url")
+  proxyPath = dict.getSectionValue("Proxy","path")
 
-when defined(release):
-  let logfile = dict.getSectionValue("Logging","logfile")
-when not defined(release):
-  let logfile = dict.getSectionValue("Logging","logfiledev")
-
+  logfile =
+    when defined(release): dict.getSectionValue("Logging","logfile")
+    else:                  dict.getSectionValue("Logging","logfiledev")
 
 
 # Jester setting server settings
@@ -308,46 +299,18 @@ proc init(c: var TData) =
 #[
       Recompile
 __________________________________________________]#
-proc checkCompileOptions*(): string {.compileTime.} =
-  ## Checking for known compile options
-  ## and returning them as a space separated string.
-  ##
-  ## Proc used within plugin route, where a recompile
-  ## is required to include/exclude a plugin.
-
-  result = ""
-
-  when defined(adminnotify):
-    result.add(" -d:adminnotify")
-  when defined(dev):
-    result.add(" -d:dev")
-  when defined(devemailon):
-    result.add(" -d:devemailon")
-  when defined(demo):
-    result.add(" -d:demo")
-  when defined(demoloadbackup):
-    result.add(" -d:demoloadbackup")
-  when defined(ssl):
-    result.add(" -d:ssl")
-
-  return result
-
-
 proc recompile*(): int =
   ## Recompile nimwc_main
-
-  return execCmd("nim c " & checkCompileOptions() & " -o:nimwcpkg/nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
+  return execCmd("nim c " & checkCompileOptions & " -o:nimwcpkg/nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
 
 
 
 #[
       Validation check
 __________________________________________________]#
-proc loggedIn(c: TData): bool =
-  ## Check if user is logged in
-  ## by verifying that c.username is more than 0:int
-
-  result = c.username.len > 0
+func loggedIn(c: TData): bool =
+  ## Check if user is logged in by verifying that c.username is more than 0:int
+  c.username.len > 0
 
 
 
@@ -543,7 +506,7 @@ when isMainModule:
     quit()
 
 
-  dbg("INFO", "Main module started at: " & $getTime())
+  dbg("INFO", "Main module started at: " & $now())
 
 
   randomize()
@@ -603,7 +566,7 @@ when isMainModule:
   if "insertdata" in commandLineParams():
     echo "\nInsert standard data?"
     echo "This will override existing data (y/N):"
-    if readLine(stdin) == "y":
+    if readLine(stdin).string.strip.toLowerAscii == "y":
       createStandardData(db)
 
 
