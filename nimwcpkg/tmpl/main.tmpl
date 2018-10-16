@@ -1,6 +1,6 @@
 #? stdtmpl | standard
 #
-#
+#import times
 #proc genMainAdmin(c: var TData, data: string, pageAction = ""): string =
 # result = ""
 #
@@ -77,19 +77,17 @@
 
     <footer class="footer">
       <div id="footerInside" class="content has-text-centered">
-        <h5>
-          Copyright
-        </h5>
+#  when defined(demo):
+        <h5>Copyright</h5>
         <p>
-          <p>&#169; 2018 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a></p>
+          <p>&#169; ${now().year} - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a></p>
         </p>
-
-        <h5>
-          Nim Website Creator
-        </h5>
-        <p>
-          <p>License: GPLv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></p>
-        </p>
+        <h5>Nim Website Creator</h5>
+        <p>License: GPLv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><b>Github</b></a></p>
+        <p>Website creation automated with Nim.</p>
+#  else:
+        <p title="Built ${$now()}"> &#169; ${now().year} 👑 </p>
+#  end when
       </div>
     </footer>
 

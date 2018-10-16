@@ -19,7 +19,7 @@
 #
 # let blogorder = getValue(db, sql"SELECT blogorder FROM settings")
 # let blogsort = getValue(db, sql"SELECT blogsort FROM settings")
-# 
+#
 # var allBlogPages: seq[Row]
 # if blogorder == "":
 #   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, modified, metadescription FROM blog WHERE status IN " & status & " ORDER BY modified DESC"))
@@ -84,9 +84,5 @@
 # end if
 
 </div>
+<a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
 #end proc
-#
-#
-#
-#
-#

@@ -68,6 +68,7 @@
     <div class="notification is-danger" style="text-align: center">
       <h1>You are already logged in!</h1>
     </div>
+    <a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
   #end if
 #end proc
 #
@@ -165,7 +166,7 @@
     Deleting Users can not be undone.
   </div>
 </div>
-
+<a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
 #end proc
 #
 #
@@ -181,9 +182,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.js" defer></script>
 
-<div style="text-align: center;">
+<center>
   <h1>Profile</h1>
-</div>
+</center>
 
 <div id="user">
 
@@ -200,7 +201,7 @@
                   Name<span style="color: red;font-weight: 600;">*</span>
               </span>
             </div>
-            <input id="name" name="name" type="text" class="form-control" required value="${user[1]}">
+            <input id="name" name="name" type="text" placeholder="name" class="form-control input" required minlength="3" maxlength="128" value="${user[1]}">
           </div>
 
           <div class="input-group input-group-sm" style="margin-bottom: 10px;">
@@ -209,7 +210,7 @@
                   Email<span style="color: red;font-weight: 600;">*</span>
               </span>
             </div>
-            <input id="email" name="email" type="email" class="form-control" required value="${user[2]}">
+            <input id="email" name="email" placeholder="email" type="email" class="form-control input" required minlength="3" maxlength="128" value="${user[2]}">
           </div>
 
           <div class="input-group input-group-sm" style="margin-bottom: 10px;">
@@ -218,7 +219,7 @@
                 Password
               </span>
             </div>
-            <input id="password" name="password" type="password" class="form-control" required value="">
+            <input id="password" name="password" type="password" placeholder="password" class="form-control input" minlength="4" maxlength="128" required value="">
           </div>
 
           <div class="input-group input-group-sm" style="margin-bottom: 10px;">
@@ -227,7 +228,7 @@
                 Password
               </span>
             </div>
-            <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control" required placeholder="Confirm password" value="">
+            <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control input" minlength="4" maxlength="128" required placeholder="Confirm password" value="">
           </div>
 
           <div class="input-group input-group-sm" style="margin-bottom: 10px;">
@@ -236,11 +237,11 @@
                 Status
               </span>
             </div>
-            <input type="text" class="form-control" disabled="disabled" value="${user[3]}">
+            <input type="text" class="form-control input" disabled="disabled" value="${user[3]}">
           </div>
 
           <div class="save">
-            <button type="submit" class="btn btn-success save">Save</button>
+            <button type="submit" class="btn btn-success save submit button is-success is-fullwidth">Save</button>
           </div>
         </form>
 
@@ -258,7 +259,7 @@
             </div>
 
             <button id="userPictureSave" class="btn btn-custom btn-blue-primary" style="display: none;">Save picture</button>
-            <button id="userPictureNewdata" class="btn btn-custom btn-blue-primary">Upload new picture</button>
+            <button id="userPictureNewdata" class="btn btn-custom btn-blue-primary button is-success is-fullwidth">Upload new picture</button>
             <br><br>
             # if fileExists(storageEFS & "/users/" & c.userid & ".png"):
               <img id="userPictureEdit" src="/users/photo/stream/${c.userid}.png" style="max-width: 100%;">
@@ -281,5 +282,5 @@
 
 
 </div>
-
+<a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
 #end proc

@@ -7,7 +7,7 @@
 #
 #
 #
-#  
+#
 #proc genEditBlog(c: var TData, blogid: string, newPage = false): string =
 # result = ""
 #
@@ -30,7 +30,7 @@
                   Name
               </span>
             </div>
-            <input id="name" name="name" class="form-control" required value="${page[7]}"> 
+            <input id="name" name="name" class="form-control" required value="${page[7]}">
           </div>
           <div class="input-group input-group-sm actAddItem">
             <div class="input-group-prepend">
@@ -38,7 +38,7 @@
                   URL
               </span>
             </div>
-            <input id="url" name="url" class="form-control" required placeholder="eg. 2018/11/name" value="${decodeUrl(page[8])}"> 
+            <input id="url" name="url" class="form-control" required placeholder="eg. 2018/11/name" value="${decodeUrl(page[8])}">
           </div>
           <div class="input-group input-group-sm actAddItem">
             <div class="input-group-prepend">
@@ -59,9 +59,9 @@
           </div>
         </div>
         <div class="blogOptions">
-          
+
           ${genPageOptions(c, false, true, true, $blogid, page[0], page[2], page[5])}
-            
+
         </div>
       </div>
     </div>
@@ -76,7 +76,7 @@
       # end if
     </div>
 
-  </form>   
+  </form>
 
 </div>
 
@@ -89,5 +89,5 @@
 # end if
 
 ${genPageEditorImport(c, false)}
-
+<a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
 #end proc

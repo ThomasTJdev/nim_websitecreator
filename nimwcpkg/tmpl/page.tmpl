@@ -38,9 +38,10 @@
       <!--<p class="mb-1">${page[2]}</p>-->
     </a>
 #   end for
-  </ul>  
+  </ul>
 # end if
 </div>
+<a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
 #end proc
 #
 #
@@ -48,7 +49,7 @@
 #
 #proc genAllPages(c: var TData, view = ""): string =
 # ## Show all pages
-# ## 
+# ##
 # ## View: Development = 0, Private = 1, Public = 2
 # result = ""
 #
@@ -99,4 +100,5 @@
 # end if
 
 </div>
+<a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
 #end proc
