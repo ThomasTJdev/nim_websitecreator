@@ -145,7 +145,7 @@ proc launcherActivated() =
       sleep(1000)
 
       if userArgsRun != "":
-        echo " Using args: " & userArgsRun
+        styledEcho(fgGreen, bgBlack, " Using args: " & userArgsRun)
 
       nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
 
@@ -182,7 +182,8 @@ proc updateNimwc() =
 proc pluginSkeleton() =
   ## Creates the skeleton (folders and files) for a plugin
 
-  echo "nimwc: Creating plugin skeleton\nThe plugin will be created inside tmp/"
+  styledEcho(fgCyan, bgBlack,
+    "NimWC: Creating plugin skeleton\nThe plugin will be created inside tmp/")
   let pluginName = normalize(readLineFromStdin("Plugin name: "))
   echo ""
   let pluginOptional = readLineFromStdin("Include optional files (y/N): ")
@@ -222,13 +223,13 @@ proc pluginSkeleton() =
 
 
 if "help" in args:
-  echo doc
+  styledEcho(fgGreen, bgBlack, doc)
   quit(0)
 
 if "version" in args:
   for line in lines("nimwc.nimble"):
     if line.substr(0, 6) == "version":
-      echo "nimwc: Nim Website Creator."
+      styledEcho(fgCyan, bgBlack, "NimWC: Nim Website Creator.")
       echo line
       quit(0)
 
