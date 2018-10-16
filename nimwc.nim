@@ -83,6 +83,15 @@ const
 
   nimwc_version = filter_it(readFile("nimwc.nimble").splitLines, it.substr(0, 6) == "version")[0]  ## Get NimWC Version at Compile-Time.
 
+  compileOptions = ["",
+    when defined(adminnotify): " -d:adminnotify",
+    when defined(dev): " -d:dev",
+    when defined(devemailon): " -d:devemailon",
+    when defined(demo): " -d:demo",
+    when defined(demoloadbackup): " -d:demoloadbackup",
+    when defined(ssl): " -d:ssl",
+  ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
+
 
 var
   runInLoop = true
@@ -105,26 +114,6 @@ proc handler() {.noconv.} =
   quit()
 
 setControlCHook(handler)
-
-
-func checkCompileOptions(): string =
-  ## Checking for known compile options
-  ## and returning them as a space separated string.
-  ## See README.md for explanation of the options.
-  when defined(adminnotify):
-    result.add(" -d:adminnotify")
-  when defined(dev):
-    result.add(" -d:dev")
-  when defined(devemailon):
-    result.add(" -d:devemailon")
-  when defined(demo):
-    result.add(" -d:demo")
-  when defined(demoloadbackup):
-    result.add(" -d:demoloadbackup")
-  when defined(ssl):
-    result.add(" -d:ssl")
-
-let compileOptions = checkCompileOptions()
 
 
 proc launcherActivated() =
@@ -213,12 +202,12 @@ proc pluginSkeleton() =
       "version": "0.0.1",
       "url": "",
       "method": "git",
-      "description": "",
+      "description": "$3 plugin for Nim Website Creator.",
       "license": "MIT",
       "web": ""
     }
   ]
-  """.format(capitalizeAscii(pluginName), pluginName)
+  """.format(capitalizeAscii(pluginName), pluginName, pluginName)
 
   writeFile("tmp/" & pluginName & "/plugin.json", pluginJson)
   styledEcho(fgGreen, bgBlack, "NimWC: Created plugin skeleton.")
