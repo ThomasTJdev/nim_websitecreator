@@ -105,7 +105,7 @@ proc handler() {.noconv.} =
 setControlCHook(handler)
 
 
-proc checkCompileOptions(): string =
+func checkCompileOptions(): string =
   ## Checking for known compile options
   ## and returning them as a space separated string.
   ## See README.md for explanation of the options.
@@ -186,7 +186,6 @@ proc pluginSkeleton() =
     "NimWC: Creating plugin skeleton\nThe plugin will be created inside tmp/")
   let pluginName = normalize(readLineFromStdin("Plugin name: "))
   echo ""
-  let pluginOptional = readLineFromStdin("Include optional files (y/N): ")
 
   # Create dirs
   discard existsOrCreateDir("tmp")
@@ -199,7 +198,7 @@ proc pluginSkeleton() =
   writeFile("tmp/" & pluginName & "/public/js.js", "")
   writeFile("tmp/" & pluginName & "/public/style.css", "")
 
-  if pluginOptional == "y" or pluginOptional == "Y":
+  if readLineFromStdin("Include optional files (y/N): ").string.strip.toLowerAscii == "y":
     writeFile("tmp/" & pluginName & "/html.tmpl", "")
     writeFile("tmp/" & pluginName & "/public/js_private.js", "")
     writeFile("tmp/" & pluginName & "/public/style_private.css", "")
