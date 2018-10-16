@@ -26,6 +26,24 @@ import
   times,
   oswalkdir as oc
 
+when defined(windows):
+  echo "\nWindows is not supported\n"
+  quit()
+
+const
+  config_not_found_msg = """
+  ERROR: Config file (config.cfg) could not be found.
+  A copy of the template (config_default.cfg) has been copied to config/config.cfg.
+
+  The program will now quit. Please configure it and restart the program.
+  """
+
+  startup_msg = """
+  Package:        Nim Website Creator
+  Description:    Website creator build with Nim
+  Author name:    Thomas Toftgaard Jarløv (TTJ)
+  Current time:   """
+
 
 macro configExists(): untyped =
   ## Macro to check if the config file is present
@@ -34,13 +52,7 @@ macro configExists(): untyped =
   discard file
 
   if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
-    echo "\nERROR: Config file (config.cfg) could not be found."
-    echo "A copy of the template (config_default.cfg) has been"
-    echo "copied to config/config.cfg."
-    echo " "
-    echo "The program will now quit. Please configure it"
-    echo "and restart the program."
-    echo " "
+    echo config_not_found_msg
 
     discard staticExec("cp " & dir & "/config/config_default.cfg " & dir & "/config/config.cfg")
 
@@ -65,13 +77,6 @@ import resources/utils/plugins
 import resources/utils/random_generator
 import resources/web/google_recaptcha
 import resources/web/urltools
-
-
-
-when defined(windows):
-  echo "\nWindows is not supported\n"
-  quit()
-
 
 
 #[
@@ -509,7 +514,7 @@ when defined(demo):
     ##
     ## This proc is used, when the platform needs to run
     ## as a test with e.g. public access.
-    
+
     await sleepAsync((60*10) * 1000)
     var standarddata = true
     when defined(demoloadbackup):
@@ -530,15 +535,7 @@ when defined(demo):
       Main module
 __________________________________________________]#
 when isMainModule:
-
-  echo "\n"
-  echo "--------------------------------------------"
-  echo "  Package:        " & "Nim Website Creator"
-  echo "  Description:    " & "Website creator build with Nim"
-  echo "  Author name:    " & "Thomas Toftgaard Jarløv (TTJ)"
-  echo "  Current time:   " & $getTime()
-  echo "--------------------------------------------"
-  echo "\n"
+  echo startup_msg & $now()
 
   # Show commandline help info
   if "help" in commandLineParams():
@@ -609,7 +606,7 @@ when isMainModule:
     if readLine(stdin) == "y":
       createStandardData(db)
 
-  
+
   # Create robots.txt
   writeFile("public/robots.txt", "User-agent: *\nSitemap: " & mainWebsite & "/sitemap.xml\nDisallow: /login")
 
@@ -679,7 +676,7 @@ macro generateRoutes(): typed =
 
   for ppath in pluginsPath:
     extensions.add("\n\n" & staticRead(ppath & "/routes.nim"))
-    
+
   when defined(dev):
     echo extensions
 
