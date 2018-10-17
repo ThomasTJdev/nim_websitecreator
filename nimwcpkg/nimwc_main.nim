@@ -273,21 +273,21 @@ var db: DbConn
 let
   dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
-  db_user   = dict.getSectionValue("Database","user")
-  db_pass   = dict.getSectionValue("Database","pass")
-  db_name   = dict.getSectionValue("Database","name")
-  db_host   = dict.getSectionValue("Database","host")
+  db_user   = dict.getSectionValue("Database", "user")
+  db_pass   = dict.getSectionValue("Database", "pass")
+  db_name   = dict.getSectionValue("Database", "name")
+  db_host   = dict.getSectionValue("Database", "host")
 
-  mainURL   = dict.getSectionValue("Server","url")
-  mainPort  = parseInt dict.getSectionValue("Server","port")
-  mainWebsite = dict.getSectionValue("Server","website")
+  mainURL   = dict.getSectionValue("Server", "url")
+  mainPort  = parseInt dict.getSectionValue("Server", "port")
+  mainWebsite = dict.getSectionValue("Server", "website")
 
-  proxyURL  = dict.getSectionValue("Proxy","url")
-  proxyPath = dict.getSectionValue("Proxy","path")
+  proxyURL  = dict.getSectionValue("Proxy", "url")
+  proxyPath = dict.getSectionValue("Proxy", "path")
 
   logfile =
-    when defined(release): dict.getSectionValue("Logging","logfile")
-    else:                  dict.getSectionValue("Logging","logfiledev")
+    when defined(release): dict.getSectionValue("Logging", "logfile")
+    else:                  dict.getSectionValue("Logging", "logfiledev")
 
 
 # Jester setting server settings
@@ -499,7 +499,7 @@ when defined(demo):
       if execOutput != 0:
         dbg("ERROR", "emptyDB(): Error backing up the database")
         await sleepAsync(2000)
-        discard execCmd("cp data/website.bak.db data/website.db")
+        moveFile(source="data/website.bak.db", dest="data/website.db")
 
     if standarddata:
       createStandardData(db)
@@ -561,7 +561,7 @@ when isMainModule:
     dbg("INFO", "Demo option is activated")
     when defined(demoloadbackup):
       if not fileExists(replace(getAppDir(), "/nimwcpkg", "") & "/data/website.bak.db"):
-        discard execCmd("cp data/website.db data/website.bak.db")
+        moveFile(source="data/website.db", dest="data/website.bak.db")
     createTestUser(db)
     asyncCheck emptyDB(db)
 

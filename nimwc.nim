@@ -1,4 +1,4 @@
-import json, os, osproc, rdstdin, sequtils, strutils, times, terminal
+import os, osproc, rdstdin, sequtils, strutils, terminal, times, json
 
 const
   update_cmds = [
