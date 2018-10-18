@@ -2,30 +2,12 @@
 /*
   Theme: NimWC
   Do not change the lines above
-  This is the default stylesheet  
+  This is the default stylesheet
 */
 
 /*
   Main elements
 */
-#background {
-  background-attachment: fixed;
-  background-attachment: fixed;
-  background-image: url("/images/bgbuilding.jpeg");
-  background-position: top center;
-  background-repeat: no-repeat;
-  background-size: 100%;
-  background-size: cover;
-  filter:alpha(opacity=05);
-  opacity: 0.05; /* uses JS to transform to 0.5 */
-  height: 100%;
-  left: 0;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: -1;
-}
-
 body {
   min-height: 100vh;
   font-size: 14px;
@@ -195,7 +177,7 @@ div#navbarSettings {
 div#navbarSettings span.nav-item a,
 div#navbarSettings a.nav-link {
   color: black;
-  
+
 }
 
 
@@ -278,14 +260,14 @@ div#allblogPosts h5.blogName {
     Standard blogpage
 */
 .blogpage {
-  background: white; 
-  color: black; 
-  padding: 20px; 
-  max-width: 1000px; 
-  padding: 20px; 
-  border-radius: 10px; 
-  margin-left: auto; 
-  margin-right: auto; 
+  background: white;
+  color: black;
+  padding: 20px;
+  max-width: 1000px;
+  padding: 20px;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 100px;
   margin-bottom: 15px;
 }
@@ -307,14 +289,14 @@ div#allblogPosts h5.blogName {
     Standard page
 */
 .standardpage {
-  background: white; 
-  color: black; 
-  padding: 20px; 
-  max-width: 1200px; 
-  padding: 20px; 
-  border-radius: 10px; 
-  margin-left: auto; 
-  margin-right: auto; 
+  background: white;
+  color: black;
+  padding: 20px;
+  max-width: 1200px;
+  padding: 20px;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 100px;
 }
 
@@ -329,7 +311,7 @@ opacity:0;transform:translate3d(0,100px,0);transition:opacity 2s cubic-bezier(.2
 .reveal-show {
   opacity:1;transform:translateZ(0)
 }
-      
+
 
 
 /*
@@ -426,7 +408,7 @@ _________________*/
 }
 #frontpageContainer .spacer {
   height: 150px;
-} 
+}
 @media only screen and (max-width: 768px) {
   #frontpageContainer .title {
     margin-top: 50px;
@@ -488,5 +470,3 @@ ___________________*/
     margin-top: 25px;
   }
 }
-
-
