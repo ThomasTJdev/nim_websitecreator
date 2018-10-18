@@ -31,13 +31,11 @@ const head* = """
 const navbar* = """
 <nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
-    <a class="navbar-item" href="https://bulma.io">
-      <img src="/images/logo/NimWC_logo_blue.png" title="Nim Website Creator" width="99" height="28" />
+    <a class="navbar-item" href="/">
+      <h1>👑</h1>
     </a>
 
     <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
     </a>
   </div>
@@ -51,6 +49,7 @@ const navbar* = """
       <hr class="navbar-divider">
       <a class="nav-link navbar-item is-hoverable" href="/p/about">About</a>
       <hr class="navbar-divider">
+    </div>
 
     <div class="navbar-end">
       <div class="navbar-item">
@@ -59,6 +58,7 @@ const navbar* = """
         </div>
       </div>
     </div>
+
   </div>
 </nav>
 """
@@ -67,19 +67,7 @@ const navbar* = """
 const footer* = """
 <footer class="footer">
   <div id="footerInside" class="content has-text-centered">
-    <h5>
-      Copyright
-    </h5>
-    <p>
-      <p>&#169; 2018 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a></p>
-    </p>
-
-    <h5>
-      Nim Website Creator
-    </h5>
-    <p>
-      <p>License: GPLv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></p>
-    </p>
+    <p> &#169; 2018 👑 </p>
   </div>
 </footer>
 """
