@@ -9,23 +9,23 @@
 
 import
   asyncdispatch, bcrypt, cgi, db_sqlite, jester, json, macros, os, osproc,
-  parsecfg, random, re, recaptcha, sequtils, strutils, times, oswalkdir as oc
+  parsecfg, random, re, recaptcha, sequtils, strutils, times, oswalkdir as oc,
 
-  resources/administration/create_adminuser
-  resources/administration/create_standarddata
-  resources/administration/createdb
-  resources/administration/help
-  resources/email/email_registration
-  resources/files/files_efs
-  resources/files/files_utils
-  resources/password/password_generate
-  resources/password/salt_generate
-  resources/session/user_data
-  resources/utils/dates
-  resources/utils/logging
-  resources/utils/plugins
-  resources/utils/random_generator
-  resources/web/google_recaptcha
+  resources/administration/create_adminuser,
+  resources/administration/create_standarddata,
+  resources/administration/createdb,
+  resources/administration/help,
+  resources/email/email_registration,
+  resources/files/files_efs,
+  resources/files/files_utils,
+  resources/password/password_generate,
+  resources/password/salt_generate,
+  resources/session/user_data,
+  resources/utils/dates,
+  resources/utils/logging,
+  resources/utils/plugins,
+  resources/utils/random_generator,
+  resources/web/google_recaptcha,
   resources/web/urltools
 
 when defined(windows): quit("\n Windows is not supported \n")
@@ -63,9 +63,7 @@ macro configExists(): untyped =
 
   if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
     echo config_not_found_msg
-    static:
-      moveFile(source=dir & "/config/config_default.cfg",
-               dest=dir & "/config/config.cfg")
+    moveFile(source=dir & "/config/config_default.cfg", dest=dir & "/config/config.cfg")
     quit()
 
 configExists()
@@ -173,16 +171,14 @@ macro extensionCss(): string =
     let splitted = split(ppath, "/")
 
     if staticRead(ppath & "/public/style.css") != "":
-      static:
-        moveFile(source=ppath & "/public/style.css",
-                 dest=mainDir & "/public/css/" & splitted[splitted.len-1] & ".css")
+      moveFile(source=ppath & "/public/style.css",
+               dest=mainDir & "/public/css/" & splitted[splitted.len-1] & ".css")
 
       extensions.add("<link rel=\"stylesheet\" href=\"/css/" & splitted[splitted.len-1] & ".css\">\n")
 
     if staticRead(ppath & "/public/style_private.css") != "":
-      static:
-        moveFile(source=ppath & "/" & "/public/style_private.css",
-                 dest=mainDir & "/public/css/" & splitted[splitted.len-1] & "_private.css")
+      moveFile(source=ppath & "/" & "/public/style_private.css",
+               dest=mainDir & "/public/css/" & splitted[splitted.len-1] & "_private.css")
 
   when defined(dev):
     echo "Plugins - CSS:"
@@ -209,16 +205,14 @@ macro extensionJs*(): string =
     let splitted = split(ppath, "/")
 
     if staticRead(ppath & "/public/js.js") != "":
-      static:
-        moveFile(source=ppath & "/public/js.js",
-                 dest=mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
+      moveFile(source=ppath & "/public/js.js",
+               dest=mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
 
       extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer></script>\n")
 
     if staticRead(ppath & "/public/js_private.js") != "":
-      static:
-        moveFile(source=ppath & "/public/js_private.js",
-                 dest=mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
+      moveFile(source=ppath & "/public/js_private.js",
+               dest=mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
 
   when defined(dev):
     echo "Plugins - JS:"
@@ -245,16 +239,14 @@ macro generateFavicon*(): string =
     let splitted = split(ppath, "/")
 
     if staticRead(ppath & "/public/js.js") != "":
-      static:
-        moveFile(source=ppath & "/public/js.js",
-                 dest=mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
+      moveFile(source=ppath & "/public/js.js",
+               dest=mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
 
       extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer></script>\n")
 
     if staticRead(ppath & "/public/js_private.js") != "":
-      static:
-        moveFile(source=ppath & "/public/js_private.js",
-                 dest=mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
+      moveFile(source=ppath & "/public/js_private.js",
+               dest=mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
 
   when defined(dev):
     echo "Plugins - JS:"
