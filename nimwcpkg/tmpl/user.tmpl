@@ -9,15 +9,16 @@
 # result = ""
 # if not c.loggedIn:
 #
-#   let standardElements = getRow(db, sql"SELECT head, navbar, footer FROM settings WHERE id = ?", "1")
+#   let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
 
 <head>
   ${standardElements[0]}
 </head>
 
-  <div id="login" class="box">
+  <div id="login">
 
-    <form name="login" action="/dologin" method="POST">
+    <form name="login" action="/dologin" method="POST" class="box">
+      <h3 style="line-height: 1.9rem;">Login to${standardElements[3]}</h3>
 
       # when defined(demo):
         <div class="notification is-link">
@@ -26,12 +27,14 @@
         </div>
       # end when
 
+      # if errorMsg.len() != 0:
       <div class="notification is-danger" style="text-align: center;font-size: 1.2rem; line-height: 1.8rem;"><b>$errorMsg</b></div>
+      # end if
 
       <div class="field">
         <label class="label">Email</label>
         <div class="control has-icons-left has-icons-right">
-          <input type="email" class="form-control input is-primary is-large is-rounded" name="email" placeholder="Email" minlength="5" required autofocus
+          <input type="email" class="form-control input is-primary is-rounded" name="email" placeholder="Email" minlength="5" required autofocus
           # when defined(demo):
             value="test@test.com"
           # end when
@@ -41,7 +44,7 @@
       <div class="field">
         <label class="label">Password</label>
         <div class="control has-icons-left has-icons-right">
-          <input type="password" class="form-control input is-primary is-large is-rounded" name="password" autocomplete="current-password" minlength="4" placeholder="Password" required
+          <input type="password" class="form-control input is-primary is-rounded" name="password" autocomplete="current-password" minlength="4" placeholder="Password" required
           # when defined(demo):
             value="test"
           # end when
@@ -49,7 +52,7 @@
         </div>
       </div>
 
-      <input href="#" type="submit" class="btn btn-custom btn-blue-secondary button is-primary is-large is-fullwidth is-rounded" value="Login" />
+      <input href="#" type="submit" class="btn btn-custom btn-blue-secondary button is-primary is-fullwidth is-rounded" value="Login" />
 
       #if useCaptcha:
         <div id="recaptcha">
@@ -82,35 +85,37 @@
 #
 # let allUsers = getAllRows(db, sql"SELECT id, name, email, status, lastOnline, secretUrl FROM person")
 
-<h1>Users</h1>
 
 <div id="users">
+  <h1>Users</h1>
 
 # if c.rank in [Admin, Moderator]:
   <div id="usersAddContainer">
-    <button class="btn btn-secondary usersAdd button is-success is-fullwidth">Add new user</button>
+    <button class="btn btn-secondary usersAdd button is-info is-fullwidth">Add new user</button>
 
     <form id="usersAdd" method="post" action="/users/add">
-      <div>
-        <label>Name</label>
-        <input type="text" name="name" required value="" />
+      <div class="field">
+        <label class="label">Name</label>
+        <input class="input" type="text" name="name" minlength="2" maxlength="50" required value="" />
       </div>
-      <div>
-        <label>Email</label>
-        <input type="email" name="email" required value="" />
+      <div class="field">
+        <label class="label">Email</label>
+        <input class="input" type="email" name="email" required value="" />
       </div>
-      <div style="display: inline-flex;">
-        <label>Status</label>
-        <select name="status" class="form-control form-control-sm">
-          <option value="User" selected>User</option>
-          <option value="Moderator">Moderator</option>
-          # if c.rank == Admin:
-          <option value="Admin">Admin</option>
-          #end if
-        </select>
+      <div class="field">
+        <label class="label">Status</label>
+        <div class="control select">
+          <select name="status" class="form-control form-control-sm">
+            <option value="User" selected>User</option>
+            <option value="Moderator">Moderator</option>
+            # if c.rank == Admin:
+            <option value="Admin">Admin</option>
+            #end if
+          </select>
+        </div>
       </div>
 
-      <button type="submit" class="btn btn-success userDoAdd">Add user</button>
+      <button type="submit" class="btn btn-success userDoAdd button is-success is-fullwidth">Add user</button>
     </form>
   </div>
 # end if
@@ -140,12 +145,12 @@
   <tbody>
 # var counter: int
 # for user in allUsers:
-#   counter += 1
 #   when defined(demo):
 #     if user[3] == "Admin":
 #       continue
 #     end if
 #   end when
+#   counter += 1
   <tr>
     <td> $counter </td>
     <td> ${user[1]} </td>
@@ -157,13 +162,13 @@
       <td> Mail unconfirmed </td>
       <td> Mail unconfirmed </td>
     #   end if
-    <td class="is-danger"><a class="delete" href="/users/delete/${user[0]}" title="Kill ${user[1]} ?"></a></td>
+    <td class="is-danger has-text-centered"><a class="delete" href="/users/delete/${user[0]}" title="Kill ${user[1]} ?"></a></td>
 # end for
     </tbody>
   </table>
   <br>
   <div class="notification is-danger">
-    Deleting Users can not be undone.
+    Deleting users can not be undone.
   </div>
 </div>
 <a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
@@ -190,53 +195,32 @@
 
 # for user in userData:
 
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 col-md-6">
+    <div class="columns">
+      <div class="column">
 
         <form method="POST" action="/users/profile/update" style="background: white; padding: 10px; border: 1px solid grey; border-radius: 4px;">
-          <div class="input-group input-group-sm" style="margin-bottom: 10px;">
-            <div class="input-group-prepend">
-              <span class="input-group-text" style="width: 80px;">
-                  Name<span style="color: red;font-weight: 600;">*</span>
-              </span>
-            </div>
+          <div class="field" style="margin-bottom: 10px;">
+            <label class="label">Name<span style="color: red;font-weight: 600;">*</span></label>
             <input id="name" name="name" type="text" placeholder="name" class="form-control input" required minlength="3" maxlength="128" value="${user[1]}">
           </div>
 
-          <div class="input-group input-group-sm" style="margin-bottom: 10px;">
-            <div class="input-group-prepend">
-              <span class="input-group-text" style="width: 80px;">
-                  Email<span style="color: red;font-weight: 600;">*</span>
-              </span>
-            </div>
+          <div class="field" style="margin-bottom: 10px;">
+            <label class="label">Email<span style="color: red;font-weight: 600;">*</span></label>
             <input id="email" name="email" placeholder="email" type="email" class="form-control input" required minlength="3" maxlength="128" value="${user[2]}">
           </div>
 
-          <div class="input-group input-group-sm" style="margin-bottom: 10px;">
-            <div class="input-group-prepend">
-              <span class="input-group-text" style="width: 80px;">
-                Password
-              </span>
-            </div>
+          <div class="field" style="margin-bottom: 10px;">
+            <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
             <input id="password" name="password" type="password" placeholder="password" class="form-control input" minlength="4" maxlength="128" required value="">
           </div>
 
-          <div class="input-group input-group-sm" style="margin-bottom: 10px;">
-            <div class="input-group-prepend">
-              <span class="input-group-text" style="width: 80px;">
-                Password
-              </span>
-            </div>
+          <div class="field" style="margin-bottom: 10px;">
+            <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
             <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control input" minlength="4" maxlength="128" required placeholder="Confirm password" value="">
           </div>
 
-          <div class="input-group input-group-sm" style="margin-bottom: 10px;">
-            <div class="input-group-prepend">
-              <span class="input-group-text" style="width: 80px;">
-                Status
-              </span>
-            </div>
+          <div class="field" style="margin-bottom: 10px;">
+            <label class="label">Status</label>
             <input type="text" class="form-control input" disabled="disabled" value="${user[3]}">
           </div>
 
@@ -247,7 +231,7 @@
 
       </div>
 
-      <div class="col-12 col-md-6">
+      <div class="column">
 
         <div id="editProfilePhoto">
           <div id="userPictureDialogInside">
@@ -258,8 +242,8 @@
               </button>
             </div>
 
-            <button id="userPictureSave" class="btn btn-custom btn-blue-primary" style="display: none;">Save picture</button>
-            <button id="userPictureNewdata" class="btn btn-custom btn-blue-primary button is-success is-fullwidth">Upload new picture</button>
+            <button id="userPictureSave" class="btn btn-custom btn-blue-primary button is-success is-fullwidth" style="display: none; margin-bottom: 10px;">Save picture</button>
+            <button id="userPictureNewdata" class="btn btn-custom btn-blue-primary button is-info is-fullwidth">Upload new picture</button>
             <br><br>
             # if fileExists(storageEFS & "/users/" & c.userid & ".png"):
               <img id="userPictureEdit" src="/users/photo/stream/${c.userid}.png" style="max-width: 100%;">
@@ -276,7 +260,6 @@
 
       </div>
     </div>
-  </div>
 
 # end for
 
