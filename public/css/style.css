@@ -28,8 +28,7 @@ body {
 }
 
 footer {
-  border-top: 1px solid #dee2e6;
-  margin-top: 45px;
+
   margin-left: auto;
   margin-right: auto;
   padding-top: 15px;
@@ -39,10 +38,11 @@ footer {
   margin-right: auto;
   display: block;
 }
-footer .footerLeft u,
-footer .footerMiddle,
-footer .footerRight u {
-  color: black;
+.footer {
+  border-top: 1px solid #dee2e6;
+  background-color: transparent;
+  padding: 2rem 1.5rem 1rem;
+  margin-top: 1rem;
 }
 @media only screen and (max-width: 768px) {
   footer {
@@ -162,6 +162,28 @@ nav#navbar div#mobileMenu.active .bar3 {
   }
 }
 
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.2rem;
+}
+h2 {
+  font-size: 2rem;
+  margin-bottom: .9rem;
+}
+h3 {
+  font-size: 1.8rem;
+  margin-bottom: .6rem;
+}
+h4 {
+  font-size: 1.5rem;
+  margin-bottom: .4rem;
+}
+h5 {
+  font-size: 1.2rem;
+  font-weight: 450;
+  margin-top: .3rem;
+}
+
 
 /* Navbar settings */
 div#navbarSettings {
@@ -228,6 +250,7 @@ div#login {
   margin-left: auto;
   width: 310px;
   padding: 10px;
+  margin-top: 4rem;
   -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
   box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
@@ -249,7 +272,12 @@ div#allblogPosts .list-group-item {
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid #938c8c;
+  border: 1px solid #bcbcbc5c;
+  padding: 1rem;
+  display: block;
+}
+div#allblogPosts a.list-group-item {
+  color: black;
 }
 div#allblogPosts h5.blogName {
   font-weight: 600;

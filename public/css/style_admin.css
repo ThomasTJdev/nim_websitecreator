@@ -1,6 +1,32 @@
 /*
   Main elements
 */
+body.has-navbar-fixed-top, html.has-navbar-fixed-top {
+  padding-top: 3.25rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.2rem;
+}
+h2 {
+  font-size: 2rem;
+  margin-bottom: .9rem;
+}
+h3 {
+  font-size: 1.8rem;
+  margin-bottom: .6rem;
+}
+h4 {
+  font-size: 1.5rem;
+  margin-bottom: .4rem;
+}
+h5 {
+  font-size: 1.2rem;
+  font-weight: 450;
+  margin-top: .3rem;
+}
+
 #background {
   background-attachment: fixed;
   background-attachment: fixed;
@@ -41,7 +67,6 @@ body {
 
 footer {
   border-top: 1px solid #dee2e6;
-  margin-top: 45px;
   margin-left: auto;
   margin-right: auto;
   padding-top: 15px;
@@ -51,10 +76,11 @@ footer {
   margin-right: auto;
   display: block;
 }
-footer .footerLeft u,
-footer .footerMiddle,
-footer .footerRight u {
-  color: black;
+.footer {
+  border-top: 1px solid #dee2e6;
+  background-color: transparent;
+  padding: 2rem 1.5rem 1rem;
+  margin-top: 1rem;
 }
 @media only screen and (max-width: 768px) {
   footer {
@@ -98,6 +124,13 @@ nav#navbar a.nav-link {
 nav#navbar div#navbarInside {
   width: 100%;
 }
+a.navbar-item.logo {
+  padding: 0 10px;
+}
+.navbar.is-fixed-top {
+  top: 0;
+  background: transparent;
+}
 @media only screen and (max-width: 768px) {
   header {
     width: auto;
@@ -138,22 +171,25 @@ div#navbarSettings a.nav-link {
 /*
   General items
 */
+/* Dead due to Bulma?
 input {
   border: none;
   border-bottom: 1px solid grey;
   padding-left: 5px;
 }
+
 input:focus {
   box-shadow: 2px 2px 5px 0px rgba(186,186,186,1);
   outline: auto;
 }
-a.btn,
-button.btn {
+*/
+/*button.btn, 
+a.btn {
   font-size: 95%;
   height: 26px;
   line-height: 12px;
   margin-top: 5px;
-}
+}*/
 
 
 
@@ -167,10 +203,13 @@ div#settings {
   margin-right: auto;
   max-width: 500px;
   text-align: center;
+  border: 1px solid #bab2b2;
+  padding: 1rem;
 }
 div#settings div {
-  margin-bottom: 15px;
-  margin-top: 15px;
+  margin-bottom: 0px;
+  margin-top: 0px;
+  padding-top: 0px;
 }
 div#settings .btn {
   width: 200px;
@@ -192,6 +231,7 @@ div#settingsEdit {
   max-width: 1400px;
   padding: 10px;
 }
+/* DEAD due Bulma?
 div#settingsEdit input {
   border: none;
   border-bottom: 1px solid grey;
@@ -207,11 +247,13 @@ div#settingsEdit textarea:focus {
   box-shadow: 2px 2px 5px 0px rgba(186,186,186,1);
   outline: auto;
 }
+*/
 div#settingsEdit pre.templateCode {
   border-radius: 2px;
   border: 1px solid grey;
   padding: 5px;
 }
+/* DEAD due Bulma?
 button.templateCode,
 button.settingsRestore,
 button.settingsSaveCode,
@@ -229,6 +271,7 @@ button.templateCode {
 button.settingsRestore {
   margin-left: 10px;
 }
+*/
 
 
 
@@ -242,28 +285,37 @@ div#pageData {
   margin-left: auto;
   margin-right: auto;
 }
+div#blogData.new,
+div#pageData.new {
+  max-width: 500px;
+}
+div#blogData.new div.blogRequired,
+div#pageData.new div.pageRequired {
+  margin-top: 1rem;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+div#blogData.new div.field,
+div#pageData.new div.field {
+  margin-top: 1rem;
+}
+button.newblogSave,
+button.newpageSave,
+div.blogOptions.main div.buttonGroup,
+div.pageOptions.main div.buttonGroup {
+  margin-top: 1.3rem;
+}
 div#blogHeader,
 div#pageHeader {
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
 }
-button.newblogSave,
-button.blogOptions,
-button.newpageSave,
-button.pageOptions {
-  font-size: 95%;
-  height: 26px;
-  line-height: 12px;
-  margin-top: 5px;
-  width: 80px;
-}
 span.blogDelete,
 span.pageDelete {
-  font-size: 95%;
-  height: 26px;
-  line-height: 12px;
-  margin-top: 5px;
+  margin-right: auto;
+  margin-left: auto;
 }
 div.blogOptions,
 div.pageOptions {
@@ -274,6 +326,20 @@ div.pageOptions {
   border: 1px solid #80808094;
   margin-top: 10px;
   max-width: 500px;
+}
+div#blogData.new div.blogOptions,
+div#pageData.new div.pageOptions,
+div.blogOptions.main,
+div.pageOptions.main {
+  display: block;
+}
+div.blogOptions .input,
+div.blogOptions .select,
+div.blogOptions .textarea,
+div.pageOptions .input,
+div.pageOptions .select,
+div.pageOptions .textarea {
+  font-size: .9rem
 }
 @media only screen and (max-width: 768px) {
   div#blogData button,
@@ -295,6 +361,8 @@ div#allblogPosts .list-group-item {
   margin-left: auto;
   margin-right: auto;
   border: 1px solid #bcbcbc5c;
+  padding: 1rem;
+  display: block;
 }
 div#allblogPosts .editChip {
   font-size: 0.8rem;
@@ -322,6 +390,11 @@ div#allpagePosts .list-group-item {
   margin-left: auto;
   margin-right: auto;
   border: 1px solid #bcbcbc5c;
+  padding: 1rem;
+  display: block;
+}
+div#allpagePosts a.list-group-item {
+  color: black;
 }
 
 
@@ -335,6 +408,13 @@ div#users {
   margin-right: auto;
   max-width: 800px;
   padding: 10px;
+}
+div#users div.field {
+  margin-bottom: 10px;
+}
+div#users input,
+div#users select{
+  font-size: .9rem;
 }
 div#users span a.delete {
   color: white;
@@ -441,7 +521,30 @@ div#files span.deleteFile {
 
 /*
   Plugins
-*/
+*/div#plugins {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+div#plugins .buttons a {
+  font-size: 95%
+}
+div#plugins span.version {
+  margin-left: 10px;
+}
+div#plugins div.message-header>h5 {
+  width: 100%;
+}
+div#plugins article.message {
+  border: 1px solid;
+  margin-bottom: 0.4rem;
+}
+div#plugins p.pluginCount {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
 ul.pluginSettings {
   padding-left: 10px;
   margin-left: auto;
