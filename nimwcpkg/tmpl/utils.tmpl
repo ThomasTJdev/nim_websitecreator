@@ -14,17 +14,8 @@
   <div class="row">
     <div class="col-12 col-md-12">
       <div style="display: inline-flex; float: right;">
-        <span class="nav-item" style="margin-right: 15px;"><a href="/logout">Logout</a></span>
-        <span class="nav-item"><a href="/users/profile">${c.username}</a></span>
-        <a class="nav-link dropdown-toggle" href="#!" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-expanded="false" style="padding: 0rem 1rem;">Settings</a>
-        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink" x-placement="bottom-end" style="position: absolute; transform: translate3d(1055px, 64px, 0px); top: 0px; left: 0px; will-change: transform;">
-          <a class="dropdown-item" href="/settings">Settings page</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="/blogpagenew">Add blogpost</a>
-          <a class="dropdown-item" href="/editpage/blogallpages">Edit blogpost</a>
-          <a class="dropdown-item" href="/pagenew">Add page</a>
-          <a class="dropdown-item" href="/editpage/allpages">Edit page</a>
-        </div>
+        <span class="nav-item"><a href="/settings">Settings</a></span>
+        <span class="nav-item" style="margin: 0px 15px;"><a href="/logout">Logout</a></span>
       </div>
     </div>
   </div>
@@ -41,8 +32,8 @@
   <div class="row">
     <div class="col-12 col-md-12">
       <div style="display: inline-flex; float: right;">
-        <span class="nav-item" style="margin-right: 15px;"><a href="/logout">Logout</a></span>
         <span class="nav-item"><a href="/users/profile">${c.username}</a></span>
+        <span class="nav-item" style="margin: 0px 15px;"><a href="/logout">Logout</a></span>
       </div>
     </div>
   </div>
@@ -161,31 +152,37 @@
 # end if
 #
 # if edit:
-<h5>Change editor</h5>
-<div class="buttons has-addons">
-  <button class="btn btn-primary switchEditorGrapesJS button">Switch to GrapesJS</button>
-  <button class="btn btn-primary switchEditorSummernote button">Switch to Summernote</button>
-  <button class="btn btn-primary switchEditorRawHTML button">Switch to raw HTML</button>
+<h4 class="has-text-centered">Change editor</h4>
+<div class="buttons has-addons columns">
+  <div class="column">
+    <button class="btn btn-primary switchEditorGrapesJS button is-small is-fullwidth">Switch to GrapesJS</button>
+  </div>
+  <div class="column">
+    <button class="btn btn-primary switchEditorSummernote button is-small is-fullwidth">Switch to Summernote</button>
+  </div>
+  <div class="column">
+    <button class="btn btn-primary switchEditorRawHTML button is-small is-fullwidth">Switch to raw HTML</button>
+  </div>
 </div>
 <hr>
 # end if
 #
 # if edit:
-<h5>Delete page</h5>
+<h4 class="has-text-centered">Delete page</h4>
 <div class="notification is-danger">
   If you Delete a page it can not be undone.
 </div>
 <div class="buttons">
   # if page:
-    <span data-url="/page/delete?pageid=$pageid" class="btn btn-danger pageDelete button is-danger" title="If you Delete a page it can not be undone">Delete page</span>
+    <span data-url="/page/delete?pageid=$pageid" class="btn btn-danger pageDelete button is-danger" title="If you delete a page it can not be undone">Delete page</span>
   # else:
-    <span data-url="/blogpage/delete?blogid=$pageid" class="btn btn-danger blogDelete button is-danger" title="If you Delete a blogpost it can not be undone">Delete blogpost</span>
+    <span data-url="/blogpage/delete?blogid=$pageid" class="btn btn-danger blogDelete button is-danger" title="If you delete a blogpost it can not be undone">Delete blogpost</span>
   # end if
 </div>
 <hr>
 # end if
 
-<h5>HTML</h5>
+<h4 class="has-text-centered">HTML</h4>
 <div style="margin-bottom: 20px;">
 
   <div class="notification is-warning">
@@ -221,7 +218,7 @@
 
   </div>
 <hr>
-<h5>SEO</h5>
+<h4 class="has-text-centered">SEO</h4>
 
 <div class="notification is-warning">
   HTML is not allowed, only plain text (ASCII).
@@ -232,21 +229,21 @@
   <div class="field">
     <div class="control">
       <label class="label">Title</label>
-      <input class="input" type="text" name="title" value="${title}" minlength="2" maxlength="128" required >
+      <input class="input" type="text" name="title" value="${title}" minlength="2" maxlength="128" >
     </div>
   </div>
 
   <div class="field">
     <div class="control">
       <label class="label">Meta description</label>
-      <textarea class="textarea" name="metadescription" minlength="2" maxlength="128" placeholder="Type or paste your Meta description here..." required >${metadescription}</textarea>
+      <textarea class="textarea" name="metadescription" minlength="2" maxlength="128" placeholder="Type or paste your Meta description here..." >${metadescription}</textarea>
     </div>
   </div>
 
   <div class="field">
     <div class="control">
       <label class="label">Meta keywords</label>
-      <textarea class="textarea" name="metakeywords" minlength="2" maxlength="128" placeholder="Separate each keywords with a comma, e.g. blog,design,code" required >${metakeywords}</textarea>
+      <textarea class="textarea" name="metakeywords" minlength="2" maxlength="128" placeholder="Separate each keywords with a comma, e.g. blog,design,code" >${metakeywords}</textarea>
     </div>
   </div>
 

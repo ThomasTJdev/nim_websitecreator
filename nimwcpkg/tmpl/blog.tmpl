@@ -22,9 +22,9 @@
 #
 # var allBlogPages: seq[Row]
 # if blogorder == "":
-#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, modified, metadescription FROM blog WHERE status IN " & status & " ORDER BY modified DESC"))
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " ORDER BY modified DESC"))
 # else:
-#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, modified, metadescription FROM blog WHERE status IN " & status & " ORDER BY " & blogorder & " " & blogsort))
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " ORDER BY " & blogorder & " " & blogsort))
 # end if
 
 <div style="text-align: center;">
@@ -44,7 +44,7 @@
 #
 # else:
 #
-  <ul class="list-group list-group-flush">
+  <ul class="list-group">
 #   for blog in allBlogPages:
 #     var blogTitle = ""
 #     if edit:
@@ -54,23 +54,22 @@
 #     end if
 #
 #     if edit:
-      <li class="list-group-item list-group-item-action flex-column align-items-start" style="padding: .75rem 0rem;">
+      <li class="list-group-item">
 #     else:
-      <a href="/blog/${blog[1]}" class="list-group-item list-group-item-action flex-column align-items-start" style="padding: .75rem 0rem;">
+      <a href="/blog/${blog[1]}" class="list-group-item">
 #     end if
 #
-        <div class="d-flex w-100 justify-content-between">
-          <div class="mb-1 col-12 col-md-10">
-            $blogTitle
-            <small class="d-block d-md-none">${epochDate(blog[5], "YYYY-MM-DD")}</small>
-            <div style="margin-top: 10px;">${blog[6]}</div>
-          </div>
-          <div class="col-2 d-none d-md-block">
+        <div>
+          <div class="is-pulled-right is-hidden-mobile">
             <small>${epochDate(blog[5], "YYYY-MM-DD")}</small>
             # if c.loggedIn:
             <small style="display: block;">${statusIntToText(blog[4])}</small>
             # end if
           </div>
+
+          $blogTitle
+          <small class="is-hidden-tablet">${epochDate(blog[5], "YYYY-MM-DD")}</small>
+          <div style="margin-top: 10px;">${blog[6]}</div>
         </div>
 #     if edit:
       </li>
