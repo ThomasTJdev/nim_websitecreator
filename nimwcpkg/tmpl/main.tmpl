@@ -5,7 +5,6 @@
 # result = ""
 #
 # let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
-# let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
 <html class="has-navbar-fixed-top">
 <head>
@@ -43,50 +42,33 @@
 # end when
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
   <link rel="stylesheet" href="/css/style_admin.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous" defer></script>
   <script src="/js/js_admin.js" defer></script>
 </head>
 
 <body class="body">
   <div id="pagewrapper" class="container is-fluid">
     <div id="background"></div>
-      ${genNavbarLoggedinSettings(c)}
-
     <header>
       <nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
 # when defined(demo):
-          <a class="navbar-item" href="https://github.com/ThomasTJdev/nim_websitecreator">
-            <img src="/images/logo/NimWC_logo_blue.png" title="Nim Website Creator" width="90" height="30" />
+          <a class="navbar-item logo" href="/">
+            <img src="/images/logo/NimWC_logo_blue.png" title="Nim Website Creator" />
           </a>
 # else:
           <a class="navbar-item" href="/">
             <h1>👑</h1>
           </a>
 # end when
-          <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-          </a>
         </div>
 
         <div id="navbarBasicExample" class="navbar-menu">
-          <div class="navbar-start">
-            <hr class="navbar-divider">
-            <a class="nav-link navbar-item is-hoverable" href="/">Home</a>
-            <hr class="navbar-divider">
-            <a class="nav-link navbar-item is-hoverable" href="/blog">Blog</a>
-            <hr class="navbar-divider">
-            <a class="nav-link navbar-item is-hoverable" href="/p/about">About</a>
-            <hr class="navbar-divider">
-          </div>
-
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
-# if c.loggedIn:
-                <a class="button is-light" href="/logout" title="Logout">Logout</a>
-# else:
-                <a class="button is-light" href="/login" title="Login">Login</a>
-# end if
+                <a class="button is-small is-outlined" href="/settings">Settings</a>
+                <a class="button is-small is-outlined" href="/logout" title="Logout">Logout</a>
               </div>
             </div>
           </div>
@@ -95,7 +77,7 @@
 
     <main>
       <section class="section">
-        <div id="page" class="$loggedIn">
+        <div id="page" class="${c.loggedIn}">
           $data
         </div>
       </section>
@@ -104,13 +86,18 @@
     <footer class="footer">
       <div id="footerInside" class="content has-text-centered">
 #  when defined(demo):
-        <h5>Copyright</h5>
-        <p>
-          <p>&#169; ${now().year} - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a></p>
-        </p>
-        <h5>Nim Website Creator</h5>
-        <p>License: GPLv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><b>Github</b></a></p>
-        <p>Website creation automated with Nim.</p>
+        <div class="columns">
+          <div class="column">
+            <h5>Copyright</h5>
+            <p>
+              <p>&#169; ${now().year} - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a></p>
+            </p>
+          </div>
+          <div class="column">
+            <h5>Nim Website Creator</h5>
+            <p>License: GPLv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><b>Github</b></a></p>
+          </div>
+        </div>
 #  else:
         <p title="Built ${$now()}"> &#169; ${now().year} 👑 </p>
 #  end when
