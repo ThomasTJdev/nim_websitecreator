@@ -10,46 +10,43 @@
   #result = ""
 
   <div id="settings">
+    <h1>Settings</h1>
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 col-md-6">
 
           <label class="label">Blog</label>
-          <div class="buttons">
-            <a href="/blogpagenew" class="btn btn-outline-primary button is-small">Add blogpost</a>
-            <a href="/editpage/blogallpages" class="btn btn-outline-primary button is-small">Edit blogpost</a>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a href="/blogpagenew" class="btn btn-outline-primary button is-small">Add blogpost</a></div>
+            <div class="column"><a href="/editpage/blogallpages" class="btn btn-outline-primary button is-small">Edit blogpost</a></div>
           </div>
 
           <label class="label">Pages</label>
-          <div class="buttons">
-            <a href="/pagenew" class="btn btn-outline-primary button is-small">Add page</a>
-            <a href="/editpage/allpages" class="btn btn-outline-primary button is-small">Edit pages</a>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a href="/pagenew" class="btn btn-outline-primary button is-small">Add page</a></div>
+            <div class="column"><a href="/editpage/allpages" class="btn btn-outline-primary button is-small">Edit pages</a></div>
           </div>
 
           <label class="label">Plugins</label>
-          <div class="buttons">
-            <a href="/plugins" class="btn btn-outline-primary button is-small">Plugins</a>
-            <a href="/plugins/repo" class="btn btn-outline-primary button is-small">Plugins repo</a>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a href="/plugins" class="btn btn-outline-primary button is-small">Plugins</a></div>
+            <div class="column"><a href="/plugins/repo" class="btn btn-outline-primary button is-small">Plugins repo</a></div>
           </div>
 
           <label class="label">Users</label>
-          <div class="buttons">
-            <a href="/users" class="btn btn-outline-primary button is-small">Users</a>
-            <a href="/users/profile" class="btn btn-outline-primary button is-small">My profile</a>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a href="/users" class="btn btn-outline-primary button is-small">Users</a></div>
+            <div class="column"><a href="/users/profile" class="btn btn-outline-primary button is-small">My profile</a></div>
           </div>
 
-        </div>
-
-        <div class="col-12 col-md-6">
-
           <label class="label">Files</label>
-          <div class="buttons">
-            <a href="/files" class="btn btn-outline-primary button is-small">Files</a>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a href="/files" class="btn btn-outline-primary button is-small">Files</a></div>
           </div>
 
           # when defined(demo):
           #   if c.loggedIn and c.rank != Admin:
-                <div class="notification is-danger">
+                <div class="notification is-danger" style="padding-top: 15px;">
                   <p>The test user does not have access to edit the Settings, JS,
                      CSS and HTML of the core. Some options are hidden.
                   </p>
@@ -60,17 +57,21 @@
           # if c.rank == Admin:
 
           <label class="label">Blog settings</label>
-          <div class="buttons">
-            <a href="/settings/blog" class="btn btn-outline-primary button is-small">Blog settings</a>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a href="/settings/blog" class="btn btn-outline-primary button is-small">Blog settings</a></div>
           </div>
 
           <label class="label">Settings</label>
-          <div class="buttons">
-            <a href="/settings/edit" class="btn btn-outline-primary button is-small">Edit Hear, Navbar, Footer</a>
-            <a href="/settings/editjs" class="btn btn-outline-primary button is-small">Edit core JS file</a>
-            <a href="/settings/editjscustom" class="btn btn-outline-primary button is-small">Edit custom JS file</a>
-            <a href="/settings/editcss" class="btn btn-outline-primary button is-small">Edit core CSS file</a>
-            <a href="/settings/editcsscustom" class="btn btn-outline-primary button is-small">Edit custom CSS file</a>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a href="/settings/edit" class="btn btn-outline-primary button is-small">Edit Hear, Navbar, Footer</a></div>
+          </div>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a href="/settings/editjs" class="btn btn-outline-primary button is-small">Edit core JS file</a></div>
+            <div class="column"><a href="/settings/editjscustom" class="btn btn-outline-primary button is-small">Edit custom JS file</a></div>
+          </div>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a href="/settings/editcss" class="btn btn-outline-primary button is-small">Edit core CSS file</a></div>
+            <div class="column"><a href="/settings/editcsscustom" class="btn btn-outline-primary button is-small">Edit custom CSS file</a></div>
           </div>
 
           # end if
@@ -99,19 +100,14 @@
   <hr>
   <form class="standard settings" method="post" action="/settings/update">
     <div>
-      <label>Title</label>
-      <input name="title" id="title" required value="${page[4]}" />
+      <label class="label">Title</label>
+      <input class="input" name="title" id="title" required value="${page[4]}" style="width: 300px;"/>
     </div>
-    <div style="display: inline-flex;">
-      <div>
-        <button type="submit" class="btn btn-success settingsSave">Save</button>
-      </div>
-      <div>
-        <button type="button" class="btn btn-secondary templateCode">See template</button>
-      </div>
-      <div>
-        <button type="button" class="btn btn-danger settingsRestore">Restore</button>
-      </div>
+    <br>
+    <div>
+        <button type="submit" class="btn btn-success settingsSave button is-success">Save</button>
+        <button type="button" class="btn btn-secondary templateCode button is-info">See template</button>
+        <button type="button" class="btn btn-danger settingsRestore button is-danger">Restore</button>
     </div>
     <hr>
     <div>
@@ -134,13 +130,8 @@
       <pre class="templateCode templateCodefooter" style="display: none;">${xmlEncode(footer)}</pre>
       <textarea name="footer" id="htmlSettings3">${page[3]}</textarea>
     </div>
-    <div style="display: inline-flex;">
-      <div>
-        <button type="submit" class="btn btn-success settingsSave">Save</button>
-      </div>
-      <div>
-        <button type="button" class="btn btn-danger settingsRestore">Restore</button>
-      </div>
+    <div style="margin-top: 15px;">
+        <button type="submit" class="btn btn-success settingsSave button is-success">Save</button>
     </div>
   </form>
 
@@ -176,7 +167,7 @@
   <form class="standard settings" method="post" action="/settings/updatejs">
     <input name="customJs" value="${customJs}" style="display: none">
     <div>
-      <button type="submit" class="btn btn-success settingsSaveCode" style="margin-bottom: 5px;">Save</button>
+      <button type="submit" class="btn btn-success settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
     </div>
     <div>
       <textarea name="js" id="settingsCode" >
@@ -186,7 +177,7 @@ $line
       </textarea>
     </div>
     <div>
-      <button type="submit" class="btn btn-success settingsSaveCode">Save</button>
+      <button type="submit" class="btn btn-success settingsSaveCode button is-success">Save</button>
     </div>
   </form>
 </div>
@@ -220,7 +211,7 @@ $line
   <form class="standard settings" method="post" action="/settings/updatecss">
     <input name="customCss" value="${customCss}" style="display: none">
     <div>
-      <button type="submit" class="btn btn-success settingsSaveCode" style="margin-bottom: 5px;">Save</button>
+      <button type="submit" class="btn btn-success settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
     </div>
     <div>
       <textarea name="css" id="settingsCode" >
@@ -230,7 +221,7 @@ $line
       </textarea>
     </div>
     <div>
-      <button type="submit" class="btn btn-success settingsSaveCode">Save</button>
+      <button type="submit" class="btn btn-success settingsSaveCode button is-success">Save</button>
     </div>
   </form>
 </div>
@@ -249,35 +240,31 @@ $line
 <div id="settingsEdit">
   <h1>Edit blog settings</h1>
   <form class="standard settings" method="post" action="/settings/updateblogsettings">
-    <div style="max-width: 300px;">
-      <h5>Blog order</h5>
-      <div class="input-group input-group-sm actAddItem">
-        <div class="input-group-prepend">
-          <span class="input-group-text actAddItemLabel" style="width: 80px;">
-              Blogorder
-          </span>
+    <div style="max-width: 300px; margin-bottom: 20px;">
+      <h2>Blog order</h2>
+      <div class="field">
+        <label class="label">Blogorder</label>
+        <div class="control select">
+          <select name="blogorder" class="form-control form-control-sm">
+            <option value="url">URL</option>
+            <option value="published">Published</option>
+            <option value="modified">Modified</option>
+            <option value="name">Name</option>
+          </select>
         </div>
-        <select name="blogorder" class="form-control form-control-sm">
-          <option value="url">URL</option>
-          <option value="published">Published</option>
-          <option value="modified">Modified</option>
-          <option value="name">Name</option>
-        </select>
       </div>
-      <div class="input-group input-group-sm actAddItem">
-        <div class="input-group-prepend">
-          <span class="input-group-text actAddItemLabel" style="width: 80px;">
-              Blogsort
-          </span>
+      <div class="field">
+        <label class="label">Blogsort</label>
+        <div class="control select">
+          <select name="blogsort" class="form-control form-control-sm">
+            <option value="DESC">Descending</option>
+            <option value="ASC">Ascending</option>
+          </select>
         </div>
-        <select name="blogsort" class="form-control form-control-sm">
-          <option value="DESC">Descending</option>
-          <option value="ASC">Ascending</option>
-        </select>
       </div>
     </div>
     <div>
-      <button type="submit" class="btn btn-success">Save</button>
+      <button type="submit" class="btn btn-success button is-success">Save</button>
     </div>
   </form>
 </div>
