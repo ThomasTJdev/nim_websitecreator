@@ -2,13 +2,13 @@ import recaptcha, parsecfg, asyncdispatch, os
 
 from strutils import replace
 
-import ../utils/logging
+import ../utils/logging_nimwc
 
 
 var
   useCaptcha*: bool
   captcha*: ReCaptcha
-  
+
 
 # Using config.ini
 let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
@@ -42,9 +42,9 @@ proc checkReCaptcha*(antibot, userIP: string): Future[bool] {.async.} =
     if not captchaValid:
       #return setError(c, "g-recaptcha-response", "Answer to captcha incorrect!")
       return false
-      
+
     else:
       return true
-  
+
   else:
     return true

@@ -3,21 +3,21 @@ import os, strutils, db_sqlite
 
 import ../password/password_generate
 import ../password/salt_generate
-import ../utils/logging
+import ../utils/logging_nimwc
 
 
-proc createAdminUser*(db: DbConn, args: seq[string]) = 
+proc createAdminUser*(db: DbConn, args: seq[string]) =
   ## Create new admin user
   ## Input is done through stdin
-  
+
   dbg("INFO", "Checking if any Admin exists in DB")
   let anyAdmin = getAllRows(db, sql"SELECT id FROM person WHERE status = ?", "Admin")
-  
+
   if anyAdmin.len() < 1:
     dbg("INFO", "No Admin exists. Adding an admin!")
   else:
     dbg("INFO", $anyAdmin.len() & " admin already exists. Adding another admin!")
-    
+
     var iName = ""
     var iEmail = ""
     var iPwd = ""
@@ -39,18 +39,18 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
     discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", $iName, $iEmail, password, salt, "Admin")
 
     dbg("INFO", "Admin added! Moving on..")
- 
 
-proc createTestUser*(db: DbConn) = 
+
+proc createTestUser*(db: DbConn) =
   ## Create new admin user
   ## Input is done through stdin
-  
+
   dbg("INFO", "Checking if any test@test.com exists in DB")
   let anyAdmin = getAllRows(db, sql"SELECT id FROM person WHERE email = ?", "test@test.com")
-  
+
   if anyAdmin.len() < 1:
     dbg("INFO", "No test user exists. Create it!")
-    
+
     let salt = makeSalt()
     let password = makePassword("test", salt)
 
@@ -60,4 +60,3 @@ proc createTestUser*(db: DbConn) =
 
   else:
     dbg("INFO", "Test user already exists. Skipping it.")
-  

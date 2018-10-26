@@ -22,7 +22,7 @@ import
   resources/password/salt_generate,
   resources/session/user_data,
   resources/utils/dates,
-  resources/utils/logging,
+  resources/utils/logging_nimwc,
   resources/utils/plugins,
   resources/utils/random_generator,
   resources/web/google_recaptcha,

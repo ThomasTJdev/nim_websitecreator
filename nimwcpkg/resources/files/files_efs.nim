@@ -1,7 +1,7 @@
 import parsecfg, os, strutils, osproc, os
 
 
-import ../utils/logging
+import ../utils/logging_nimwc
 
 
 setCurrentDir(getAppDir().replace("/nimwcpkg", ""))

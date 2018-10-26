@@ -1,7 +1,7 @@
 import strutils, times
 
 
-import ../utils/logging
+import ../utils/logging_nimwc
 
 
 const monthNames = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
