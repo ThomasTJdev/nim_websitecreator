@@ -313,6 +313,11 @@ routes:
     exec(db, sql"UPDATE settings SET blogorder = ?, blogsort = ?", blogorder, @"blogsort")
     redirect("/settings/blog")
 
+  get "/settings/logs":
+    createTFD()
+    restrictAccessTo(c, [Admin, Moderator])
+    resp genViewLogs(logcontent=readFile(logfile))
+
 
   #[
 

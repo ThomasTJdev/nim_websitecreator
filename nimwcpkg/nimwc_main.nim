@@ -605,7 +605,7 @@ include "tmpl/plugins.tmpl"
 include "tmpl/user.tmpl"
 include "tmpl/main.tmpl"
 include "tmpl/sitemap.tmpl"
-
+include "tmpl/logs.tmpl"
 
 #[
       Routes for WWW

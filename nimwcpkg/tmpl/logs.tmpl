@@ -1,0 +1,11 @@
+#? stdtmpl | standard
+#
+#proc genViewLogs(logcontent: string): string =
+#  result = ""
+<center>
+  <h1>Logs</h1>
+  <textarea name="logs" title="Log Size: $logcontent.len Chars." readonly autofocus spellcheck style="width:99%;height:90%">
+    $logcontent
+  </textarea>
+  <a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
+</center>
