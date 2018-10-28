@@ -19,6 +19,8 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Auto-Rotating file Logger.
 - Uses responsive Bulma CSS framework, supports Bootstrap CSS framework.
 - JavaScript framework agnostic, use Nim, Karax, vanilla JS, you choose.
+- Colored output on the Terminal.
+- Plugin skeleton creator.
 - Multiple users
 - Add plugins
 
