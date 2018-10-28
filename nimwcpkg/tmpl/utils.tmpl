@@ -11,13 +11,9 @@
 #proc genNavbarLoggedinSettings(c: var TData): string =
 # result = ""
 <div id="navbarSettings" class="container-fluid">
-  <div class="row">
-    <div class="col-12 col-md-12">
-      <div style="display: inline-flex; float: right;">
-        <span class="nav-item"><a href="/settings">Settings</a></span>
-        <span class="nav-item" style="margin: 0px 15px;"><a href="/logout">Logout</a></span>
-      </div>
-    </div>
+  <div style="display: inline-flex; float: right;">
+    <span class="nav-item"><a href="/settings">Settings</a></span>
+    <span class="nav-item" style="margin: 0px 15px;"><a href="/logout">Logout</a></span>
   </div>
 </div>
 #end proc
@@ -29,13 +25,9 @@
 #proc genNavbarLoggedin(c: var TData): string =
 # result = ""
 <div id="navbarSettings" class="container-fluid">
-  <div class="row">
-    <div class="col-12 col-md-12">
-      <div style="display: inline-flex; float: right;">
-        <span class="nav-item"><a href="/users/profile">${c.username}</a></span>
-        <span class="nav-item" style="margin: 0px 15px;"><a href="/logout">Logout</a></span>
-      </div>
-    </div>
+  <div style="display: inline-flex; float: right;">
+    <span class="nav-item"><a href="/users/profile">${c.username}</a></span>
+    <span class="nav-item" style="margin: 0px 15px;"><a href="/logout">Logout</a></span>
   </div>
 </div>
 #end proc
@@ -262,14 +254,7 @@
       <h1>Title</h1>
       <p>The first paragraph</p>
       <hr/>
-      <div class="row">
-        <div class="col-12 col-md-6">
-          <p>Column 1</p>
-        </div>
-        <div class="col-12 col-md-6">
-          <p>Column 2</p>
-        </div>
-      </div>
+      <p>The second paragraph</p>
     </div>
     <style>
       body.gjs-dashed {
@@ -286,14 +271,7 @@
       <h1>Title</h1>
       <p>The first paragraph</p>
       <hr/>
-      <div class="row">
-        <div class="col-12 col-md-6">
-          <p>Column 1</p>
-        </div>
-        <div class="col-12 col-md-6">
-          <p>Column 2</p>
-        </div>
-      </div>
+      <p>The second paragraph</p>
     </div>
   </div>
 # else:
@@ -302,14 +280,7 @@
       <h1>Title</h1>
       <p>The first paragraph</p>
       <hr/>
-      <div class="row">
-        <div class="col-12 col-md-6">
-          <p>Column 1</p>
-        </div>
-        <div class="col-12 col-md-6">
-          <p>Column 2</p>
-        </div>
-      </div>
+      <p>The second paragraph</p>
     </div>
   </textarea>
 # end if
