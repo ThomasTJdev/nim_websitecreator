@@ -1,9 +1,9 @@
 # Copyright 2018 - Thomas T. Jarløv
 
-proc commandLineHelp*(): string =
+func commandLineHelp*(): string =
   return """
   _____________________________________
-  
+
     Nim Website Creator
     A quick website tool. Run the file and access your webpage.
 
