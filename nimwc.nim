@@ -157,6 +157,9 @@ proc startupCheck() =
       styledEcho(fgRed, bgBlack, compile_fail_msg)
       quit()
     else:
+      try:
+        discard execCmd("strip --strip-all " & getAppDir() & "/nimwcpkg/nimwc_main")
+      except: discard
       styledEcho(fgGreen, bgBlack,  compile_ok_msg)
 
 
