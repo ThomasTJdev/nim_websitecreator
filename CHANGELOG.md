@@ -1,6 +1,12 @@
 ## v4.0.5
 ### Changes
-- Drop Bootstrap+JQuery, Add Bulma CSS Framework. Code Clean out.
+- Drop Bootstrap+JQuery, Add Bulma CSS Framework, but still support Bootstrap.
+- Try to not depend on OS commands like `cp`, `ln`, etc.
+- Add simple Logs Viewer directly from browser.
+- Add Auto-Rotating file Logger.
+- De-Branded by default.
+- Code Clean out.
+- UI Redesign.
 
 ## v4.0.4
 ### Changes
