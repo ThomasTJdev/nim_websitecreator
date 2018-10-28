@@ -34,7 +34,7 @@
       <div class="field">
         <label class="label">Email</label>
         <div class="control has-icons-left has-icons-right">
-          <input type="email" class="form-control input is-rounded" name="email" placeholder="Email" minlength="5" required autofocus
+          <input type="email" class="form-control input is-rounded" name="email" placeholder="Email" minlength="5" dir="auto" required autofocus
           # when defined(demo):
             value="test@test.com"
           # end when
@@ -44,7 +44,7 @@
       <div class="field">
         <label class="label">Password</label>
         <div class="control has-icons-left has-icons-right">
-          <input type="password" class="form-control input is-rounded" name="password" autocomplete="current-password" minlength="4" placeholder="Password" required
+          <input type="password" class="form-control input is-rounded" name="password" autocomplete="current-password" minlength="4" placeholder="Password" dir="auto" required
           # when defined(demo):
             value="test"
           # end when
@@ -95,11 +95,11 @@
     <form id="usersAdd" method="post" action="/users/add">
       <div class="field">
         <label class="label">Name</label>
-        <input class="input" type="text" name="name" minlength="2" maxlength="50" required value="" />
+        <input class="input" type="text" name="name" minlength="2" maxlength="50" required dir="auto" value="" />
       </div>
       <div class="field">
         <label class="label">Email</label>
-        <input class="input" type="email" name="email" required value="" />
+        <input class="input" type="email" name="email" required value="" dir="auto"/>
       </div>
       <div class="field">
         <label class="label">Status</label>
@@ -199,27 +199,27 @@
         <form method="POST" action="/users/profile/update" style="background: white; padding: 10px; border: 1px solid grey; border-radius: 4px;">
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Name<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="name" name="name" type="text" placeholder="name" class="form-control input" required minlength="3" maxlength="128" value="${user[1]}">
+            <input id="name" name="name" type="text" placeholder="name" class="form-control input" required minlength="3" maxlength="128" value="${user[1]}" dir="auto">
           </div>
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Email<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="email" name="email" placeholder="email" type="email" class="form-control input" required minlength="3" maxlength="128" value="${user[2]}">
+            <input id="email" name="email" placeholder="email" type="email" class="form-control input" required minlength="3" maxlength="128" value="${user[2]}" dir="auto">
           </div>
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="password" name="password" type="password" placeholder="password" class="form-control input" minlength="4" maxlength="128" required value="">
+            <input id="password" name="password" type="password" placeholder="password" class="form-control input" minlength="4" maxlength="128" required value="" dir="auto">
           </div>
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control input" minlength="4" maxlength="128" required placeholder="Confirm password" value="">
+            <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control input" minlength="4" maxlength="128" required placeholder="Confirm password" value="" dir="auto">
           </div>
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Status</label>
-            <input type="text" class="form-control input" disabled="disabled" value="${user[3]}">
+            <input type="text" class="form-control input" disabled="disabled" value="${user[3]}" dir="auto">
           </div>
 
           <div class="save">
