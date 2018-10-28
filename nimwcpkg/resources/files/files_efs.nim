@@ -5,25 +5,24 @@ import ../utils/logging_nimwc
 
 
 setCurrentDir(getAppDir().replace("/nimwcpkg", ""))
-let appDir = replace(getAppDir(), "/nimwcpkg", "")
 
-let dict = loadConfig("config/config.cfg")
+const
+  section = when defined(dev): "storagedev" else: "storage"
+  storageEFS* = "files/efs"
 
-const section = when defined(dev): "storagedev" else: "storage"
-let tempDir = dict.getSectionValue("Storage", section)
+let
+  appDir = replace(getAppDir(), "/nimwcpkg", "")
+  dict = loadConfig("config/config.cfg")
+  tempDir = dict.getSectionValue("Storage", section)
+  paths2create = [
+    "files", "files/efs", "fileslocal", tempDir, tempDir & "/tmp", tempDir & "/files",
+    tempDir & "/files/private", tempDir & "/files/public", tempDir & "/users",
+  ]
 
 # Create folders
 info("Checking that required 'files' folders exists.")
-discard existsOrCreateDir("files")
-discard existsOrCreateDir("files/efs")
-discard existsOrCreateDir("fileslocal")
-
-createDir(tempDir)
-createDir(tempDir & "/tmp")
-createDir(tempDir & "/files")
-createDir(tempDir & "/files/private")
-createDir(tempDir & "/files/public")
-createDir(tempDir & "/users")
+for folder in paths2create:
+  discard existsOrCreateDir(folder)
 
 # Storage settings
 if tempDir == "fileslocal" or defined(dev):
@@ -33,5 +32,3 @@ if tempDir == "fileslocal" or defined(dev):
 else:
   info("Symlinking " & tempDir & " to files/efs")
   discard execCmd("ln -sf " & tempDir & "/* " & appDir & "/files/efs/")
-
-const storageEFS* = "files/efs"
