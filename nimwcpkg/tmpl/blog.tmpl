@@ -60,7 +60,7 @@
 #     end if
 #
         <div>
-          <div class="is-pulled-right is-hidden-mobile">
+          <div class="is-pulled-right is-hidden-mobile float-right d-none d-md-block">
             <small>${epochDate(blog[5], "YYYY-MM-DD")}</small>
             # if c.loggedIn:
             <small style="display: block;">${statusIntToText(blog[4])}</small>
@@ -68,7 +68,7 @@
           </div>
 
           $blogTitle
-          <small class="is-hidden-tablet">${epochDate(blog[5], "YYYY-MM-DD")}</small>
+          <small class="is-hidden-tablet d-md-none">${epochDate(blog[5], "YYYY-MM-DD")}</small>
           <div style="margin-top: 10px;">${blog[6]}</div>
         </div>
 #     if edit:
