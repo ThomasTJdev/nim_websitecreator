@@ -60,7 +60,7 @@
       <article class="message pluginRepo ${if counter mod 2 == 0: "is-dark" else: "is-link"}" id="${plugin["foldername"].getStr.capitalizeAscii}">
         <div class="message-header">
           <h5>
-            <a href="${plugin["web"].getStr()}" title="${plugin["web"].getStr()}" target="_blank"><b>
+            <a href="${plugin["web"].getStr()}" title="${plugin["web"].getStr()}" target="_blank" rel="noreferrer noopener nofollow"><b>
             ${plugin["name"].getStr()}</b></a>
 #         if installed:
 #           let installedPlugin = parseJson(readFile("plugins/" & plugin["foldername"].getStr() & "/plugin.json"))
