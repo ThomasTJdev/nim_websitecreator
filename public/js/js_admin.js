@@ -22,11 +22,6 @@ function pluginChangeStatus(pluginName, pluginStatus) {
     Settings
 */
 $(document).ready(function() {
-  $( "button.settingsRestore" ).click(function() {
-    if (!confirm("This will delete/restore the title, head, navbar and footer.\nAre you sure?")) e.preventDefault();
-    window.location.href = "/settings/editrestore";
-  });
-
   $("button.templateCode").click(function() {
     $("pre.templateCode").toggle();
   });
@@ -131,7 +126,7 @@ $(function() {
 function profilePictureUpdate(obj) {
   $("#userPictureSave").show(200);
   $("#userPictureEdit").cropper("destroy");
-  
+
   if (obj.files && obj.files[0]) {
     var reader = new FileReader();
     console.log("OK");
@@ -140,7 +135,7 @@ function profilePictureUpdate(obj) {
     }
     reader.readAsDataURL(obj.files[0]);
   }
-  setTimeout(function(){ 
+  setTimeout(function(){
     $("img#userPictureEdit").cropper({
       viewMode: 1,
       aspectRatio: 1 / 1

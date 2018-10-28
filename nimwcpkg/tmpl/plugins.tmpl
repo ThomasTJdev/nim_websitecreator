@@ -8,15 +8,11 @@
 #
 #proc genPlugins(c: var TData): string =
 # result = ""
-
 <h1 style="text-align: center">Plugins</h1>
 
 <ul class="pluginSettings">
   ${genExtensionSettings()}
 </ul>
-<a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
-
-
 #end proc
 #
 #
@@ -97,7 +93,6 @@
   </ul>
   <p class="pluginCount"><b>Total Plugins: </b><code>${plugins.len}</code></p>
 # end if
-<a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
 
 </div>
 #end proc
