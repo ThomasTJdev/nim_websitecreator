@@ -4,42 +4,23 @@
 #proc genMainAdmin(c: var TData, data: string, pageAction = ""): string =
 # result = ""
 #
-# let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
+# let title = getValue(db, sql"SELECT title FROM settings WHERE id = ?", "1")
 <!DOCTYPE html>
 <html class="has-navbar-fixed-top">
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="Nim Website Creator">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${title}</title>
 # when defined(demo):
-  <title>Nim Website Creator</title>
   <meta name="description" content="Nim Website Creator">
   <meta name="keywords" content="Nim,Nim Website Creator,nimwc">
-  <link rel="shortcut icon" href="/images/logo/favicon.ico">
+# end when
+  <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" href="/images/logo/favicon-16x16.png" sizes="16x16">
   <link rel="icon" type="image/png" href="/images/logo/favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="/images/logo/favicon-192x192.png" sizes="192x192">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/favicon-180x180.png">
-  <style>
-    div#background {
-      background-attachment: fixed;
-      background-attachment: fixed;
-      background-image: url("/images/bgbuilding.jpeg");
-      background-position: top center;
-      background-repeat: no-repeat;
-      background-size: 100%;
-      background-size: cover;
-      filter:alpha(opacity=05);
-      opacity: 0.05; /* uses JS to transform to 0.5 */
-      height: 100%;
-      left: 0;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: -1;
-    }
-  </style>
-# end when
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
   <link rel="stylesheet" href="/css/style_admin.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous" defer></script>
@@ -50,20 +31,14 @@
   <div id="pagewrapper" class="container is-fluid">
     <div id="background"></div>
     <header>
-      <nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
+      <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
-# when defined(demo):
           <a class="navbar-item logo" href="/">
             <img src="/images/logo/NimWC_logo_blue.png" title="Nim Website Creator" />
           </a>
-# else:
-          <a class="navbar-item" href="/">
-            <h1>👑</h1>
-          </a>
-# end when
         </div>
 
-        <div id="navbarBasicExample" class="navbar-menu">
+        <div id="navbarBasic" class="navbar-menu">
           <div class="navbar-end">
             <div class="navbar-item">
               <div class="buttons">
@@ -84,35 +59,24 @@
     </main>
 
     <footer class="footer">
-      <div id="footerInside" class="content has-text-centered">
 #  when defined(demo):
-        <div class="columns">
-          <div class="column">
-            <h5>Copyright</h5>
-            <p>
-              <p>&#169; ${now().year} - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a></p>
-            </p>
-          </div>
-          <div class="column">
-            <h5>Nim Website Creator</h5>
-            <p>License: GPLv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><b>Github</b></a></p>
-          </div>
-        </div>
+      ${footer}
 #  else:
-        <p title="Built ${$now()}"> &#169; ${now().year} 👑 </p>
-#  end when
+      <div id="footerInside" class="content has-text-centered">
+        <p title="Built ${$now()}"> &#169; ${now().year}</p>
       </div>
+#  end when
     </footer>
 
-    #     if pageAction == "edithtml":
-            ${genEditHtml()}
-    #     elif pageAction == "editjs":
-            ${genEditJs()}
-    #     elif pageAction == "editcss":
-            ${genEditCss()}
-    #     elif pageAction == "users":
-            ${genProfileJsCss()}
-    #     end if
+#   if pageAction == "edithtml":
+      ${genEditHtml()}
+#   elif pageAction == "editjs":
+      ${genEditJs()}
+#   elif pageAction == "editcss":
+      ${genEditCss()}
+#   elif pageAction == "users":
+      ${genProfileJsCss()}
+#   end if
 
   </div>
 </body>
@@ -132,7 +96,7 @@
 # let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
-<html class="has-navbar-fixed-top">
+<html class="has-navbar-fixed-top loggedin-${c.loggedIn}">
 <head>
 # if standardElements[3] != "":
   <title>${standardElements[3]}</title>
@@ -207,7 +171,7 @@ ${extensionCss()}
 # let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, title, metadescription, metakeywords  FROM pages WHERE id = ? AND status IN (" & status & ")"), pageid)
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
-<html class="has-navbar-fixed-top">
+<html class="has-navbar-fixed-top loggedin-${c.loggedIn}">
 
 <head>
 # if pageData[7] != "":
@@ -283,7 +247,7 @@ ${extensionCss()}
 # let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, status, title, metadescription, metakeywords FROM blog WHERE id = ? AND status IN (" & status & ")"), blogid)
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
-<html class="has-navbar-fixed-top">
+<html class="has-navbar-fixed-top loggedin-${c.loggedIn}">
 
 
 <head>
