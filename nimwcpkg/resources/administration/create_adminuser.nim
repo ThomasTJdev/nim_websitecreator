@@ -1,4 +1,4 @@
-import os, strutils, db_sqlite
+import os, strutils, db_sqlite, logging
 
 
 import ../password/password_generate
@@ -10,13 +10,13 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
   ## Create new admin user
   ## Input is done through stdin
 
-  dbg("INFO", "Checking if any Admin exists in DB")
+  info("Checking if any Admin exists in DB.")
   let anyAdmin = getAllRows(db, sql"SELECT id FROM person WHERE status = ?", "Admin")
 
   if anyAdmin.len() < 1:
-    dbg("INFO", "No Admin exists. Adding an admin!")
+    info("No Admin exists. Adding an Admin!.")
   else:
-    dbg("INFO", $anyAdmin.len() & " admin already exists. Adding another admin!")
+    info($anyAdmin.len() & " Admin already exists. Adding another Admin!.")
 
     var iName = ""
     var iEmail = ""
@@ -31,32 +31,32 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
         iEmail = arg.substr(2, arg.len())
 
     if iName == "" or iPwd == "" or iEmail == "":
-      dbg("ERROR", "Missing either name, password or email to create the admin user")
+      error("Missing either name, password or email to create the Admin user.")
 
     let salt = makeSalt()
     let password = makePassword(iPwd, salt)
 
     discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", $iName, $iEmail, password, salt, "Admin")
 
-    dbg("INFO", "Admin added! Moving on..")
+    info("Admin added.")
 
 
 proc createTestUser*(db: DbConn) =
   ## Create new admin user
   ## Input is done through stdin
 
-  dbg("INFO", "Checking if any test@test.com exists in DB")
+  info("Checking if any test@test.com exists in DB.")
   let anyAdmin = getAllRows(db, sql"SELECT id FROM person WHERE email = ?", "test@test.com")
 
   if anyAdmin.len() < 1:
-    dbg("INFO", "No test user exists. Create it!")
+    info("No test user exists. Creating it!.")
 
     let salt = makeSalt()
     let password = makePassword("test", salt)
 
     discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", "Testuser", "test@test.com", password, salt, "Moderator")
 
-    dbg("INFO", "Test user added! Moving on..")
+    info("Test user added!.")
 
   else:
-    dbg("INFO", "Test user already exists. Skipping it.")
+    info("Test user already exists. Skipping it.")

@@ -1,4 +1,4 @@
-import strutils, times
+import strutils, times, logging
 
 
 import ../utils/logging_nimwc
@@ -36,7 +36,7 @@ proc getDaysInMonthU*(month, year: int): int =
     doAssert getDaysInMonthU(02, 2018) == 28
     doAssert getDaysInMonthU(10, 2020) == 31
   if month notin {1..12}:
-    dbg("WARNING", "getDaysInMonthU() wrong format input")
+    warn("getDaysInMonthU() wrong format input.")
   else:
     result = getDaysInMonth(Month(month), year)
 
@@ -63,10 +63,10 @@ proc dateEpoch*(date, format: string): int64 =
     of "DD-MM-YYYY":
       return toUnix(toTime(parse(date, "dd-MM-yyyy")))
     else:
-      dbg("WARNING", "dateEpoch() wrong format input")
+      warn("dateEpoch() wrong format input.")
       return 0
   except:
-    dbg("WARNING", "dateEpoch() failed")
+    warn("dateEpoch() failed.")
 
     return 0
 
@@ -124,9 +124,9 @@ proc epochDate*(epochTime, format: string, timeZone = "0"): string =
 
     else:
       let toTime = $(utc(fromUnix(parseInt(epochTime))) + initTimeInterval(hours=parseInt(timeZone)))
-      dbg("WARNING", "epochDate() no input specified")
+      warn("epochDate() no input specified.")
       return toTime.substr(0, 9)
 
   except:
-    dbg("ERROR", "epochDate() failed")
+    error("epochDate() failed.")
     return ""

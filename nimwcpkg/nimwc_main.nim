@@ -8,7 +8,7 @@
 #
 
 import
-  asyncdispatch, bcrypt, cgi, db_sqlite, jester, json, macros, os, osproc,
+  asyncdispatch, bcrypt, cgi, db_sqlite, jester, json, macros, os, osproc, logging,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, oswalkdir as oc,
 
   resources/administration/create_adminuser,
@@ -361,11 +361,11 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
 
   for row in fastRows(db, query, toLowerAscii(email)):
     if row[6] != "":
-      dbg("INFO", "Login failed. Account not activated")
+      info("Login failed. Account not activated")
       return (false, "Your account is not activated")
 
     if parseEnum[Rank](row[5]) notin [Admin, Moderator, User]:
-      dbg("INFO", "Login failed. Your account is not active.")
+      info("Login failed. Your account is not active.")
       return (false, "Your account is not active")
 
     if row[2] == makePassword(pass, row[4], row[2]):
@@ -378,10 +378,10 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
       let key = makeSessionKey()
       exec(db, sql"INSERT INTO session (ip, key, userid) VALUES (?, ?, ?)", c.req.ip, key, row[0])
 
-      dbg("INFO", "Login successful")
+      info("Login successful")
       return (true, key)
 
-  dbg("INFO", "Login failed")
+  info("Login failed")
   return (false, "Login failed")
 
 
@@ -489,7 +489,7 @@ when defined(demo):
       let execOutput = execCmd("cp data/website.bak.db data/website.db")
 
       if execOutput != 0:
-        dbg("ERROR", "emptyDB(): Error backing up the database")
+        error("emptyDB(): Error backing up the database")
         await sleepAsync(2000)
         moveFile(source="data/website.bak.db", dest="data/website.db")
 
@@ -510,7 +510,7 @@ when isMainModule:
     quit()
 
 
-  dbg("INFO", "Main module started at: " & $now())
+  info("Main module started at: " & $now())
 
 
   randomize()
@@ -520,9 +520,9 @@ when isMainModule:
   # Folders are created in the module files_efs.nim
   when not defined(ignoreefs) and defined(release):
     # Check access to EFS file system
-    dbg("INFO", "Checking storage access")
+    info("Checking storage access.")
     if not existsDir(storageEFS):
-      dbg("ERROR", "isMainModule: No access to storage in release mode. Critical")
+      fatal("isMainModule: No access to storage in release mode. Critical.")
       sleep(2000)
       quit()
 
@@ -535,9 +535,9 @@ when isMainModule:
   # Connect to DB
   try:
     db = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
-    dbg("INFO", "Connection to DB is established")
+    info("Connection to DB is established.")
   except:
-    dbg("ERROR", "Connection to DB could not be established")
+    fatal("Connection to DB could not be established.")
     sleep(5000)
     quit()
 
@@ -550,7 +550,7 @@ when isMainModule:
 
   # Add test user
   when defined(demo):
-    dbg("INFO", "Demo option is activated")
+    info("Demo option is activated.")
     when defined(demoloadbackup):
       if not fileExists(replace(getAppDir(), "/nimwcpkg", "") & "/data/website.bak.db"):
         moveFile(source="data/website.db", dest="data/website.bak.db")
@@ -585,7 +585,7 @@ when isMainModule:
     writeFile("public/js/js_custom.js", "")
 
 
-  dbg("INFO", "Up and running!")
+  info("Up and running!.")
 
 
 
