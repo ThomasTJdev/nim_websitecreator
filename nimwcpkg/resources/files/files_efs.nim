@@ -27,8 +27,14 @@ for folder in paths2create:
 # Storage settings
 if tempDir == "fileslocal" or defined(dev):
   info("Symlinking " & tempDir & " to files/efs")
-  discard execCmd("ln -sf " & appDir & "/" & tempDir & "/* " & appDir & "/files/efs/")
+  try:
+    createSymlink(src= appDir & "/" & tempDir & "/*",
+                  dest=appDir & "/files/efs/")
+  except: discard
 
 else:
   info("Symlinking " & tempDir & " to files/efs")
-  discard execCmd("ln -sf " & tempDir & "/* " & appDir & "/files/efs/")
+  try:
+    createSymlink(src= tempDir & "/*",
+                  dest=appDir & "/files/efs/")
+  except: discard
