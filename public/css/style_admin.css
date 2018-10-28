@@ -56,7 +56,7 @@ body {
   /*background: white;*/
   margin-left: auto;
   margin-right: auto;
-  padding: 0px 20px;
+  padding: 0 20px;
   min-height: 100vh;
 }
 @media only screen and (max-width: 1200px) {
@@ -166,10 +166,10 @@ div#navbarSettings {
   position: fixed;
   z-index: 666;
   width: 100%;
-  margin: 0px -20px;
-  -webkit-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
+  margin: 0 -20px;
+  -webkit-box-shadow: 0 6px 5px 0 rgba(0,0,0,0.75);
+  -moz-box-shadow: 0 6px 5px 0 rgba(0,0,0,0.75);
+  box-shadow: 0 6px 5px 0 rgba(0,0,0,0.75);
 }
 div#navbarSettings span.nav-item a,
 div#navbarSettings a.nav-link {
@@ -192,16 +192,16 @@ div#settings {
   padding: 1rem;
 }
 div#settings div {
-  margin-bottom: 0px;
-  margin-top: 0px;
-  padding-top: 0px;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-top: 0;
 }
 div#settings .btn {
   width: 200px;
   background: white;
-  -webkit-box-shadow: 1px 1px 5px 0px rgba(138,138,138,1);
-  -moz-box-shadow: 1px 1px 5px 0px rgba(138,138,138,1);
-  box-shadow: 1px 1px 5px 0px rgba(138,138,138,1);
+  -webkit-box-shadow: 1px 1px 5px 0 rgba(138,138,138,1);
+  -moz-box-shadow: 1px 1px 5px 0 rgba(138,138,138,1);
+  box-shadow: 1px 1px 5px 0 rgba(138,138,138,1);
 }
 div#settings .btn:hover {
   color: #042c57;
@@ -413,7 +413,7 @@ div#user {
 }
 div#user label {
   width: 200px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   margin-top: .5rem;
 }
 div#user #editProfilePhoto {
@@ -429,7 +429,7 @@ div#user #editProfilePhoto {
 @media only screen and (max-width: 768px) {
   div#user label {
     margin-top: 15px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
   div#user div.save {
     text-align: left;
@@ -540,7 +540,7 @@ li.pluginSettings .disablePlugin {
   border-radius: 10px;
   cursor: pointer;
   float: right;
-  padding: 0px 15px;
+  padding: 0 15px;
 }
 li.pluginSettings .enablePlugin {
   background: rgba(0, 128, 0, 0.5);
@@ -577,7 +577,7 @@ li.pluginRepo span.version {
   background: rgb(236, 236, 236);
   border-radius: 5px;
   border: 1px solid grey;
-  padding: 0px 2px;
+  padding: 0 2px;
 }
 li.pluginRepo span.version.git {
   background-color: #ffc107;

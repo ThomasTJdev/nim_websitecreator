@@ -36,7 +36,7 @@ div#background {
   /*background: white;*/
   margin-left: auto;
   margin-right: auto;
-  padding: 0px 20px;
+  padding: 0 20px;
   min-height: 80vh;
 }
 @media only screen and (max-width: 1200px) {
@@ -218,10 +218,10 @@ div#navbarSettings {
   position: fixed;
   z-index: 666;
   width: 100%;
-  margin: 20px 0px 0px -20px;
-  -webkit-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
+  margin: 20px 0 0 -20px;
+  -webkit-box-shadow: 0 6px 5px 0 rgba(0,0,0,0.75);
+  -moz-box-shadow: 0 6px 5px 0 rgba(0,0,0,0.75);
+  box-shadow: 0 6px 5px 0 rgba(0,0,0,0.75);
 }
 div#navbarSettings span.nav-item a,
 div#navbarSettings a.nav-link {
@@ -382,7 +382,7 @@ input {
   padding-left: 5px;
 }
 input:focus {
-  box-shadow: 2px 2px 5px 0px rgba(186,186,186,1);
+  box-shadow: 2px 2px 5px 0 rgba(186,186,186,1);
   outline: auto;
 }
 a.btn,
@@ -420,9 +420,9 @@ div#login {
   width: 310px;
   padding: 10px;
   margin-top: 4rem;
-  -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
-  box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
+  box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
 }
 #recaptcha {
   margin-bottom: 5px;
@@ -498,7 +498,7 @@ div#allblogPosts h5.blogName {
   height: 100%;
 }
 .blogpage>h1 {
-  margin-top: 0rem;
+  margin-top: 0;
 }
 
 
