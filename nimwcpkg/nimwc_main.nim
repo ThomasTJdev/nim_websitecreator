@@ -57,10 +57,7 @@ const
 
 macro configExists(): untyped =
   ## Macro to check if the config file is present
-  let (dir, name, file) = splitFile(currentSourcePath())
-  discard name
-  discard file
-
+  let dir = parentDir(currentSourcePath())
   if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
     echo config_not_found_msg
     moveFile(source=dir & "/config/config_default.cfg", dest=dir & "/config/config.cfg")
@@ -77,9 +74,7 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
   ##
   ## Generates a seq[string] with the path to the plugins
 
-  let (dir, name, file) = splitFile(currentSourcePath())
-  discard name
-  discard file
+  let dir = parentDir(currentSourcePath())
   let realPath = replace(dir, "/nimwcpkg", "")
 
   var plugins = (staticRead(realPath & "/plugins/plugin_import.txt").split("\n"))
@@ -160,11 +155,8 @@ macro extensionCss(): string =
   ##
   ## 2) Insert <style>-link into HTML
 
-  let (dir, name, file) = splitFile(currentSourcePath())
-  discard name
-  discard file
+  let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "nimwcpkg", "")
-
 
   var extensions = ""
   for ppath in pluginsPath:
@@ -195,9 +187,7 @@ macro extensionJs*(): string =
   ##
   ## 2) Insert <js>-link into HTML
 
-  let (dir, name, file) = splitFile(currentSourcePath())
-  discard name
-  discard file
+  let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "nimwcpkg", "")
 
   var extensions = ""
@@ -229,9 +219,7 @@ macro generateFavicon*(): string =
   ##
   ## 2) Insert <js>-link into HTML
 
-  let (dir, name, file) = splitFile(currentSourcePath())
-  discard name
-  discard file
+  let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "nimwcpkg", "")
 
   var extensions = ""
