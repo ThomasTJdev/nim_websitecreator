@@ -475,14 +475,14 @@ when defined(demo):
     ## When defined(demo) activate proc
     ##
     ## There is 2 outcome. If defined(demoloadbackup)
-    ## the database will be overridden with a backup
+    ## the database will be overwritten with a backup
     ## (website.bak.db) every hour. If not, the standard
     ## data will be applied.
     ##
     ## This proc is used, when the platform needs to run
     ## as a test with e.g. public access.
 
-    await sleepAsync((60*10) * 1000)
+    await sleepAsync((60*60) * 1000)
     var standarddata = true
     when defined(demoloadbackup):
       standarddata = false
@@ -571,7 +571,12 @@ when isMainModule:
     echo "\nInsert standard data?"
     echo "This will override existing data (y/N):"
     if readLine(stdin).string.strip.toLowerAscii == "y":
-      createStandardData(db)
+      if "bootstrap" in commandLineParams():
+        createStandardData(db, "bootstrap")
+      elif "clean" in commandLineParams():
+        createStandardData(db, "clean")
+      else:
+        createStandardData(db, "bulma")
 
 
   # Create robots.txt

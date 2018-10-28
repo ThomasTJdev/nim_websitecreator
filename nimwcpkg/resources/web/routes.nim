@@ -39,7 +39,7 @@ routes:
 
   get "/error/@errorMsg":
     createTFD()
-    resp genMain(c, "<h3 style=\"text-align: center; color: red;\">" & decodeUrl(@"errorMsg") & "</h3>")
+    resp genMain(c, "<h3 style=\"text-align: center; color: red; margin-top: 100px;\">" & decodeUrl(@"errorMsg") & "</h3>")
 
 
 
@@ -202,14 +202,6 @@ routes:
     restrictAccessTo(c, [Admin])
 
     resp genMainAdmin(c, genSettingsEdit(c), "edithtml")
-
-  get "/settings/editrestore":
-    createTFD()
-    restrictTestuser(c.req.reqMethod)
-    restrictAccessTo(c, [Admin])
-
-    standardDataSettings(db)
-    redirect("/settings/edit")
 
   post "/settings/update":
     createTFD()
@@ -627,7 +619,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
 
     let url = urlEncoderCustom(@"url")
-    if url == getValue(db, sql"SELECT url FROM blog WHERE url = ?", url):
+    if url == getValue(db, sql"SELECT url FROM blog WHERE url = ? AND id <> ?", url, @"blogid"):
       if @"inbackground" == "true":
         resp("Error: A page with same URL already exists")
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
@@ -705,7 +697,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
 
     let url = urlEncoderCustom(@"url")
-    if url == getValue(db, sql"SELECT url FROM pages WHERE url = ?", url):
+    if url == getValue(db, sql"SELECT url FROM pages WHERE url = ? AND id <> ?", url, @"pageid"):
       if @"inbackground" == "true":
         resp("Error: A page with same URL already exists")
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))

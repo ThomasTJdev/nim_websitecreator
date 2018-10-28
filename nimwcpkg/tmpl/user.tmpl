@@ -18,7 +18,7 @@
   <div id="login">
 
     <form name="login" action="/dologin" method="POST" class="box">
-      <h3 style="line-height: 1.9rem;">Login to${standardElements[3]}</h3>
+      <h3 style="line-height: 1.9rem;">Login to<br>${standardElements[3]}</h3>
 
       # when defined(demo):
         <div class="notification is-link">
@@ -34,7 +34,7 @@
       <div class="field">
         <label class="label">Email</label>
         <div class="control has-icons-left has-icons-right">
-          <input type="email" class="form-control input is-primary is-rounded" name="email" placeholder="Email" minlength="5" required autofocus
+          <input type="email" class="form-control input is-rounded" name="email" placeholder="Email" minlength="5" required autofocus
           # when defined(demo):
             value="test@test.com"
           # end when
@@ -44,7 +44,7 @@
       <div class="field">
         <label class="label">Password</label>
         <div class="control has-icons-left has-icons-right">
-          <input type="password" class="form-control input is-primary is-rounded" name="password" autocomplete="current-password" minlength="4" placeholder="Password" required
+          <input type="password" class="form-control input is-rounded" name="password" autocomplete="current-password" minlength="4" placeholder="Password" required
           # when defined(demo):
             value="test"
           # end when
@@ -71,7 +71,6 @@
     <div class="notification is-danger" style="text-align: center">
       <h1>You are already logged in!</h1>
     </div>
-    <a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
   #end if
 #end proc
 #
@@ -171,7 +170,6 @@
     Deleting users can not be undone.
   </div>
 </div>
-<a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
 #end proc
 #
 #
@@ -265,5 +263,4 @@
 
 
 </div>
-<a class="button is-outlined is-small" title="Go back to Settings" href="/settings" style="text-align:center">&xlArr; Go to Settings</a>
 #end proc

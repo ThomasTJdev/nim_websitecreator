@@ -9,9 +9,27 @@
   Main elements
 */
 body {
-  min-height: 100vh;
+  min-height: 80vh;
   font-size: 14px;
   font-family: Arial, Helvetica, sans-serif;
+}
+
+div#background {
+  background-attachment: fixed;
+  background-attachment: fixed;
+  background-image: url("/images/bgbuilding.jpeg");
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-size: cover;
+  filter: alpha(opacity=50);
+  opacity: 0.50;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: -1;
 }
 
 #pagewrapper {
@@ -19,7 +37,7 @@ body {
   margin-left: auto;
   margin-right: auto;
   padding: 0px 20px;
-  min-height: 100vh;
+  min-height: 80vh;
 }
 @media only screen and (max-width: 1200px) {
   #pagewrapper {
@@ -44,6 +62,11 @@ footer {
   padding: 2rem 1.5rem 1rem;
   margin-top: 1rem;
 }
+footer .footerLeft u,
+footer .footerMiddle,
+footer .footerRight u {
+  color: black;
+}
 @media only screen and (max-width: 768px) {
   footer {
     width: auto;
@@ -56,6 +79,10 @@ header {
   margin-right: auto;
   display: block;
 }
+
+/*
+  Navbar Bootstrap
+*/
 nav#navbar{
   background-color: transparent;
   margin-bottom: 15px;
@@ -64,9 +91,6 @@ nav#navbar .navbar-brand {
   color: #0059b8;
   font-weight: 400;
   font-size: 28px;
-}
-nav#navbar .navbar-brand div,
-nav#navbar .navbar-brand img {
 }
 nav#navbar .navbar-brand div {
   display: inline;
@@ -119,7 +143,6 @@ nav#navbar div#mobileMenu.active .bar3 {
 }
 #mobileMenu {
   background: #221f1f;
-  display: none;
   height: 100%;
   left: 0;
   opacity: 0.95;
@@ -162,6 +185,168 @@ nav#navbar div#mobileMenu.active .bar3 {
   }
 }
 
+
+/*
+  Navbar Bulma
+*/
+html.loggedin-true nav.navbar .navbar-end .buttons {
+  display: none
+}
+.navbar.is-fixed-top {
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: transparent;
+}
+.navbar #navbarMain a.nav-link {
+  color: #0059b8;
+  text-transform: capitalize;
+  font-variant: small-caps;
+  font-size: 1.7rem;
+  margin-right: 5px;
+  padding-top: 1.4rem;
+}
+.navbar .navbar-item img {
+  max-height: 3.75rem;
+}
+
+/*
+  Navbar settings
+*/
+div#navbarSettings {
+  background: whitesmoke;
+  position: fixed;
+  z-index: 666;
+  width: 100%;
+  margin: 20px 0px 0px -20px;
+  -webkit-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
+}
+div#navbarSettings span.nav-item a,
+div#navbarSettings a.nav-link {
+  color: black;
+}
+/* Add some spacing to main when settings navbar is visible*/
+html.loggedin-true main {
+  padding-top: 40px;
+}
+
+
+/*
+  Animation
+*/
+
+.reveal-normal,
+.reveal-left,
+.reveal-right {
+  position:relative;
+}
+.reveal.reveal-top.slide-top {
+
+	-webkit-animation: slide-top 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-top 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.reveal.reveal-right.slide-right {
+
+  -webkit-animation: slide-right 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  			animation: slide-right 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.reveal.reveal-left.slide-left {
+
+	-webkit-animation: slide-left 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-left 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.reveal-bottom.slide-bottom {
+	-webkit-animation: slide-bottom 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-bottom 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@-webkit-keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(-100px);
+            transform: translateY(-100px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+@keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(-100px);
+            transform: translateY(-100px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+@-webkit-keyframes slide-right {
+  0% {
+    -webkit-transform: translateX(100px);
+            transform: translateX(100px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+@keyframes slide-right {
+  0% {
+    -webkit-transform: translateX(100px);
+            transform: translateX(100px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+@-webkit-keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(-100px);
+            transform: translateX(-100px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+@keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(-100px);
+            transform: translateX(-100px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+@-webkit-keyframes slide-bottom {
+  0% {
+    -webkit-transform: translateY(100px);
+            transform: translateY(100px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+@keyframes slide-bottom {
+  0% {
+    -webkit-transform: translateY(100px);
+            transform: translateY(100px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+
+/*
+  Fonts
+*/
 h1 {
   font-size: 2.5rem;
   margin-bottom: 1.2rem;
@@ -185,28 +370,12 @@ h5 {
 }
 
 
-/* Navbar settings */
-div#navbarSettings {
-  background: whitesmoke;
-  position: fixed;
-  z-index: 666;
-  width: 100%;
-  margin: 0px -20px;
-  -webkit-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
-}
-div#navbarSettings span.nav-item a,
-div#navbarSettings a.nav-link {
-  color: black;
-
-}
-
-
-
 /*
   General items
 */
+.hidden {
+  display: none;
+}
 input {
   border: none;
   border-bottom: 1px solid grey;
@@ -266,15 +435,19 @@ div#login {
     All blog posts
 */
 div#allblogPosts .list-group {
-  margin: 40px 0px;
-}
-div#allblogPosts .list-group-item {
-  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  max-width: 800px;
+  width: 100%;
+}
+div#allblogPosts .list-group-item {
+  background: white;
   border: 1px solid #bcbcbc5c;
-  padding: 1rem;
   display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  width: 100%;
 }
 div#allblogPosts a.list-group-item {
   color: black;
@@ -310,6 +483,23 @@ div#allblogPosts h5.blogName {
   width: 100%;
   height: auto;
 }
+.blogpage .iframeContainer {
+  position: relative;
+  padding-bottom: 56.25%;
+  /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+}
+.blogpage .iframeContainer iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.blogpage>h1 {
+  margin-top: 0rem;
+}
 
 
 
@@ -331,18 +521,6 @@ div#allblogPosts h5.blogName {
 
 
 /*
-	Animate
-*/
-.reveal {
-opacity:0;transform:translate3d(0,100px,0);transition:opacity 2s cubic-bezier(.215,.61,.355,1),transform 2s cubic-bezier(.215,.61,.355,1)
-}
-.reveal-show {
-  opacity:1;transform:translateZ(0)
-}
-
-
-
-/*
 	Pages
 */
 /*
@@ -355,7 +533,7 @@ _________________*/
 }
 #frontpageContainer .title {
   align-items: center;
-  min-height: calc(100vh - 324px);
+  min-height: calc(100vh - 100px);
   margin-top: 100px;
   margin-bottom: 100px;
 }
@@ -437,6 +615,9 @@ _________________*/
 #frontpageContainer .spacer {
   height: 150px;
 }
+#frontpageContainer .column>div {
+  padding: 20px;
+}
 @media only screen and (max-width: 768px) {
   #frontpageContainer .title {
     margin-top: 50px;
@@ -483,6 +664,9 @@ ___________________*/
   background-color: rgba(255, 255, 255, 0.74);
   border: 1px solid #d9d9d9e8;
   border-radius: 15px;
+}
+#aboutContainer .text1container .column>div {
+  padding: 20px;
 }
 @media only screen and (max-width: 768px) {
   #aboutContainer .title {

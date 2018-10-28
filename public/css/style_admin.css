@@ -27,7 +27,7 @@ h5 {
   margin-top: .3rem;
 }
 
-#background {
+div#background {
   background-attachment: fixed;
   background-attachment: fixed;
   background-image: url("/images/bgbuilding.jpeg");
@@ -35,8 +35,8 @@ h5 {
   background-repeat: no-repeat;
   background-size: 100%;
   background-size: cover;
-  filter:alpha(opacity=05);
-  opacity: 0.5;
+  filter: alpha(opacity=20);
+  opacity: 0.20;
   height: 100%;
   left: 0;
   position: fixed;
@@ -149,7 +149,18 @@ a.navbar-item.logo {
   }
 }
 
-/* Navbar settings */
+
+/*
+  Navbar Bulma
+*/
+html.loggedin-true nav.navbar .navbar-end .buttons {
+  display: none
+}
+
+
+/*
+  Navbar settings
+*/
 div#navbarSettings {
   background: whitesmoke;
   position: fixed;
@@ -163,33 +174,7 @@ div#navbarSettings {
 div#navbarSettings span.nav-item a,
 div#navbarSettings a.nav-link {
   color: black;
-  
 }
-
-
-
-/*
-  General items
-*/
-/* Dead due to Bulma?
-input {
-  border: none;
-  border-bottom: 1px solid grey;
-  padding-left: 5px;
-}
-
-input:focus {
-  box-shadow: 2px 2px 5px 0px rgba(186,186,186,1);
-  outline: auto;
-}
-*/
-/*button.btn, 
-a.btn {
-  font-size: 95%;
-  height: 26px;
-  line-height: 12px;
-  margin-top: 5px;
-}*/
 
 
 
@@ -197,7 +182,7 @@ a.btn {
   Settings overview
 */
 div#settings {
-  background: #ffffffd6;
+  background: white;
   border-radius: 10px;
   margin-left: auto;
   margin-right: auto;
@@ -214,9 +199,15 @@ div#settings div {
 div#settings .btn {
   width: 200px;
   background: white;
+  -webkit-box-shadow: 1px 1px 5px 0px rgba(138,138,138,1);
+  -moz-box-shadow: 1px 1px 5px 0px rgba(138,138,138,1);
+  box-shadow: 1px 1px 5px 0px rgba(138,138,138,1);
 }
 div#settings .btn:hover {
   color: #042c57;
+}
+div#settings hr {
+  margin: .5rem 0;
 }
 
 
@@ -231,47 +222,11 @@ div#settingsEdit {
   max-width: 1400px;
   padding: 10px;
 }
-/* DEAD due Bulma?
-div#settingsEdit input {
-  border: none;
-  border-bottom: 1px solid grey;
-  padding-left: 5px;
-}
-div#settingsEdit textarea {
-  width: 100%;
-  min-height: 300px;
-  margin-bottom: 35px;
-}
-div#settingsEdit input:focus,
-div#settingsEdit textarea:focus {
-  box-shadow: 2px 2px 5px 0px rgba(186,186,186,1);
-  outline: auto;
-}
-*/
 div#settingsEdit pre.templateCode {
   border-radius: 2px;
   border: 1px solid grey;
   padding: 5px;
 }
-/* DEAD due Bulma?
-button.templateCode,
-button.settingsRestore,
-button.settingsSaveCode,
-button.settingsSave {
-  font-size: 95%;
-  height: 26px;
-  line-height: 12px;
-  margin-top: 5px;
-  width: 80px;
-}
-button.templateCode {
-  width: 120px;
-  margin-left: 10px;
-}
-button.settingsRestore {
-  margin-left: 10px;
-}
-*/
 
 
 
@@ -354,15 +309,19 @@ div.pageOptions .textarea {
     All blog posts
 */
 div#allblogPosts .list-group {
-  margin: 40px 0px;
-}
-div#allblogPosts .list-group-item {
-  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  max-width: 800px;
+  width: 100%;
+}
+div#allblogPosts .list-group-item {
+  background: white;
   border: 1px solid #bcbcbc5c;
-  padding: 1rem;
   display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  width: 100%;
 }
 div#allblogPosts .editChip {
   font-size: 0.8rem;
@@ -383,15 +342,19 @@ div#allblogPosts a.blognameEdit {
     All pages
 */
 div#allpagePosts .list-group {
-  margin: 40px 0px;
-}
-div#allpagePosts .list-group-item {
-  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  max-width: 800px;
+  width: 100%;
+}
+div#allpagePosts .list-group-item {
+  background: white;
   border: 1px solid #bcbcbc5c;
-  padding: 1rem;
   display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  width: 100%;
 }
 div#allpagePosts a.list-group-item {
   color: black;
