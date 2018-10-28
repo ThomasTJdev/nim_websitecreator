@@ -470,7 +470,7 @@ when defined(demo):
     ## This proc is used, when the platform needs to run
     ## as a test with e.g. public access.
 
-    await sleepAsync((60*60) * 1000)
+    await sleepAsync(3_600_000)
     var standarddata = true
     when defined(demoloadbackup):
       standarddata = false
@@ -478,7 +478,7 @@ when defined(demo):
 
       if execOutput != 0:
         error("emptyDB(): Error backing up the database")
-        await sleepAsync(2000)
+        await sleepAsync(2_000)
         moveFile(source="data/website.bak.db", dest="data/website.db")
 
     if standarddata:
@@ -511,7 +511,7 @@ when isMainModule:
     info("Checking storage access.")
     if not existsDir(storageEFS):
       fatal("isMainModule: No access to storage in release mode. Critical.")
-      sleep(2000)
+      sleep(2_000)
       quit()
 
 
@@ -526,7 +526,7 @@ when isMainModule:
     info("Connection to DB is established.")
   except:
     fatal("Connection to DB could not be established.")
-    sleep(5000)
+    sleep(5_000)
     quit()
 
 
