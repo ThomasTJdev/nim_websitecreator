@@ -288,7 +288,7 @@ const
             <div class="text3element">
               <h4>One click install
               </h4>
-              <p>Install with Nim's package manager Nimble or compile yourself. Just run the file, and your website is up and running.
+              <p>Install with Nim's <a href="http://nimble.directory">package manager Nimble</a> or compile yourself. Just run the file, and your website is up and running.
               </p>
             </div>
           </div>
@@ -296,7 +296,7 @@ const
             <div class="text3element">
               <h4>Plugins
               </h4>
-              <p>Install plugins within the browser, e.g. backup function, themes, etc. Easy development of new plugins.
+              <p>Install plugins within the browser, e.g. <a href="https://github.com/ThomasTJdev/nimwc_backup">backup function</a>, <a href="https://github.com/ThomasTJdev/nimwc_themes">themes</a>, etc. <a href="https://github.com/ThomasTJdev/nimwc_plugins#contribute">Easy development of new plugins</a>.
               </p>
             </div>
           </div>
@@ -304,7 +304,7 @@ const
             <div class="text3element">
               <h4>Speed and security
               </h4>
-              <p>NimWC is developed with the programming language Nim to ensure high speed and stability.
+              <p>NimWC is developed with <a href="https://nim-lang.org">the programming language Nim</a> to <a href="https://nim-lang.org/features.html">ensure high speed and stability</a>.
               </p>
             </div>
           </div>
