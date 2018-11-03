@@ -1,18 +1,24 @@
 /*
     Plugins
 */
-$(document).ready(function() {
-  $( ".enablePlugin" ).click(function() {
-    var pluginName = $(this).parent("li.pluginSettings").attr("data-plugin");
-    var pluginStatus = $(this).parent("li.pluginSettings").attr("data-enabled");
+const $btnEnablePlugin = document.querySelectorAll(".enablePlugin");
+const $btnDisablePlugin = document.querySelectorAll(".disablePlugin");
+if ($btnEnablePlugin.length) {
+  $btnEnablePlugin[0].addEventListener('click', function(event) {
+    let elParent = event.srcElement.parentNode;
+    let pluginName = elParent.getAttribute("data-plugin")
+    let pluginStatus = elParent.getAttribute("data-enabled")
     pluginChangeStatus(pluginName, pluginStatus)
   });
-  $( ".disablePlugin" ).click(function() {
-    var pluginName = $(this).parent("li.pluginSettings").attr("data-plugin");
-    var pluginStatus = $(this).parent("li.pluginSettings").attr("data-enabled");
+}
+if ($btnDisablePlugin.length) {
+  $btnDisablePlugin[0].addEventListener('click', function(event) {
+    let elParent = event.srcElement.parentNode;
+    let pluginName = elParent.getAttribute("data-plugin")
+    let pluginStatus = elParent.getAttribute("data-enabled")
     pluginChangeStatus(pluginName, pluginStatus)
   });
-});
+}
 function pluginChangeStatus(pluginName, pluginStatus) {
   window.location.href = "/plugins/status?pluginname=" + pluginName + "&status=" + pluginStatus;
 }
@@ -21,33 +27,41 @@ function pluginChangeStatus(pluginName, pluginStatus) {
 /*
     Settings
 */
-$(document).ready(function() {
-  $("button.templateCode").click(function() {
-    $("pre.templateCode").toggle();
+const btnTemplateCode = document.querySelector("button.templateCode");
+if (btnTemplateCode != null) {
+  btnTemplateCode.addEventListener('click', function () {
+    document.querySelectorAll("pre.templateCode").forEach( el => {
+      el.classList.toggle("hidden");
+    });
   });
-});
-
+}
 
 
 
 /*
     Files
 */
-$(document).ready(function() {
-  $( "button.fileAdd" ).click(function() {
-    $("form#fileAdd").toggle();
+const btnFileAdd = document.querySelector("button.fileAdd");
+const btnFileUpload = document.querySelector("button.fileUpload");
+const $btnFileDelete = document.querySelectorAll("span.deleteFile");
+if (btnFileAdd != null) {
+  btnFileAdd.addEventListener('click', function () {
+    document.querySelector("form#fileAdd").classList.toggle("hidden");
   });
-  $( "button.fileUpload" ).click(function() {
+  btnFileUpload.addEventListener('click', function () {
     uploadFile();
   });
-  $( "span.deleteFile" ).click(function() {
-    var result = confirm("Delete file?");
-    if (result) {
-      window.location.href = $(this).attr("data-url");
-    }
+}
+if ($btnFileDelete.length) {
+  $btnFileDelete.forEach( el => {
+    el.addEventListener('click', function (event) {
+      var result = confirm("Delete file?");
+      if (result) {
+        window.location.href = event.srcElement.getAttribute("data-url");
+      }
+    });
   });
-
-});
+}
 
 function uploadFile(projectID) {
   var access    = $('input[name=fileRadio]:checked').attr("data-value");
@@ -81,12 +95,12 @@ function uploadFile(projectID) {
 /*
   Users
 */
-$(function() {
-  $('button.usersAdd').click(function () {
-    $("form#usersAdd").toggle();
+const btnUserAdd = document.querySelector("button.usersAdd");
+if (btnUserAdd != null) {
+  btnUserAdd.addEventListener('click', function () {
+    document.querySelector("form#usersAdd").classList.toggle("hidden");
   });
-});
-
+}
 
 
 /*
@@ -96,10 +110,14 @@ $(function() {
 /*
     Modal: Profile picture
 _____________________*/
-$(function() {
-  $('#userPictureEdit').click(function () {
-    profilePictureUpdate($("#userPictureEditTemp"));
+const btnPictureEdit = document.querySelector("#userPictureEdit");
+if (btnPictureEdit != null) {
+  btnPictureEdit.addEventListener('click', function () {
+    profilePictureUpdate(document.getElementById("userPictureEdit"));
   });
+}
+
+$(function() {
   $('#userPictureSave').click(function () {
     var croppedCanvas = $("#userPictureEdit").cropper('getCroppedCanvas', {
       width: 80,
