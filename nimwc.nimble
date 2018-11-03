@@ -5,6 +5,7 @@ description   = "Generate and host a website. Run the package and access your ne
 license       = "GPLv3"
 bin           = @["nimwc"]
 skipDirs      = @["private", "tmp"]
+installDirs   = @["config", "nimwcpkg", "plugins", "public"]
 
 
 
@@ -25,7 +26,7 @@ task setup, "Generating executable":
   if not fileExists("config/config.cfg"):
     exec "cp config/config_default.cfg config/config.cfg"
 
-  exec "nim c -d:release -d:ssl nimwc.nim"
+  exec "nim c -r -d:release -d:ssl nimwc.nim"
 
 before install:
     setupTask()

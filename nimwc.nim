@@ -164,7 +164,7 @@ proc startupCheck() =
         discard execCmd("strip --strip-all " & getAppDir() & "/nimwcpkg/nimwc_main")
       except: discard
       styledEcho(fgGreen, bgBlack,  compile_ok_msg)
-
+    quit()
 
 proc updateNimwc() =
   ## GIT hard update
