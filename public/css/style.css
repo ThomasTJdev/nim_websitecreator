@@ -33,7 +33,6 @@ div#background {
 }
 
 #pagewrapper {
-  /*background: white;*/
   margin-left: auto;
   margin-right: auto;
   padding: 0 20px;
@@ -46,7 +45,6 @@ div#background {
 }
 
 footer {
-
   margin-left: auto;
   margin-right: auto;
   padding-top: 15px;
@@ -198,6 +196,11 @@ html.loggedin-true nav.navbar .navbar-end .buttons {
   margin-right: auto;
   background-color: transparent;
 }
+@media only screen and (max-width: 768px) {
+  .navbar.is-fixed-top {
+    width: auto;
+  }
+}
 .navbar #navbarMain a.nav-link {
   color: #0059b8;
   text-transform: capitalize;
@@ -236,7 +239,6 @@ html.loggedin-true main {
 /*
   Animation
 */
-
 .reveal-normal,
 .reveal-left,
 .reveal-right {
@@ -526,22 +528,22 @@ div#allblogPosts h5.blogName {
 /*
 	Frontpage
 _________________*/
-#frontpageContainer {
+#frontpage {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
-#frontpageContainer .title {
+#frontpage .title {
   align-items: center;
   min-height: calc(100vh - 100px);
   margin-top: 100px;
   margin-bottom: 100px;
 }
-#frontpageContainer .title h1 {
+#frontpage .title h1 {
   font-size: 3.6rem;
   font-weight: 300;
 }
-#frontpageContainer h2.seemore a{
+#frontpage h2.seemore a{
   text-align: center;
   border: 1px solid white;
   padding: 0.5rem 1.7rem;
@@ -551,28 +553,28 @@ _________________*/
   color: white;
   font-size: 1.5rem;
 }
-#frontpageContainer .title h2,
-#frontpageContainer .text2 h2,
-#frontpageContainer .text5 h2 {
+#frontpage .title h2,
+#frontpage .text2 h2,
+#frontpage .text5 h2 {
   font-size: 3.0rem;
   font-weight: 300;
 }
-#frontpageContainer .text2 h2,
-#frontpageContainer .text5 h2 {
+#frontpage .text2 h2,
+#frontpage .text5 h2 {
   text-align: left;
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
   color: #005bbc;
 }
-#frontpageContainer .text5 h2 {
+#frontpage .text5 h2 {
   text-align: center;
   margin-bottom: 3.5rem;
 }
-#frontpageContainer .text5 {
+#frontpage .text5 {
   margin-top: 75px;
 }
-#frontpageContainer .text3 {
+#frontpage .text3 {
   margin-top: 150px;
   margin-bottom: 150px;
   padding-top: 25px;
@@ -581,44 +583,44 @@ _________________*/
   border: 1px solid #d9d9d9e8;
   border-radius: 15px;
 }
-#frontpageContainer .text3 .text3element {
+#frontpage .text3 .text3element {
   max-width: 300px;
   margin-left: auto;
   margin-right: auto;
 }
-#frontpageContainer .text3 .text3element h4 {
+#frontpage .text3 .text3element h4 {
   font-weight: 400;
   font-size: 1.9rem;
 }
-#frontpageContainer .text3 .text3element p {
+#frontpage .text3 .text3element p {
   line-height: 2rem;
   font-size: 20px;
   font-weight: 300;
 }
-#frontpageContainer .text4 h2,
-#frontpageContainer .text6 h2 {
+#frontpage .text4 h2,
+#frontpage .text6 h2 {
   font-size: 3.3rem;
   font-weight: 300;
   color: #005bbc;
 }
-#frontpageContainer .text6 {
+#frontpage .text6 {
   margin-top: 150px;
 }
-#frontpageContainer .text4container,
-#frontpageContainer .text6container {
+#frontpage .text4container,
+#frontpage .text6container {
   padding-top: 25px;
   padding-bottom: 25px;
   background-color: rgba(255, 255, 255, 0.74);
   border: 1px solid #d9d9d9e8;
   border-radius: 15px;
 }
-#frontpageContainer .spacer {
+#frontpage .spacer {
   height: 150px;
 }
-#frontpageContainer .column>div {
+#frontpage .column>div {
   padding: 20px;
 }
-#frontpageContainer kbd {
+#frontpage kbd {
   padding: .2rem .4rem;
   font-size: 87.5%;
   color: #fff;
@@ -626,15 +628,15 @@ _________________*/
   border-radius: .2rem;
 }
 @media only screen and (max-width: 768px) {
-  #frontpageContainer .title {
+  #frontpage .title {
     margin-top: 50px;
     margin-bottom: 50px;
   }
-  #frontpageContainer .title h2 {
+  #frontpage .title h2 {
     font-size: 2rem;
     margin-top: 35px;
   }
-  #frontpageContainer .text2 h2 {
+  #frontpage .text2 h2 {
     font-size: 2rem;
   }
 }
