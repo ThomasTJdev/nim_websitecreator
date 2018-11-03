@@ -84,7 +84,9 @@ const
     -d:gitupdate          Updates and force a hard reset
   """
 
-  nimwc_version = filter_it(readFile("nimwc.nimble").splitLines, it.substr(0, 6) == "version")[0]  ## Get NimWC Version at Compile-Time.
+  nimwc_version = "4.0.5"
+  # TODO: filter_it(readFile("nimwc.nimble").splitLines, it.substr(0, 6) == "version")[0]  ## Get NimWC Version at Compile-Time.
+  # Ref: https://github.com/ThomasTJdev/nim_websitecreator/issues/29
 
   compileOptions = ["",
     when defined(adminnotify): " -d:adminnotify",
