@@ -84,6 +84,8 @@ const
         <hr class="navbar-divider">
         <a class="nav-link navbar-item is-hoverable" href="/p/about">About</a>
         <hr class="navbar-divider">
+        <a class="nav-link navbar-item is-hoverable is-hidden-tablet" href="/login">Login</a>
+        <hr class="navbar-divider is-hidden-tablet">
       </div>
 
       <div class="navbar-end">
@@ -149,6 +151,9 @@ const
           <li class="nav-item">
             <a class="nav-link" href="/p/about">About</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
         </ul>
       </div>
     </div>
@@ -191,7 +196,7 @@ const
   """
 
   about = """
-  <div id="aboutContainer">
+  <div id="about">
     <div class="title reveal reveal-bottom">
       <h1>Learn more about NimWC
       </h1>
@@ -266,7 +271,7 @@ const
   """
 
   frontpage = """
-  <div id="frontpageContainer">
+  <div id="frontpage">
     <div class="title">
       <h1 class="reveal reveal-bottom">Nim Website Creator
       </h1>

@@ -644,49 +644,49 @@ _________________*/
 /*
 	About
 ___________________*/
-#aboutContainer {
+#about {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
-#aboutContainer .title {
+#about .title {
   align-items: center;
   min-height: 250px;
   margin-top: 100px;
 }
-#aboutContainer .title h1 {
+#about .title h1 {
   font-size: 3.6rem;
   font-weight: 300;
 }
-#aboutContainer .title h2 {
+#about .title h2 {
   font-size: 3rem;
   font-weight: 300;
 }
-#aboutContainer .text1 h2 {
+#about .text1 h2 {
   font-size: 3.3rem;
   font-weight: 300;
   color: #005bbc;
 }
-#aboutContainer .text1container {
+#about .text1container {
   padding-top: 25px;
   padding-bottom: 25px;
   background-color: rgba(255, 255, 255, 0.74);
   border: 1px solid #d9d9d9e8;
   border-radius: 15px;
 }
-#aboutContainer .text1container .column>div {
+#about .text1container .column>div {
   padding: 20px;
 }
 @media only screen and (max-width: 768px) {
-  #aboutContainer .title {
+  #about .title {
     margin-top: 50px;
     margin-bottom: 50px;
     height: 75vh;
   }
-  #aboutContainer .title h1 {
+  #about .title h1 {
     font-size: 3rem;
   }
-  #aboutContainer .title h2 {
+  #about .title h2 {
     font-size: 2rem;
     margin-top: 25px;
   }
