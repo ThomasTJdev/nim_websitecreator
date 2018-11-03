@@ -618,6 +618,13 @@ _________________*/
 #frontpageContainer .column>div {
   padding: 20px;
 }
+#frontpageContainer kbd {
+  padding: .2rem .4rem;
+  font-size: 87.5%;
+  color: #fff;
+  background-color: #212529;
+  border-radius: .2rem;
+}
 @media only screen and (max-width: 768px) {
   #frontpageContainer .title {
     margin-top: 50px;
