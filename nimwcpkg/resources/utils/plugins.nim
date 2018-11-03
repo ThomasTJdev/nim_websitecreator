@@ -80,6 +80,8 @@ proc pluginDownload*(pluginGit, pluginFolder: string): bool =
 proc pluginUpdate*(pluginFolder: string): bool =
   ## Updates an external plugin with pull
 
+  discard execCmd("git -C plugins/" & pluginFolder & " fetch --all")
+  discard execCmd("git -C plugins/" & pluginFolder & " reset --hard origin/master")
   let output = execProcess("git -C plugins/" & pluginFolder & " pull")
 
   if output == ("fatal: cannot change to " & pluginFolder & ": No such file or directory"):
