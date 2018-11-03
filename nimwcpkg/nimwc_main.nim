@@ -531,7 +531,7 @@ when isMainModule:
 
 
   # Create robots.txt
-  writeFile("public/robots.txt", "User-agent: *\nSitemap: " & mainWebsite & "/sitemap.xml\nDisallow: /login")
+  writeFile("public/robots.txt", "User-agent: *\nSitemap: " & mainWebsite & "/sitemap.xml")
 
 
   # Check if custom js and css exists
