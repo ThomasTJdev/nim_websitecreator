@@ -605,7 +605,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    let url = urlEncoderCustom(@"url")
+    let url = encodeUrl(@"url", true)
     if url == getValue(db, sql"SELECT url FROM blog WHERE url = ?", url):
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
@@ -618,7 +618,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    let url = urlEncoderCustom(@"url")
+    let url = encodeUrl(@"url", true)
     if url == getValue(db, sql"SELECT url FROM blog WHERE url = ? AND id <> ?", url, @"blogid"):
       if @"inbackground" == "true":
         resp("Error: A page with same URL already exists")
@@ -683,7 +683,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    let url = urlEncoderCustom(@"url")
+    let url = encodeUrl(@"url", true)
     if url == getValue(db, sql"SELECT url FROM pages WHERE url = ?", url):
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
@@ -696,7 +696,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    let url = urlEncoderCustom(@"url")
+    let url = encodeUrl(@"url", true)
     if url == getValue(db, sql"SELECT url FROM pages WHERE url = ? AND id <> ?", url, @"pageid"):
       if @"inbackground" == "true":
         resp("Error: A page with same URL already exists")

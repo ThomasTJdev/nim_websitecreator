@@ -25,8 +25,7 @@ import
   resources/utils/logging_nimwc,
   resources/utils/plugins,
   resources/utils/random_generator,
-  resources/web/google_recaptcha,
-  resources/web/urltools
+  resources/web/google_recaptcha
 
 when defined(windows): quit("\n Windows is not supported \n")
 
