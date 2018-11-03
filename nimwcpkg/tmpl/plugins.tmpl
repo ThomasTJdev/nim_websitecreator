@@ -63,8 +63,11 @@
             <a href="${plugin["web"].getStr()}" title="${plugin["web"].getStr()}" target="_blank" rel="noreferrer noopener nofollow"><b>
             ${plugin["name"].getStr()}</b></a>
 #         if installed:
-#           let installedPlugin = parseJson(readFile("plugins/" & plugin["foldername"].getStr() & "/plugin.json"))
-            <span class="version is-pulled-right"><b>Installed:</b> <code>${plugin["version"].getStr()}</code></span>
+#           let installedPlugin = parseFile("plugins/" & plugin["foldername"].getStr() & "/plugin.json")
+#           var installedVersion = ""
+#           for i in items(installedPlugin): installedVersion = i["version"].getStr()
+#           end for
+            <span class="version is-pulled-right"><b>Installed:</b> <code>${installedVersion}</code></span>
             <span class="version git is-pulled-right"><b>Git version:</b> <code>${plugin["version"].getStr()}</code></span>
 #         else:
             <span class="version is-pulled-right">
