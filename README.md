@@ -104,6 +104,9 @@ These arguments should be prepended to executable file, e.g. `./nimwc cdata`
   * `-p:<admin password>`
   * `-e:<admin email>`
 * `--insertdata` = Insert standard data (this will override existing data)
+  * `bulma` = Use Bulma CSS
+  * `bootstrap` = Use Bootstrap and jQuery
+  * `clean` = No framework is used
 * `--newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
 * `--gitupdate` = Updates and force a hard reset
 * `--initplugin` = Create plugin skeleton inside tmp/
@@ -191,10 +194,8 @@ sudo systemctl start nimwc
 sudo systemctl status nimwc
 ```
 
-# To Bootstrap or not to Bootstrap
-jQuery and Bootstrap is standard components when using the arg `--insertdata`, using the settings menu and working with GrapeJS. You can remove jQuery and Bootstrap from your blogpost and page by editing the main `<head>` in: Settings => Edit head, navbar, footer => head
-
-To use GrapeJS with another CSS file, you have to edit `public/js/grapejs_custom.js` and `public/js/grapejsbs4.min.js` .
+# GrapesJS
+GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma or Bootstrap), you have to edit `public/js/grapejs_custom.js` and `public/js/grapejsbs4.min.js`. Bootstrap support in `public/js/grapejs_custom.js` is commented out.
 
 # Trouble
 
