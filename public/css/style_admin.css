@@ -585,6 +585,21 @@ li.pluginRepo span.version.git {
   background-color: #ffc107;
 }
 
+/*
+  Plugins details
+*/
+#pluginDetails {
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+#pluginDetails>div {
+  margin-bottom: 5px;
+}
+#pluginDetails b {
+  font-weight: bold;
+}
 
 /*
   Saved notification
