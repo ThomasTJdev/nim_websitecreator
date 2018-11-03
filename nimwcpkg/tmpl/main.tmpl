@@ -1,98 +1,82 @@
 #? stdtmpl | standard
 #
+#import times
+#proc genMainAdmin(c: var TData, data: string, pageAction = ""): string =
+# result = ""
 #
-#
-#
-#
-#
-#
-#proc genMainAdmin(c: var TData, data: string, pageAction = ""): string = 
-# result = "" 
-#
-# let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
-# let loggedIn = if c.loggedIn == true: "true" else: "false"
+# let title = getValue(db, sql"SELECT title FROM settings WHERE id = ?", "1")
 <!DOCTYPE html>
-<html lang="EN">
+<html class="has-navbar-fixed-top">
 <head>
-  <title>Nim Website Creator</title>
-
+  <meta charset="utf-8">
+  <meta name="generator" content="Nim Website Creator">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${title}</title>
+# when defined(demo):
   <meta name="description" content="Nim Website Creator">
-  <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <link rel="shortcut icon" href="/images/logo/favicon.ico">
+  <meta name="keywords" content="Nim,Nim Website Creator,nimwc">
+# end when
+  <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" href="/images/logo/favicon-16x16.png" sizes="16x16">
   <link rel="icon" type="image/png" href="/images/logo/favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="/images/logo/favicon-192x192.png" sizes="192x192">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/favicon-180x180.png">
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
   <link rel="stylesheet" href="/css/style_admin.css">
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" defer></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous" defer></script>
   <script src="/js/js_admin.js" defer></script>
-
 </head>
 
 <body class="body">
-  <div id="pagewrapper">
+  <div id="pagewrapper" class="container is-fluid">
     <div id="background"></div>
-      ${genNavbarLoggedinSettings(c)}
-
     <header>
-      <nav id="navbar" class="navbar navbar-expand-md navbar-light">
-        <div id="navbarInside">
-          <a class="navbar-brand" href="/">
-            <img src="/images/logo/NimWC_logo_blue.png" />
-            <div>Nim Website Creator</div>
+      <nav class="navbar is-fixed-top" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+          <a class="navbar-item logo" href="/">
+            <img src="/images/logo/NimWC_logo_blue.png" title="Nim Website Creator" />
           </a>
         </div>
+
+        <div id="navbarBasic" class="navbar-menu">
+          <div class="navbar-end">
+            <div class="navbar-item">
+              <div class="buttons">
+                <a class="button is-small is-outlined" href="/settings">Settings</a>
+                <a class="button is-small is-outlined" href="/logout" title="Logout">Logout</a>
+              </div>
+            </div>
+          </div>
       </nav>
     </header>
 
     <main>
-      <div id="page" class="$loggedIn">
-        $data
-      </div>
+      <section class="section">
+        <div id="page" class="${c.loggedIn}">
+          $data
+        </div>
+      </section>
     </main>
 
-    <footer>
-      <div id="footerInside">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-12 col-md-3 footerLeft">
-              <h5>
-                Copyright
-              </h5>
-              <p>
-                <p>&#169; 2018 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a></p>
-              </p>
-            </div>
-            <div class="col-12 col-md-6 footerMiddle">
-            </div>
-            <div class="col-12 col-md-3 footerRight">
-              <h5>
-                Nim Website Creator
-              </h5>
-              <p>
-                <p>License: GPLv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></p>
-              </p>
-            </div>
-          </div>
-        </div>
+    <footer class="footer">
+#  when defined(demo):
+      ${footer}
+#  else:
+      <div id="footerInside" class="content has-text-centered">
+        <p title="Built ${$now()}"> &#169; ${now().year}</p>
       </div>
+#  end when
     </footer>
 
-    #     if pageAction == "edithtml":
-            ${genEditHtml()}
-    #     elif pageAction == "editjs":
-            ${genEditJs()}
-    #     elif pageAction == "editcss":
-            ${genEditCss()}
-    #     elif pageAction == "users":
-            ${genProfileJsCss()}
-    #     end if
+#   if pageAction == "edithtml":
+      ${genEditHtml()}
+#   elif pageAction == "editjs":
+      ${genEditJs()}
+#   elif pageAction == "editcss":
+      ${genEditCss()}
+#   elif pageAction == "users":
+      ${genProfileJsCss()}
+#   end if
 
   </div>
 </body>
@@ -106,13 +90,13 @@
 #
 #
 #
-#proc genMain(c: var TData, data: string, pageAction = ""): string = 
-# result = "" 
+#proc genMain(c: var TData, data: string, pageAction = ""): string =
+# result = ""
 #
 # let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
-<html lang="EN">
+<html class="has-navbar-fixed-top loggedin-${c.loggedIn}">
 <head>
 # if standardElements[3] != "":
   <title>${standardElements[3]}</title>
@@ -172,7 +156,7 @@ ${extensionCss()}
 #
 #
 #
-#proc genPage(c: var TData, pageid: string): string = 
+#proc genPage(c: var TData, pageid: string): string =
 # result = ""
 #
 # let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
@@ -180,14 +164,14 @@ ${extensionCss()}
 #
 #
 # var status = "2"
-# if c.loggedIn: 
+# if c.loggedIn:
 #   status = "0,1,2"
 # end if
 #
 # let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, title, metadescription, metakeywords  FROM pages WHERE id = ? AND status IN (" & status & ")"), pageid)
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
-<html lang="EN">
+<html class="has-navbar-fixed-top loggedin-${c.loggedIn}">
 
 <head>
 # if pageData[7] != "":
@@ -249,21 +233,21 @@ ${extensionCss()}
 #
 #
 #
-#proc genPageBlog(c: var TData, blogid: string): string = 
+#proc genPageBlog(c: var TData, blogid: string): string =
 # result = ""
 #
 # let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
 #
 #
 # var status = "2"
-# if c.loggedIn: 
+# if c.loggedIn:
 #   status = "0,1,2"
 # end if
 #
 # let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, status, title, metadescription, metakeywords FROM blog WHERE id = ? AND status IN (" & status & ")"), blogid)
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
-<html lang="EN">
+<html class="has-navbar-fixed-top loggedin-${c.loggedIn}">
 
 
 <head>

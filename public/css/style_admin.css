@@ -1,7 +1,37 @@
 /*
   Main elements
 */
-#background {
+body.has-navbar-fixed-top, html.has-navbar-fixed-top {
+  padding-top: 3.25rem;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.2rem;
+}
+h2 {
+  font-size: 2rem;
+  margin-bottom: .9rem;
+}
+h3 {
+  font-size: 1.8rem;
+  margin-bottom: .6rem;
+}
+h4 {
+  font-size: 1.5rem;
+  margin-bottom: .4rem;
+}
+h5 {
+  font-size: 1.2rem;
+  font-weight: 450;
+  margin-top: .3rem;
+}
+
+.hidden {
+  display: none;
+}
+
+div#background {
   background-attachment: fixed;
   background-attachment: fixed;
   background-image: url("/images/bgbuilding.jpeg");
@@ -9,8 +39,8 @@
   background-repeat: no-repeat;
   background-size: 100%;
   background-size: cover;
-  filter:alpha(opacity=05);
-  opacity: 0.5;
+  filter: alpha(opacity=20);
+  opacity: 0.20;
   height: 100%;
   left: 0;
   position: fixed;
@@ -30,7 +60,7 @@ body {
   /*background: white;*/
   margin-left: auto;
   margin-right: auto;
-  padding: 0px 20px;
+  padding: 0 20px;
   min-height: 100vh;
 }
 @media only screen and (max-width: 1200px) {
@@ -41,7 +71,6 @@ body {
 
 footer {
   border-top: 1px solid #dee2e6;
-  margin-top: 45px;
   margin-left: auto;
   margin-right: auto;
   padding-top: 15px;
@@ -51,10 +80,11 @@ footer {
   margin-right: auto;
   display: block;
 }
-footer .footerLeft u,
-footer .footerMiddle,
-footer .footerRight u {
-  color: black;
+.footer {
+  border-top: 1px solid #dee2e6;
+  background-color: transparent;
+  padding: 2rem 1.5rem 1rem;
+  margin-top: 1rem;
 }
 @media only screen and (max-width: 768px) {
   footer {
@@ -98,6 +128,13 @@ nav#navbar a.nav-link {
 nav#navbar div#navbarInside {
   width: 100%;
 }
+a.navbar-item.logo {
+  padding: 0 10px;
+}
+.navbar.is-fixed-top {
+  top: 0;
+  background: transparent;
+}
 @media only screen and (max-width: 768px) {
   header {
     width: auto;
@@ -116,43 +153,31 @@ nav#navbar div#navbarInside {
   }
 }
 
-/* Navbar settings */
+
+/*
+  Navbar Bulma
+*/
+html.loggedin-true nav.navbar .navbar-end .buttons {
+  display: none
+}
+
+
+/*
+  Navbar settings
+*/
 div#navbarSettings {
   background: whitesmoke;
   position: fixed;
   z-index: 666;
   width: 100%;
-  margin: 0px -20px;
-  -webkit-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
+  margin: 0 -20px;
+  -webkit-box-shadow: 0 6px 5px 0 rgba(0,0,0,0.75);
+  -moz-box-shadow: 0 6px 5px 0 rgba(0,0,0,0.75);
+  box-shadow: 0 6px 5px 0 rgba(0,0,0,0.75);
 }
 div#navbarSettings span.nav-item a,
 div#navbarSettings a.nav-link {
   color: black;
-  
-}
-
-
-
-/*
-  General items
-*/
-input {
-  border: none;
-  border-bottom: 1px solid grey;
-  padding-left: 5px;
-}
-input:focus {
-  box-shadow: 2px 2px 5px 0px rgba(186,186,186,1);
-  outline: auto;
-}
-a.btn,
-button.btn {
-  font-size: 95%;
-  height: 26px;
-  line-height: 12px;
-  margin-top: 5px;
 }
 
 
@@ -161,23 +186,32 @@ button.btn {
   Settings overview
 */
 div#settings {
-  background: #ffffffd6;
+  background: white;
   border-radius: 10px;
   margin-left: auto;
   margin-right: auto;
   max-width: 500px;
   text-align: center;
+  border: 1px solid #bab2b2;
+  padding: 1rem;
 }
 div#settings div {
-  margin-bottom: 15px;
-  margin-top: 15px;
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-top: 0;
 }
 div#settings .btn {
   width: 200px;
   background: white;
+  -webkit-box-shadow: 1px 1px 5px 0 rgba(138,138,138,1);
+  -moz-box-shadow: 1px 1px 5px 0 rgba(138,138,138,1);
+  box-shadow: 1px 1px 5px 0 rgba(138,138,138,1);
 }
 div#settings .btn:hover {
   color: #042c57;
+}
+div#settings hr {
+  margin: .5rem 0;
 }
 
 
@@ -192,42 +226,10 @@ div#settingsEdit {
   max-width: 1400px;
   padding: 10px;
 }
-div#settingsEdit input {
-  border: none;
-  border-bottom: 1px solid grey;
-  padding-left: 5px;
-}
-div#settingsEdit textarea {
-  width: 100%;
-  min-height: 300px;
-  margin-bottom: 35px;
-}
-div#settingsEdit input:focus,
-div#settingsEdit textarea:focus {
-  box-shadow: 2px 2px 5px 0px rgba(186,186,186,1);
-  outline: auto;
-}
 div#settingsEdit pre.templateCode {
   border-radius: 2px;
   border: 1px solid grey;
   padding: 5px;
-}
-button.templateCode,
-button.settingsRestore,
-button.settingsSaveCode,
-button.settingsSave {
-  font-size: 95%;
-  height: 26px;
-  line-height: 12px;
-  margin-top: 5px;
-  width: 80px;
-}
-button.templateCode {
-  width: 120px;
-  margin-left: 10px;
-}
-button.settingsRestore {
-  margin-left: 10px;
 }
 
 
@@ -242,28 +244,37 @@ div#pageData {
   margin-left: auto;
   margin-right: auto;
 }
+div#blogData.new,
+div#pageData.new {
+  max-width: 500px;
+}
+div#blogData.new div.blogRequired,
+div#pageData.new div.pageRequired {
+  margin-top: 1rem;
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+div#blogData.new div.field,
+div#pageData.new div.field {
+  margin-top: 1rem;
+}
+button.newblogSave,
+button.newpageSave,
+div.blogOptions.main div.buttonGroup,
+div.pageOptions.main div.buttonGroup {
+  margin-top: 1.3rem;
+}
 div#blogHeader,
 div#pageHeader {
   max-width: 1100px;
   margin-left: auto;
   margin-right: auto;
 }
-button.newblogSave,
-button.blogOptions,
-button.newpageSave,
-button.pageOptions {
-  font-size: 95%;
-  height: 26px;
-  line-height: 12px;
-  margin-top: 5px;
-  width: 80px;
-}
 span.blogDelete,
 span.pageDelete {
-  font-size: 95%;
-  height: 26px;
-  line-height: 12px;
-  margin-top: 5px;
+  margin-right: auto;
+  margin-left: auto;
 }
 div.blogOptions,
 div.pageOptions {
@@ -274,6 +285,20 @@ div.pageOptions {
   border: 1px solid #80808094;
   margin-top: 10px;
   max-width: 500px;
+}
+div#blogData.new div.blogOptions,
+div#pageData.new div.pageOptions,
+div.blogOptions.main,
+div.pageOptions.main {
+  display: block;
+}
+div.blogOptions .input,
+div.blogOptions .select,
+div.blogOptions .textarea,
+div.pageOptions .input,
+div.pageOptions .select,
+div.pageOptions .textarea {
+  font-size: .9rem
 }
 @media only screen and (max-width: 768px) {
   div#blogData button,
@@ -288,13 +313,19 @@ div.pageOptions {
     All blog posts
 */
 div#allblogPosts .list-group {
-  margin: 40px 0px;
-}
-div#allblogPosts .list-group-item {
-  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  max-width: 800px;
+  width: 100%;
+}
+div#allblogPosts .list-group-item {
+  background: white;
   border: 1px solid #bcbcbc5c;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  width: 100%;
 }
 div#allblogPosts .editChip {
   font-size: 0.8rem;
@@ -315,13 +346,22 @@ div#allblogPosts a.blognameEdit {
     All pages
 */
 div#allpagePosts .list-group {
-  margin: 40px 0px;
-}
-div#allpagePosts .list-group-item {
-  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
+  max-width: 800px;
+  width: 100%;
+}
+div#allpagePosts .list-group-item {
+  background: white;
   border: 1px solid #bcbcbc5c;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  width: 100%;
+}
+div#allpagePosts a.list-group-item {
+  color: black;
 }
 
 
@@ -336,6 +376,13 @@ div#users {
   max-width: 800px;
   padding: 10px;
 }
+div#users div.field {
+  margin-bottom: 10px;
+}
+div#users input,
+div#users select{
+  font-size: .9rem;
+}
 div#users span a.delete {
   color: white;
 }
@@ -343,7 +390,6 @@ div#usersAddContainer {
   margin-bottom: 20px;
 }
 form#usersAdd {
-  display: none;
   border: 1px solid grey;
   width: 300px;
   padding: 10px;
@@ -370,7 +416,7 @@ div#user {
 }
 div#user label {
   width: 200px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
   margin-top: .5rem;
 }
 div#user #editProfilePhoto {
@@ -386,7 +432,7 @@ div#user #editProfilePhoto {
 @media only screen and (max-width: 768px) {
   div#user label {
     margin-top: 15px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
   }
   div#user div.save {
     text-align: left;
@@ -415,19 +461,15 @@ div#files {
 div#fileAddContainer {
   margin-bottom: 20px;
 }
-div#fileAdd button {
-  font-size: 95%;
-  height: 26px;
-  line-height: 12px;
-  margin-top: 5px;
-}
 form#fileAdd {
-  display: none;
   border: 1px solid grey;
   width: 300px;
   padding: 10px;
   border-radius: 10px;
   margin-top: 10px;
+}
+form#fileAdd input#file {
+  margin-bottom: 10px;
 }
 div#files span a {
   color: white;
@@ -435,13 +477,39 @@ div#files span a {
 div#files span.deleteFile {
   cursor: pointer;
 }
+div#files td.is-danger {
+  text-align: center;
+}
 
 
 
 
 /*
   Plugins
-*/
+*/div#plugins {
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+div#plugins .buttons a {
+  font-size: 95%
+}
+div#plugins span.version {
+  margin-left: 10px;
+}
+div#plugins div.message-header>h5 {
+  width: 100%;
+}
+div#plugins article.message {
+  border: 1px solid;
+  margin-bottom: 0.4rem;
+}
+div#plugins p.pluginCount {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
 ul.pluginSettings {
   padding-left: 10px;
   margin-left: auto;
@@ -474,7 +542,7 @@ li.pluginSettings .disablePlugin {
   border-radius: 10px;
   cursor: pointer;
   float: right;
-  padding: 0px 15px;
+  padding: 0 15px;
 }
 li.pluginSettings .enablePlugin {
   background: rgba(0, 128, 0, 0.5);
@@ -511,12 +579,27 @@ li.pluginRepo span.version {
   background: rgb(236, 236, 236);
   border-radius: 5px;
   border: 1px solid grey;
-  padding: 0px 2px;
+  padding: 0 2px;
 }
 li.pluginRepo span.version.git {
   background-color: #ffc107;
 }
 
+/*
+  Plugins details
+*/
+#pluginDetails {
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+#pluginDetails>div {
+  margin-bottom: 5px;
+}
+#pluginDetails b {
+  font-weight: bold;
+}
 
 /*
   Saved notification

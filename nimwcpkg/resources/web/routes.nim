@@ -1,5 +1,5 @@
 # Copyright 2018 - Thomas T. Jarløv
- 
+
 routes:
   #error Http404:
   #  redirect("/")
@@ -24,14 +24,14 @@ routes:
       if useCaptcha:
         if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
           redirect("/login?msg=" & encodeUrl("Error: You need to verify, that you are not a robot!"))
-    
+
     let (loginB, loginS) = login(c, replace(toLowerAscii(@"email"), " ", ""), replace(@"password", " ", ""))
     if loginB:
       jester.setCookie("sid", loginS, daysForward(7))
       redirect("/settings")
     else:
       redirect("/login?msg=" & encodeUrl(loginS))
-  
+
   get "/logout":
     createTFD()
     logout(c)
@@ -39,7 +39,7 @@ routes:
 
   get "/error/@errorMsg":
     createTFD()
-    resp genMain(c, "<h3 style=\"text-align: center; color: red;\">" & decodeUrl(@"errorMsg") & "</h3>")
+    resp genMain(c, "<h3 style=\"text-align: center; color: red; margin-top: 100px;\">" & decodeUrl(@"errorMsg") & "</h3>")
 
 
 
@@ -52,7 +52,7 @@ routes:
 
   get "/plugins":
     ## Access the plugin overview
-    
+
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
@@ -64,7 +64,7 @@ routes:
     ##
     ## @"status" == false => Plugin is not enabled
     ##                       this will enable the plugin (add a line)
-    ## @"status" == true  => Plugin is enabled, 
+    ## @"status" == true  => Plugin is enabled,
     ##                       this will disable the plugin (remove the line)
 
     createTFD()
@@ -109,7 +109,7 @@ routes:
 
     resp genMainAdmin(c, genPluginsRepo(c))
 
-  
+
   get "/plugins/repo/download":
     ## Shows all the plugins in the plugin repo
 
@@ -162,11 +162,11 @@ routes:
         if ("plugins/" & @"pluginfolder") == line:
           isInstalled = true
           break
-          
-      if isInstalled:    
+
+      if isInstalled:
         pluginEnableDisable(("plugins/" & @"pluginfolder"), @"pluginfolder", "true")
         redirect("/plugins/updating?pluginActivity=" & encodeUrl("uninstalling " & @"pluginname"))
-          
+
       redirect("/plugins/repo")
     else:
       redirect("/error/" & encodeUrl("Something went wrong. Please ensure, that you have disabled the plugin at /plugins"))
@@ -196,20 +196,12 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
 
     resp genMainAdmin(c, genSettings(c))
-    
+
   get "/settings/edit":
     createTFD()
     restrictAccessTo(c, [Admin])
 
     resp genMainAdmin(c, genSettingsEdit(c), "edithtml")
-
-  get "/settings/editrestore":
-    createTFD()
-    restrictTestuser(c.req.reqMethod)
-    restrictAccessTo(c, [Admin])
-
-    standardDataSettings(db)
-    redirect("/settings/edit")
 
   post "/settings/update":
     createTFD()
@@ -226,14 +218,14 @@ routes:
 
   get "/settings/editjs":
     createTFD()
-    restrictAccessTo(c, [Admin]) 
-    
+    restrictAccessTo(c, [Admin])
+
     resp genMainAdmin(c, genSettingsEditJs(c, false), "editjs")
 
   get "/settings/editjscustom":
     createTFD()
-    restrictAccessTo(c, [Admin]) 
-    
+    restrictAccessTo(c, [Admin])
+
     resp genMainAdmin(c, genSettingsEditJs(c, true), "editjs")
 
   post "/settings/updatejs":
@@ -313,6 +305,11 @@ routes:
     exec(db, sql"UPDATE settings SET blogorder = ?, blogsort = ?", blogorder, @"blogsort")
     redirect("/settings/blog")
 
+  get "/settings/logs":
+    createTFD()
+    restrictAccessTo(c, [Admin, Moderator])
+    resp genViewLogs(logcontent=readFile(logfile))
+
 
   #[
 
@@ -323,14 +320,14 @@ routes:
   get "/files":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-    
+
     resp genMainAdmin(c, genFiles(c), "edit")
 
 
   get "/files/raw":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-    
+
     resp genFilesRaw(c)
 
 
@@ -339,7 +336,7 @@ routes:
 
     createTFD()
     let filename = decodeUrl(@"filename")
-    
+
     var filepath = ""
 
     if @"access" == "private":
@@ -376,7 +373,7 @@ routes:
 
     except:
       resp("ERROR")
-    
+
     resp("ERROR")
 
 
@@ -386,7 +383,7 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-    
+
     if @"access" notin ["private", "public", "publicimage"]:
       resp("Error: Missing access right")
 
@@ -398,7 +395,7 @@ routes:
 
     else:
       path = storageEFS & "/files/" & @"access" & "/" & filename
-    
+
     if fileExists(path):
       resp("Error: A file with the same name exists")
 
@@ -426,12 +423,12 @@ routes:
       fileDeleted = tryRemoveFile("public/images/" & decodeUrl(@"filename"))
 
     else:
-      fileDeleted = tryRemoveFile(storageEFS & "/files/" & @"access" & "/" & decodeUrl(@"filename")) 
+      fileDeleted = tryRemoveFile(storageEFS & "/files/" & @"access" & "/" & decodeUrl(@"filename"))
 
     if fileDeleted:
       redirect("/files")
 
-    else: 
+    else:
       resp("Error: File not found")
 
 
@@ -445,13 +442,13 @@ routes:
 
   get "/users":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn:
       resp genMainAdmin(c, genUsers(c))
 
 
   get "/users/profile":
     createTFD()
-    if c.loggedIn:  
+    if c.loggedIn:
       resp genMainAdmin(c, genUsersProfile(c), "users")
 
 
@@ -474,12 +471,12 @@ routes:
         let password = makePassword(@"password", salt)
 
         exec(db, sql"UPDATE person SET name = ?, email = ?, password = ?, salt = ? WHERE id = ?", @"name", @"email", password, salt, c.userid)
-      
+
       else:
         exec(db, sql"UPDATE person SET name = ?, email = ? WHERE id = ?", @"name", @"email", c.userid)
 
       redirect("/users/profile")
-      
+
 
   get "/users/delete/@userID":
     createTFD()
@@ -518,7 +515,7 @@ routes:
 
     if @"email" == "test@test.com":
       redirect("/error/" & encodeUrl("Error: test@test.com is taken by the system"))
-    
+
     if not ("@" in @"email" and "." in @"email"):
       redirect("/error/" & encodeUrl("Error: Your email has a wrong format"))
 
@@ -526,7 +523,7 @@ routes:
     let emailExist = getValue(db, sql"SELECT id FROM person WHERE email = ?", emailReady)
     if emailExist != "":
       redirect("/error/" & encodeUrl("Error: A user with that email does already exists"))
-    
+
     let salt = makeSalt()
     let passwordOriginal = randomString(12)
     let password = makePassword(passwordOriginal, salt)
@@ -538,7 +535,7 @@ routes:
 
     redirect("/users")
 
-  
+
   get "/users/activate":
     createTFD()
     if @"id" == "" or @"ident" == "":
@@ -557,12 +554,12 @@ routes:
     ## Get a file
     createTFD()
     let filename = decodeUrl(@"filename")
-    
+
     var filepath = storageEFS & "/users/" & filename
 
     if not fileExists(filepath):
       resp("")
-    
+
     sendFile(filepath)
 
 
@@ -600,25 +597,33 @@ routes:
   get "/blogpagenew":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-     
+
     resp genMainAdmin(c, genNewBlog(c), "edit")
 
 
   post "/blogpagenew/save":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-    
-    let url = urlEncoderCustom(@"url")
+
+    let url = encodeUrl(@"url", true)
+    if url == getValue(db, sql"SELECT url FROM blog WHERE url = ?", url):
+      redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
+
     let blogID = insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
-    
+
     resp genMainAdmin(c, genEditBlog(c, $blogID, true), "edit")
 
 
   post "/blogpage/update":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-    
-    let url = urlEncoderCustom(@"url")
+
+    let url = encodeUrl(@"url", true)
+    if url == getValue(db, sql"SELECT url FROM blog WHERE url = ? AND id <> ?", url, @"blogid"):
+      if @"inbackground" == "true":
+        resp("Error: A page with same URL already exists")
+      redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
+
     discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"blogid")
 
     if @"inbackground" == "true":
@@ -651,7 +656,7 @@ routes:
   get "/blog":
     createTFD()
     resp genMain(c, genBlogAllPages(c))
-  
+
 
   get re"/blog//*.":
     createTFD()
@@ -670,7 +675,7 @@ routes:
   get "/pagenew":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-    
+
     resp genMainAdmin(c, genNewPage(c), "edit")
 
 
@@ -678,9 +683,12 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    let url = urlEncoderCustom(@"url")
+    let url = encodeUrl(@"url", true)
+    if url == getValue(db, sql"SELECT url FROM pages WHERE url = ?", url):
+      redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
+
     let pageID = insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
-    
+
     resp genMainAdmin(c, genEditPage(c, $pageID, true), "edit")
 
 
@@ -688,7 +696,12 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    let url = urlEncoderCustom(@"url")
+    let url = encodeUrl(@"url", true)
+    if url == getValue(db, sql"SELECT url FROM pages WHERE url = ? AND id <> ?", url, @"pageid"):
+      if @"inbackground" == "true":
+        resp("Error: A page with same URL already exists")
+      redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
+
     discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"pageid")
 
     if @"inbackground" == "true":
@@ -704,11 +717,11 @@ routes:
     exec(db, sql"DELETE FROM pages WHERE id = ?", @"pageid")
     redirect("/editpage/allpages")
 
-  
+
   get "/editpage/allpages":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-    
+
     resp genMainAdmin(c, genAllPagesEdit(c))
 
 
@@ -724,7 +737,7 @@ routes:
     let pageid = getValue(db, sql"SELECT id FROM pages WHERE url = ?", c.req.path.replace("/p/", ""))
     resp genPage(c, pageid)
 
-  
+
   #[
 
       Sitemap

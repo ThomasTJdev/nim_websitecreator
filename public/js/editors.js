@@ -24,7 +24,7 @@ $(document).ready(function() {
 */
 $(document).ready(function() {
   $( "button.blogOptions" ).click(function() {
-    $("div.blogOptions").toggle();
+    $("div.blogOptions.details").toggle();
   });
 
   $( ".newblogSave" ).click(function() {
@@ -58,7 +58,7 @@ $(document).ready(function() {
 */
 $(document).ready(function() {
   $( "button.pageOptions" ).click(function() {
-    $("div.pageOptions").toggle();
+    $("div.pageOptions.details").toggle();
   });
 
   $( ".newpageSave" ).click(function() {

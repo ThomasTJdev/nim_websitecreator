@@ -3,8 +3,6 @@ import asyncdispatch, smtp, strutils, os, htmlparser, asyncnet, parsecfg
 import ../email/email_connection
 import ../email/email_generate_message
 
-from times import getTime, getGMTime, format
-
 
 let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
@@ -54,4 +52,3 @@ Please do not hesitate to contact us at $5, if you have any questions.
 Thank you for registering and becoming a part of $2!""" % [userName, title, website, supportEmail]
 
   await sendMailNow(title & "- Reminder: Email Confirmation", genEmailMessage(message), email)
-

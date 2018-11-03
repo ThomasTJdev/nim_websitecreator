@@ -1,5 +1,4 @@
 import asyncdispatch, smtp, strutils, os, htmlparser, asyncnet, parsecfg
-from times import getTime, getGMTime, format
 
 
 import ../email/email_connection
@@ -16,6 +15,5 @@ An error occurred.
 $1
 <br><br>
 """ % [msg]
-  
-  await sendAdminMailNow("Admin: Error occurred", genEmailMessage(message))
 
+  await sendAdminMailNow("Admin: Error occurred", genEmailMessage(message))

@@ -1,14 +1,13 @@
-/*style_nimwc.css*/
-/*
-  Theme: NimWC
-  Do not change the lines above
-  This is the default stylesheet  
-*/
-
 /*
   Main elements
 */
-#background {
+body {
+  min-height: 80vh;
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+div#background {
   background-attachment: fixed;
   background-attachment: fixed;
   background-image: url("/images/bgbuilding.jpeg");
@@ -16,8 +15,8 @@
   background-repeat: no-repeat;
   background-size: 100%;
   background-size: cover;
-  filter:alpha(opacity=05);
-  opacity: 0.05; /* uses JS to transform to 0.5 */
+  filter: alpha(opacity=50);
+  opacity: 0.50;
   height: 100%;
   left: 0;
   position: fixed;
@@ -26,18 +25,11 @@
   z-index: -1;
 }
 
-body {
-  min-height: 100vh;
-  font-size: 14px;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 #pagewrapper {
-  /*background: white;*/
   margin-left: auto;
   margin-right: auto;
-  padding: 0px 20px;
-  min-height: 100vh;
+  padding: 0 20px;
+  min-height: 80vh;
 }
 @media only screen and (max-width: 1200px) {
   #pagewrapper {
@@ -46,8 +38,6 @@ body {
 }
 
 footer {
-  border-top: 1px solid #dee2e6;
-  margin-top: 45px;
   margin-left: auto;
   margin-right: auto;
   padding-top: 15px;
@@ -56,6 +46,12 @@ footer {
   margin-left: auto;
   margin-right: auto;
   display: block;
+}
+.footer {
+  border-top: 1px solid #dee2e6;
+  background-color: transparent;
+  padding: 2rem 1.5rem 1rem;
+  margin-top: 1rem;
 }
 footer .footerLeft u,
 footer .footerMiddle,
@@ -74,6 +70,10 @@ header {
   margin-right: auto;
   display: block;
 }
+
+/*
+  Navbar Bootstrap
+*/
 nav#navbar{
   background-color: transparent;
   margin-bottom: 15px;
@@ -82,9 +82,6 @@ nav#navbar .navbar-brand {
   color: #0059b8;
   font-weight: 400;
   font-size: 28px;
-}
-nav#navbar .navbar-brand div,
-nav#navbar .navbar-brand img {
 }
 nav#navbar .navbar-brand div {
   display: inline;
@@ -137,7 +134,6 @@ nav#navbar div#mobileMenu.active .bar3 {
 }
 #mobileMenu {
   background: #221f1f;
-  display: none;
   height: 100%;
   left: 0;
   opacity: 0.95;
@@ -181,35 +177,207 @@ nav#navbar div#mobileMenu.active .bar3 {
 }
 
 
-/* Navbar settings */
+/*
+  Navbar Bulma
+*/
+html.loggedin-true nav.navbar .navbar-end .buttons {
+  display: none
+}
+.navbar.is-fixed-top {
+  width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: transparent;
+}
+@media only screen and (max-width: 768px) {
+  .navbar.is-fixed-top {
+    width: auto;
+  }
+}
+.navbar #navbarMain a.nav-link {
+  color: #0059b8;
+  text-transform: capitalize;
+  font-variant: small-caps;
+  font-size: 1.7rem;
+  margin-right: 5px;
+  padding-top: 1.4rem;
+}
+.navbar .navbar-item img {
+  max-height: 3.75rem;
+}
+
+/*
+  Navbar settings
+*/
 div#navbarSettings {
   background: whitesmoke;
   position: fixed;
   z-index: 666;
   width: 100%;
-  margin: 0px -20px;
-  -webkit-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 6px 5px 0px rgba(0,0,0,0.75);
+  margin: 20px 0 0 -20px;
+  -webkit-box-shadow: 0 6px 5px 0 rgba(0,0,0,0.75);
+  -moz-box-shadow: 0 6px 5px 0 rgba(0,0,0,0.75);
+  box-shadow: 0 6px 5px 0 rgba(0,0,0,0.75);
 }
 div#navbarSettings span.nav-item a,
 div#navbarSettings a.nav-link {
   color: black;
-  
+}
+/* Add some spacing to main when settings navbar is visible*/
+html.loggedin-true main {
+  padding-top: 40px;
 }
 
+
+/*
+  Animation
+*/
+.reveal-normal,
+.reveal-left,
+.reveal-right {
+  position:relative;
+}
+.reveal.reveal-top.slide-top {
+
+	-webkit-animation: slide-top 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-top 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.reveal.reveal-right.slide-right {
+
+  -webkit-animation: slide-right 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+  			animation: slide-right 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.reveal.reveal-left.slide-left {
+
+	-webkit-animation: slide-left 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-left 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.reveal-bottom.slide-bottom {
+	-webkit-animation: slide-bottom 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-bottom 1.2s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@-webkit-keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(-100px);
+            transform: translateY(-100px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+@keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(-100px);
+            transform: translateY(-100px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+@-webkit-keyframes slide-right {
+  0% {
+    -webkit-transform: translateX(100px);
+            transform: translateX(100px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+@keyframes slide-right {
+  0% {
+    -webkit-transform: translateX(100px);
+            transform: translateX(100px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+@-webkit-keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(-100px);
+            transform: translateX(-100px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+@keyframes slide-left {
+  0% {
+    -webkit-transform: translateX(-100px);
+            transform: translateX(-100px);
+  }
+  100% {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+}
+@-webkit-keyframes slide-bottom {
+  0% {
+    -webkit-transform: translateY(100px);
+            transform: translateY(100px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+@keyframes slide-bottom {
+  0% {
+    -webkit-transform: translateY(100px);
+            transform: translateY(100px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+
+/*
+  Fonts
+*/
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.2rem;
+}
+h2 {
+  font-size: 2rem;
+  margin-bottom: .9rem;
+}
+h3 {
+  font-size: 1.8rem;
+  margin-bottom: .6rem;
+}
+h4 {
+  font-size: 1.5rem;
+  margin-bottom: .4rem;
+}
+h5 {
+  font-size: 1.2rem;
+  font-weight: 450;
+  margin-top: .3rem;
+}
 
 
 /*
   General items
 */
+.hidden {
+  display: none;
+}
 input {
   border: none;
   border-bottom: 1px solid grey;
   padding-left: 5px;
 }
 input:focus {
-  box-shadow: 2px 2px 5px 0px rgba(186,186,186,1);
+  box-shadow: 2px 2px 5px 0 rgba(186,186,186,1);
   outline: auto;
 }
 a.btn,
@@ -246,9 +414,10 @@ div#login {
   margin-left: auto;
   width: 310px;
   padding: 10px;
-  -webkit-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
-  box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.75);
+  margin-top: 4rem;
+  -webkit-box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
+  box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
 }
 #recaptcha {
   margin-bottom: 5px;
@@ -261,13 +430,22 @@ div#login {
     All blog posts
 */
 div#allblogPosts .list-group {
-  margin: 40px 0px;
-}
-div#allblogPosts .list-group-item {
-  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid #938c8c;
+  max-width: 800px;
+  width: 100%;
+}
+div#allblogPosts .list-group-item {
+  background: white;
+  border: 1px solid #bcbcbc5c;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  width: 100%;
+}
+div#allblogPosts a.list-group-item {
+  color: black;
 }
 div#allblogPosts h5.blogName {
   font-weight: 600;
@@ -278,14 +456,14 @@ div#allblogPosts h5.blogName {
     Standard blogpage
 */
 .blogpage {
-  background: white; 
-  color: black; 
-  padding: 20px; 
-  max-width: 1000px; 
-  padding: 20px; 
-  border-radius: 10px; 
-  margin-left: auto; 
-  margin-right: auto; 
+  background: white;
+  color: black;
+  padding: 20px;
+  max-width: 1000px;
+  padding: 20px;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 100px;
   margin-bottom: 15px;
 }
@@ -300,6 +478,23 @@ div#allblogPosts h5.blogName {
   width: 100%;
   height: auto;
 }
+.blogpage .iframeContainer {
+  position: relative;
+  padding-bottom: 56.25%;
+  /* 16:9 */
+  padding-top: 25px;
+  height: 0;
+}
+.blogpage .iframeContainer iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.blogpage>h1 {
+  margin-top: 0;
+}
 
 
 
@@ -307,29 +502,17 @@ div#allblogPosts h5.blogName {
     Standard page
 */
 .standardpage {
-  background: white; 
-  color: black; 
-  padding: 20px; 
-  max-width: 1200px; 
-  padding: 20px; 
-  border-radius: 10px; 
-  margin-left: auto; 
-  margin-right: auto; 
+  background: white;
+  color: black;
+  padding: 20px;
+  max-width: 1200px;
+  padding: 20px;
+  border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 100px;
 }
 
-
-
-/*
-	Animate
-*/
-.reveal {
-opacity:0;transform:translate3d(0,100px,0);transition:opacity 2s cubic-bezier(.215,.61,.355,1),transform 2s cubic-bezier(.215,.61,.355,1)
-}
-.reveal-show {
-  opacity:1;transform:translateZ(0)
-}
-      
 
 
 /*
@@ -338,22 +521,22 @@ opacity:0;transform:translate3d(0,100px,0);transition:opacity 2s cubic-bezier(.2
 /*
 	Frontpage
 _________________*/
-#frontpageContainer {
+#frontpage {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
-#frontpageContainer .title {
+#frontpage .title {
   align-items: center;
-  min-height: calc(100vh - 324px);
+  min-height: calc(100vh - 100px);
   margin-top: 100px;
   margin-bottom: 100px;
 }
-#frontpageContainer .title h1 {
+#frontpage .title h1 {
   font-size: 3.6rem;
   font-weight: 300;
 }
-#frontpageContainer h2.seemore a{
+#frontpage h2.seemore a{
   text-align: center;
   border: 1px solid white;
   padding: 0.5rem 1.7rem;
@@ -363,28 +546,28 @@ _________________*/
   color: white;
   font-size: 1.5rem;
 }
-#frontpageContainer .title h2,
-#frontpageContainer .text2 h2,
-#frontpageContainer .text5 h2 {
+#frontpage .title h2,
+#frontpage .text2 h2,
+#frontpage .text5 h2 {
   font-size: 3.0rem;
   font-weight: 300;
 }
-#frontpageContainer .text2 h2,
-#frontpageContainer .text5 h2 {
+#frontpage .text2 h2,
+#frontpage .text5 h2 {
   text-align: left;
   max-width: 700px;
   margin-left: auto;
   margin-right: auto;
   color: #005bbc;
 }
-#frontpageContainer .text5 h2 {
+#frontpage .text5 h2 {
   text-align: center;
   margin-bottom: 3.5rem;
 }
-#frontpageContainer .text5 {
+#frontpage .text5 {
   margin-top: 75px;
 }
-#frontpageContainer .text3 {
+#frontpage .text3 {
   margin-top: 150px;
   margin-bottom: 150px;
   padding-top: 25px;
@@ -393,50 +576,60 @@ _________________*/
   border: 1px solid #d9d9d9e8;
   border-radius: 15px;
 }
-#frontpageContainer .text3 .text3element {
+#frontpage .text3 .text3element {
   max-width: 300px;
   margin-left: auto;
   margin-right: auto;
 }
-#frontpageContainer .text3 .text3element h4 {
+#frontpage .text3 .text3element h4 {
   font-weight: 400;
   font-size: 1.9rem;
 }
-#frontpageContainer .text3 .text3element p {
+#frontpage .text3 .text3element p {
   line-height: 2rem;
   font-size: 20px;
   font-weight: 300;
 }
-#frontpageContainer .text4 h2,
-#frontpageContainer .text6 h2 {
+#frontpage .text4 h2,
+#frontpage .text6 h2 {
   font-size: 3.3rem;
   font-weight: 300;
   color: #005bbc;
 }
-#frontpageContainer .text6 {
+#frontpage .text6 {
   margin-top: 150px;
 }
-#frontpageContainer .text4container,
-#frontpageContainer .text6container {
+#frontpage .text4container,
+#frontpage .text6container {
   padding-top: 25px;
   padding-bottom: 25px;
   background-color: rgba(255, 255, 255, 0.74);
   border: 1px solid #d9d9d9e8;
   border-radius: 15px;
 }
-#frontpageContainer .spacer {
+#frontpage .spacer {
   height: 150px;
-} 
+}
+#frontpage .column>div {
+  padding: 20px;
+}
+#frontpage kbd {
+  padding: .2rem .4rem;
+  font-size: 87.5%;
+  color: #fff;
+  background-color: #212529;
+  border-radius: .2rem;
+}
 @media only screen and (max-width: 768px) {
-  #frontpageContainer .title {
+  #frontpage .title {
     margin-top: 50px;
     margin-bottom: 50px;
   }
-  #frontpageContainer .title h2 {
+  #frontpage .title h2 {
     font-size: 2rem;
     margin-top: 35px;
   }
-  #frontpageContainer .text2 h2 {
+  #frontpage .text2 h2 {
     font-size: 2rem;
   }
 }
@@ -444,49 +637,50 @@ _________________*/
 /*
 	About
 ___________________*/
-#aboutContainer {
+#about {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
 }
-#aboutContainer .title {
+#about .title {
   align-items: center;
   min-height: 250px;
   margin-top: 100px;
 }
-#aboutContainer .title h1 {
+#about .title h1 {
   font-size: 3.6rem;
   font-weight: 300;
 }
-#aboutContainer .title h2 {
+#about .title h2 {
   font-size: 3rem;
   font-weight: 300;
 }
-#aboutContainer .text1 h2 {
+#about .text1 h2 {
   font-size: 3.3rem;
   font-weight: 300;
   color: #005bbc;
 }
-#aboutContainer .text1container {
+#about .text1container {
   padding-top: 25px;
   padding-bottom: 25px;
   background-color: rgba(255, 255, 255, 0.74);
   border: 1px solid #d9d9d9e8;
   border-radius: 15px;
 }
+#about .text1container .column>div {
+  padding: 20px;
+}
 @media only screen and (max-width: 768px) {
-  #aboutContainer .title {
+  #about .title {
     margin-top: 50px;
     margin-bottom: 50px;
     height: 75vh;
   }
-  #aboutContainer .title h1 {
+  #about .title h1 {
     font-size: 3rem;
   }
-  #aboutContainer .title h2 {
+  #about .title h2 {
     font-size: 2rem;
     margin-top: 25px;
   }
 }
-
-

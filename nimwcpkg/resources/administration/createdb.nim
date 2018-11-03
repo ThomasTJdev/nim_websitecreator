@@ -12,33 +12,31 @@ import ../administration/create_standarddata
 
 setCurrentDir(getAppDir().replace("/nimwcpkg", "") & "/")
 
+const
+  TUserName = "varchar(20)"
+  TPassword = "varchar(32)"
+  TEmail = "varchar(30)"
+
 proc generateDB*() =
   echo "Generating database"
-  let dict = loadConfig("config/config.cfg")
-  let db_user = dict.getSectionValue("Database","user")
-  let db_pass = dict.getSectionValue("Database","pass")
-  let db_name = dict.getSectionValue("Database","name")
-  let db_host = dict.getSectionValue("Database","host")
-  let db_folder = dict.getSectionValue("Database","folder")
-
-  let dbexists = if fileExists(db_host): true else: false
+  let
+    dict = loadConfig("config/config.cfg")
+    db_user = dict.getSectionValue("Database","user")
+    db_pass = dict.getSectionValue("Database","pass")
+    db_name = dict.getSectionValue("Database","name")
+    db_host = dict.getSectionValue("Database","host")
+    db_folder = dict.getSectionValue("Database","folder")
+    dbexists = if fileExists(db_host): true else: false
 
   if dbexists:
     echo " - Database already exists. Inserting standard tables if they do not exist."
-  
+
   # Creating folder
-  discard existsOrCreateDir(db_folder)  
+  discard existsOrCreateDir(db_folder)
 
   # Open DB
   echo " - Opening database"
   var db = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
-
-
-  const
-    TUserName = "varchar(20)"
-    TPassword = "varchar(32)"
-    TEmail = "varchar(30)"
-
 
   if not db.tryExec(sql("""
   create table if not exists person(
@@ -180,4 +178,3 @@ proc generateDB*() =
 
   echo " - Database: Closing database"
   close(db)
-

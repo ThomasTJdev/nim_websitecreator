@@ -7,7 +7,7 @@
 #
 #proc genAllPagesEdit(c: var TData): string =
 # result = ""
-# let allPages = getAllRows(db, sql"SELECT id, name, description, status, modified FROM pages ORDER BY modified DESC")
+# let allPages = getAllRows(db, sql"SELECT id, name, description, status, modified, metadescription FROM pages ORDER BY modified DESC")
 
 <div style="text-align: center;">
   <h1>Edit a page</h1>
@@ -23,80 +23,22 @@
 #
 # else:
 #
-  <ul class="list-group list-group-flush">
+  <ul class="list-group">
 #   for page in allPages:
-    <a href="/editpage/page/${page[0]}" class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">${page[1]}</h5>
-        <div style="display: grid">
+    <a href="/editpage/page/${page[0]}" class="list-group-item">
+      <div>
+        <div class="is-pulled-right is-hidden-mobile">
           <small>${epochDate(page[4], "YYYY-MM-DD")}</small>
-          # if c.loggedIn:
-          <small>${statusIntToText(page[3])}</small>
-          # end if
+          <small style="display: block;">${statusIntToText(page[3])}</small>
         </div>
+
+        <h5>${page[1]}</h5>
+        <small class="is-hidden-tablet">${epochDate(page[4], "YYYY-MM-DD")}</small>
+        <div style="margin-top: 10px;">${page[5]}</div>
       </div>
-      <!--<p class="mb-1">${page[2]}</p>-->
-    </a>
-#   end for
-  </ul>  
-# end if
-</div>
-#end proc
-#
-#
-#
-#
-#proc genAllPages(c: var TData, view = ""): string =
-# ## Show all pages
-# ## 
-# ## View: Development = 0, Private = 1, Public = 2
-# result = ""
-#
-# var status = "(2)"
-# if c.loggedIn:
-#   status = "(0,1,2)"
-# else:
-#   status = "(2)"
-# end if
-
-
-# let allPages = getAllRows(db, sql("SELECT url, name, description, status, modified FROM pages WHERE status IN " & status & " ORDER BY modified DESC"))
-
-<div style="text-align: center;">
-  <h1>All pages</h1>
-  # if c.loggedIn:
-    <h4>You are logged in, so all pages are visible</h4>
-  # end if
-</div>
-
-<div id="allpagePosts">
-
-# if allPages.len < 1:
-#
-  <div style="text-align: center">
-    <h3><i>No pages</i></h3>
-  </div>
-#
-# else:
-#
-  <ul class="list-group list-group-flush">
-#   for page in allPages:
-    <a href="/${page[0]}" class="list-group-item list-group-item-action flex-column align-items-start">
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">${page[1]}</h5>
-        <div style="display: grid">
-          <small>${epochDate(page[4], "YYYY-MM-DD")}</small>
-          # if c.loggedIn:
-          <small>${statusIntToText(page[3])}</small>
-          # end if
-        </div>
-      </div>
-      <!--<p class="mb-1"></p>-->
     </a>
 #   end for
   </ul>
-#
 # end if
-
 </div>
 #end proc

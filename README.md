@@ -6,22 +6,30 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 
 ## Main features:
+
 - Webserver hosting your page on 127.0.0.1:7000
 - Edit your pages with Summernote, raw HTML (CodeMirror) or drag'n'drop with GrapesJS
 - Blog - add and edit blog posts
 - Pages - add and edit pages
 - Custom head, navbar and footer
-- Custom title, metadescription and keywords for each page
+- Custom title, meta description and keywords for each page
 - Edit core or custom js- and css-files
 - Upload files (private or public)
+- Log Viewer directly from browser.
+- Auto-Rotating file Logger.
+- Uses responsive Bulma CSS framework, supports Bootstrap CSS framework.
+- JavaScript framework agnostic, use Nim, Karax, vanilla JS, you choose.
+- Colored output on the Terminal.
+- Plugin skeleton creator.
 - Multiple users
 - Add plugins
 
+
 ## Requirements
 - Linux
-- Nim (0.18.1)
+- Nim `0.19.0`
 - Nim modules (automated when using Nimble):
-  - jester >= 0.4.0
+  - jester >= 0.4.1
   - reCAPTCHA >= 1.0.2
   - bcrypt >= 0.2.1
 
@@ -63,7 +71,7 @@ nimwc
 
 ### 1b) Compile:
 
-This will generate the executable in the folder. 
+This will generate the executable in the folder.
 
 ```bash
 # Clone the repository
@@ -96,6 +104,9 @@ These arguments should be prepended to executable file, e.g. `./nimwc cdata`
   * `-p:<admin password>`
   * `-e:<admin email>`
 * `--insertdata` = Insert standard data (this will override existing data)
+  * `bulma` = Use Bulma CSS
+  * `bootstrap` = Use Bootstrap and jQuery
+  * `clean` = No framework is used
 * `--newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
 * `--gitupdate` = Updates and force a hard reset
 * `--initplugin` = Create plugin skeleton inside tmp/
@@ -183,10 +194,8 @@ sudo systemctl start nimwc
 sudo systemctl status nimwc
 ```
 
-# To Bootstrap or not to Bootstrap
-jQuery and Bootstrap is standard components when using the arg `--insertdata`, using the settings menu and working with GrapeJS. You can remove jQuery and Bootstrap from your blogpost and page by editing the main `<head>` in: Settings => Edit head, navbar, footer => head
-
-To use GrapeJS with another CSS file, you have to edit `public/js/grapejs_custom.js` and `public/js/grapejsbs4.min.js` .
+# GrapesJS
+GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma or Bootstrap), you have to edit `public/js/grapejs_custom.js` and `public/js/grapejsbs4.min.js`. Bootstrap support in `public/js/grapejs_custom.js` is commented out.
 
 # Trouble
 

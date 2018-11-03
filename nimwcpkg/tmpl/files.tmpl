@@ -7,84 +7,156 @@
 #
 #
 #
-#  
 #proc genFiles(c: var TData): string =
 # result = ""
 #
 # let allFilesPrivate       = filesListPrivate()
 # let allFilesPublic        = filesListPublic()
 # let allFilesPublicImages  = filesListPublicFolderImages()
-
-<div style="text-align: center;">
-  <h1>Files</h1>
-</div>
-
-<div id="fileAddContainer">
-  <button class="btn btn-secondary fileAdd">Upload new file</button>
-  <form id="fileAdd" method="post" action="/files/upload">
-    <div class="form-group">
-      <div style="margin-bottom: 10px;">
-
-        <div class="custom-control custom-radio">
-          <input data-value="publicimage" type="radio" id="fileRadio1" name="fileRadio" class="custom-control-input" checked>
-          <label class="custom-control-label" for="fileRadio1">Public image</label>
-        </div>
-        <div class="custom-control custom-radio">
-          <input data-value="private" type="radio" id="fileRadio2" name="fileRadio" class="custom-control-input">
-          <label class="custom-control-label" for="fileRadio2">Private file</label>
-        </div>
-        <div class="custom-control custom-radio">
-          <input data-value="public" type="radio" id="fileRadio3" name="fileRadio" class="custom-control-input">
-          <label class="custom-control-label" for="fileRadio3">Public file</label>
-        </div>
-
-      </div>
-      <input type="file" class="form-control-file" id="file" name="file">
-    </div>
-    <button type="button" class="btn btn-success fileUpload">Upload</button>
-  </form>
-</div>
-
 <div id="files">
-  
-<h4>Public images (public/images)</h4>
-<ul class="list-group">
-# for file in allFilesPublicImages:
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <a href="/images/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
-      <span class="badge badge-danger badge-pill"><span class="deleteFile" data-url="/files/delete/publicimage/${extractFilename(file)}">Delete</span></span>
-    </li>
-# end for
-</ul>  
+  <h1 class="has-text-centered">Files</h1>
 
-<hr>
+  <div id="fileAddContainer">
+    <button class="btn btn-secondary fileAdd button is-info is-fullwidth">Upload new file</button>
+    <form id="fileAdd" class="hidden" method="post" action="/files/upload">
+      <div class="form-group">
+        <div style="margin-bottom: 10px;">
 
-<h4>Private files (only for logged in users)</h4>
-<ul class="list-group">
-# for file in allFilesPrivate:
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <a href="/files/stream/private/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
-      <span class="badge badge-danger badge-pill"><span class="deleteFile" data-url="/files/delete/private/${extractFilename(file)}">Delete</span></span>
-    </li>
-# end for
-</ul>  
+          <div class="custom-control custom-radio">
+            <input data-value="publicimage" type="radio" id="fileRadio1" name="fileRadio" class="custom-control-input" checked>
+            <label class="custom-control-label" for="fileRadio1">Public image</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input data-value="private" type="radio" id="fileRadio2" name="fileRadio" class="custom-control-input">
+            <label class="custom-control-label" for="fileRadio2">Private file</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input data-value="public" type="radio" id="fileRadio3" name="fileRadio" class="custom-control-input">
+            <label class="custom-control-label" for="fileRadio3">Public file</label>
+          </div>
 
-<hr>
+        </div>
+        <input type="file" class="form-control-file" id="file" name="file">
+      </div>
+      <button type="button" class="btn btn-success fileUpload button is-success">Upload</button>
+    </form>
+  </div>
 
-<h4>Public files (available to all)</h4>
-<ul class="list-group">
-# for file in allFilesPublic:
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      <a href="/files/stream/public/${extractFilename(file)}" target="_blank">${extractFilename(file)}</a>
-      <span class="badge badge-danger badge-pill"><span class="deleteFile" data-url="/files/delete/public/${extractFilename(file)}">Delete</span></span>
-    </li>
-# end for
-</ul>  
+  <h4>Public images (public/images)</h4>
 
+  <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>Delete</th>
+      </tr>
+    </tfoot>
+    <tbody>
+  # var counter: int
+  # for file in allFilesPublicImages:
+  #  inc counter
+    <tr>
+      <td class="is-narrow"> $counter </td>
+      <td><a href="/images/${extractFilename(file)}" title="/images/${extractFilename(file)}" target="_blank">
+          ${extractFilename(file)}</a>
+      </td>
+      <td class="is-danger is-narrow">
+        <span class="deleteFile delete" data-url="/files/delete/publicimage/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
+      </td>
+    </tr>
+  # end for
+    </tbody>
+  </table>
+  <b>Total files:</b> <code> $counter </code>
+  <hr>
+
+
+  <h4>Private files (only for logged in users)</h4>
+
+  <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>Delete</th>
+      </tr>
+    </tfoot>
+    <tbody>
+  # counter = 0
+  # for file in allFilesPrivate:
+  #  inc counter
+    <tr>
+      <td class="is-narrow"> $counter </td>
+      <td><a href="/files/stream/private/${extractFilename(file)}" title="${extractFilename(file)}" target="_blank">
+        ${extractFilename(file)}</a>
+      </td>
+      <td class="is-danger is-narrow">
+        <span class="deleteFile delete" data-url="/files/delete/private/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
+      </td>
+    </tr>
+  # end for
+    </tbody>
+  </table>
+  <b>Total files:</b> <code> $counter </code>
+  <hr>
+
+
+  <h4>Public files (available to all)</h4>
+
+  <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>Delete</th>
+      </tr>
+    </tfoot>
+    <tbody>
+  # counter = 0
+  # for file in allFilesPublic:
+  #  inc counter
+    <tr>
+      <td class="is-narrow"> $counter </td>
+      <td><a href="/files/stream/public/${extractFilename(file)}" title="${extractFilename(file)}" target="_blank">
+        ${extractFilename(file)}</a>
+      </td>
+      <td class="is-danger is-narrow">
+        <span class="deleteFile delete" data-url="/files/delete/public/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
+      </td>
+    </tr>
+  # end for
+    </tbody>
+  </table>
+  <b>Total files:</b> <code> $counter </code>
+  <br>
+  <br>
+  <div class="notification is-danger">
+    Deleting files can not be undone.
+  </div>
 </div>
-  
 #end proc
-#
 #
 #
 #
@@ -121,6 +193,4 @@
 # end for
 </div>
 </div>
-
-  
 #end proc

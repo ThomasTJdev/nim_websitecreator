@@ -1,7 +1,7 @@
-import strutils, times 
+import strutils, times, logging
 
 
-import ../utils/logging
+import ../utils/logging_nimwc
 
 
 const monthNames = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
@@ -36,7 +36,7 @@ proc getDaysInMonthU*(month, year: int): int =
     doAssert getDaysInMonthU(02, 2018) == 28
     doAssert getDaysInMonthU(10, 2020) == 31
   if month notin {1..12}:
-    dbg("WARNING", "getDaysInMonthU() wrong format input")
+    warn("getDaysInMonthU() wrong format input.")
   else:
     result = getDaysInMonth(Month(month), year)
 
@@ -63,10 +63,10 @@ proc dateEpoch*(date, format: string): int64 =
     of "DD-MM-YYYY":
       return toUnix(toTime(parse(date, "dd-MM-yyyy")))
     else:
-      dbg("WARNING", "dateEpoch() wrong format input")
+      warn("dateEpoch() wrong format input.")
       return 0
   except:
-    dbg("WARNING", "dateEpoch() failed")
+    warn("dateEpoch() failed.")
 
     return 0
 
@@ -74,16 +74,16 @@ proc dateEpoch*(date, format: string): int64 =
 
 proc epochDate*(epochTime, format: string, timeZone = "0"): string =
   ## Transform epoch to user formatted date
-  ## 
+  ##
   ## Examples:
   ##
   runnableExamples:
     doAssert epochDate("1522995050", "YYYY-MM-DD HH:mm", "2") == "2018-04-06 - 08:10"
 
-  
+
   if epochTime == "":
     return ""
-  
+
   try:
     case format
     of "YYYY":
@@ -124,54 +124,9 @@ proc epochDate*(epochTime, format: string, timeZone = "0"): string =
 
     else:
       let toTime = $(utc(fromUnix(parseInt(epochTime))) + initTimeInterval(hours=parseInt(timeZone)))
-      dbg("WARNING", "epochDate() no input specified")
+      warn("epochDate() no input specified.")
       return toTime.substr(0, 9)
 
   except:
-    dbg("ERROR", "epochDate() failed")
+    error("epochDate() failed.")
     return ""
-
-
-
-#[
-proc DEPRECATEDdateDiff*(date1, date2: TimeInterval, checkType: string): int=
-  ## Checking the difference between two dates
-  ## date1 = current date
-  ## date2 = date to check against
-  if checkType == "year":
-    return date1.years - date2.years
-  elif checkType == "month":
-    return date1.months - date2.months
-  elif checkType == "day":
-    return date1.days - date2.days
-  elif checkType == "dayDiff":
-    var days = 0
-    # If there's more than > 1 month between the two dates
-    if date1.months - date2.months > 1:
-      for i in date2.months .. date1.months:
-        if i == date2.months:
-          days += getDaysInMonthU(date2.months, date2.years) - date2.days
-        elif i == date1.months:
-          days += date1.days
-        else:
-          days += getDaysInMonthU(i, date2.years)
-    # If the date1 month is next in sequence
-    elif date1.months - date2.months == 1:
-      days = getDaysInMonthU(date2.months, date2.years) - date2.days + date1.days
-    # If the dates days is in the same month
-    elif date1.months - date2.months == 0:
-      days = date1.days - date2.days
-    else:
-      days = -1
-    return days
-  elif checkType == "date1Larger":
-    var diff = date1 - date2
-    if date1.years - date2.years >= 0 and date1.months - date2.months >= 0:
-      if diff.months > 0:
-        return 1
-      else:
-        if diff.days > 0:
-          return 1
-        else:
-          return 0
-]#

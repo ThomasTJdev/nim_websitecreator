@@ -6,85 +6,96 @@
 #
 #
 #
-#  
 #proc genPlugins(c: var TData): string =
 # result = ""
-
 <h1 style="text-align: center">Plugins</h1>
 
 <ul class="pluginSettings">
   ${genExtensionSettings()}
 </ul>
-
 #end proc
 #
 #
 #
-#  
 #proc genPluginsRepo(c: var TData): string =
 # result = ""
+
+<div id="plugins">
 
 <h1 style="text-align: center">Plugins repository</h1>
 
 # if not pluginCheckGit():
 
-  <h3>Git (git) is not installed. Please install it. E.g. pacman -S git, apt install git, etc.</h3>
+  <div class="notification is-danger">
+    <h3>Git (git) is not installed. Please install it.
+      E.g. pacman -S git, apt install git, etc.
+    </h3>
+  </div>
 
-# elif not fileExists("plugins/nimwc_plugins/plugins.json"):
+# elif false: ## not fileExists("plugins/nimwc_plugins/plugins.json"):
 
   <div style="text-align: center;">
-    <div>Please download the repository with the plugins.</div>
-    <a href="/plugins/repo/download">Download</a>
+    <div class="notification is-info">
+      <h3>Please download the repository with the plugins.</h3>
+    </div>
+    <a href="/plugins/repo/download" class="button is-primary is-large is-fullwidth is-rounded" >Download</a>
   </div>
 
 # else:
 
 # let plugins = parseJson(readFile("plugins/nimwc_plugins/plugins.json"))
 
-  <div class="updateRepo" style="text-align: center;">
-    <div><a href="/plugins/repo/update">Update</a> plugin repository</div>
+  <div class="buttons">
+    <a href="/plugins/repo/update" class="btn btn-outline-primary button">Update plugins list</a>
+    <a href="/plugins" class="btn btn-outline-primary button">Go to installed plugins</a>
+    <a href="https://github.com/ThomasTJdev/nimwc_plugins#contribute" class="btn btn-outline-primary button" title="Learn how to create new plugins" target="_blank">Add your plugin to this list</a>
   </div>
-
-  <div style="text-align: center;">
-    <div>Go to the installed <a href="/plugins">plugins</a></div>
-  </div>
-
-  <br>
-
+  <p class="pluginCount"><b>Total Plugins: </b><code>${plugins.len}</code></p>
   <ul class="pluginRepo">
-
+#   var counter: int8
 #   for plugin in items(plugins):
+#     counter += 1
 #     let installed = if dirExists("plugins/" & plugin["foldername"].getStr()): true else: false
-
-      <li id="${plugin["foldername"].getStr()}" class="pluginRepo">
-        <div class="name">
-          <h5><a href="${plugin["web"].getStr()}" target="_blank">${plugin["name"].getStr()}</a></h5>
-        </div>
-        <div class="version">
+      <li>
+      <article class="message pluginRepo ${if counter mod 2 == 0: "is-dark" else: "is-link"}" id="${plugin["foldername"].getStr.capitalizeAscii}">
+        <div class="message-header">
+          <h5>
+            <a href="${plugin["web"].getStr()}" title="${plugin["web"].getStr()}" target="_blank" rel="noreferrer noopener nofollow"><b>
+            ${plugin["name"].getStr()}</b></a>
 #         if installed:
-#           let installedPlugin = parseJson(readFile("plugins/" & plugin["foldername"].getStr() & "/plugin.json"))
-            <span class="version"><b>Installed version: ${plugin["version"].getStr()}</b></span>
-            <span class="version git"><b>Git version: ${plugin["version"].getStr()}</b></span>
+#           let installedPlugin = parseFile("plugins/" & plugin["foldername"].getStr() & "/plugin.json")
+#           var installedVersion = ""
+#           for i in items(installedPlugin): installedVersion = i["version"].getStr()
+#           end for
+            <span class="version is-pulled-right"><b>Installed:</b> <code>${installedVersion}</code></span>
+            <span class="version git is-pulled-right"><b>Git version:</b> <code>${plugin["version"].getStr()}</code></span>
 #         else:
-            <span class="version"><b>Git version: ${plugin["version"].getStr()}</b></span>
+            <span class="version is-pulled-right">
+              <b>Version:</b> <code>${plugin["version"].getStr()}</code>
+            </span>
 #         end if
+          </h5>
         </div>
-        <div class="description">
+        <div class="message-body">
           ${plugin["description"].getStr()}
-        </div>
-        <div>
+          <div>
 #         if installed:
-            <a href="/plugins/repo/updateplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-warning">Update plugin</a>
-            <a href="/plugins/repo/deleteplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-danger">Delete plugin</a>
+            <a href="/plugins/repo/updateplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-warning button is-success is-fullwidth">Update plugin</a>
+            <a href="/plugins/repo/deleteplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-danger button is-danger is-fullwidth">Delete plugin</a>
 #         else:
-            <a href="/plugins/repo/downloadplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginrepo=${plugin["url"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-success">Download plugin</a>
+            <a href="/plugins/repo/downloadplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginrepo=${plugin["url"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-success button is-success is-fullwidth">Download plugin</a>
 #         end if
+          </div>
         </div>
-      </li>
+      </article>
+      <br>
+    </li>
 
   # end for
 
   </ul>
+  <p class="pluginCount"><b>Total Plugins: </b><code>${plugins.len}</code></p>
 # end if
 
+</div>
 #end proc

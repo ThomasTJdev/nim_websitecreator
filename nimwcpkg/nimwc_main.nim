@@ -8,70 +8,61 @@
 #
 
 import
-  asyncdispatch,
-  bcrypt,
-  cgi,
-  db_sqlite,
-  jester,
-  json,
-  macros,
-  os,
-  osproc,
-  parsecfg,
-  random,
-  re,
-  recaptcha,
-  sequtils,
-  strutils,
-  times,
-  oswalkdir as oc
+  asyncdispatch, bcrypt, cgi, db_sqlite, jester, json, macros, os, osproc, logging,
+  parsecfg, random, re, recaptcha, sequtils, strutils, times, oswalkdir as oc,
+
+  resources/administration/create_adminuser,
+  resources/administration/create_standarddata,
+  resources/administration/createdb,
+  resources/administration/help,
+  resources/email/email_registration,
+  resources/files/files_efs,
+  resources/files/files_utils,
+  resources/password/password_generate,
+  resources/password/salt_generate,
+  resources/session/user_data,
+  resources/utils/dates,
+  resources/utils/logging_nimwc,
+  resources/utils/plugins,
+  resources/utils/random_generator,
+  resources/web/google_recaptcha
+
+when defined(windows): quit("\n Windows is not supported \n")
+
+const
+  config_not_found_msg = """
+  ERROR: Config file (config.cfg) could not be found.
+  A copy of the template (config_default.cfg) has been copied to config/config.cfg.
+
+  The program will now quit. Please configure it and restart the program.
+  """
+
+  startup_msg = """
+  Package:        Nim Website Creator
+  Description:    Website creator build with Nim
+  Author name:    Thomas Toftgaard Jarløv (TTJ)
+  Current time:   """
+
+  checkCompileOptions* = ["",
+    when defined(adminnotify): " -d:adminnotify",
+    when defined(dev): " -d:dev",
+    when defined(devemailon): " -d:devemailon",
+    when defined(demo): " -d:demo",
+    when defined(demoloadbackup): " -d:demoloadbackup",
+    when defined(ssl): " -d:ssl",
+  ].join  ## Checking for known compile options and returning them as a space separated string.
+  # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
 
 macro configExists(): untyped =
   ## Macro to check if the config file is present
-  let (dir, name, file) = splitFile(currentSourcePath())
-  discard name
-  discard file
-
+  let dir = parentDir(currentSourcePath())
   if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
-    echo "\nERROR: Config file (config.cfg) could not be found."
-    echo "A copy of the template (config_default.cfg) has been"
-    echo "copied to config/config.cfg."
-    echo " "
-    echo "The program will now quit. Please configure it"
-    echo "and restart the program."
-    echo " "
-
+    echo config_not_found_msg
     discard staticExec("cp " & dir & "/config/config_default.cfg " & dir & "/config/config.cfg")
-
     quit()
 
 configExists()
-
-
-import resources/administration/create_adminuser
-import resources/administration/create_standarddata
-import resources/administration/createdb
-import resources/administration/help
-import resources/email/email_registration
-import resources/files/files_efs
-import resources/files/files_utils
-import resources/password/password_generate
-import resources/password/salt_generate
-import resources/session/user_data
-import resources/utils/dates
-import resources/utils/logging
-import resources/utils/plugins
-import resources/utils/random_generator
-import resources/web/google_recaptcha
-import resources/web/urltools
-
-
-
-when defined(windows):
-  echo "\nWindows is not supported\n"
-  quit()
-
 
 
 #[
@@ -82,9 +73,7 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
   ##
   ## Generates a seq[string] with the path to the plugins
 
-  let (dir, name, file) = splitFile(currentSourcePath())
-  discard name
-  discard file
+  let dir = parentDir(currentSourcePath())
   let realPath = replace(dir, "/nimwcpkg", "")
 
   var plugins = (staticRead(realPath & "/plugins/plugin_import.txt").split("\n"))
@@ -165,11 +154,8 @@ macro extensionCss(): string =
   ##
   ## 2) Insert <style>-link into HTML
 
-  let (dir, name, file) = splitFile(currentSourcePath())
-  discard name
-  discard file
+  let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "nimwcpkg", "")
-
 
   var extensions = ""
   for ppath in pluginsPath:
@@ -198,41 +184,7 @@ macro extensionJs*(): string =
   ##
   ## 2) Insert <js>-link into HTML
 
-  let (dir, name, file) = splitFile(currentSourcePath())
-  discard name
-  discard file
-  let mainDir = replace(dir, "nimwcpkg", "")
-
-  var extensions = ""
-  for ppath in pluginsPath:
-    let splitted = split(ppath, "/")
-
-    if staticRead(ppath & "/public/js.js") != "":
-      discard staticExec("cp " & ppath & "/public/js.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
-
-      extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer></script>\n")
-
-    if staticRead(ppath & "/public/js_private.js") != "":
-      discard staticExec("cp " & ppath & "/public/js_private.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
-
-  when defined(dev):
-    echo "Plugins - JS:"
-    echo extensions
-
-  return extensions
-
-
-macro generateFavicon*(): string =
-  ## Macro with 2 functions
-  ##
-  ## 1) Copy the plugins js.js to the public js/ folder and
-  ## renaming to <extensionname>.js
-  ##
-  ## 2) Insert <js>-link into HTML
-
-  let (dir, name, file) = splitFile(currentSourcePath())
-  discard name
-  discard file
+  let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "nimwcpkg", "")
 
   var extensions = ""
@@ -261,25 +213,24 @@ macro generateFavicon*(): string =
 __________________________________________________]#
 var db: DbConn
 
-let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
+let
+  dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
-let db_user   = dict.getSectionValue("Database","user")
-let db_pass   = dict.getSectionValue("Database","pass")
-let db_name   = dict.getSectionValue("Database","name")
-let db_host   = dict.getSectionValue("Database","host")
+  db_user   = dict.getSectionValue("Database", "user")
+  db_pass   = dict.getSectionValue("Database", "pass")
+  db_name   = dict.getSectionValue("Database", "name")
+  db_host   = dict.getSectionValue("Database", "host")
 
-let mainURL   = dict.getSectionValue("Server","url")
-let mainPort  = parseInt dict.getSectionValue("Server","port")
-let mainWebsite = dict.getSectionValue("Server","website")
+  mainURL   = dict.getSectionValue("Server", "url")
+  mainPort  = parseInt dict.getSectionValue("Server", "port")
+  mainWebsite = dict.getSectionValue("Server", "website")
 
-let proxyURL  = dict.getSectionValue("Proxy","url")
-let proxyPath = dict.getSectionValue("Proxy","path")
+  proxyURL  = dict.getSectionValue("Proxy", "url")
+  proxyPath = dict.getSectionValue("Proxy", "path")
 
-when defined(release):
-  let logfile = dict.getSectionValue("Logging","logfile")
-when not defined(release):
-  let logfile = dict.getSectionValue("Logging","logfiledev")
-
+  logfile =
+    when defined(release): dict.getSectionValue("Logging", "logfile")
+    else:                  dict.getSectionValue("Logging", "logfiledev")
 
 
 # Jester setting server settings
@@ -303,46 +254,18 @@ proc init(c: var TData) =
 #[
       Recompile
 __________________________________________________]#
-proc checkCompileOptions*(): string {.compileTime.} =
-  ## Checking for known compile options
-  ## and returning them as a space separated string.
-  ##
-  ## Proc used within plugin route, where a recompile
-  ## is required to include/exclude a plugin.
-
-  result = ""
-
-  when defined(adminnotify):
-    result.add(" -d:adminnotify")
-  when defined(dev):
-    result.add(" -d:dev")
-  when defined(devemailon):
-    result.add(" -d:devemailon")
-  when defined(demo):
-    result.add(" -d:demo")
-  when defined(demoloadbackup):
-    result.add(" -d:demoloadbackup")
-  when defined(ssl):
-    result.add(" -d:ssl")
-
-  return result
-
-
 proc recompile*(): int =
   ## Recompile nimwc_main
-
-  return execCmd("nim c " & checkCompileOptions() & " -o:nimwcpkg/nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
+  return execCmd("nim c " & checkCompileOptions & " -o:nimwcpkg/nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
 
 
 
 #[
       Validation check
 __________________________________________________]#
-proc loggedIn(c: TData): bool =
-  ## Check if user is logged in
-  ## by verifying that c.username is more than 0:int
-
-  result = c.username.len > 0
+func loggedIn(c: TData): bool =
+  ## Check if user is logged in by verifying that c.username is more than 0:int
+  c.username.len > 0
 
 
 
@@ -389,11 +312,11 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
 
   for row in fastRows(db, query, toLowerAscii(email)):
     if row[6] != "":
-      dbg("INFO", "Login failed. Account not activated")
+      info("Login failed. Account not activated")
       return (false, "Your account is not activated")
 
     if parseEnum[Rank](row[5]) notin [Admin, Moderator, User]:
-      dbg("INFO", "Login failed. Your account is not active.")
+      info("Login failed. Your account is not active.")
       return (false, "Your account is not active")
 
     if row[2] == makePassword(pass, row[4], row[2]):
@@ -406,10 +329,10 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
       let key = makeSessionKey()
       exec(db, sql"INSERT INTO session (ip, key, userid) VALUES (?, ?, ?)", c.req.ip, key, row[0])
 
-      dbg("INFO", "Login successful")
+      info("Login successful")
       return (true, key)
 
-  dbg("INFO", "Login failed")
+  info("Login failed")
   return (false, "Login failed")
 
 
@@ -503,23 +426,23 @@ when defined(demo):
     ## When defined(demo) activate proc
     ##
     ## There is 2 outcome. If defined(demoloadbackup)
-    ## the database will be overridden with a backup
+    ## the database will be overwritten with a backup
     ## (website.bak.db) every hour. If not, the standard
     ## data will be applied.
     ##
     ## This proc is used, when the platform needs to run
     ## as a test with e.g. public access.
-    
-    await sleepAsync((60*10) * 1000)
+
+    await sleepAsync(3_600_000)
     var standarddata = true
     when defined(demoloadbackup):
       standarddata = false
       let execOutput = execCmd("cp data/website.bak.db data/website.db")
 
       if execOutput != 0:
-        dbg("ERROR", "emptyDB(): Error backing up the database")
-        await sleepAsync(2000)
-        discard execCmd("cp data/website.bak.db data/website.db")
+        error("emptyDB(): Error backing up the database")
+        await sleepAsync(2_000)
+        moveFile(source="data/website.bak.db", dest="data/website.db")
 
     if standarddata:
       createStandardData(db)
@@ -530,15 +453,7 @@ when defined(demo):
       Main module
 __________________________________________________]#
 when isMainModule:
-
-  echo "\n"
-  echo "--------------------------------------------"
-  echo "  Package:        " & "Nim Website Creator"
-  echo "  Description:    " & "Website creator build with Nim"
-  echo "  Author name:    " & "Thomas Toftgaard Jarløv (TTJ)"
-  echo "  Current time:   " & $getTime()
-  echo "--------------------------------------------"
-  echo "\n"
+  echo startup_msg & $now()
 
   # Show commandline help info
   if "help" in commandLineParams():
@@ -546,7 +461,7 @@ when isMainModule:
     quit()
 
 
-  dbg("INFO", "Main module started at: " & $getTime())
+  info("Main module started at: " & $now())
 
 
   randomize()
@@ -556,10 +471,10 @@ when isMainModule:
   # Folders are created in the module files_efs.nim
   when not defined(ignoreefs) and defined(release):
     # Check access to EFS file system
-    dbg("INFO", "Checking storage access")
+    info("Checking storage access.")
     if not existsDir(storageEFS):
-      dbg("ERROR", "isMainModule: No access to storage in release mode. Critical")
-      sleep(2000)
+      fatal("isMainModule: No access to storage in release mode. Critical.")
+      sleep(2_000)
       quit()
 
 
@@ -571,10 +486,10 @@ when isMainModule:
   # Connect to DB
   try:
     db = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
-    dbg("INFO", "Connection to DB is established")
+    info("Connection to DB is established.")
   except:
-    dbg("ERROR", "Connection to DB could not be established")
-    sleep(5000)
+    fatal("Connection to DB could not be established.")
+    sleep(5_000)
     quit()
 
 
@@ -586,10 +501,10 @@ when isMainModule:
 
   # Add test user
   when defined(demo):
-    dbg("INFO", "Demo option is activated")
+    info("Demo option is activated.")
     when defined(demoloadbackup):
       if not fileExists(replace(getAppDir(), "/nimwcpkg", "") & "/data/website.bak.db"):
-        discard execCmd("cp data/website.db data/website.bak.db")
+        moveFile(source="data/website.db", dest="data/website.bak.db")
     createTestUser(db)
     asyncCheck emptyDB(db)
 
@@ -606,10 +521,15 @@ when isMainModule:
   if "insertdata" in commandLineParams():
     echo "\nInsert standard data?"
     echo "This will override existing data (y/N):"
-    if readLine(stdin) == "y":
-      createStandardData(db)
+    if readLine(stdin).string.strip.toLowerAscii == "y":
+      if "bootstrap" in commandLineParams():
+        createStandardData(db, "bootstrap")
+      elif "clean" in commandLineParams():
+        createStandardData(db, "clean")
+      else:
+        createStandardData(db, "bulma")
 
-  
+
   # Create robots.txt
   writeFile("public/robots.txt", "User-agent: *\nSitemap: " & mainWebsite & "/sitemap.xml\nDisallow: /login")
 
@@ -621,7 +541,7 @@ when isMainModule:
     writeFile("public/js/js_custom.js", "")
 
 
-  dbg("INFO", "Up and running!")
+  info("Up and running!.")
 
 
 
@@ -641,7 +561,7 @@ include "tmpl/plugins.tmpl"
 include "tmpl/user.tmpl"
 include "tmpl/main.tmpl"
 include "tmpl/sitemap.tmpl"
-
+include "tmpl/logs.tmpl"
 
 #[
       Routes for WWW
@@ -679,7 +599,7 @@ macro generateRoutes(): typed =
 
   for ppath in pluginsPath:
     extensions.add("\n\n" & staticRead(ppath & "/routes.nim"))
-    
+
   when defined(dev):
     echo extensions
 

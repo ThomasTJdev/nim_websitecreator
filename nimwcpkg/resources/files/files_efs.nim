@@ -1,37 +1,40 @@
-import parsecfg, os, strutils, osproc, os
+import parsecfg, os, strutils, osproc, os, logging
 
 
-import ../utils/logging
+import ../utils/logging_nimwc
 
 
 setCurrentDir(getAppDir().replace("/nimwcpkg", ""))
-let appDir = replace(getAppDir(), "/nimwcpkg", "")
 
-let dict = loadConfig("config/config.cfg")
+const
+  section = when defined(dev): "storagedev" else: "storage"
+  storageEFS* = "files/efs"
 
-const section = when defined(dev): "storagedev" else: "storage"
-let tempDir = dict.getSectionValue("Storage", section)
+let
+  appDir = replace(getAppDir(), "/nimwcpkg", "")
+  dict = loadConfig("config/config.cfg")
+  tempDir = dict.getSectionValue("Storage", section)
+  paths2create = [
+    "files", "files/efs", "fileslocal", tempDir, tempDir & "/tmp", tempDir & "/files",
+    tempDir & "/files/private", tempDir & "/files/public", tempDir & "/users",
+  ]
 
 # Create folders
-dbg("INFO", "Checking that required 'files' folders exists")
-discard existsOrCreateDir("files")
-discard existsOrCreateDir("files/efs")
-discard existsOrCreateDir("fileslocal")
-
-createDir(tempDir)
-createDir(tempDir & "/tmp")
-createDir(tempDir & "/files")
-createDir(tempDir & "/files/private")
-createDir(tempDir & "/files/public")
-createDir(tempDir & "/users")
+info("Checking that required 'files' folders exists.")
+for folder in paths2create:
+  discard existsOrCreateDir(folder)
 
 # Storage settings
 if tempDir == "fileslocal" or defined(dev):
-  dbg("INFO", "Symlinking " & tempDir & " to files/efs")
-  discard execCmd("ln -sf " & appDir & "/" & tempDir & "/* " & appDir & "/files/efs/")
+  info("Symlinking " & tempDir & " to files/efs")
+  try:
+    createSymlink(src= appDir & "/" & tempDir & "/*",
+                  dest=appDir & "/files/efs/")
+  except: discard
 
 else:
-  dbg("INFO", "Symlinking " & tempDir & " to files/efs")
-  discard execCmd("ln -sf " & tempDir & "/* " & appDir & "/files/efs/")
-
-const storageEFS* = "files/efs"
+  info("Symlinking " & tempDir & " to files/efs")
+  try:
+    createSymlink(src= tempDir & "/*",
+                  dest=appDir & "/files/efs/")
+  except: discard

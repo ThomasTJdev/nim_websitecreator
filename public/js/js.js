@@ -1,101 +1,117 @@
 /*
-    Navbar
+  Navbar
 */
+// Bulma
+const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+if ($navbarBurgers.length > 0) {
+  $navbarBurgers.forEach( el => {
+    el.addEventListener('click', () => {
+      const target = el.dataset.target;
+      const $target = document.getElementById(target);
+      el.classList.toggle('is-active');
+      $target.classList.toggle('is-active');
 
-$(document).ready(function() {
-  $("nav#navbar div.navbar-toggler.mainMenu").click(function() {
-    $("nav#navbar div#mobileMenu").show(350);
-    setTimeout(function(){
-      $("nav#navbar div#mobileMenu").addClass("active");
-    }, 350);
+      var element = document.getElementById("navbarSettings")
+      if (element != null) {
+        element.classList.toggle("is-invisible");
+      }
+    });
   });
-  $("nav#navbar div#mobileMenu div.navbar-toggler").click(function() {
-    $("nav#navbar div#mobileMenu").hide(350);
-    $("nav#navbar div#mobileMenu").removeClass("active");
+}
+
+// Boostrap
+const $bsNavMobile = document.querySelector("nav#navbar div#mobileMenu");
+if ($bsNavMobile != null) {
+  document.querySelector("nav#navbar div.navbar-toggler.mainMenu").addEventListener('click', function () {
+    $bsNavMobile.classList.remove("hidden");
   });
-
-});
-
+  document.querySelector("nav#navbar #mobileMenu div.navbar-toggler").addEventListener('click', function () {
+    $bsNavMobile.classList.add("hidden");
+  });
+}
 
 
 /*
-  Design / Animation
+  Smooth scroll on anchor links
 */
-$(function() {
-  $('#background').fadeTo(1500, 0.50);
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+      });
+  });
 });
-if ($('#frontpageContainer').length) {
-  setTimeout(function(){
-    $("#frontpageContainer .title h1").addClass("reveal-show");
-  	$("#frontpageContainer .title h2").addClass("reveal-show");
-  }, 600);
-  
-  $(window).scroll(function() {
-     var hT = $('#frontpageContainer .text2').offset().top,
-         hH = $('#frontpageContainer .text2').outerHeight(),
-         wH = $(window).height(),
-         wS = $(this).scrollTop();
-     if (wS > (hT+hH-wH) && (hT > wS) && (wS+wH > hT+hH)){
-        $('#frontpageContainer .text2').addClass('reveal-show')
-     }
-  });
 
-  $(window).scroll(function() {
-     var hT = $('#frontpageContainer .text5 .sub1').offset().top,
-         hH = $('#frontpageContainer .text5 .sub1').outerHeight(),
-         wH = $(window).height(),
-         wS = $(this).scrollTop();
-     if (wS > (hT+hH-wH) && (hT > wS) && (wS+wH > hT+hH)){
-        $('#frontpageContainer .text5 .sub1').addClass('reveal-show')
-     }
-  });
 
-  $(window).scroll(function() {
-     var hT = $('#frontpageContainer .text5 .sub2').offset().top,
-         hH = $('#frontpageContainer .text5 .sub2').outerHeight(),
-         wH = $(window).height(),
-         wS = $(this).scrollTop();
-     if (wS > (hT+hH-wH) && (hT > wS) && (wS+wH > hT+hH)){
-        $('#frontpageContainer .text5 .sub2').addClass('reveal-show')
-     }
-  });
+/*
+  Load JS and CSS files dynamic
+*/
+// Load JS
+function loadScript(content) {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = content;
+  document.body.appendChild(script);
 }
-
-if ($('#aboutContainer').length) {
-  setTimeout(function(){
-    $("#aboutContainer .title").addClass("reveal-show");
-  }, 600);
+// Load CSS style
+function loadStyle(content) {
+  var fileref = document.createElement("link");
+  fileref.rel = "stylesheet";
+  fileref.type = "text/css";
+  fileref.href = content;
+  document.getElementsByTagName("head")[0].appendChild(fileref)
 }
-      
+window.onload = function(){
+  const $prism = document.querySelector("prismOn");
+  if ($prism != null) {
+    loadStyle("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.min.css")
+    loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js")
 
-$('a[href*="#"]:not([href="#"])').click(function() {
-  if($(this).hasClass("jump")){
-    var offset = -97; // <-- change the value here
-    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-        var target = $(this.hash);
-        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-        if (target.length) {
-            $('html, body').animate({
-                scrollTop: target.offset().top + offset
-            }, 800);
-            return false;
-        }
-    }
+    loadStyle("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.css")
+    loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.js")
+
+    loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-nim.min.js")
+    loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-css.min.js")
+    loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-javascript.min.js")
+    loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-python.min.js")
+    loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-bash.min.js")
   }
-});
-
-
-
-if($(".prismOn").length > 0) {
-  $('head').append('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.min.css" />');
-  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js" defer></script>');
-
-  $('head').append('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.css" />');
-  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.js" defer></script>');
-
-  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-nim.min.js" defer></script>');
-  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-css.min.js" defer></script>');
-  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-javascript.min.js" defer></script>');
-  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-python.min.js" defer></script>');
-  $('head').append('<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-bash.min.js" defer></script>');
 }
+
+
+/*
+  Animations
+*/
+var animation_elements = document.querySelectorAll('.reveal');
+var animation_elements_bottom = document.querySelectorAll('.reveal-bottom');
+var animation_elements_left = document.querySelectorAll('.reveal-left');
+var animation_elements_right = document.querySelectorAll('.reveal-right');
+var web_window = window;
+
+function check_if_in_view() {
+  var window_height = web_window.innerHeight;
+  var window_top_position = web_window.scrollY;
+  var window_bottom_position = (window_top_position + window_height);
+
+  Array.prototype.forEach.call(animation_elements, function(el, i){
+    var element = el;
+    var element_height = el.offsetHeight;
+    var element_top_position = el.offsetTop;
+    var element_bottom_position = (element_top_position + element_height);
+
+    if ((element_bottom_position >= window_top_position) && (element_top_position <= window_bottom_position)) {
+      if (el.classList.contains("reveal-bottom")) {
+          el.classList.add('slide-bottom');
+      } else if (el.classList.contains("reveal-right")) {
+          el.classList.add('slide-right');
+      } else if (el.classList.contains("reveal-left")) {
+          el.classList.add('slide-left');
+      }
+    }
+  });
+}
+
+window.addEventListener("scroll", check_if_in_view);
+check_if_in_view();
