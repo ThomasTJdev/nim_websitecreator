@@ -59,7 +59,7 @@ macro configExists(): untyped =
   let dir = parentDir(currentSourcePath())
   if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
     echo config_not_found_msg
-    moveFile(source=dir & "/config/config_default.cfg", dest=dir & "/config/config.cfg")
+    discard staticExec("cp " & dir & "/config/config_default.cfg " & dir & "/config/config.cfg")
     quit()
 
 configExists()
@@ -162,14 +162,12 @@ macro extensionCss(): string =
     let splitted = split(ppath, "/")
 
     if staticRead(ppath & "/public/style.css") != "":
-      moveFile(source=ppath & "/public/style.css",
-               dest=mainDir & "/public/css/" & splitted[splitted.len-1] & ".css")
+      discard staticExec("cp " & ppath & "/public/style.css " & mainDir & "/public/css/" & splitted[splitted.len-1] & ".css")
 
       extensions.add("<link rel=\"stylesheet\" href=\"/css/" & splitted[splitted.len-1] & ".css\">\n")
 
     if staticRead(ppath & "/public/style_private.css") != "":
-      moveFile(source=ppath & "/" & "/public/style_private.css",
-               dest=mainDir & "/public/css/" & splitted[splitted.len-1] & "_private.css")
+      discard staticExec("cp " & ppath & "/" & "/public/style_private.css " & mainDir & "/public/css/" & splitted[splitted.len-1] & "_private.css")
 
   when defined(dev):
     echo "Plugins - CSS:"
@@ -194,46 +192,12 @@ macro extensionJs*(): string =
     let splitted = split(ppath, "/")
 
     if staticRead(ppath & "/public/js.js") != "":
-      moveFile(source=ppath & "/public/js.js",
-               dest=mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
+      discard staticExec("cp " & ppath & "/public/js.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
 
       extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer></script>\n")
 
     if staticRead(ppath & "/public/js_private.js") != "":
-      moveFile(source=ppath & "/public/js_private.js",
-               dest=mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
-
-  when defined(dev):
-    echo "Plugins - JS:"
-    echo extensions
-
-  return extensions
-
-
-macro generateFavicon*(): string =
-  ## Macro with 2 functions
-  ##
-  ## 1) Copy the plugins js.js to the public js/ folder and
-  ## renaming to <extensionname>.js
-  ##
-  ## 2) Insert <js>-link into HTML
-
-  let dir = parentDir(currentSourcePath())
-  let mainDir = replace(dir, "nimwcpkg", "")
-
-  var extensions = ""
-  for ppath in pluginsPath:
-    let splitted = split(ppath, "/")
-
-    if staticRead(ppath & "/public/js.js") != "":
-      moveFile(source=ppath & "/public/js.js",
-               dest=mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
-
-      extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer></script>\n")
-
-    if staticRead(ppath & "/public/js_private.js") != "":
-      moveFile(source=ppath & "/public/js_private.js",
-               dest=mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
+      discard staticExec("cp " & ppath & "/public/js_private.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
 
   when defined(dev):
     echo "Plugins - JS:"
