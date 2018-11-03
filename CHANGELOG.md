@@ -7,6 +7,7 @@
 - De-Branded by default.
 - Code Clean out.
 - UI Redesign.
+- Allow special chars in url with `encodeUrl(@"url", true)`
 
 ## v4.0.4
 ### Changes

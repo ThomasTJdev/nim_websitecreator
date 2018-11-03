@@ -7,6 +7,19 @@ const pluginRepo = "https://github.com/ThomasTJdev/nimwc_plugins.git"
 const pluginRepoName = "nimwc_plugins"
 
 
+proc pluginExtractDetails*(pluginFolder: string): tuple[name, version, description, url: string] =
+  ## Get plugin data from [pluginName]/plugin.json
+
+  let pluginJson = parseFile("plugins/" & pluginFolder & "/plugin.json")
+  for plugin in items(pluginJson):
+    let name = plugin["name"].getStr()
+    let version = plugin["version"].getStr()
+    let description = plugin["description"].getStr()
+    let url = plugin["url"].getStr()
+
+    return (name, version, description, url)
+
+
 proc pluginCheckGit*(): bool =
   ## Checks if git exists
 
@@ -18,7 +31,7 @@ proc pluginCheckGit*(): bool =
 
 proc pluginRepoExists(): bool =
   ## Check if plugin repo exists
-  
+
   if fileExists("plugins/nimwc_plugins/plugins.json"):
     true
   else:
@@ -67,6 +80,8 @@ proc pluginDownload*(pluginGit, pluginFolder: string): bool =
 proc pluginUpdate*(pluginFolder: string): bool =
   ## Updates an external plugin with pull
 
+  discard execCmd("git -C plugins/" & pluginFolder & " fetch --all")
+  discard execCmd("git -C plugins/" & pluginFolder & " reset --hard origin/master")
   let output = execProcess("git -C plugins/" & pluginFolder & " pull")
 
   if output == ("fatal: cannot change to " & pluginFolder & ": No such file or directory"):
@@ -94,7 +109,7 @@ proc pluginEnableDisable*(pluginPath, pluginName, status: string) =
   ##
   ## @"status" == false => Plugin is not enabled
   ##                       this will enable the plugin (add a line)
-  ## @"status" == true  => Plugin is enabled, 
+  ## @"status" == true  => Plugin is enabled,
   ##                       this will disable the plugin (remove the line)
 
   var newFile = ""
@@ -131,8 +146,8 @@ proc extensionSettings(): seq[string] =
     # Skip these files/folders
     if ppathName in ["nimwc_plugins", "plugin_import.txt"]:
       continue
-  
-    # If the plugins is present in plugin_import, set the 
+
+    # If the plugins is present in plugin_import, set the
     # plugin status to true, else false
     if ppathName in plugins:
       if extensions.len() == 0:
@@ -145,7 +160,7 @@ proc extensionSettings(): seq[string] =
         extensions = @["false:" & ppathName]
       else:
         extensions.add("false:" & ppathName)
-  
+
   return extensions
 
 

@@ -18,7 +18,7 @@
 
   <div id="fileAddContainer">
     <button class="btn btn-secondary fileAdd button is-info is-fullwidth">Upload new file</button>
-    <form id="fileAdd" method="post" action="/files/upload">
+    <form id="fileAdd" class="hidden" method="post" action="/files/upload">
       <div class="form-group">
         <div style="margin-bottom: 10px;">
 
@@ -69,7 +69,7 @@
           ${extractFilename(file)}</a>
       </td>
       <td class="is-danger is-narrow">
-        <span class="deleteFile delete" data-url="/files/delete/publicimage/${extractFilename(file)}" title="Delete ${extractFilename(file)}">Delete</span>
+        <span class="deleteFile delete" data-url="/files/delete/publicimage/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
     </tr>
   # end for
@@ -106,7 +106,7 @@
         ${extractFilename(file)}</a>
       </td>
       <td class="is-danger is-narrow">
-        <span class="deleteFile" data-url="/files/delete/private/${extractFilename(file)}" title="Delete ${extractFilename(file)}">Delete</span>
+        <span class="deleteFile delete" data-url="/files/delete/private/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
     </tr>
   # end for
@@ -143,7 +143,7 @@
         ${extractFilename(file)}</a>
       </td>
       <td class="is-danger is-narrow">
-        <span class="deleteFile" data-url="/files/delete/public/${extractFilename(file)}" title="Delete ${extractFilename(file)}">Delete</span>
+        <span class="deleteFile delete" data-url="/files/delete/public/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
     </tr>
   # end for

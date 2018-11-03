@@ -60,6 +60,9 @@ const
       -p:<admin password>
       -e:<admin email>`
     --insertdata          Insert standard data (this will override existing data).
+       bulma               - standard data based on Bulma
+       bootstrap           - standard data based on Bootstrap
+       clean               - standard data without a CSS/JS framework
     --newdb               Generates the database with standard tables (does **not**
                           override or delete tables). `newdb` will be initialized
                           automatic, if no database exists.
