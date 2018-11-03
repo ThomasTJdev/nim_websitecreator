@@ -4,19 +4,23 @@
 const $btnEnablePlugin = document.querySelectorAll(".enablePlugin");
 const $btnDisablePlugin = document.querySelectorAll(".disablePlugin");
 if ($btnEnablePlugin.length) {
-  $btnEnablePlugin[0].addEventListener('click', function(event) {
-    let elParent = event.srcElement.parentNode;
-    let pluginName = elParent.getAttribute("data-plugin")
-    let pluginStatus = elParent.getAttribute("data-enabled")
-    pluginChangeStatus(pluginName, pluginStatus)
+  $btnEnablePlugin.forEach( el => {
+    el.addEventListener('click', function(event) {
+      let elParent = event.srcElement.parentNode;
+      let pluginName = elParent.getAttribute("data-plugin")
+      let pluginStatus = elParent.getAttribute("data-enabled")
+      pluginChangeStatus(pluginName, pluginStatus)
+    });
   });
 }
 if ($btnDisablePlugin.length) {
-  $btnDisablePlugin[0].addEventListener('click', function(event) {
-    let elParent = event.srcElement.parentNode;
-    let pluginName = elParent.getAttribute("data-plugin")
-    let pluginStatus = elParent.getAttribute("data-enabled")
-    pluginChangeStatus(pluginName, pluginStatus)
+  $btnDisablePlugin.forEach( el => {
+    el.addEventListener('click', function(event) {
+      let elParent = event.srcElement.parentNode;
+      let pluginName = elParent.getAttribute("data-plugin")
+      let pluginStatus = elParent.getAttribute("data-enabled")
+      pluginChangeStatus(pluginName, pluginStatus)
+    });
   });
 }
 function pluginChangeStatus(pluginName, pluginStatus) {
