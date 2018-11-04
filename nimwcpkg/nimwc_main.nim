@@ -440,7 +440,7 @@ when defined(demo):
       let execOutput = execCmd("cp data/website.bak.db data/website.db")
 
       if execOutput != 0:
-        #error("emptyDB(): Error backing up the database")
+        fatal("emptyDB(): Error backing up the database")
         await sleepAsync(2_000)
         moveFile(source="data/website.bak.db", dest="data/website.db")
 
