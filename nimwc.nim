@@ -1,3 +1,4 @@
+{.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
 import os, osproc, rdstdin, sequtils, strutils, terminal, times, json
 
 const
@@ -162,9 +163,6 @@ proc startupCheck() =
       styledEcho(fgRed, bgBlack, compile_fail_msg)
       quit()
     else:
-      try:
-        discard execCmd("strip --strip-all " & getAppDir() & "/nimwcpkg/nimwc_main")
-      except: discard
       styledEcho(fgGreen, bgBlack,  compile_ok_msg)
     quit()
 

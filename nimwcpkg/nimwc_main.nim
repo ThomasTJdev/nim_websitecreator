@@ -5,7 +5,7 @@
 #        Look at LICENSE for more info.
 #        All rights reserved.
 #
-#
+{.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
 
 import
   asyncdispatch, bcrypt, cgi, db_sqlite, jester, json, macros, os, osproc, logging,
