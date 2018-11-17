@@ -453,6 +453,32 @@ div#allblogPosts a.list-group-item {
 div#allblogPosts h5.blogName {
   font-weight: 600;
 }
+div#allblogPosts a.blogName {
+  color: black;
+}
+div#allblogPosts .category,
+div#allblogPosts .tags {
+  align-items: center;
+  border-radius: 4px;
+  display: inline-flex;
+  font-size: .75rem;
+  height: 2em;
+  justify-content: center;
+  line-height: 1.5;
+  margin-top: .7rem;
+  padding-left: .75em;
+  padding-right: .75em;
+  white-space: nowrap;
+}
+div#allblogPosts .category {
+  background-color: #959595;
+  color: #ffffff;
+}
+div#allblogPosts .tags {
+  background-color: #f5f5f5;
+  color: #4a4a4a;
+  margin-bottom: 0;
+}
 
 
 /*

@@ -26,13 +26,13 @@
 # var allBlogPages: seq[Row]
 #
 # if name.len() != 0:
-#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " AND name LIKE ? ORDER BY " & sortingOrder), "%" & name & "%")
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags FROM blog WHERE status IN " & status & " AND name LIKE ? ORDER BY " & sortingOrder), "%" & name & "%")
 # elif category.len() != 0:
-#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " AND category = ? ORDER BY " & sortingOrder), category)
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags FROM blog WHERE status IN " & status & " AND category = ? ORDER BY " & sortingOrder), category)
 # elif tags.len() != 0:
-#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " AND tags LIKE ? ORDER BY " & sortingOrder), "%" & tags & "%")
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags FROM blog WHERE status IN " & status & " AND tags LIKE ? ORDER BY " & sortingOrder), "%" & tags & "%")
 # else:
-#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " ORDER BY " & sortingOrder))
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags FROM blog WHERE status IN " & status & " ORDER BY " & sortingOrder))
 # end if
 
 <div class="align-centeret">
@@ -64,13 +64,13 @@
 #     if edit:
 #       blogTitle = "<h5><span class='editChip'><a href='/editpage/blog/" & blog[0] & "'>edit</a></span> - <a class='blognameEdit' href='/blog/" & blog[1] & "'>" & blog[2] & "</a></h5>"
 #     else:
-#       blogTitle = "<h5 class='blogName'>" & blog[2] & "</h5>"
+#       blogTitle = "<h5 class='blogName'><a class='blogName' href='/blog/" & blog[1] & "'>" & blog[2] & "</a></h5>"
 #     end if
 #
 #     if edit:
       <li class="list-group-item">
 #     else:
-      <a href="/blog/${blog[1]}" class="list-group-item">
+      <li class="list-group-item">
 #     end if
 #
         <div>
@@ -84,11 +84,21 @@
           $blogTitle
           <small class="is-hidden-tablet d-md-none">${epochDate(blog[5], "YYYY-MM-DD")}</small>
           <div style="margin-top: 10px;">${blog[6]}</div>
+          <div class="categorize">
+#           if blog[7].len() != 0:
+            <a href="/blog?category=${blog[7]}" class="category">${blog[7]}</a>
+#           end if
+#           if blog[8].len() != 0:
+#             for tag in split(blog[8], ","):
+              <a href="/blog?tags=${tag}" class="tags">${tag}</a>
+#             end for
+#           end if
+          </div>
         </div>
 #     if edit:
       </li>
 #     else:
-      </a>
+      </li>
 #     end if
 #
 #   end for

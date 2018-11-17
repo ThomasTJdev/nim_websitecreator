@@ -30,6 +30,9 @@ h5 {
 .hidden {
   display: none;
 }
+.align-centeret {
+  text-align: center;
+}
 
 div#background {
   background-attachment: fixed;
@@ -339,6 +342,29 @@ div#allblogPosts .editChip a {
 }
 div#allblogPosts a.blognameEdit {
   color: black;
+}
+div#allblogPosts .category,
+div#allblogPosts .tags {
+  align-items: center;
+  border-radius: 4px;
+  display: inline-flex;
+  font-size: .75rem;
+  height: 2em;
+  justify-content: center;
+  line-height: 1.5;
+  margin-top: .7rem;
+  padding-left: .75em;
+  padding-right: .75em;
+  white-space: nowrap;
+}
+div#allblogPosts .category {
+  background-color: #959595;
+  color: #ffffff;
+}
+div#allblogPosts .tags {
+  background-color: #f5f5f5;
+  color: #4a4a4a;
+  margin-bottom: 0;
 }
 
 
