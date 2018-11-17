@@ -48,7 +48,6 @@ const
     when defined(dev): " -d:dev",
     when defined(devemailon): " -d:devemailon",
     when defined(demo): " -d:demo",
-    when defined(demoloadbackup): " -d:demoloadbackup",
     when defined(ssl): " -d:ssl",
   ].join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
@@ -422,30 +421,17 @@ template statusIntToCheckbox(status, value: string): string =
       Proc's for demo usage
 __________________________________________________]#
 when defined(demo):
-  proc emptyDB(db: DbConn) {.async.} =
+  proc resetDB(db: DbConn) {.async.} =
     ## When defined(demo) activate proc
     ##
-    ## There is 2 outcome. If defined(demoloadbackup)
-    ## the database will be overwritten with a backup
-    ## (website.bak.db) every hour. If not, the standard
-    ## data will be applied.
+    ## The database will be overwritten with the standard
+    ## standard data every hour.
     ##
     ## This proc is used, when the platform needs to run
     ## as a test with e.g. public access.
 
     await sleepAsync(3_600_000)
-    var standarddata = true
-    when defined(demoloadbackup):
-      standarddata = false
-      let execOutput = execCmd("cp data/website.bak.db data/website.db")
-
-      if execOutput != 0:
-        fatal("emptyDB(): Error backing up the database")
-        await sleepAsync(2_000)
-        moveFile(source="data/website.bak.db", dest="data/website.db")
-
-    if standarddata:
-      createStandardData(db)
+    createStandardData(db)
 
 
 
@@ -502,11 +488,8 @@ when isMainModule:
   # Add test user
   when defined(demo):
     info("Demo option is activated.")
-    when defined(demoloadbackup):
-      if not fileExists(replace(getAppDir(), "/nimwcpkg", "") & "/data/website.bak.db"):
-        moveFile(source="data/website.db", dest="data/website.bak.db")
     createTestUser(db)
-    asyncCheck emptyDB(db)
+    asyncCheck resetDB(db)
 
 
   # Activate Google reCAPTCHA

@@ -77,11 +77,8 @@ const
     -d:dev                Development (ignore reCaptcha)
     -d:devemailon         Send email when `-d:dev` is activated
     -d:demo               Used on public test site. Enables a test user.
-    -d:demoloadbackup     Used with -d:demo. This option will override the
-                          database each hour with the file named `website.bak.db`.
-                          You can customize the page and make a copy of the
-                          database and name it `website.bak.db`, then it will be
-                          used by this feature.
+                          This option will override the database each hour with
+                          the standard data.
     -d:gitupdate          Updates and force a hard reset
   """
 
@@ -94,7 +91,6 @@ const
     when defined(dev): " -d:dev",
     when defined(devemailon): " -d:devemailon",
     when defined(demo): " -d:demo",
-    when defined(demoloadbackup): " -d:demoloadbackup",
     when defined(ssl): " -d:ssl",
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 

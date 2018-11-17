@@ -119,8 +119,7 @@ These options are only available at compiletime:
 * `-d:adminnotify` = Send error logs (ERROR) to the specified admin email
 * `-d:dev` = Development
 * `-d:devemailon` = Send email when `-d:dev` is activated
-* `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org)
-* `-d:demoloadbackup` = Used with -d:demo. This option will override the database each hour with the file named `website.bak.db`. You can customize the page and make a copy of the database and name it `website.bak.db`, then it will be used by this feature.
+* `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org). This option will override the database each hour with the standard data.
 * `-d:gitupdate` = Updates and force a hard reset
 
 
