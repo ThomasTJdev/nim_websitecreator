@@ -158,21 +158,6 @@
 </div>
 <hr>
 # end if
-#
-# if edit:
-<h4 class="has-text-centered">Delete page</h4>
-<div class="notification is-danger">
-  If you Delete a page it can not be undone.
-</div>
-<div class="buttons">
-  # if page:
-    <span data-url="/page/delete?pageid=$pageid" class="btn btn-danger pageDelete button is-danger" title="If you delete a page it can not be undone">Delete page</span>
-  # else:
-    <span data-url="/blogpage/delete?blogid=$pageid" class="btn btn-danger blogDelete button is-danger" title="If you delete a blogpost it can not be undone">Delete blogpost</span>
-  # end if
-</div>
-<hr>
-# end if
 
 <h4 class="has-text-centered">HTML</h4>
 <div style="margin-bottom: 20px;">
@@ -209,14 +194,15 @@
     </div>
 
   </div>
-<hr>
-<h4 class="has-text-centered">SEO</h4>
+</div>
 
+<hr>
+
+<h4 class="has-text-centered">SEO</h4>
 <div class="notification is-warning">
   HTML is not allowed, only plain text (ASCII).
 </div>
-
-<div style="margin-bottom: 20px;">
+<div>
 
   <div class="field">
     <div class="control">
@@ -240,6 +226,22 @@
   </div>
 
 </div>
+
+# if edit:
+<hr>
+<h4 class="has-text-centered">Delete page</h4>
+<div class="notification is-danger">
+  If you Delete a page it can not be undone.
+</div>
+<div class="buttons" style="margin-bottom: 20px;">
+  # if page:
+    <span data-url="/page/delete?pageid=$pageid" class="btn btn-danger pageDelete button is-danger" title="If you delete a page it can not be undone">Delete page</span>
+  # else:
+    <span data-url="/blogpage/delete?blogid=$pageid" class="btn btn-danger blogDelete button is-danger" title="If you delete a blogpost it can not be undone">Delete blogpost</span>
+  # end if
+</div>
+# end if
+#
 #end proc
 #
 #
