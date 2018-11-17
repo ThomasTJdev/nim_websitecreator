@@ -18,7 +18,7 @@ $(document).ready(function() {
   });
 });
 
-  
+
 /*
     Blog post
 */
@@ -109,7 +109,7 @@ function savePage() {
         $("#notifySaved").css("top", "50%");
         $("#notifySaved").text("Saved");
         $("#notifySaved").show(400);
-        setTimeout(function(){ 
+        setTimeout(function(){
           $("#notifySaved").hide(400);
         }, 1200);
       } else {
@@ -157,7 +157,7 @@ $(function() {
 var charCount = 0;
 function summernoteInit() {
   console.log("Summernote initialize");
-  
+
   var SaveButton = function (context) {
     var ui = $.summernote.ui;
 
@@ -245,7 +245,6 @@ function summernoteInit() {
             //charCount = 0;
             //savePage();
           }
-          $("#onenoteNote").attr("data-save", "1");
         }
       },
       onBlur: function () {
@@ -265,8 +264,8 @@ function summernoteInit() {
 $(function() {
   if($('#editordataCodemirror').length > 0 ){
     var editor = CodeMirror.fromTextArea($('#editordataCodemirror')[0], {
-      lineNumbers: true, 
-      lineWrapping: true, 
+      lineNumbers: true,
+      lineWrapping: true,
       mode: "htmlmixed",
       autoCloseTags: true,
       matchTags: {bothTags: true},
@@ -281,7 +280,7 @@ $(function() {
     function getSelectedRange() {
       return { from: editor.getCursor(true), to: editor.getCursor(false) };
     }
-    
+
     function autoFormatSelection() {
       var range = getSelectedRange();
       editor.autoFormatRange(range.from, range.to);
@@ -293,7 +292,7 @@ $(function() {
 
   if($('#htmlSettings1').length > 0 ){
     var settingsCode1 = CodeMirror.fromTextArea($('#htmlSettings1')[0], {
-      lineNumbers: true, 
+      lineNumbers: true,
       lineWrapping: true,
       mode: "htmlmixed",
       autoCloseTags: true,
@@ -308,7 +307,7 @@ $(function() {
 
   if($('#htmlSettings2').length > 0 ){
     var settingsCode2 = CodeMirror.fromTextArea($('#htmlSettings2')[0], {
-      lineNumbers: true, 
+      lineNumbers: true,
       lineWrapping: true,
       mode: "htmlmixed",
       autoCloseTags: true,
@@ -323,8 +322,8 @@ $(function() {
 
   if($('#htmlSettings3').length > 0 ){
     var settingsCode3 = CodeMirror.fromTextArea($('#htmlSettings3')[0], {
-      lineNumbers: true, 
-      lineWrapping: true, 
+      lineNumbers: true,
+      lineWrapping: true,
       mode: "htmlmixed",
       autoCloseTags: true,
       matchTags: {bothTags: true},
@@ -338,7 +337,7 @@ $(function() {
 
   if($('#settingsCode').length > 0 ){
     var settingsCode = CodeMirror.fromTextArea($('#settingsCode')[0], {
-      lineNumbers: true, 
+      lineNumbers: true,
       lineWrapping: true,
       autoCloseBrackets: true,
       matchTags: {bothTags: true},
