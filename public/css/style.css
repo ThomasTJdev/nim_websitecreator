@@ -432,6 +432,9 @@ div#login {
 /*
     All blog posts
 */
+div#allblogPosts {
+  margin-bottom: 40px;
+}
 div#allblogPosts .list-group {
   margin-left: auto;
   margin-right: auto;
