@@ -144,6 +144,24 @@ The "Moderator" can login and see private pages and blog pages. The user **can**
 
 The "Admin" has access to anything.
 
+# Blog
+
+You can easily add and edit blogpages. The blogpages support metadata: meta description and meta keywords. It is also possible to specify a category and tags.
+
+## Blog sorting
+
+In the settings menu you can specify how your blogposts should be sorted, e.g. on modfied date in ascending order.
+
+## Blog searching
+
+To only show blogpost with a specific name, tag or category, you have to append the criteria to the URL. It is not possible to combine these.
+
+```
+website.com/blog?name=nim
+website.com/blog?category=article
+website.com/blog?tags=code
+```
+
 # Plugins
 
 Multiple plugins are available. You can download them within the program at `<webpage>/plugins/repo`.
