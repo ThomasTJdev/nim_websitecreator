@@ -674,6 +674,7 @@ routes:
 
   get "/pagenew":
     createTFD()
+    restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
 
     resp genMainAdmin(c, genNewPage(c), "edit")
@@ -681,6 +682,7 @@ routes:
 
   post "/pagenew/save":
     createTFD()
+    restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
 
     let url = encodeUrl(@"url", true)
@@ -694,6 +696,7 @@ routes:
 
   post "/page/update":
     createTFD()
+    restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
 
     let url = encodeUrl(@"url", true)

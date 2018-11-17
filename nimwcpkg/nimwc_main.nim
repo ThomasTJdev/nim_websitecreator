@@ -575,7 +575,6 @@ template restrictTestuser(httpMethod: HttpMethod) =
 
   when defined(demo):
     if c.loggedIn and c.rank != Admin:
-      #let httpMethod = if httpMeth == "": $c.req.reqMethod else: httpMeth
       if httpMethod == HttpPost:
         resp("Error: The test user does not have access to this area")
       else:
