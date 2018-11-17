@@ -88,7 +88,7 @@ const
         <hr class="navbar-divider is-hidden-tablet">
       </div>
 
-      <div class="navbar-end">
+      <div class="navbar-end is-hidden-mobile">
         <div class="navbar-item">
           <div class="buttons">
             <a class="button is-small is-outlined" href="/login">Login</a>
