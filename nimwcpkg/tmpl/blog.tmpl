@@ -5,7 +5,7 @@
 #end template
 #
 #
-#proc genBlogAllPages(c: var TData, edit = false): string =
+#proc genBlogAllPages(c: var TData, edit = false, category = "", tags = ""): string =
 # ## Show all blog post
 # result = ""
 #
@@ -16,15 +16,21 @@
 #   status = "(2)"
 # end if
 #
+# var sortingOrder = "modified DESC"
+# let blogSorting = getRow(db, sql"SELECT blogorder, blogsort FROM settings")
+# if blogSorting[0].len() != 0 and blogSorting[1].len() != 0:
+#   sortingOrder = blogSorting[0] & " " & blogSorting[1]
+# end if
 #
-# let blogorder = getValue(db, sql"SELECT blogorder FROM settings")
-# let blogsort = getValue(db, sql"SELECT blogsort FROM settings")
 #
 # var allBlogPages: seq[Row]
-# if blogorder == "":
-#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " ORDER BY modified DESC"))
+#
+# if category.len() != 0:
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " AND category = ? ORDER BY " & sortingOrder), category)
+# elif tags.len() != 0:
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " AND tags LIKE ? ORDER BY " & sortingOrder), "%" & tags & "%")
 # else:
-#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " ORDER BY " & blogorder & " " & blogsort))
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " ORDER BY " & sortingOrder))
 # end if
 
 <div style="text-align: center;">
@@ -43,6 +49,12 @@
   </div>
 #
 # else:
+#
+#   if category.len() != 0:
+      <div style="text-align: center"><h3><i>Category: ${category}</i></h3></div>
+#   elif tags.len() != 0:
+      <div style="text-align: center"><h3><i>Tags: ${tags}</i></h3></div>
+#   end if
 #
   <ul class="list-group">
 #   for blog in allBlogPages:

@@ -133,14 +133,18 @@
 # var title = ""
 # var metadescription = ""
 # var metakeywords = ""
+# var category = ""
+# var tags = ""
 #
 # if edit:
 #   let pageOrBlog = if page == true: "pages" else: "blog"
-#   let seoData = getRow(db, sql("SELECT title, metadescription, metakeywords FROM " & pageOrBlog & " WHERE id = ?"), pageid)
+#   let details = getRow(db, sql("SELECT title, metadescription, metakeywords, category, tags FROM " & pageOrBlog & " WHERE id = ?"), pageid)
 #
-#   title = seoData[0]
-#   metadescription = seoData[1]
-#   metakeywords = seoData[2]
+#   title = details[0]
+#   metadescription = details[1]
+#   metakeywords = details[2]
+#   category = details[3]
+#   tags = details[4]
 # end if
 #
 # if edit:
@@ -158,6 +162,27 @@
 </div>
 <hr>
 # end if
+
+<h4 class="has-text-centered">Categorize</h4>
+<div>
+
+  <div class="field">
+    <div class="control">
+      <label class="label">Category</label>
+      <input class="input" type="text" name="category" value="${category}" placeholder="Single word category" dir="auto">
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <label class="label">Tags</label>
+      <input class="input" type="text" name="tags" value="${tags}" placeholder="Comma separated tags, e.g. nim,macro" dir="auto">
+    </div>
+  </div>
+
+</div>
+
+<hr>
 
 <h4 class="has-text-centered">HTML</h4>
 <div style="margin-bottom: 20px;">
