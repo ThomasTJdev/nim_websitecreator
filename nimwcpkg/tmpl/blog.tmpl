@@ -5,7 +5,7 @@
 #end template
 #
 #
-#proc genBlogAllPages(c: var TData, edit = false, category = "", tags = ""): string =
+#proc genBlogAllPages(c: var TData, edit = false, name = "", category = "", tags = ""): string =
 # ## Show all blog post
 # result = ""
 #
@@ -25,7 +25,9 @@
 #
 # var allBlogPages: seq[Row]
 #
-# if category.len() != 0:
+# if name.len() != 0:
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " AND name LIKE ? ORDER BY " & sortingOrder), "%" & name & "%")
+# elif category.len() != 0:
 #   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " AND category = ? ORDER BY " & sortingOrder), category)
 # elif tags.len() != 0:
 #   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription FROM blog WHERE status IN " & status & " AND tags LIKE ? ORDER BY " & sortingOrder), "%" & tags & "%")

@@ -655,7 +655,7 @@ routes:
 
   get "/blog":
     createTFD()
-    resp genMain(c, genBlogAllPages(c, false, @"category", @"tags"))
+    resp genMain(c, genBlogAllPages(c, false, @"name", @"category", @"tags"))
 
 
   get re"/blog//*.":
