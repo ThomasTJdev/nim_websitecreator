@@ -609,7 +609,7 @@ routes:
     if url == getValue(db, sql"SELECT url FROM blog WHERE url = ?", url):
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
-    let blogID = insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
+    let blogID = insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags")
 
     resp genMainAdmin(c, genEditBlog(c, $blogID, true), "edit")
 
@@ -624,7 +624,7 @@ routes:
         resp("Error: A page with same URL already exists")
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
-    discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"blogid")
+    discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"blogid")
 
     if @"inbackground" == "true":
       resp("OK")
@@ -643,7 +643,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMainAdmin(c, genBlogAllPages(c, true))
+    resp genMainAdmin(c, genBlogAllPages(c, edit=true))
 
 
   get "/editpage/blog/@blogid":
@@ -655,7 +655,7 @@ routes:
 
   get "/blog":
     createTFD()
-    resp genMain(c, genBlogAllPages(c))
+    resp genMain(c, genBlogAllPages(c, false, @"name", @"category", @"tags"))
 
 
   get re"/blog//*.":
@@ -689,7 +689,7 @@ routes:
     if url == getValue(db, sql"SELECT url FROM pages WHERE url = ?", url):
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
-    let pageID = insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords")
+    let pageID = insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags")
 
     resp genMainAdmin(c, genEditPage(c, $pageID, true), "edit")
 
@@ -705,7 +705,7 @@ routes:
         resp("Error: A page with same URL already exists")
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
-    discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"pageid")
+    discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"pageid")
 
     if @"inbackground" == "true":
       resp("OK")
