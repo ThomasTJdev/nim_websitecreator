@@ -1,3 +1,19 @@
+## v4.0.8
+### Changes
+- Front slash is preserved in the url for blogposts and pages
+- Styling of tags and categories on blogposts
+
+## v4.0.7
+### Changes
+- Support for category and tags on blogposts
+- `-d:demoloadbackup` is removed
+- Testuser can not edit pages
+
+## v4.0.6
+### Changes
+- Fix robots.txt to avoid problems with Google Webmaster
+- Fix #29, #31
+
 ## v4.0.5
 ### Changes
 - Drop Bootstrap+JQuery, Add Bulma CSS Framework, but still support Bootstrap.
