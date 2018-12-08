@@ -1,3 +1,11 @@
+## v4.0.10
+### Changes
+- Redirect to "/" when not logged in and accessing users/<profile>
+
+## v4.0.9
+### Changes
+- Admin user was not added
+
 ## v4.0.8
 ### Changes
 - Front slash is preserved in the url for blogposts and pages
