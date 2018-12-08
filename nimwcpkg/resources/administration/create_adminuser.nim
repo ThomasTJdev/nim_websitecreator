@@ -18,27 +18,27 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
   else:
     info($anyAdmin.len() & " Admin already exists. Adding another Admin!.")
 
-    var iName = ""
-    var iEmail = ""
-    var iPwd = ""
+  var iName = ""
+  var iEmail = ""
+  var iPwd = ""
 
-    for arg in args:
-      if arg.substr(0, 1) == "u:":
-        iName = arg.substr(2, arg.len())
-      elif arg.substr(0, 1) == "p:":
-        iPwd = arg.substr(2, arg.len())
-      elif arg.substr(0, 1) == "e:":
-        iEmail = arg.substr(2, arg.len())
+  for arg in args:
+    if arg.substr(0, 1) == "u:":
+      iName = arg.substr(2, arg.len())
+    elif arg.substr(0, 1) == "p:":
+      iPwd = arg.substr(2, arg.len())
+    elif arg.substr(0, 1) == "e:":
+      iEmail = arg.substr(2, arg.len())
 
-    if iName == "" or iPwd == "" or iEmail == "":
-      error("Missing either name, password or email to create the Admin user.")
+  if iName == "" or iPwd == "" or iEmail == "":
+    error("Missing either name, password or email to create the Admin user.")
 
-    let salt = makeSalt()
-    let password = makePassword(iPwd, salt)
+  let salt = makeSalt()
+  let password = makePassword(iPwd, salt)
 
-    discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", $iName, $iEmail, password, salt, "Admin")
+  discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", $iName, $iEmail, password, salt, "Admin")
 
-    info("Admin added.")
+  info("Admin added.")
 
 
 proc createTestUser*(db: DbConn) =
