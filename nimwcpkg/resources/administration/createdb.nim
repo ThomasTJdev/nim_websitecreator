@@ -99,7 +99,8 @@ proc generateDB*() =
     navbar TEXT,
     title TEXT,
     disabled INTEGER,
-    blogorder TEXT
+    blogorder TEXT,
+    blogsort TEXT
   );""", []):
     echo " - Database: settings table already exists"
 
