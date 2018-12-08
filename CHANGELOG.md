@@ -1,3 +1,8 @@
+## v4.0.11
+### Changes
+- Remove min and max length on meta text
+- Include blogsort when creating database
+
 ## v4.0.10
 ### Changes
 - Redirect to "/" when not logged in and accessing users/<profile>
