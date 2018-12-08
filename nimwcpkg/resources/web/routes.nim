@@ -442,40 +442,44 @@ routes:
 
   get "/users":
     createTFD()
-    if c.loggedIn:
-      resp genMainAdmin(c, genUsers(c))
+    if not c.loggedIn:
+      redirect("/")
+    resp genMainAdmin(c, genUsers(c))
 
 
   get "/users/profile":
     createTFD()
-    if c.loggedIn:
-      resp genMainAdmin(c, genUsersProfile(c), "users")
+    if not c.loggedIn:
+      redirect("/")
+    resp genMainAdmin(c, genUsersProfile(c), "users")
 
 
   post "/users/profile/update":
     createTFD()
     restrictTestuser(HttpGet)
 
-    if c.loggedIn:
-      if @"name" == "" or @"email" == "":
-        redirect("/error/" & encodeUrl("Error: Name and email are required"))
+    if not c.loggedIn:
+      redirect("/")
 
-      if "@" notin @"email":
-        redirect("/error/" & encodeUrl("Error: Your email has a wrong format (missing [a]: " & @"email"))
+    if @"name" == "" or @"email" == "":
+      redirect("/error/" & encodeUrl("Error: Name and email are required"))
 
-      if @"password" != @"passwordConfirm":
-        redirect("/error/" & encodeUrl("Error: Your passwords did not match"))
+    if "@" notin @"email":
+      redirect("/error/" & encodeUrl("Error: Your email has a wrong format (missing [a]: " & @"email"))
 
-      if @"password" != "":
-        let salt = makeSalt()
-        let password = makePassword(@"password", salt)
+    if @"password" != @"passwordConfirm":
+      redirect("/error/" & encodeUrl("Error: Your passwords did not match"))
 
-        exec(db, sql"UPDATE person SET name = ?, email = ?, password = ?, salt = ? WHERE id = ?", @"name", @"email", password, salt, c.userid)
+    if @"password" != "":
+      let salt = makeSalt()
+      let password = makePassword(@"password", salt)
 
-      else:
-        exec(db, sql"UPDATE person SET name = ?, email = ? WHERE id = ?", @"name", @"email", c.userid)
+      exec(db, sql"UPDATE person SET name = ?, email = ?, password = ?, salt = ? WHERE id = ?", @"name", @"email", password, salt, c.userid)
 
-      redirect("/users/profile")
+    else:
+      exec(db, sql"UPDATE person SET name = ?, email = ? WHERE id = ?", @"name", @"email", c.userid)
+
+    redirect("/users/profile")
 
 
   get "/users/delete/@userID":
@@ -569,21 +573,23 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
 
-    if c.loggedIn:
-      let path = storageEFS & "/users/" & c.userid
-      let base64 = split(c.req.body, ",")[1]
+    if not c.loggedIn:
+      redirect("/")
 
-      try:
-        writeFile(path & ".txt", base64)
-        discard execProcess("base64 -d > " & path & ".png < " & path & ".txt")
-        removeFile(path & ".txt")
-        if fileExists(path & ".png"):
-          resp("File saved")
+    let path = storageEFS & "/users/" & c.userid
+    let base64 = split(c.req.body, ",")[1]
 
-      except:
-        resp("Error")
+    try:
+      writeFile(path & ".txt", base64)
+      discard execProcess("base64 -d > " & path & ".png < " & path & ".txt")
+      removeFile(path & ".txt")
+      if fileExists(path & ".png"):
+        resp("File saved")
 
-      resp("Error: Something went wrong")
+    except:
+      resp("Error")
+
+    resp("Error: Something went wrong")
 
 
 
