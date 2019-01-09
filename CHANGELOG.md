@@ -1,11 +1,12 @@
 ## v4.0.12
 ### Changes
-- Add Server Info page for Admins
-- Add Force Server Restart for Admins
+- Add Server Info page for Admins, it displays runtime server stats
+- Add Force Server Restart for Admins, restart on 1 second
 - Update Bulma version
-- Filter avatar image file format, because Crop thingy get buggy with GIF
-- Add MimeType, Size, CheckSum to Files page
-- Add button to Copy the Logs content on Logs page
+- Filter avatar image file format, because Crop thingy get buggy/slow with GIF
+- Add MimeType, Size, CheckSum to Files page, useful for UI/UX building
+- Add button to Copy all the Logs content on one click on Logs page
+- First release of 2019
 
 ## v4.0.11
 ### Changes
