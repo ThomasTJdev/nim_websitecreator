@@ -111,7 +111,6 @@ let
 
 proc handler() {.noconv.} =
   ## Catch ctrl+c from user
-
   runInLoop = false
   kill(nimhaMain)
   styledEcho(fgYellow, bgBlack, "CTRL+C Pressed, NimWC is shutting down.")
