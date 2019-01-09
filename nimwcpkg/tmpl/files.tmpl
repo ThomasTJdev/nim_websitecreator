@@ -1,5 +1,7 @@
 #? stdtmpl | standard
 #
+#import mimetypes, ospaths, os, md5
+#
 #template `%`(idx: untyped): untyped =
 #  row[idx]
 #end template
@@ -10,9 +12,10 @@
 #proc genFiles(c: var TData): string =
 # result = ""
 #
-# let allFilesPrivate       = filesListPrivate()
-# let allFilesPublic        = filesListPublic()
-# let allFilesPublicImages  = filesListPublicFolderImages()
+# let mime            = newMimetypes()
+# let allFilesPrivate = filesListPrivate()
+# let allFilesPublic  = filesListPublic()
+# let allFilesPublicImages = filesListPublicFolderImages()
 <div id="files">
   <h1 class="has-text-centered">Files</h1>
 
@@ -49,6 +52,9 @@
       <tr>
         <th>#</th>
         <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>MD5 CheckSum</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -56,6 +62,9 @@
       <tr>
         <th>#</th>
         <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>MD5 CheckSum</th>
         <th>Delete</th>
       </tr>
     </tfoot>
@@ -68,6 +77,9 @@
       <td><a href="/images/${extractFilename(file)}" title="/images/${extractFilename(file)}" target="_blank">
           ${extractFilename(file)}</a>
       </td>
+      <td> ${ mime.getMimetype(file.splitFile.ext).toUpperAscii } </td>
+      <td> ${ file.getFileSize } </td>
+      <td> ${ file.readFile.getMD5 } </td>
       <td class="is-danger is-narrow">
         <span class="deleteFile delete" data-url="/files/delete/publicimage/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
@@ -86,6 +98,9 @@
       <tr>
         <th>#</th>
         <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>MD5 CheckSum</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -93,6 +108,9 @@
       <tr>
         <th>#</th>
         <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>MD5 CheckSum</th>
         <th>Delete</th>
       </tr>
     </tfoot>
@@ -105,6 +123,9 @@
       <td><a href="/files/stream/private/${extractFilename(file)}" title="${extractFilename(file)}" target="_blank">
         ${extractFilename(file)}</a>
       </td>
+      <td> ${ mime.getMimetype(file.splitFile.ext).toUpperAscii } </td>
+      <td> ${ file.getFileSize } </td>
+      <td> ${ file.readFile.getMD5 } </td>
       <td class="is-danger is-narrow">
         <span class="deleteFile delete" data-url="/files/delete/private/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
@@ -123,6 +144,9 @@
       <tr>
         <th>#</th>
         <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>MD5 CheckSum</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -130,6 +154,9 @@
       <tr>
         <th>#</th>
         <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>MD5 CheckSum</th>
         <th>Delete</th>
       </tr>
     </tfoot>
@@ -142,6 +169,9 @@
       <td><a href="/files/stream/public/${extractFilename(file)}" title="${extractFilename(file)}" target="_blank">
         ${extractFilename(file)}</a>
       </td>
+      <td> ${ mime.getMimetype(file.splitFile.ext).toUpperAscii } </td>
+      <td> ${ file.getFileSize } </td>
+      <td> ${ file.readFile.getMD5 } </td>
       <td class="is-danger is-narrow">
         <span class="deleteFile delete" data-url="/files/delete/public/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
