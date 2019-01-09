@@ -1,3 +1,12 @@
+## v4.0.12
+### Changes
+- Add Server Info page for Admins
+- Add Force Server Restart for Admins
+- Update Bulma version
+- Filter avatar image file format, because Crop thingy get buggy with GIF
+- Add MimeType, Size, CheckSum to Files page
+- Add button to Copy the Logs content on Logs page
+
 ## v4.0.11
 ### Changes
 - Remove min and max length on meta text
