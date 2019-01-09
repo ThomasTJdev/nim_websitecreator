@@ -20,11 +20,10 @@ import distros
 
 task setup, "Generating executable":
   if detectOs(Windows):
-    echo "Cannot run on Windows"
-    quit()
+    quit("Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows")
 
   if not fileExists("config/config.cfg"):
-    exec "cp config/config_default.cfg config/config.cfg"
+    exec "cp -v config/config_default.cfg config/config.cfg"
 
   exec "nim c -r -d:release -d:ssl nimwc.nim"
 
