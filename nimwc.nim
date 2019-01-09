@@ -82,7 +82,7 @@ const
     -d:gitupdate          Updates and force a hard reset
   """
 
-  nimwc_version = "4.0.11"
+  nimwc_version = "4.0.12"
   # TODO: filter_it(readFile("nimwc.nimble").splitLines, it.substr(0, 6) == "version")[0]  ## Get NimWC Version at Compile-Time.
   # Ref: https://github.com/ThomasTJdev/nim_websitecreator/issues/29
 
