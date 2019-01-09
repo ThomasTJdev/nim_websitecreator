@@ -218,3 +218,8 @@ GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma 
 # Trouble
 
 Remove `nimcache` and `nimwcpkg/nimcache` and re-compile
+
+
+# Docker
+
+- [Use the Dockerfile](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Dockerfile) as starting point for your NimWC containers.
