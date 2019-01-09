@@ -6,6 +6,7 @@
 - Filter avatar image file format, because Crop thingy get buggy/slow with GIF
 - Add MimeType, Size, CheckSum to Files page, useful for UI/UX building
 - Add button to Copy all the Logs content on one click on Logs page
+- Add Dockerfile to the repo
 - First release of 2019
 
 ## v4.0.11
