@@ -1,5 +1,5 @@
-{.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
 import os, osproc, rdstdin, sequtils, strutils, terminal, times, json
+{.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
 
 const
   update_cmds = [
@@ -82,10 +82,6 @@ const
     -d:gitupdate          Updates and force a hard reset
   """
 
-  nimwc_version = "4.0.12"
-  # TODO: filter_it(readFile("nimwc.nimble").splitLines, it.substr(0, 6) == "version")[0]  ## Get NimWC Version at Compile-Time.
-  # Ref: https://github.com/ThomasTJdev/nim_websitecreator/issues/29
-
   compileOptions = ["",
     when defined(adminnotify): " -d:adminnotify",
     when defined(dev): " -d:dev",
@@ -93,6 +89,12 @@ const
     when defined(demo): " -d:demo",
     when defined(ssl): " -d:ssl",
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
+
+  nimwc_version =
+    try:
+      filter_it("nimwc.nimble".readFile.splitLines, it.substr(0, 6) == "version")[0].split("=")[1].normalize ## Get NimWC Version at Compile-Time.
+    except:
+      "4.0.12"  ## Set NimWC Version at Compile-Time, if ready from file failed.
 
 
 var
