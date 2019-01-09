@@ -7,6 +7,7 @@
 - Add MimeType, Size, CheckSum to Files page, useful for UI/UX building
 - Add button to Copy all the Logs content on one click on Logs page
 - Add Dockerfile to the repo
+- Update Readme
 - First release of 2019
 
 ## v4.0.11
