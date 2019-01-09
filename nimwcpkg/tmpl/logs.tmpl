@@ -4,7 +4,11 @@
 #  result = ""
 <center>
   <h1>Logs</h1>
-  <textarea name="logs" title="Log Size: $logcontent.len Chars." dir="auto" readonly autofocus spellcheck style="width:99%;height:90%">
+  <textarea name="logs" id="logs" title="Log Size: $logcontent.len Chars." dir="auto" readonly autofocus spellcheck style="width:99%;height:90%">
     $logcontent
   </textarea>
+  <br>
+  <a class="btn btn-outline-primary button is-small" title="Copy Logs" onclick="document.querySelector('#logs').select();document.execCommand('copy')">
+    <button>Copy</button>
+  </a>
 </center>
