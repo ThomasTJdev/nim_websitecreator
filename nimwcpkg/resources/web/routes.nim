@@ -310,6 +310,16 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     resp genViewLogs(logcontent=readFile(logfile))
 
+  get "/settings/forcerestart":
+    createTFD()
+    restrictAccessTo(c, [Admin, Moderator])
+    echo execCmdEx("pkill nimwc_main")
+
+  get "/settings/serverinfo":
+    createTFD()
+    restrictAccessTo(c, [Admin, Moderator])
+    resp genServerInfo()
+
 
   #[
 

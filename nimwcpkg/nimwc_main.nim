@@ -545,6 +545,7 @@ include "tmpl/user.tmpl"
 include "tmpl/main.tmpl"
 include "tmpl/sitemap.tmpl"
 include "tmpl/logs.tmpl"
+include "tmpl/serverinfo.tmpl"
 
 #[
       Routes for WWW

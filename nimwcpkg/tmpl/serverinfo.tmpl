@@ -1,0 +1,98 @@
+#? stdtmpl | standard
+#import times, encodings, osproc, httpclient, nativesockets
+#proc genServerInfo(): string =
+#  result = ""
+<center>
+  <h1>Server Info</h1>
+</center>
+<table border=1 style="width:99%">
+  <tbody>
+  <tr>
+    <td> <b>System</b> </td>            <td>${execCmdEx("uname -a").output}</td>
+  </tr>
+  <tr>
+    <td> <b>Distro</b> </td>            <td>${execCmdEx("lsb_release -a").output}</td>
+  </tr>
+  <tr>
+    <td> <b>Uptime</b> </td>            <td>${execCmdEx("uptime --pretty").output}</td>
+  </tr>
+  <tr>
+    <td> <b>Public IP</b> </td>         <td>${newHttpClient().getContent("http://api.ipify.org")}</td>
+  </tr>
+  <tr>
+    <td> <b>Hostname</b> </td>          <td>${getHostname()}</td>
+  </tr>
+  <tr>
+    <td> <b>Compile Date</b> </td>      <td>$CompileDate</td>
+  </tr>
+  <tr>
+    <td> <b>Compile Time</b> </td>      <td> $CompileTime</td>
+  </tr>
+  <tr>
+    <td> <b>Nim Version</b> </td>       <td>$NimVersion</td>
+  </tr>
+  <tr>
+    <td> <b>CPU</b> </td>               <td>$hostCPU.toUpperAscii</td>
+  </tr>
+  <tr>
+    <td> <b>CPU Count</b> </td>         <td>${countProcessors()}</td>
+  </tr>
+  <tr>
+    <td> <b>OS</b> </td>                <td>$hostOS.toUpperAscii</td>
+  </tr>
+  <tr>
+    <td> <b>Endian</b> </td>            <td>$cpuEndian</td>
+  </tr>
+  <tr>
+    <td> <b>Temp Directory</b> </td>    <td>${getTempDir()}</td>
+  </tr>
+  <tr>
+    <td> <b>Current Directory</b> </td> <td>${getCurrentDir()}</td>
+  </tr>
+  <tr>
+    <td> <b>Biggest Integer</b> </td>   <td>$int.high</td>
+  </tr>
+  <tr>
+    <td> <b>Server DateTime</b> </td>   <td>${now()}</td>
+  </tr>
+  <tr>
+    <td> <b>Encoding</b> </td>          <td>${getCurrentEncoding()}</td>
+  </tr>
+  <tr>
+    <td> <b>SSL?</b> </td>              <td>${defined(ssl)}</td>
+  </tr>
+  <tr>
+    <td> <b>Release Build?</b> </td>    <td>${defined(release)}</td>
+  </tr>
+  <tr>
+    <td> <b>Demo Mode?</b> </td>        <td>${defined(demo)}</td>
+  </tr>
+  <tr>
+    <td> <b>Admin Notify?</b> </td>     <td>${defined(adminnotify)}</td>
+  </tr>
+  <tr>
+    <td> <b>Force Recompile?</b> </td>  <td>${defined(rc)}</td>
+  </tr>
+  <tr>
+    <td> <b>Development Mode?</b> </td> <td>${defined(dev)}</td>
+  </tr>
+  <tr>
+    <td> <b>Update from GIT?</b></td>   <td>${defined(gitupdate)}</td>
+  </tr>
+  <tr>
+    <td> <b>Free Memory</b> </td>       <td>${getFreeMem()}</td>
+  </tr>
+  <tr>
+    <td> <b>Total Memory</b> </td>      <td>${getTotalMem()}</td>
+  </tr>
+  <tr>
+    <td> <b>Occupied Memory</b> </td>   <td>${getOccupiedMem()}</td>
+  </tr>
+  <tr>
+    <td> <b>Command Line Params</b> </td>   <td>${commandLineParams()}</td>
+  </tr>
+  <tr>
+    <td> <b>Garbage Collector</b> </td> <td>${GC_getStatistics()}</td>
+  </tr>
+</tbody>
+</table>
