@@ -15,6 +15,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Custom title, meta description and keywords for each page
 - Edit core or custom js- and css-files
 - Upload files (private or public)
+- Postgres SQL Database Server with ORM.
 - Log Viewer directly from browser.
 - Auto-Rotating file Logger.
 - Uses responsive Bulma CSS framework, supports Bootstrap CSS framework.
