@@ -1,6 +1,6 @@
 # Copyright 2018 - Thomas T. Jarløv
 
-func commandLineHelp*(): string =
+func commandLineHelp*(): string {.inline.} =
   return """
   _____________________________________
 
