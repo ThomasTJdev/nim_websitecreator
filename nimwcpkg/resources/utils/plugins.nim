@@ -1,93 +1,62 @@
 # Copyright 2018 - Thomas T. Jarløv
-
 import strutils, osproc, os, json
 
-
-const pluginRepo = "https://github.com/ThomasTJdev/nimwc_plugins.git"
-const pluginRepoName = "nimwc_plugins"
+const
+  pluginRepo = "https://github.com/ThomasTJdev/nimwc_plugins.git"
+  pluginRepoName = "nimwc_plugins"
 
 
 proc pluginExtractDetails*(pluginFolder: string): tuple[name, version, description, url: string] =
   ## Get plugin data from [pluginName]/plugin.json
-
   let pluginJson = parseFile("plugins/" & pluginFolder & "/plugin.json")
   for plugin in items(pluginJson):
-    let name = plugin["name"].getStr()
-    let version = plugin["version"].getStr()
-    let description = plugin["description"].getStr()
-    let url = plugin["url"].getStr()
-
+    let
+      name = plugin["name"].getStr()
+      version = plugin["version"].getStr()
+      description = plugin["description"].getStr()
+      url = plugin["url"].getStr()
     return (name, version, description, url)
 
 
-proc pluginCheckGit*(): bool =
+func pluginCheckGit*(): bool {.inline.} =
   ## Checks if git exists
-
-  if execCmd("git > /dev/null") == 1:
-    true
-  else:
-    false
-
-
-proc pluginRepoExists(): bool =
-  ## Check if plugin repo exists
-
-  if fileExists("plugins/nimwc_plugins/plugins.json"):
-    true
-  else:
-    false
+  result = execCmd("git > /dev/null") == 1
 
 
 proc pluginRepoClone*(): bool =
   ## Clones (updates) the plugin repo
-
-  if not pluginCheckGit():
+  if unlikely(not pluginCheckGit()):
     return false
-
-  let output = execCmd("git clone " & pluginRepo & " " & replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginRepoName)
-
+  let output = execCmd("git clone " & pluginRepo & " " &
+    replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginRepoName)
   if output != 0:
     return false
+  return fileExists("plugins/nimwc_plugins/plugins.json")
 
-  return pluginRepoExists()
 
-
-proc pluginRepoUpdate*(): bool =
+func pluginRepoUpdate*(): bool =
   ## Clones (updates) the plugin repo
-
-  if not pluginCheckGit():
+  if unlikely(not pluginCheckGit()):
     return false
-
   let output = execCmd("git -C plugins/" & pluginRepoName & " pull")
-
   if output != 0:
     return false
-
-  return pluginRepoExists()
+  return fileExists("plugins/nimwc_plugins/plugins.json")
 
 
 proc pluginDownload*(pluginGit, pluginFolder: string): bool =
   ## Downloads an external plugin with clone
-
-  let output = execProcess("git clone " & pluginGit & " " & replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginFolder)
-
-  if output == ("fatal: repository '" & pluginGit & "' does not exists"):
-    false
-  else:
-    true
+  let output = execProcess("git clone " & pluginGit & " " &
+    replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginFolder)
+  result = output != "fatal: repository '" & pluginGit & "' does not exists"
 
 
 proc pluginUpdate*(pluginFolder: string): bool =
   ## Updates an external plugin with pull
-
   discard execCmd("git -C plugins/" & pluginFolder & " fetch --all")
   discard execCmd("git -C plugins/" & pluginFolder & " reset --hard origin/master")
   let output = execProcess("git -C plugins/" & pluginFolder & " pull")
-
-  if output == ("fatal: cannot change to " & pluginFolder & ": No such file or directory"):
-    false
-  else:
-    true
+  result = output != "fatal: cannot change to " & pluginFolder & ": No such file or directory"
 
 
 proc pluginDelete*(pluginFolder: string): bool =
@@ -95,13 +64,8 @@ proc pluginDelete*(pluginFolder: string): bool =
   for line in lines("plugins/plugin_import.txt"):
     if line == pluginFolder:
       return false
-
   let output = execProcess("rm -rf plugins/" & pluginFolder)
-
-  if output == ("fatal: cannot change to " & pluginFolder & ": No such file or directory"):
-    false
-  else:
-    true
+  result = output != "fatal: cannot change to " & pluginFolder & ": No such file or directory"
 
 
 proc pluginEnableDisable*(pluginPath, pluginName, status: string) =
