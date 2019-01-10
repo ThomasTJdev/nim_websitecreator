@@ -1,17 +1,15 @@
 import strutils, random, sequtils
 
-
-const rlAscii  = toSeq('a'..'z')
-const rhAscii  = toSeq('A'..'Z')
-const rDigit  = toSeq('0'..'9')
-const rSpecial = ["!", ",", "$", "/", "(", ")", "?", "_"]
+const
+  rlAscii  = toSeq('a'..'z')
+  rhAscii  = toSeq('A'..'Z')
+  rDigit   = toSeq('0'..'9')
+  rSpecial = ["!", ",", "$", "/", "(", ")", "?", "_"]
+randomize()
 
 proc randomString*(length: int): string =
   ## Generate random number with special chars, alpha and digits.
   ## The length is specified as parameter.
-  randomize()
-  result = ""
-
   for i in countUp(1, length):
     var runRandom = rand(3)
 
@@ -27,15 +25,10 @@ proc randomString*(length: int): string =
     else:
       discard
 
-  return result
-
 
 proc randomStringAlpha*(length: int): string =
   ## Generate random number with alpha.
   ## The length is specified as parameter.
-  randomize()
-  result = ""
-
   for i in countUp(1, length):
     var runRandom = rand(1)
 
@@ -47,27 +40,17 @@ proc randomStringAlpha*(length: int): string =
     else:
       discard
 
-  return result
-
 
 proc randomStringDigit*(length: int): string =
   ## Generate random number with digits.
   ## The length is specified as parameter.
-  randomize()
-  result = ""
-
   for i in countUp(1, length):
     result.add(rand(rDigit))
-    
-  return result
 
 
 proc randomStringDigitAlpha*(length: int): string =
   ## Generate random number with alpha and digits.
   ## The length is specified as parameter.
-  randomize()
-  result = ""
-
   for i in countUp(1, length):
     var runRandom = rand(2)
 
@@ -80,5 +63,3 @@ proc randomStringDigitAlpha*(length: int): string =
       result.add(rand(rDigit))
     else:
       discard
-
-  return result
