@@ -20,7 +20,7 @@ proc pluginExtractDetails*(pluginFolder: string): tuple[name, version, descripti
 
 func pluginCheckGit*(): bool {.inline.} =
   ## Checks if git exists
-  result = execCmd("git > /dev/null") == 1
+  "git".findExe.len > 0
 
 
 proc pluginRepoClone*(): bool =
