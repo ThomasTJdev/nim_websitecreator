@@ -4,6 +4,17 @@ import strutils, osproc, os, json
 const
   pluginRepo = "https://github.com/ThomasTJdev/nimwc_plugins.git"
   pluginRepoName = "nimwc_plugins"
+  pluginHtmlListItem = """
+    <li data-plugin="$1" class="pluginSettings disabled" data-enabled="$2">
+      <div class="name"> $3 </div>
+      <div class="enablePlugin"  title="Turn ON">  Start </div>
+      <div class="disablePlugin" title="Turn OFF"> Stop  </div>
+    </li>"""
+
+
+proc pluginCheckGit*(): bool {.inline.} =
+  ## Checks if git exists
+  "git".findExe.len > 0
 
 
 proc pluginExtractDetails*(pluginFolder: string): tuple[name, version, description, url: string] =
@@ -18,11 +29,6 @@ proc pluginExtractDetails*(pluginFolder: string): tuple[name, version, descripti
     return (name, version, description, url)
 
 
-func pluginCheckGit*(): bool {.inline.} =
-  ## Checks if git exists
-  "git".findExe.len > 0
-
-
 proc pluginRepoClone*(): bool =
   ## Clones (updates) the plugin repo
   if unlikely(not pluginCheckGit()):
@@ -34,7 +40,7 @@ proc pluginRepoClone*(): bool =
   return fileExists("plugins/nimwc_plugins/plugins.json")
 
 
-func pluginRepoUpdate*(): bool =
+proc pluginRepoUpdate*(): bool =
   ## Clones (updates) the plugin repo
   if unlikely(not pluginCheckGit()):
     return false
@@ -130,28 +136,14 @@ proc extensionSettings(): seq[string] =
 
 proc genExtensionSettings*(): string =
   ## Generate HTML list items with plugins
-
-  var extensions = ""
+  var plgn: string
   for plugin in extensionSettings():
-    let pluginName = (split(plugin, ":"))[1]
-    let status = if (split(plugin, ":"))[0] == "true": "enabled" else: "disabled"
-
-    extensions.add("<li data-plugin=\"" & pluginName & "\" class=\"pluginSettings ")
-
+    let
+      pluginName = (split(plugin, ":"))[1]
+      status = if (split(plugin, ":"))[0] == "true": "ON" else: "OFF"
     if (split(plugin, ":"))[0] == "true":
-      extensions.add("enabled\" data-enabled=\"true\"")
+      plgn = " <a href=\"/" & pluginName & "/settings\"><b>" & pluginName.capitalizeAscii & "</b> <i>(" & status & ")</i></a>"
     else:
-      extensions.add("disabled\" data-enabled=\"false\"")
-
-    extensions.add(">")
-    extensions.add("<div class=\"name\">")
-    if (split(plugin, ":"))[0] == "true":
-      extensions.add("  <a href=\"/" & pluginName & "/settings\">" & pluginName & " <i>[" & status & "]</i></a>")
-    else:
-      extensions.add("  " & pluginName & " <i>[" & status & "]</i>")
-    extensions.add("</div>")
-    extensions.add("<div class=\"enablePlugin\">Start</div>")
-    extensions.add("<div class=\"disablePlugin\">Stop</div>")
-    extensions.add("</li>")
-
-  return extensions
+      plgn = " " & pluginName.capitalizeAscii & " <i>(" & status & ")</i>"
+    result.add(pluginHtmlListItem.format(
+      pluginName, (split(plugin, ":"))[0] == "true", plgn))
