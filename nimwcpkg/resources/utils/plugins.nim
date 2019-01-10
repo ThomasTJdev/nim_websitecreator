@@ -6,7 +6,7 @@ const
   pluginRepoName = "nimwc_plugins"
   pluginHtmlListItem = """
     <li data-plugin="$1" class="pluginSettings disabled" data-enabled="$2">
-      <div class="name"> $3 </div>
+      <div class="name"> <a href="$3"><b>$4</b> <i>($5)</i></a> </div>
       <div class="enablePlugin"  title="Turn ON">  Start </div>
       <div class="disablePlugin" title="Turn OFF"> Stop  </div>
     </li>"""
@@ -136,14 +136,12 @@ proc extensionSettings(): seq[string] =
 
 proc genExtensionSettings*(): string =
   ## Generate HTML list items with plugins
-  var plgn: string
   for plugin in extensionSettings():
-    let
-      pluginName = (split(plugin, ":"))[1]
-      status = if (split(plugin, ":"))[0] == "true": "ON" else: "OFF"
-    if (split(plugin, ":"))[0] == "true":
-      plgn = " <a href=\"/" & pluginName & "/settings\"><b>" & pluginName.capitalizeAscii & "</b> <i>(" & status & ")</i></a>"
-    else:
-      plgn = " " & pluginName.capitalizeAscii & " <i>(" & status & ")</i>"
+    let pluginName = (split(plugin, ":"))[1]
     result.add(pluginHtmlListItem.format(
-      pluginName, (split(plugin, ":"))[0] == "true", plgn))
+      pluginName,                        # $1
+      (split(plugin, ":"))[0] == "true", # $2
+      if (split(plugin, ":"))[0] == "true": pluginName & "/settings" else: "#",
+      pluginName.capitalizeAscii,        # $4
+      if (split(plugin, ":"))[0] == "true": "ON" else: "OFF", # $5
+    ))
