@@ -1,5 +1,7 @@
 # Copyright 2018 - Thomas T. Jarløv
-import os, strutils, ormin, rdstdin
+import
+  os, strutils, ormin, rdstdin, logging,
+  ../utils/logging_nimwc
 
 
 const
@@ -510,7 +512,7 @@ const
 
 proc standardDataSettings*(db: DbConn, dataStyle: string) =
   ## Settings
-  echo " - Standard data: Inserting settings-data"
+  info("Standard data: Inserting settings-data")
 
   var db {.global.} = db  # ORMin needs DbConn be var global named "db".
   let settingsExists = query:
@@ -535,7 +537,7 @@ proc standardDataSettings*(db: DbConn, dataStyle: string) =
 
 proc standardDataFrontpage*(db: DbConn, dataStyle = "") =
   ## Frontpage
-  echo " - Standard data: Inserting frontpage-data"
+  info("Standard data: Inserting frontpage-data")
 
   var db {.global.} = db  # ORMin needs DbConn be var global named "db".
   let frontpageExists = query:
@@ -550,10 +552,10 @@ proc standardDataFrontpage*(db: DbConn, dataStyle = "") =
   if dataStyle == "clean":
     query:
       insert pages(
-        author_id = !!"1", status = !!"2", url = !!"'frontpage'",
-        name = !!"'Frontpage'", description = ?frontpageClean,
-        standardhead = !!"1", standardnavbar = !!"1", standardfooter= !!"1",
-        title = !!"''", metadescription = !!"''", metakeywords = !!"''",
+        author_id= ?"1", status= ?"2", url= ?"frontpage",
+        name= ?"Frontpage", description= ?frontpageClean,
+        standardhead= ?"1", standardnavbar= ?"1", standardfooter= ?"1",
+        title= ?"", metadescription= ?"", metakeywords= ?"",
       )
   else:
     query:
@@ -568,7 +570,7 @@ proc standardDataFrontpage*(db: DbConn, dataStyle = "") =
 
 proc standardDataAbout*(db: DbConn) =
   ## About
-  echo " - Standard data: Inserting about-data"
+  info("Standard data: Inserting about-data")
 
   var db {.global.} = db  # ORMin needs DbConn be var global named "db".
   let aboutExists = query:
@@ -592,7 +594,7 @@ proc standardDataAbout*(db: DbConn) =
 
 proc standardDataBlogpost1*(db: DbConn) =
   ## Blog post
-  echo " - Standard data: Inserting blog post-data"
+  info(" - Standard data: Inserting blog post-data")
 
   var db {.global.} = db  # ORMin needs DbConn be var global named "db".
   let blogExists = query:
@@ -617,7 +619,7 @@ proc standardDataBlogpost1*(db: DbConn) =
 
 proc standardDataBlogpost2*(db: DbConn) =
   ## Blog post
-  echo " - Standard data: Inserting blog post-data"
+  info(" - Standard data: Inserting blog post-data")
 
   var db {.global.} = db  # ORMin needs DbConn be var global named "db".
   let blogExists = query:
@@ -642,7 +644,7 @@ proc standardDataBlogpost2*(db: DbConn) =
 
 proc standardDataBlogpost3*(db: DbConn) =
   ## Blog post
-  echo " - Standard data: Inserting blog post-data"
+  info(" - Standard data: Inserting blog post-data")
 
   var db {.global.} = db  # ORMin needs DbConn be var global named "db".
   let blogExists = query:
@@ -667,7 +669,7 @@ proc standardDataBlogpost3*(db: DbConn) =
 
 proc createStandardData*(db: DbConn, dataStyle = "bulma") =
   ## Insert basic data
-  echo "Standard data: Inserting standard data"
+  info("Standard data: Inserting standard data")
   var db {.global.} = db  # ORMin needs DbConn be var global named "db".
   standardDataSettings(db, dataStyle)
   standardDataFrontpage(db, dataStyle)
