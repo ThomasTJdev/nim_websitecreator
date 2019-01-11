@@ -5,25 +5,31 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 <img src="private/screenshots/NimWC_logo_shadow.png" style="max-height: 250px; display: block;" />
 
 
-## Main features:
+## Features
 
-- Webserver hosting your page on 127.0.0.1:7000
-- Edit your pages with Summernote, raw HTML (CodeMirror) or drag'n'drop with GrapesJS
-- Blog - add and edit blog posts
-- Pages - add and edit pages
-- Custom head, navbar and footer
-- Custom title, meta description and keywords for each page
-- Edit core or custom js- and css-files
-- Upload files (private or public)
-- Postgres SQL Database Server with ORM.
-- Log Viewer directly from browser.
-- Auto-Rotating file Logger.
+- High performance with low resources (Rasp Pi, netbook, VPS, cloud, old pc, etc).
+- Postgres SQL Database ORM with Raw Query performance.
+- SQL Type-checked and Query-checked at compile-time, no SQL injections.
 - Uses responsive Bulma CSS framework, supports Bootstrap CSS framework.
 - JavaScript framework agnostic, use Nim, Karax, vanilla JS, you choose.
+- WYSIWYG & Drag'n'Drop Editors with Summernote, CodeMirror or GrapesJS.
+- Webserver hosting your page on 127.0.0.1:7000
+- 1 Click Blogging posts directly from browser.
+- 1 Click Static web pages directly from browser.
+- Upload files and images (private or public) directly from browser.
+- Plugin manager to install, enable and disable plugins directly from browser.
+- Custom title, meta description and keywords for each page, SEO friendly.
+- Custom head, navbar and footer, no hardcoded watermarks, links or logos.
+- Edit core or custom JS and CSS files, UI/UX Designer friendly.
+- Log Viewer directly from browser.
+- Auto-Rotating file Logger.
+- Server Info Page for Admins.
+- Force Server restart for Admins.
+- Reconfiguration & Recompilation without down times.
 - Colored output on the Terminal.
-- Plugin skeleton creator.
-- Multiple users
-- Add plugins
+- Plugin skeleton creator to create new plugins.
+- Multiple users with different ranks.
+- NGINX Config and Dockerfile provided for DevOps.
 
 
 ## Requirements
