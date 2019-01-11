@@ -14,5 +14,5 @@ const AdminErrorMsg = """
 
 proc sendEmailAdminError*(msg: string) {.async.} =
   ## Send email - user removed
-  let message = AdminErrorMsg.format(msg)
-  await sendAdminMailNow("Admin: Error occurred", genEmailMessage(message))
+  await sendAdminMailNow("Admin: Error occurred",
+                         genEmailMessage(AdminErrorMsg.format(msg)))
