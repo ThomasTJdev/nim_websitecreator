@@ -7,8 +7,9 @@
 #
 
 import
-  db_postgres, os, parsecfg, strutils,
-  ../administration/create_standarddata
+  db_postgres, os, parsecfg, strutils, logging,
+  ../administration/create_standarddata,
+  ../utils/logging_nimwc
 
 setCurrentDir(getAppDir().replace("/nimwcpkg", "") & "/")
 
@@ -123,7 +124,7 @@ const
 
 
 proc generateDB*() =
-  echo "Generating database"
+  info("Database: Generating database")
   let
     dict = loadConfig("config/config.cfg")
     db_user = dict.getSectionValue("Database","user")
@@ -131,42 +132,42 @@ proc generateDB*() =
     db_name = dict.getSectionValue("Database","name")
     db_host = dict.getSectionValue("Database","host")
     db_folder = dict.getSectionValue("Database","folder")
-    dbexists = if fileExists(db_host): true else: false
+    dbexists = fileExists(db_host)
 
   if dbexists:
-    echo " - Database already exists. Inserting standard tables if they do not exist."
+    info("Database: Database already exists. Inserting standard tables if they do not exist.")
 
   discard existsOrCreateDir(db_folder)  # Creating folder
 
-  echo " - Opening database"  # Open DB
+  info("Database: Opening database")  # Open DB
   var db = db_postgres.open(connection=db_host, user=db_user, password=db_pass, database=db_name)
 
   if not db.tryExec(personTable):
-    echo " - Database: person table already exists"
+    info("Database: person table already exists")
 
   # Session
   if not db.tryExec(sessionTable):
-    echo " - Database: session table already exists"
+    info("Database: session table already exists")
 
   # History
   if not db.tryExec(historyTable):
-    echo " - Database: history table already exists"
+    info("Database: history table already exists")
 
   # Settings
   if not db.tryExec(settingsTable):
-    echo " - Database: settings table already exists"
+    info("Database: settings table already exists")
 
   # Pages
   if not db.tryExec(pagesTable):
-    echo " - Database: pages table already exists"
+    info("Database: pages table already exists")
 
   # Blog
   if not db.tryExec(blogTable):
-    echo " - Database:blog table already exists"
+    info("Database: blog table already exists")
 
   if not dbexists:
-    echo "Inserting standard elements"
+    info("Database: Inserting standard elements")
     createStandardData(db)
 
-  echo " - Database: Closing database"
+  info("Database: Closing database")
   close(db)
