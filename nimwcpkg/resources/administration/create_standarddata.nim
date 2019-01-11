@@ -524,13 +524,13 @@ proc standardDataSettings*(db: DbConn, dataStyle: string) =
 
   if dataStyle == "bootstrap":
     query:
-     insert settings(title = ?title, head = ?headBootstrap, navbar = ?navbarBootstrap, footer = ?footer)
+     insert settings(title= ?title, head= ?headBootstrap, navbar= ?navbarBootstrap, footer= ?footer)
   elif dataStyle == "clean":
     query:
-     insert settings(title = ?title, head = ?headClean, navbar = ?navbarClean, footer = ?footerClean)
+     insert settings(title= ?title, head= ?headClean, navbar= ?navbarClean, footer= ?footerClean)
   else:
     query:
-     insert settings(title = ?title, head = ?head, navbar = ?navbar, footer = ?footer)
+     insert settings(title= ?title, head= ?head, navbar= ?navbar, footer= ?footer)
 
 
 proc standardDataFrontpage*(db: DbConn, dataStyle = "") =
@@ -545,7 +545,7 @@ proc standardDataFrontpage*(db: DbConn, dataStyle = "") =
   if frontpageExists.len != 0:
     query:
       delete pages
-      where id == ?frontpageExists
+      where id == frontpageExists
 
   if dataStyle == "clean":
     query:
@@ -558,12 +558,11 @@ proc standardDataFrontpage*(db: DbConn, dataStyle = "") =
   else:
     query:
       insert pages(
-        author_id = !!"1", status = !!"2", url = !!"'frontpage'",
-        name = !!"'Frontpage'", description = ?frontpage,
-        standardhead = !!"1", standardnavbar = !!"1", standardfooter= !!"1",
-        title = !!"'NimWC Nim Website Creator'",
-        metadescription = !!"'NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.'",
-        metakeywords = !!"'website,blog,nim,nimwc'",
+        author_id= ?"1", status= ?"2", url=?"frontpage", name= ?"Frontpage",
+        description= ?frontpage, standardhead= ?"1", standardnavbar= ?"1",
+        standardfooter= ?"1", title= ?"NimWC Nim Website Creator",
+        metadescription= ?"NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.",
+        metakeywords= ?"website,blog,nim,nimwc",
       )
 
 
@@ -583,12 +582,11 @@ proc standardDataAbout*(db: DbConn) =
 
   query:
     insert pages(
-      author_id = !!"1", status = !!"2", url = !!"'about'",
-      name = !!"'About'", description = ?about,
-      standardhead = !!"1", standardnavbar = !!"1", standardfooter= !!"1",
-      title = !!"'About Nim Website Creator'",
-      metadescription = !!"'NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.'",
-      metakeywords = !!"'website,blog,nim,nimwc'",
+      author_id= ?"1", status= ?"2", url= ?"about", name= ?"About",
+      description= ?about, standardhead= ?"1", standardnavbar= ?"1",
+      standardfooter= ?"1", title= ?"About Nim Website Creator",
+      metadescription= ?"NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.",
+      metakeywords= ?"website,blog,nim,nimwc",
     )
 
 
@@ -608,12 +606,13 @@ proc standardDataBlogpost1*(db: DbConn) =
 
   query:
     insert blog(
-      author_id = "1", status = "2", url = "standardpost",
-      name = "Standard blogpost", description=blogpost1, standardhead="1",
-      standardnavbar="1", standardfooter="1",
-      title="NimWC Example blogpost",
-      metadescription="This is an example blogpost using the default styling.",
-      metakeywords="website,blog,nim,nimwc")
+      author_id= ?"1", status= ?"2", url= ?"standardpost",
+      name= ?"Standard blogpost", description= ?blogpost1, standardhead= ?"1",
+      standardnavbar= ?"1", standardfooter= ?"1",
+      title= ?"NimWC Example blogpost",
+      metadescription= ?"This is an example blogpost using the default styling.",
+      metakeywords= ?"website,blog,nim,nimwc"
+    )
 
 
 proc standardDataBlogpost2*(db: DbConn) =
@@ -632,12 +631,12 @@ proc standardDataBlogpost2*(db: DbConn) =
 
   query:
     insert blog(
-      author_id="1", status="2", url="standardpostv2",
-      name="Parallax post v2", description=blogpost2,
-      standardhead="1", standardnavbar="1", standardfooter="1",
-      title="NimWC Example blogpost parallax",
-      metadescription="This is an example blogpost using parallax created with NimWC.",
-      metakeywords="website,blog,nim,nimwc,parallax"
+      author_id= ?"1", status= ?"2", url= ?"standardpostv2",
+      name= ?"Parallax post v2", description= ?blogpost2,
+      standardhead= ?"1", standardnavbar= ?"1", standardfooter= ?"1",
+      title= ?"NimWC Example blogpost parallax",
+      metadescription= ?"This is an example blogpost using parallax created with NimWC.",
+      metakeywords= ?"website,blog,nim,nimwc,parallax"
     )
 
 
@@ -657,12 +656,12 @@ proc standardDataBlogpost3*(db: DbConn) =
 
   query:
     insert blog(
-      author_id="1", status="2", url="standardpostv3",
-      name="Custom styling", description=blogpost3,
-      standardhead="1", standardnavbar="1", standardfooter="1",
-      title="NimWC Example blogpost custom",
-      metadescription="This is an example blogpost using custom styling.",
-      metakeywords="website,blog,nim,nimwc",
+      author_id= ?"1", status= ?"2", url= ?"standardpostv3",
+      name= ?"Custom styling", description= ?blogpost3,
+      standardhead= ?"1", standardnavbar= ?"1", standardfooter= ?"1",
+      title= ?"NimWC Example blogpost custom",
+      metadescription= ?"This is an example blogpost using custom styling.",
+      metakeywords= ?"website,blog,nim,nimwc",
     )
 
 
