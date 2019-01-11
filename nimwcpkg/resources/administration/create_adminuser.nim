@@ -36,8 +36,8 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
     password = makePassword(iPwd, salt)
 
   query:
-    insert person(name = $iName, email = $iEmail,
-                  password = ?password, salt = ?salt, status = !!"'Admin'")
+    insert person(name= ?iName, email= ?iEmail,
+                  password= ?password, salt= ?salt, status= ?"Admin")
 
   info("Admin added.")
 
@@ -59,8 +59,8 @@ proc createTestUser*(db: DbConn) =
       password = makePassword("test", salt)
 
     query:
-      insert person(name = !!"'Testuser'", email = !!"'test@test.com'",
-                    password = ?password, salt = ?salt, status = !!"'Moderator'")
+      insert person(name= ?"Testuser", email= ?"test@test.com",
+                    password= ?password, salt= ?salt, status= ?"Moderator")
 
     info("Test user added!.")
 
