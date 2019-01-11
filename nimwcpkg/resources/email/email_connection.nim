@@ -1,4 +1,6 @@
-import asyncdispatch, smtp, strutils, os, htmlparser, asyncnet, parsecfg, times
+import
+  asyncdispatch, smtp, strutils, os, htmlparser, asyncnet, parsecfg, times, logging,
+  ../utils/logging_nimwc
 
 # Changing app dir due to, that module is not imported from main module
 setCurrentDir(getAppDir())
@@ -18,9 +20,9 @@ let
 proc sendMailNow*(subject, message, recipient: string) {.async.} =
   ## Send the email through smtp
   when defined(demo):
-    echo "Demo is true, email is not send"
+    info("Demo is true, email is not send")
   when defined(dev) and not defined(devemailon):
-    echo "Dev is true, email is not send"
+    info("Dev is true, email is not send")
     return
 
   let
@@ -39,19 +41,19 @@ proc sendMailNow*(subject, message, recipient: string) {.async.} =
     await client.auth(smtpUser, smtpPassword)
     await client.sendMail(from_addr, toList, $encoded)
   except:
-    echo "Error in sending mail: " & recipient
+    info("Error in sending mail: " & recipient)
 
   when defined(dev):
-    echo "Email send"
+    info("Email sent")
 
 
 proc sendAdminMailNow*(subject, message: string) {.async.} =
   ## Send the email through smtp. Clean admin mailing.
   when defined(dev):
-    echo "Dev is true, email is not send"
+    info("Dev is true, email is not sent")
     return
   if adminEmail == "":
-    echo "No admin email specified"
+    info("No admin email specified")
     return
 
   let from_addr = adminEmail
@@ -71,7 +73,7 @@ proc sendAdminMailNow*(subject, message: string) {.async.} =
     await client.auth(smtpUser, smtpPassword)
     await client.sendMail(from_addr, toList, $encoded)
   except:
-    echo "Error in sending mail: " & recipient
+    info("Error in sending mail: " & recipient)
 
   when defined(dev):
-    echo "Admin email send"
+    info("Admin email sent")
