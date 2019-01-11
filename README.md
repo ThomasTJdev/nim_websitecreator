@@ -36,7 +36,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 To get started you only need:
 
-- Linux (For Windows see Docker-or-Windows)
+- Linux (For Windows see Docker-for-Windows)
 - Nim >= `0.19.2`
 
 Dependencies (automatically installed by Nimble):
