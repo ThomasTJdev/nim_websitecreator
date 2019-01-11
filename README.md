@@ -222,9 +222,10 @@ sudo systemctl status nimwc
 # GrapesJS
 GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma or Bootstrap), you have to edit `public/js/grapejs_custom.js` and `public/js/grapejsbs4.min.js`. Bootstrap support in `public/js/grapejs_custom.js` is commented out.
 
-# Trouble
 
-Remove `nimcache` and `nimwcpkg/nimcache` and re-compile
+# Troubleshooting
+
+- Delete `nimcache` and `nimwcpkg/nimcache` folders and Recompile.
 
 
 # Docker
