@@ -34,13 +34,17 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 ## Requirements
 
-- Linux
+To get started you only need:
+
+- Linux (For Windows see Docker-or-Windows)
 - Nim >= `0.19.2`
-- Nim modules (automated when using Nimble):
-  - jester    >= `0.4.1`
-  - ormin     >= `0.1.0`
-  - reCAPTCHA >= `1.0.2`
-  - bcrypt    >= `0.2.1`
+
+Dependencies (automatically installed by Nimble):
+
+- Jester    >= `0.4.1`
+- ORMin     >= `0.1.0`
+- reCAPTCHA >= `1.0.2`
+- bCrypt    >= `0.2.1`
 
 
 # Compiling / Installing
