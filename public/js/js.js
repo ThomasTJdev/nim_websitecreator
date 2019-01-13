@@ -53,6 +53,8 @@ function loadScript(content) {
   var script = document.createElement('script');
   script.type = 'text/javascript';
   script.src = content;
+  script.defer = true;
+  script.setAttribute("data-manual", "true");
   document.body.appendChild(script);
 }
 // Load CSS style
@@ -64,20 +66,33 @@ function loadStyle(content) {
   document.getElementsByTagName("head")[0].appendChild(fileref)
 }
 window.onload = function(){
-  const $prism = document.querySelector("prismOn");
+  const $prism = document.querySelector(".prismOn");
   if ($prism != null) {
     loadStyle("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.min.css")
     loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js")
-
     loadStyle("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.css")
     loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.js")
-
+  }
+  if (document.querySelector(".prismOn.language-nim") != null) {
     loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-nim.min.js")
-    loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-css.min.js")
+  }
+  if (document.querySelector(".prismOn.language-css") != null) {
+	loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-css.min.js")
+  }
+  if (document.querySelector(".prismOn.language-javascript") != null) {
     loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-javascript.min.js")
+  }
+  if (document.querySelector(".prismOn.language-python") != null) {
     loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-python.min.js")
+  }
+  if (document.querySelector(".prismOn.language-bash") != null) {
     loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-bash.min.js")
   }
+  setTimeout(function(){
+    Prism.highlightAll(false, function () {
+      console.log('Syntax highlight completed');
+    });
+  }, 1000);
 }
 
 
