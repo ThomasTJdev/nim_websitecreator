@@ -14,6 +14,7 @@ requires "nim >= 0.19.2"
 requires "jester >= 0.4.1"
 requires "recaptcha >= 1.0.2"
 requires "bcrypt >= 0.2.1"
+requires "ormin >= 0.1.0"
 
 
 import distros
