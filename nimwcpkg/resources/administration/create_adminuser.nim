@@ -17,10 +17,7 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
     select person(id)
     where status == "Admin"
 
-  if anyAdmin.len() < 1:
-    info("No Admin exists. Adding an Admin!.")
-  else:
-    info($anyAdmin.len() & " Admin already exists. Adding another Admin!.")
+  info($anyAdmin.len() & " Admins already exist. Adding an Admin.")
 
   var iName, iEmail, iPwd: string
   for arg in args:
@@ -31,9 +28,8 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
     elif arg.substr(0, 1) == "e:":
       iEmail = arg.substr(2, arg.len()).strip
 
-  doAssert iName.len > 3,  "Missing or invalid Name to create the Admin user."
-  doAssert iEmail.len > 5, "Missing or invalid Email to create the Admin user."
-  doAssert iPwd.len > 3,   "Missing or invalid Password to create the Admin user."
+  doAssert(iName.len > 3 and iEmail.len > 5 and iPwd.len > 3,
+           "Missing or invalid Name, Email or Password to create Admin user.")
 
   let
     salt = makeSalt()
