@@ -17,7 +17,7 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
     select person(id)
     where status == "Admin"
 
-  info($anyAdmin.len() & " Admins already exist. Adding an Admin.")
+  info($anyAdmin.len() & " Admins already exist. Adding 1 new Admin.")
 
   var iName, iEmail, iPwd: string
   for arg in args:
