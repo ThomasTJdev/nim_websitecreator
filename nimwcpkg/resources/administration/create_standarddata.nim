@@ -3,6 +3,9 @@ import
   os, strutils, ormin, rdstdin, logging,
   ../utils/logging_nimwc
 
+when defined(sqlite): import db_sqlite
+else:                 import db_postgres
+
 
 const
   title = "Nim Website Creator"

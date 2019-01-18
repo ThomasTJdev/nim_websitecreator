@@ -4,6 +4,9 @@ import
   ../password/salt_generate,
   ../utils/logging_nimwc
 
+when defined(sqlite): import db_sqlite
+else:                 import db_postgres
+
 
 proc createAdminUser*(db: DbConn, args: seq[string]) =
   ## Create new admin user. Input is done through stdin.
@@ -22,11 +25,11 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
   var iName, iEmail, iPwd: string
   for arg in args:
     if arg.substr(0, 1) == "u:":
-      iName = arg.substr(2, arg.len())
+      iName = arg.substr(2, arg.len()).strip
     elif arg.substr(0, 1) == "p:":
-      iPwd = arg.substr(2, arg.len())
+      iPwd = arg.substr(2, arg.len()).strip
     elif arg.substr(0, 1) == "e:":
-      iEmail = arg.substr(2, arg.len())
+      iEmail = arg.substr(2, arg.len()).strip
 
   if iName == "" or iPwd == "" or iEmail == "":
     error("Missing either name, password or email to create the Admin user.")
