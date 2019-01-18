@@ -14,20 +14,24 @@ import
 setCurrentDir(getAppDir().replace("/nimwcpkg", "") & "/")
 
 const
+  sql_now =
+    when defined(sqlite): "(STRFTIME('%s', 'now'))" # SQLite 3 now() function.
+    else:                 "NOW()"                   # Postgres now() function.
+
   personTable = sql"""
     create table if not exists person(
       id         integer       primary key,
       name       varchar(60)   not null,
       password   varchar(300)  not null,
       email      varchar(60)   not null,
-      creation   timestamp     not null           default NOW(),
-      modified   timestamp     not null           default NOW(),
+      creation   timestamp     not null           default $1,
+      modified   timestamp     not null           default $1,
       salt       varchar(128)  not null,
       status     varchar(30)   not null,
       timezone   varchar(100),
       secretUrl  varchar(250),
-      lastOnline timestamp     not null           default NOW()
-    );"""
+      lastOnline timestamp     not null           default $1
+    );""".format(sql_now)
 
   sessionTable = sql"""
     create table if not exists session(
@@ -35,9 +39,9 @@ const
       ip           inet              not null,
       key          $#                not null,
       userid       integer           not null,
-      lastModified timestamp         not null     default NOW(),
+      lastModified timestamp         not null     default $1,
       foreign key (userid) references person(id)
-    );"""
+    );""".format(sql_now)
 
   historyTable = sql"""
     create table if not exists history(
@@ -47,8 +51,8 @@ const
       element         varchar(100),
       choice          varchar(100),
       text            varchar(1000),
-      creation        timestamp      not null     default NOW()
-    );"""
+      creation        timestamp      not null     default $1
+    );""".format(sql_now)
 
   settingsTable = sql"""
     create table if not exists settings(
@@ -87,10 +91,10 @@ const
       views           INTEGER,
       public          INTEGER,
       changes         INTEGER,
-      modified        timestamp      not null     default NOW(),
-      creation        timestamp      not null     default NOW(),
+      modified        timestamp      not null     default $1,
+      creation        timestamp      not null     default $1,
       foreign key (author_id) references person(id)
-    );"""
+    );""".format(sql_now)
 
   blogTable = sql"""
     create table if not exists blog(
@@ -116,11 +120,11 @@ const
       views           INTEGER,
       public          INTEGER,
       changes         INTEGER,
-      modified        timestamp      not null     default (STRFTIME('%s', 'now')),
-      creation        timestamp      not null     default (STRFTIME('%s', 'now')),
+      modified        timestamp      not null     default $1,
+      creation        timestamp      not null     default $1,
       foreign key (author_id) references person(id)
     );
-    """
+    """.format(sql_now)
 
 
 proc generateDB*() =
