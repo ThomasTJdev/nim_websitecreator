@@ -30,7 +30,8 @@ import
 when defined(sqlite): import db_sqlite
 else:                 import db_postgres
 
-when defined(windows): quit("\n Windows is not supported \n")
+when defined(windows):
+  quit("Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows")
 
 const
   config_not_found_msg = """
