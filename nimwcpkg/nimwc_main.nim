@@ -8,7 +8,7 @@
 {.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
 
 import
-  asyncdispatch, bcrypt, cgi, db_sqlite, jester, json, macros, os, osproc, logging,
+  asyncdispatch, bcrypt, cgi, ormin, jester, json, macros, os, osproc, logging,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, oswalkdir as oc,
 
   resources/administration/create_adminuser,
@@ -26,6 +26,9 @@ import
   resources/utils/plugins,
   resources/utils/random_generator,
   resources/web/google_recaptcha
+
+when defined(sqlite): import db_sqlite
+else:                 import db_postgres
 
 when defined(windows): quit("\n Windows is not supported \n")
 
@@ -210,7 +213,7 @@ macro extensionJs*(): string =
 #[
       Loading config file
 __________________________________________________]#
-var db: DbConn
+var db {.global.}: DbConn
 
 let
   dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
