@@ -3,13 +3,15 @@
 #        Hubanize / Cx Manager
 #        (c) Copyright 2017 Thomas Toftgaard Jarløv
 #        All rights reserved.
-#
-#
 
 import
-  db_postgres, os, parsecfg, strutils, logging,
+  os, parsecfg, strutils, logging,
   ../administration/create_standarddata,
   ../utils/logging_nimwc
+
+when defined(sqlite): import db_sqlite
+else:                 import db_postgres
+
 
 setCurrentDir(getAppDir().replace("/nimwcpkg", "") & "/")
 
@@ -131,11 +133,11 @@ proc generateDB*() =
   info("Database: Generating database")
   let
     dict = loadConfig("config/config.cfg")
-    db_user = dict.getSectionValue("Database","user")
-    db_pass = dict.getSectionValue("Database","pass")
-    db_name = dict.getSectionValue("Database","name")
-    db_host = dict.getSectionValue("Database","host")
-    db_folder = dict.getSectionValue("Database","folder")
+    db_user = dict.getSectionValue("Database", "user")
+    db_pass = dict.getSectionValue("Database", "pass")
+    db_name = dict.getSectionValue("Database", "name")
+    db_host = dict.getSectionValue("Database", "host")
+    db_folder = dict.getSectionValue("Database", "folder")
     dbexists = fileExists(db_host)
 
   if dbexists:
@@ -144,7 +146,9 @@ proc generateDB*() =
   discard existsOrCreateDir(db_folder)  # Creating folder
 
   info("Database: Opening database")  # Open DB
-  var db = db_postgres.open(connection=db_host, user=db_user, password=db_pass, database=db_name)
+  var db =
+    when defined(sqlite): db_sqlite.open(connection=db_host, user=db_user, password=db_pass, database=db_name)
+    else:                 db_postgres.open(connection=db_host, user=db_user, password=db_pass, database=db_name)
 
   if not db.tryExec(personTable):
     info("Database: person table already exists")
