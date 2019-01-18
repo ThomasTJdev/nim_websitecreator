@@ -138,7 +138,9 @@ proc generateDB*() =
     db_name = dict.getSectionValue("Database", "name")
     db_host = dict.getSectionValue("Database", "host")
     db_folder = dict.getSectionValue("Database", "folder")
-    dbexists = fileExists(db_host)
+    dbexists =
+      when defined(sqlite): fileExists(db_host)
+      else:                 db_host.len > 1
 
   if dbexists:
     info("Database: Database already exists. Inserting standard tables if they do not exist.")
