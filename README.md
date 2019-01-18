@@ -29,7 +29,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Colored output on the Terminal.
 - Plugin skeleton creator to create new plugins.
 - Multiple users with different ranks.
-- NGINX Config and Dockerfile provided for DevOps.
+- NGINX Config, Vagrantfile and Dockerfile provided for DevOps.
 
 
 ## Requirements
