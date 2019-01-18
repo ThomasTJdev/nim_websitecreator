@@ -146,9 +146,7 @@ proc generateDB*() =
   discard existsOrCreateDir(db_folder)  # Creating folder
 
   info("Database: Opening database")  # Open DB
-  var db =
-    when defined(sqlite): db_sqlite.open(connection=db_host, user=db_user, password=db_pass, database=db_name)
-    else:                 db_postgres.open(connection=db_host, user=db_user, password=db_pass, database=db_name)
+  var db = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
 
   if not db.tryExec(personTable):
     info("Database: person table already exists")
