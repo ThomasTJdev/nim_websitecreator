@@ -31,8 +31,9 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
     elif arg.substr(0, 1) == "e:":
       iEmail = arg.substr(2, arg.len()).strip
 
-  if iName == "" or iPwd == "" or iEmail == "":
-    error("Missing either name, password or email to create the Admin user.")
+  doAssert iName.len > 3,  "Missing or invalid Name to create the Admin user."
+  doAssert iEmail.len > 5, "Missing or invalid Email to create the Admin user."
+  doAssert iPwd.len > 3,   "Missing or invalid Password to create the Admin user."
 
   let
     salt = makeSalt()
