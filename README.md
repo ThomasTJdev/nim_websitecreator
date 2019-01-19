@@ -31,7 +31,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Plugins can do anything you want on Frontend and Backend.
 - Multiple users with different ranks.
 - 0 Dependency binary (Postgres required if using it, nothing required for SQLite).
-- Runs on any non-Windows Architecture and Device that can barely compile C code.
+- Runs on any non-Windows OS, Architecture and Hardware that can compile C code.
 - High Availability design by default.
 - NGINX Config, Vagrantfile and Dockerfile provided for DevOps.
 
@@ -46,7 +46,7 @@ To get started you only need:
 Dependencies (automatically installed by Nimble):
 
 - Jester    >= `0.4.1`
-- ORMin     >= `0.1.0`
+- ormin     >= `0.1.0`
 - reCAPTCHA >= `1.0.2`
 - bCrypt    >= `0.2.1`
 
@@ -232,11 +232,11 @@ sudo systemctl status nimwc
 GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma or Bootstrap), you have to edit `public/js/grapejs_custom.js` and `public/js/grapejsbs4.min.js`. Bootstrap support in `public/js/grapejs_custom.js` is commented out.
 
 
-# Troubleshooting
-
-- Delete `nimcache` and `nimwcpkg/nimcache` folders and Recompile.
-
-
 # Docker
 
 - [Use the Dockerfile](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Dockerfile) as starting point for your NimWC containers.
+
+
+# Vagrant
+
+- [Use the Vagrantfile](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NimWC VMs.
