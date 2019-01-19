@@ -8,7 +8,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 ## Features
 
 - High performance with low resources (Rasp Pi, netbook, VPS, cloud, old pc, etc).
-- Postgres SQL Database ORM with Raw Query performance.
+- Postgres or SQLite Database ORM with Raw Query performance.
 - SQL Type-checked and Query-checked at compile-time, no SQL injections.
 - Uses responsive Bulma CSS framework, supports Bootstrap CSS framework.
 - JavaScript framework agnostic, use Nim, Karax, vanilla JS, you choose.
@@ -29,6 +29,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Colored output on the Terminal.
 - Plugin skeleton creator to create new plugins.
 - Multiple users with different ranks.
+- 0 Dependency binary (Postgres required if using it, nothing required for SQLite).
 - NGINX Config, Vagrantfile and Dockerfile provided for DevOps.
 
 
