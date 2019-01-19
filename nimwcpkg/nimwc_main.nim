@@ -56,7 +56,7 @@ const
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
   sql_now =
-    when defined(sqlite): "(STRFTIME('%s', 'now'))"     # SQLite 3 epoch.
+    when defined(sqlite): "(strftime('%s', 'now'))"     # SQLite 3 epoch.
     else:                 "(extract(epoch from now()))" # Postgres epoch.
 
 
