@@ -9,7 +9,7 @@ else:                 import db_postgres
 
 
 proc createAdminUser*(db: DbConn, args: seq[string]) =
-  ## Create new admin user. Input is done through stdin.
+  ## Create new admin user.
   info("Checking if any Admin exists in DB.")
 
   var db {.global.} = db  # ORMin needs DbConn be var global named "db".
@@ -43,7 +43,7 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
 
 
 proc createTestUser*(db: DbConn) =
-  ## Create new admin user. Input is done through stdin.
+  ## Create new admin user.
   info("Checking if any test@test.com exists in DB.")
 
   var db {.global.} = db  # ORMin needs DbConn be var global named "db".
