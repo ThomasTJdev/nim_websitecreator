@@ -14,8 +14,8 @@ setCurrentDir(getAppDir().replace("/nimwcpkg", "") & "/")
 
 const
   sql_now =
-    when defined(sqlite): "(STRFTIME('%s', 'now'))" # SQLite 3 now() function.
-    else:                 "NOW()"                   # Postgres now() function.
+    when defined(sqlite): "(STRFTIME('%s', 'now'))"     # SQLite 3 epoch.
+    else:                 "(extract(epoch from now()))" # Postgres epoch.
 
   personTable = sql"""
     create table if not exists person(
