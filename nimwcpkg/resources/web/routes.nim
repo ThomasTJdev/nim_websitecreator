@@ -200,7 +200,16 @@ routes:
       restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
 
-    discard execAffectedRows(db, sql"UPDATE settings SET title = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", @"title", @"head", @"navbar", @"footer", "1")
+    let
+      tit = @"title"
+      hea = @"head"
+      nav = @"navbar"
+      fot = @"footer"
+
+    query:
+      update settings(title= ?tit, head= ?hea, navbar= ?nav, footer= ?fot)
+      where id == ?"1"
+
     if @"inbackground" == "true":
       resp("OK")
     redirect("/settings/edit")
@@ -293,8 +302,11 @@ routes:
 
     if @"blogsort" notin ["ASC", "DESC"]:
       redirect("/settings/blog")
+    let sor = @"blogsort"
 
-    exec(db, sql"UPDATE settings SET blogorder = ?, blogsort = ?", blogorder, @"blogsort")
+    query:
+      update settings(blogorder= ?blogorder, blogsort= ?sor)
+
     redirect("/settings/blog")
 
 
@@ -387,7 +399,6 @@ routes:
 
     if @"access" == "publicimage":
       path = "public/images/" & filename
-
     else:
       path = storageEFS & "/files/" & @"access" & "/" & filename
 
@@ -398,7 +409,6 @@ routes:
       writeFile(path, request.formData.getOrDefault("file").body)
       if fileExists(path):
         redirect("/files")
-
     except:
       resp("Error: Something went wrong adding the file")
 
@@ -414,7 +424,6 @@ routes:
 
     if @"access" == "publicimage":
       fileDeleted = tryRemoveFile("public/images/" & decodeUrl(@"filename"))
-
     else:
       fileDeleted = tryRemoveFile(storageEFS & "/files/" & @"access" & "/" & decodeUrl(@"filename"))
 
@@ -458,14 +467,24 @@ routes:
     if @"password" != @"passwordConfirm":
       redirect("/error/" & encodeUrl("Error: Your passwords did not match"))
 
-    if @"password" != "":
-      let salt = makeSalt()
-      let password = makePassword(@"password", salt)
+    let
+      nam = @"name"
+      ema = @"email"
 
-      exec(db, sql"UPDATE person SET name = ?, email = ?, password = ?, salt = ? WHERE id = ?", @"name", @"email", password, salt, c.userid)
+    if @"password" != "":
+      let
+        salt = makeSalt()
+        password = makePassword(@"password", salt)
+
+      query:
+        update person(name= ?nam, email= ?ema, password= ?password, salt= ?salt)
+        where id == ?c.userid
 
     else:
-      exec(db, sql"UPDATE person SET name = ?, email = ? WHERE id = ?", @"name", @"email", c.userid)
+
+      query:
+        update person(name= ?nam, email= ?ema)
+        where id == ?c.userid
 
     redirect("/users/profile")
 
@@ -478,15 +497,28 @@ routes:
     if c.userid == @"userID":
       redirect("/error/" & encodeUrl("Error: You can not delete yourself"))
 
-    let userStatus = getValue(db, sql"SELECT status FROM person WHERE id = ?", @"userID")
+    let
+      use = @"userID"
+      userStatus = query:
+        select person(status)
+        where id == ?use
+
     if userStatus == "":
       redirect("/error/" & encodeUrl("Error: Missing status on user"))
 
     if userStatus == "Admin" and c.rank != Admin:
       redirect("/error/" & encodeUrl("Error: You can not delete an admin user"))
 
-    if tryExec(db, sql"DELETE FROM person WHERE id = ?", @"userID"):
-      exec(db, sql"DELETE FROM session WHERE userid = ?", @"userID")
+    let conditional = tryQuery:
+      delete session
+      where userid == ?use
+
+    if conditional:
+
+      query:
+        delete session
+        where userid == ?use
+
       redirect("/users")
     else:
       redirect("/error/" & encodeUrl("Could not delete user"))
@@ -511,19 +543,26 @@ routes:
     if not ("@" in @"email" and "." in @"email"):
       redirect("/error/" & encodeUrl("Error: Your email has a wrong format"))
 
-    let emailReady = toLowerAscii(@"email")
-    let emailExist = getValue(db, sql"SELECT id FROM person WHERE email = ?", emailReady)
+    let
+      nam = @"name"
+      sta = @"status"
+      ema = toLowerAscii(@"email")
+      salt = makeSalt()
+      passwordOriginal = randomString(12)
+      password = makePassword(passwordOriginal, salt)
+      secretUrl = randomStringDigitAlpha(99)
+      emailExist = query:
+        select person(id)
+        where email == ?ema
+
     if emailExist != "":
       redirect("/error/" & encodeUrl("Error: A user with that email does already exists"))
 
-    let salt = makeSalt()
-    let passwordOriginal = randomString(12)
-    let password = makePassword(passwordOriginal, salt)
-    let secretUrl = randomStringDigitAlpha(99)
+    let userID = query:
+      insert person(name= ?nam, email= ?ema, status= ?sta,
+                    password= ?password, salt= ?salt, secretUrl= ?secretUrl)
 
-    let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, salt, secretUrl) VALUES (?, ?, ?, ?, ?, ?)", @"name", emailReady, @"status", password, salt, secretUrl)
-
-    asyncCheck sendEmailActivationManual(emailReady, @"name", passwordOriginal, "/users/activate?id=" & $userID & "&ident=" & secretUrl, c.username)
+    asyncCheck sendEmailActivationManual(emailReady, nam, passwordOriginal, "/users/activate?id=" & $userID & "&ident=" & secretUrl, c.username)
 
     redirect("/users")
 
@@ -533,10 +572,19 @@ routes:
     if @"id" == "" or @"ident" == "":
       redirect("/error/" & encodeUrl("Error: Something is wrong with the link"))
 
-    let secretUrlConfirm = getValue(db, sql"SELECT id FROM person WHERE id = ? AND secretUrl = ?", @"id", @"ident")
+    let
+      ids = @"id"
+      ide = @"ident"
+      secretUrlConfirm = query:
+        select person(id)
+        where id == ?ids and secretUrl == ?ide
 
     if secretUrlConfirm != "":
-      exec(db, sql"UPDATE person SET secretUrl = NULL WHERE id = ? AND secretUrl = ?", @"id", @"ident")
+
+      query:
+        update person(secretUrl= !!"NULL")
+        where id == ?ids and secretUrl == ?ide
+
       redirect("/login?msg=" & encodeUrl("Your account is now activated"))
     else:
       redirect("/error/" & encodeUrl("Please login using your username and password"))
@@ -546,12 +594,9 @@ routes:
     ## Get a file
     createTFD()
     let filename = decodeUrl(@"filename")
-
     var filepath = storageEFS & "/users/" & filename
-
     if not fileExists(filepath):
       resp("")
-
     sendFile(filepath)
 
 
@@ -576,6 +621,7 @@ routes:
       resp("Error")
 
     resp("Error: Something went wrong")
+
 
 # Blog ########################################################################
 
