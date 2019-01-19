@@ -1,5 +1,3 @@
-#
-#
 #        TTJ
 #        (c) Copyright 2018 Thomas Toftgaard Jarløv
 #        Look at LICENSE for more info.
@@ -68,9 +66,9 @@ macro configExists(): untyped =
 configExists()
 
 
-#[
-      Macros
-__________________________________________________]#
+# Macros ######################################################################
+
+
 proc getPluginsPath*(): seq[string] {.compileTime.} =
   ## Get all plugins path
   ##
@@ -105,7 +103,6 @@ macro extensionImport(): untyped =
   ## Generate code for importing modules from extensions.
   ## The extensions main module needs to be in plugins/plugin_import.txt
   ## to be activated. Only 1 module will be imported.
-
   var extensions = ""
   for ppath in pluginsPath:
     let splitted = split(ppath, "/")
@@ -126,7 +123,6 @@ macro extensionUpdateDatabase(): untyped =
   ## Generate proc for updating the database with new tables etc.
   ## The extensions main module shall contain a proc named 'proc <extensionname>Start(db: DbConn) ='
   ## The proc will be executed when the program is executed.
-
   var extensions = ""
 
   extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
@@ -156,7 +152,6 @@ macro extensionCss(): string =
   ## renaming to <extensionname>.css
   ##
   ## 2) Insert <style>-link into HTML
-
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "nimwcpkg", "")
 
@@ -186,7 +181,6 @@ macro extensionJs*(): string =
   ## renaming to <extensionname>.js
   ##
   ## 2) Insert <js>-link into HTML
-
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "nimwcpkg", "")
 
@@ -209,12 +203,10 @@ macro extensionJs*(): string =
   return extensions
 
 
+# Loading config file #########################################################
 
 
-#[
-      Loading config file
-__________________________________________________]#
-var db {.global.}: DbConn
+var db {.global.}: DbConn  # ORMin needs DbConn be var global named "db".
 
 let
   dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
@@ -253,29 +245,25 @@ proc init(c: var TData) =
   c.loggedIn = false
 
 
+# Recompile ###################################################################
 
-#[
-      Recompile
-__________________________________________________]#
+
 proc recompile*(): int =
   ## Recompile nimwc_main
   return execCmd("nim c " & checkCompileOptions & " -o:nimwcpkg/nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
 
 
+# Validation check ############################################################
 
-#[
-      Validation check
-__________________________________________________]#
+
 func loggedIn(c: TData): bool =
   ## Check if user is logged in by verifying that c.username is more than 0:int
   c.username.len > 0
 
 
+# Check if user is signed in ##################################################
 
 
-#[
-      Check if user is signed in
-__________________________________________________]#
 proc checkLoggedIn(c: var TData) =
   ## Check if user is logged in
 
@@ -298,10 +286,9 @@ proc checkLoggedIn(c: var TData) =
     c.loggedIn = false
 
 
+# User login ##################################################################
 
-#[
-      User login
-__________________________________________________]#
+
 proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
   ## User login
 
@@ -339,24 +326,19 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
   return (false, "Login failed")
 
 
-
 proc logout(c: var TData) =
   ## Logout
-
   const query = sql"DELETE FROM session WHERE ip = ? AND key = ?"
   c.username = ""
   c.userpass = ""
   exec(db, query, c.req.ip, c.req.cookies["sid"])
 
 
+# Check if logged in ##########################################################
 
 
-#[
-      Check if logged in
-__________________________________________________]#
 template createTFD() =
   ## Check if logged in and assign data to user
-
   var c {.inject.}: TData
   new(c)
   init(c)
@@ -366,15 +348,12 @@ template createTFD() =
   c.loggedIn = loggedIn(c)
 
 
+# HTML tools ##################################################################
 
 
-#[
-      HTML tools
-__________________________________________________]#
 template checkboxToInt(checkboxOnOff: string): string =
   ## When posting checkbox data from HTML form
   ## an "on" is sent when true. Convert to 1 or 0.
-
   if checkboxOnOff == "on":
     "1"
   else:
@@ -384,7 +363,6 @@ template checkboxToInt(checkboxOnOff: string): string =
 template checkboxToChecked(checkboxOnOff: string): string =
   ## When parsing DB data on checkboxes convert
   ## 1 or 0 to HTML checked to set checkbox
-
   if checkboxOnOff == "1":
     "checked"
   else:
@@ -392,9 +370,7 @@ template checkboxToChecked(checkboxOnOff: string): string =
 
 
 template statusIntToText(status: string): string =
-  ## When parsing DB status convert
-  ## 0, 1 and 3 to human names
-
+  ## When parsing DB status convert 0, 1 and 3 to human names
   if status == "0":
     "Development"
   elif status == "1":
@@ -406,9 +382,7 @@ template statusIntToText(status: string): string =
 
 
 template statusIntToCheckbox(status, value: string): string =
-  ## When parsing DB status convert
-  ## to HTML selected on selects
-
+  ## When parsing DB status convert to HTML selected on selects
   if status == "0" and value == "0":
     "selected"
   elif status == "1" and value == "1":
@@ -419,11 +393,9 @@ template statusIntToCheckbox(status, value: string): string =
     ""
 
 
+# Proc's for demo usage #######################################################
 
 
-#[
-      Proc's for demo usage
-__________________________________________________]#
 when defined(demo):
   proc resetDB(db: DbConn) {.async.} =
     ## When defined(demo) activate proc
@@ -433,29 +405,23 @@ when defined(demo):
     ##
     ## This proc is used, when the platform needs to run
     ## as a test with e.g. public access.
-
     await sleepAsync(3_600_000)
     createStandardData(db)
 
 
+# Main module #################################################################
 
-#[
-      Main module
-__________________________________________________]#
+
 when isMainModule:
   echo startup_msg & $now()
-
   # Show commandline help info
   if "help" in commandLineParams():
     echo commandLineHelp()
     quit()
 
-
   info("Main module started at: " & $now())
 
-
   randomize()
-
 
   # Storage location
   # Folders are created in the module files_efs.nim
@@ -467,11 +433,9 @@ when isMainModule:
       sleep(2_000)
       quit()
 
-
   # Generate DB
   if "newdb" in commandLineParams() or not fileExists(db_host):
     generateDB()
-
 
   # Connect to DB
   try:
@@ -482,12 +446,9 @@ when isMainModule:
     sleep(5_000)
     quit()
 
-
-
   # Add admin user
   if "newuser" in commandLineParams():
     createAdminUser(db, commandLineParams())
-
 
   # Add test user
   when defined(demo):
@@ -495,14 +456,11 @@ when isMainModule:
     createTestUser(db)
     asyncCheck resetDB(db)
 
-
   # Activate Google reCAPTCHA
   setupReCapthca()
 
-
   # Update sql database from extensions
   extensionUpdateDB(db)
-
 
   # Insert standard data
   if "insertdata" in commandLineParams():
@@ -516,10 +474,8 @@ when isMainModule:
       else:
         createStandardData(db, "bulma")
 
-
   # Create robots.txt
   writeFile("public/robots.txt", "User-agent: *\nSitemap: " & mainWebsite & "/sitemap.xml")
-
 
   # Check if custom js and css exists
   if not fileExists("public/css/style_custom.css"):
@@ -527,14 +483,12 @@ when isMainModule:
   if not fileExists("public/js/js_custom.js"):
     writeFile("public/js/js_custom.js", "")
 
-
   info("Up and running!.")
 
 
+# Include HTML files ##########################################################
 
-#[
-      Include HTML files
-__________________________________________________]#
+
 include "tmpl/utils.tmpl"
 include "tmpl/blog.tmpl"
 include "tmpl/blogedit.tmpl"
@@ -551,16 +505,16 @@ include "tmpl/sitemap.tmpl"
 include "tmpl/logs.tmpl"
 include "tmpl/serverinfo.tmpl"
 
-#[
-      Routes for WWW
-__________________________________________________]#
+
+# Routes for WWW ##############################################################
+
+
 template restrictTestuser(httpMethod: HttpMethod) =
   ## Check if this is the testuser. If it is true, return
   ## error message based on HTTP method (GET/POST).
   ##
   ## It is possible to override the method with the param
   ## httpMeth.
-
   when defined(demo):
     if c.loggedIn and c.rank != Admin:
       if httpMethod == HttpPost:
@@ -581,7 +535,6 @@ macro generateRoutes(): typed =
   ## The macro generates the routes for Jester.
   ## Routes are found in the resources/web/routes.nim.
   ## All plugins 'routes.nim' are also included.
-
   var extensions = staticRead("resources/web/routes.nim")
 
   for ppath in pluginsPath:
