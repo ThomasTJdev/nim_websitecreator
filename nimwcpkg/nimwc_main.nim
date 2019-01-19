@@ -436,7 +436,7 @@ when isMainModule:
 
   # Connect to DB
   try:
-    db = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
+    db {.global.} = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
     info("Connection to DB is established.")
   except:
     fatal("Connection to DB could not be established.")
