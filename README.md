@@ -8,11 +8,11 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 ## Features
 
 - High performance with low resources (Rasp Pi, netbook, VPS, cloud, old pc, etc).
-- Postgres or SQLite Database ORM with Raw Query performance.
+- [Postgres](https://www.postgresql.org) or SQLite Database ORM with Raw Query performance.
 - SQL Type-checked and Query-checked at compile-time, no SQL injections.
-- Uses responsive Bulma CSS framework, supports Bootstrap CSS framework.
-- JavaScript framework agnostic, use Nim, Karax, vanilla JS, you choose.
-- WYSIWYG & Drag'n'Drop Editors with Summernote, CodeMirror or GrapesJS.
+- Uses responsive [Bulma CSS framework](https://bulma.io), supports [Bootstrap CSS framework](https://getbootstrap.com).
+- JavaScript framework agnostic, use Nim, [Karax](https://github.com/pragmagic/karax), vanilla JS, you choose.
+- WYSIWYG & Drag'n'Drop Editors with [Summernote](https://summernote.org), [CodeMirror](https://codemirror.net) or [GrapesJS](https://grapesjs.com).
 - Webserver hosting your page on 127.0.0.1:7000
 - 1 Click Blogging posts directly from browser.
 - 1 Click Static web pages directly from browser.
