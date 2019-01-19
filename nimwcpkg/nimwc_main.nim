@@ -73,14 +73,15 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
   ## Get all plugins path
   ##
   ## Generates a seq[string] with the path to the plugins
+  let
+    dir = parentDir(currentSourcePath())
+    realPath = replace(dir, "/nimwcpkg", "")
 
-  let dir = parentDir(currentSourcePath())
-  let realPath = replace(dir, "/nimwcpkg", "")
-
-  var plugins = (staticRead(realPath & "/plugins/plugin_import.txt").split("\n"))
+  var
+    plugins = (staticRead(realPath & "/plugins/plugin_import.txt").split("\n"))
+    extensions: seq[string]
 
   # Loop through all files and folders
-  var extensions: seq[string]
   for plugin in oc.walkDir("plugins/"):
     let (pd, ppath) = plugin
     discard pd
@@ -109,8 +110,7 @@ macro extensionImport(): untyped =
     extensions.add("import " & ppath & "/" & splitted[splitted.len-1] & "\n")
 
   when defined(dev):
-    echo "Plugins - imports:"
-    echo extensions
+    echo "Plugins - imports:\n" & extensions
 
   result = parseStmt(extensions)
 
@@ -137,8 +137,7 @@ macro extensionUpdateDatabase(): untyped =
     extensions.add("  echo \" \"")
 
   when defined(dev):
-    echo "Plugins - required proc:"
-    echo extensions
+    echo "Plugins - required proc:\n" & extensions
 
   result = parseStmt(extensions)
 
@@ -155,23 +154,18 @@ macro extensionCss(): string =
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "nimwcpkg", "")
 
-  var extensions = ""
   for ppath in pluginsPath:
     let splitted = split(ppath, "/")
 
     if staticRead(ppath & "/public/style.css") != "":
       discard staticExec("cp " & ppath & "/public/style.css " & mainDir & "/public/css/" & splitted[splitted.len-1] & ".css")
-
-      extensions.add("<link rel=\"stylesheet\" href=\"/css/" & splitted[splitted.len-1] & ".css\">\n")
+      result.add("<link rel=\"stylesheet\" href=\"/css/" & splitted[splitted.len-1] & ".css\">\n")
 
     if staticRead(ppath & "/public/style_private.css") != "":
       discard staticExec("cp " & ppath & "/" & "/public/style_private.css " & mainDir & "/public/css/" & splitted[splitted.len-1] & "_private.css")
 
   when defined(dev):
-    echo "Plugins - CSS:"
-    echo extensions
-
-  return extensions
+    echo "Plugins - CSS:\n" & result
 
 
 macro extensionJs*(): string =
@@ -184,23 +178,18 @@ macro extensionJs*(): string =
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "nimwcpkg", "")
 
-  var extensions = ""
   for ppath in pluginsPath:
     let splitted = split(ppath, "/")
 
     if staticRead(ppath & "/public/js.js") != "":
       discard staticExec("cp " & ppath & "/public/js.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
-
-      extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer></script>\n")
+      result.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer></script>\n")
 
     if staticRead(ppath & "/public/js_private.js") != "":
       discard staticExec("cp " & ppath & "/public/js_private.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
 
   when defined(dev):
-    echo "Plugins - JS:"
-    echo extensions
-
-  return extensions
+    echo "Plugins - JS:\n" & result
 
 
 # Loading config file #########################################################
