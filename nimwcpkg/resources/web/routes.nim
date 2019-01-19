@@ -1,5 +1,6 @@
 # Copyright 2018 - Thomas T. Jarløv
 
+
 routes:
   #error Http404:
   #  redirect("/")
@@ -7,9 +8,14 @@ routes:
   #error Http404:
   #  discard
 
+
   get "/":
     createTFD()
-    let pageid = getValue(db, sql"SELECT id FROM pages WHERE url = ?", "frontpage")
+
+    let pageid = query:
+      select pages(id)
+      where url == "frontpage"
+
     resp genPage(c, pageid)
 
 
@@ -21,41 +27,36 @@ routes:
   post "/dologin":
     createTFD()
     when not defined(dev):
-      if useCaptcha:
-        if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
+      if likely(useCaptcha):
+        if unlikely(not await checkReCaptcha(@"g-recaptcha-response", c.req.ip)):
           redirect("/login?msg=" & encodeUrl("Error: You need to verify, that you are not a robot!"))
 
     let (loginB, loginS) = login(c, replace(toLowerAscii(@"email"), " ", ""), replace(@"password", " ", ""))
-    if loginB:
+    if likely(loginB):
       jester.setCookie("sid", loginS, daysForward(7))
       redirect("/settings")
     else:
       redirect("/login?msg=" & encodeUrl(loginS))
+
 
   get "/logout":
     createTFD()
     logout(c)
     redirect("/")
 
+
   get "/error/@errorMsg":
     createTFD()
     resp genMain(c, "<h3 style=\"text-align: center; color: red; margin-top: 100px;\">" & decodeUrl(@"errorMsg") & "</h3>")
 
 
+# Plugins #####################################################################
 
-
-  #[
-
-      Plugins
-
-  ]#
 
   get "/plugins":
     ## Access the plugin overview
-
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genPlugins(c))
 
 
@@ -66,7 +67,6 @@ routes:
     ##                       this will enable the plugin (add a line)
     ## @"status" == true  => Plugin is enabled,
     ##                       this will disable the plugin (remove the line)
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
@@ -85,7 +85,6 @@ routes:
     ## will be named ..._new. After compiling the launcher
     ## identify the newly compiled file within 1,5 sec
     ## and restart the process.
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
@@ -103,16 +102,13 @@ routes:
 
   get "/plugins/repo":
     ## Shows all the plugins in the plugin repo
-
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genPluginsRepo(c))
 
 
   get "/plugins/repo/download":
     ## Shows all the plugins in the plugin repo
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
@@ -125,7 +121,6 @@ routes:
 
   get "/plugins/repo/update":
     ## Updates the plugins repo
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
@@ -138,7 +133,6 @@ routes:
 
   get "/plugins/repo/updateplugin":
     ## Updates an installed plugin
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
@@ -151,7 +145,6 @@ routes:
 
   get "/plugins/repo/deleteplugin":
     ## Updates an installed plugin
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
@@ -174,7 +167,6 @@ routes:
 
   get "/plugins/repo/downloadplugin":
     ## Download a plugin
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
@@ -185,23 +177,20 @@ routes:
       redirect("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginrepo"))
 
 
-  #[
+# Settings ####################################################################
 
-      Settings
-
-  ]#
 
   get "/settings":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genSettings(c))
+
 
   get "/settings/edit":
     createTFD()
     restrictAccessTo(c, [Admin])
-
     resp genMainAdmin(c, genSettingsEdit(c), "edithtml")
+
 
   post "/settings/update":
     createTFD()
@@ -216,17 +205,18 @@ routes:
       resp("OK")
     redirect("/settings/edit")
 
+
   get "/settings/editjs":
     createTFD()
     restrictAccessTo(c, [Admin])
-
     resp genMainAdmin(c, genSettingsEditJs(c, false), "editjs")
+
 
   get "/settings/editjscustom":
     createTFD()
     restrictAccessTo(c, [Admin])
-
     resp genMainAdmin(c, genSettingsEditJs(c, true), "editjs")
+
 
   post "/settings/updatejs":
     createTFD()
@@ -246,17 +236,18 @@ routes:
     except:
       resp "Error"
 
+
   get "/settings/editcss":
     createTFD()
     restrictAccessTo(c, [Admin])
-
     resp genMainAdmin(c, genSettingsEditCss(c, false), "editcss")
+
 
   get "/settings/editcsscustom":
     createTFD()
     restrictAccessTo(c, [Admin])
-
     resp genMainAdmin(c, genSettingsEditCss(c, true), "editcss")
+
 
   post "/settings/updatecss":
     createTFD()
@@ -276,11 +267,12 @@ routes:
     except:
       resp "Error"
 
+
   get "/settings/blog":
     createTFD()
     restrictAccessTo(c, [Admin])
-
     resp genMainAdmin(c, genSettingsBlog(c))
+
 
   post "/settings/updateblogsettings":
     createTFD()
@@ -305,15 +297,18 @@ routes:
     exec(db, sql"UPDATE settings SET blogorder = ?, blogsort = ?", blogorder, @"blogsort")
     redirect("/settings/blog")
 
+
   get "/settings/logs":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
     resp genViewLogs(logcontent=readFile(logfile))
 
+
   get "/settings/forcerestart":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
     echo execCmdEx("pkill nimwc_main")
+
 
   get "/settings/serverinfo":
     createTFD()
@@ -321,32 +316,25 @@ routes:
     resp genServerInfo()
 
 
-  #[
+# Files #######################################################################
 
-      Files
-
-  ]#
 
   get "/files":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genFiles(c), "edit")
 
 
   get "/files/raw":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genFilesRaw(c)
 
 
   get "/files/stream/@access/@filename":
     ## Get a file
-
     createTFD()
     let filename = decodeUrl(@"filename")
-
     var filepath = ""
 
     if @"access" == "private":
@@ -365,7 +353,6 @@ routes:
 
   post "/files/upload/grapesjs":
     # Upload a file via GrapesJS
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
@@ -380,7 +367,6 @@ routes:
       writeFile(path, request.formData.getOrDefault("file[]").body)
       if fileExists(path):
         resp("[\"/images/" & filename & "\"]")
-
     except:
       resp("ERROR")
 
@@ -389,7 +375,6 @@ routes:
 
   post "/files/upload/@access":
     ## Upload a file
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
@@ -422,11 +407,9 @@ routes:
 
   get "/files/delete/@access/@filename":
     ## Delete a file
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     var fileDeleted = false
 
     if @"access" == "publicimage":
@@ -442,13 +425,8 @@ routes:
       resp("Error: File not found")
 
 
+# Users #######################################################################
 
-
-  #[
-
-      Users
-
-  ]#
 
   get "/users":
     createTFD()
@@ -579,7 +557,6 @@ routes:
 
   post "/users/photo/upload":
     ## Uploads a new profile image for a user
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
 
@@ -595,25 +572,17 @@ routes:
       removeFile(path & ".txt")
       if fileExists(path & ".png"):
         resp("File saved")
-
     except:
       resp("Error")
 
     resp("Error: Something went wrong")
 
+# Blog ########################################################################
 
-
-
-  #[
-
-      Blog
-
-  ]#
 
   get "/blogpagenew":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genNewBlog(c), "edit")
 
 
@@ -650,7 +619,6 @@ routes:
   get "/blogpage/delete":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     exec(db, sql"DELETE FROM blog WHERE id = ?", @"blogid")
     redirect("/editpage/blogallpages")
 
@@ -658,14 +626,12 @@ routes:
   get "/editpage/blogallpages":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genBlogAllPages(c, edit=true))
 
 
   get "/editpage/blog/@blogid":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genEditBlog(c, @"blogid"), "edit")
 
 
@@ -680,19 +646,13 @@ routes:
     resp genPageBlog(c, blogid)
 
 
+# Pages #######################################################################
 
-
-  #[
-
-      Pages
-
-  ]#
 
   get "/pagenew":
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genNewPage(c), "edit")
 
 
@@ -732,7 +692,6 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     exec(db, sql"DELETE FROM pages WHERE id = ?", @"pageid")
     redirect("/editpage/allpages")
 
@@ -740,14 +699,12 @@ routes:
   get "/editpage/allpages":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genAllPagesEdit(c))
 
 
   get "/editpage/page/@pageid":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genEditPage(c, @"pageid"), "edit")
 
 
@@ -757,11 +714,9 @@ routes:
     resp genPage(c, pageid)
 
 
-  #[
+# Sitemap #####################################################################
 
-      Sitemap
 
-  ]#
   get "/sitemap.xml":
     writeFile("public/sitemap.xml", genSitemap())
     sendFile("public/sitemap.xml")
