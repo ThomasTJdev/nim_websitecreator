@@ -31,6 +31,7 @@ else:                 import db_postgres
 when defined(windows):
   quit("Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows")
 
+
 const
   config_not_found_msg = """
   ERROR: Config file (config.cfg) could not be found.
@@ -53,6 +54,10 @@ const
     when defined(ssl): " -d:ssl",
   ].join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
+
+  sql_now =
+    when defined(sqlite): "(STRFTIME('%s', 'now'))" # SQLite 3 now() function.
+    else:                 "NOW()"                   # Postgres now() function.
 
 
 macro configExists(): untyped =
@@ -255,21 +260,34 @@ func loggedIn(c: TData): bool =
 
 proc checkLoggedIn(c: var TData) =
   ## Check if user is logged in
-
   if not c.req.cookies.hasKey("sid"): return
-  let sid = c.req.cookies["sid"]
-  if execAffectedRows(db, sql("UPDATE session SET lastModified = " & $toInt(epochTime()) & " " & "WHERE ip = ? AND key = ?"), c.req.ip, sid) > 0:
+  let
+    sid = c.req.cookies["sid"]
+    sip = c.req.ip
 
-    c.userid = getValue(db, sql"SELECT userid FROM session WHERE ip = ? AND key = ?", c.req.ip, sid)
+  let conditional = tryQuery:
+    update session(lastModified = !!sql_now)
+    where ip == ?sip and key == ?sid
 
-    let row = getRow(db, sql"SELECT name, email, status FROM person WHERE id = ?", c.userid)
-    c.username  = row[0]
-    c.email     = toLowerAscii(row[1])
-    c.rank      = parseEnum[Rank](row[2])
+  if conditional:
+
+    c.userid = query:
+      select session(userid)
+      where ip == ?sip and key == ?sid
+
+    let row = query:
+      select person(name, email, status)
+      where id == ?c.userid
+
+    c.username = row[0]
+    c.email    = toLowerAscii(row[1])
+    c.rank     = parseEnum[Rank](row[2])
     if c.rank notin [Admin, Moderator, User]:
       c.loggedIn = false
 
-    discard tryExec(db, sql"UPDATE person SET lastOnline = ? WHERE id = ?", toInt(epochTime()), c.userid)
+    tryQuery:  # Update lastOnline to NOW()
+      update person(lastOnline = !!sql_now)
+      where id == ?c.userid
 
   else:
     c.loggedIn = false
