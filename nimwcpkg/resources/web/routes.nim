@@ -636,11 +636,33 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    let url = encodeUrl(@"url", true).replace("%2F", "/")
-    if url == getValue(db, sql"SELECT url FROM blog WHERE url = ?", url):
+    let
+      url = encodeUrl(@"url", true).replace("%2F", "/")
+      urlFromDB = query:
+        select blog(url)
+        where url == ?url
+
+    if url == urlFromDB:
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
     let blogID = insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags")
+
+    let
+      sta = @"status"
+      nam = @"name"
+      edi = @"editordata"
+      tit = @"title"
+      met = @"metadescription"
+      kew = @"metakeywords"
+      cat = @"category"
+      tag = @"tags"
+      blogID = query:
+        insert blog(author_id = ?c.userid, status = ?sta, url = ?url, name = ?nam,
+                    description = ?edi, title = ?tit, metadescription = ?met,
+                    metakeywords = ? kew, category = ?cat, tags = ?tag,
+                    standardhead   = ?checkboxToInt(@"standardhead"),
+                    standardnavbar = ?checkboxToInt(@"standardnavbar"),
+                    standardfooter = ?checkboxToInt(@"standardfooter"))
 
     resp genMainAdmin(c, genEditBlog(c, $blogID, true), "edit")
 
