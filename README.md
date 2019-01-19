@@ -20,16 +20,19 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Plugin manager to install, enable and disable plugins directly from browser.
 - Custom title, meta description and keywords for each page, SEO friendly.
 - Custom head, navbar and footer, no hardcoded watermarks, links or logos.
-- Edit core or custom JS and CSS files, UI/UX Designer friendly.
+- Edit core or custom JS and CSS directly from browser, UI/UX Designer friendly.
 - Log Viewer directly from browser.
 - Auto-Rotating file Logger.
 - Server Info Page for Admins.
 - Force Server restart for Admins.
 - Reconfiguration & Recompilation without down times.
 - Colored output on the Terminal.
-- Plugin skeleton creator to create new plugins.
+- Plugin skeleton creator to create your own new plugins.
+- Plugins can do anything you want on Frontend and Backend.
 - Multiple users with different ranks.
 - 0 Dependency binary (Postgres required if using it, nothing required for SQLite).
+- Runs on any non-Windows Architecture and Device that can barely compile C code.
+- High Availability design by default.
 - NGINX Config, Vagrantfile and Dockerfile provided for DevOps.
 
 
