@@ -1,6 +1,3 @@
-#
-#
-#        Hubanize / Cx Manager
 #        (c) Copyright 2017 Thomas Toftgaard Jarløv
 #        All rights reserved.
 
@@ -25,7 +22,7 @@ const
       id         integer       primary key,
       name       varchar(60)   not null,
       password   varchar(300)  not null,
-      email      varchar(60)   not null,
+      email      varchar(254)  not null,
       creation   timestamp     not null           default $1,
       modified   timestamp     not null           default $1,
       salt       varchar(128)  not null,
