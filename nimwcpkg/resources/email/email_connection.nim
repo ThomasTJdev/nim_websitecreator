@@ -48,7 +48,7 @@ proc sendMailNow*(subject, message, recipient: string) {.async.} =
 
 
 proc sendAdminMailNow*(subject, message: string) {.async.} =
-  ## Send the email through smtp. Clean admin mailing.
+  ## Send email only to Admin.
   when defined(dev):
     info("Dev is true, email is not sent")
     return
