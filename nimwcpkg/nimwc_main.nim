@@ -71,7 +71,9 @@ macro configExists(): untyped =
 configExists()
 
 
-# Macros ######################################################################
+#
+# Macros
+#
 
 
 proc getPluginsPath*(): seq[string] {.compileTime.} =
@@ -197,7 +199,9 @@ macro extensionJs*(): string =
     echo "Plugins - JS:\n" & result
 
 
-# Loading config file #########################################################
+#
+# Loading config file
+#
 
 
 var db {.global.}: DbConn  # ORMin needs DbConn be var global named "db".
@@ -238,7 +242,9 @@ proc init(c: var TData) =
   c.loggedIn = false
 
 
-# Recompile ###################################################################
+#
+# Recompile
+#
 
 
 proc recompile*(): int =
@@ -246,7 +252,9 @@ proc recompile*(): int =
   return execCmd("nim c " & checkCompileOptions & " -o:nimwcpkg/nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
 
 
-# Validation check ############################################################
+#
+# Validation check
+#
 
 
 func loggedIn(c: TData): bool =
@@ -254,7 +262,9 @@ func loggedIn(c: TData): bool =
   c.username.len > 0
 
 
-# Check if user is signed in ##################################################
+#
+# Check if user is signed in
+#
 
 
 proc checkLoggedIn(c: var TData) =
@@ -292,22 +302,24 @@ proc checkLoggedIn(c: var TData) =
     c.loggedIn = false
 
 
-# User login ##################################################################
+#
+# User login
+#
 
 
 proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
   ## User login
   when not defined(demo):
     if email == "test@test.com":
-      return (false, "Email must not be 'test@test.com', because is Demo-only.")
+      return (false, "Email must not be test@test.com.")
   if email.len == 0 or pass.len == 0:
     return (false, "Missing password or username")
 
-  let somerows = query:
+  let userdata = query:
     select person(id, name, password, email, salt, status, secretUrl)
     where email == ?email.toLowerAscii and status != ?"Deactivated"
 
-  for row in somerows:
+  for row in userdata:
     if row[6] != "":
       info("Login failed. Account not activated")
       return (false, "Your account is not activated")
@@ -343,7 +355,9 @@ proc logout(c: var TData) =
     where ip == ?c.req.ip and key == ?c.req.cookies["sid"]
 
 
-# Check if logged in ##########################################################
+#
+# Check if logged in
+#
 
 
 template createTFD() =
@@ -357,7 +371,9 @@ template createTFD() =
   c.loggedIn = loggedIn(c)
 
 
-# HTML tools ##################################################################
+#
+# HTML tools
+#
 
 
 template checkboxToInt(checkboxOnOff: string): string =
@@ -393,21 +409,25 @@ template statusIntToCheckbox(status, value: string): string =
     ""
 
 
-# Proc's for demo usage #######################################################
+#
+# Proc's for demo usage
+#
 
 
 when defined(demo):
   proc resetDB(db: DbConn) {.async.} =
     ## When defined(demo) activate proc
     ##
-    ## The database will be overwritten with standard standard data every hour.
+    ## The database will be overwritten with standard data every hour.
     ##
-    ## This proc is used when the platform needs to run as a test (public access)
+    ## This proc is used when the platform needs to run as a test or in demo-mode with public access.
     await sleepAsync(3_600_000)
     createStandardData(db)
 
 
-# Main module #################################################################
+#
+# Main module
+#
 
 
 when isMainModule:
@@ -483,7 +503,9 @@ when isMainModule:
   info("Up and running!.")
 
 
-# Include HTML files ##########################################################
+#
+# Include HTML files
+#
 
 
 include "tmpl/utils.tmpl"
@@ -503,7 +525,9 @@ include "tmpl/logs.tmpl"
 include "tmpl/serverinfo.tmpl"
 
 
-# Routes for WWW ##############################################################
+#
+# Routes for WWW
+#
 
 
 template restrictTestuser(httpMethod: HttpMethod) =
