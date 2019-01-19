@@ -228,7 +228,6 @@ settings:
   bindAddr = mainURL
 
 
-
 proc init(c: var TData) =
   ## Empty out user session data
   c.userpass = ""
@@ -298,16 +297,17 @@ proc checkLoggedIn(c: var TData) =
 
 proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
   ## User login
-
   when not defined(demo):
     if email == "test@test.com":
-      return (false, "Email may not be test@test.com")
-
-  const query = sql"SELECT id, name, password, email, salt, status, secretUrl FROM person WHERE email = ? AND status <> 'Deactivated'"
+      return (false, "Email must not be 'test@test.com', because is Demo-only.")
   if email.len == 0 or pass.len == 0:
     return (false, "Missing password or username")
 
-  for row in fastRows(db, query, toLowerAscii(email)):
+  let somerows = query:
+    select person(id, name, password, email, salt, status, secretUrl)
+    where email == ?email.toLowerAscii and status != ?"Deactivated"
+
+  for row in somerows:
     if row[6] != "":
       info("Login failed. Account not activated")
       return (false, "Your account is not activated")
@@ -322,9 +322,10 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
       c.userpass = row[2]
       c.email    = toLowerAscii(row[3])
       c.rank     = parseEnum[Rank](row[5])
-
       let key = makeSessionKey()
-      exec(db, sql"INSERT INTO session (ip, key, userid) VALUES (?, ?, ?)", c.req.ip, key, row[0])
+
+      query:
+        insert session(ip= ?c.req.ip, key= ?key, userid= ?row[0])
 
       info("Login successful")
       return (true, key)
@@ -335,10 +336,11 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
 
 proc logout(c: var TData) =
   ## Logout
-  const query = sql"DELETE FROM session WHERE ip = ? AND key = ?"
   c.username = ""
   c.userpass = ""
-  exec(db, query, c.req.ip, c.req.cookies["sid"])
+  query:
+    delete session
+    where ip == ?c.req.ip and key == ?c.req.cookies["sid"]
 
 
 # Check if logged in ##########################################################
@@ -361,31 +363,22 @@ template createTFD() =
 template checkboxToInt(checkboxOnOff: string): string =
   ## When posting checkbox data from HTML form
   ## an "on" is sent when true. Convert to 1 or 0.
-  if checkboxOnOff == "on":
-    "1"
-  else:
-    "0"
+  if checkboxOnOff == "on": "1" else: "0"
 
 
 template checkboxToChecked(checkboxOnOff: string): string =
   ## When parsing DB data on checkboxes convert
   ## 1 or 0 to HTML checked to set checkbox
-  if checkboxOnOff == "1":
-    "checked"
-  else:
-    ""
+  if checkboxOnOff == "1": "checked" else: ""
 
 
 template statusIntToText(status: string): string =
   ## When parsing DB status convert 0, 1 and 3 to human names
-  if status == "0":
-    "Development"
-  elif status == "1":
-    "Private"
-  elif status == "2":
-    "Public"
-  else:
-    "Error"
+  case status
+  of "0": "Development"
+  of "1": "Private"
+  of "2": "Public"
+  else:   "Error"
 
 
 template statusIntToCheckbox(status, value: string): string =
@@ -407,11 +400,9 @@ when defined(demo):
   proc resetDB(db: DbConn) {.async.} =
     ## When defined(demo) activate proc
     ##
-    ## The database will be overwritten with the standard
-    ## standard data every hour.
+    ## The database will be overwritten with standard standard data every hour.
     ##
-    ## This proc is used, when the platform needs to run
-    ## as a test with e.g. public access.
+    ## This proc is used when the platform needs to run as a test (public access)
     await sleepAsync(3_600_000)
     createStandardData(db)
 
@@ -430,8 +421,7 @@ when isMainModule:
 
   randomize()
 
-  # Storage location
-  # Folders are created in the module files_efs.nim
+  # Storage location. Folders are created in the module files_efs.nim
   when not defined(ignoreefs) and defined(release):
     # Check access to EFS file system
     info("Checking storage access.")
