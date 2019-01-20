@@ -7,7 +7,8 @@
 
 import
   asyncdispatch, bcrypt, cgi, ormin, jester, json, macros, os, osproc, logging,
-  parsecfg, random, re, recaptcha, sequtils, strutils, times, oswalkdir as oc,
+  parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
+  oswalkdir as oc,
 
   resources/administration/create_adminuser,
   resources/administration/create_standarddata,
@@ -19,7 +20,6 @@ import
   resources/password/password_generate,
   resources/password/salt_generate,
   resources/session/user_data,
-  resources/utils/dates,
   resources/utils/logging_nimwc,
   resources/utils/plugins,
   resources/utils/random_generator,
