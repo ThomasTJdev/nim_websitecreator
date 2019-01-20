@@ -13,6 +13,6 @@ proc makeSalt*(): string =
     for ch in randomBytes:
       if ord(ch) in {32..126}:
         result.add(ch)
-  else:
+  else:  # Fallback to Nim random when no /dev/urandom
     for i in 0..127:
       result.add(chr(rand(94) + 32)) # Generate numbers from 32 to 94 + 32 = 126
