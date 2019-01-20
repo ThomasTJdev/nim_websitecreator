@@ -7,7 +7,7 @@ let useUrandom = urandom.open("/dev/urandom")
 proc makeSalt*(): string =
   ## Generate random salt. Uses cryptographically secure /dev/urandom
   ## on platforms where it is available, and Nim's random module in other cases.
-  when useUrandom:
+  when useUrandom:  # when because assume /dev/urandom cant dissapear at runtime
     var randomBytes: array[0..127, char]
     discard urandom.readBuffer(addr(randomBytes), 128)
     for ch in randomBytes:
