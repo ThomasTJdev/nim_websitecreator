@@ -756,11 +756,29 @@ routes:
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
 
-    let url = encodeUrl(@"url", true).replace("%2F", "/")
-    if url == getValue(db, sql"SELECT url FROM pages WHERE url = ?", url):
+    let
+      url = encodeUrl(@"url", true).replace("%2F", "/")
+      sta = @"status"
+      nam = @"name"
+      edi = @"editordata"
+      tit = @"title"
+      met = @"metadescription"
+      kew = @"metakeywords"
+      cat = @"category"
+      tag = @"tags"
+      urlFromDB = query:
+        select pages(url)
+        where url == ?url
+
+    if url == urlFromDB:
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
-    let pageID = insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags")
+    let pageID = query:
+      insert pages(author_id= ?c.userid, status= ?sta, url= ?url, name= ?nam, description= ?edi,
+                   standardhead= ?checkboxToInt(@"standardhead"),
+                   standardnavbar= ?checkboxToInt(@"standardnavbar"),
+                   standardfooter= ?checkboxToInt(@"standardfooter"),
+                   title= ?tit, metadescription= ?met, metakeywords= ?kew, category= ?cat, tags= ?tag)
 
     resp genMainAdmin(c, genEditPage(c, $pageID, true), "edit")
 
