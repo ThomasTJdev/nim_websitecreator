@@ -645,8 +645,6 @@ routes:
     if url == urlFromDB:
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
-    let blogID = insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags")
-
     let
       sta = @"status"
       nam = @"name"
@@ -659,7 +657,7 @@ routes:
       blogID = query:
         insert blog(author_id = ?c.userid, status = ?sta, url = ?url, name = ?nam,
                     description = ?edi, title = ?tit, metadescription = ?met,
-                    metakeywords = ? kew, category = ?cat, tags = ?tag,
+                    metakeywords = ?kew, category = ?cat, tags = ?tag,
                     standardhead   = ?checkboxToInt(@"standardhead"),
                     standardnavbar = ?checkboxToInt(@"standardnavbar"),
                     standardfooter = ?checkboxToInt(@"standardfooter"))
@@ -671,23 +669,48 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    let url = encodeUrl(@"url", true).replace("%2F", "/")
-    if url == getValue(db, sql"SELECT url FROM blog WHERE url = ? AND id <> ?", url, @"blogid"):
+    let
+      url = encodeUrl(@"url", true).replace("%2F", "/")
+      blo = @"blogid"
+      sta = @"status"
+      nam = @"name"
+      edi = @"editordata"
+      tit = @"title"
+      met = @"metadescription"
+      kew = @"metakeywords"
+      cat = @"category"
+      tag = @"tags"
+      urlFromDB = query:
+        select blog(url)
+        where url == ?url AND id != ?blo
+
+    if url == urlFromDB:
       if @"inbackground" == "true":
         resp("Error: A page with same URL already exists")
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
-    discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"blogid")
+    query:
+      update blog(author_id= ?c.userid, status= ?sta, url= ?url, name= ?nam, description= ?edi,
+                  standardhead = ?checkboxToInt(@"standardhead"),
+                  standardnavbar = ?checkboxToInt(@"standardnavbar"),
+                  standardfooter = ?checkboxToInt(@"standardfooter"),
+                  title= ?tit, metadescription= ?met, metakeywords= ?kew, category= ?cat, tags = ?tag)
+      where id == ?blo
 
     if @"inbackground" == "true":
       resp("OK")
-    redirect("/editpage/blog/" & @"blogid")
+    redirect("/editpage/blog/" & blo)
 
 
   get "/blogpage/delete":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-    exec(db, sql"DELETE FROM blog WHERE id = ?", @"blogid")
+    let blo = @"blogid"
+
+    query:
+      delete blog
+      where id == ?blo
+
     redirect("/editpage/blogallpages")
 
 
@@ -710,7 +733,11 @@ routes:
 
   get re"/blog//*.":
     createTFD()
-    let blogid = getValue(db, sql"SELECT id FROM blog WHERE url = ?", c.req.path.replace("/blog/", ""))
+
+    let blogid = query:
+      select blog(id)
+      where url == ?c.req.path.replace("/blog/", "")
+
     resp genPageBlog(c, blogid)
 
 
