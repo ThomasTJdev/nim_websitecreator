@@ -33,6 +33,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - 0 Dependency binary (Postgres required if using it, nothing required for SQLite).
 - Runs on any non-Windows OS, Architecture and Hardware that can compile C code.
 - High Availability design by default.
+- BCrypt+Salt password hashing, 4 chars min for Demo, 10 chars min for Production.
 - NGINX Config, SystemD Service, Vagrantfile and Dockerfile provided for DevOps.
 
 
