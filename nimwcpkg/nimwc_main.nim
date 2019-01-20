@@ -321,7 +321,6 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
   if email.len == 0 or pass.len == 0:
     return (false, "Empty password or username")
 
-
   let userdata = query:
     select person(id, name, password, email, salt, status, secretUrl)
     where email == ?email.toLowerAscii and status != ?"Deactivated"
