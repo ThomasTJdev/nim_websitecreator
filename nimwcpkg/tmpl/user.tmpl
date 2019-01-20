@@ -44,9 +44,11 @@
       <div class="field form-group">
         <label class="label">Password</label>
         <div class="control has-icons-left has-icons-right">
-          <input type="password" class="form-control input is-rounded" name="password" autocomplete="current-password" minlength="4" placeholder="Password" dir="auto" required
-          # when defined(demo):
-            value="test"
+          <input type="password" class="form-control input is-rounded" name="password" autocomplete="current-password" placeholder="Password" dir="auto" required
+          # when defined(demo) or defined(dev):
+            minlength="4"  value="test"
+          # else:
+            minlength="10" value=""
           # end when
           >
         </div>
@@ -209,12 +211,24 @@
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="password" name="password" type="password" placeholder="password" class="form-control input" minlength="4" maxlength="128" required value="" dir="auto">
+            <input id="password" name="password" type="password" placeholder="password" class="form-control input" maxlength="128" required value="" dir="auto"
+            # when defined(demo) or defined(dev):
+              minlength="4"
+            # else:
+              minlength="10"
+            # end when
+            >
           </div>
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control input" minlength="4" maxlength="128" required placeholder="Confirm password" value="" dir="auto">
+            <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control input" maxlength="128" required placeholder="Confirm password" value="" dir="auto"
+            # when defined(demo) or defined(dev):
+              minlength="4"  value="test"
+            # else:
+              minlength="10" value=""
+            # end when
+            >
           </div>
 
           <div class="field" style="margin-bottom: 10px;">
