@@ -312,8 +312,15 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
   when not defined(demo):
     if email == "test@test.com":
       return (false, "Email must not be test@test.com.")
+  when defined(demo) or defined(dev):
+    if pass.len < 4:
+      return (false, "Password too short")
+  else:
+    if pass.len < 10:
+      return (false, "Password too short")
   if email.len == 0 or pass.len == 0:
-    return (false, "Missing password or username")
+    return (false, "Empty password or username")
+
 
   let userdata = query:
     select person(id, name, password, email, salt, status, secretUrl)
