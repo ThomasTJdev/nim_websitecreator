@@ -221,6 +221,16 @@ GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma 
 - [Use the Vagrantfile](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NimWC VMs.
 
 
+**NGNIX Config**
+
+- [Use the NGNIX Config file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NGNIX Server configuration.
+
+
+**Google reCAPTCHA**
+
+To activate Google reCAPTCHA [claim you site and server key](https://www.google.com/recaptcha/admin) and insert them into `config.cfg`.
+
+
 **SystemD**
 
 - [Use the SystemD Service file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NimWC SystemD Services.
@@ -237,16 +247,6 @@ sudo systemctl enable nimwc
 sudo systemctl start nimwc
 sudo systemctl status nimwc
 ```
-
-
-**NGNIX Config**
-
-- [Use the NGNIX Config file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NGNIX Server configuration.
-
-
-**Google reCAPTCHA**
-
-To activate Google reCAPTCHA [claim you site and server key](https://www.google.com/recaptcha/admin) and insert them into `config.cfg`.
 
 
 </details>
