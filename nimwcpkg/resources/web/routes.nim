@@ -793,13 +793,33 @@ routes:
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
 
-    let url = encodeUrl(@"url", true).replace("%2F", "/")
-    if url == getValue(db, sql"SELECT url FROM pages WHERE url = ? AND id <> ?", url, @"pageid"):
+    let
+      url = encodeUrl(@"url", true).replace("%2F", "/")
+      pag = @"pageid"
+      sta = @"status"
+      nam = @"name"
+      edi = @"editordata"
+      tit = @"title"
+      met = @"metadescription"
+      kew = @"metakeywords"
+      cat = @"category"
+      tag = @"tags"
+      urlFromDB = query:
+        select pages(url)
+        where url == ?url and id != ?pag
+
+    if url == urlFromDB:
       if @"inbackground" == "true":
         resp("Error: A page with same URL already exists")
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
-    discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"pageid")
+    query:
+      update pages(author_id= ?c.userid, status= ?sta, url= ?url, name= ?nam, description= ?edi,
+                   standardhead= ?checkboxToInt(@"standardhead"),
+                   standardnavbar= ?checkboxToInt(@"standardnavbar"),
+                   standardfooter= ?checkboxToInt(@"standardfooter"),
+                   title= ?tit, metadescription= ?met, metakeywords= ?kew, category= ?cat, tags= ?tag)
+      where id == ?pag
 
     if @"inbackground" == "true":
       resp("OK")
@@ -811,6 +831,12 @@ routes:
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
     exec(db, sql"DELETE FROM pages WHERE id = ?", @"pageid")
+    let pag = @"pageid"
+
+    query:
+      delete pages
+      where id == ?pag
+
     redirect("/editpage/allpages")
 
 
@@ -829,6 +855,11 @@ routes:
   get re"/p//*.":
     createTFD()
     let pageid = getValue(db, sql"SELECT id FROM pages WHERE url = ?", c.req.path.replace("/p/", ""))
+
+    let pageid = query:
+      select pages(id)
+      where url == ?c.req.path.replace("/p/", "")
+
     resp genPage(c, pageid)
 
 
