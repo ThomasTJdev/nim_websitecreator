@@ -327,6 +327,11 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     resp genServerInfo()
 
+  get "/settings/config":
+    createTFD()
+    # restrictAccessTo(c, [Admin, Moderator])
+    resp genConfig()
+
 
 # Files #######################################################################
 

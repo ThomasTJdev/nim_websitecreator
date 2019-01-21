@@ -1,0 +1,74 @@
+#? stdtmpl | standard
+#
+#proc genConfig(configuration: JsonNode): string =
+#  result = ""
+<title>Nim Website Creator Configuration</title>
+
+<center>
+  <h1>Nim Website Creator Configuration</h1>
+  <i>Type or paste your <a href="http://wikipedia.org/wiki/JSON">JSON</a> Configuration, it will be validated as-you-type...</i>
+  <br>
+  <button title="Copy Config" onclick="document.querySelector('#config').select();document.execCommand('copy')">Copy</button>
+  <button onclick="prettyPrint()" title="JSON Pretty Print">Pretty</button>
+  <button onclick="uglyPrint()" title="JSON Uglify">Ugly</button>
+  <a href="/settings/config/save" class="btn btn-outline-primary button is-small" title="Save Config"><button>Save</button></a>
+  <br><br>
+
+  <textarea id="config" dir="auto" style="width:99%;height:75%" minlength=9 required autofocus >$configuration</textarea>
+
+</center>
+
+
+<style>
+  /* Most Linux have at leat 1 of those fonts */
+  html     { font-family: Fira Code, Ubuntu, Oxygen, Droid        }
+  textarea { font-family: "Ubuntu Mono", "Oxygen Mono", Monospace }
+</style>
+
+
+<script>
+function textareaJsonValidation(id) {
+    // Create a textarea with JSON Validation
+    var ta = document.getElementById(id);
+    var el = document.createElement('h3');
+
+    if ( !!ta ) {
+        el.innerHTML   = "???";
+        el.style.color = "gray";
+        ta.parentNode.insertBefore(el, ta.nextSibling);
+
+        ta.onkeydown   = function() { checkJson() };
+        ta.onmousedown = function() { checkJson() };
+
+        function checkJson() {
+            try {
+                JSON.parse(ta.value);
+            } catch(error) {  //the json is not ok
+                el.innerHTML   = "&cross; Invalid JSON Configuration 👎";
+                el.style.color = "red";
+                return false;
+            }  //the json is ok
+            el.innerHTML   = "&check; Valid JSON Configuration 👍";
+            el.style.color = "green";
+            return true;
+        };
+  };
+};
+
+textareaJsonValidation("config");
+
+
+function prettyPrint() {
+    var ugly = document.getElementById('config').value;
+    var obj = JSON.parse(ugly);
+    var pretty = JSON.stringify(obj, undefined, 4);
+    document.getElementById('config').value = pretty;
+}
+
+function uglyPrint() {
+    var ugly = document.getElementById('config').value;
+    var obj = JSON.parse(ugly);
+    var pretty = JSON.stringify(obj, undefined, 0);
+    document.getElementById('config').value = pretty;
+}
+</script>
