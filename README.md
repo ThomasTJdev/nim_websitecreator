@@ -72,7 +72,7 @@ curl https://nim-lang.org/choosenim/init.sh -sSf | sh
 You only need to perform 1a **or** 1b - not both of them.
 
 
-### 1a) Install:
+### 1a) Install
 
 If you are using [Nimble](https://github.com/nim-lang/nimble) an executable will be generated and symlinked to `nimwc`, which then can be executed anywhere on your system.
 
@@ -94,7 +94,9 @@ nimwc
 ```
 
 
-### 1b) Compile:
+### 1b) Compile
+
+<details>
 
 This will generate the executable in the folder.
 
@@ -118,6 +120,8 @@ nim c -d:ssl nimwc.nim
 # Login
 127.0.0.1:7000/login
 ```
+
+</details>
 
 
 # Use
