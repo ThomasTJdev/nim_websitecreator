@@ -191,52 +191,16 @@ The plugin repository are located here: [NimWC plugin repository](https://github
 
 When editing a blogpage or a normal page press Ctrl+S to save.
 
-# Google reCAPTCHA
-
-To activate Google reCAPTCHA [claim you site and server key](https://www.google.com/recaptcha/admin) and insert them into `config.cfg`.
-
-# Autorun - systemctl
-
-## Service file
-
-Create a new file called nimwc.service inside /lib/systemd/system/:
-```
-sudo nano /lib/systemd/system/nimwc.service
-```
-
-Add the following to the file:
-```
-[Unit]
-Description=nimwc
-After=network.target
-
-[Service]
-User=ubuntu # MODIFY to your username
-Type=simple
-WorkingDirectory=/home/<user>/.nimble/pkgs/nimwc-2.0.0/ # MODIFY to your installation path
-ExecStart=/home/<user>/.nimble/pkgs/nimwc-2.0.0/nimwc   # MODIFY to your installation path
-Restart=always
-RestartSec=3
-
-[Install]
-WantedBy=multi-user.target
-```
-
-## Enable auto start and start it:
-```
-sudo systemctl enable nimwc
-sudo systemctl start nimwc
-sudo systemctl status nimwc
-```
 
 # GrapesJS
+
 GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma or Bootstrap), you have to edit `public/js/grapejs_custom.js` and `public/js/grapejsbs4.min.js`. Bootstrap support in `public/js/grapejs_custom.js` is commented out.
 
 
 # DevOps
 
 <details>
-  <summary>Docker, Vagrant, SystemD Service, NGNIX, etc</summary>
+  <summary>Docker, Vagrant, SystemD Service, NGNIX, Admin stuff, etc</summary>
 
 **Docker**
 
@@ -252,10 +216,28 @@ GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma 
 
 - [Use the SystemD Service file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NimWC SystemD Services.
 
+Copy the file called `nimwc.service` inside `/lib/systemd/system/`
+
+```
+sudo nano /lib/systemd/system/nimwc.service
+```
+
+## Enable auto start and start it:
+```
+sudo systemctl enable nimwc
+sudo systemctl start nimwc
+sudo systemctl status nimwc
+```
+
 
 **NGNIX Config**
 
 - [Use the NGNIX Config file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NGNIX Server configuration.
+
+
+**Google reCAPTCHA**
+
+To activate Google reCAPTCHA [claim you site and server key](https://www.google.com/recaptcha/admin) and insert them into `config.cfg`.
 
 
 </details>
