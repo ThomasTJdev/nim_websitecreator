@@ -46,10 +46,12 @@ function textareaJsonValidation(id) {
             } catch(error) {  //the json is not ok
                 el.innerHTML   = "&cross; Invalid JSON Configuration 👎";
                 el.style.color = "red";
+                el.style.background = "yellow";
                 return false;
             }  //the json is ok
             el.innerHTML   = "&check; Valid JSON Configuration 👍";
             el.style.color = "green";
+            el.style.background = "white";
             return true;
         };
   };
