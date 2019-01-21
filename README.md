@@ -246,3 +246,8 @@ GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma 
 # SystemD
 
 - [Use the SystemD Service file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NimWC SystemD Services.
+
+
+# NGNIX Config
+
+- [Use the NGNIX Config file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NGNIX Server configuration.
