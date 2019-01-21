@@ -233,21 +233,29 @@ sudo systemctl status nimwc
 GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma or Bootstrap), you have to edit `public/js/grapejs_custom.js` and `public/js/grapejsbs4.min.js`. Bootstrap support in `public/js/grapejs_custom.js` is commented out.
 
 
-# Docker
+# DevOps
+
+<details>
+  <summary>Docker, Vagrant, SystemD Service, NGNIX, etc</summary>
+
+**Docker**
 
 - [Use the Dockerfile](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Dockerfile) as starting point for your NimWC containers.
 
 
-# Vagrant
+**Vagrant**
 
 - [Use the Vagrantfile](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NimWC VMs.
 
 
-# SystemD
+**SystemD**
 
 - [Use the SystemD Service file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NimWC SystemD Services.
 
 
-# NGNIX Config
+**NGNIX Config**
 
 - [Use the NGNIX Config file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NGNIX Server configuration.
+
+
+</details>
