@@ -18,6 +18,8 @@ ExecStart=nimwc     # Execute your nimwc command.
 # ExecStop=         # Execute while stopping the process.
 # ExecStopPost=     # Execute AFTER stopping the process.
 # Environment=      # You can add any Environment variables here.
+WorkingDirectory=/home/<user>/.nimble/pkgs/nimwc-2.0.0/  # MODIFY to your installation path
+ExecStart=/home/<user>/.nimble/pkgs/nimwc-2.0.0/nimwc    # MODIFY to your installation path
 
 [Install]
 WantedBy=multi-user.target
