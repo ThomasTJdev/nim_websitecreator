@@ -5,7 +5,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 <img src="private/screenshots/NimWC_logo_shadow.png" style="max-height: 250px; display: block;" />
 
 
-## Features
+# Features
 
 - High performance with low resources (Rasp Pi, netbook, VPS, cloud, old pc, etc).
 - [Postgres](https://www.postgresql.org) or SQLite Database ORM with Raw Query performance.
@@ -37,12 +37,14 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - NGINX Config, SystemD Service, Vagrantfile and Dockerfile provided for DevOps.
 
 
-## Requirements
+# Requirements
 
 To get started you only need:
 
 - Linux (For Windows see Docker-for-Windows)
 - Nim >= `0.19.2`
+
+<details>
 
 Development Dependencies (automatically installed by Nimble):
 
@@ -51,6 +53,8 @@ Development Dependencies (automatically installed by Nimble):
 - reCAPTCHA >= `1.0.2`
 - bCrypt    >= `0.2.1`
 - datetime2human >= `0.2.2`
+
+</details>
 
 
 # Install
@@ -116,7 +120,7 @@ nim c -d:ssl nimwc.nim
 ```
 
 
-## Use
+# Use
 
 **Arguments**
 
