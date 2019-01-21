@@ -14,7 +14,7 @@ routes:
 
     let pageid = query:
       select pages(id)
-      where url == "frontpage"
+      where url == ?"frontpage"
 
     resp genPage(c, pageid)
 
@@ -302,10 +302,10 @@ routes:
 
     if @"blogsort" notin ["ASC", "DESC"]:
       redirect("/settings/blog")
-    let sor = @"blogsort"
+    let blogsort = @"blogsort"
 
     query:
-      update settings(blogorder= ?blogorder, blogsort= ?sor)
+      update settings(blogorder= ?blogorder, blogsort= ?blogsort)
 
     redirect("/settings/blog")
 
@@ -473,8 +473,8 @@ routes:
       redirect("/error/" & encodeUrl("Error: Your passwords did not match"))
 
     let
-      nam = @"name"
-      ema = @"email"
+      name = @"name"
+      email = @"email"
 
     if @"password" != "":
       let
@@ -482,13 +482,13 @@ routes:
         password = makePassword(@"password", salt)
 
       query:
-        update person(name= ?nam, email= ?ema, password= ?password, salt= ?salt)
+        update person(name= ?name, email= ?email, password= ?password, salt= ?salt)
         where id == ?c.userid
 
     else:
 
       query:
-        update person(name= ?nam, email= ?ema)
+        update person(name= ?name, email= ?email)
         where id == ?c.userid
 
     redirect("/users/profile")
@@ -503,10 +503,10 @@ routes:
       redirect("/error/" & encodeUrl("Error: You can not delete yourself"))
 
     let
-      use = @"userID"
+      userid = @"userID"
       userStatus = query:
         select person(status)
-        where id == ?use
+        where id == ?userid
 
     if userStatus == "":
       redirect("/error/" & encodeUrl("Error: Missing status on user"))
@@ -516,13 +516,13 @@ routes:
 
     let conditional = tryQuery:
       delete session
-      where userid == ?use
+      where userid == ?userid
 
     if conditional:
 
       query:
         delete session
-        where userid == ?use
+        where userid == ?userid
 
       redirect("/users")
     else:
@@ -579,16 +579,16 @@ routes:
 
     let
       ids = @"id"
-      ide = @"ident"
+      ident = @"ident"
       secretUrlConfirm = query:
         select person(id)
-        where id == ?ids and secretUrl == ?ide
+        where id == ?ids and secretUrl == ?ident
 
     if secretUrlConfirm != "":
 
       query:
         update person(secretUrl= !!"NULL")
-        where id == ?ids and secretUrl == ?ide
+        where id == ?ids and secretUrl == ?ident
 
       redirect("/login?msg=" & encodeUrl("Your account is now activated"))
     else:
@@ -613,8 +613,9 @@ routes:
     if not c.loggedIn:
       redirect("/")
 
-    let path = storageEFS & "/users/" & c.userid
-    let base64 = split(c.req.body, ",")[1]
+    let
+      path = storageEFS & "/users/" & c.userid
+      base64 = split(c.req.body, ",")[1]
 
     try:
       writeFile(path & ".txt", base64)
@@ -710,11 +711,11 @@ routes:
   get "/blogpage/delete":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-    let blo = @"blogid"
+    let blogid = @"blogid"
 
     query:
       delete blog
-      where id == ?blo
+      where id == ?blogid
 
     redirect("/editpage/blogallpages")
 
@@ -830,12 +831,11 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-    exec(db, sql"DELETE FROM pages WHERE id = ?", @"pageid")
-    let pag = @"pageid"
+    let pageid = @"pageid"
 
     query:
       delete pages
-      where id == ?pag
+      where id == ?pageid
 
     redirect("/editpage/allpages")
 
@@ -854,7 +854,6 @@ routes:
 
   get re"/p//*.":
     createTFD()
-    let pageid = getValue(db, sql"SELECT id FROM pages WHERE url = ?", c.req.path.replace("/p/", ""))
 
     let pageid = query:
       select pages(id)
