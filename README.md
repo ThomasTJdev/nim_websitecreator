@@ -44,18 +44,21 @@ To get started you only need:
 - Linux (For Windows see Docker-for-Windows)
 - Nim >= `0.19.2`
 
-Dependencies (automatically installed by Nimble):
+Development Dependencies (automatically installed by Nimble):
 
 - Jester    >= `0.4.1`
 - ormin     >= `0.1.0`
 - reCAPTCHA >= `1.0.2`
 - bCrypt    >= `0.2.1`
+- datetime2human >= `0.2.2`
 
 
-# Compiling / Installing
+# Install
 
 ## Install Nim
+
 To compile and install you need [Nim](https://nim-lang.org/). You can easily install Nim using [choosenim](https://nim-lang.org/install_unix.html) with:
+
 ```
 curl https://nim-lang.org/choosenim/init.sh -sSf | sh
 ```
@@ -113,7 +116,9 @@ nim c -d:ssl nimwc.nim
 ```
 
 
-## Argument (args):
+## Use
+
+**Arguments**
 
 These arguments should be prepended to executable file, e.g. `./nimwc cdata`
 
