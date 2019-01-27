@@ -20,10 +20,10 @@ proc setupReCapthca*() =
   if len(recaptchaSecretKey) > 0 and len(recaptchaSiteKey) > 0:
     useCaptcha = true
     captcha = initReCaptcha(recaptchaSecretKey, recaptchaSiteKey)
-    info("Initialized reCAPTCHA.")
+    info("Initialized ReCAPTCHA.")
   else:
     useCaptcha = false
-    warning("Failed to initialize reCAPTCHA.")
+    warn("Failed to initialize ReCAPTCHA.")
 
 
 proc checkReCaptcha*(antibot, userIP: string): Future[bool] {.async.} =
