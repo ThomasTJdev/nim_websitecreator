@@ -13,7 +13,7 @@ const
     <br>
     $5
     <br><br>
-    To login use the details below. On your first login, please navigate to your settings and change your password!
+    To login use the details below. On your first login, please navigate to your settings and <b>change your password!</b>
     <br>
     Email:    $3
     <br>
