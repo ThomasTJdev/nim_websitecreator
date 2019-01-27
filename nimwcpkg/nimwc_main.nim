@@ -204,7 +204,7 @@ macro extensionJs*(): string =
 #
 
 
-var db {.global.}: DbConn  # ORMin needs DbConn be var global named "db".
+var db {.global.}: DbConn
 
 let
   dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
