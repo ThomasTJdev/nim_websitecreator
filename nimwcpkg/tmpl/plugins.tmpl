@@ -80,7 +80,7 @@
           ${plugin["description"].getStr()}
           <div>
 #         if installed:
-            <a href="/plugins/repo/updateplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-warning button is-success is-fullwidth">Update plugin</a>
+            <a href="/plugins/repo/updateplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-warning button is-success is-fullwidth">Update plugin</a><br>
             <a href="/plugins/repo/deleteplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-danger button is-danger is-fullwidth">Delete plugin</a>
 #         else:
             <a href="/plugins/repo/downloadplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginrepo=${plugin["url"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-success button is-success is-fullwidth">Download plugin</a>
