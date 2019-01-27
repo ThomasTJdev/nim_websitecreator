@@ -17,7 +17,7 @@ const
     when defined(sqlite): "(strftime('%s', 'now'))"     # SQLite 3 epoch.
     else:                 "(extract(epoch from now()))" # Postgres epoch.
 
-  personTable = sql"""
+  personTable = sql("""
     create table if not exists person(
       id         integer       primary key,
       name       varchar(60)   not null,
@@ -30,9 +30,9 @@ const
       timezone   varchar(100),
       secretUrl  varchar(250),
       lastOnline timestamp     not null           default $1
-    );""".format(sql_now)
+    );""".format(sql_now))
 
-  sessionTable = sql"""
+  sessionTable = sql("""
     create table if not exists session(
       id           integer           primary key,
       ip           inet              not null,
@@ -40,9 +40,9 @@ const
       userid       integer           not null,
       lastModified timestamp         not null     default $1,
       foreign key (userid) references person(id)
-    );""".format(sql_now)
+    );""".format(sql_now))
 
-  historyTable = sql"""
+  historyTable = sql("""
     create table if not exists history(
       id              integer        primary key,
       user_id         integer        not null,
@@ -51,7 +51,7 @@ const
       choice          varchar(100),
       text            varchar(1000),
       creation        timestamp      not null     default $1
-    );""".format(sql_now)
+    );""".format(sql_now))
 
   settingsTable = sql"""
     create table if not exists settings(
@@ -66,7 +66,7 @@ const
       blogsort        text
     );"""
 
-  pagesTable = sql"""
+  pagesTable = sql("""
     create table if not exists pages(
       id              INTEGER        primary key,
       author_id       INTEGER        NOT NULL,
@@ -93,9 +93,9 @@ const
       modified        timestamp      not null     default $1,
       creation        timestamp      not null     default $1,
       foreign key (author_id) references person(id)
-    );""".format(sql_now)
+    );""".format(sql_now))
 
-  blogTable = sql"""
+  blogTable = sql("""
     create table if not exists blog(
       id              INTEGER        primary key,
       author_id       INTEGER        NOT NULL,
@@ -123,7 +123,7 @@ const
       creation        timestamp      not null     default $1,
       foreign key (author_id) references person(id)
     );
-    """.format(sql_now)
+    """.format(sql_now))
 
 
 proc generateDB*() =
