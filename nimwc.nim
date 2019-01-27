@@ -1,5 +1,6 @@
 import os, osproc, rdstdin, sequtils, strutils, terminal, times, json
-{.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
+
+when defined(release): {.passL: "-s".}  # Force strip all on the resulting Binary.
 
 const
   update_cmds = [
