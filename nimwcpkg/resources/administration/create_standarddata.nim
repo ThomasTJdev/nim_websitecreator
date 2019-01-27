@@ -1,6 +1,6 @@
 # Copyright 2018 - Thomas T. Jarløv
 import
-  os, strutils, ormin, rdstdin, logging,
+  os, strutils, gatabase, rdstdin, logging,
   ../utils/logging_nimwc
 
 when defined(sqlite): import db_sqlite
