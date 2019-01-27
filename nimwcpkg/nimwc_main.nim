@@ -6,7 +6,7 @@
 {.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
 
 import
-  asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging,
+  asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
   # gatabase,
   oswalkdir as oc,
@@ -298,11 +298,13 @@ proc checkLoggedIn(c: var TData) =
 #
 
 
-proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
+proc login(c: var TData, email, pass: string, totp: int): tuple[b: bool, s: string] =
   ## User login
   when not defined(demo):
     if email == "test@test.com":
       return (false, "Email must not be test@test.com.")
+    if totp == 000000 or totp == 999999 or totp == 123456 or totp == 654321:
+      return (false, "2 Factor Authentication Number must not be 000000 or 999999 or 123456")
   when defined(demo) or defined(dev):
     if pass.len < 4:
       return (false, "Password too short")
@@ -322,6 +324,14 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
     if parseEnum[Rank](row[5]) notin [Admin, Moderator, User]:
       info("Login failed. Your account is not active.")
       return (false, "Your account is not active")
+
+    let totpServerSide = newTotp(row[1].toLowerAscii).now()
+    when not defined(release):
+      echo "TOTP SERVER: " & $totpServerSide
+      echo "TOTP USERS : " & $totp
+    if totp != totpServerSide:
+      info("Login failed. 2 Factor Authentication number is invalid or expired.")
+      return (false, "2 Factor Authentication number is invalid or expired")
 
     if row[2] == makePassword(pass, row[4], row[2]):
       c.userid   = row[0]
