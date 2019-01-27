@@ -6,8 +6,9 @@
 {.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
 
 import
-  asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, gatabase,
+  asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
+  # gatabase,
   oswalkdir as oc,
 
   resources/administration/create_adminuser,
@@ -117,7 +118,7 @@ macro extensionImport(): untyped =
     extensions.add("import " & ppath & "/" & splitted[splitted.len-1] & "\n")
 
   when defined(dev):
-    echo "Plugins - imports:\n" & extensions
+    echo "Plugins - imports:\n" & $extensions
 
   result = parseStmt(extensions)
 
@@ -144,7 +145,7 @@ macro extensionUpdateDatabase(): untyped =
     extensions.add("  echo \" \"")
 
   when defined(dev):
-    echo "Plugins - required proc:\n" & extensions
+    echo "Plugins - required proc:\n" & $extensions
 
   result = parseStmt(extensions)
 
@@ -159,20 +160,22 @@ macro extensionCss(): string =
   ##
   ## 2) Insert <style>-link into HTML
   let dir = parentDir(currentSourcePath())
-  let mainDir = replace(dir, "nimwcpkg", "")
+  let mainDir = $replace(dir, "nimwcpkg", "")
 
+  var extensions = ""
   for ppath in pluginsPath:
-    let splitted = split(ppath, "/")
+    let splitted = $split(ppath, "/")
 
     if staticRead(ppath & "/public/style.css") != "":
-      discard staticExec("cp " & ppath & "/public/style.css " & mainDir & "/public/css/" & splitted[splitted.len-1] & ".css")
-      result.add("<link rel=\"stylesheet\" href=\"/css/" & splitted[splitted.len-1] & ".css\">\n")
+      discard staticExec("cp " & $ppath & "/public/style.css " & mainDir & "/public/css/" & splitted[splitted.len - 1] & ".css")
+      extensions.add("<link rel=\"stylesheet\" href=\"/css/" & splitted[splitted.len - 1] & ".css\">\n")
 
     if staticRead(ppath & "/public/style_private.css") != "":
-      discard staticExec("cp " & ppath & "/" & "/public/style_private.css " & mainDir & "/public/css/" & splitted[splitted.len-1] & "_private.css")
+      discard staticExec("cp " & $ppath & "/" & "/public/style_private.css " & mainDir & "/public/css/" & splitted[splitted.len-1] & "_private.css")
 
   when defined(dev):
-    echo "Plugins - CSS:\n" & result
+    echo "Plugins - CSS:\n" & $extensions
+  return extensions
 
 
 macro extensionJs*(): string =
@@ -185,18 +188,20 @@ macro extensionJs*(): string =
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "nimwcpkg", "")
 
+  var extensions = ""
   for ppath in pluginsPath:
     let splitted = split(ppath, "/")
 
     if staticRead(ppath & "/public/js.js") != "":
       discard staticExec("cp " & ppath & "/public/js.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
-      result.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer></script>\n")
+      extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer></script>\n")
 
     if staticRead(ppath & "/public/js_private.js") != "":
       discard staticExec("cp " & ppath & "/public/js_private.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
 
   when defined(dev):
-    echo "Plugins - JS:\n" & result
+    echo "Plugins - JS:\n" & $extensions
+  return extensions
 
 
 #
@@ -270,33 +275,19 @@ func loggedIn(c: TData): bool =
 proc checkLoggedIn(c: var TData) =
   ## Check if user is logged in
   if not c.req.cookies.hasKey("sid"): return
-  let
-    sid = c.req.cookies["sid"]
-    sip = c.req.ip
+  let sid = c.req.cookies["sid"]
+  if execAffectedRows(db, sql("UPDATE session SET lastModified = " & $toInt(epochTime()) & " " & "WHERE ip = ? AND key = ?"), c.req.ip, sid) > 0:
 
-  let conditional = tryQuery:
-    update session(lastModified = !!sql_now)
-    where ip == ?sip and key == ?sid
+    c.userid = getValue(db, sql"SELECT userid FROM session WHERE ip = ? AND key = ?", c.req.ip, sid)
 
-  if conditional:
-
-    c.userid = query:
-      select session(userid)
-      where ip == ?sip and key == ?sid
-
-    let row = query:
-      select person(name, email, status)
-      where id == ?c.userid
-
-    c.username = row[0]
-    c.email    = toLowerAscii(row[1])
-    c.rank     = parseEnum[Rank](row[2])
+    let row = getRow(db, sql"SELECT name, email, status FROM person WHERE id = ?", c.userid)
+    c.username  = row[0]
+    c.email     = toLowerAscii(row[1])
+    c.rank      = parseEnum[Rank](row[2])
     if c.rank notin [Admin, Moderator, User]:
       c.loggedIn = false
 
-    tryQuery:  # Update lastOnline to NOW()
-      update person(lastOnline = !!sql_now)
-      where id == ?c.userid
+    discard tryExec(db, sql"UPDATE person SET lastOnline = ? WHERE id = ?", toInt(epochTime()), c.userid)
 
   else:
     c.loggedIn = false
@@ -321,11 +312,9 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
   if email.len == 0 or pass.len == 0:
     return (false, "Empty password or username")
 
-  let userdata = query:
-    select person(id, name, password, email, salt, status, secretUrl)
-    where email == ?email.toLowerAscii and status != ?"Deactivated"
+  const query = sql"SELECT id, name, password, email, salt, status, secretUrl FROM person WHERE email = ? AND status <> 'Deactivated'"
 
-  for row in userdata:
+  for row in fastRows(db, query, toLowerAscii(email)):
     if row[6] != "":
       info("Login failed. Account not activated")
       return (false, "Your account is not activated")
@@ -340,10 +329,9 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
       c.userpass = row[2]
       c.email    = toLowerAscii(row[3])
       c.rank     = parseEnum[Rank](row[5])
-      let key = makeSessionKey()
 
-      query:
-        insert session(ip= ?c.req.ip, key= ?key, userid= ?row[0])
+      let key = makeSessionKey()
+      exec(db, sql"INSERT INTO session (ip, key, userid) VALUES (?, ?, ?)", c.req.ip, key, row[0])
 
       info("Login successful")
       return (true, key)
@@ -354,11 +342,10 @@ proc login(c: var TData, email, pass: string): tuple[b: bool, s: string] =
 
 proc logout(c: var TData) =
   ## Logout
+  const query = sql"DELETE FROM session WHERE ip = ? AND key = ?"
   c.username = ""
   c.userpass = ""
-  query:
-    delete session
-    where ip == ?c.req.ip and key == ?c.req.cookies["sid"]
+  exec(db, query, c.req.ip, c.req.cookies["sid"])
 
 
 #
@@ -462,7 +449,10 @@ when isMainModule:
 
   # Connect to DB
   try:
-    db {.global.} = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
+    when defined(sqlite):
+      db = db_sqlite.open(db_host, "", "", "")
+    else:
+      db = db_postgres.open(connection=db_host, user=db_user, password=db_pass, database=db_name)
     info("Connection to DB is established.")
   except:
     fatal("Connection to DB could not be established.")
