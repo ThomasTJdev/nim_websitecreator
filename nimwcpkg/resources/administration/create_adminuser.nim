@@ -1,5 +1,5 @@
 import
-  os, strutils, gatabase, logging,
+  os, strutils, logging,
   ../password/password_generate,
   ../password/salt_generate,
   ../utils/logging_nimwc
@@ -11,12 +11,7 @@ else:                 import db_postgres
 proc createAdminUser*(db: DbConn, args: seq[string]) =
   ## Create new admin user.
   info("Checking if any Admin exists in DB.")
-
-  var db {.global.} = db  # ORMin needs DbConn be var global named "db".
-  let anyAdmin = query:
-    select person(id)
-    where status == "Admin"
-
+  let anyAdmin = getAllRows(db, sql"SELECT id FROM person WHERE status = ?", "Admin")
   info($anyAdmin.len() & " Admins already exist. Adding 1 new Admin.")
 
   var iName, iEmail, iPwd: string
@@ -35,9 +30,7 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
     salt = makeSalt()
     password = makePassword(iPwd, salt)
 
-  query:
-    insert person(name= ?iName, email= ?iEmail,
-                  password= ?password, salt= ?salt, status= ?"Admin")
+  discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", $iName, $iEmail, password, salt, "Admin")
 
   info("Admin added.")
 
@@ -45,11 +38,7 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
 proc createTestUser*(db: DbConn) =
   ## Create new admin user.
   info("Checking if any test@test.com exists in DB.")
-
-  var db {.global.} = db  # ORMin needs DbConn be var global named "db".
-  let anyAdmin = query:
-    select person(id)
-    where email == "test@test.com"
+  let anyAdmin = getAllRows(db, sql"SELECT id FROM person WHERE email = ?", "test@test.com")
 
   if anyAdmin.len() < 1:
     info("No test user exists. Creating it!.")
@@ -58,9 +47,7 @@ proc createTestUser*(db: DbConn) =
       salt = makeSalt()
       password = makePassword("test", salt)
 
-    query:
-      insert person(name= ?"Testuser", email= ?"test@test.com",
-                    password= ?password, salt= ?salt, status= ?"Moderator")
+    discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", "Testuser", "test@test.com", password, salt, "Moderator")
 
     info("Test user added!.")
 
