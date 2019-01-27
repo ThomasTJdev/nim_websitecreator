@@ -10,16 +10,40 @@
 <table border=1 style="width:99%">
   <tbody>
   <tr>
-    <td> <b>System</b> </td>            <td>${execCmdEx("uname -a").output}</td>
+    <td> <b>System</b> </td>            <td>
+    # when not defined(demo):
+      ${execCmdEx("uname -a").output}
+    # else:
+      <i> Not available on Demo </i>
+    # end when
+    </td>
   </tr>
   <tr>
-    <td> <b>Distro</b> </td>            <td>${execCmdEx("lsb_release -a").output}</td>
+    <td> <b>Distro</b> </td>            <td>
+    # when not defined(demo):
+      {execCmdEx("lsb_release -a").output}
+    # else:
+      <i> Not available on Demo </i>
+    # end when
+    </td>
   </tr>
   <tr>
-    <td> <b>Uptime</b> </td>            <td>${execCmdEx("uptime --pretty").output}</td>
+    <td> <b>Uptime</b> </td>            <td>
+    # when not defined(demo):
+      ${execCmdEx("uptime --pretty").output}
+    # else:
+      <i> Not available on Demo </i>
+    # end when
+    </td>
   </tr>
   <tr>
-    <td> <b>Public IP</b> </td>         <td>${newHttpClient().getContent("http://api.ipify.org")}</td>
+    <td> <b>Public IP</b> </td>         <td>
+    # when not defined(demo):
+      ${newHttpClient().getContent("http://api.ipify.org")}
+    # else:
+      <i> Not available on Demo </i>
+    # end when
+    </td>
   </tr>
   <tr>
     <td> <b>Hostname</b> </td>          <td>${getHostname()}</td>
@@ -34,10 +58,10 @@
     <td> <b>Nim Version</b> </td>       <td>$NimVersion</td>
   </tr>
   <tr>
-    <td> <b>Gatabase Version</b> </td>  <td>$gatabaseVersion</td>
+    <td> <b>Gatabase Version</b> </td>  <td>gatabaseVersion</td>
   </tr>
   <tr>
-    <td> <b>Gatabase Postgres</b> </td> <td>$gatabaseIsPostgres</td>
+    <td> <b>Gatabase Postgres</b> </td> <td>gatabaseIsPostgres</td>
   </tr>
   <tr>
     <td> <b>CPU</b> </td>               <td>$hostCPU.toUpperAscii</td>
@@ -62,9 +86,6 @@
   </tr>
   <tr>
     <td> <b>App Directory</b> </td>     <td>${getAppDir()}</td>
-  </tr>
-  <tr>
-    <td> <b>Source Code Directory</b> </td> <td>${currentSourcePath()}</td>
   </tr>
   <tr>
     <td> <b>Biggest Integer</b> </td>   <td>$int.high</td>
