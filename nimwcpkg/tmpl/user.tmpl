@@ -22,8 +22,9 @@
 
       # when defined(demo):
         <div class="notification is-link">
-          <p><b>User:</b> test@test.com</p>
-          <p><b>Pass:</b> test</p>
+          <p> <b>User:</b> test@test.com</p>
+          <p> <b>Pass:</b> test</p>
+          <p> <b>2FA: </b> 123456</p>
         </div>
       # end when
 
@@ -51,13 +52,23 @@
             minlength="10" value=""
           # end when
           >
-
-          ## DONT TOUCH, HoneyPot: https://github.com/ThomasTJdev/nim_websitecreator/issues/43#issue-403507393
-          <input type="password" class="form-control input is-rounded" name="password2" autocomplete="false" tabindex="-1" placeholder="Password" dir="auto" minlength="10" value="" style="
-          ${["display:none !important", "visibility:hidden !important", "opacity:0 !important"].rand}
-          " >
-          ## DONT TOUCH, HoneyPot: https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377
-
+        </div>
+      </div>
+      <div class="field form-group">
+        <label class="label">2 Factor Auth (TOTP)</label>
+        <div class="control has-icons-left has-icons-right">
+          <input type="number" class="form-control input is-rounded" name="totp" placeholder="6 Digit Number (FreeOTP)" min="000000" max="999999" step="1" dir="auto" required
+          # when defined(demo):
+            value="123456"
+          # end when
+          >
+        <br>
+        <a href="https://freeotp.github.io">Get FreeOTP Mobile App (Open Source)</a>
+        <br>
+        <details title="Compile this source code with Nim to create your own 2 Factor Auth App!">
+          <summary>2FA TOTP Desktop App (Nim Source)</summary>
+          <code>import os,otp;echo newTotp(paramStr(1)).now</code>
+        </details>
         </div>
       </div>
 
@@ -69,6 +80,12 @@
           <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         </div>
       #end if
+
+      ## DONT TOUCH, HoneyPot: https://github.com/ThomasTJdev/nim_websitecreator/issues/43#issue-403507393
+      <input type="password" class="form-control input is-rounded" name="password2" autocomplete="false" tabindex="-1" placeholder="Password" dir="auto" minlength="10" value="" style="
+      ${["display:none !important", "visibility:hidden !important", "opacity:0 !important"].rand}
+      " >
+      ## DONT TOUCH, HoneyPot: https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377
     </form>
   </div>
 
