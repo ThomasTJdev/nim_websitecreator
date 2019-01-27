@@ -21,8 +21,7 @@ routes:
   post "/dologin":
     createTFD()
     if @"password2" != "": # DONT TOUCH, HoneyPot: https://github.com/ThomasTJdev/nim_websitecreator/issues/43#issue-403507393
-      when defined(dev):
-        echo "HONEYPOT: " & @"password2"
+      when not defined(release): echo "HONEYPOT: " & @"password2"
       redirect("/login?msg=" & encodeUrl("Error: You need to verify, that you are not a robot!"))
     when not defined(dev):
       if useCaptcha:
