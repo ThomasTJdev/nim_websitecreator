@@ -328,7 +328,7 @@ proc login(c: var TData, email, pass: string, totp: int): tuple[b: bool, s: stri
     let totpServerSide = newTotp(row[1].toLowerAscii).now()
     when not defined(release):
       echo "TOTP SERVER: " & $totpServerSide
-      echo "TOTP USERS : " & $totp
+      echo "TOTP USER  : " & $totp
     if totp != totpServerSide:
       info("Login failed. 2 Factor Authentication number is invalid or expired.")
       return (false, "2 Factor Authentication number is invalid or expired")
