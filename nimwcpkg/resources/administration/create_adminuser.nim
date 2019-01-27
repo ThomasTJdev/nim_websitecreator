@@ -1,5 +1,5 @@
 import
-  os, strutils, ormin, logging,
+  os, strutils, gatabase, logging,
   ../password/password_generate,
   ../password/salt_generate,
   ../utils/logging_nimwc
