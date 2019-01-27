@@ -137,7 +137,7 @@ proc generateDB*() =
     db_folder = dict.getSectionValue("Database", "folder")
     dbexists =
       when defined(sqlite): fileExists(db_host)
-      else:                 db_host.len > 1
+      else:                 db_host.len > 2
 
   if dbexists:
     info("Database: Database already exists. Inserting standard tables if they do not exist.")
@@ -145,7 +145,12 @@ proc generateDB*() =
   discard existsOrCreateDir(db_folder)  # Creating folder
 
   info("Database: Opening database")  # Open DB
-  var db = open(connection=db_host, user=db_user, password=db_pass, database=db_name)
+  echo "SQLITE: " & $defined(sqlite)
+  var db =
+    when defined(sqlite):
+      db_sqlite.open(db_host, "", "", "")
+    else:
+      db_postgres.open(connection=db_host, user=db_user, password=db_pass, database=db_name)
 
   if not db.tryExec(personTable):
     info("Database: person table already exists")
