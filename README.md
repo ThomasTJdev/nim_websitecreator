@@ -35,7 +35,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - High Availability design by default.
 - No `/node_modules/`, but very powerful builtin Templating engine.
 - BCrypt+Salt password hashing, 4 chars min for Demo, 10 chars min for Production.
-- NGINX Config, SystemD Service, Vagrantfile and Dockerfile provided for DevOps.
+- [NGINX Config, SystemD Service, Vagrantfile and Dockerfile provided for DevOps.](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/)
 
 
 # Requirements
