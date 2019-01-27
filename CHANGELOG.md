@@ -7,6 +7,8 @@
 - Add MimeType, Size, CheckSum to Files page, useful for UI/UX building
 - Add button to Copy all the Logs content on one click on Logs page
 - Add Dockerfile to the repo
+- Add Vagrantfile to the repo
+- Add Service file to the repo
 - Update Readme
 - Update Nimble file
 - First release of 2019
