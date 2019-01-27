@@ -6,7 +6,7 @@
 {.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
 
 import
-  asyncdispatch, bcrypt, cgi, ormin, jester, json, macros, os, osproc, logging,
+  asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, gatabase,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
   oswalkdir as oc,
 
