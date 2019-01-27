@@ -45,6 +45,15 @@
     # end when
     </td>
   </tr>
+    <tr>
+      <td> <b>Disk</b> </td>         <td>
+      # when not defined(demo):
+        ${execCmdEx("df --human-readable --local --output=avail " & getCurrentDir()).output}
+      # else:
+        <i> Not available on Demo </i>
+      # end when
+      </td>
+    </tr>
   <tr>
     <td> <b>Hostname</b> </td>          <td>${getHostname()}</td>
   </tr>
