@@ -1,6 +1,6 @@
 # Copyright 2018 - Thomas T. Jarløv
 import
-  os, strutils, gatabase, rdstdin, logging,
+  os, strutils, rdstdin, logging,
   ../utils/logging_nimwc
 
 when defined(sqlite): import db_sqlite
@@ -513,167 +513,78 @@ const
   </div>
   """
 
+
 proc standardDataSettings*(db: DbConn, dataStyle: string) =
   ## Settings
-  info("Standard data: Inserting settings-data")
-
-  var db {.global.} = db  # ORMin needs DbConn be var global named "db".
-  let settingsExists = query:
-    select settings(id)
-    where id == "1"
-
-  if settingsExists.len != 0:
-    query:
-      delete settings
-      where id == "1"
+  info"Standard data: Inserting settings-data."
+  let settingsExists = getValue(db, sql"SELECT id FROM settings WHERE id = ?", "1")
+  if settingsExists != "":
+    exec(db, sql"DELETE FROM settings WHERE id = ?", "1")
 
   if dataStyle == "bootstrap":
-    query:
-     insert settings(title= ?title, head= ?headBootstrap, navbar= ?navbarBootstrap, footer= ?footer)
+    discard insertID(db, sql"INSERT INTO settings (title, head, navbar, footer) VALUES (?, ?, ?, ?)", title, headBootstrap, navbarBootstrap, footer)
   elif dataStyle == "clean":
-    query:
-     insert settings(title= ?title, head= ?headClean, navbar= ?navbarClean, footer= ?footerClean)
+    discard insertID(db, sql"INSERT INTO settings (title, head, navbar, footer) VALUES (?, ?, ?, ?)", title, headClean, navbarClean, footerClean)
   else:
-    query:
-     insert settings(title= ?title, head= ?head, navbar= ?navbar, footer= ?footer)
+    discard insertID(db, sql"INSERT INTO settings (title, head, navbar, footer) VALUES (?, ?, ?, ?)", title, head, navbar, footer)
 
 
 proc standardDataFrontpage*(db: DbConn, dataStyle = "") =
   ## Frontpage
-  info("Standard data: Inserting frontpage-data")
-
-  var db {.global.} = db  # ORMin needs DbConn be var global named "db".
-  let frontpageExists = query:
-    select pages(id)
-    where url == "frontpage"
-
-  if frontpageExists.len != 0:
-    query:
-      delete pages
-      where id == frontpageExists
+  info"Standard data: Inserting frontpage-data."
+  let frontpageExists = getValue(db, sql"SELECT id FROM pages WHERE url = ?", "frontpage")
+  if frontpageExists != "":
+    exec(db, sql"DELETE FROM pages WHERE id = ?", frontpageExists)
 
   if dataStyle == "clean":
-    query:
-      insert pages(
-        author_id= ?"1", status= ?"2", url= ?"frontpage",
-        name= ?"Frontpage", description= ?frontpageClean,
-        standardhead= ?"1", standardnavbar= ?"1", standardfooter= ?"1",
-        title= ?"", metadescription= ?"", metakeywords= ?"",
-      )
+    discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "frontpage", "Frontpage", frontpageClean, "1", "1", "1", "", "", "")
   else:
-    query:
-      insert pages(
-        author_id= ?"1", status= ?"2", url=?"frontpage", name= ?"Frontpage",
-        description= ?frontpage, standardhead= ?"1", standardnavbar= ?"1",
-        standardfooter= ?"1", title= ?"NimWC Nim Website Creator",
-        metadescription= ?"NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.",
-        metakeywords= ?"website,blog,nim,nimwc",
-      )
+      discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "frontpage", "Frontpage", frontpage, "1", "1", "1", "NimWC Nim Website Creator", "NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.", "website,blog,nim,nimwc")
 
 
 proc standardDataAbout*(db: DbConn) =
   ## About
-  info("Standard data: Inserting about-data")
+  info"Standard data: Inserting about-data."
+  let aboutExists = getValue(db, sql"SELECT id FROM pages WHERE url = ?", "about")
+  if aboutExists != "":
+    exec(db, sql"DELETE FROM pages WHERE id = ?", aboutExists)
 
-  var db {.global.} = db  # ORMin needs DbConn be var global named "db".
-  let aboutExists = query:
-    select pages(id)
-    where url == "about"
-
-  if aboutExists.len != 0:
-    query:
-      delete pages
-      where id == aboutExists
-
-  query:
-    insert pages(
-      author_id= ?"1", status= ?"2", url= ?"about", name= ?"About",
-      description= ?about, standardhead= ?"1", standardnavbar= ?"1",
-      standardfooter= ?"1", title= ?"About Nim Website Creator",
-      metadescription= ?"NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.",
-      metakeywords= ?"website,blog,nim,nimwc",
-    )
+  discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "about", "About", about, "1", "1", "1", "About Nim Website Creator", "NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.", "website,blog,nim,nimwc")
 
 
 proc standardDataBlogpost1*(db: DbConn) =
   ## Blog post
-  info(" - Standard data: Inserting blog post-data")
+  info"Standard data: Inserting blog post-data"
+  let blogExists = getValue(db, sql"SELECT id FROM blog WHERE url = ?", "standardpost")
+  if blogExists != "":
+    exec(db, sql"DELETE FROM blog WHERE id = ?", blogExists)
 
-  var db {.global.} = db  # ORMin needs DbConn be var global named "db".
-  let blogExists = query:
-    select blog(id)
-    where url == "standardpost"
-
-  if blogExists.len != 0:
-    query:
-      delete blog
-      where id == blogExists
-
-  query:
-    insert blog(
-      author_id= ?"1", status= ?"2", url= ?"standardpost",
-      name= ?"Standard blogpost", description= ?blogpost1, standardhead= ?"1",
-      standardnavbar= ?"1", standardfooter= ?"1",
-      title= ?"NimWC Example blogpost",
-      metadescription= ?"This is an example blogpost using the default styling.",
-      metakeywords= ?"website,blog,nim,nimwc"
-    )
+  discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpost", "Standard blogpost", blogpost1, "1", "1", "1", "NimWC Example blogpost", "This is an example blogpost using the default styling.", "website,blog,nim,nimwc")
 
 
 proc standardDataBlogpost2*(db: DbConn) =
   ## Blog post
-  info(" - Standard data: Inserting blog post-data")
+  info"Standard data: Inserting blog post-data."
+  let blogExists = getValue(db, sql"SELECT id FROM blog WHERE url = ?", "standardpostv2")
+  if blogExists != "":
+    exec(db, sql"DELETE FROM blog WHERE id = ?", blogExists)
 
-  var db {.global.} = db  # ORMin needs DbConn be var global named "db".
-  let blogExists = query:
-    select blog(id)
-    where url == "standardpostv2"
-
-  if blogExists.len != 0:
-    query:
-      delete blog
-      where id == blogExists
-
-  query:
-    insert blog(
-      author_id= ?"1", status= ?"2", url= ?"standardpostv2",
-      name= ?"Parallax post v2", description= ?blogpost2,
-      standardhead= ?"1", standardnavbar= ?"1", standardfooter= ?"1",
-      title= ?"NimWC Example blogpost parallax",
-      metadescription= ?"This is an example blogpost using parallax created with NimWC.",
-      metakeywords= ?"website,blog,nim,nimwc,parallax"
-    )
+  discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv2", "Parallax post v2", blogpost2, "1", "1", "1", "NimWC Example blogpost parallax", "This is an example blogpost using parallax created with NimWC.", "website,blog,nim,nimwc,parallax")
 
 
 proc standardDataBlogpost3*(db: DbConn) =
   ## Blog post
-  info(" - Standard data: Inserting blog post-data")
+  info"Standard data: Inserting blog post-data."
+  let blogExists = getValue(db, sql"SELECT id FROM blog WHERE url = ?", "standardpostv3")
+  if blogExists != "":
+    exec(db, sql"DELETE FROM blog WHERE id = ?", blogExists)
 
-  var db {.global.} = db  # ORMin needs DbConn be var global named "db".
-  let blogExists = query:
-    select blog(id)
-    where url == "standardpostv3"
-
-  if blogExists.len != 0:
-    query:
-      delete blog
-      where id == blogExists
-
-  query:
-    insert blog(
-      author_id= ?"1", status= ?"2", url= ?"standardpostv3",
-      name= ?"Custom styling", description= ?blogpost3,
-      standardhead= ?"1", standardnavbar= ?"1", standardfooter= ?"1",
-      title= ?"NimWC Example blogpost custom",
-      metadescription= ?"This is an example blogpost using custom styling.",
-      metakeywords= ?"website,blog,nim,nimwc",
-    )
+  discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv3", "Custom styling", blogpost3, "1", "1", "1", "NimWC Example blogpost custom", "This is an example blogpost using custom styling.", "website,blog,nim,nimwc")
 
 
 proc createStandardData*(db: DbConn, dataStyle = "bulma") =
   ## Insert basic data
-  info("Standard data: Inserting standard data")
-  var db {.global.} = db  # ORMin needs DbConn be var global named "db".
+  info"Standard data: Inserting standard data."
   standardDataSettings(db, dataStyle)
   standardDataFrontpage(db, dataStyle)
   if dataStyle != "clean":
