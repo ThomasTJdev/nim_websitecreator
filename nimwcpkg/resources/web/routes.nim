@@ -45,13 +45,10 @@ routes:
     resp genMain(c, "<h3 style=\"text-align: center; color: red; margin-top: 100px;\">" & decodeUrl(@"errorMsg") & "</h3>")
 
 
+#
+# Plugins
+#
 
-
-  #[
-
-      Plugins
-
-  ]#
 
   get "/plugins":
     ## Access the plugin overview
@@ -188,11 +185,10 @@ routes:
       redirect("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginrepo"))
 
 
-  #[
+#
+# Settings
+#
 
-      Settings
-
-  ]#
 
   get "/settings":
     createTFD()
@@ -323,12 +319,16 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     resp genServerInfo()
 
+  get "/settings/database/backup":
+    createTFD()
+    restrictAccessTo(c, [Admin, Moderator])
+    resp "TODO: Gatabase has Backup feature builtin"
 
-  #[
 
-      Files
+#
+# Files
+#
 
-  ]#
 
   get "/files":
     createTFD()
@@ -445,13 +445,10 @@ routes:
       resp("Error: File not found")
 
 
+#
+# Users
+#
 
-
-  #[
-
-      Users
-
-  ]#
 
   get "/users":
     createTFD()
@@ -605,13 +602,10 @@ routes:
     resp("Error: Something went wrong")
 
 
+#
+# Blog
+#
 
-
-  #[
-
-      Blog
-
-  ]#
 
   get "/blogpagenew":
     createTFD()
@@ -683,13 +677,10 @@ routes:
     resp genPageBlog(c, blogid)
 
 
+#
+# Pages
+#
 
-
-  #[
-
-      Pages
-
-  ]#
 
   get "/pagenew":
     createTFD()
@@ -760,11 +751,11 @@ routes:
     resp genPage(c, pageid)
 
 
-  #[
+#
+# Sitemap
+#
 
-      Sitemap
 
-  ]#
   get "/sitemap.xml":
     writeFile("public/sitemap.xml", genSitemap())
     sendFile("public/sitemap.xml")
