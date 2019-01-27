@@ -329,7 +329,7 @@ proc login(c: var TData, email, pass: string, totp: int): tuple[b: bool, s: stri
     when not defined(release):
       echo "TOTP SERVER: " & $totpServerSide
       echo "TOTP USER  : " & $totp
-    if totp != totpServerSide:
+    if totp != totpServerSide and not defined(demo):
       info("Login failed. 2 Factor Authentication number is invalid or expired.")
       return (false, "2 Factor Authentication number is invalid or expired")
 
