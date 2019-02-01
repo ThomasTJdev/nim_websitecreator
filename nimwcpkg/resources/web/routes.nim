@@ -538,14 +538,16 @@ routes:
     if emailExist != "":
       redirect("/error/" & encodeUrl("Error: A user with that email does already exists"))
 
-    let salt = makeSalt()
-    let passwordOriginal = randomString(12)
-    let password = makePassword(passwordOriginal, salt)
-    let secretUrl = randomStringDigitAlpha(99)
+    let
+      salt = makeSalt()
+      passwordOriginal = $rand(10_00_00_00_00_01.int..89_99_99_99_99_98.int)
+      password = makePassword(passwordOriginal, salt)
+      secretUrl = repeat($rand(10_00_00_00_00_00_00_00_00.int..int.high), 5)
+      twoFa = $rand(10_00_00_01.int..89_99_99_98.int)
 
-    let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, salt, secretUrl) VALUES (?, ?, ?, ?, ?, ?)", @"name", emailReady, @"status", password, salt, secretUrl)
+    let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, 2fa, salt, secretUrl) VALUES (?, ?, ?, ?, ?, ?, ?)", @"name", emailReady, @"status", password, twoFa, salt, secretUrl)
 
-    asyncCheck sendEmailActivationManual(emailReady, @"name", passwordOriginal, "/users/activate?id=" & $userID & "&ident=" & secretUrl, c.username)
+    asyncCheck sendEmailActivationManual(emailReady, @"name", passwordOriginal, twoFa, "/users/activate?id=" & $userID & "&ident=" & secretUrl, c.username)
 
     redirect("/users")
 
