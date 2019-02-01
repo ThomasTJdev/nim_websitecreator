@@ -37,7 +37,7 @@ const
     create table if not exists session(
       id           integer           primary key,
       ip           inet              not null,
-      key          $#                not null,
+      key          varchar(300)      not null,
       userid       integer           not null,
       lastModified timestamp         not null     default $1,
       foreign key (userid) references person(id)
