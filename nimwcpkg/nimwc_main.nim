@@ -8,7 +8,7 @@
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
-  # gatabase,
+  base32, # gatabase,
   oswalkdir as oc,
 
   resources/administration/create_adminuser,
