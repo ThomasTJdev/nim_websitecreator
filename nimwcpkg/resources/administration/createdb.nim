@@ -22,7 +22,7 @@ const
       id         integer       primary key,
       name       varchar(60)   not null,
       password   varchar(300)  not null,
-      2fa        varchar(8)    not null,
+      twofa      varchar(8)    not null,
       email      varchar(254)  not null,
       creation   timestamp     not null           default $1,
       modified   timestamp     not null           default $1,

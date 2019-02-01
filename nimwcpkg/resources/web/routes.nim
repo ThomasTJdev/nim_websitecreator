@@ -545,7 +545,7 @@ routes:
       secretUrl = repeat($rand(10_00_00_00_00_00_00_00_00.int..int.high), 5)
       twoFa = $rand(10_00_00_01.int..89_99_99_98.int)
 
-    let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, 2fa, salt, secretUrl) VALUES (?, ?, ?, ?, ?, ?, ?)", @"name", emailReady, @"status", password, twoFa, salt, secretUrl)
+    let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, twofa, salt, secretUrl) VALUES (?, ?, ?, ?, ?, ?, ?)", @"name", emailReady, @"status", password, twoFa, salt, secretUrl)
 
     asyncCheck sendEmailActivationManual(emailReady, @"name", passwordOriginal, twoFa, "/users/activate?id=" & $userID & "&ident=" & secretUrl, c.username)
 
