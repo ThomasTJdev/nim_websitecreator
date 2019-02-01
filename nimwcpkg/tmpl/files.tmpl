@@ -1,6 +1,6 @@
 #? stdtmpl | standard
 #
-#import mimetypes, ospaths, os, md5
+#import mimetypes, ospaths, os
 #
 #template `%`(idx: untyped): untyped =
 #  row[idx]
@@ -54,7 +54,6 @@
         <th>Filename</th>
         <th>MimeType</th>
         <th>Size</th>
-        <th>MD5 CheckSum</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -64,7 +63,6 @@
         <th>Filename</th>
         <th>MimeType</th>
         <th>Size</th>
-        <th>MD5 CheckSum</th>
         <th>Delete</th>
       </tr>
     </tfoot>
@@ -79,7 +77,6 @@
       </td>
       <td> ${ mime.getMimetype(file.splitFile.ext).toUpperAscii } </td>
       <td> ${ file.getFileSize } </td>
-      <td> ${ file.readFile.getMD5 } </td>
       <td class="is-danger is-narrow">
         <span class="deleteFile delete" data-url="/files/delete/publicimage/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
@@ -100,7 +97,6 @@
         <th>Filename</th>
         <th>MimeType</th>
         <th>Size</th>
-        <th>MD5 CheckSum</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -110,7 +106,6 @@
         <th>Filename</th>
         <th>MimeType</th>
         <th>Size</th>
-        <th>MD5 CheckSum</th>
         <th>Delete</th>
       </tr>
     </tfoot>
@@ -125,7 +120,6 @@
       </td>
       <td> ${ mime.getMimetype(file.splitFile.ext).toUpperAscii } </td>
       <td> ${ file.getFileSize } </td>
-      <td> ${ file.readFile.getMD5 } </td>
       <td class="is-danger is-narrow">
         <span class="deleteFile delete" data-url="/files/delete/private/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
@@ -146,7 +140,6 @@
         <th>Filename</th>
         <th>MimeType</th>
         <th>Size</th>
-        <th>MD5 CheckSum</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -156,7 +149,6 @@
         <th>Filename</th>
         <th>MimeType</th>
         <th>Size</th>
-        <th>MD5 CheckSum</th>
         <th>Delete</th>
       </tr>
     </tfoot>
@@ -171,7 +163,6 @@
       </td>
       <td> ${ mime.getMimetype(file.splitFile.ext).toUpperAscii } </td>
       <td> ${ file.getFileSize } </td>
-      <td> ${ file.readFile.getMD5 } </td>
       <td class="is-danger is-narrow">
         <span class="deleteFile delete" data-url="/files/delete/public/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
