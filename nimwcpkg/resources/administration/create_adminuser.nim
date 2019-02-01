@@ -30,7 +30,7 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
     salt = makeSalt()
     password = makePassword(iPwd, salt)
 
-  discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", $iName, $iEmail, password, salt, "Admin")
+  discard insertID(db, sql"INSERT INTO person (name, email, password, 2fa, salt, status) VALUES (?, ?, ?, ?, ?, ?)", $iName, $iEmail, password, $rand(10_00_00_01.int..89_99_99_98.int), salt, "Admin")
 
   info("Admin added.")
 
@@ -47,7 +47,7 @@ proc createTestUser*(db: DbConn) =
       salt = makeSalt()
       password = makePassword("test", salt)
 
-    discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", "Testuser", "test@test.com", password, salt, "Moderator")
+    discard insertID(db, sql"INSERT INTO person (name, email, password, 2fa, salt, status) VALUES (?, ?, ?, ?, ?, ?)", "Testuser", "test@test.com", password, 000001..99999998.rand, salt, "Moderator")
 
     info("Test user added!.")
 
