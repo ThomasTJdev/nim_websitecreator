@@ -69,7 +69,7 @@ macro configExists(): untyped =
     quit()
 
 configExists()
-
+randomize()
 
 #
 # Macros
