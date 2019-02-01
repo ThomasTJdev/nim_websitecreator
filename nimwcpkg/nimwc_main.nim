@@ -313,7 +313,7 @@ proc login(c: var TData, email, pass: string, totp: int): tuple[b: bool, s: stri
   if email.len == 0 or pass.len == 0:
     return (false, "Empty password or username")
 
-  const query = sql"SELECT id, name, password, email, salt, status, secretUrl FROM person WHERE email = ? AND status <> 'Deactivated'"
+  const query = sql"SELECT id, name, password, email, salt, status, secretUrl, twofa FROM person WHERE email = ? AND status <> 'Deactivated'"
 
   for row in fastRows(db, query, toLowerAscii(email)):
     if row[6] != "":
@@ -324,11 +324,11 @@ proc login(c: var TData, email, pass: string, totp: int): tuple[b: bool, s: stri
       info("Login failed. Your account is not active.")
       return (false, "Your account is not active")
 
-    let totpServerSide = newTotp(row[1].toLowerAscii).now()
+    let totpServerSide = $newTotp(row[7]).now()
     when not defined(release):
-      echo "TOTP SERVER: " & $totpServerSide
+      echo "TOTP SERVER: " & totpServerSide
       echo "TOTP USER  : " & $totp
-    if totp != totpServerSide and not defined(demo):
+    if $totp != totpServerSide and not defined(demo):
       info("Login failed. 2 Factor Authentication number is invalid or expired.")
       return (false, "2 Factor Authentication number is invalid or expired")
 
