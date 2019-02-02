@@ -529,6 +529,7 @@ include "tmpl/sitemap.tmpl"
 include "tmpl/logs.tmpl"
 include "tmpl/serverinfo.tmpl"
 include "tmpl/config.tmpl"
+include "tmpl/tos.tmpl"
 
 
 #
