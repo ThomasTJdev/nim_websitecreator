@@ -319,6 +319,10 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     resp genServerInfo()
 
+  get "/settings/tos":
+    createTFD()
+    resp genTos()
+
   get "/settings/database/backup":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
