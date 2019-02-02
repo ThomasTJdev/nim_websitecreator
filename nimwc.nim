@@ -116,7 +116,7 @@ proc handler() {.noconv.} =
   ## Catch ctrl+c from user
   runInLoop = false
   kill(nimhaMain)
-  styledEcho(fgYellow, bgBlack, "CTRL+C Pressed, NimWC is shutting down.")
+  styledEcho(fgYellow, bgBlack, "CTRL+C Pressed, NimWC is shutting down, bye.")
   quit()
 
 setControlCHook(handler)

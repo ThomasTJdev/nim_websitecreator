@@ -546,7 +546,7 @@ routes:
       salt = makeSalt()
       passwordOriginal = $rand(10_00_00_00_00_01.int..89_99_99_99_99_98.int)
       password = makePassword(passwordOriginal, salt)
-      secretUrl = repeat($rand(10_00_00_00_00_00_00_00_00.int..int.high), 5)
+      secretUrl = repeat($rand(10_00_00_00_00_00_00_00_00.int..int.high), 5).center(99, rand(toSeq('a'..'z')))
       twoFa = base32.encode($rand(10_01.int..89_98.int))
 
     let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, salt, secretUrl, twofa) VALUES (?, ?, ?, ?, ?, ?, ?)", @"name", emailReady, @"status", password, salt, secretUrl, twoFa)
