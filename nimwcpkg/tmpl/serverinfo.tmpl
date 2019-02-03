@@ -4,10 +4,20 @@
 #
 #proc genServerInfo(): string =
 #  result = ""
-<center>
-  <h1>Server Info</h1>
-</center>
-<table border=1 style="width:99%">
+<h1 class="has-text-centered">Server Info</h1>
+<table border=1 style="width:99%" class="table is-bordered is-striped is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>Name</th>
+      <th>Value</th>
+    </tr>
+  </tfoot>
   <tbody>
   <tr>
     <td> <b>System</b> </td>            <td>
@@ -65,6 +75,15 @@
   </tr>
   <tr>
     <td> <b>Nim Version</b> </td>       <td>$NimVersion</td>
+  </tr>
+  <tr>
+    <td> <b>Firejail Version</b> </td>  <td>
+    # when not defined(demo):
+      $firejailVersion
+    # else:
+      <i> Not available on Demo </i>
+    # end when
+    </td>
   </tr>
   <tr>
     <td> <b>Gatabase Version</b> </td>  <td>gatabaseVersion</td>
@@ -146,8 +165,3 @@
   </tr>
 </tbody>
 </table>
-
-<style>
-  /* Most Linux have at leat 1 of those fonts */
-  html { font-family: Fira Code, Ubuntu, Oxygen, Droid }
-</style>
