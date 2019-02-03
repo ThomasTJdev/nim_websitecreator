@@ -307,7 +307,7 @@ routes:
   get "/settings/logs":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-    resp genViewLogs(logcontent=readFile(logfile))
+    resp genMainAdmin(c, genViewLogs(logcontent=readFile(logfile)))
 
   get "/settings/forcerestart":
     createTFD()
@@ -317,16 +317,24 @@ routes:
   get "/settings/serverinfo":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-    resp genServerInfo()
+    resp genMainAdmin(c, genServerInfo())
 
   get "/settings/tos":
     createTFD()
     resp genTos()
 
-  get "/settings/database/backup":
+  get "/settings/firejail":
     createTFD()
-    restrictAccessTo(c, [Admin, Moderator])
-    resp "TODO: Gatabase has Backup feature builtin"
+    when defined(demo):
+      restrictAccessTo(c, [Admin, Moderator]) # On Demo you can see the feature
+    else:
+      restrictAccessTo(c, [Admin])
+    resp genMainAdmin(c, genFirejail())
+
+  # get "/settings/database/backup":
+  #   createTFD()
+  #   restrictAccessTo(c, [Admin, Moderator])
+  #   resp "TODO: Gatabase has Backup feature builtin"
 
 
 #
@@ -544,7 +552,7 @@ routes:
 
     let
       salt = makeSalt()
-      passwordOriginal = $rand(10_00_00_00_00_01.int..89_99_99_99_99_98.int)
+      passwordOriginal = $rand(10_00_00_00_00_01.int..89_99_99_99_99_98.int) # User Must change it anyways.
       password = makePassword(passwordOriginal, salt)
       secretUrl = repeat($rand(10_00_00_00_00_00_00_00_00.int..int.high), 5).center(99, rand(toSeq('a'..'z')))
       twoFa = base32.encode($rand(10_01.int..89_98.int))
