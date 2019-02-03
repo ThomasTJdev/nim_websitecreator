@@ -1,0 +1,202 @@
+#? stdtmpl | standard
+#
+#proc genFirejail(): string =
+#  result = ""
+<div>
+  <h1 class="has-text-centered">Self-Firejailing Web Framework</h1>
+  <p class="has-text-centered">
+    <a href="https://firejail.wordpress.com/features-3/#filesystem">Firejail</a> security is built-in on the Core of <a href="https://nimwc.org">NimWC.</a>
+  </p> <br>
+  <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>Name & Status</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>Name & Status</th>
+        <th>Description</th>
+      </tr>
+    </tfoot>
+    <tbody>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > noDvd
+        </label>
+      </td>
+      <td> No DVD/CD/BlueRay hardware access. The DVD from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > noSound
+        </label>
+      </td>
+      <td> No Sound hardware access. The Sound from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > noAutoPulse
+        </label>
+      </td>
+      <td> No <a href="https://www.freedesktop.org/wiki/Software/PulseAudio">PulseAudio</a> Sound access (<code>~/.config/pulse/*</code>). The PulseAudio from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > no3d
+        </label>
+      </td>
+      <td> No 3D Accelerated hardware (GPU) access. The GPU from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > noX
+        </label>
+      </td>
+      <td> No X Video software (Xorg) access. The X from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > noVideo
+        </label>
+      </td>
+      <td> No Video hardware access, runs with no Video hardware. The Video from outside of NimWC are untouched. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > noDbus
+        </label>
+      </td>
+      <td> No <a href-"https://www.freedesktop.org/wiki/Software/dbus">D-Bus</a> (System Bus Protocol) access. The D-Bus from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > noShell
+        </label>
+      </td>
+      <td> No System Shell access, runs without Shell. The Shell from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > noDebuggers
+        </label>
+      </td>
+      <td> No Source Code Debuggers like <a href="https://www.gnu.org/software/gdb">GDB</a>, <a href="https://strace.io">STrace</a>, etc access. The Debuggers from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > noMachineId
+        </label>
+      </td>
+      <td> No Machine ID unique identifier config (<code>/etc/machine-id</code>) access. The Machine ID from outside of NimWC are untouched. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > noRoot
+        </label>
+      </td>
+      <td> No root, no one can become root ever from inside of NimWC. Normal root and sudo from outside of NimWC are untouched. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > noAllusers
+        </label>
+      </td>
+      <td> No home directories from other users are visible from inside of NimWC. The home directory of the user running NimWC are untouched. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > noU2f
+        </label>
+      </td>
+      <td> No <a href="https://github.com/hillbrad/U2FReviews#yubico-u2f-security-key">U2F Universal 2 Factor Authentication hardware</a> access. The U2F from outside of NimWC are untouched. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > useRandomMac
+        </label>
+      </td>
+      <td> Use a Randomized <a href="https://en.wikipedia.org/wiki/MAC_address">MAC hardware address</a> for NimWC. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > privateTmp
+        </label>
+      </td>
+      <td> Use a private temporary unique autogenerated <a href="https://en.wikipedia.org/wiki/Tmpfs">TmpFS</a> for <code>/tmp/</code>. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > privateCache
+        </label>
+      </td>
+      <td> Use a private temporary unique autogenerated <a href="https://en.wikipedia.org/wiki/Tmpfs">TmpFS</a> for <code>~/.cache/</code>. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > privateDev
+        </label>
+      </td>
+      <td> Use a private temporary unique autogenerated <a href="https://en.wikipedia.org/wiki/Tmpfs">TmpFS</a> for <code>/dev/</code>. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > overlayClean
+        </label>
+      </td>
+      <td> Force delete of all private temporary autogenerated <a href="https://en.wikipedia.org/wiki/Tmpfs">TmpFS</a>. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" checked > forceEnUsUtf8
+        </label>
+      </td>
+      <td> Force <code>EN</code> English and <code>UTF-8</code> Unicode inside of NimWC. This sets several environment variables to <code>EN</code> and <code>UTF-8</code> inside of NimWC. </td>
+    </tr>
+    </tbody>
+  </table>
+  <a title="Save Firejail config" autofocus
+  # when not defined(demo):
+    href="/settings/firejail/save"
+  # end when
+    >
+    <button class="btn btn-secondary button is-primary is-fullwidth">Save</button>
+  </a>
+  <hr>
+  <h5 class="has-text-centered">Firejail Status</h5>
+  <div class="tags">
+    # for capability in firejailFeatures.pairs:
+        <span
+    # if capability.val.getBool:
+        style="color:black" title="OK" class="tag is-rounded is-success is-capitalized"
+    # else:
+        style="color:yellow" title="Fail (Not Installed)" class="tag is-danger is-uppercase"
+    # end if
+        > $capability.key </span>
+    # end for
+  </div>
+  <div class="notification is-info">
+    You are protected by Firejail version $firejailVersion
+    , <i>stay safe and use <a href="https://nim-lang.org/learn.html">Nim</a></i>.
+  </div>
+</div>
