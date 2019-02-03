@@ -1,6 +1,3 @@
-#        (c) Copyright 2017 Thomas Toftgaard Jarløv
-#        All rights reserved.
-
 import
   os, parsecfg, strutils, logging,
   ../administration/create_standarddata,

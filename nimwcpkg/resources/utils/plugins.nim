@@ -1,4 +1,3 @@
-# Copyright 2019 - Thomas T. Jarløv
 import strutils, osproc, os, json
 
 const

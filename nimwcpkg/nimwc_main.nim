@@ -2,7 +2,6 @@
 #        (c) Copyright 2019 Thomas Toftgaard Jarløv
 #        Look at LICENSE for more info.
 #        All rights reserved.
-#
 {.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
 
 import
@@ -529,9 +528,9 @@ include "tmpl/main.tmpl"
 include "tmpl/sitemap.tmpl"
 include "tmpl/logs.tmpl"
 include "tmpl/serverinfo.tmpl"
-include "tmpl/config.tmpl"
 include "tmpl/tos.tmpl"
 include "tmpl/firejail.tmpl"
+include "tmpl/editconfig.tmpl"
 
 
 #

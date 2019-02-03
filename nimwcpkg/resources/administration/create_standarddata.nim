@@ -1,4 +1,3 @@
-# Copyright 2019 - Thomas T. Jarløv
 import
   os, strutils, rdstdin, logging,
   ../utils/logging_nimwc
