@@ -1,4 +1,3 @@
-# Copyright 2019 - Thomas T. Jarløv
 
 routes:
   #error Http404:
@@ -330,6 +329,24 @@ routes:
     else:
       restrictAccessTo(c, [Admin])
     resp genMainAdmin(c, genFirejail())
+
+  get "/settings/config":
+    createTFD()
+    restrictAccessTo(c, [Admin])
+    let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
+    resp genMainAdmin(c, genEditConfig(readFile(konfig)))
+
+  post "/settings/config/save":
+    createTFD()
+    restrictAccessTo(c, [Admin])
+    try:
+      discard loadConfig(newStringStream(@"config")) # Not a strong Validation.
+    except:
+      resp $getCurrentExceptionMsg()
+    let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
+    writeFile(konfig, strip(@"config"))
+    redirect("/settings")
+
 
   # get "/settings/database/backup":
   #   createTFD()

@@ -98,6 +98,11 @@
             # end when
             >Force Restart</a></div>
             <div class="column"><a href="/settings/serverinfo" class="btn btn-outline-primary button is-small" title="Server Info">Info</a></div>
+            <div class="column"><a  class="btn btn-outline-primary button is-small" title="Server Config"
+            # when not defined(demo):
+              href="/settings/config"
+            # end when
+            >Config</a></div>
           </div>
           <hr>
           <label class="label">Database</label>
@@ -120,9 +125,9 @@
 
           # when defined(demo):
             <div class="notification is-danger" style="padding-top: 15px;">
-              <p title="The test user does not have access to edit the Settings, JS, CSS and HTML of the Core">
+              <b class="is-uppercase has-text-warning" title="The test user does not have access to edit the Settings, JS, CSS and HTML of the Core">
                 Some options are disabled on Demo!.
-              </p>
+              </b>
             </div>
           # end when
 
