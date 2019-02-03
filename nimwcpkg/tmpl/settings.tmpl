@@ -90,15 +90,6 @@
             >Edit Custom JS</a></div>
           </div>
           <hr>
-          <label class="label">Database</label>
-          <div class="buttons columns is-mobile">
-            <div class="column"><a class="btn btn-outline-primary button is-small" title="Force Backup Database"
-            # when not defined(demo):
-            href="/settings/database/backup"
-            # end when
-            >Backup</a></div>
-          </div>
-          <hr>
           <label class="label">Server</label>
           <div class="buttons columns is-mobile">
             <div class="column"><a class="btn btn-outline-primary button is-small" title="Force Server Restart, 1~9 Seconds delay"
@@ -108,6 +99,21 @@
             >Force Restart</a></div>
             <div class="column"><a href="/settings/serverinfo" class="btn btn-outline-primary button is-small" title="Server Info">Info</a></div>
           </div>
+          <hr>
+          <label class="label">Database</label>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a class="btn btn-outline-primary button is-small" title="Force Backup Database"
+            # when not defined(demo):
+            href="/settings/database/backup"
+            # end when
+            >Backup</a></div>
+          </div>
+          <hr>
+          <label class="label">Security</label>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a href="/settings/firejail" class="btn btn-outline-primary button is-small" title="Firejail security is built-in on the Core of NimWC">Firejail</a></div>
+          </div>
+          <hr>
 
 
           # end if
