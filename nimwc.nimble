@@ -1,6 +1,6 @@
 # Package
 version       = "4.0.12"
-author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev)"
+author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev) & Juan Carlos (https://github.com/juancarlospaco)"
 description   = "Generate and host a website. Run the package and access your new webpage."
 license       = "GPLv3"
 bin           = @["nimwc"]

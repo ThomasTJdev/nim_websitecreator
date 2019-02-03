@@ -1,4 +1,4 @@
-# Copyright 2018 - Thomas T. Jarløv
+# Copyright 2019 - Thomas T. Jarløv
 import
   os, strutils, rdstdin, logging,
   ../utils/logging_nimwc
@@ -167,7 +167,7 @@ const
   footerClean = """
   <footer class="footer">
     <div id="footerInside" class="content has-text-centered">
-      <p> &#169; 2018</p>
+      <p> &#169; 2019</p>
     </div>
   </footer>
   """
@@ -181,7 +181,7 @@ const
             Copyright
           </h5>
           <p>
-            <p>&#169; 2018 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a></p>
+            <p>&#169; 2019 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a> & <a href="https://github.com/juancarlospaco">Juan Carlos</a></p>
           </p>
         </div>
         <div class="column col-12 col-md-6 footerMiddle">

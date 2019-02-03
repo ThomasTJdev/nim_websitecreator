@@ -1,5 +1,5 @@
 #        TTJ
-#        (c) Copyright 2018 Thomas Toftgaard Jarløv
+#        (c) Copyright 2019 Thomas Toftgaard Jarløv
 #        Look at LICENSE for more info.
 #        All rights reserved.
 #
@@ -43,7 +43,7 @@ const
   startup_msg = """
   Package:        Nim Website Creator
   Description:    Website creator build with Nim
-  Author name:    Thomas Toftgaard Jarløv (TTJ)
+  Author name:    Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (https://github.com/juancarlospaco)
   Current time:   """
 
   checkCompileOptions* = ["",
