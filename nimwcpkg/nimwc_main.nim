@@ -8,7 +8,7 @@
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
-  base32, # gatabase,
+  base32, firejail, # gatabase,
   oswalkdir as oc,
 
   resources/administration/create_adminuser,
@@ -531,6 +531,7 @@ include "tmpl/logs.tmpl"
 include "tmpl/serverinfo.tmpl"
 include "tmpl/config.tmpl"
 include "tmpl/tos.tmpl"
+include "tmpl/firejail.tmpl"
 
 
 #
