@@ -2,19 +2,11 @@
 #
 #proc genViewLogs(logcontent: string): string =
 #  result = ""
-<center>
-  <h1>Logs</h1>
-  <textarea name="logs" id="logs" title="Log Size: $logcontent.splitLines.len Lines." dir="auto" readonly autofocus spellcheck style="width:99%;height:90%">
-    $logcontent
-  </textarea>
-  <br>
-  <a class="btn btn-outline-primary button is-small" title="Copy Logs" onclick="document.querySelector('#logs').select();document.execCommand('copy')">
-    <button>Copy</button>
-  </a>
-</center>
-
-<style>
-  /* Most Linux have at leat 1 of those fonts */
-  html { font-family: Fira Code, Ubuntu, Oxygen, Droid }
-  textarea { font-family: "Ubuntu Mono", "Oxygen Mono", Monospace }
-</style>
+<h1 class="has-text-centered">Logs</h1>
+<textarea name="logs" id="logs" title="Log Size: $logcontent.splitLines.len Lines." dir="auto" readonly autofocus spellcheck style="width:99% !important;height:90% !important">
+  $logcontent
+</textarea>
+<br>
+<a title="Copy Logs" onclick="document.querySelector('#logs').select();document.execCommand('copy')">
+  <button class="btn btn-outline-primary button is-small">Copy</button>
+</a>
