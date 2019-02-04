@@ -17,35 +17,35 @@ const
   ]  ## Bash Commands to Update NimWC.
 
   compile_start_msg =  """Compiling, Please wait...
-  - Using compile options from *.nim.cfg
-  - Using params: """  ## Message to show when started Compiling.
+    - Using compile options from *.nim.cfg
+    - Using params: """  ## Message to show when started Compiling.
 
   compile_ok_msg =  """Compiling done!.
 
-  - To start Nim Website Creator and access at http://127.0.0.1:<port>
-    # Manually compiled
-    ./nimwc
+    - To start Nim Website Creator and access at http://127.0.0.1:<port>
+      # Manually compiled
+      ./nimwc
 
-    # Through nimble, then just run with symlink
-    nimwc
+      # Through nimble, then just run with symlink
+      nimwc
 
-  - To add an admin user, append args:
-    ./nimwc newuser -u:name -p:password -e:email
+    - To add an admin user, append args:
+      ./nimwc newuser -u:name -p:password -e:email
 
-  - To insert standard data in the database, append args:
-    ./nimwc insertdata
+    - To insert standard data in the database, append args:
+      ./nimwc insertdata
 
-  - To insert standard data in the database:
-    ./nimwc --insertdata
+    - To insert standard data in the database:
+      ./nimwc --insertdata
 
-  - Access Settings page at http://127.0.0.1:<port>/settings
+    - Access Settings page at http://127.0.0.1:<port>/settings
   """  ## Message to show when finished Compiling OK.
 
   compile_fail_msg = """Compiling Failed.
 
-  - A Compile-time or Configuration error occurred.
-    You can check your source code with: nim check
-    Check the Configuration of NimWC and its Plugins.
+    - A Compile-time or Configuration error occurred.
+      You can check your source code with: nim check
+      Check the Configuration of NimWC and its Plugins.
   """  ## Message to show when Compiling Failed.
 
   doc = """
@@ -132,7 +132,7 @@ proc launcherActivated() =
 
   when defined(noFirejail):
     nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
-
+    {. warning: "Firejail is Disabled, Running Unsecure." .}
     while runInLoop:
       if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
         kill(nimhaMain)

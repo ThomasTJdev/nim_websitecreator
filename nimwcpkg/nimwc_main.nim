@@ -3,6 +3,7 @@
 #        Look at LICENSE for more info.
 #        All rights reserved.
 {.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
+# when defined(demo): {.passC: "-flto -ffast-math -march=native".}
 
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
@@ -27,10 +28,11 @@ import
 when defined(sqlite): import db_sqlite
 else:                 import db_postgres
 
-when not defined(noWebp): import webp
+when defined(noWebp): {. warning: "WebP is Disabled, No Image Optimizations." .}
+else:                 import webp
 
 when defined(windows):
-  quit("Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows")
+  {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
 
 
 const
@@ -423,9 +425,8 @@ template statusIntToCheckbox(status, value: string): string =
 
 
 when defined(demo):
+  {. hint: "Demo is Enabled, Database Resets Automatically every hour." .}
   proc resetDB(db: DbConn) {.async.} =
-    ## When defined(demo) activate proc
-    ##
     ## The database will be overwritten with standard data every hour.
     ##
     ## This proc is used when the platform needs to run as a test or in demo-mode with public access.
