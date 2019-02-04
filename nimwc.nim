@@ -1,5 +1,7 @@
 import os, osproc, rdstdin, sequtils, strutils, terminal, times, json
 
+when defined(windows):
+  {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
 when defined(release): {.passL: "-s".}  # Force strip all on the resulting Binary.
 
 const

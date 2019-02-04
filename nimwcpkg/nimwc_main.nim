@@ -2,6 +2,8 @@
 #        (c) Copyright 2019 Thomas Toftgaard Jarløv
 #        Look at LICENSE for more info.
 #        All rights reserved.
+when defined(windows):
+  {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
 {.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
 # when defined(demo): {.passC: "-flto -ffast-math -march=native".}
 
@@ -30,9 +32,6 @@ else:                 import db_postgres
 
 when defined(noWebp): {. warning: "WebP is Disabled, No Image Optimizations." .}
 else:                 import webp
-
-when defined(windows):
-  {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
 
 
 const
