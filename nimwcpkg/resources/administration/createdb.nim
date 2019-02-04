@@ -181,7 +181,7 @@ proc generateDB*() =
   if not db.tryExec(blogTable):
     info("Database: blog table already exists")
 
-  # Files (AKA Images)
+  # Files
   if not db.tryExec(filesTable):
     info("Database: Files (AKA Images) table already exists")
 
