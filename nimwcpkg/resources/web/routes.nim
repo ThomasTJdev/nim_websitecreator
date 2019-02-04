@@ -448,7 +448,9 @@ routes:
     if not fileExists(filepath):
       resp("Error: File was not found")
 
-    var downloadCount = parseInt(getValue(db, sql"SELECT downloadCount FROM files where url = ? and id = ?", filepath, c.userid))
+    var downloadCount =
+      try: parseInt(getValue(db, sql"SELECT downloadCount FROM files where url = ? and id = ?", filepath, c.userid))
+      except: 0
     inc downloadCount
     exec(db, sql"UPDATE files SET downloadCount = ? where url = ? and id = ?", downloadCount, filepath, c.userid)
     sendFile(filepath)
@@ -666,26 +668,17 @@ routes:
     ## Get a file
     createTFD()
     let filename = decodeUrl(@"filename")
-
     var filepath = storageEFS & "/users/" & filename
-
-    if not fileExists(filepath):
-      resp("")
-
-    var downloadCount = parseInt(getValue(db, sql"SELECT downloadCount FROM files where url = ? and id = ?", filepath, c.userid))
-    inc downloadCount
-    exec(db, sql"UPDATE files SET downloadCount = ? where url = ? and id = ?", downloadCount, filepath, c.userid)
+    if not fileExists(filepath): resp("")
     sendFile(filepath)
 
 
   post "/users/photo/upload":
     ## Uploads a new profile image for a user
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
 
-    if not c.loggedIn:
-      redirect("/")
+    if not c.loggedIn: redirect("/")
 
     let path = storageEFS & "/users/" & c.userid
     let base64 = split(c.req.body, ",")[1]
@@ -694,10 +687,7 @@ routes:
       writeFile(path & ".txt", base64)
       discard execProcess("base64 -d > " & path & ".png < " & path & ".txt")
       removeFile(path & ".txt")
-      if fileExists(path & ".png"):
-        exec(db, sql"INSERT INTO files(id, url, downloadCount) VALUES (?, ?, ?)", c.userid, path, 0)
-        resp("File saved")
-
+      if fileExists(path & ".png"): resp("File saved")
     except:
       resp("Error")
 
