@@ -85,12 +85,13 @@ const
 
   compileOptions = ["",
     when defined(adminnotify): " -d:adminnotify",
-    when defined(dev): " -d:dev",
-    when defined(devemailon): " -d:devemailon",
-    when defined(demo): " -d:demo",
-    when defined(ssl): " -d:ssl",
-    when defined(sqlite): " -d:sqlite",
-    when defined(noFields): " -d:noFields",
+    when defined(dev):         " -d:dev",
+    when defined(devemailon):  " -d:devemailon",
+    when defined(demo):        " -d:demo",
+    when defined(ssl):         " -d:ssl",
+    when defined(sqlite):      " -d:sqlite",
+    when defined(noFields):    " -d:noFields",
+    when defined(noWebp):      " -d:noWebp",
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   nimwc_version =
