@@ -76,12 +76,14 @@
   <tr>
     <td> <b>Nim Version</b> </td>       <td>$NimVersion</td>
   </tr>
-  <tr>
-    <td> <b>Firejail Version</b> </td>  <td>$firejailVersion</td>
-  </tr>
-  <tr>
-    <td> <b>Firejail Status</b> </td>   <td>$firejailFeatures.pretty</td>
-  </tr>
+  # when not defined(noFirejail):
+    <tr>
+      <td> <b>Firejail Version</b> </td>  <td>$firejailVersion</td>
+    </tr>
+    <tr>
+      <td> <b>Firejail Status</b> </td>   <td>$firejailFeatures.pretty</td>
+    </tr>
+  # end when
   <tr>
     <td> <b>Gatabase Version</b> </td>  <td>gatabaseVersion</td>
   </tr>
