@@ -1,6 +1,8 @@
 #? stdtmpl | standard
 #
-#proc genFirejail(): string =
+#proc genFirejail(noDvd,noSound,noAutoPulse,no3d,noX,noVideo,noDbus,noShell,
+#                 noDebuggers,noMachineId,noRoot,noAllusers,noU2f,useRandomMac,
+#                 privateTmp,privateCache,privateDev,overlayClean,forceEnUsUtf8: bool): string =
 #  result = ""
 <div>
   <h1 class="has-text-centered">Self-Firejailing Web Framework</h1>
@@ -24,7 +26,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > noDvd
+          <input type="checkbox"
+          # if noDvd:
+            checked
+          # end if
+          > noDvd
         </label>
       </td>
       <td> No DVD/CD/BlueRay hardware access. The DVD from outside of NimWC are untouched.</td>
@@ -32,7 +38,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > noSound
+          <input type="checkbox"
+          # if noSound:
+            checked
+          # end if
+          > noSound
         </label>
       </td>
       <td> No Sound hardware access. The Sound from outside of NimWC are untouched.</td>
@@ -40,7 +50,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > noAutoPulse
+          <input type="checkbox"
+          # if noAutoPulse:
+            checked
+          # end if
+          > noAutoPulse
         </label>
       </td>
       <td> No <a href="https://www.freedesktop.org/wiki/Software/PulseAudio">PulseAudio</a> Sound access (<code>~/.config/pulse/*</code>). The PulseAudio from outside of NimWC are untouched.</td>
@@ -48,7 +62,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > no3d
+          <input type="checkbox"
+          # if no3d:
+            checked
+          # end if
+          > no3d
         </label>
       </td>
       <td> No 3D Accelerated hardware (GPU) access. The GPU from outside of NimWC are untouched.</td>
@@ -56,7 +74,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > noX
+          <input type="checkbox"
+          # if noX:
+            checked
+          # end if
+          > noX
         </label>
       </td>
       <td> No X Video software (Xorg) access. The X from outside of NimWC are untouched.</td>
@@ -64,7 +86,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > noVideo
+          <input type="checkbox"
+          # if noVideo:
+            checked
+          # end if
+          > noVideo
         </label>
       </td>
       <td> No Video hardware access, runs with no Video hardware. The Video from outside of NimWC are untouched. </td>
@@ -72,7 +98,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > noDbus
+          <input type="checkbox"
+          # if noDbus:
+            checked
+          # end if
+          > noDbus
         </label>
       </td>
       <td> No <a href-"https://www.freedesktop.org/wiki/Software/dbus">D-Bus</a> (System Bus Protocol) access. The D-Bus from outside of NimWC are untouched.</td>
@@ -80,7 +110,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > noShell
+          <input type="checkbox"
+          # if noShell:
+            checked
+          # end if
+          > noShell
         </label>
       </td>
       <td> No System Shell access, runs without Shell. The Shell from outside of NimWC are untouched.</td>
@@ -88,7 +122,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > noDebuggers
+          <input type="checkbox"
+          # if noDebuggers:
+            checked
+          # end if
+          > noDebuggers
         </label>
       </td>
       <td> No Source Code Debuggers like <a href="https://www.gnu.org/software/gdb">GDB</a>, <a href="https://strace.io">STrace</a>, etc access. The Debuggers from outside of NimWC are untouched.</td>
@@ -96,7 +134,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > noMachineId
+          <input type="checkbox"
+          # if noMachineId:
+            checked
+          # end if
+          > noMachineId
         </label>
       </td>
       <td> No Machine ID unique identifier config (<code>/etc/machine-id</code>) access. The Machine ID from outside of NimWC are untouched. </td>
@@ -104,7 +146,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > noRoot
+          <input type="checkbox"
+          # if noRoot:
+            checked
+          # end if
+          > noRoot
         </label>
       </td>
       <td> No root, no one can become root ever from inside of NimWC. Normal root and sudo from outside of NimWC are untouched. </td>
@@ -112,7 +158,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > noAllusers
+          <input type="checkbox"
+          # if noAllusers:
+            checked
+          # end if
+          > noAllusers
         </label>
       </td>
       <td> No home directories from other users are visible from inside of NimWC. The home directory of the user running NimWC are untouched. </td>
@@ -120,7 +170,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > noU2f
+          <input type="checkbox"
+          # if noU2f:
+            checked
+          # end if
+          > noU2f
         </label>
       </td>
       <td> No <a href="https://github.com/hillbrad/U2FReviews#yubico-u2f-security-key">U2F Universal 2 Factor Authentication hardware</a> access. The U2F from outside of NimWC are untouched. 2 Factor Authentication Software are untouched. </td>
@@ -128,7 +182,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > useRandomMac
+          <input type="checkbox"
+          # if useRandomMac:
+            checked
+          # end if
+          > useRandomMac
         </label>
       </td>
       <td> Use a Randomized <a href="https://en.wikipedia.org/wiki/MAC_address">MAC hardware address</a> for NimWC. </td>
@@ -136,7 +194,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > privateTmp
+          <input type="checkbox"
+          # if privateTmp:
+            checked
+          # end if
+          > privateTmp
         </label>
       </td>
       <td> Use a private temporary unique autogenerated <a href="https://en.wikipedia.org/wiki/Tmpfs">TmpFS</a> for <code>/tmp/</code>. </td>
@@ -144,7 +206,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > privateCache
+          <input type="checkbox"
+          # if privateCache:
+            checked
+          # end if
+          > privateCache
         </label>
       </td>
       <td> Use a private temporary unique autogenerated <a href="https://en.wikipedia.org/wiki/Tmpfs">TmpFS</a> for <code>~/.cache/</code>. </td>
@@ -152,7 +218,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > privateDev
+          <input type="checkbox"
+          # if privateDev:
+            checked
+          # end if
+          > privateDev
         </label>
       </td>
       <td> Use a private temporary unique autogenerated <a href="https://en.wikipedia.org/wiki/Tmpfs">TmpFS</a> for <code>/dev/</code>. </td>
@@ -160,7 +230,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > overlayClean
+          <input type="checkbox"
+          # if overlayClean:
+            checked
+          # end if
+          > overlayClean
         </label>
       </td>
       <td> Force delete of all private temporary autogenerated <a href="https://en.wikipedia.org/wiki/Tmpfs">TmpFS</a>. </td>
@@ -168,7 +242,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox" checked > forceEnUsUtf8
+          <input type="checkbox"
+          # if forceEnUsUtf8:
+            checked
+          # end if
+          > forceEnUsUtf8
         </label>
       </td>
       <td> Force <code>EN</code> English and <code>UTF-8</code> Unicode inside of NimWC. This sets several environment variables to <code>EN</code> and <code>UTF-8</code> inside of NimWC. </td>
