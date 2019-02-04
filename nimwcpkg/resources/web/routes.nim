@@ -413,6 +413,9 @@ routes:
 
     try:
       writeFile(path, request.formData.getOrDefault("file[]").body)
+      when not defined(noWebp):
+        if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
+          echo cwebp(path, path, "text", quality=1)
       if fileExists(path):
         exec(db, sql"INSERT INTO files(id, url, downloadCount) VALUES (?, ?, ?)", c.userid, path, 0)
         resp("[\"/images/" & filename & "\"]")
@@ -447,6 +450,9 @@ routes:
 
     try:
       writeFile(path, request.formData.getOrDefault("file").body)
+      when not defined(noWebp):
+        if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
+          echo cwebp(path, path, "text", quality=1)
       if fileExists(path):
         exec(db, sql"INSERT INTO files(id, url, downloadCount) VALUES (?, ?, ?)", c.userid, path, 0)
         redirect("/files")
