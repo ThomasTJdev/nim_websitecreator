@@ -9,6 +9,11 @@
   <p class="has-text-centered">
     <a href="https://firejail.wordpress.com/features-3/#filesystem">Firejail</a> security is built-in on the Core of <a href="https://nimwc.org">NimWC.</a>
   </p> <br>
+  <form class="standard page"
+  # when defined(demo):
+    method="post" action="/settings/firejail/save"
+  # end when
+  >
   <table class="table is-bordered is-striped is-hoverable is-fullwidth">
     <thead>
       <tr>
@@ -26,7 +31,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="noDvd"
           # if noDvd:
             checked
           # end if
@@ -38,7 +43,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="noSound"
           # if noSound:
             checked
           # end if
@@ -50,7 +55,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="noAutoPulse"
           # if noAutoPulse:
             checked
           # end if
@@ -62,7 +67,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="no3d"
           # if no3d:
             checked
           # end if
@@ -74,7 +79,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="noX"
           # if noX:
             checked
           # end if
@@ -86,7 +91,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="noVideo"
           # if noVideo:
             checked
           # end if
@@ -98,7 +103,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="noDbus"
           # if noDbus:
             checked
           # end if
@@ -110,7 +115,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="noShell"
           # if noShell:
             checked
           # end if
@@ -122,7 +127,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="noDebuggers"
           # if noDebuggers:
             checked
           # end if
@@ -134,7 +139,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="noMachineId"
           # if noMachineId:
             checked
           # end if
@@ -146,7 +151,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="noRoot"
           # if noRoot:
             checked
           # end if
@@ -158,7 +163,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="noAllusers"
           # if noAllusers:
             checked
           # end if
@@ -170,7 +175,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="noU2f"
           # if noU2f:
             checked
           # end if
@@ -182,7 +187,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="useRandomMac"
           # if useRandomMac:
             checked
           # end if
@@ -194,7 +199,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="privateTmp"
           # if privateTmp:
             checked
           # end if
@@ -206,7 +211,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="privateCache"
           # if privateCache:
             checked
           # end if
@@ -218,7 +223,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="privateDev"
           # if privateDev:
             checked
           # end if
@@ -230,7 +235,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="overlayClean"
           # if overlayClean:
             checked
           # end if
@@ -242,7 +247,7 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="checkbox"
+          <input type="checkbox" name="forceEnUsUtf8"
           # if forceEnUsUtf8:
             checked
           # end if
@@ -253,13 +258,8 @@
     </tr>
     </tbody>
   </table>
-  <a title="Save Firejail config" autofocus
-  # when not defined(demo):
-    href="/settings/firejail/save"
-  # end when
-    >
-    <button class="btn btn-secondary button is-primary is-fullwidth">Save</button>
-  </a>
+  <button type="submit" class="btn btn-success button is-success is-rounded is-fullwidth" title="Save Firejail Config" autofocus >Save</button>
+  </form>
   <hr>
   <h5 class="has-text-centered">Firejail Status</h5>
   <div class="tags">

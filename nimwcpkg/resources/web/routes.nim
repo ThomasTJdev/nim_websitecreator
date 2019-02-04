@@ -352,6 +352,37 @@ routes:
       dict.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
     ))
 
+  post "/settings/firejail/save":
+    createTFD()
+    # restrictAccessTo(c, [Admin])
+    let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
+    var dict = loadConfig(konfig)
+
+    try:
+      dict.setSectionKey("firejail", "noDvd",         @"noDvd")
+      dict.setSectionKey("firejail", "noSound",       @"noSound")
+      dict.setSectionKey("firejail", "noAutoPulse",   @"noAutoPulse")
+      dict.setSectionKey("firejail", "no3d",          @"no3d")
+      dict.setSectionKey("firejail", "noX",           @"noX")
+      dict.setSectionKey("firejail", "noVideo",       @"noVideo")
+      dict.setSectionKey("firejail", "noDbus",        @"noDbus")
+      dict.setSectionKey("firejail", "noShell",       @"noShell")
+      dict.setSectionKey("firejail", "noDebuggers",   @"noDebuggers")
+      dict.setSectionKey("firejail", "noMachineId",   @"noMachineId")
+      dict.setSectionKey("firejail", "noRoot",        @"noRoot")
+      dict.setSectionKey("firejail", "noAllusers",    @"noAllusers")
+      dict.setSectionKey("firejail", "noU2f",         @"noU2f")
+      dict.setSectionKey("firejail", "useRandomMac",  @"useRandomMac")
+      dict.setSectionKey("firejail", "privateTmp",    @"privateTmp")
+      dict.setSectionKey("firejail", "privateCache",  @"privateCache")
+      dict.setSectionKey("firejail", "privateDev",    @"privateDev")
+      dict.setSectionKey("firejail", "overlayClean",  @"overlayClean")
+      dict.setSectionKey("firejail", "forceEnUsUtf8", @"forceEnUsUtf8")
+      dict.writeConfig(konfig)
+    except:
+      resp $getCurrentExceptionMsg()
+    redirect("/settings")
+
   get "/settings/config":
     createTFD()
     restrictAccessTo(c, [Admin])
