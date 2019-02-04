@@ -392,6 +392,9 @@ routes:
     if not fileExists(filepath):
       resp("Error: File was not found")
 
+    var downloadCount = parseInt(getValue(db, sql"SELECT downloadCount FROM files where url = ? and id = ?", filepath, c.userid))
+    inc downloadCount
+    exec(db, sql"UPDATE files SET downloadCount = ? where url = ? and id = ?", downloadCount, filepath, c.userid)
     sendFile(filepath)
 
 
@@ -411,6 +414,7 @@ routes:
     try:
       writeFile(path, request.formData.getOrDefault("file[]").body)
       if fileExists(path):
+        exec(db, sql"INSERT INTO files(id, url, downloadCount) VALUES (?, ?, ?)", c.userid, path, 0)
         resp("[\"/images/" & filename & "\"]")
 
     except:
@@ -444,6 +448,7 @@ routes:
     try:
       writeFile(path, request.formData.getOrDefault("file").body)
       if fileExists(path):
+        exec(db, sql"INSERT INTO files(id, url, downloadCount) VALUES (?, ?, ?)", c.userid, path, 0)
         redirect("/files")
 
     except:
@@ -605,6 +610,9 @@ routes:
     if not fileExists(filepath):
       resp("")
 
+    var downloadCount = parseInt(getValue(db, sql"SELECT downloadCount FROM files where url = ? and id = ?", filepath, c.userid))
+    inc downloadCount
+    exec(db, sql"UPDATE files SET downloadCount = ? where url = ? and id = ?", downloadCount, filepath, c.userid)
     sendFile(filepath)
 
 
@@ -625,6 +633,7 @@ routes:
       discard execProcess("base64 -d > " & path & ".png < " & path & ".txt")
       removeFile(path & ".txt")
       if fileExists(path & ".png"):
+        exec(db, sql"INSERT INTO files(id, url, downloadCount) VALUES (?, ?, ?)", c.userid, path, 0)
         resp("File saved")
 
     except:

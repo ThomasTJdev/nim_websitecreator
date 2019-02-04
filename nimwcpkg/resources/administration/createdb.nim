@@ -123,6 +123,14 @@ const
     );
     """.format(sql_now))
 
+  filesTable = sql("""
+    create table if not exists files(
+      id            integer           primary key,
+      url           VARCHAR(1000)     NOT NULL     UNIQUE,
+      downloadCount integer           not null     default 1,
+      lastModified  timestamp         not null     default $1,
+    );""".format(sql_now))
+
 
 proc generateDB*() =
   info("Database: Generating database")
@@ -172,6 +180,10 @@ proc generateDB*() =
   # Blog
   if not db.tryExec(blogTable):
     info("Database: blog table already exists")
+
+  # Files (AKA Images)
+  if not db.tryExec(filesTable):
+    info("Database: Files (AKA Images) table already exists")
 
   if not dbexists:
     info("Database: Inserting standard elements")
