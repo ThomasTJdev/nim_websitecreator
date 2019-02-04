@@ -114,11 +114,13 @@
             >Backup</a></div>
           </div>
           <hr>
-          <label class="label">Security</label>
-          <div class="buttons columns is-mobile">
-            <div class="column"><a href="/settings/firejail" class="btn btn-outline-primary button is-small" title="Firejail security is built-in on the Core of NimWC">Firejail</a></div>
-          </div>
-          <hr>
+          # when not defined(noFirejail):
+            <label class="label">Security</label>
+            <div class="buttons columns is-mobile">
+              <div class="column"><a href="/settings/firejail" class="btn btn-outline-primary button is-small" title="Firejail security is built-in on the Core of NimWC">Firejail</a></div>
+            </div>
+            <hr>
+          # end when
 
 
           # end if
