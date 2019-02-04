@@ -56,6 +56,7 @@ const
     when defined(sqlite):      " -d:sqlite",
     when defined(noFields):    " -d:noFields",
     when defined(noWebp):      " -d:noWebp",
+    when defined(noFirejail):  " -d:noFirejail",
   ].join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
@@ -534,8 +535,8 @@ include "tmpl/sitemap.tmpl"
 include "tmpl/logs.tmpl"
 include "tmpl/serverinfo.tmpl"
 include "tmpl/tos.tmpl"
-include "tmpl/firejail.tmpl"
 include "tmpl/editconfig.tmpl"
+when not defined(noFirejail): include "tmpl/firejail.tmpl"
 
 
 #
