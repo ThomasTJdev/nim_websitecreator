@@ -27,6 +27,8 @@ import
 when defined(sqlite): import db_sqlite
 else:                 import db_postgres
 
+when not defined(noWebp): import webp
+
 when defined(windows):
   quit("Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows")
 
@@ -47,10 +49,13 @@ const
 
   checkCompileOptions* = ["",
     when defined(adminnotify): " -d:adminnotify",
-    when defined(dev): " -d:dev",
-    when defined(devemailon): " -d:devemailon",
-    when defined(demo): " -d:demo",
-    when defined(ssl): " -d:ssl",
+    when defined(dev):         " -d:dev",
+    when defined(devemailon):  " -d:devemailon",
+    when defined(demo):        " -d:demo",
+    when defined(ssl):         " -d:ssl",
+    when defined(sqlite):      " -d:sqlite",
+    when defined(noFields):    " -d:noFields",
+    when defined(noWebp):      " -d:noWebp",
   ].join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
