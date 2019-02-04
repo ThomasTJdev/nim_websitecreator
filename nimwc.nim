@@ -92,6 +92,7 @@ const
     when defined(sqlite):      " -d:sqlite",
     when defined(noFields):    " -d:noFields",
     when defined(noWebp):      " -d:noWebp",
+    when defined(noFirejail):  " -d:noFirejail",
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   nimwc_version =
@@ -127,29 +128,52 @@ proc launcherActivated() =
   ## 1) Executing the main-program in a loop.
   ## 2) Each time a new compiled file is available,
   ##    the program exits the running process and starts a new
-  styledEcho(fgGreen, bgBlack, $now() & ": Nim Website Creator: Launcher initialized")
+  styledEcho(fgGreen, bgBlack, $now() & ": Nim Website Creator: Launcher Started.")
 
-  nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
+  when defined(noFirejail):
+    nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
 
-  while runInLoop:
-    if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
-      kill(nimhaMain)
-      moveFile(getAppDir() & "/nimwcpkg/nimwc_main_new", getAppDir() & "/nimwcpkg/nimwc_main")
+    while runInLoop:
+      if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
+        kill(nimhaMain)
+        moveFile(getAppDir() & "/nimwcpkg/nimwc_main_new", getAppDir() & "/nimwcpkg/nimwc_main")
 
-    if not running(nimhaMain):
-      styledEcho(fgYellow, bgBlack, $now() & ": Restarting program in 1 second")
+      if not running(nimhaMain):
+        styledEcho(fgYellow, bgBlack, $now() & ": Restarting program in 1 second")
 
-      discard execCmd("pkill nimwc_main")
-      sleep(1000)
+        discard execCmd("pkill nimwc_main")
+        sleep(1000)
 
-      if userArgsRun != "":
-        styledEcho(fgGreen, bgBlack, " Using args: " & userArgsRun)
+        if userArgsRun != "":
+          styledEcho(fgGreen, bgBlack, " Using args: " & userArgsRun)
 
-      nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
+        nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
 
-    sleep(2000)
+      sleep(2000)
 
-  styledEcho(fgYellow, bgBlack, $now() & ": Nim Website Creator: Quitted")
+  else:
+
+    nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
+
+    while runInLoop:
+      if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
+        kill(nimhaMain)
+        moveFile(getAppDir() & "/nimwcpkg/nimwc_main_new", getAppDir() & "/nimwcpkg/nimwc_main")
+
+      if not running(nimhaMain):
+        styledEcho(fgYellow, bgBlack, $now() & ": Restarting program in 1 second")
+
+        discard execCmd("pkill nimwc_main")
+        sleep(1000)
+
+        if userArgsRun != "":
+          styledEcho(fgGreen, bgBlack, " Using args: " & userArgsRun)
+
+        nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
+
+      sleep(2000)
+
+  styledEcho(fgYellow, bgBlack, $now() & ": Nim Website Creator: Stopped.")
   quit()
 
 
