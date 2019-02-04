@@ -268,7 +268,7 @@ const
   """
 
   frontpageClean = """
-  <style>#background{background-image:none;}</style>
+  <style>#background{background-image:none}</style>
   <h1>Frontpage</h1>
   <p>Login to edit</p>
   """

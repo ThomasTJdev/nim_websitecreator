@@ -128,7 +128,7 @@ proc launcherActivated() =
   ## 1) Executing the main-program in a loop.
   ## 2) Each time a new compiled file is available,
   ##    the program exits the running process and starts a new
-  styledEcho(fgGreen, bgBlack, $now() & ": Nim Website Creator: Launcher Started.")
+  styledEcho(fgGreen, bgBlack, $now() & ": Nim Website Creator: Launcher starting.")
 
   when defined(noFirejail):
     nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
@@ -139,7 +139,7 @@ proc launcherActivated() =
         moveFile(getAppDir() & "/nimwcpkg/nimwc_main_new", getAppDir() & "/nimwcpkg/nimwc_main")
 
       if not running(nimhaMain):
-        styledEcho(fgYellow, bgBlack, $now() & ": Restarting program in 1 second")
+        styledEcho(fgYellow, bgBlack, $now() & ": Restarting in 1 second.")
 
         discard execCmd("pkill nimwc_main")
         sleep(1000)
@@ -161,7 +161,7 @@ proc launcherActivated() =
         moveFile(getAppDir() & "/nimwcpkg/nimwc_main_new", getAppDir() & "/nimwcpkg/nimwc_main")
 
       if not running(nimhaMain):
-        styledEcho(fgYellow, bgBlack, $now() & ": Restarting program in 1 second")
+        styledEcho(fgYellow, bgBlack, $now() & ": Restarting in 1 second.")
 
         discard execCmd("pkill nimwc_main")
         sleep(1000)
@@ -173,7 +173,7 @@ proc launcherActivated() =
 
       sleep(2000)
 
-  styledEcho(fgYellow, bgBlack, $now() & ": Nim Website Creator: Stopped.")
+  styledEcho(fgYellow, bgBlack, $now() & ": Nim Website Creator: Stopping.")
   quit()
 
 
