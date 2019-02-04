@@ -19,11 +19,5 @@ proc filesListPublic*(): seq[string] =
 
 proc filesListPublicFolderFiles*(): seq[string] =
   ## Get all filenames for project files
-  for file in walkFiles("public/files/*.*"):
-    result.add(file)
-
-
-proc filesListPublicFolderImages*(): seq[string] =
-  ## Get all filenames for project files
   for file in walkFiles("public/images/*.*"):
     result.add(file)
