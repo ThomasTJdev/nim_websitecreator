@@ -328,7 +328,29 @@ routes:
       restrictAccessTo(c, [Admin, Moderator]) # On Demo you can see the feature
     else:
       restrictAccessTo(c, [Admin])
-    resp genMainAdmin(c, genFirejail())
+    let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
+
+    resp genMainAdmin(c, genFirejail(
+      dict.getSectionValue("firejail", "noDvd").parseBool,
+      dict.getSectionValue("firejail", "noSound").parseBool,
+      dict.getSectionValue("firejail", "noAutoPulse").parseBool,
+      dict.getSectionValue("firejail", "no3d").parseBool,
+      dict.getSectionValue("firejail", "noX").parseBool,
+      dict.getSectionValue("firejail", "noVideo").parseBool,
+      dict.getSectionValue("firejail", "noDbus").parseBool,
+      dict.getSectionValue("firejail", "noShell").parseBool,
+      dict.getSectionValue("firejail", "noDebuggers").parseBool,
+      dict.getSectionValue("firejail", "noMachineId").parseBool,
+      dict.getSectionValue("firejail", "noRoot").parseBool,
+      dict.getSectionValue("firejail", "noAllusers").parseBool,
+      dict.getSectionValue("firejail", "noU2f").parseBool,
+      dict.getSectionValue("firejail", "useRandomMac").parseBool,
+      dict.getSectionValue("firejail", "privateTmp").parseBool,
+      dict.getSectionValue("firejail", "privateCache").parseBool,
+      dict.getSectionValue("firejail", "privateDev").parseBool,
+      dict.getSectionValue("firejail", "overlayClean").parseBool,
+      dict.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
+    ))
 
   get "/settings/config":
     createTFD()
