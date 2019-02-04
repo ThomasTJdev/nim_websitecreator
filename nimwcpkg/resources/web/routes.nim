@@ -322,65 +322,68 @@ routes:
     createTFD()
     resp genTos()
 
-  get "/settings/firejail":
-    createTFD()
-    when defined(demo):
-      restrictAccessTo(c, [Admin, Moderator]) # On Demo you can see the feature
-    else:
-      restrictAccessTo(c, [Admin])
-    let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
-    resp genMainAdmin(c, genFirejail(
-      dict.getSectionValue("firejail", "noDvd").parseBool,
-      dict.getSectionValue("firejail", "noSound").parseBool,
-      dict.getSectionValue("firejail", "noAutoPulse").parseBool,
-      dict.getSectionValue("firejail", "no3d").parseBool,
-      dict.getSectionValue("firejail", "noX").parseBool,
-      dict.getSectionValue("firejail", "noVideo").parseBool,
-      dict.getSectionValue("firejail", "noDbus").parseBool,
-      dict.getSectionValue("firejail", "noShell").parseBool,
-      dict.getSectionValue("firejail", "noDebuggers").parseBool,
-      dict.getSectionValue("firejail", "noMachineId").parseBool,
-      dict.getSectionValue("firejail", "noRoot").parseBool,
-      dict.getSectionValue("firejail", "noAllusers").parseBool,
-      dict.getSectionValue("firejail", "noU2f").parseBool,
-      dict.getSectionValue("firejail", "useRandomMac").parseBool,
-      dict.getSectionValue("firejail", "privateTmp").parseBool,
-      dict.getSectionValue("firejail", "privateCache").parseBool,
-      dict.getSectionValue("firejail", "privateDev").parseBool,
-      dict.getSectionValue("firejail", "overlayClean").parseBool,
-      dict.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
-    ))
+  get "/settings/firejail":
+    when not defined(noFirejail):
+      createTFD()
+      when defined(demo):
+        restrictAccessTo(c, [Admin, Moderator]) # On Demo you can see the feature
+      else:
+        restrictAccessTo(c, [Admin])
+      let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
+
+      resp genMainAdmin(c, genFirejail(
+        dict.getSectionValue("firejail", "noDvd").parseBool,
+        dict.getSectionValue("firejail", "noSound").parseBool,
+        dict.getSectionValue("firejail", "noAutoPulse").parseBool,
+        dict.getSectionValue("firejail", "no3d").parseBool,
+        dict.getSectionValue("firejail", "noX").parseBool,
+        dict.getSectionValue("firejail", "noVideo").parseBool,
+        dict.getSectionValue("firejail", "noDbus").parseBool,
+        dict.getSectionValue("firejail", "noShell").parseBool,
+        dict.getSectionValue("firejail", "noDebuggers").parseBool,
+        dict.getSectionValue("firejail", "noMachineId").parseBool,
+        dict.getSectionValue("firejail", "noRoot").parseBool,
+        dict.getSectionValue("firejail", "noAllusers").parseBool,
+        dict.getSectionValue("firejail", "noU2f").parseBool,
+        dict.getSectionValue("firejail", "useRandomMac").parseBool,
+        dict.getSectionValue("firejail", "privateTmp").parseBool,
+        dict.getSectionValue("firejail", "privateCache").parseBool,
+        dict.getSectionValue("firejail", "privateDev").parseBool,
+        dict.getSectionValue("firejail", "overlayClean").parseBool,
+        dict.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
+      ))
 
   post "/settings/firejail/save":
-    createTFD()
-    # restrictAccessTo(c, [Admin])
-    let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
-    var dict = loadConfig(konfig)
+    when not defined(noFirejail):
+      createTFD()
+      # restrictAccessTo(c, [Admin])
+      let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
+      var dict = loadConfig(konfig)
 
-    try:  # HTML Checkbox returns empty string for false and "on" for true.
-      dict.setSectionKey("firejail", "noDvd",         $(len(@"noDvd") > 0))
-      dict.setSectionKey("firejail", "noSound",       $(len(@"noSound") > 0))
-      dict.setSectionKey("firejail", "noAutoPulse",   $(len(@"noAutoPulse") > 0))
-      dict.setSectionKey("firejail", "no3d",          $(len(@"no3d") > 0))
-      dict.setSectionKey("firejail", "noX",           $(len(@"noX") > 0))
-      dict.setSectionKey("firejail", "noVideo",       $(len(@"noVideo") > 0))
-      dict.setSectionKey("firejail", "noDbus",        $(len(@"noDbus") > 0))
-      dict.setSectionKey("firejail", "noShell",       $(len(@"noShell") > 0))
-      dict.setSectionKey("firejail", "noDebuggers",   $(len(@"noDebuggers") > 0))
-      dict.setSectionKey("firejail", "noMachineId",   $(len(@"noMachineId") > 0))
-      dict.setSectionKey("firejail", "noRoot",        $(len(@"noRoot") > 0))
-      dict.setSectionKey("firejail", "noAllusers",    $(len(@"noAllusers") > 0))
-      dict.setSectionKey("firejail", "noU2f",         $(len(@"noU2f") > 0))
-      dict.setSectionKey("firejail", "useRandomMac",  $(len(@"useRandomMac") > 0))
-      dict.setSectionKey("firejail", "privateTmp",    $(len(@"privateTmp") > 0))
-      dict.setSectionKey("firejail", "privateCache",  $(len(@"privateCache") > 0))
-      dict.setSectionKey("firejail", "privateDev",    $(len(@"privateDev") > 0))
-      dict.setSectionKey("firejail", "overlayClean",  $(len(@"overlayClean") > 0))
-      dict.setSectionKey("firejail", "forceEnUsUtf8", $(len(@"forceEnUsUtf8") > 0))
-      dict.writeConfig(konfig)
-    except:
-      resp $getCurrentExceptionMsg()
+      try:  # HTML Checkbox returns empty string for false and "on" for true.
+        dict.setSectionKey("firejail", "noDvd",         $(len(@"noDvd") > 0))
+        dict.setSectionKey("firejail", "noSound",       $(len(@"noSound") > 0))
+        dict.setSectionKey("firejail", "noAutoPulse",   $(len(@"noAutoPulse") > 0))
+        dict.setSectionKey("firejail", "no3d",          $(len(@"no3d") > 0))
+        dict.setSectionKey("firejail", "noX",           $(len(@"noX") > 0))
+        dict.setSectionKey("firejail", "noVideo",       $(len(@"noVideo") > 0))
+        dict.setSectionKey("firejail", "noDbus",        $(len(@"noDbus") > 0))
+        dict.setSectionKey("firejail", "noShell",       $(len(@"noShell") > 0))
+        dict.setSectionKey("firejail", "noDebuggers",   $(len(@"noDebuggers") > 0))
+        dict.setSectionKey("firejail", "noMachineId",   $(len(@"noMachineId") > 0))
+        dict.setSectionKey("firejail", "noRoot",        $(len(@"noRoot") > 0))
+        dict.setSectionKey("firejail", "noAllusers",    $(len(@"noAllusers") > 0))
+        dict.setSectionKey("firejail", "noU2f",         $(len(@"noU2f") > 0))
+        dict.setSectionKey("firejail", "useRandomMac",  $(len(@"useRandomMac") > 0))
+        dict.setSectionKey("firejail", "privateTmp",    $(len(@"privateTmp") > 0))
+        dict.setSectionKey("firejail", "privateCache",  $(len(@"privateCache") > 0))
+        dict.setSectionKey("firejail", "privateDev",    $(len(@"privateDev") > 0))
+        dict.setSectionKey("firejail", "overlayClean",  $(len(@"overlayClean") > 0))
+        dict.setSectionKey("firejail", "forceEnUsUtf8", $(len(@"forceEnUsUtf8") > 0))
+        dict.writeConfig(konfig)
+      except:
+        resp $getCurrentExceptionMsg()
     redirect("/settings")
 
   get "/settings/config":
