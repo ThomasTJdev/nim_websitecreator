@@ -33,6 +33,9 @@ else:                 import db_postgres
 when defined(noWebp): {. warning: "WebP is Disabled, No Image Optimizations." .}
 else:                 import webp
 
+when defined(noFirejail): {. warning: "Firejail is Disabled, Running Unsecure." .}
+else:                     from firejail import firejailVersion, firejailFeatures
+
 
 const
   config_not_found_msg = """
