@@ -346,11 +346,9 @@ routes:
         dict.getSectionValue("firejail", "noRoot").parseBool,
         dict.getSectionValue("firejail", "noAllusers").parseBool,
         dict.getSectionValue("firejail", "noU2f").parseBool,
-        dict.getSectionValue("firejail", "useRandomMac").parseBool,
         dict.getSectionValue("firejail", "privateTmp").parseBool,
         dict.getSectionValue("firejail", "privateCache").parseBool,
         dict.getSectionValue("firejail", "privateDev").parseBool,
-        dict.getSectionValue("firejail", "overlayClean").parseBool,
         dict.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
       ))
 
@@ -375,11 +373,9 @@ routes:
         dict.setSectionKey("firejail", "noRoot",        $(len(@"noRoot") > 0))
         dict.setSectionKey("firejail", "noAllusers",    $(len(@"noAllusers") > 0))
         dict.setSectionKey("firejail", "noU2f",         $(len(@"noU2f") > 0))
-        dict.setSectionKey("firejail", "useRandomMac",  $(len(@"useRandomMac") > 0))
         dict.setSectionKey("firejail", "privateTmp",    $(len(@"privateTmp") > 0))
         dict.setSectionKey("firejail", "privateCache",  $(len(@"privateCache") > 0))
         dict.setSectionKey("firejail", "privateDev",    $(len(@"privateDev") > 0))
-        dict.setSectionKey("firejail", "overlayClean",  $(len(@"overlayClean") > 0))
         dict.setSectionKey("firejail", "forceEnUsUtf8", $(len(@"forceEnUsUtf8") > 0))
         dict.writeConfig(konfig)
       except:
