@@ -134,27 +134,10 @@ proc launcherActivated() =
   ## 2) Each time a new compiled file is available,
   ##    the program exits the running process and starts a new
   styledEcho(fgGreen, bgBlack, $now() & ": Nim Website Creator: Launcher starting.")
+  var nimwcCommand: string
 
   when defined(noFirejail):
-    nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
-
-    while runInLoop:
-      if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
-        kill(nimhaMain)
-        moveFile(getAppDir() & "/nimwcpkg/nimwc_main_new", getAppDir() & "/nimwcpkg/nimwc_main")
-
-      if not running(nimhaMain):
-        styledEcho(fgYellow, bgBlack, $now() & ": Restarting in 1 second.")
-
-        discard execCmd("pkill nimwc_main")
-        sleep(1000)
-
-        if userArgsRun != "":
-          styledEcho(fgGreen, bgBlack, " Using args: " & userArgsRun)
-
-        nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
-
-      sleep(2000)
+    nimwcCommand = getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun
   else:
     let dict = loadConfig(getAppDir() & "/config/config.cfg")
     let myjail = Firejail(
@@ -178,27 +161,33 @@ proc launcherActivated() =
       overlayClean:  dict.getSectionValue("firejail", "overlayClean").parseBool,
       forceEnUsUtf8: dict.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
     )
-    # hostsFile="/etc/hosts", whitelist= @[getAppDir(), "/tmp", "~/"],
+    nimwcCommand = myjail.makeCommand(
+      command=getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun,
+      name="nimwc_main", hostsFile="/etc/hosts",
+      whitelist= @[getAppDir(), getTempDir(), getCurrentDir(), getAppDir() & "/nimwcpkg/"]
+    )
 
-    nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
+  # Whitelist INVALID "~/", "/dev", "/usr", "/etc", "/opt", "/var", "/bin", "/proc"
+  echo nimwcCommand
+  nimhaMain = startProcess(nimwcCommand, options = {poParentStreams, poEvalCommand})
 
-    while runInLoop:
-      if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
-        kill(nimhaMain)
-        moveFile(getAppDir() & "/nimwcpkg/nimwc_main_new", getAppDir() & "/nimwcpkg/nimwc_main")
+  while runInLoop:
+    if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
+      kill(nimhaMain)
+      moveFile(getAppDir() & "/nimwcpkg/nimwc_main_new", getAppDir() & "/nimwcpkg/nimwc_main")
 
-      if not running(nimhaMain):
-        styledEcho(fgYellow, bgBlack, $now() & ": Restarting in 1 second.")
+    if not running(nimhaMain):
+      styledEcho(fgYellow, bgBlack, $now() & ": Restarting in 1 second.")
 
-        discard execCmd("pkill nimwc_main")
-        sleep(1000)
+      discard execCmd("pkill nimwc_main")
+      sleep(1000)
 
-        if userArgsRun != "":
-          styledEcho(fgGreen, bgBlack, " Using args: " & userArgsRun)
+      if userArgsRun != "":
+        styledEcho(fgGreen, bgBlack, " Using args: " & userArgsRun)
 
-        nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
+      nimhaMain = startProcess(nimwcCommand, options = {poParentStreams, poEvalCommand})
 
-      sleep(2000)
+    sleep(2000)
 
   styledEcho(fgYellow, bgBlack, $now() & ": Nim Website Creator: Stopping.")
   quit()
