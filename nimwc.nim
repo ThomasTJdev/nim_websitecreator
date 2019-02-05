@@ -1,5 +1,8 @@
 import os, osproc, rdstdin, sequtils, strutils, terminal, times, json
 
+when defined(noFirejail): {.warning: "Firejail is Disabled, Running Unsecure.".}
+else:                     import firejail, parsecfg
+
 when defined(windows):
   {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
 when defined(release): {.passL: "-s".}  # Force strip all on the resulting Binary.
@@ -134,7 +137,7 @@ proc launcherActivated() =
 
   when defined(noFirejail):
     nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
-    {. warning: "Firejail is Disabled, Running Unsecure." .}
+
     while runInLoop:
       if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
         kill(nimhaMain)
@@ -152,8 +155,30 @@ proc launcherActivated() =
         nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
 
       sleep(2000)
-
   else:
+    let dict = loadConfig(getAppDir() & "/config/config.cfg")
+    let myjail = Firejail(
+      noDvd:         dict.getSectionValue("firejail", "noDvd").parseBool,
+      noSound:       dict.getSectionValue("firejail", "noSound").parseBool,
+      noAutoPulse:   dict.getSectionValue("firejail", "noAutoPulse").parseBool,
+      no3d:          dict.getSectionValue("firejail", "no3d").parseBool,
+      noX:           dict.getSectionValue("firejail", "noX").parseBool,
+      noVideo:       dict.getSectionValue("firejail", "noVideo").parseBool,
+      noDbus:        dict.getSectionValue("firejail", "noDbus").parseBool,
+      noShell:       dict.getSectionValue("firejail", "noShell").parseBool,
+      noDebuggers:   dict.getSectionValue("firejail", "noDebuggers").parseBool,
+      noMachineId:   dict.getSectionValue("firejail", "noMachineId").parseBool,
+      noRoot:        dict.getSectionValue("firejail", "noRoot").parseBool,
+      noAllusers:    dict.getSectionValue("firejail", "noAllusers").parseBool,
+      noU2f:         dict.getSectionValue("firejail", "noU2f").parseBool,
+      useRandomMac:  dict.getSectionValue("firejail", "useRandomMac").parseBool,
+      privateTmp:    dict.getSectionValue("firejail", "privateTmp").parseBool,
+      privateCache:  dict.getSectionValue("firejail", "privateCache").parseBool,
+      privateDev:    dict.getSectionValue("firejail", "privateDev").parseBool,
+      overlayClean:  dict.getSectionValue("firejail", "overlayClean").parseBool,
+      forceEnUsUtf8: dict.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
+    )
+    # hostsFile="/etc/hosts", whitelist= @[getAppDir(), "/tmp", "~/"],
 
     nimhaMain = startProcess(getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun, options = {poParentStreams, poEvalCommand})
 
