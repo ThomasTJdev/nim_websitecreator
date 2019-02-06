@@ -386,6 +386,38 @@ routes:
         resp $getCurrentExceptionMsg()
     redirect("/settings")
 
+  get "/settings/design/unsplash":
+    createTFD()
+    when not defined(noUnsplash):
+      when not defined(demo): restrictAccessTo(c, [Admin]) # On Demo you can see the feature
+      let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
+      resp genMainAdmin(c, genUnsplash(
+        dict.getSectionValue("unsplash", "username"),
+        dict.getSectionValue("unsplash", "photoid"),
+        dict.getSectionValue("unsplash", "topics"),
+        dict.getSectionValue("unsplash", "mode"),
+        dict.getSectionValue("unsplash", "collection").parseInt,
+        dict.getSectionValue("unsplash", "timer").parseInt,
+      ))
+
+  post "/settings/unsplash/save":
+    createTFD()
+    when not defined(noUnsplash):
+      restrictAccessTo(c, [Admin])
+      let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
+      var dict = loadConfig(konfig)
+      try:  # HTML Checkbox returns empty string for false and "on" for true.
+        dict.setSectionKey("unsplash", "username",   @"username".toLowerAscii)
+        dict.setSectionKey("unsplash", "photoid",    @"photoid")
+        dict.setSectionKey("unsplash", "topics",     @"topics")
+        dict.setSectionKey("unsplash", "mode",       @"mode")
+        dict.setSectionKey("unsplash", "collection", @"collection")
+        dict.setSectionKey("unsplash", "timer",      @"timer")
+        dict.writeConfig(konfig)
+      except:
+        resp $getCurrentExceptionMsg()
+      redirect("/settings")
+
   get "/settings/config":
     createTFD()
     restrictAccessTo(c, [Admin])

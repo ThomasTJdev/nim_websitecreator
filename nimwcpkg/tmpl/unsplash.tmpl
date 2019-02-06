@@ -1,0 +1,91 @@
+#? stdtmpl | standard
+#
+#proc genUnsplash(username, photoid, topics, mode: string, collection, timer: int): string =
+#  result = ""
+<h1 class="has-text-centered">Design</h1>
+<form class="standard page"
+# when not defined(demo):
+  method="post" action="/settings/unsplash/save"
+# end when
+>
+<div class="field">
+<label class="label"><a href="https://unsplash.com/search/collections/textures">Unsplash</a> Username</label>
+<input type="text" id="username" name="username" value="$username" class="form-control input" title="Unsplash Username, any username, you dont need to signup, dont need to be your username, any username is Ok" placeholder="SomeRandomPhotographer" minlength="2" maxlength="99" dir="auto" required autofocus >
+<p class="help">Unsplash Username, any username, you dont need to signup, dont need to be your username, any username is Ok, to get photos from a user</p>
+</div>
+<div class="field">
+<label class="label"><a href="https://unsplash.com/search/collections/textures">Unsplash</a> Collection ID Number</label>
+<input type="number" id="collection" name="collection" value="$collection" class="form-control input" title="Unsplash Collection ID Number, find it on the URL on Unsplash, for random photos from a collection" placeholder="139386" dir="auto" required >
+<p class="help">Unsplash Collection ID Number, find it on the URL on Unsplash, to get photos from a collection</p>
+</div>
+<div class="field">
+<label class="label"><a href="https://unsplash.com/search/collections/textures">Unsplash</a> Photo ID</label>
+<input type="text" id="photoid" name="photoid" value="$photoid" class="form-control input" title="Unsplash Photo ID for a Fixed Specific Photo, find it on the URL on Unsplash" placeholder="DfKZs6DOrw4" dir="auto" required >
+<p class="help">Unsplash Photo ID for a Fixed Specific Photo, find it on the URL on Unsplash, to get photos by ID</p>
+</div>
+<div class="field">
+<label class="label">Photo Search Topics, Comma Separated</label>
+<input type="text" id="topics" name="topics" value="$topics" class="form-control input" title="Photos of what do you like?, to get photos from search queries" placeholder="cat, kitten, nature, space" dir="auto" required >
+<p class="help">Photos of what do you like?, must have at least 2 search terms, to get photos from search queries</p>
+</div>
+<div class="field">
+  <label class="label">Backgrounds</label>
+  <div class="control">
+    <div class="select">
+      <select id="mode" name="mode">
+        <option value="randomPhoto"
+        # if mode == "randomPhoto":
+          selected
+        # end if
+        >Random Photo</option>
+        <option value="randomFromUser"
+        # if mode == "randomFromUser":
+          selected
+        # end if
+        >Random from User</option>
+        <option value="randomFromCollection"
+        # if mode == "randomFromCollection":
+          selected
+        # end if
+        >Random from Collection</option>
+        <option value="featuredRandom"
+        # if mode == "featuredRandom":
+          selected
+        # end if
+        >Random from Featured</option>
+        <option value="dailyRandom"
+        # if mode == "dailyRandom":
+          selected
+        # end if
+        >Random from Daily</option>
+        <option value="weeklyRandom"
+        # if mode == "weeklyRandom":
+          selected
+        # end if
+        >Random from Weekly</option>
+        <option value="likesFromUser"
+        # if mode == "likesFromUser":
+          selected
+        # end if
+        >Likes From User</option>
+        <option value="getPhoto"
+        # if mode == "getPhoto":
+          selected
+        # end if
+        >Specific Photo by ID</option>
+      </select>
+    </div>
+  </div>
+  <p class="help">Choose what kind of Backgrounds you like, NimWC will do the job for you</p>
+</div>
+<div class="field">
+<label class="label">Photo Changing Timer</label>
+<input type="number" id="timer" name="timer" value="$timer" class="form-control input" title="Time on Hours to change the Photo to a new one" placeholder="1" min="1" max="999" step="1" dir="auto" required >
+<p class="help">Time on Hours to change the Photo to a new one</p>
+</div>
+<button type="submit" class="btn btn-success button is-success is-rounded is-fullwidth" title="Save Config">Save</button>
+</form>
+<br><br>
+<div class="notification is-info">
+  Unsplash is used because is the biggest free non-watermark high quality curated photo collection, cool photos for your page background just a click away!
+</div>

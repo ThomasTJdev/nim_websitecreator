@@ -36,6 +36,8 @@ else:                 import webp
 when defined(noFirejail): {. warning: "Firejail is Disabled, Running Unsecure." .}
 else:                     from firejail import firejailVersion, firejailFeatures
 
+when defined(noUnsplash): {. warning: "Unsplash is Disabled, Cant set background images on pages." .}
+else:                     import unsplash
 
 const
   config_not_found_msg = """
@@ -61,6 +63,7 @@ const
     when defined(noFields):    " -d:noFields",
     when defined(noWebp):      " -d:noWebp",
     when defined(noFirejail):  " -d:noFirejail",
+    when defined(noUnsplash):  " -d:noUnsplash",
   ].join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
@@ -436,6 +439,45 @@ when defined(demo):
     createStandardData(db)
 
 
+when not defined(noUnsplash):
+  proc reDownloadBGPhoto() {.async.} =
+    ## Re-Download Photo images for background of pages.
+    const
+      width  = 1600.int16
+      height = 900.int16
+    let
+      client = AsyncUnsplash()
+      bgpath = replace(getAppDir(), "/nimwcpkg", "") & "/public/images/bgbuilding.jpeg"
+      dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
+      username = dict.getSectionValue("unsplash", "username").toLowerAscii
+      photoid = dict.getSectionValue("unsplash", "photoid")
+      topics = dict.getSectionValue("unsplash", "topics").split(",")
+      mode = dict.getSectionValue("unsplash", "mode")
+      collection = dict.getSectionValue("unsplash", "collection").parseInt
+      timer = dict.getSectionValue("unsplash", "timer").parseInt
+    doAssert timer > 0 and timer < 1000, "Timer must be a non-zero positive integer"
+    await sleepAsync(3_600_000 * timer) # Hours   (Max 42 Days)
+    # await sleepAsync(3_600 * timer)   # Minutes (Max 16 Hours)
+    var newPhoto: string
+    case mode
+    of "randomFromUser":
+      newPhoto = await client.randomFromUser(username, width, height)
+    of "randomFromCollection":
+      newPhoto = await client.randomFromCollection(collection, width, height)
+    of "featuredRandom":
+      newPhoto = await client.featuredRandom(topics, width, height)
+    of "weeklyRandom":
+      newPhoto = await client.weeklyRandom(topics, width, height)
+    of "likesFromUser":
+      newPhoto = await client.likesFromUser(username, width, height)
+    of "getPhoto":
+      newPhoto = await client.getPhoto(photoid, width, height)
+    else: # "randomPhoto":
+      newPhoto = await client.randomPhoto(width, height)
+    writeFile(bgpath, newPhoto)
+    result = reDownloadBGPhoto()
+
+
 #
 # Main module
 #
@@ -514,6 +556,7 @@ when isMainModule:
   if not fileExists("public/js/js_custom.js"):
     writeFile("public/js/js_custom.js", "")
 
+  when not defined(noUnsplash): asyncCheck reDownloadBGPhoto()
   info("Up and running!.")
 
 
@@ -539,6 +582,7 @@ include "tmpl/logs.tmpl"
 include "tmpl/serverinfo.tmpl"
 include "tmpl/tos.tmpl"
 include "tmpl/editconfig.tmpl"
+when not defined(noUnsplash): include "tmpl/unsplash.tmpl"
 when not defined(noFirejail): include "tmpl/firejail.tmpl"
 
 
