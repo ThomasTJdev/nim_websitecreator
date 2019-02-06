@@ -350,6 +350,11 @@ routes:
         dict.getSectionValue("firejail", "privateCache").parseBool,
         dict.getSectionValue("firejail", "privateDev").parseBool,
         dict.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
+        dict.getSectionValue("firejail", "caps").parseBool,
+        dict.getSectionValue("firejail", "seccomp").parseBool,
+        dict.getSectionValue("firejail", "noTv").parseBool,
+        dict.getSectionValue("firejail", "writables").parseBool,
+        dict.getSectionValue("firejail", "noMnt").parseBool,
       ))
 
   post "/settings/firejail/save":
@@ -377,6 +382,11 @@ routes:
         dict.setSectionKey("firejail", "privateCache",  $(len(@"privateCache") > 0))
         dict.setSectionKey("firejail", "privateDev",    $(len(@"privateDev") > 0))
         dict.setSectionKey("firejail", "forceEnUsUtf8", $(len(@"forceEnUsUtf8") > 0))
+        dict.setSectionKey("firejail", "caps",          $(len(@"caps") > 0))
+        dict.setSectionKey("firejail", "seccomp",       $(len(@"seccomp") > 0))
+        dict.setSectionKey("firejail", "noTv",          $(len(@"noTv") > 0))
+        dict.setSectionKey("firejail", "writables",     $(len(@"writables") > 0))
+        dict.setSectionKey("firejail", "noMnt",         $(len(@"noMnt") > 0))
         dict.writeConfig(konfig)
       except:
         resp $getCurrentExceptionMsg()

@@ -123,7 +123,7 @@ proc handler() {.noconv.} =
   ## Catch ctrl+c from user
   runInLoop = false
   kill(nimhaMain)
-  styledEcho(fgYellow, bgBlack, "CTRL+C Pressed, NimWC is shutting down, bye.")
+  styledEcho(fgYellow, bgBlack, "CTRL+C Pressed, NimWC is shutting down, Bye.")
   quit()
 
 setControlCHook(handler)
@@ -154,22 +154,26 @@ proc launcherActivated() =
       noRoot:        dict.getSectionValue("firejail", "noRoot").parseBool,
       noAllusers:    dict.getSectionValue("firejail", "noAllusers").parseBool,
       noU2f:         dict.getSectionValue("firejail", "noU2f").parseBool,
-      useRandomMac:  dict.getSectionValue("firejail", "useRandomMac").parseBool,
       privateTmp:    dict.getSectionValue("firejail", "privateTmp").parseBool,
       privateCache:  dict.getSectionValue("firejail", "privateCache").parseBool,
       privateDev:    dict.getSectionValue("firejail", "privateDev").parseBool,
-      overlayClean:  dict.getSectionValue("firejail", "overlayClean").parseBool,
       forceEnUsUtf8: dict.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
+      caps:          dict.getSectionValue("firejail", "caps").parseBool,
+      seccomp:       dict.getSectionValue("firejail", "seccomp").parseBool,
+      noTv:          dict.getSectionValue("firejail", "noTv").parseBool,
+      writables:     dict.getSectionValue("firejail", "writables").parseBool,
+      noMnt:         dict.getSectionValue("firejail", "noMnt").parseBool,
     )
     nimwcCommand = myjail.makeCommand(
       command=getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun,
       name="nimwc_main", hostsFile="/etc/hosts",
-      whitelist= @[getAppDir(), getTempDir(), getCurrentDir(), getAppDir() & "/nimwcpkg/"]
-    )
+      # whitelist= @[getAppDir(), getCurrentDir()],
+    ) #TODO: Add more support for more features.
 
-  # Whitelist INVALID "~/", "/dev", "/usr", "/etc", "/opt", "/var", "/bin", "/proc"
-  echo nimwcCommand
-  nimhaMain = startProcess(nimwcCommand, options = {poParentStreams, poEvalCommand})
+  let processOpts =
+    when defined(release): {poParentStreams, poEvalCommand}
+    else:                  {poParentStreams, poEvalCommand, poEchoCmd}
+  nimhaMain = startProcess(nimwcCommand, options = processOpts)
 
   while runInLoop:
     if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
@@ -185,7 +189,7 @@ proc launcherActivated() =
       if userArgsRun != "":
         styledEcho(fgGreen, bgBlack, " Using args: " & userArgsRun)
 
-      nimhaMain = startProcess(nimwcCommand, options = {poParentStreams, poEvalCommand})
+      nimhaMain = startProcess(nimwcCommand, options = processOpts)
 
     sleep(2000)
 
