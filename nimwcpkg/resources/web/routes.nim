@@ -322,16 +322,11 @@ routes:
     createTFD()
     resp genTos()
 
-
   get "/settings/firejail":
     when not defined(noFirejail):
       createTFD()
-      when defined(demo):
-        restrictAccessTo(c, [Admin, Moderator]) # On Demo you can see the feature
-      else:
-        restrictAccessTo(c, [Admin])
+      when not defined(demo): restrictAccessTo(c, [Admin]) # On Demo you can see the feature
       let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
-
       resp genMainAdmin(c, genFirejail(
         dict.getSectionValue("firejail", "noDvd").parseBool,
         dict.getSectionValue("firejail", "noSound").parseBool,
@@ -360,10 +355,9 @@ routes:
   post "/settings/firejail/save":
     when not defined(noFirejail):
       createTFD()
-      # restrictAccessTo(c, [Admin])
+      restrictAccessTo(c, [Admin])
       let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
       var dict = loadConfig(konfig)
-
       try:  # HTML Checkbox returns empty string for false and "on" for true.
         dict.setSectionKey("firejail", "noDvd",         $(len(@"noDvd") > 0))
         dict.setSectionKey("firejail", "noSound",       $(len(@"noSound") > 0))

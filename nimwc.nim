@@ -166,11 +166,10 @@ proc launcherActivated() =
     )
     nimwcCommand = myjail.makeCommand(
       command=getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun,
-      name="nimwc_main", hostsFile="/etc/hosts",
-      # whitelist= @[getAppDir(), getCurrentDir()],
+      name="nimwc_main", hostsFile="/etc/hosts", # whitelist= @[getAppDir(), getCurrentDir()],
     ) #TODO: Add more support for more features.
 
-  let processOpts =
+  const processOpts =
     when defined(release): {poParentStreams, poEvalCommand}
     else:                  {poParentStreams, poEvalCommand, poEchoCmd}
   nimhaMain = startProcess(nimwcCommand, options = processOpts)
