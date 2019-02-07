@@ -22,12 +22,12 @@
 
 <div id="plugins">
 
-<h1 style="text-align: center">Plugins repository</h1>
+<h1 style="text-align: center">Plugins Store</h1>
 
 # if not pluginCheckGit():
 
   <div class="notification is-danger">
-    <h3>Git (git) is not installed. Please install it.
+    <h3>Git (<code>git</code>) is not installed. Please install it.
       E.g. pacman -S git, apt install git, etc.
     </h3>
   </div>
@@ -36,7 +36,7 @@
 
   <div style="text-align: center;">
     <div class="notification is-info">
-      <h3>Please download the repository with the plugins.</h3>
+      <h3>Please download the list of plugins.</h3>
     </div>
     <a href="/plugins/repo/download" class="button is-primary is-large is-fullwidth is-rounded" >Download</a>
   </div>
@@ -48,7 +48,7 @@
   <div class="buttons">
     <a href="/plugins/repo/update" class="btn btn-outline-primary button">Update plugins list</a>
     <a href="/plugins" class="btn btn-outline-primary button">Go to installed plugins</a>
-    <a href="https://github.com/ThomasTJdev/nimwc_plugins#contribute" class="btn btn-outline-primary button" title="Learn how to create new plugins" target="_blank">Add your plugin to this list</a>
+    <a href="https://github.com/ThomasTJdev/nimwc_plugins#contribute" class="btn btn-outline-primary button" title="Learn how to create new plugins" target="_blank">Add your plugin to the Plugin Store</a>
   </div>
   <p class="pluginCount"><b>Total Plugins: </b><code>${plugins.len}</code></p>
   <ul class="pluginRepo">
@@ -96,6 +96,10 @@
   </ul>
   <p class="pluginCount"><b>Total Plugins: </b><code>${plugins.len}</code></p>
 # end if
+<br>
+<div class="notification is-info">
+  Plugins can do everything you want, HTML, CSS, JS, Canvas, WebGL, WASM, JavaScript Frameworks, use Dabatase, Nim, etc.
+</div>
 
 </div>
 #end proc
