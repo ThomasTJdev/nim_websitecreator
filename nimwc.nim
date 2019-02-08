@@ -25,25 +25,25 @@ const
     ☑️ Using compile options from *.nim.cfg
     ☑️ Using params: """  ## Message to show when started Compiling.
 
-  compile_ok_msg =  """Compiling done!.
+  compile_ok_msg =  """👑 Nim Website Creator Compiled Ok! 👑
 
-    - To start Nim Website Creator and access at http://127.0.0.1:<port>
+  ☑️️ To start Nim Website Creator and access at http://127.0.0.1:<port>
       # Manually compiled
       ./nimwc
 
       # Through nimble, then just run with symlink
       nimwc
 
-    - To add an admin user, append args:
+  ☑️ To add an admin user, append args:
       ./nimwc newuser -u:name -p:password -e:email
 
-    - To insert standard data in the database, append args:
+  ☑️ To insert standard data in the database, append args:
       ./nimwc insertdata
 
-    - To insert standard data in the database:
+  ☑️ To insert standard data in the database:
       ./nimwc --insertdata
 
-    - Access Settings page at http://127.0.0.1:<port>/settings
+  ☑️ Access Settings page at http://127.0.0.1:<port>/settings
   """  ## Message to show when finished Compiling OK.
 
   compile_fail_msg = """🐛 Compile Error 🐛
@@ -55,9 +55,9 @@ const
   💡 Check that you have the latest Version. Check the Documentation.
   """  ## Message to show when Compiling Failed.
 
-  doc = """
-  nimwc: Nim Website Creator.
-  A quick website tool. Run the nim file and access your webpage.
+  doc = """👑 Nim Website Creator 👑
+  Self-Firejailing 2-Factor-Auth Nim Web Framework thats simple to use.
+  Run it, access your web, customize, add plugins, deploy today anywhere.
 
   Usage:
     nimwc <optional params>
@@ -79,6 +79,10 @@ const
     --initplugin          Create plugin skeleton inside tmp/
 
   Compile options:
+    -d:sqlite             SQLite Dabatase for Backend.
+    -d:noFirejail         Firejail is Disabled. Runs unsecure. Not recommended.
+    -d:noWebp             WebP is Disabled, no image optimizations.
+    -d:noUnsplash         Unsplash is Disabled, cant set background images on pages.
     -d:rc                 Recompile. NinmWC is using a launcher, it is therefore
                           needed to force a recompile.
     -d:adminnotify        Send error logs (ERROR) to the specified admin email
