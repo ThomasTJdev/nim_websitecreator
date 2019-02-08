@@ -61,6 +61,7 @@ const
     when defined(noWebp):      " -d:noWebp",
     when defined(noFirejail):  " -d:noFirejail",
     when defined(noUnsplash):  " -d:noUnsplash",
+    when defined(release):     " -d:release",
   ].join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 

@@ -107,6 +107,7 @@ const
     when defined(noWebp):      " -d:noWebp",
     when defined(noFirejail):  " -d:noFirejail",
     when defined(noUnsplash):  " -d:noUnsplash",
+    when defined(release):     " -d:release",
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   nimwc_version =
