@@ -30,7 +30,7 @@ import
 when defined(sqlite): import db_sqlite
 
 when defined(noWebp): {. warning: "WebP is Disabled, No Image Optimizations." .}
-else:                 import webp
+else:                 from webp import cwebp
 
 when defined(noFirejail): {. warning: "Firejail is Disabled, Running Unsecure." .}
 else:                     from firejail import firejailVersion, firejailFeatures
