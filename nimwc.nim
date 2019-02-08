@@ -55,7 +55,7 @@ const
   💡 Check that you have the latest Version. Check the Documentation.
   """  ## Message to show when Compiling Failed.
 
-  doc = """👑 Nim Website Creator 👑
+  doc = """👑 Nim Website Creator 👑 https://NimWC.org
   Self-Firejailing 2-Factor-Auth Nim Web Framework thats simple to use.
   Run it, access your web, customize, add plugins, deploy today anywhere.
 
@@ -74,7 +74,7 @@ const
         clean               - standard data without a CSS/JS framework
     --newdb               Generates the database with standard tables
                           (does NOT override or delete tables).
-                          `newdb` will be initialized automatic, if no database exists.
+                          newdb will be initialized automatic, if no database exists.
     --gitupdate           Updates and force a hard reset.
     --initplugin          Create plugin skeleton inside tmp/
 
@@ -85,11 +85,15 @@ const
     -d:noUnsplash         Unsplash is Disabled, No background images on pages.
     -d:rc                 Force Recompile (good for Troubleshooting).
     -d:adminnotify        Send error logs (ERROR) to the specified Admin email.
-    -d:dev                Development (ignore reCaptcha, more Verbose).
-    -d:devemailon         Send email when `-d:dev` is activated.
+    -d:dev                Development (ignore reCaptcha, no emails, more Verbose).
+    -d:devemailon         Send email when -d:dev is activated.
     -d:demo               Public Demo mode. Enable Test user. 2FA ignored.
                           Force database reset every 1 hour. Some options Disabled.
     -d:gitupdate          Force Update from Git and force a hard reset.
+
+  Tips:
+    Always Compile with -d:release for Production. We recommend Firejail too.
+    Learn more at http://nim-lang.org/learn.html http://nim-lang.github.io/Nim/lib.html
   """
 
   compileOptions = ["",
