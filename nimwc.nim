@@ -93,7 +93,7 @@ const
 
   Tips:
     Always Compile with -d:release for Production. We recommend Firejail too.
-    Learn more at http://nim-lang.org/learn.html http://nim-lang.github.io/Nim/lib.html
+    Learn more: http://nim-lang.org/learn.html http://nim-lang.github.io/Nim/lib.html
   """
 
   compileOptions = ["",
