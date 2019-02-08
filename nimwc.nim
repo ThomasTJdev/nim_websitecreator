@@ -85,7 +85,7 @@ const
     -d:noUnsplash         Unsplash is Disabled, No background images on pages.
     -d:rc                 Force Recompile (good for Troubleshooting).
     -d:adminnotify        Send error logs (ERROR) to the specified Admin email.
-    -d:dev                Development (ignore reCaptcha).
+    -d:dev                Development (ignore reCaptcha, more Verbose).
     -d:devemailon         Send email when `-d:dev` is activated.
     -d:demo               Public Demo mode. Enable Test user. 2FA ignored.
                           Force database reset every 1 hour. Some options Disabled.
