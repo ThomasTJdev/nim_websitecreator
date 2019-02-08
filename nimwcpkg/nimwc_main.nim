@@ -10,7 +10,7 @@ when defined(windows):
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
-  base32, streams, # gatabase,
+  base32, streams, encodings, httpclient, nativesockets, gatabase,
   oswalkdir as oc,
 
   resources/administration/create_adminuser,
@@ -28,7 +28,6 @@ import
   resources/web/google_recaptcha
 
 when defined(sqlite): import db_sqlite
-else:                 import db_postgres
 
 when defined(noWebp): {. warning: "WebP is Disabled, No Image Optimizations." .}
 else:                 import webp
@@ -229,6 +228,7 @@ let
   db_pass   = dict.getSectionValue("Database", "pass")
   db_name   = dict.getSectionValue("Database", "name")
   db_host   = dict.getSectionValue("Database", "host")
+  db_port   = Port(dict.getSectionValue("Database", "port").parseInt)
 
   mainURL   = dict.getSectionValue("Server", "url")
   mainPort  = parseInt dict.getSectionValue("Server", "port")
@@ -263,7 +263,7 @@ proc init(c: var TData) =
 #
 
 
-proc recompile*(): int =
+proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
   return execCmd("nim c " & checkCompileOptions & " -o:nimwcpkg/nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
 
@@ -273,7 +273,7 @@ proc recompile*(): int =
 #
 
 
-func loggedIn(c: TData): bool =
+func loggedIn(c: TData): bool {.inline.} =
   ## Check if user is logged in by verifying that c.username is more than 0:int
   c.username.len > 0
 
@@ -291,14 +291,14 @@ proc checkLoggedIn(c: var TData) =
 
     c.userid = getValue(db, sql"SELECT userid FROM session WHERE ip = ? AND key = ?", c.req.ip, sid)
 
-    let row = getRow(db, sql"SELECT name, email, status FROM person WHERE id = ?", c.userid)
+    let row = getRow(db, sql("SELECT name, email, status FROM person WHERE id = ?"), c.userid)
     c.username  = row[0]
     c.email     = toLowerAscii(row[1])
     c.rank      = parseEnum[Rank](row[2])
     if c.rank notin [Admin, Moderator, User]:
       c.loggedIn = false
 
-    discard tryExec(db, sql"UPDATE person SET lastOnline = ? WHERE id = ?", toInt(epochTime()), c.userid)
+    discard tryExec(db, sql("UPDATE person SET lastOnline = ? WHERE id = ?"), c.userid, toInt(epochTime()))
 
   else:
     c.loggedIn = false
@@ -508,11 +508,15 @@ when isMainModule:
     generateDB()
 
   # Connect to DB
+
+
+
   try:
-    when defined(sqlite):
-      db = db_sqlite.open(db_host, "", "", "")
-    else:
-      db = db_postgres.open(connection=db_host, user=db_user, password=db_pass, database=db_name)
+    var gatabase =
+      when defined(sqlite): Gatabase(host: db_host)
+      else: Gatabase(user: db_user, password: db_pass, host: db_host, dbname: db_name, port: db_port, timeout: 9)
+    gatabase.connect()
+    db = gatabase.db
     info("Connection to DB is established.")
   except:
     fatal("Connection to DB could not be established.")
