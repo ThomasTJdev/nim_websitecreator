@@ -10,7 +10,7 @@ when defined(windows):
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
-  base32, streams, encodings, httpclient, nativesockets, gatabase,
+  base32, streams, gatabase, encodings, nativesockets,
   oswalkdir as oc,
 
   resources/administration/create_adminuser,
@@ -625,10 +625,10 @@ macro generateRoutes(): typed =
 
   for ppath in pluginsPath:
     extensions.add("\n\n" & staticRead(ppath & "/routes.nim"))
-
+  # when not compiles(parseStmt(extensions)): {.fatal:"Plugin Route Error, remove or fix the Plugin.".}
   when defined(dev):
     echo extensions
-
   result = parseStmt(extensions)
+
 
 generateRoutes()

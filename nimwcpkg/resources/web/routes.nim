@@ -323,8 +323,8 @@ routes:
     resp genTos()
 
   get "/settings/firejail":
+    createTFD()
     when not defined(noFirejail):
-      createTFD()
       when not defined(demo): restrictAccessTo(c, [Admin]) # On Demo you can see the feature
       let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
       resp genMainAdmin(c, genFirejail(
@@ -353,8 +353,8 @@ routes:
       ))
 
   post "/settings/firejail/save":
+    createTFD()
     when not defined(noFirejail):
-      createTFD()
       restrictAccessTo(c, [Admin])
       let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
       var dict = loadConfig(konfig)
