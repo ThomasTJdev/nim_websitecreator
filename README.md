@@ -18,7 +18,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - 1 Click Blogging posts directly from browser.
 - 1 Click Static web pages directly from browser.
 - Upload files and images (private or public) directly from browser.
-- Plugin Store integrated, enable and disable plugins directly from browser.
+- Plugin Store integrated, enable and disable plugins directly from browser. Open Source or Private Plugins.
 - Custom title, meta description and keywords for each page, SEO friendly.
 - Custom head, navbar and footer, no hardcoded watermarks, links or logos.
 - Edit core or custom JS and CSS directly from browser, UI/UX Designer friendly.
