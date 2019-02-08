@@ -7,8 +7,9 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 # Features
 
-- High performance with low resources (Rasp Pi, netbook, VPS, cloud, old pc, etc).
-- [Postgres](https://www.postgresql.org) or SQLite Database ORM with Raw Query performance.
+- Self-Firejailing Web Framework (It Firejails itself) Best Linux Security integrated on the Core.
+- High performance with low resources (Rasp Pi, VPS, cloud, old pc, etc).
+- [Postgres](https://www.postgresql.org) or SQLite Databases with ORM.
 - SQL Type-checked and Query-checked at compile-time, no SQL injections.
 - Uses responsive [Bulma CSS framework](https://bulma.io), supports [Bootstrap CSS framework](https://getbootstrap.com).
 - JavaScript framework agnostic, use Nim, [Karax](https://github.com/pragmagic/karax), vanilla JS, you choose.
@@ -21,6 +22,8 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Custom title, meta description and keywords for each page, SEO friendly.
 - Custom head, navbar and footer, no hardcoded watermarks, links or logos.
 - Edit core or custom JS and CSS directly from browser, UI/UX Designer friendly.
+- WebP automatic Image and Photo Optimizations.
+- Unsplash integrated to access the biggest free collection of images.
 - Log Viewer directly from browser.
 - Auto-Rotating file Logger.
 - Server Info Page for Admins.
@@ -55,6 +58,10 @@ Development Dependencies (automatically installed by Nimble):
 - reCAPTCHA >= `1.0.2`
 - bCrypt    >= `0.2.1`
 - datetime2human >= `0.2.2`
+- otp       >= `0.1.1`
+- firejail  >= `0.4.0`
+- webp      >= `0.1.0`
+- unsplash  >= `0.1.0`
 
 </details>
 
