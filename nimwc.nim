@@ -21,9 +21,9 @@ const
     "mv tmp/js_custom.js plugins/js/js_custom.js",
   ]  ## Bash Commands to Update NimWC.
 
-  compile_start_msg =  """Compiling, Please wait...
-    - Using compile options from *.nim.cfg
-    - Using params: """  ## Message to show when started Compiling.
+  compile_start_msg =  """⏰ Compiling, Please wait ⏰
+    ☑️ Using compile options from *.nim.cfg
+    ☑️ Using params: """  ## Message to show when started Compiling.
 
   compile_ok_msg =  """Compiling done!.
 
@@ -46,11 +46,13 @@ const
     - Access Settings page at http://127.0.0.1:<port>/settings
   """  ## Message to show when finished Compiling OK.
 
-  compile_fail_msg = """Compiling Failed.
+  compile_fail_msg = """🐛 Compile Error 🐛
 
-    - A Compile-time or Configuration error occurred.
-      You can check your source code with: nim check
-      Check the Configuration of NimWC and its Plugins.
+  ⚠️ Compile-time or Configuration or Plugin error occurred.
+  ➡️ You can check your source code with: nim check YourFile.nim
+  ➡️ Check the Configuration of NimWC and its Plugins.
+  ➡️ Remove new Plugins, restore previous Configuration.
+  💡 Check that you have the latest Version. Check the Documentation.
   """  ## Message to show when Compiling Failed.
 
   doc = """
