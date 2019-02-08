@@ -436,12 +436,6 @@ routes:
     redirect("/settings")
 
 
-  # get "/settings/database/backup":
-  #   createTFD()
-  #   restrictAccessTo(c, [Admin, Moderator])
-  #   resp "TODO: Gatabase has Backup feature builtin"
-
-
 #
 # Files
 #
