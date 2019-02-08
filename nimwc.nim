@@ -79,7 +79,7 @@ const
     --initplugin          Create plugin skeleton inside tmp/
 
   Compile options:
-    -d:sqlite             SQLite Dabatase for Backend.
+    -d:sqlite             SQLite Dabatase is Enabled. Postgres Dabatase is Disabled.
     -d:noFirejail         Firejail is Disabled. Runs unsecure. Not recommended.
     -d:noWebp             WebP is Disabled, no image optimizations.
     -d:noUnsplash         Unsplash is Disabled, cant set background images on pages.
