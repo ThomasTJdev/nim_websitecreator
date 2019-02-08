@@ -82,8 +82,8 @@ const
     -d:sqlite             SQLite Dabatase is Enabled. Postgres Dabatase is Disabled.
     -d:noFirejail         Firejail is Disabled. Runs unsecure. Not recommended.
     -d:noWebp             WebP is Disabled, no image optimizations. Not recommended.
-    -d:noUnsplash         Unsplash is Disabled, cant set background images on pages.
-    -d:rc                 Force Recompile.
+    -d:noUnsplash         Unsplash is Disabled, No background images on pages.
+    -d:rc                 Force Recompile (good for Troubleshooting).
     -d:adminnotify        Send error logs (ERROR) to the specified Admin email.
     -d:dev                Development (ignore reCaptcha).
     -d:devemailon         Send email when `-d:dev` is activated.
