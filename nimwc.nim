@@ -68,30 +68,28 @@ const
       -u:<admin username>
       -p:<admin password>
       -e:<admin email>`
-    --insertdata          Insert standard data (this will override existing data).
-       bulma               - standard data based on Bulma
-       bootstrap           - standard data based on Bootstrap
-       clean               - standard data without a CSS/JS framework
-    --newdb               Generates the database with standard tables (does **not**
-                          override or delete tables). `newdb` will be initialized
-                          automatic, if no database exists.
+    --insertdata          Insert standard data (override existing data).
+        bulma               - standard data based on Bulma
+        bootstrap           - standard data based on Bootstrap
+        clean               - standard data without a CSS/JS framework
+    --newdb               Generates the database with standard tables
+                          (does NOT override or delete tables).
+                          `newdb` will be initialized automatic, if no database exists.
     --gitupdate           Updates and force a hard reset.
     --initplugin          Create plugin skeleton inside tmp/
 
   Compile options:
     -d:sqlite             SQLite Dabatase is Enabled. Postgres Dabatase is Disabled.
     -d:noFirejail         Firejail is Disabled. Runs unsecure. Not recommended.
-    -d:noWebp             WebP is Disabled, no image optimizations.
+    -d:noWebp             WebP is Disabled, no image optimizations. Not recommended.
     -d:noUnsplash         Unsplash is Disabled, cant set background images on pages.
-    -d:rc                 Recompile. NinmWC is using a launcher, it is therefore
-                          needed to force a recompile.
-    -d:adminnotify        Send error logs (ERROR) to the specified admin email
-    -d:dev                Development (ignore reCaptcha)
-    -d:devemailon         Send email when `-d:dev` is activated
-    -d:demo               Used on public test site. Enables a test user.
-                          This option will override the database each hour with
-                          the standard data.
-    -d:gitupdate          Updates and force a hard reset
+    -d:rc                 Force Recompile.
+    -d:adminnotify        Send error logs (ERROR) to the specified Admin email.
+    -d:dev                Development (ignore reCaptcha).
+    -d:devemailon         Send email when `-d:dev` is activated.
+    -d:demo               Public Demo mode. Enable Test user. 2FA ignored.
+                          Force database reset every 1 hour. Some options Disabled.
+    -d:gitupdate          Force Update from Git and force a hard reset.
   """
 
   compileOptions = ["",
