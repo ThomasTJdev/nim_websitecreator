@@ -40,17 +40,15 @@ else:                     import unsplash
 
 const
   config_not_found_msg = """
-  ERROR: Config file (config.cfg) could not be found.
-  A copy of the template (config_default.cfg) has been copied to config/config.cfg.
-
-  The program will now quit. Please configure it and restart the program.
-  """
+  🐛 ERROR: Config file (config.cfg) could not be found. 🐛
+  A template (config_default.cfg) is copied to "config/config.cfg".
+  Please configure it and restart Nim Website Creator. Bye. """
 
   startup_msg = """
-  Package:        Nim Website Creator
-  Description:    Website creator build with Nim
-  Author name:    Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (https://github.com/juancarlospaco)
-  Current time:   """
+  Package:      Nim Website Creator 👑 https://NimWC.org
+  Description:  Self-Firejailing 2-Factor-Auth Nim Web Framework thats simple to use.
+  Author name:  Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (http://github.com/juancarlospaco)
+  Current time: """
 
   checkCompileOptions* = ["",
     when defined(adminnotify): " -d:adminnotify",
