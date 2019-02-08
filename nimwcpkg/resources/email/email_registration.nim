@@ -1,6 +1,7 @@
 import
   asyncdispatch, smtp, strutils, os, htmlparser, asyncnet, parsecfg,
-  ../email/email_connection, ../email/email_generate_message
+  ../email/email_connection,
+  ../email/email_generate_message
 
 const
   ActivationMsg = """
