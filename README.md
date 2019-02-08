@@ -18,12 +18,12 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - 1 Click Blogging posts directly from browser.
 - 1 Click Static web pages directly from browser.
 - Upload files and images (private or public) directly from browser.
-- Plugin manager to install, enable and disable plugins directly from browser.
+- Plugin Store integrated, enable and disable plugins directly from browser.
 - Custom title, meta description and keywords for each page, SEO friendly.
 - Custom head, navbar and footer, no hardcoded watermarks, links or logos.
 - Edit core or custom JS and CSS directly from browser, UI/UX Designer friendly.
-- WebP automatic Image and Photo Optimizations.
-- Unsplash integrated to access the biggest free collection of images.
+- [WebP](https://caniuse.com/#feat=webp) automatic Image and Photo Optimizations.
+- [Unsplash](https://unsplash.com/explore) integrated to access the biggest free collection of images.
 - Log Viewer directly from browser.
 - Auto-Rotating file Logger.
 - Server Info Page for Admins.
@@ -33,9 +33,10 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Plugin skeleton creator to create your own new plugins.
 - Plugins can do anything you want on Frontend and Backend.
 - Multiple users with different ranks.
-- 0 Dependency binary (Postgres required if using it, nothing required for SQLite).
+- 0 Dependency binary (Postgres/SSL/WebP required if using it).
 - Runs on any non-Windows OS, Architecture and Hardware that can compile C code.
 - High Availability design by default.
+- Full Stack with the same programming language, including DevOps and Scripting.
 - No `/node_modules/`, but very powerful builtin Templating engine.
 - 2 Factor Athentication TOTP + ReCaptcha + HoneyPot-Field, by default. 🙂🔐
 - BCrypt+Salt password hashing, 4 chars min for Demo, 10 chars min for Production.
