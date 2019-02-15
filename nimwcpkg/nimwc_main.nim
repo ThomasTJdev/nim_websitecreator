@@ -335,14 +335,15 @@ proc login(c: var TData, email, pass: string, totp: int): tuple[b: bool, s: stri
       info("Login failed. Your account is not active.")
       return (false, "Your account is not active")
 
-    let totpServerSide = $newTotp(row[7]).now()
-    when not defined(release):
-      echo "TOTP SERVER: " & totpServerSide
-      echo "TOTP USER  : " & $totp
-      when defined(dev): echo "TOTP SERVER SECRET: " & $row[7]
-    if $totp != totpServerSide and not defined(demo):
-      info("Login failed. 2 Factor Authentication number is invalid or expired.")
-      return (false, "2 Factor Authentication number is invalid or expired")
+    if row[7].len() != 0:
+      let totpServerSide = $newTotp(row[7]).now()
+      when not defined(release):
+        echo "TOTP SERVER: " & totpServerSide
+        echo "TOTP USER  : " & $totp
+        when defined(dev): echo "TOTP SERVER SECRET: " & $row[7]
+      if $totp != totpServerSide and not defined(demo):
+        info("Login failed. 2 Factor Authentication number is invalid or expired.")
+        return (false, "2 Factor Authentication number is invalid or expired")
 
     if row[2] == makePassword(pass, row[4], row[2]):
       c.userid   = row[0]
