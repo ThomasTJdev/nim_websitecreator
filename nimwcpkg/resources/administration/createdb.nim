@@ -138,8 +138,8 @@ const
     create table if not exists files(
       id            $3                primary key,
       url           VARCHAR(1000)     NOT NULL     UNIQUE,
-      downloadCount integer           not null     default 1,
-      lastModified  $2                not null     default $1,
+      downloadCount integer           NOT NULL     default 1,
+      lastModified  $2                NOT NULL     default $1
     )$4;""".format(sql_now, sql_timestamp, sql_id, sql_nooids))
 
 
