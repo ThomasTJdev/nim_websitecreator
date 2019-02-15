@@ -264,8 +264,9 @@ proc init(c: var TData) =
 
 proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
-  return execCmd("nim c " & checkCompileOptions & " -o:nimwcpkg/nimwc_main_new " & getAppDir() & "/nimwc_main.nim")
-
+  let outp = execCmd("nim c " & checkCompileOptions & " -o:nimwcpkg/nimwc_main_new_tmp " & getAppDir() & "/nimwc_main.nim")
+  moveFile(getAppDir() & "/nimwc_main_new_tmp", getAppDir() & "/nimwc_main_new")
+  return outp
 
 #
 # Validation check
