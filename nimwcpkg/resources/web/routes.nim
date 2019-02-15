@@ -318,7 +318,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     resp genMainAdmin(c, genServerInfo())
 
-  get "/settings/tos":
+  get "/settings/termsofservice":
     createTFD()
     resp genTos()
 
