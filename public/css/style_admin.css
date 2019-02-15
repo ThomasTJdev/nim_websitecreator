@@ -640,6 +640,19 @@ li.pluginRepo span.version.git {
 }
 
 
+
+/*
+  Server info
+*/
+#serverinfo {
+  width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  padding: 20px;
+}
+
+
 /*
   Saved notification
 */
