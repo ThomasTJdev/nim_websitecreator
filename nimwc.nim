@@ -46,16 +46,16 @@ const
   ☑️ Access Settings page at http://127.0.0.1:<port>/settings
   """  ## Message to show when finished Compiling OK.
 
-  compile_fail_msg = """🐛 Compile Error 🐛
+  compile_fail_msg = """ Compile Error
 
   ⚠️ Compile-time or Configuration or Plugin error occurred.
   ➡️ You can check your source code with: nim check YourFile.nim
   ➡️ Check the Configuration of NimWC and its Plugins.
   ➡️ Remove new Plugins, restore previous Configuration.
-  💡 Check that you have the latest Version. Check the Documentation.
+   Check that you have the latest Version. Check the Documentation.
   """  ## Message to show when Compiling Failed.
 
-  doc = """👑 Nim Website Creator 👑 https://NimWC.org
+  doc = """ Nim Website Creator - https://NimWC.org
   Self-Firejailing 2-Factor-Auth Nim Web Framework thats simple to use.
   Run it, access your web, customize, add plugins, deploy today anywhere.
 
