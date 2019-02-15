@@ -21,12 +21,3 @@ proc filesListPublicFolderFiles*(): seq[string] =
   ## Get all filenames for project files
   for file in walkFiles("public/images/*.*"):
     result.add(file)
-
-
-proc fileSize*(sizeInBytes: BiggestInt): string =
-  ## Converts a byte size to kB or MB
-
-  if ($sizeInBytes).len() <= 6:
-    $(toBiggestFloat(sizeInBytes)/1_024) & " kB"
-  else:
-    $(toBiggestFloat(sizeInBytes)/1_000_024) & " MB"

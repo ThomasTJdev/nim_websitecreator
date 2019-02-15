@@ -76,7 +76,7 @@
           ${extractFilename(file)}</a>
       </td>
       <td> ${ mime.getMimetype(file.splitFile.ext).toUpperAscii } </td>
-      <td> ${ fileSize(file.getFileSize) } </td>
+      <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
       <td class="is-danger is-narrow">
         <span class="deleteFile delete" data-url="/files/delete/publicimage/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
@@ -119,7 +119,7 @@
         ${extractFilename(file)}</a>
       </td>
       <td> ${ mime.getMimetype(file.splitFile.ext).toUpperAscii } </td>
-      <td> ${ fileSize(file.getFileSize) } </td>
+      <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
       <td class="is-danger is-narrow">
         <span class="deleteFile delete" data-url="/files/delete/private/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
@@ -162,7 +162,7 @@
         ${extractFilename(file)}</a>
       </td>
       <td> ${ mime.getMimetype(file.splitFile.ext).toUpperAscii } </td>
-      <td> ${ fileSize(file.getFileSize) } </td>
+      <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
       <td class="is-danger is-narrow">
         <span class="deleteFile delete" data-url="/files/delete/public/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
