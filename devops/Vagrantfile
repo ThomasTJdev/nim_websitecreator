@@ -12,25 +12,31 @@ $script = <<-SCRIPT
 echo Updating and Upgrading Pacman...
 yes | pacman -Syuu --needed
 
-echo Installing Postgres Database Server...
-pacman -S --noconfirm --needed postgres curl
+echo Installing Database Server...
+pacman -Syu --needed --noconfirm --quiet git pacman-contrib base-devel libwebp firejail
 
 echo Installing Nim with ChooseNim...
 export CHOOSENIM_NO_ANALYTICS=1
-export PATH=$HOME/.nimble/bin:$PATH
-echo "PATH=$HOME/.nimble/bin:$PATH" >> ~/.bashrc
-echo "PATH=$HOME/.nimble/bin:$PATH" >> ~/.profile
-curl https://nim-lang.org/choosenim/init.sh -sSfy | sh
+export PATH=$HOME/.nimble/bin:/root/.nimble/bin:$PATH
+echo "PATH=$HOME/.nimble/bin:/root/.nimble/bin:$PATH" >> ~/.profile
+echo "PATH=$HOME/.nimble/bin:/root/.nimble/bin:$PATH" >> ~/.bashrc
+echo "PATH=$HOME/.nimble/bin:/root/.nimble/bin:$PATH" >> /root/.profile
+echo "PATH=$HOME/.nimble/bin:/root/.nimble/bin:$PATH" >> /root/.bashrc
+source /root/.bashrc
+curl -sfk https://nim-lang.org/choosenim/init.sh > init.sh
+sh init.sh -y
 
 echo Updating Nimble...
 nimble -y refresh
 
 echo Installing Nim Website Creator...
-nimble -y install nimwc
+git clone https://github.com/ThomasTJdev/nim_websitecreator.git
+cd nim_websitecreator
+nim c -d:release -d:ssl -d:sqlite --passL:"-s" nimwc.nim
 
 echo Clean out...
 yes | pacman -Scc
-rm -rf /var/tmp/* /tmp/nimblecache/ /tmp/*
+rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/nimblecache/* /tmp/* /var/log/journal/*
 
 SCRIPT
 
