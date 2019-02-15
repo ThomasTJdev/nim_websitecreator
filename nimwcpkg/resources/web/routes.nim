@@ -27,7 +27,7 @@ routes:
         if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
           redirect("/login?msg=" & encodeUrl("Error: You need to verify, that you are not a robot!"))
 
-    let (loginB, loginS) = login(c, replace(toLowerAscii(@"email"), " ", ""), replace(@"password", " ", ""), @"totp".parseInt)
+    let (loginB, loginS) = login(c, replace(toLowerAscii(@"email"), " ", ""), replace(@"password", " ", ""), @"totp")
     if loginB:
       jester.setCookie("sid", loginS, daysForward(7))
       redirect("/settings")

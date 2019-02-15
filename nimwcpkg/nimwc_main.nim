@@ -309,13 +309,11 @@ proc checkLoggedIn(c: var TData) =
 #
 
 
-proc login(c: var TData, email, pass: string, totp: int): tuple[b: bool, s: string] =
+proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string] =
   ## User login
   when not defined(demo):
     if email == "test@test.com":
       return (false, "Email must not be test@test.com.")
-    if totp == 000000 or totp == 999999 or totp == 123456 or totp == 654321:
-      return (false, "2 Factor Authentication Number must not be 000000 or 999999 or 123456")
   when defined(demo) or defined(dev):
     if pass.len < 4:
       return (false, "Password too short")
@@ -337,6 +335,13 @@ proc login(c: var TData, email, pass: string, totp: int): tuple[b: bool, s: stri
       return (false, "Your account is not active")
 
     if row[7].len() != 0:
+      if totpRaw == "" or not isDigit(totpRaw):
+        return (false, "Insert your 2 Factor Authentication code")
+
+      let totp = parseInt(totpRaw)
+      if totp == 000000 or totp == 999999 or totp == 123456 or totp == 654321:
+        return (false, "2 Factor Authentication Number must not be 000000 or 999999 or 123456")
+
       let totpServerSide = $newTotp(row[7]).now()
       when not defined(release):
         echo "TOTP SERVER: " & totpServerSide
