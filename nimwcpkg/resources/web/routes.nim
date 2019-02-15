@@ -542,9 +542,9 @@ routes:
 
     try:
       writeFile(path, request.formData.getOrDefault("file").body)
-      #when not defined(noWebp):
-      #  if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
-      #    echo cwebp(path, path, "text", quality=1)
+      when not defined(noWebp):
+        if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
+          echo cwebp(path, path, "text", quality=1)
       if fileExists(path):
         exec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, ?)", path, 0)
         redirect("/files")
@@ -568,7 +568,9 @@ routes:
       fileDeleted = tryRemoveFile("public/images/" & decodeUrl(@"filename"))
 
     else:
-      fileDeleted = tryRemoveFile(storageEFS & "/files/" & @"access" & "/" & decodeUrl(@"filename"))
+      let path = storageEFS & "/files/" & @"access" & "/" & decodeUrl(@"filename")
+      fileDeleted = tryRemoveFile(path)
+      exec(db, sql"DELETE FROM files WHERE url = ?", path)
 
     if fileDeleted:
       redirect("/files")
