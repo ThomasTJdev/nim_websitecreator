@@ -25,7 +25,7 @@ const
     ☑️ Using compile options from *.nim.cfg
     ☑️ Using params: """  ## Message to show when started Compiling.
 
-  compile_ok_msg =  """👑 Nim Website Creator Compiled Ok! 👑
+  compile_ok_msg =  """ Nim Website Creator Compiled Ok!
 
   ☑️️ To start Nim Website Creator and access at http://127.0.0.1:<port>
       # Manually compiled
