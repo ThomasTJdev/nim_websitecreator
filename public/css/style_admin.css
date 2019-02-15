@@ -653,6 +653,18 @@ li.pluginRepo span.version.git {
 }
 
 
+
+/*
+  Server info
+*/
+#config {
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+}
+
+
 /*
   Saved notification
 */
