@@ -323,8 +323,10 @@ routes:
     resp genTos()
 
   get "/settings/firejail":
-    createTFD()
-    when not defined(noFirejail):
+    when defined(noFirejail):
+      redirect("/")
+    else:
+      createTFD()
       when not defined(demo): restrictAccessTo(c, [Admin]) # On Demo you can see the feature
       let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
       resp genMainAdmin(c, genFirejail(
@@ -353,8 +355,10 @@ routes:
       ))
 
   post "/settings/firejail/save":
-    createTFD()
-    when not defined(noFirejail):
+    when defined(noFirejail):
+      redirect("/")
+    else:
+      createTFD()
       restrictAccessTo(c, [Admin])
       let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
       var dict = loadConfig(konfig)
@@ -384,11 +388,13 @@ routes:
         dict.writeConfig(konfig)
       except:
         resp $getCurrentExceptionMsg()
-    redirect("/settings")
+      redirect("/settings")
 
   get "/settings/design/unsplash":
-    createTFD()
-    when not defined(noUnsplash):
+    when defined(noUnsplash):
+      redirect("/")
+    else:
+      createTFD()
       when not defined(demo): restrictAccessTo(c, [Admin]) # On Demo you can see the feature
       let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
       resp genMainAdmin(c, genUnsplash(
@@ -401,8 +407,10 @@ routes:
       ))
 
   post "/settings/unsplash/save":
-    createTFD()
-    when not defined(noUnsplash):
+    when defined(noUnsplash):
+      redirect("/")
+    else:
+      createTFD()
       restrictAccessTo(c, [Admin])
       let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
       var dict = loadConfig(konfig)
