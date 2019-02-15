@@ -483,10 +483,10 @@ routes:
       resp("Error: File was not found")
 
     var downloadCount =
-      try: parseInt(getValue(db, sql"SELECT downloadCount FROM files where url = ? and id = ?", filepath, c.userid))
+      try: parseInt(getValue(db, sql"SELECT downloadCount FROM files where url = ?", filepath))
       except: 0
     inc downloadCount
-    exec(db, sql"UPDATE files SET downloadCount = ? where url = ? and id = ?", downloadCount, filepath, c.userid)
+    exec(db, sql"UPDATE files SET downloadCount = ? where url = ?", downloadCount, filepath)
     sendFile(filepath)
 
 
@@ -509,7 +509,7 @@ routes:
         if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
           echo cwebp(path, path, "text", quality=1)
       if fileExists(path):
-        exec(db, sql"INSERT INTO files(id, url, downloadCount) VALUES (?, ?, ?)", c.userid, path, 0)
+        exec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, ?)", path, 0)
         resp("[\"/images/" & filename & "\"]")
 
     except:
@@ -542,11 +542,11 @@ routes:
 
     try:
       writeFile(path, request.formData.getOrDefault("file").body)
-      when not defined(noWebp):
-        if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
-          echo cwebp(path, path, "text", quality=1)
+      #when not defined(noWebp):
+      #  if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
+      #    echo cwebp(path, path, "text", quality=1)
       if fileExists(path):
-        exec(db, sql"INSERT INTO files(id, url, downloadCount) VALUES (?, ?, ?)", c.userid, path, 0)
+        exec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, ?)", path, 0)
         redirect("/files")
 
     except:
