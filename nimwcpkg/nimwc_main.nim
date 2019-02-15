@@ -45,7 +45,7 @@ const
   Please configure it and restart Nim Website Creator. Bye. """
 
   startup_msg = """
-  Package:      Nim Website Creator 👑 https://NimWC.org
+  Package:      Nim Website Creator - https://NimWC.org
   Description:  Self-Firejailing 2-Factor-Auth Nim Web Framework thats simple to use.
   Author name:  Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (http://github.com/juancarlospaco)
   Current time: """
