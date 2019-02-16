@@ -4,7 +4,7 @@ const
   pluginRepo = "https://github.com/ThomasTJdev/nimwc_plugins.git"
   pluginRepoName = "nimwc_plugins"
   pluginHtmlListItem = """
-    <li data-plugin="$1" class="pluginSettings disabled" data-enabled="$2">
+    <li data-plugin="$1" class="pluginSettings $6" data-enabled="$2">
       <div class="name"> <a href="$3"><b>$4</b> <i>($5)</i></a> </div>
       <div class="enablePlugin"  title="Turn ON">  Start </div>
       <div class="disablePlugin" title="Turn OFF"> Stop  </div>
@@ -137,10 +137,32 @@ proc genExtensionSettings*(): string =
   ## Generate HTML list items with plugins
   for plugin in extensionSettings():
     let pluginName = (split(plugin, ":"))[1]
+
     result.add(pluginHtmlListItem.format(
-      pluginName,                        # $1
-      (split(plugin, ":"))[0] == "true", # $2
-      if (split(plugin, ":"))[0] == "true": pluginName & "/settings" else: "#",
-      pluginName.capitalizeAscii,        # $4
-      if (split(plugin, ":"))[0] == "true": "ON" else: "OFF", # $5
+      # $1
+      pluginName,
+
+      # $2
+      (split(plugin, ":"))[0] == "true",
+
+      # $3
+      if (split(plugin, ":"))[0] == "true":
+        pluginName & "/settings"
+      else:
+        "#",
+
+      # $4
+      pluginName.capitalizeAscii,
+
+      # $5
+      if (split(plugin, ":"))[0] == "true":
+        "ON"
+      else:
+        "OFF",
+
+      # $6
+      if (split(plugin, ":"))[0] == "true":
+        "enabled"
+      else:
+        "disabled"
     ))

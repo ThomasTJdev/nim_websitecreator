@@ -587,11 +587,11 @@ li.pluginSettings .disablePlugin {
 li.pluginSettings .enablePlugin {
   background: rgba(0, 128, 0, 0.5);
 }
-li.pluginSettings.enabled .enablePlugin {
-  display: none;
-}
 li.pluginSettings .disablePlugin {
   background: rgba(194, 54, 54, 0.5);
+}
+li.pluginSettings.enabled .enablePlugin {
+  display: none;
 }
 li.pluginSettings.disabled .disablePlugin {
   display: none;
