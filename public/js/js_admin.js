@@ -68,13 +68,14 @@ if ($btnFileDelete.length) {
 }
 
 function uploadFile(projectID) {
-  var access    = $('input[name=fileRadio]:checked').attr("data-value");
-  var file      = $('#file').get(0).files[0];
+  var access    = $("input[name=fileRadio]:checked").attr("data-value");
+  var webp      = $("#webpstatus").is(":checked");
+  var file      = $("#file").get(0).files[0];
   var filename  = file.name;
   var formData  = new FormData();
   formData.append('file', file);
   $.ajax({
-    url: "/files/upload/" + access,
+    url: "/files/upload/" + access + "?webpstatus=" + webp,
     data: formData,
     type: 'POST',
     cache: false,
@@ -110,6 +111,15 @@ if (btnUserAdd != null) {
 /*
   Users profile
 */
+/*
+    2FA
+_____________________*/
+$(function() {
+  $(".show2fa").click(function () {
+    $(".2fa-container").show();
+    $(".show2fa").hide();
+  });
+});
 
 /*
     Modal: Profile picture
