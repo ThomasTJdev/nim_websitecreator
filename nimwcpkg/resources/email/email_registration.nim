@@ -4,7 +4,7 @@ import
   ../email/email_generate_message
 
 const
-  ActivationMsg = """
+  activationMsg = """
     <h3>Hello $1 </h3>
     <br><br>
     $2 has created a user account for you on $7.
@@ -26,7 +26,7 @@ const
     <br><br>
     Thank you for registering and becoming a part of $6!"""
 
-  RegistrationMsg = """
+  registrationMsg = """
     <h3>Hello $1 </h3>
     <br><br>
     We are looking forward to see you at $3!
@@ -47,7 +47,7 @@ let
 
 proc sendEmailActivationManual*(email, userName, password, activateUrl, invitorName: string) {.async.} =
   ## Send the activation email, when admin added a new user
-  let message = ActivationMsg.format(
+  let message = activationMsg.format(
     userName, invitorName, email, password,
     (website & activateUrl), title, website, supportEmail)
   await sendMailNow(title & " - Email Confirmation", genEmailMessage(message), email)
@@ -56,5 +56,5 @@ proc sendEmailActivationManual*(email, userName, password, activateUrl, invitorN
 proc sendEmailRegistrationFollowup*(email, userName: string) {.async.} =
   ## Send a follow up mail, if user
   ## has not used their activation link
-  let message = RegistrationMsg.format(userName, title, website, supportEmail)
+  let message = registrationMsg.format(userName, title, website, supportEmail)
   await sendMailNow(title & "- Reminder: Email Confirmation", genEmailMessage(message), email)
