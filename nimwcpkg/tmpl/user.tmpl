@@ -57,20 +57,11 @@
       <div class="field form-group">
         <label class="label">2 Factor Auth (TOTP)</label>
         <div class="control has-icons-left has-icons-right">
-          <input type="number" class="form-control input is-rounded" name="totp" placeholder="6 Digit Number (FreeOTP)" min="000000" max="999999" step="1" dir="auto"
+          <input type="number" class="form-control input is-rounded has-text-centered" name="totp" placeholder="6 Digit Number" min="000000" max="999999" step="1" dir="auto"
           # when defined(demo):
             value="123456"
           # end when
           >
-        <br>
-        <a href="https://freeotp.github.io">Get FreeOTP Mobile App (Open Source)</a>
-        <br>
-        <!--
-          <details title="Compile this source code with Nim to create your own 2 Factor Auth App!">
-            <summary>2FA TOTP Desktop App (Nim Source)</summary>
-            <code>import os,otp;echo newTotp(paramStr(1)).now</code>
-          </details>
-        -->
         </div>
       </div>
 
@@ -84,7 +75,7 @@
       <div class="field form-group">
         <label class="checkbox">
           <input type="checkbox" title="I agree to the Terms Of Service and Cookies" required checked >
-            <a href="/termsofservice"><small><i style="opacity:.5">I accept TOS</i></small></a>
+            <a href="/termsofservice"><small><i style="opacity:.5">I accept the Terms of Service</i></small></a>
         </label>
       </div>
 
