@@ -326,32 +326,32 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string
   const query = sql"SELECT id, name, password, email, salt, status, secretUrl, twofa FROM person WHERE email = ? AND status <> 'Deactivated'"
 
   for row in fastRows(db, query, toLowerAscii(email)):
-    if row[6] != "":
-      info("Login failed. Account not activated")
-      return (false, "Your account is not activated. Please click on the confirmation link you email.")
-
-    if parseEnum[Rank](row[5]) notin [Admin, Moderator, User]:
-      info("Login failed. Your account is not active.")
-      return (false, "Your account is not active")
-
-    if row[7].len() != 0:
-      if totpRaw == "" or not isDigit(totpRaw):
-        return (false, "Insert your 2 Factor Authentication code")
-
-      let totp = parseInt(totpRaw)
-      if totp == 000000 or totp == 999999 or totp == 123456 or totp == 654321:
-        return (false, "2 Factor Authentication Number must not be 000000 or 999999 or 123456")
-
-      let totpServerSide = $newTotp(row[7]).now()
-      when not defined(release):
-        echo "TOTP SERVER: " & totpServerSide
-        echo "TOTP USER  : " & $totp
-        when defined(dev): echo "TOTP SERVER SECRET: " & $row[7]
-      if $totp != totpServerSide and not defined(demo):
-        info("Login failed. 2 Factor Authentication number is invalid or expired.")
-        return (false, "2 Factor Authentication number is invalid or expired")
-
     if row[2] == makePassword(pass, row[4], row[2]):
+      if row[6] != "":
+        info("Login failed. Account not activated")
+        return (false, "Your account is not activated. Please click on the confirmation link you email.")
+
+      if parseEnum[Rank](row[5]) notin [Admin, Moderator, User]:
+        info("Login failed. Your account is not active.")
+        return (false, "Your account is not active")
+
+      if row[7].len() != 0:
+        if totpRaw == "" or not isDigit(totpRaw):
+          return (false, "Insert your 2 Factor Authentication code")
+
+        let totp = parseInt(totpRaw)
+        if totp == 000000 or totp == 999999 or totp == 123456 or totp == 654321:
+          return (false, "2 Factor Authentication Number must not be 000000 or 999999 or 123456")
+
+        let totpServerSide = $newTotp(row[7]).now()
+        when not defined(release):
+          echo "TOTP SERVER: " & totpServerSide
+          echo "TOTP USER  : " & $totp
+          when defined(dev): echo "TOTP SERVER SECRET: " & $row[7]
+        if $totp != totpServerSide and not defined(demo):
+          info("Login failed. 2 Factor Authentication number is invalid or expired.")
+          return (false, "2 Factor Authentication number is invalid or expired")
+
       c.userid   = row[0]
       c.username = row[1]
       c.userpass = row[2]
