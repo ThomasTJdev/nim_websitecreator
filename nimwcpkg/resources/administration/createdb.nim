@@ -31,7 +31,7 @@ const
       id         $3            primary key,
       name       varchar(60)   not null,
       password   varchar(300)  not null,
-      twofa      varchar(8)    not null,
+      twofa      varchar(60)   not null,
       email      varchar(254)  not null,
       creation   $2            not null           default $1,
       modified   $2            not null           default $1,
