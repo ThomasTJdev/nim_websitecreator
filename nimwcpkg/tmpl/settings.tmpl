@@ -90,7 +90,7 @@
           </div>
           <hr>
 
-          # when not defined(noUnsplash):
+          # when defined(unsplash):
             <label class="label">Design</label>
             <div class="buttons columns is-mobile">
               <div class="column"><a class="btn btn-outline-primary button is-small" title="High Quality Background Images" href="/settings/design/unsplash">Backgrounds</a></div>
@@ -114,12 +114,12 @@
             <div class="column"><a href="/settings/logs" class="btn btn-outline-primary button is-small">Logs</a></div>
           </div>
           <hr>
-          # when not defined(noFirejail):
-            <label class="label">Security</label>
-            <div class="buttons columns is-mobile">
-              <div class="column"><a href="/settings/firejail" class="btn btn-outline-primary button is-small" title="Firejail security is built-in on the Core of NimWC">Firejail</a></div>
-            </div>
-            <hr>
+          # when defined(firejail):
+          <label class="label">Security</label>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a href="/settings/firejail" class="btn btn-outline-primary button is-small" title="Firejail security is built-in on the Core of NimWC">Firejail</a></div>
+          </div>
+          <hr>
           # end when
 
 

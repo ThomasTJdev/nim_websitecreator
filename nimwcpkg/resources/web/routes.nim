@@ -323,11 +323,13 @@ routes:
     resp genTos()
 
   get "/settings/firejail":
-    when defined(noFirejail):
+    createTFD()
+    restrictTestuser(c.req.reqMethod)
+    restrictAccessTo(c, [Admin])
+
+    when not defined(firejail):
       redirect("/")
     else:
-      createTFD()
-      when not defined(demo): restrictAccessTo(c, [Admin]) # On Demo you can see the feature
       let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
       resp genMainAdmin(c, genFirejail(
         dict.getSectionValue("firejail", "noDvd").parseBool,
@@ -355,11 +357,13 @@ routes:
       ))
 
   post "/settings/firejail/save":
-    when defined(noFirejail):
+    createTFD()
+    restrictTestuser(c.req.reqMethod)
+    restrictAccessTo(c, [Admin])
+
+    when not defined(firejail):
       redirect("/")
     else:
-      createTFD()
-      restrictAccessTo(c, [Admin])
       let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
       var dict = loadConfig(konfig)
       try:  # HTML Checkbox returns empty string for false and "on" for true.
@@ -391,7 +395,7 @@ routes:
       redirect("/settings")
 
   get "/settings/design/unsplash":
-    when defined(noUnsplash):
+    when not defined(unsplash):
       redirect("/")
     else:
       createTFD()
@@ -407,7 +411,7 @@ routes:
       ))
 
   post "/settings/unsplash/save":
-    when defined(noUnsplash):
+    when not defined(unsplash):
       redirect("/")
     else:
       createTFD()
@@ -505,7 +509,7 @@ routes:
 
     try:
       writeFile(path, request.formData.getOrDefault("file[]").body)
-      when not defined(noWebp):
+      when defined(webp):
         if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
           when defined(dev):
             echo cwebp(path, path, "text", quality=1)
@@ -546,7 +550,7 @@ routes:
 
     try:
       writeFile(path, request.formData.getOrDefault("file").body)
-      when not defined(noWebp):
+      when defined(webp):
         if @"webpstatus" == "true":
           if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
             when defined(dev):

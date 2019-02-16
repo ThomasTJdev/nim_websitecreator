@@ -1,7 +1,7 @@
 import os, osproc, rdstdin, sequtils, strutils, terminal, times, json
 
-when defined(noFirejail): {.warning: "Firejail is Disabled, Running Unsecure.".}
-else:                     import firejail, parsecfg
+when not defined(firejail): {.warning: "Firejail is Disabled, Running Unsecure.".}
+else:                       import firejail, parsecfg
 
 when defined(windows):
   {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
@@ -79,17 +79,17 @@ const
     --initplugin          Create plugin skeleton inside tmp/
 
   Compile options:
-    -d:sqlite             SQLite Dabatase is Enabled. Postgres Dabatase is Disabled.
-    -d:noFirejail         Firejail is Disabled. Runs unsecure. Not recommended.
-    -d:noWebp             WebP is Disabled, no image optimizations. Not recommended.
-    -d:noUnsplash         Unsplash is Disabled, No background images on pages.
+    -d:sqlite             SQLite Dabatase is enabled. Postgres dabatase is disabled.
+    -d:firejail           Firejail is enabled. Runs secure.
+    -d:webp               WebP is enabled. Optimize images.
+    -d:unsplash           Unsplash is enabled. Different background images on pages.
     -d:rc                 Force Recompile (good for Troubleshooting).
     -d:adminnotify        Send error logs (ERROR) to the specified Admin email.
     -d:dev                Development (ignore reCaptcha, no emails, more Verbose).
     -d:devemailon         Send email when -d:dev is activated.
-    -d:demo               Public Demo mode. Enable Test user. 2FA ignored.
+    -d:demo               Public demo mode. Enable Test user. 2FA ignored.
                           Force database reset every 1 hour. Some options Disabled.
-    -d:gitupdate          Force Update from Git and force a hard reset.
+    -d:gitupdate          Force update from Git and force a hard reset.
 
   Tips:
     Always Compile with -d:release for Production. We recommend Firejail too.
@@ -104,10 +104,10 @@ const
     when defined(ssl):         " -d:ssl",
     when defined(sqlite):      " -d:sqlite",
     when defined(noFields):    " -d:noFields",
-    when defined(noWebp):      " -d:noWebp",
-    when defined(noFirejail):  " -d:noFirejail",
-    when defined(noUnsplash):  " -d:noUnsplash",
-    when defined(release):     " -d:release",
+    when defined(webp):        " -d:webp",
+    when defined(firejail):    " -d:firejail",
+    when defined(unsplash):    " -d:unsplash",
+    when defined(release):     " -d:release"
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   nimwc_version =
@@ -146,7 +146,7 @@ proc launcherActivated() =
   styledEcho(fgGreen, bgBlack, $now() & ": Nim Website Creator: Launcher starting.")
   var nimwcCommand: string
 
-  when defined(noFirejail):
+  when not defined(firejail):
     nimwcCommand = getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun
   else:
     let dict = loadConfig(getAppDir() & "/config/config.cfg")

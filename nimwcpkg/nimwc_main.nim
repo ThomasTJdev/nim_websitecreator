@@ -29,14 +29,14 @@ import
 
 when defined(sqlite): import db_sqlite
 
-when defined(noWebp): {. warning: "WebP is Disabled, No Image Optimizations." .}
-else:                 from webp import cwebp
+when not defined(webp): {. warning: "WebP is Disabled, No Image Optimizations." .}
+else:                   from webp import cwebp
 
-when defined(noFirejail): {. warning: "Firejail is Disabled, Running Unsecure." .}
-else:                     from firejail import firejailVersion, firejailFeatures
+when not defined(firejail): {. warning: "Firejail is Disabled, Running Unsecure." .}
+else:                       from firejail import firejailVersion, firejailFeatures
 
-when defined(noUnsplash): {. warning: "Unsplash is Disabled, Cant set background images on pages." .}
-else:                     import unsplash
+when not defined(unsplash): {. warning: "Unsplash is Disabled, Cant set background images on pages." .}
+else:                       import unsplash
 
 const
   config_not_found_msg = """
@@ -46,7 +46,7 @@ const
 
   startup_msg = """
   Package:      Nim Website Creator - https://NimWC.org
-  Description:  Self-Firejailing 2-Factor-Auth Nim Web Framework thats simple to use.
+  Description:  Self-Firejailing Nim Web Framework thats simple to use.
   Author name:  Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (http://github.com/juancarlospaco)
   Current time: """
 
@@ -58,10 +58,10 @@ const
     when defined(ssl):         " -d:ssl",
     when defined(sqlite):      " -d:sqlite",
     when defined(noFields):    " -d:noFields",
-    when defined(noWebp):      " -d:noWebp",
-    when defined(noFirejail):  " -d:noFirejail",
-    when defined(noUnsplash):  " -d:noUnsplash",
-    when defined(release):     " -d:release",
+    when defined(webp):        " -d:webp",
+    when defined(firejail):    " -d:firejail",
+    when defined(unsplash):    " -d:unsplash",
+    when defined(release):     " -d:release"
   ].join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
@@ -448,7 +448,7 @@ when defined(demo):
     createStandardData(db)
 
 
-when not defined(noUnsplash):
+when defined(unsplash):
   proc reDownloadBGPhoto() {.async.} =
     ## Re-Download Photo images for background of pages.
     const
@@ -569,7 +569,7 @@ when isMainModule:
   if not fileExists("public/js/js_custom.js"):
     writeFile("public/js/js_custom.js", "")
 
-  when not defined(noUnsplash): asyncCheck reDownloadBGPhoto()
+  when defined(unsplash): asyncCheck reDownloadBGPhoto()
   info("Up and running!.")
 
 
@@ -595,8 +595,8 @@ include "tmpl/logs.tmpl"
 include "tmpl/serverinfo.tmpl"
 include "tmpl/tos.tmpl"
 include "tmpl/editconfig.tmpl"
-when not defined(noUnsplash): include "tmpl/unsplash.tmpl"
-when not defined(noFirejail): include "tmpl/firejail.tmpl"
+when defined(firejail): include "tmpl/firejail.tmpl"
+when defined(unsplash): include "tmpl/unsplash.tmpl"
 
 
 #

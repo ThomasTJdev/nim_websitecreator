@@ -9,7 +9,7 @@
 <table border=1 class="table is-bordered is-striped is-hoverable is-fullwidth">
   <thead>
     <tr>
-      <th>Name</th>
+      <th style="width: 200px;">Name</th>
       <th>Value</th>
     </tr>
   </thead>
@@ -77,7 +77,7 @@
   <tr>
     <td> <b>Nim Version</b> </td>       <td>$NimVersion</td>
   </tr>
-  # when not defined(noFirejail):
+  # when defined(firejail):
     <tr>
       <td> <b>Firejail Version</b> </td><td> $firejailVersion </td>
     </tr>
@@ -125,31 +125,34 @@
     <td> <b>Encoding</b> </td>          <td>${getCurrentEncoding()}</td>
   </tr>
   <tr>
-    <td> <b>SSL?</b> </td>              <td>${defined(ssl)}</td>
+    <td> <b>SSL enabled</b> </td>              <td>${defined(ssl)}</td>
   </tr>
   <tr>
-    <td> <b>ReCaptcha?</b> </td>        <td>$useCaptcha</td>
+    <td> <b>ReCaptcha enabled</b> </td>        <td>$useCaptcha</td>
   </tr>
   <tr>
-    <td> <b>No WebP?</b> </td>          <td>${defined(noWebp)}</td>
+    <td> <b>WebP enabled</b> </td>      <td>${defined(webp)}</td>
+  </tr>
+  <tr>
+    <td> <b>Unsplash enabled</b> </td>      <td>${defined(unsplash)}</td>
   </tr>
   <tr>
     <td> <b>Release Build?</b> </td>    <td>${defined(release)}</td>
   </tr>
   <tr>
-    <td> <b>Demo Mode?</b> </td>        <td>${defined(demo)}</td>
+    <td> <b>Demo Mode enabled</b> </td> <td>${defined(demo)}</td>
   </tr>
   <tr>
-    <td> <b>Admin Notify?</b> </td>     <td>${defined(adminnotify)}</td>
+    <td> <b>Admin Notify enabled</b> </td><td>${defined(adminnotify)}</td>
   </tr>
   <tr>
-    <td> <b>Force Recompile?</b> </td>  <td>${defined(rc)}</td>
+    <td> <b>Force Recompile enabled</b> </td>  <td>${defined(rc)}</td>
   </tr>
   <tr>
-    <td> <b>Development Mode?</b> </td> <td>${defined(dev)}</td>
+    <td> <b>Development Mode enabled</b> </td> <td>${defined(dev)}</td>
   </tr>
   <tr>
-    <td> <b>Update from GIT?</b></td>   <td>${defined(gitupdate)}</td>
+    <td> <b>Update from GIT enabled</b></td>   <td>${defined(gitupdate)}</td>
   </tr>
   <tr>
     <td> <b>Free Memory</b> </td>       <td>${getFreeMem()}</td>
