@@ -455,6 +455,20 @@ div#user #editProfilePhoto {
   text-align: center;
   background: white;
 }
+div#user div.twofa-container {
+  border: 1px solid black;
+  padding: 5px;
+}
+div#user div.twofa-container input {
+  margin: 5px 0 5px 0;
+}
+div#user input.twofaEnabled {
+  display: inline-block;
+  font-weight: 700;
+  background-color: #a1ffb1;
+  color: #3a3a3a;
+  width: auto;
+}
 @media only screen and (max-width: 768px) {
   div#user label {
     margin-top: 15px;

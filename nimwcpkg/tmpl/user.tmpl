@@ -57,7 +57,7 @@
       <div class="field form-group">
         <label class="label">2 Factor Auth (TOTP)</label>
         <div class="control has-icons-left has-icons-right">
-          <input type="number" class="form-control input is-rounded" name="totp" placeholder="6 Digit Number (FreeOTP)" min="000000" max="999999" step="1" dir="auto" required
+          <input type="number" class="form-control input is-rounded" name="totp" placeholder="6 Digit Number (FreeOTP)" min="000000" max="999999" step="1" dir="auto"
           # when defined(demo):
             value="123456"
           # end when
@@ -215,7 +215,7 @@
 #proc genUsersProfile(c: var TData): string =
 # result = ""
 #
-# let userData = getAllRows(db, sql"SELECT id, name, email, status, lastOnline FROM person WHERE id = ?", c.userid)
+# let userData = getAllRows(db, sql"SELECT id, name, email, status, lastOnline, twofa FROM person WHERE id = ?", c.userid)
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.js" defer></script>
@@ -265,9 +265,36 @@
           </div>
 
           <div class="field" style="margin-bottom: 10px;">
+            <label class="label">2 Factor Authentication</label>
+            # if user[5].len() > 0:
+              <input class="input twofaEnabled" disabled="disabled" value="2FA is enabled">
+              <a href="#!" class="button is-danger is-small is-pulled-right	disable2fa">Disable</a>
+            # else:
+              <a href="#!" class="button is-info is-fullwidth show2fa">Enable</a>
+              <div class="hidden twofa-container">
+                <p>Open your 2FA software and insert the code below. Test the code in input field below - on successful result, press "Save 2FA".</p>
+                # proc twoFaKey(): string =
+                #   let items = toSeq('A'..'Z')
+                #   for i in countUp(0, 10):
+                #     result.add(rand(items))
+                #   end for
+                # end template
+                <input type="text" id="twofa-key" class="form-control input has-text-centered" disabled="disabled" value="${twoFaKey()}">
+                <input type="text" id="twofa-testcode" class="form-control input has-text-centered" placeholder="Test 2FA" value="">
+                <div>
+                  <a href="#!" class="button is-info is-pulled-left test2fa">Test 2FA</a>
+                  <a href="#!" class="hidden button is-success is-pulled-right save2fa">Save 2FA</a>
+                </div>
+              </div>
+            # end if
+          </div>
+
+          <div class="field" style="margin-bottom: 10px;">
             <label class="label">Status</label>
             <input type="text" class="form-control input" disabled="disabled" value="${user[3]}" dir="auto">
           </div>
+
+          <hr>
 
           <div class="save">
             <button type="submit" class="btn btn-success save submit button is-success is-fullwidth">Save</button>

@@ -21,13 +21,6 @@ const
         Password:
         <input type="text" title="Password" onClick="this.select();document.execCommand('copy')" value="$4" readonly >
       </li>
-      <li>
-        2 Factor Auth Secret:
-        <input type="number" title="Secret for FreeOTP (TOTP, 6 Digits)" onClick="this.select();document.execCommand('copy')" value="$9" readonly >
-      </li>
-      <li>
-        <a href="https://freeotp.github.io">Get FreeOTP App at https://freeotp.github.io</a>
-      </li>
     </ul>
     Please do not hesitate to contact us at $8, if you have any questions.
     <br><br>
@@ -52,11 +45,11 @@ let
   supportEmail = dict.getSectionValue("SMTP","SMTPEmailSupport")
 
 
-proc sendEmailActivationManual*(email, userName, password, twoFa, activateUrl, invitorName: string) {.async.} =
+proc sendEmailActivationManual*(email, userName, password, activateUrl, invitorName: string) {.async.} =
   ## Send the activation email, when admin added a new user
   let message = ActivationMsg.format(
     userName, invitorName, email, password,
-    (website & activateUrl), title, website, supportEmail, twoFa)
+    (website & activateUrl), title, website, supportEmail)
   await sendMailNow(title & " - Email Confirmation", genEmailMessage(message), email)
 
 

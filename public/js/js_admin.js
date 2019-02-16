@@ -116,10 +116,66 @@ if (btnUserAdd != null) {
 _____________________*/
 $(function() {
   $(".show2fa").click(function () {
-    $(".2fa-container").show();
+    $(".twofa-container").css("display", "inline-block");
     $(".show2fa").hide();
   });
+  $(".test2fa").click(function () {
+    var twofaTest = $("#twofa-testcode").val();
+    var twofaKey = $("#twofa-key").val();
+    twoFAtest(twofaTest, twofaKey);
+  });
+  $(".save2fa").click(function () {
+    var twofaKey = $("#twofa-key").val();
+    twoFAsave(twofaKey);
+  });
+  $(".disable2fa").click(function () {
+    twoFAdisable();
+  });
 });
+
+function twoFAtest(twofaTest, twofaKey) {
+  $.ajax({
+    url: "/users/profile/update/test2fa?twofakey=" + twofaKey + "&testcode=" + twofaTest,
+    type: 'POST',
+    success: function(response) {
+      if (response.slice(0,5) == "Error") {
+        alert("WARNING: The code did not match!");
+        $("#twofa-testcode").css("background-color", "#ff6363");
+        $(".save2fa").hide();
+      } else {
+        $("#twofa-testcode").css("background-color", "#a1ffb1");
+        $(".save2fa").show();
+      }
+    }
+  });
+}
+function twoFAsave(twofaKey) {
+  $.ajax({
+    url: "/users/profile/update/save2fa?twofakey=" + twofaKey,
+    type: 'POST',
+    success: function(response) {
+      if (response.slice(0,5) == "Error") {
+        alert("Error, something went wrong");
+      } else {
+        location.reload();
+      }
+    }
+  });
+}
+function twoFAdisable() {
+  $.ajax({
+    url: "/users/profile/update/disable2fa",
+    type: 'POST',
+    success: function(response) {
+      if (response.slice(0,5) == "Error") {
+        alert("Error, something went wrong");
+      } else {
+        location.reload();
+      }
+    }
+  });
+}
+
 
 /*
     Modal: Profile picture

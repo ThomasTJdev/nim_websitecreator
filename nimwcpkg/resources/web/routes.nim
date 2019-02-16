@@ -634,6 +634,48 @@ routes:
     redirect("/users/profile")
 
 
+  post "/users/profile/update/test2fa":
+    createTFD()
+    restrictTestuser(HttpGet)
+
+    if not c.loggedIn:
+      redirect("/")
+
+    try:
+      if $newTotp(@"twofakey").now() == @"testcode":
+        resp("Success, the code mathed")
+      else:
+        resp("Error, code did not match")
+    except:
+      resp("Error generating 2FA")
+
+
+  post "/users/profile/update/save2fa":
+    createTFD()
+    restrictTestuser(HttpGet)
+
+    if not c.loggedIn:
+      redirect("/")
+
+    if tryExec(db, sql"UPDATE person SET twofa = ? WHERE id = ?", @"twofakey", c.userid):
+      resp("Saved 2FA key")
+    else:
+      resp("Error saving 2FA key")
+
+
+  post "/users/profile/update/disable2fa":
+    createTFD()
+    restrictTestuser(HttpGet)
+
+    if not c.loggedIn:
+      redirect("/")
+
+    if tryExec(db, sql"UPDATE person SET twofa = ? WHERE id = ?", "", c.userid):
+      resp("Disabled 2FA key")
+    else:
+      resp("Error disabling 2FA key")
+
+
   get "/users/delete/@userID":
     createTFD()
     restrictTestuser(c.req.reqMethod)
@@ -685,11 +727,10 @@ routes:
       passwordOriginal = $rand(10_00_00_00_00_01.int..89_99_99_99_99_98.int) # User Must change it anyways.
       password = makePassword(passwordOriginal, salt)
       secretUrl = repeat($rand(10_00_00_00_00_00_00_00_00.int..int.high), 5).center(99, rand(toSeq('a'..'z')))
-      twoFa = base32.encode($rand(10_01.int..89_98.int))
 
-    let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, salt, secretUrl, twofa) VALUES (?, ?, ?, ?, ?, ?, ?)", @"name", emailReady, @"status", password, salt, secretUrl, twoFa)
+    let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, salt, secretUrl) VALUES (?, ?, ?, ?, ?, ?)", @"name", emailReady, @"status", password, salt, secretUrl)
 
-    asyncCheck sendEmailActivationManual(emailReady, @"name", passwordOriginal, twoFa, "/users/activate?id=" & $userID & "&ident=" & secretUrl, c.username)
+    asyncCheck sendEmailActivationManual(emailReady, @"name", passwordOriginal, "/users/activate?id=" & $userID & "&ident=" & secretUrl, c.username)
 
     redirect("/users")
 

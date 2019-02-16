@@ -328,7 +328,7 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string
   for row in fastRows(db, query, toLowerAscii(email)):
     if row[6] != "":
       info("Login failed. Account not activated")
-      return (false, "Your account is not activated")
+      return (false, "Your account is not activated. Please click on the confirmation link you email.")
 
     if parseEnum[Rank](row[5]) notin [Admin, Moderator, User]:
       info("Login failed. Your account is not active.")
