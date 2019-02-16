@@ -317,9 +317,7 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string
   when defined(demo) or defined(dev):
     if pass.len < 4:
       return (false, "Password too short")
-  else:
-    if pass.len < 10:
-      return (false, "Password too short")
+
   if email.len == 0 or pass.len == 0:
     return (false, "Empty password or username")
 
