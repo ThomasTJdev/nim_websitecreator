@@ -4,6 +4,7 @@
 - Add Force Server Restart for Admins, restart on 1 second
 - Update Bulma version
 - Filter avatar image file format, because Crop thingy get buggy/slow with GIF
+- 2 Factor Authentication
 - Add MimeType, Size, CheckSum to Files page, useful for UI/UX building
 - Add button to Copy all the Logs content on one click on Logs page
 - Add Dockerfile to the repo
@@ -12,6 +13,20 @@
 - Update Readme
 - Update Nimble file
 - First release of 2019
+
+### Breaking changes
+- New column in `person` table: `twofa`:
+```sql
+ALTER TABLE person ADD COLUMN twofa varchar(60)
+```
+- New table: `files`:
+```nim
+./nimwc --newdb
+```
+- Dependency [firejail](https://github.com/juancarlospaco/nim-firejail), install firejail on your system
+- Dependency [webp](https://github.com/juancarlospaco/nim-webp-tools), install libwebp on your system
+
+
 
 ## v4.0.11
 ### Changes
