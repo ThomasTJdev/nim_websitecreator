@@ -7,40 +7,66 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 # Features
 
-- Self-Firejailing Web Framework (It Firejails itself) Best Linux Security integrated on the Core.
-- High performance with low resources (Rasp Pi, VPS, cloud, old pc, etc).
-- [Postgres](https://www.postgresql.org) or SQLite Databases with ORM.
-- SQL Type-checked and Query-checked at compile-time, no SQL injections.
-- Uses responsive [Bulma CSS framework](https://bulma.io), supports [Bootstrap CSS framework](https://getbootstrap.com).
-- JavaScript framework agnostic, use Nim, [Karax](https://github.com/pragmagic/karax), vanilla JS, you choose.
-- WYSIWYG & Drag'n'Drop Editors with [Summernote](https://summernote.org), [CodeMirror](https://codemirror.net) or [GrapesJS](https://grapesjs.com).
-- Webserver hosting your page on 127.0.0.1:7000
+## Blogpost and pages
 - 1 Click Blogging posts directly from browser.
 - 1 Click Static web pages directly from browser.
-- Upload files and images (private or public) directly from browser.
-- Plugin Store integrated, enable and disable plugins directly from browser. Open Source or Private Plugins.
+- WYSIWYG & Drag'n'Drop Editors with [Summernote](https://summernote.org), [CodeMirror](https://codemirror.net) or [GrapesJS](https://grapesjs.com).
 - Custom title, meta description and keywords for each page, SEO friendly.
 - Custom head, navbar and footer, no hardcoded watermarks, links or logos.
+- Upload files and images (private or public) directly from browser.
+- Standard theme and website setup
+
+## Security
+- Self-Firejailing Web Framework (It Firejails itself) Best Linux Security integrated on the Core.
+- 2 Factor Athentication TOTP
+- ReCAPTCHA
+- HoneyPot-Field
+- BCrypt+Salt password hashing
+- SQL Type-checked and Query-checked at compile-time, no SQL injections.
+- Multiple users with different ranks.
+
+## Configuration
 - Edit core or custom JS and CSS directly from browser, UI/UX Designer friendly.
-- [WebP](https://caniuse.com/#feat=webp) automatic Image and Photo Optimizations.
-- [Unsplash](https://unsplash.com/explore) integrated to access the biggest free collection of images.
 - Log Viewer directly from browser.
 - Auto-Rotating file Logger.
 - Server Info Page for Admins.
 - Force Server restart for Admins.
-- Reconfiguration & Recompilation without down times.
+- Edit main config file directly form browser
+- Recompilation without down times.
+- Webserver hosting your page on 127.0.0.1:7000
 - Colored output on the Terminal.
+- Email notification on errors.
+
+## Plugins
+- Plugin Store integrated
+- Enable and disable plugins directly from browser. Open Source or Private Plugins.
 - Plugin skeleton creator to create your own new plugins.
 - Plugins can do anything you want on Frontend and Backend.
-- Multiple users with different ranks.
-- 0 Dependency binary (Postgres/SSL/WebP required if using it).
+- Develop your own plugins - [NimWC plugin repository](https://github.com/ThomasTJdev/nimwc_plugins)
+
+## Database
+- [Postgres](https://www.postgresql.org) (if you are using the NimWC docker file, you do not need to install Postgres)
+- SQLite Databases
+
+## Performance
+- High performance with low resources (RPi, VPS, cloud, old pc, etc).
 - Runs on any non-Windows OS, Architecture and Hardware that can compile C code.
 - High Availability design by default.
 - Full Stack with the same programming language, including DevOps and Scripting.
+- 0 Dependency binary (Postgres/SSL/WebP/Firejail required if using it).
 - No `/node_modules/`, but very powerful builtin Templating engine.
-- 2 Factor Athentication TOTP + ReCaptcha + HoneyPot-Field, by default. 🙂🔐
-- BCrypt+Salt password hashing, 4 chars min for Demo, 10 chars min for Production.
-- [NGINX Config, SystemD Service, Vagrantfile and Dockerfile provided for DevOps.](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/)
+
+## Responsive
+- Uses responsive [Bulma CSS framework](https://bulma.io), supports [Bootstrap CSS framework](https://getbootstrap.com).
+- JavaScript framework agnostic, use Nim, [Karax](https://github.com/pragmagic/karax), vanilla JS, you choose.
+
+## Other
+- [WebP](https://caniuse.com/#feat=webp) automatic Image and Photo Optimizations.
+- [Unsplash](https://unsplash.com/explore) integrated to access the biggest free collection of images.
+- [NGINX Config](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template
+- [SystemD Service](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template
+- [Vagrantfile](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template
+- [Dockerfile](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template
 
 
 # Requirements
@@ -84,6 +110,7 @@ You only need to perform 1a **or** 1b - not both of them.
 
 ### 1a) Install
 
+<details>
 If you are using [Nimble](https://github.com/nim-lang/nimble) an executable will be generated and symlinked to `nimwc`, which then can be executed anywhere on your system.
 
 ```bash
@@ -102,6 +129,7 @@ nimwc
 # Login
 127.0.0.1:7000/login
 ```
+</details>
 
 
 ### 1b) Compile
@@ -136,7 +164,7 @@ nim c -d:ssl nimwc.nim
 
 # Use
 
-**Arguments**
+## Arguments
 
 These arguments should be prepended to executable file, e.g. `./nimwc cdata`
 
@@ -173,6 +201,8 @@ There are 3 main user profiles:
 
 The access rights below applies to main program. Plugins can have their own definition of user rights.
 
+<details>
+
 ## User
 
 The "User" can login and see private pages and blog pages. This user has no access to adding or editing anything.
@@ -184,6 +214,8 @@ The "Moderator" can login and see private pages and blog pages. The user **can**
 ## Admin
 
 The "Admin" has access to anything.
+
+</details>
 
 # Blog
 
@@ -227,17 +259,17 @@ GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma 
 
 **Docker**
 
-- [Use the Dockerfile](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Dockerfile) as starting point for your NimWC containers.
+- [Use the Dockerfile](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/devops/Dockerfile) as starting point for your NimWC containers.
 
 
 **Vagrant**
 
-- [Use the Vagrantfile](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NimWC VMs.
+- [Use the Vagrantfile](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/devops/Vagrantfile) as starting point for your NimWC VMs.
 
 
 **NGNIX Config**
 
-- [Use the NGNIX Config file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NGNIX Server configuration.
+- [Use the NGNIX Config file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/devops/config_nginx_default.cfg) as starting point for your NGNIX Server configuration.
 
 
 **Google reCAPTCHA**
@@ -247,7 +279,7 @@ To activate Google reCAPTCHA [claim you site and server key](https://www.google.
 
 **SystemD**
 
-- [Use the SystemD Service file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/Vagrantfile) as starting point for your NimWC SystemD Services.
+- [Use the SystemD Service file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/devops/nimwc.service) as starting point for your NimWC SystemD Services.
 
 Copy the file called `nimwc.service` inside `/lib/systemd/system/`
 
