@@ -324,15 +324,20 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string
   const query = sql"SELECT id, name, password, email, salt, status, secretUrl, twofa FROM person WHERE email = ? AND status <> 'Deactivated'"
 
   for row in fastRows(db, query, toLowerAscii(email)):
+    # Check that password matches
     if row[2] == makePassword(pass, row[4], row[2]):
+
+      # Check if email has been confirmed
       if row[6] != "":
         info("Login failed. Account not activated")
         return (false, "Your account is not activated. Please click on the confirmation link you email.")
 
+      # Check user status, e.g. Deactivated
       if parseEnum[Rank](row[5]) notin [Admin, Moderator, User]:
         info("Login failed. Your account is not active.")
         return (false, "Your account is not active")
 
+      # If an OTP key is present
       if row[7].len() != 0:
         if totpRaw == "" or not isDigit(totpRaw):
           return (false, "Insert your 2 Factor Authentication code")
