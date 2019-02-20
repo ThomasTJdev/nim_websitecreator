@@ -647,7 +647,7 @@ routes:
 
     try:
       if $newTotp(@"twofakey").now() == @"testcode":
-        resp("Success, the code mathed")
+        resp("Success, the code matched")
       else:
         resp("Error, code did not match")
     except:
