@@ -18,7 +18,7 @@ requires "gatabase >= 0.2.2"
 requires "datetime2human >= 0.2.2"
 requires "otp >= 0.1.1"
 requires "firejail >= 0.4.0"
-requires "webp >= 0.1.0"
+requires "webp >= 0.2.0"
 requires "unsplash >= 0.1.0"
 
 
