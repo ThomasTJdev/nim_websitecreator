@@ -31,11 +31,11 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Auto-Rotating file Logger.
 - Server Info Page for Admins.
 - Force Server restart for Admins.
-- Edit main config file directly form browser
+- Edit main config file directly from browser
 - Recompilation without down times.
 - Webserver hosting your page on 127.0.0.1:7000
 - Colored output on the Terminal.
-- Email notification on errors.
+- Email notification on critical errors.
 
 ## Plugins
 - Plugin Store integrated
@@ -46,7 +46,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 ## Database
 - [Postgres](https://www.postgresql.org) (if you are using the NimWC docker file, you do not need to install Postgres)
-- SQLite Databases
+- SQLite
 
 ## Performance
 - High performance with low resources (RPi, VPS, cloud, old pc, etc).
@@ -55,6 +55,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Full Stack with the same programming language, including DevOps and Scripting.
 - 0 Dependency binary (Postgres/SSL/WebP/Firejail required if using it).
 - No `/node_modules/`, but very powerful builtin Templating engine.
+- Compile-Time precomputed arbitrary function execution is used when possible.
 
 ## Responsive
 - Uses responsive [Bulma CSS framework](https://bulma.io), supports [Bootstrap CSS framework](https://getbootstrap.com).
