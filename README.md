@@ -24,6 +24,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - BCrypt+Salt password hashing
 - SQL Type-checked and Query-checked at compile-time, no SQL injections.
 - Multiple users with different ranks.
+- [We recommend FreeOTP 2 Factor Athentication App because its Open Source.](https://freeotp.github.io)
 
 ## Configuration
 - Edit core or custom JS and CSS directly from browser, UI/UX Designer friendly.
