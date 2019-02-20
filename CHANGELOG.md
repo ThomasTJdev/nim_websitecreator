@@ -1,4 +1,4 @@
-## v4.5.0
+## v5.0.0
 ### Changes
 - Add Server Info page for Admins, it displays runtime server stats
 - Add Force Server Restart for Admins, restart on 1 second
