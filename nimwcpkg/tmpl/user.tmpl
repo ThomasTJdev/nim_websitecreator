@@ -108,7 +108,7 @@
 #proc genUsers(c: var TData): string =
 # result = ""
 #
-# let allUsers = getAllRows(db, sql"SELECT id, name, email, status, lastOnline, secretUrl FROM person")
+# let allUsers = getAllRows(db, sql"SELECT id, name, email, status, lastOnline, secretUrl, twofa FROM person")
 
 
 <div id="users">
@@ -150,20 +150,24 @@
   <thead>
     <tr>
       <th>#</th>
+      <th>ID</th>
       <th>User</th>
       <th>Mail</th>
       <th>Last online</th>
       <th>Rank</th>
+      <th>2FA</th>
       <th>Delete</th>
     </tr>
   </thead>
   <tfoot>
     <tr>
       <th>#</th>
+      <th>ID</th>
       <th>User</th>
       <th>Mail</th>
       <th>Last online</th>
       <th>Rank</th>
+      <th>2FA</th>
       <th>Delete</th>
     </tr>
   </tfoot>
@@ -178,6 +182,7 @@
 #   counter += 1
   <tr>
     <td> $counter </td>
+    <td> ${user[0]} </td>
     <td> ${user[1]} </td>
     <td> ${user[2]} </td>
     #   if user[5] == "":
@@ -187,6 +192,7 @@
       <td> Mail unconfirmed </td>
       <td> Mail unconfirmed </td>
     #   end if
+    <td> ${ user[6].len > 6 } </td>
     <td class="is-danger has-text-centered"><a class="delete" href="/users/delete/${user[0]}" title="Kill ${user[1]} ?"></a></td>
 # end for
     </tbody>
