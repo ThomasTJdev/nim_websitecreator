@@ -330,7 +330,7 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string
       # Check if email has been confirmed
       if row[6] != "":
         info("Login failed. Account not activated")
-        return (false, "Your account is not activated. Please click on the confirmation link you email.")
+        return (false, "Your account is not activated. Please click on the confirmation link on your email.")
 
       # Check user status, e.g. Deactivated
       if parseEnum[Rank](row[5]) notin [Admin, Moderator, User]:
@@ -343,7 +343,7 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string
           return (false, "Insert your 2 Factor Authentication code")
 
         let totp = parseInt(totpRaw)
-        if totp == 000000 or totp == 999999 or totp == 123456 or totp == 654321:
+        if totp == 000000 or totp == 999999 or totp == 123456 or totp == 654321 and not defined(demo):
           return (false, "2 Factor Authentication Number must not be 000000 or 999999 or 123456")
 
         let totpServerSide = $newTotp(row[7]).now()
