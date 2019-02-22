@@ -535,17 +535,20 @@ routes:
     let filename  = request.formData["file"].fields["filename"]
     var path: string
 
+    const efspublic = storageEFS & "/files/public/"
+    const efsprivate = storageEFS & "/files/private/"
     if @"access" == "publicimage":
       path = "public/images/" & filename
-
+    elif @"access" == "public":
+      assert existsDir(efspublic), "storageEFS Public Folder not found: " & efspublic
+      path = efspublic & filename
     else:
-      path = storageEFS & "/files/" & @"access" & "/" & filename
+      assert existsDir(efsprivate), "storageEFS Private Folder not found: " & efsprivate
+      path = efsprivate & filename
 
     if fileExists(path):
       resp("Error: A file with the same name exists")
 
-    echo "path ", path
-    echo "webpstatus ", @"webpstatus"
     try:
       writeFile(path, request.formData.getOrDefault("file").body)
       when defined(webp):
