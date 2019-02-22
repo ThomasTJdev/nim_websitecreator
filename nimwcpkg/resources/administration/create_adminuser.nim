@@ -48,8 +48,7 @@ proc createTestUser*(db: DbConn) =
     const salt = "0".repeat(128)  # Weak Salt for Test user only.
     let password = makePassword("test", salt)
 
-    discard insertID(db, sql("""INSERT INTO person (name, email, password, salt, status)
-      VALUES ('Testuser', 'test@test.com', '', $1, $2, 'Moderator')""".format(password, salt)))
+    discard insertID(db, sql("INSERT INTO person (name, email, password, salt, status) VALUES ('Testuser', 'test@test.com', '$1', '$2', 'Moderator')".format(password, salt)))
 
     info("Test user added!.")
 
