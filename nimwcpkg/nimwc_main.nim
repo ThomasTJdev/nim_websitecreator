@@ -497,9 +497,6 @@ when isMainModule:
   if "help" in commandLineParams():
     echo commandLineHelp()
     quit()
-
-  info("Main module started at: " & $now())
-
   randomize()
 
   # Storage location. Folders are created in the module files_efs.nim
