@@ -291,7 +291,7 @@
                 #   end for
                 # end template
                 <input type="text" id="twofa-key" class="form-control input has-text-centered" disabled="disabled" value="${twoFaKey()}">
-                <input type="text" id="twofa-testcode" class="form-control input has-text-centered" placeholder="Test 2FA" value="">
+                <input type="number" id="twofa-testcode" class="form-control input has-text-centered" placeholder="Test 2FA" min="000000" max="999999" step="1" autocomplete="off" dir="auto" value="">
                 <div>
                   <a href="#!" class="button is-info is-pulled-left test2fa">Test 2FA</a>
                   <a href="#!" class="hidden button is-success is-pulled-right save2fa">Save 2FA</a>
