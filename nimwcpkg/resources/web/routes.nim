@@ -511,13 +511,9 @@ routes:
       writeFile(path, request.formData.getOrDefault("file[]").body)
       when defined(webp):
         if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
-          when defined(dev):
-            echo cwebp(path, path, "text", quality=1)
-          else:
-            discard cwebp(path, path, "text", quality=1)
-
+          discard cwebp(path, path, "text", quality=9)
       if fileExists(path):
-        exec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, ?)", path, 0)
+        exec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, 0)", path)
         resp("[\"/images/" & filename & "\"]")
 
     except:
@@ -548,17 +544,16 @@ routes:
     if fileExists(path):
       resp("Error: A file with the same name exists")
 
+    echo "path ", path
+    echo "webpstatus ", @"webpstatus"
     try:
       writeFile(path, request.formData.getOrDefault("file").body)
       when defined(webp):
         if @"webpstatus" == "true":
           if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
-            when defined(dev):
-              echo cwebp(path, path, "text", quality=1)
-            else:
-              discard cwebp(path, path, "text", quality=1)
+            discard cwebp(path, path, "text", quality=9)
       if fileExists(path):
-        exec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, ?)", path, 0)
+        exec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, 0)", path)
         redirect("/files")
 
     except:
