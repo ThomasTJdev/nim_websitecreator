@@ -320,7 +320,8 @@ routes:
 
   get "/settings/termsofservice":
     createTFD()
-    resp genTos()
+    let tos = readFile(getAppDir() & "/tmpl/tos.html")
+    resp tos
 
   get "/settings/firejail":
     createTFD()
