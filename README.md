@@ -52,6 +52,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 ## Performance
 - High performance with low resources (RPi, VPS, cloud, old pc, etc).
 - Runs on any non-Windows OS, Architecture and Hardware that can compile C code.
+- [Independent TechEmpower Benchmarks show Nim web server as one of the fastest in the world.](https://www.techempower.com/benchmarks/#section=data-r17&hw=cl&test=json)
 - High Availability design by default.
 - Full Stack with the same programming language, including DevOps and Scripting.
 - 0 Dependency binary (Postgres/SSL/WebP/Firejail required if using it).
