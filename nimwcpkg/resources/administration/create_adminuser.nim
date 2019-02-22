@@ -11,7 +11,8 @@ randomize()
 proc createAdminUser*(db: DbConn, args: seq[string]) =
   ## Create new admin user.
   info("Checking if any Admin exists in DB.")
-  let anyAdmin = getAllRows(db, sql"SELECT id FROM person WHERE status = ?", "Admin")
+  const sql_anyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
+  let anyAdmin = getAllRows(db, sql_anyAdmin)
   info($anyAdmin.len() & " Admins already exist. Adding 1 new Admin.")
 
   var iName, iEmail, iPwd: string
