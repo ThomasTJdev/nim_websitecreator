@@ -313,10 +313,6 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string
   when not defined(demo):
     if email == "test@test.com":
       return (false, "Email must not be test@test.com.")
-  when defined(demo) or defined(dev):
-    if pass.len < 4:
-      return (false, "Password too short")
-
   if email.len == 0 or pass.len == 0:
     return (false, "Empty password or username")
 
