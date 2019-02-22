@@ -459,6 +459,7 @@ when defined(unsplash):
       collection = dict.getSectionValue("unsplash", "collection").parseInt
       timer = dict.getSectionValue("unsplash", "timer").parseInt
     doAssert timer > 0 and timer < 1000, "Timer must be a non-zero positive integer"
+    assert existsFile(bgpath), "Web background image not found, required for Unsplash: " & bgpath
     await sleepAsync(3_600_000 * timer) # Hours   (Max 42 Days)
     # await sleepAsync(3_600 * timer)   # Minutes (Max 16 Hours)
     var newPhoto: string
@@ -477,6 +478,7 @@ when defined(unsplash):
       newPhoto = await client.getPhoto(photoid, width, height)
     else: # "randomPhoto":
       newPhoto = await client.randomPhoto(width, height)
+    when not defined(release): echo "Unsplash downloaded 1 photo to: " & bgpath
     writeFile(bgpath, newPhoto)
     result = reDownloadBGPhoto()
 
