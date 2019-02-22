@@ -229,13 +229,6 @@ div#settingsEdit {
   max-width: 1400px;
   padding: 10px;
 }
-div#settingsEdit pre.templateCode {
-  border-radius: 2px;
-  border: 1px solid grey;
-  padding: 5px;
-}
-
-
 
 
 /*

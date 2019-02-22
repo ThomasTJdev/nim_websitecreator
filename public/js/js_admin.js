@@ -29,20 +29,6 @@ function pluginChangeStatus(pluginName, pluginStatus) {
 
 
 /*
-    Settings
-*/
-const btnTemplateCode = document.querySelector("button.templateCode");
-if (btnTemplateCode != null) {
-  btnTemplateCode.addEventListener('click', function () {
-    document.querySelectorAll("pre.templateCode").forEach( el => {
-      el.classList.toggle("hidden");
-    });
-  });
-}
-
-
-
-/*
     Files
 */
 const btnFileAdd = document.querySelector("button.fileAdd");
