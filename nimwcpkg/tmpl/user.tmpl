@@ -192,7 +192,7 @@
       <td> Mail unconfirmed </td>
       <td> Mail unconfirmed </td>
     #   end if
-    <td> ${ if user[3] == "Admin": toUpperAscii($(user[6].len > 6)) else: "???" } </td>
+    <td> ${ if user[3] == "Admin": toUpperAscii($(user[6].len > 6)) else: "FALSE" } </td>
     <td class="is-danger has-text-centered"><a class="delete" href="/users/delete/${user[0]}" title="Kill ${user[1]} ?"></a></td>
 # end for
     </tbody>
@@ -279,7 +279,6 @@
                     <li>Interval:  30  </li>
                     <li>Phone time must be correct.</li>
                     <li>Bogus codes like 000000 or 999999 or similar are ignored.</li>
-                    <li>Phone must be configured to sync time with cellular network.</li>
                   </ul>
                   </small>
                   <br>
