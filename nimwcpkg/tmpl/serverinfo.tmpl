@@ -4,6 +4,30 @@
 #
 #proc genServerInfo(): string =
 #  result = ""
+#
+#
+#  when defined(demo):
+#    const
+#      uname = "<i> Not available on Demo </i>"
+#      distr = "<i> Not available on Demo </i>"
+#      uptim = "<i> Not available on Demo </i>"
+#      pubip = "<i> Not available on Demo </i>"
+#      disks = "<i> Not available on Demo </i>"
+#      hostn = "<i> Not available on Demo </i>"
+#      jailv = "<i> Not available on Demo </i>"
+#      jailf = "<i> Not available on Demo </i>"
+#  else:
+#    const
+#      uname = execCmdEx("uname -a").output.strip
+#      distr = execCmdEx("lsb_release -a").output.strip
+#      uptim = execCmdEx("uptime --pretty").output.strip
+#      pubip = newHttpClient().getContent("http://api.ipify.org").strip
+#      disks = execCmdEx("df --human-readable --local --output=avail " & getCurrentDir()).output.strip
+#      hostn = getHostname()
+#      jailv = when defined(firejail): $firejailVersion else: "<i> Firejail is Disabled </i>"
+#      jailf = when defined(firejail): $firejailFeatures.pretty.strip else: "<i> Firejail is Disabled </i>"
+#
+#
 <div id="serverinfo">
 <h1 class="has-text-centered">Server Info</h1>
 <table border=1 class="table is-bordered is-striped is-hoverable is-fullwidth">
@@ -21,70 +45,38 @@
   </tfoot>
   <tbody>
   <tr>
-    <td> <b>System</b> </td>            <td>
-    # when not defined(demo):
-      ${execCmdEx("uname -a").output}
-    # else:
-      <i> Not available on Demo </i>
-    # end when
-    </td>
+    <td> <b>System</b> </td>            <td> $uname </td>
   </tr>
   <tr>
-    <td> <b>Distro</b> </td>            <td>
-    # when not defined(demo):
-      {execCmdEx("lsb_release -a").output}
-    # else:
-      <i> Not available on Demo </i>
-    # end when
-    </td>
+    <td> <b>Distro</b> </td>            <td> $distr </td>
   </tr>
   <tr>
-    <td> <b>Uptime</b> </td>            <td>
-    # when not defined(demo):
-      ${execCmdEx("uptime --pretty").output}
-    # else:
-      <i> Not available on Demo </i>
-    # end when
-    </td>
+    <td> <b>Uptime</b> </td>            <td> $uptim </td>
   </tr>
   <tr>
-    <td> <b>Public IP</b> </td>         <td>
-    # when not defined(demo):
-      ${newHttpClient().getContent("http://api.ipify.org")}
-    # else:
-      <i> Not available on Demo </i>
-    # end when
-    </td>
+    <td> <b>Public IP</b> </td>         <td> $pubip </td>
   </tr>
     <tr>
-      <td> <b>Disk</b> </td>         <td>
-      # when not defined(demo):
-        ${execCmdEx("df --human-readable --local --output=avail " & getCurrentDir()).output}
-      # else:
-        <i> Not available on Demo </i>
-      # end when
-      </td>
+      <td> <b>Disk</b> </td>            <td> $disks </td>
     </tr>
   <tr>
-    <td> <b>Hostname</b> </td>          <td>${getHostname()}</td>
+    <td> <b>Hostname</b> </td>          <td> $hostn </td>
   </tr>
   <tr>
-    <td> <b>Compile Date</b> </td>      <td>$CompileDate</td>
+    <td> <b>Compile Date</b> </td>      <td> $CompileDate </td>
   </tr>
   <tr>
-    <td> <b>Compile Time</b> </td>      <td> $CompileTime</td>
+    <td> <b>Compile Time</b> </td>      <td> $CompileTime </td>
   </tr>
   <tr>
-    <td> <b>Nim Version</b> </td>       <td>$NimVersion</td>
+    <td> <b>Nim Version</b> </td>       <td> $NimVersion </td>
   </tr>
-  # when defined(firejail):
-    <tr>
-      <td> <b>Firejail Version</b> </td><td> $firejailVersion </td>
-    </tr>
-    <tr>
-      <td> <b>Firejail Status</b> </td> <td> $firejailFeatures.pretty </td>
-    </tr>
-  # end when
+  <tr>
+    <td> <b>Firejail Version</b> </td>  <td>  $firejailv </td>
+  </tr>
+  <tr>
+    <td> <b>Firejail Status</b> </td>   <td> $firejailf </td>
+  </tr>
   <tr>
     <td> <b>Gatabase Version</b> </td>  <td> $gatabaseVersion </td>
   </tr>
@@ -92,7 +84,7 @@
     <td> <b>Postgres</b> </td>          <td> $gatabaseIsPostgres </td>
   </tr>
   <tr>
-    <td> <b>CPU</b> </td>               <td>$hostCPU.toUpperAscii</td>
+    <td> <b>CPU</b> </td>               <td> $hostCPU.toUpperAscii </td>
   </tr>
   <tr>
     <td> <b>CPU Count</b> </td>         <td>${countProcessors()}</td>
@@ -162,9 +154,6 @@
   </tr>
   <tr>
     <td> <b>Occupied Memory</b> </td>   <td>${getOccupiedMem()}</td>
-  </tr>
-  <tr>
-    <td> <b>Command Line Params</b> </td>   <td>${commandLineParams()}</td>
   </tr>
   <tr>
     <td> <b>Garbage Collector</b> </td> <td>${GC_getStatistics()}</td>
