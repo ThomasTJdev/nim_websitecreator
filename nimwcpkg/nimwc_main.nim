@@ -47,8 +47,7 @@ const
   startup_msg = """
   Package:      Nim Website Creator - https://NimWC.org
   Description:  Self-Firejailing Nim Web Framework thats simple to use.
-  Author name:  Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (http://github.com/juancarlospaco)
-  Current time: """
+  Author name:  Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (http://github.com/juancarlospaco)"""
 
   checkCompileOptions* = ["",
     when defined(adminnotify): " -d:adminnotify",
@@ -493,7 +492,7 @@ when defined(unsplash):
 
 
 when isMainModule:
-  echo startup_msg & $now()
+  echo startup_msg
   # Show commandline help info
   if "help" in commandLineParams():
     echo commandLineHelp()
