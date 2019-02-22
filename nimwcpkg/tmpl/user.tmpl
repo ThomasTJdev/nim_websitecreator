@@ -192,7 +192,9 @@
       <td> Mail unconfirmed </td>
       <td> Mail unconfirmed </td>
     #   end if
-    <td> ${ if user[3] == "Admin": toUpperAscii($(user[6].len > 6)) else: "FALSE" } </td>
+    # if c.rank == Admin:
+      <td> ${toUpperAscii($(user[6].len > 6))} </td>
+    # end if
     <td class="is-danger has-text-centered"><a class="delete" href="/users/delete/${user[0]}" title="Kill ${user[1]} ?"></a></td>
 # end for
     </tbody>
