@@ -339,7 +339,7 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string
 
         let totp = parseInt(totpRaw)
         if totp in [000000, 111111, 222222, 333333, 444444, 555555, 666666, 777777, 888888, 999999]:
-          return (false, "2 Factor Authentication Number must not be 000000 or 999999 or similar")
+          return (false, "2 Factor Authentication Number must not be 6 identical digits")
 
         let totpServerSide = $newTotp(row[7]).now()
         when not defined(release):
