@@ -269,9 +269,23 @@
             # else:
               <a href="#!" class="button is-info is-fullwidth show2fa">Enable</a>
               <div class="hidden twofa-container">
-                <p>Open your 2FA software and insert the code below. Test the code in input field below - on successful result, press "Save 2FA".</p>
+                <p>Open your <a href="https://freeotp.github.io">2FA App</a> and insert the code below. Test the code in input field below - on successful result, press "Save 2FA". You can Enable, Disable and Reset it at any time.</p>
+                <details>
+                  <summary>Extra Tech Info</summary>
+                  <small><ul>
+                    <li>Type:      TOTP</li>
+                    <li>Digits:    6   </li>
+                    <li>Algorithm: SHA1</li>
+                    <li>Interval:  30  </li>
+                    <li>Phone time must be correct.</li>
+                    <li>Bogus codes like 000000 or 999999 or similar are ignored.</li>
+                    <li>Phone must be configured to sync time with cellular network.</li>
+                  </ul>
+                  </small>
+                  <br>
+                </details>
                 # proc twoFaKey(): string =
-                #   let items = toSeq('A'..'Z')
+                #   const items = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
                 #   for i in countUp(0, 10):
                 #     result.add(rand(items))
                 #   end for
