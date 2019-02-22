@@ -7,14 +7,14 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 # Features
 
-## Blogpost and pages
+## Blogs and pages
 - 1 Click Blogging posts directly from browser.
 - 1 Click Static web pages directly from browser.
 - WYSIWYG & Drag'n'Drop Editors with [Summernote](https://summernote.org), [CodeMirror](https://codemirror.net) or [GrapesJS](https://grapesjs.com).
 - Custom title, meta description and keywords for each page, SEO friendly.
 - Custom head, navbar and footer, no hardcoded watermarks, links or logos.
 - Upload files and images (private or public) directly from browser.
-- Standard theme and website setup
+- 1 language for the whole stack, including high performance modules, scripting, devops, deploy, from WebAssembly to Assembly.
 
 ## Security
 - Self-Firejailing Web Framework (It Firejails itself) Best Linux Security integrated on the Core.
@@ -23,7 +23,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - HoneyPot-Field
 - BCrypt+Salt password hashing
 - SQL Type-checked and Query-checked at compile-time, no SQL injections.
-- Multiple users with different ranks.
+- Multiple users with different ranks, role based access control.
 - [We recommend FreeOTP 2 Factor Athentication App because is Open Source.](https://freeotp.github.io)
 
 ## Configuration
@@ -58,6 +58,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - 0 Dependency binary (Postgres/SSL/WebP/Firejail required if using it).
 - No `/node_modules/`, but very powerful builtin Templating engine.
 - Compile-Time precomputed arbitrary function execution is used when possible.
+- No Global Interpreter Lock, no single-Thread, no single-Core, no Interpreter. Use all your 32 CPU Cores.
 
 ## Responsive
 - Uses responsive [Bulma CSS framework](https://bulma.io), supports [Bootstrap CSS framework](https://getbootstrap.com).
