@@ -28,7 +28,7 @@ const
       name       varchar(60)   not null,
       password   varchar(300)  not null,
       twofa      varchar(60),
-      email      varchar(254)  not null,
+      email      varchar(254)  not null           unique,
       creation   $2            not null           default $1,
       modified   $2            not null           default $1,
       salt       varchar(128)  not null,
