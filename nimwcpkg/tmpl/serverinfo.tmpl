@@ -7,25 +7,23 @@
 #
 #
 #  when defined(demo):
-#    const
-#      uname = "<i> Not available on Demo </i>"
-#      distr = "<i> Not available on Demo </i>"
-#      uptim = "<i> Not available on Demo </i>"
-#      pubip = "<i> Not available on Demo </i>"
-#      disks = "<i> Not available on Demo </i>"
-#      hostn = "<i> Not available on Demo </i>"
-#      jailv = "<i> Not available on Demo </i>"
-#      jailf = "<i> Not available on Demo </i>"
+#    const uname = "<i> Not available on Demo </i>"
+#    const distr = "<i> Not available on Demo </i>"
+#    const uptim = "<i> Not available on Demo </i>"
+#    const pubip = "<i> Not available on Demo </i>"
+#    const disks = "<i> Not available on Demo </i>"
+#    const hostn = "<i> Not available on Demo </i>"
+#    const jailv = "<i> Not available on Demo </i>"
+#    const jailf = "<i> Not available on Demo </i>"
 #  else:
-#    const
-#      uname = execCmdEx("uname -a").output.strip
-#      distr = execCmdEx("lsb_release -a").output.strip
-#      uptim = execCmdEx("uptime --pretty").output.strip
-#      pubip = newHttpClient().getContent("http://api.ipify.org").strip
-#      disks = execCmdEx("df --human-readable --local --output=avail " & getCurrentDir()).output.strip
-#      hostn = getHostname()
-#      jailv = when defined(firejail): $firejailVersion else: "<i> Firejail is Disabled </i>"
-#      jailf = when defined(firejail): $firejailFeatures.pretty.strip else: "<i> Firejail is Disabled </i>"
+#    let hostn = getHostname()
+#    let uptim = staticExec("uptime --pretty").strip
+#    let pubip = newHttpClient().getContent("http://api.ipify.org").strip
+#    let disks = execCmdEx("df --human-readable --local --output=avail " & getCurrentDir()).output.strip
+#    let jailf = when defined(firejail): $firejailFeatures.pretty.strip else: "<i> Firejail is Disabled </i>"
+#    const uname = staticExec("uname -a").strip
+#    const distr = staticExec("lsb_release -a").strip
+#    const jailv = when defined(firejail): $firejailVersion else: "<i> Firejail is Disabled </i>"
 #
 #
 <div id="serverinfo">
@@ -72,10 +70,10 @@
     <td> <b>Nim Version</b> </td>       <td> $NimVersion </td>
   </tr>
   <tr>
-    <td> <b>Firejail Version</b> </td>  <td>  $firejailv </td>
+    <td> <b>Firejail Version</b> </td>  <td>  $jailv </td>
   </tr>
   <tr>
-    <td> <b>Firejail Status</b> </td>   <td> $firejailf </td>
+    <td> <b>Firejail Status</b> </td>   <td> $jailf </td>
   </tr>
   <tr>
     <td> <b>Gatabase Version</b> </td>  <td> $gatabaseVersion </td>
