@@ -466,19 +466,15 @@ when isMainModule:
     generateDB()
 
   # Connect to DB
-
-
-
-  try:
-    var db =
-      when defined(sqlite): db_sqlite.open($db_host, "", "", "")
-      else:                 db_postgres.open("", "", "", "host=" & $db_host & " port=" & $db_port & " dbname=" & $db_name & " user=" & $db_user & " password=" & $db_pass & " connect_timeout=9")
-
-    info("Connection to DB is established.")
-  except:
-    fatal("Connection to DB could not be established.")
-    sleep(5_000)
-    quit()
+  let dbconnection =
+    when defined(sqlite): db_host
+    else: "host=" & $db_host & " port=" & $db_port & " dbname=" & $db_name & " user=" & $db_user & " password=" & $db_pass & " connect_timeout=9"
+  assert dbconnection.len > 3, "DB Connection must not be empty string: " & dbconnection
+  db =
+    when defined(sqlite): db_sqlite.open(connection = dbconnection, "", "", "")
+    else:                 db_postgres.open("", "", "", dbconnection)
+  assert db is DbConn, "Connection to DB could not be established, failed to open Database."
+  info("Connection to DB is established.")
 
   # Add admin user
   if "newuser" in commandLineParams():
