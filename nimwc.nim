@@ -102,7 +102,6 @@ const
     when defined(demo):        " -d:demo",
     when defined(ssl):         " -d:ssl",
     when defined(sqlite):      " -d:sqlite",
-    when defined(noFields):    " -d:noFields",
     when defined(webp):        " -d:webp",
     when defined(firejail):    " -d:firejail",
     when defined(release):     " -d:release"
