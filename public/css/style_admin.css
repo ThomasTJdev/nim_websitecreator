@@ -636,19 +636,6 @@ li.pluginRepo span.version.git {
 
 
 /*
-  Unsplash
-*/
-#unsplash {
-  width: 600px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: white;
-  padding: 20px;
-}
-
-
-
-/*
   Server info
 */
 #serverinfo {

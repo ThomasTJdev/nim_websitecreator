@@ -82,7 +82,6 @@ const
     -d:sqlite             SQLite Dabatase is enabled. Postgres dabatase is disabled.
     -d:firejail           Firejail is enabled. Runs secure.
     -d:webp               WebP is enabled. Optimize images.
-    -d:unsplash           Unsplash is enabled. Different background images on pages.
     -d:rc                 Force Recompile (good for Troubleshooting).
     -d:adminnotify        Send error logs (ERROR) to the specified Admin email.
     -d:dev                Development (ignore reCaptcha, no emails, more Verbose).
@@ -106,7 +105,6 @@ const
     when defined(noFields):    " -d:noFields",
     when defined(webp):        " -d:webp",
     when defined(firejail):    " -d:firejail",
-    when defined(unsplash):    " -d:unsplash",
     when defined(release):     " -d:release"
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 

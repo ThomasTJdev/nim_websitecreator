@@ -66,11 +66,10 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 ## Other
 - [WebP](https://caniuse.com/#feat=webp) automatic Image and Photo Optimizations.
-- [Unsplash](https://unsplash.com/explore) integrated to access the biggest free collection of images.
-- [NGINX Config](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template
-- [SystemD Service](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template
-- [Vagrantfile](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template
-- [Dockerfile](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template
+- [NGINX Config](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template.
+- [SystemD Service](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template.
+- [Vagrantfile](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template.
+- [Dockerfile](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template.
 
 
 # Requirements
@@ -91,7 +90,7 @@ Development Dependencies (automatically installed by Nimble):
 - otp       >= `0.1.1`
 - firejail  >= `0.4.0`
 - webp      >= `0.1.0`
-- unsplash  >= `0.1.0`
+
 
 </details>
 
