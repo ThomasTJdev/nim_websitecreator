@@ -469,7 +469,6 @@ when isMainModule:
   let dbconnection =
     when defined(sqlite): db_host
     else: "host=" & $db_host & " port=" & $db_port & " dbname=" & $db_name & " user=" & $db_user & " password=" & $db_pass & " connect_timeout=9"
-  assert dbconnection.len > 3, "DB Connection must not be empty string: " & dbconnection
   db =
     when defined(sqlite): db_sqlite.open(connection = dbconnection, "", "", "")
     else:                 db_postgres.open("", "", "", dbconnection)
