@@ -10,7 +10,7 @@ when defined(windows):
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
-  base32, streams, gatabase, encodings, nativesockets,
+  base32, streams, encodings, nativesockets,
   oswalkdir as oc,
 
   resources/administration/create_adminuser,
@@ -28,6 +28,7 @@ import
   resources/web/google_recaptcha
 
 when defined(sqlite): import db_sqlite
+else:                 import db_postgres
 
 when not defined(webp): {. warning: "WebP is Disabled, No Image Optimizations." .}
 else:                   from webp import cwebp
@@ -514,11 +515,10 @@ when isMainModule:
 
 
   try:
-    var gatabase =
-      when defined(sqlite): Gatabase(host: db_host)
-      else: Gatabase(user: db_user, password: db_pass, host: db_host, dbname: db_name, port: db_port, timeout: 9)
-    gatabase.connect()
-    db = gatabase.db
+    var db =
+      when defined(sqlite): db_sqlite.open($db_host, "", "", "")
+      else:                 db_postgres.open("", "", "", "host=" & $db_host & " port=" & $db_port & " dbname=" & $db_name & " user=" & $db_user & " password=" & $db_pass & " connect_timeout=9")
+
     info("Connection to DB is established.")
   except:
     fatal("Connection to DB could not be established.")

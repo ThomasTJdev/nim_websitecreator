@@ -85,7 +85,6 @@ To get started you only need:
 Development Dependencies (automatically installed by Nimble):
 
 - Jester    >= `0.4.1`
-- Gatabase  >= `0.2.0`
 - reCAPTCHA >= `1.0.2`
 - bCrypt    >= `0.2.1`
 - datetime2human >= `0.2.2`
