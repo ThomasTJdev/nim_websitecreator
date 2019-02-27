@@ -470,7 +470,7 @@ when isMainModule:
     when defined(sqlite): db_host
     else: "host=" & $db_host & " port=" & $db_port & " dbname=" & $db_name & " user=" & $db_user & " password=" & $db_pass & " connect_timeout=9"
   db =
-    when defined(sqlite): db_sqlite.open(connection = dbconnection, "", "", "")
+    when defined(sqlite): db_sqlite.open(dbconnection, "", "", "")
     else:                 db_postgres.open("", "", "", dbconnection)
   assert db is DbConn, "Connection to DB could not be established, failed to open Database."
   info("Connection to DB is established.")
