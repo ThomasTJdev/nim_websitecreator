@@ -146,7 +146,10 @@ proc launcherActivated() =
   when not defined(firejail):
     nimwcCommand = getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun
   else:
-    let dict = loadConfig(getAppDir() & "/config/config.cfg")
+    let
+      dict = loadConfig(getAppDir() & "/config/config.cfg")
+      cpuCores = dict.getSectionValue("firejail", "cpuCoresByNumber").parseInt
+      corez = if cpuCores != 0: toSeq(0..cpuCores) else: @[]
     let myjail = Firejail(
       noDvd:         dict.getSectionValue("firejail", "noDvd").parseBool,
       noSound:       dict.getSectionValue("firejail", "noSound").parseBool,
@@ -181,6 +184,7 @@ proc launcherActivated() =
       timeout = dict.getSectionValue("firejail", "timeout").parseInt,                          # 1 is Ok, 0 is Disabled, 255 max. It will actually Restart instead of Stopping.
       maxRam = dict.getSectionValue("firejail", "maxRam").parseInt * 1_000_000_000,            # Below 1Gb NimWC may fail.
       maxCpu = dict.getSectionValue("firejail", "maxCpu").parseInt,                            # 1 is Ok, 0 is Disabled, 255 max.
+      cpuCoresByNumber = corez,                                                                # 0 is Disabled, else toSeq(0..corez)
     )
 
   const processOpts =

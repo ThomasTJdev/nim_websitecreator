@@ -362,6 +362,7 @@ routes:
         dict.getSectionValue("firejail", "timeout").parseInt,
         dict.getSectionValue("firejail", "maxCpu").parseInt,
         dict.getSectionValue("firejail", "maxRam").parseInt,
+        dict.getSectionValue("firejail", "cpuCoresByNumber").parseInt,
       ))
 
   post "/settings/firejail/save":
@@ -404,6 +405,7 @@ routes:
         dict.setSectionKey("firejail", "timeout",           @"timeout")
         dict.setSectionKey("firejail", "maxCpu",            @"maxCpu")
         dict.setSectionKey("firejail", "maxRam",            @"maxRam")
+        dict.setSectionKey("firejail", "cpuCoresByNumber",  @"cpuCoresByNumber")
         dict.writeConfig(konfig)
       except:
         resp $getCurrentExceptionMsg()
