@@ -24,6 +24,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - BCrypt+Salt password hashing
 - SQL Type-checked and Query-checked at compile-time, no SQL injections.
 - Multiple users with different ranks, role based access control.
+- Admin can choose how much CPU & RAM NimWC can use from the Admin Dashboard.
 - [We recommend FreeOTP 2 Factor Athentication App because is Open Source.](https://freeotp.github.io)
 
 ## Configuration
