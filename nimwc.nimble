@@ -16,7 +16,7 @@ requires "recaptcha >= 1.0.2"
 requires "bcrypt >= 0.2.1"
 requires "datetime2human >= 0.2.2"
 requires "otp >= 0.1.1"
-requires "firejail >= 0.4.0"
+requires "firejail >= 0.5.0"
 requires "webp >= 0.2.0"
 
 
