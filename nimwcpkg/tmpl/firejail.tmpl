@@ -360,11 +360,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="number" name="cpuCoresByNumber" min="0" max="${countProcessors()}" step="1" placeholder="0" class="form-control input has-text-centered is-narrow" autocomplete="off" dir="auto" required value="$cpuCoresByNumber">
+          <input type="number" name="cpuCoresByNumber" min="0" max="${countProcessors() - 1}" step="1" placeholder="0" class="form-control input has-text-centered is-narrow" autocomplete="off" dir="auto" required value="$cpuCoresByNumber">
           <br>cpuCoresByNumber
         </label>
       </td>
-      <td>CPU Cores to use, you can control how many CPU Cores NimWC uses. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, <code>0</code> is Maximum Performance, <code> ${countProcessors()} </code> is Maximum, if you dont know or dont understand just leave it as <code>0</code>.</td>
+      <td>CPU Cores to use, you can control how many CPU Cores NimWC uses. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, <code>0</code> is Maximum Performance, <code> ${countProcessors() - 1} </code> is Maximum, if you dont know or dont understand just leave it as <code>0</code>.</td>
     </tr>
     </tbody>
   </table>
