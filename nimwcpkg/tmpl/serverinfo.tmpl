@@ -18,12 +18,13 @@
 #  else:
 #    let hostn = getHostname()
 #    let uptim = execCmdEx("uptime --pretty").output.strip
-#    let pubip = newHttpClient().getContent("http://api.ipify.org").strip
 #    let disks = execCmdEx("df --human-readable --local --output=avail " & getCurrentDir()).output.strip
 #    let jailf = when defined(firejail): $firejailFeatures.pretty.strip else: "<i> Firejail is Disabled </i>"
 #    const uname = staticExec("uname -a").strip
 #    const distr = staticExec("lsb_release -a").strip
 #    const jailv = when defined(firejail): $firejailVersion else: "<i> Firejail is Disabled </i>"
+#    let pubip = newHttpClient().getContent("http://api.ipify.org").strip
+#  end when
 #
 #
 <div id="serverinfo">
@@ -54,9 +55,9 @@
   <tr>
     <td> <b>Public IP</b> </td>         <td> $pubip </td>
   </tr>
-    <tr>
-      <td> <b>Disk</b> </td>            <td> $disks </td>
-    </tr>
+  <tr>
+    <td> <b>Disk</b> </td>              <td> $disks </td>
+  </tr>
   <tr>
     <td> <b>Hostname</b> </td>          <td> $hostn </td>
   </tr>
@@ -109,10 +110,10 @@
     <td> <b>Encoding</b> </td>          <td>${getCurrentEncoding()}</td>
   </tr>
   <tr>
-    <td> <b>SSL enabled</b> </td>              <td>${defined(ssl)}</td>
+    <td> <b>SSL enabled</b> </td>       <td>${defined(ssl)}</td>
   </tr>
   <tr>
-    <td> <b>ReCaptcha enabled</b> </td>        <td>$useCaptcha</td>
+    <td> <b>ReCaptcha enabled</b> </td> <td>$useCaptcha</td>
   </tr>
   <tr>
     <td> <b>WebP enabled</b> </td>      <td>${defined(webp)}</td>
@@ -150,4 +151,5 @@
 </tbody>
 </table>
 </div>
+
 #end proc
