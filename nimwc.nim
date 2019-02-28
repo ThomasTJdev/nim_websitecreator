@@ -174,7 +174,14 @@ proc launcherActivated() =
     nimwcCommand = myjail.makeCommand(
       command=getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun,
       name="nimwc_main", hostsFile="/etc/hosts", # whitelist= @[getAppDir(), getCurrentDir()],
-    ) #TODO: Add more support for more features.
+      maxSubProcesses = dict.getSectionValue("firejail", "maxSubProcesses").parseInt,          # 1 is Ok, 0 is Disabled, int.high max.
+      maxOpenFiles = dict.getSectionValue("firejail", "maxOpenFiles").parseInt * 1_000,        # Below 1000 NimWC may not start.
+      maxFileSize = dict.getSectionValue("firejail", "maxFileSize").parseInt * 1_000_000_000,  # Below 1Mb NimWC may not start.
+      maxPendingSignals = dict.getSectionValue("firejail", "maxPendingSignals").parseInt * 10, # 1 is Ok, 0 is Disabled, int.high max.
+      timeout = dict.getSectionValue("firejail", "timeout").parseInt.byte,                     # 1 is Ok, 0 is Disabled, 255 max. It will actually Restart instead of Stopping.
+      maxRam = dict.getSectionValue("firejail", "maxRam").parseInt * 1_000_000_000,            # Below 1Gb NimWC may fail.
+      maxCpu = dict.getSectionValue("firejail", "maxCpu").parseInt,                            # 1 is Ok, 0 is Disabled, 255 max.
+    )
 
   const processOpts =
     when defined(release): {poParentStreams, poEvalCommand}

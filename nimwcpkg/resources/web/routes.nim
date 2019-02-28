@@ -355,6 +355,13 @@ routes:
         dict.getSectionValue("firejail", "noTv").parseBool,
         dict.getSectionValue("firejail", "writables").parseBool,
         dict.getSectionValue("firejail", "noMnt").parseBool,
+        dict.getSectionValue("firejail", "maxSubProcesses").parseInt,
+        dict.getSectionValue("firejail", "maxOpenFiles").parseInt,
+        dict.getSectionValue("firejail", "maxFileSize").parseInt,
+        dict.getSectionValue("firejail", "maxPendingSignals").parseInt,
+        dict.getSectionValue("firejail", "timeout").parseInt,
+        dict.getSectionValue("firejail", "maxCpu").parseInt,
+        dict.getSectionValue("firejail", "maxRam").parseInt,
       ))
 
   post "/settings/firejail/save":
@@ -390,6 +397,13 @@ routes:
         dict.setSectionKey("firejail", "noTv",          $(len(@"noTv") > 0))
         dict.setSectionKey("firejail", "writables",     $(len(@"writables") > 0))
         dict.setSectionKey("firejail", "noMnt",         $(len(@"noMnt") > 0))
+        dict.setSectionKey("firejail", "maxSubProcesses",   @"maxSubProcesses")
+        dict.setSectionKey("firejail", "maxOpenFiles",      @"maxOpenFiles")
+        dict.setSectionKey("firejail", "maxFileSize",       @"maxFileSize")
+        dict.setSectionKey("firejail", "maxPendingSignals", @"maxPendingSignals")
+        dict.setSectionKey("firejail", "timeout",           @"timeout")
+        dict.setSectionKey("firejail", "maxCpu",            @"maxCpu")
+        dict.setSectionKey("firejail", "maxRam",            @"maxRam")
         dict.writeConfig(konfig)
       except:
         resp $getCurrentExceptionMsg()
