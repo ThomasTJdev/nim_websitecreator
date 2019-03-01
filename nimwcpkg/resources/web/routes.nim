@@ -844,6 +844,10 @@ routes:
   get re"/blog//*.":
     createTFD()
     let blogid = getValue(db, sql"SELECT id FROM blog WHERE url = ?", c.req.path.replace("/blog/", ""))
+
+    if blogid == "":
+      redirect("/")
+
     resp genPageBlog(c, blogid)
 
 
