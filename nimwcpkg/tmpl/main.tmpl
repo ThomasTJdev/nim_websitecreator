@@ -4,7 +4,7 @@
 #proc genMainAdmin(c: var TData, data: string, pageAction = ""): string =
 # result = ""
 #
-# let title = getValue(db, sql"SELECT title FROM settings WHERE id = ?", "1")
+# let title = getValue(db, sql"SELECT title FROM settings")
 <!DOCTYPE html>
 <html class="has-navbar-fixed-top">
 <head>
@@ -93,7 +93,7 @@
 #proc genMain(c: var TData, data: string, pageAction = ""): string =
 # result = ""
 #
-# let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
+# let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings")
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
 <html class="has-navbar-fixed-top loggedin-${c.loggedIn}">
@@ -159,7 +159,7 @@ ${extensionCss()}
 #proc genPage(c: var TData, pageid: string): string =
 # result = ""
 #
-# let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
+# let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings")
 #
 #
 #
@@ -236,7 +236,7 @@ ${extensionCss()}
 #proc genPageBlog(c: var TData, blogid: string): string =
 # result = ""
 #
-# let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
+# let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings")
 #
 #
 # var status = "2"

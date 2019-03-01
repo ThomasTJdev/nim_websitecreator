@@ -516,9 +516,7 @@ const
 proc standardDataSettings*(db: DbConn, dataStyle: string) =
   ## Settings
   info"Standard data: Inserting settings-data."
-  let settingsExists = getValue(db, sql"SELECT id FROM settings WHERE id = ?", "1")
-  if settingsExists != "":
-    exec(db, sql"DELETE FROM settings WHERE id = ?", "1")
+  exec(db, sql"DELETE FROM settings")
 
   if dataStyle == "bootstrap":
     discard insertID(db, sql"INSERT INTO settings (title, head, navbar, footer) VALUES (?, ?, ?, ?)", title, headBootstrap, navbarBootstrap, footer)
