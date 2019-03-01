@@ -23,6 +23,10 @@ ALTER TABLE person ADD COLUMN twofa varchar(60);
 ```sql
 ALTER TABLE blog ADD COLUMN viewCount INTEGER default 1;
 ```
+- New column in `blog` table: `pubDate`:
+```sql
+ALTER TABLE blog ADD COLUMN pubDate VARCHAR(100);
+```
 - New table: `files`:
 ```nim
 ./nimwc --newdb
