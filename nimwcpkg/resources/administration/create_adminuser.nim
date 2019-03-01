@@ -14,6 +14,10 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
   const sql_anyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
   let anyAdmin = getAllRows(db, sql_anyAdmin)
   info($anyAdmin.len() & " Admins already exist. Adding 1 new Admin.")
+  info("Requirements:")
+  info(" - name  > 3")
+  info(" - email > 5")
+  info(" - pwd   > 9")
 
   var iName, iEmail, iPwd: string
   for arg in args:
@@ -24,9 +28,19 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
     elif arg.substr(0, 1) == "e:":
       iEmail = arg.substr(2, arg.len()).strip
 
-  doAssert iName.len > 3,  "Missing or invalid Name to create Admin user: " & iName
-  doAssert iEmail.len > 5, "Missing or invalid Email to create Admin user: " & iEmail
-  doAssert iPwd.len > 9,   "Missing or invalid Password to create Admin user."
+  # TODO: https://github.com/ThomasTJdev/nim_websitecreator/issues/57
+  if iName.len < 3:
+    error("Missing or invalid Name to create Admin user: " & iName)
+    sleep(3000)
+    return
+  if iEmail.len < 5:
+    error("Missing or invalid Email to create Admin user: " & iEmail)
+    sleep(3000)
+    return
+  if iPwd.len < 9:
+    error("Missing or invalid Password to create Admin user.")
+    sleep(3000)
+    return
 
   let
     salt = makeSalt()
