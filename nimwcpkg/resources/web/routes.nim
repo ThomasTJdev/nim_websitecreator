@@ -504,7 +504,8 @@ routes:
         if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
           discard cwebp(path, path, "drawing", quality=25)  # This sets quality of WEBP
       if fileExists(path):
-        exec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, 0)", path)
+        # Do not insert into DB due to being a public image file
+        #exec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, 0)", path)
         resp("[\"/images/" & filename & "\"]")
 
     except:
@@ -540,20 +541,19 @@ routes:
     if fileExists(path):
       resp("Error: A file with the same name exists")
 
-    try:
-      writeFile(path, request.formData.getOrDefault("file").body)
-      when defined(webp):
-        if @"webpstatus" == "true":
-          if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
-            discard cwebp(path, path, "drawing", quality=25)  # This sets quality of WEBP
-      if fileExists(path):
-        exec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, 0)", path)
-        redirect("/files")
+    writeFile(path, request.formData.getOrDefault("file").body)
+    when defined(webp):
+      if @"webpstatus" == "true":
+        if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
+          discard cwebp(path, path, "drawing", quality=25)  # This sets quality of WEBP
+    if fileExists(path) and @"access" != "publicimage":
+      # TODO: There should not be a row with the file. But if the user manually
+      # deletes the file and reuploads it, it will still be present in th DB.
+      # This query fails due to UNIQUE requirement in the DB. To prevent error and
+      # try-except, it uses tryExec(). We could solve this by doing a sweep with walkDir().
+      discard tryExec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, 0)", path)
 
-    except:
-      resp("Error: Something went wrong adding the file")
-
-    resp("Error: Something went wrong")
+    redirect("/files")
 
 
   get "/files/delete/@access/@filename":
