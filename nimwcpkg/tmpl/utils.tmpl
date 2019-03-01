@@ -182,7 +182,7 @@
   <div class="field">
     <div class="control">
       <label class="label">Publication date (visible on the blog overview)</label>
-      <input class="input" type="text" name="pubdate" value="${pubDate}" dir="auto">
+      <input class="input" type="date" name="pubdate" value="${pubDate}" min="${pubDate}" dir="auto" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" required >
       <i class="is-size-7">If no date is specified, the creation date will be used. The date has no effect and will only be shown on the blog overview page. Format the date: YYYY-MM-DD</i>
     </div>
   </div>
