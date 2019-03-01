@@ -125,8 +125,10 @@ const
       views           INTEGER,
       public          INTEGER,
       changes         INTEGER,
+      pubDate         VARCHAR(100),
       modified        $2             not null     default $1,
       creation        $2             not null     default $1,
+      viewCount       INTEGER        NOT NULL     default 1,
       foreign key (author_id) references person(id)
     );""".format(sql_now, sql_timestamp, sql_id))
 

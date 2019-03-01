@@ -132,8 +132,23 @@
 # var metakeywords = ""
 # var category = ""
 # var tags = ""
+# var pubDate = currentDatetime("date")
+# var viewCount = "0"
 #
-# if edit:
+# if edit and blog:
+#   let pageOrBlog = if page == true: "pages" else: "blog"
+#   let details = getRow(db, sql("SELECT title, metadescription, metakeywords, category, tags, pubDate, creation, viewCount FROM " & pageOrBlog & " WHERE id = ?"), pageid)
+#
+#   title = details[0]
+#   metadescription = details[1]
+#   metakeywords = details[2]
+#   category = details[3]
+#   tags = details[4]
+#   pubDate = if details[5] != "": details[5] else: epochDate(details[6], "YYYY-MM-DD")
+#   viewCount = details[7]
+# end if
+#
+# if edit and page:
 #   let pageOrBlog = if page == true: "pages" else: "blog"
 #   let details = getRow(db, sql("SELECT title, metadescription, metakeywords, category, tags FROM " & pageOrBlog & " WHERE id = ?"), pageid)
 #
@@ -157,6 +172,30 @@
     <button class="btn btn-primary switchEditorGrapesJS button is-small is-fullwidth is-info">Switch to GrapesJS</button>
   </div>
 </div>
+<hr>
+# end if
+
+# if blog:
+<h4 class="has-text-centered">Customize blog</h4>
+<div>
+
+  <div class="field">
+    <div class="control">
+      <label class="label">Publication date (visible on the blog overview)</label>
+      <input class="input" type="text" name="pubdate" value="${pubDate}" dir="auto">
+      <i class="is-size-7">If no date is specified, the creation date will be used. The date has no effect and will only be shown on the blog overview page. Format the date: YYYY-MM-DD</i>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <label class="label">View counter starting at</label>
+      <input class="input" type="number" name="viewcount" value="${viewCount}" dir="auto">
+    </div>
+  </div>
+
+</div>
+
 <hr>
 # end if
 

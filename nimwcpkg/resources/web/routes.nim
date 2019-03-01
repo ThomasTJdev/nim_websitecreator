@@ -792,7 +792,7 @@ routes:
     if url == getValue(db, sql"SELECT url FROM blog WHERE url = ?", url):
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
-    let blogID = insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags")
+    let blogID = insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags, pubDate, viewCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"pubdate", @"viewcount")
 
     resp genMainAdmin(c, genEditBlog(c, $blogID, true), "edit")
 
@@ -807,7 +807,7 @@ routes:
         resp("Error: A page with same URL already exists")
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
-    discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"blogid")
+    discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ?, pubDate = ?, viewCount = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"pubdate", @"viewcount", @"blogid")
 
     if @"inbackground" == "true":
       resp("OK")
@@ -844,6 +844,10 @@ routes:
   get re"/blog//*.":
     createTFD()
     let blogid = getValue(db, sql"SELECT id FROM blog WHERE url = ?", c.req.path.replace("/blog/", ""))
+
+    if blogid == "":
+      redirect("/")
+
     resp genPageBlog(c, blogid)
 
 

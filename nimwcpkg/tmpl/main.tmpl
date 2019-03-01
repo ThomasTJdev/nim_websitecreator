@@ -245,7 +245,18 @@ ${extensionCss()}
 # end if
 #
 # let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, status, title, metadescription, metakeywords FROM blog WHERE id = ? AND status IN (" & status & ")"), blogid)
+#
+# var viewCount: int
+# try:
+#   viewCount = parseInt(getValue(db, sql"SELECT viewCount FROM blog WHERE id = ?", blogid))
+# except:
+#   viewCount = 0
+# end try
+# inc viewCount
+# exec(db, sql"UPDATE blog SET viewCount = ? WHERE id = ?", viewCount, blogid)
+#
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
+#
 <!DOCTYPE html>
 <html class="has-navbar-fixed-top loggedin-${c.loggedIn}">
 

@@ -17,7 +17,15 @@
 ### Breaking changes
 - New column in `person` table: `twofa`:
 ```sql
-ALTER TABLE person ADD COLUMN twofa varchar(60)
+ALTER TABLE person ADD COLUMN twofa varchar(60);
+```
+- New column in `blog` table: `viewCount`:
+```sql
+ALTER TABLE blog ADD COLUMN viewCount INTEGER default 1;
+```
+- New column in `blog` table: `pubDate`:
+```sql
+ALTER TABLE blog ADD COLUMN pubDate VARCHAR(100);
 ```
 - New table: `files`:
 ```nim
