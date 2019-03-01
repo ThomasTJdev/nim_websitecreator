@@ -180,7 +180,7 @@ const
             Copyright
           </h5>
           <p>
-            <p>&#169; 2019 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a> & <a href="https://github.com/juancarlospaco">Juan Carlos</a></p>
+            <p>&#169; 2019 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a> & <a href="https://github.com/juancarlospaco"><u>Juan Carlos</u></a></p>
           </p>
         </div>
         <div class="column col-12 col-md-6 footerMiddle">
