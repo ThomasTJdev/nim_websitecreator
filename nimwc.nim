@@ -101,7 +101,7 @@ const
     when defined(devemailon):  " -d:devemailon",
     when defined(demo):        " -d:demo",
     when defined(ssl):         " -d:ssl",
-    when defined(sqlite):      " -d:sqlite",
+    when defined(postgres):    " -d:postgres",
     when defined(webp):        " -d:webp",
     when defined(firejail):    " -d:firejail",
     when defined(release):     " -d:release"

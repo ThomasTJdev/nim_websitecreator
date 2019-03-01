@@ -27,8 +27,8 @@ import
   resources/utils/plugins,
   resources/web/google_recaptcha
 
-when defined(sqlite): import db_sqlite
-else:                 import db_postgres
+when defined(postgres): import db_postgres
+else:                   import db_sqlite
 
 when not defined(webp): {. warning: "WebP is Disabled, No Image Optimizations." .}
 else:                   from webp import cwebp
@@ -54,7 +54,7 @@ const
     when defined(devemailon):  " -d:devemailon",
     when defined(demo):        " -d:demo",
     when defined(ssl):         " -d:ssl",
-    when defined(sqlite):      " -d:sqlite",
+    when defined(postgres):    " -d:postgres",
     when defined(webp):        " -d:webp",
     when defined(firejail):    " -d:firejail",
     when defined(release):     " -d:release"
@@ -62,8 +62,8 @@ const
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
   sql_now =
-    when defined(sqlite): "(strftime('%s', 'now'))"     # SQLite 3 epoch.
-    else:                 "(extract(epoch from now()))" # Postgres epoch.
+    when defined(postgres): "(extract(epoch from now()))" # Postgres epoch.
+    else:                   "(strftime('%s', 'now'))"     # SQLite 3 epoch.
 
 
 macro configExists(): untyped =
@@ -467,11 +467,11 @@ when isMainModule:
 
   # Connect to DB
   let dbconnection =
-    when defined(sqlite): db_host
-    else: "host=" & $db_host & " port=" & $db_port & " dbname=" & $db_name & " user=" & $db_user & " password=" & $db_pass & " connect_timeout=9"
+    when defined(postgres): "host=" & $db_host & " port=" & $db_port & " dbname=" & $db_name & " user=" & $db_user & " password=" & $db_pass & " connect_timeout=9"
+    else: db_host
   db =
-    when defined(sqlite): db_sqlite.open(dbconnection, "", "", "")
-    else:                 db_postgres.open("", "", "", dbconnection)
+    when defined(postgres): db_postgres.open("", "", "", dbconnection)
+    else:                   db_sqlite.open(dbconnection, "", "", "")
   assert db is DbConn, "Connection to DB could not be established, failed to open Database."
   info("Connection to DB is established.")
 

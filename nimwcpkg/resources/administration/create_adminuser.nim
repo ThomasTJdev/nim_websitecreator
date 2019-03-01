@@ -4,8 +4,8 @@ import
   ../password/salt_generate,
   ../utils/logging_nimwc
 
-when defined(sqlite): import db_sqlite
-else:                 import db_postgres
+when defined(postgres): import db_postgres
+else:                   import db_sqlite
 randomize()
 
 proc createAdminUser*(db: DbConn, args: seq[string]) =

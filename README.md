@@ -193,6 +193,7 @@ These options are only available at compiletime:
 * `-d:devemailon` = Send email when `-d:dev` is activated
 * `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org). This option will override the database each hour with the standard data.
 * `-d:gitupdate` = Updates and force a hard reset
+* `-d:postgres` = Use Postgres database instead of SQLite
 
 
 # User profiles
