@@ -9,25 +9,21 @@ var
   useCaptcha*: bool
   captcha*: ReCaptcha
 
-
-# Using config.ini
-let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
-
-# Web settings
-let recaptchaSecretKey = dict.getSectionValue("reCAPTCHA","Secretkey")
-let recaptchaSiteKey* = dict.getSectionValue("reCAPTCHA","Sitekey")
+let
+  dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
+  recaptchaSecretKey = dict.getSectionValue("reCAPTCHA","Secretkey")
+  recaptchaSiteKey* = dict.getSectionValue("reCAPTCHA","Sitekey")
 
 
 proc setupReCapthca*() =
-  # Activate Google reCAPTCHA
+  ## Activate Google reCAPTCHA
   if len(recaptchaSecretKey) > 0 and len(recaptchaSiteKey) > 0:
     useCaptcha = true
     captcha = initReCaptcha(recaptchaSecretKey, recaptchaSiteKey)
-    info("Initialized reCAPTCHA.")
-
+    info("Initialized ReCAPTCHA.")
   else:
     useCaptcha = false
-    error("setupReCapthca(): Failed to initialize reCAPTCHA.")
+    warn("Failed to initialize ReCAPTCHA.")
 
 
 proc checkReCaptcha*(antibot, userIP: string): Future[bool] {.async.} =

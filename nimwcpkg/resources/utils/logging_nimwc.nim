@@ -6,8 +6,8 @@ discard existsOrCreateDir("log")
 
 let
   dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
-  fileDebug = dict.getSectionValue("Logging","logfiledev")
-  fileProd =  dict.getSectionValue("Logging","logfile")
+  fileDebug = dict.getSectionValue("Logging", "logfiledev")
+  fileProd =  dict.getSectionValue("Logging", "logfile")
 
 var
   console_logger = newConsoleLogger(fmtStr = verboseFmtStr) # Logs to terminal.

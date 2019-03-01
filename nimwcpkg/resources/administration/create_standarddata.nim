@@ -1,6 +1,9 @@
-# Copyright 2018 - Thomas T. Jarløv
+import
+  os, strutils, rdstdin, logging,
+  ../utils/logging_nimwc
 
-import os, strutils, db_sqlite, rdstdin
+when defined(postgres): import db_postgres
+else:                   import db_sqlite
 
 
 const
@@ -163,7 +166,7 @@ const
   footerClean = """
   <footer class="footer">
     <div id="footerInside" class="content has-text-centered">
-      <p> &#169; 2018</p>
+      <p> &#169; 2019</p>
     </div>
   </footer>
   """
@@ -177,7 +180,7 @@ const
             Copyright
           </h5>
           <p>
-            <p>&#169; 2018 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a></p>
+            <p>&#169; 2019 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a> & <a href="https://github.com/juancarlospaco"><u>Juan Carlos</u></a></p>
           </p>
         </div>
         <div class="column col-12 col-md-6 footerMiddle">
@@ -265,7 +268,7 @@ const
   """
 
   frontpageClean = """
-  <style>#background{background-image:none;}</style>
+  <style>#background{background-image:none}</style>
   <h1>Frontpage</h1>
   <p>Login to edit</p>
   """
@@ -509,12 +512,11 @@ const
   </div>
   """
 
+
 proc standardDataSettings*(db: DbConn, dataStyle: string) =
   ## Settings
-  echo " - Standard data: Inserting settings-data"
-  let settingsExists = getValue(db, sql"SELECT id FROM settings WHERE id = ?", "1")
-  if settingsExists != "":
-    exec(db, sql"DELETE FROM settings WHERE id = ?", "1")
+  info"Standard data: Inserting settings-data."
+  exec(db, sql"DELETE FROM settings")
 
   if dataStyle == "bootstrap":
     discard insertID(db, sql"INSERT INTO settings (title, head, navbar, footer) VALUES (?, ?, ?, ?)", title, headBootstrap, navbarBootstrap, footer)
@@ -526,7 +528,7 @@ proc standardDataSettings*(db: DbConn, dataStyle: string) =
 
 proc standardDataFrontpage*(db: DbConn, dataStyle = "") =
   ## Frontpage
-  echo " - Standard data: Inserting frontpage-data"
+  info"Standard data: Inserting frontpage-data."
   let frontpageExists = getValue(db, sql"SELECT id FROM pages WHERE url = ?", "frontpage")
   if frontpageExists != "":
     exec(db, sql"DELETE FROM pages WHERE id = ?", frontpageExists)
@@ -539,7 +541,7 @@ proc standardDataFrontpage*(db: DbConn, dataStyle = "") =
 
 proc standardDataAbout*(db: DbConn) =
   ## About
-  echo " - Standard data: Inserting about-data"
+  info"Standard data: Inserting about-data."
   let aboutExists = getValue(db, sql"SELECT id FROM pages WHERE url = ?", "about")
   if aboutExists != "":
     exec(db, sql"DELETE FROM pages WHERE id = ?", aboutExists)
@@ -549,34 +551,37 @@ proc standardDataAbout*(db: DbConn) =
 
 proc standardDataBlogpost1*(db: DbConn) =
   ## Blog post
-  echo " - Standard data: Inserting blog post-data"
+  info"Standard data: Inserting blog post-data"
   let blogExists = getValue(db, sql"SELECT id FROM blog WHERE url = ?", "standardpost")
   if blogExists != "":
     exec(db, sql"DELETE FROM blog WHERE id = ?", blogExists)
 
   discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpost", "Standard blogpost", blogpost1, "1", "1", "1", "NimWC Example blogpost", "This is an example blogpost using the default styling.", "website,blog,nim,nimwc")
 
+
 proc standardDataBlogpost2*(db: DbConn) =
   ## Blog post
-  echo " - Standard data: Inserting blog post-data"
+  info"Standard data: Inserting blog post-data."
   let blogExists = getValue(db, sql"SELECT id FROM blog WHERE url = ?", "standardpostv2")
   if blogExists != "":
     exec(db, sql"DELETE FROM blog WHERE id = ?", blogExists)
 
   discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv2", "Parallax post v2", blogpost2, "1", "1", "1", "NimWC Example blogpost parallax", "This is an example blogpost using parallax created with NimWC.", "website,blog,nim,nimwc,parallax")
 
+
 proc standardDataBlogpost3*(db: DbConn) =
   ## Blog post
-  echo " - Standard data: Inserting blog post-data"
+  info"Standard data: Inserting blog post-data."
   let blogExists = getValue(db, sql"SELECT id FROM blog WHERE url = ?", "standardpostv3")
   if blogExists != "":
     exec(db, sql"DELETE FROM blog WHERE id = ?", blogExists)
 
   discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv3", "Custom styling", blogpost3, "1", "1", "1", "NimWC Example blogpost custom", "This is an example blogpost using custom styling.", "website,blog,nim,nimwc")
 
+
 proc createStandardData*(db: DbConn, dataStyle = "bulma") =
   ## Insert basic data
-  echo "Standard data: Inserting standard data"
+  info"Standard data: Inserting standard data."
   standardDataSettings(db, dataStyle)
   standardDataFrontpage(db, dataStyle)
   if dataStyle != "clean":

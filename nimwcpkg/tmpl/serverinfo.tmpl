@@ -1,40 +1,83 @@
 #? stdtmpl | standard
 #
-#import encodings, httpclient, nativesockets
+#import httpclient  #HACK: Do NOT move to main,leave it here.
 #
 #proc genServerInfo(): string =
 #  result = ""
-<center>
-  <h1>Server Info</h1>
-</center>
-<table border=1 style="width:99%">
+#
+#
+#  when defined(demo):
+#    const uname = "<i> Not available on Demo </i>"
+#    const distr = "<i> Not available on Demo </i>"
+#    const uptim = "<i> Not available on Demo </i>"
+#    const pubip = "<i> Not available on Demo </i>"
+#    const disks = "<i> Not available on Demo </i>"
+#    const hostn = "<i> Not available on Demo </i>"
+#    const jailv = "<i> Not available on Demo </i>"
+#    const jailf = "<i> Not available on Demo </i>"
+#  else:
+#    let hostn = getHostname()
+#    let uptim = execCmdEx("uptime --pretty").output.strip
+#    let disks = execCmdEx("df --human-readable --local --output=avail " & getCurrentDir()).output.strip
+#    let jailf = when defined(firejail): $firejailFeatures.pretty.strip else: "<i> Firejail is Disabled </i>"
+#    const uname = staticExec("uname -a").strip
+#    const distr = staticExec("lsb_release -a").strip
+#    const jailv = when defined(firejail): $firejailVersion else: "<i> Firejail is Disabled </i>"
+#    let pubip = newHttpClient().getContent("http://api.ipify.org").strip
+#  end when
+#
+#
+<div id="serverinfo">
+<h1 class="has-text-centered">Server Info</h1>
+<table border=1 class="table is-bordered is-striped is-hoverable is-fullwidth">
+  <thead>
+    <tr>
+      <th style="width: 200px;">Name</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tfoot>
+    <tr>
+      <th>Name</th>
+      <th>Value</th>
+    </tr>
+  </tfoot>
   <tbody>
   <tr>
-    <td> <b>System</b> </td>            <td>${execCmdEx("uname -a").output}</td>
+    <td> <b>System</b> </td>            <td> $uname </td>
   </tr>
   <tr>
-    <td> <b>Distro</b> </td>            <td>${execCmdEx("lsb_release -a").output}</td>
+    <td> <b>Distro</b> </td>            <td> $distr </td>
   </tr>
   <tr>
-    <td> <b>Uptime</b> </td>            <td>${execCmdEx("uptime --pretty").output}</td>
+    <td> <b>Uptime</b> </td>            <td> $uptim </td>
   </tr>
   <tr>
-    <td> <b>Public IP</b> </td>         <td>${newHttpClient().getContent("http://api.ipify.org")}</td>
+    <td> <b>Public IP</b> </td>         <td> $pubip </td>
   </tr>
   <tr>
-    <td> <b>Hostname</b> </td>          <td>${getHostname()}</td>
+    <td> <b>Disk</b> </td>              <td> $disks </td>
   </tr>
   <tr>
-    <td> <b>Compile Date</b> </td>      <td>$CompileDate</td>
+    <td> <b>Hostname</b> </td>          <td> $hostn </td>
   </tr>
   <tr>
-    <td> <b>Compile Time</b> </td>      <td> $CompileTime</td>
+    <td> <b>Compile Date</b> </td>      <td> $CompileDate </td>
   </tr>
   <tr>
-    <td> <b>Nim Version</b> </td>       <td>$NimVersion</td>
+    <td> <b>Compile Time</b> </td>      <td> $CompileTime </td>
   </tr>
   <tr>
-    <td> <b>CPU</b> </td>               <td>$hostCPU.toUpperAscii</td>
+    <td> <b>Nim Version</b> </td>       <td> $NimVersion </td>
+  </tr>
+  <tr>
+    <td> <b>Firejail Version</b> </td>  <td>  $jailv </td>
+  </tr>
+  <tr>
+    <td> <b>Firejail Status</b> </td>   <td> $jailf </td>
+  </tr>
+  <tr>
+    <td> <b>CPU</b> </td>               <td> $hostCPU.toUpperAscii </td>
   </tr>
   <tr>
     <td> <b>CPU Count</b> </td>         <td>${countProcessors()}</td>
@@ -52,6 +95,12 @@
     <td> <b>Current Directory</b> </td> <td>${getCurrentDir()}</td>
   </tr>
   <tr>
+    <td> <b>Log File</b> </td>          <td>${defaultFilename()}</td>
+  </tr>
+  <tr>
+    <td> <b>App Directory</b> </td>     <td>${getAppDir()}</td>
+  </tr>
+  <tr>
     <td> <b>Biggest Integer</b> </td>   <td>$int.high</td>
   </tr>
   <tr>
@@ -61,25 +110,31 @@
     <td> <b>Encoding</b> </td>          <td>${getCurrentEncoding()}</td>
   </tr>
   <tr>
-    <td> <b>SSL?</b> </td>              <td>${defined(ssl)}</td>
+    <td> <b>SSL enabled</b> </td>       <td>${defined(ssl)}</td>
   </tr>
   <tr>
-    <td> <b>Release Build?</b> </td>    <td>${defined(release)}</td>
+    <td> <b>ReCaptcha enabled</b> </td> <td>$useCaptcha</td>
   </tr>
   <tr>
-    <td> <b>Demo Mode?</b> </td>        <td>${defined(demo)}</td>
+    <td> <b>WebP enabled</b> </td>      <td>${defined(webp)}</td>
   </tr>
   <tr>
-    <td> <b>Admin Notify?</b> </td>     <td>${defined(adminnotify)}</td>
+    <td> <b>Release Build</b> </td>    <td>${defined(release)}</td>
   </tr>
   <tr>
-    <td> <b>Force Recompile?</b> </td>  <td>${defined(rc)}</td>
+    <td> <b>Demo Mode enabled</b> </td> <td>${defined(demo)}</td>
   </tr>
   <tr>
-    <td> <b>Development Mode?</b> </td> <td>${defined(dev)}</td>
+    <td> <b>Admin Notify enabled</b> </td><td>${defined(adminnotify)}</td>
   </tr>
   <tr>
-    <td> <b>Update from GIT?</b></td>   <td>${defined(gitupdate)}</td>
+    <td> <b>Force Recompile enabled</b> </td>  <td>${defined(rc)}</td>
+  </tr>
+  <tr>
+    <td> <b>Development Mode enabled</b> </td> <td>${defined(dev)}</td>
+  </tr>
+  <tr>
+    <td> <b>Update from GIT enabled</b></td>   <td>${defined(gitupdate)}</td>
   </tr>
   <tr>
     <td> <b>Free Memory</b> </td>       <td>${getFreeMem()}</td>
@@ -91,10 +146,10 @@
     <td> <b>Occupied Memory</b> </td>   <td>${getOccupiedMem()}</td>
   </tr>
   <tr>
-    <td> <b>Command Line Params</b> </td>   <td>${commandLineParams()}</td>
-  </tr>
-  <tr>
     <td> <b>Garbage Collector</b> </td> <td>${GC_getStatistics()}</td>
   </tr>
 </tbody>
 </table>
+</div>
+
+#end proc

@@ -1,19 +1,23 @@
 # Package
-version       = "4.0.12"
-author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev)"
+version       = "5.0.0"
+author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev) & Juan Carlos (https://github.com/juancarlospaco)"
 description   = "Generate and host a website. Run the package and access your new webpage."
 license       = "GPLv3"
 bin           = @["nimwc"]
-skipDirs      = @["private", "tmp"]
+skipDirs      = @["private", "tmp", "devops"]
 installDirs   = @["config", "nimwcpkg", "plugins", "public"]
 
 
 
 # Dependencies
-requires "nim >= 0.19.2"
+requires "nim >= 0.19.4"
 requires "jester >= 0.4.1"
 requires "recaptcha >= 1.0.2"
 requires "bcrypt >= 0.2.1"
+requires "datetime2human >= 0.2.2"
+requires "otp >= 0.1.1"
+requires "firejail >= 0.5.0"
+requires "webp >= 0.2.0"
 
 
 import distros

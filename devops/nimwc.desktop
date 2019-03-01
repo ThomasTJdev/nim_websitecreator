@@ -1,0 +1,12 @@
+[Desktop Entry]
+Comment=Nim Website Creator
+Exec=nimwc
+GenericName=Nim Website Creator
+Icon=system-run
+Name=nimwc
+StartupNotify=false
+Terminal=true
+Type=Application
+Categories=Utility
+X-DBUS-ServiceName=nimwc
+X-KDE-StartupNotify=false

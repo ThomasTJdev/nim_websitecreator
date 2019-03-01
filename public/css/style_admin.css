@@ -229,13 +229,6 @@ div#settingsEdit {
   max-width: 1400px;
   padding: 10px;
 }
-div#settingsEdit pre.templateCode {
-  border-radius: 2px;
-  border: 1px solid grey;
-  padding: 5px;
-}
-
-
 
 
 /*
@@ -455,6 +448,20 @@ div#user #editProfilePhoto {
   text-align: center;
   background: white;
 }
+div#user div.twofa-container {
+  border: 1px solid black;
+  padding: 5px;
+}
+div#user div.twofa-container input {
+  margin: 5px 0 5px 0;
+}
+div#user input.twofaEnabled {
+  display: inline-block;
+  font-weight: 700;
+  background-color: #a1ffb1;
+  color: #3a3a3a;
+  width: auto;
+}
 @media only screen and (max-width: 768px) {
   div#user label {
     margin-top: 15px;
@@ -489,7 +496,7 @@ div#fileAddContainer {
 }
 form#fileAdd {
   border: 1px solid grey;
-  width: 300px;
+  width: 320px;
   padding: 10px;
   border-radius: 10px;
   margin-top: 10px;
@@ -573,11 +580,11 @@ li.pluginSettings .disablePlugin {
 li.pluginSettings .enablePlugin {
   background: rgba(0, 128, 0, 0.5);
 }
-li.pluginSettings.enabled .enablePlugin {
-  display: none;
-}
 li.pluginSettings .disablePlugin {
   background: rgba(194, 54, 54, 0.5);
+}
+li.pluginSettings.enabled .enablePlugin {
+  display: none;
 }
 li.pluginSettings.disabled .disablePlugin {
   display: none;
@@ -626,6 +633,44 @@ li.pluginRepo span.version.git {
 #pluginDetails b {
   font-weight: bold;
 }
+
+
+/*
+  Server info
+*/
+#serverinfo {
+  width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  padding: 20px;
+}
+
+
+
+/*
+  Config
+*/
+#config {
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+}
+
+
+
+/*
+  Firejail
+*/
+#firejail {
+  width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+  padding: 20px;
+}
+
 
 /*
   Saved notification

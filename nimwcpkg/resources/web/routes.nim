@@ -1,4 +1,3 @@
-# Copyright 2018 - Thomas T. Jarløv
 
 routes:
   #error Http404:
@@ -20,12 +19,15 @@ routes:
 
   post "/dologin":
     createTFD()
+    if @"password2" != "": # DONT TOUCH, HoneyPot: https://github.com/ThomasTJdev/nim_websitecreator/issues/43#issue-403507393
+      when not defined(release): echo "HONEYPOT: " & @"password2"
+      redirect("/login?msg=" & encodeUrl("Error: You need to verify, that you are not a robot!"))
     when not defined(dev):
       if useCaptcha:
         if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
           redirect("/login?msg=" & encodeUrl("Error: You need to verify, that you are not a robot!"))
 
-    let (loginB, loginS) = login(c, replace(toLowerAscii(@"email"), " ", ""), replace(@"password", " ", ""))
+    let (loginB, loginS) = login(c, replace(toLowerAscii(@"email"), " ", ""), replace(@"password", " ", ""), @"totp")
     if loginB:
       jester.setCookie("sid", loginS, daysForward(7))
       redirect("/settings")
@@ -42,13 +44,10 @@ routes:
     resp genMain(c, "<h3 style=\"text-align: center; color: red; margin-top: 100px;\">" & decodeUrl(@"errorMsg") & "</h3>")
 
 
+#
+# Plugins
+#
 
-
-  #[
-
-      Plugins
-
-  ]#
 
   get "/plugins":
     ## Access the plugin overview
@@ -185,11 +184,10 @@ routes:
       redirect("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginrepo"))
 
 
-  #[
+#
+# Settings
+#
 
-      Settings
-
-  ]#
 
   get "/settings":
     createTFD()
@@ -308,7 +306,7 @@ routes:
   get "/settings/logs":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-    resp genViewLogs(logcontent=readFile(logfile))
+    resp genMainAdmin(c, genViewLogs(logcontent=readFile(logfile)))
 
   get "/settings/forcerestart":
     createTFD()
@@ -318,14 +316,133 @@ routes:
   get "/settings/serverinfo":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-    resp genServerInfo()
+    resp genMainAdmin(c, genServerInfo())
+
+  get "/settings/termsofservice":
+    createTFD()
+    let tos = readFile(getAppDir() & "/tmpl/tos.html")
+    resp tos
+
+  get "/settings/firejail":
+    createTFD()
+    restrictTestuser(c.req.reqMethod)
+    restrictAccessTo(c, [Admin])
+
+    when not defined(firejail):
+      redirect("/")
+    else:
+      let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
+      resp genMainAdmin(c, genFirejail(
+        dict.getSectionValue("firejail", "noDvd").parseBool,
+        dict.getSectionValue("firejail", "noSound").parseBool,
+        dict.getSectionValue("firejail", "noAutoPulse").parseBool,
+        dict.getSectionValue("firejail", "no3d").parseBool,
+        dict.getSectionValue("firejail", "noX").parseBool,
+        dict.getSectionValue("firejail", "noVideo").parseBool,
+        dict.getSectionValue("firejail", "noDbus").parseBool,
+        dict.getSectionValue("firejail", "noShell").parseBool,
+        dict.getSectionValue("firejail", "noDebuggers").parseBool,
+        dict.getSectionValue("firejail", "noMachineId").parseBool,
+        dict.getSectionValue("firejail", "noRoot").parseBool,
+        dict.getSectionValue("firejail", "noAllusers").parseBool,
+        dict.getSectionValue("firejail", "noU2f").parseBool,
+        dict.getSectionValue("firejail", "privateTmp").parseBool,
+        dict.getSectionValue("firejail", "privateCache").parseBool,
+        dict.getSectionValue("firejail", "privateDev").parseBool,
+        dict.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
+        dict.getSectionValue("firejail", "caps").parseBool,
+        dict.getSectionValue("firejail", "seccomp").parseBool,
+        dict.getSectionValue("firejail", "noTv").parseBool,
+        dict.getSectionValue("firejail", "writables").parseBool,
+        dict.getSectionValue("firejail", "noMnt").parseBool,
+        dict.getSectionValue("firejail", "maxSubProcesses").parseInt,
+        dict.getSectionValue("firejail", "maxOpenFiles").parseInt,
+        dict.getSectionValue("firejail", "maxFileSize").parseInt,
+        dict.getSectionValue("firejail", "maxPendingSignals").parseInt,
+        dict.getSectionValue("firejail", "timeout").parseInt,
+        dict.getSectionValue("firejail", "maxCpu").parseInt,
+        dict.getSectionValue("firejail", "maxRam").parseInt,
+        dict.getSectionValue("firejail", "cpuCoresByNumber").parseInt,
+        dict.getSectionValue("firejail", "hostsFile"),
+        dict.getSectionValue("firejail", "dns0"),
+        dict.getSectionValue("firejail", "dns1"),
+        dict.getSectionValue("firejail", "dns2"),
+        dict.getSectionValue("firejail", "dns3"),
+      ))
+
+  post "/settings/firejail/save":
+    createTFD()
+    restrictTestuser(c.req.reqMethod)
+    restrictAccessTo(c, [Admin])
+
+    when not defined(firejail):
+      redirect("/")
+    else:
+      let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
+      var dict = loadConfig(konfig)
+      try:  # HTML Checkbox returns empty string for false and "on" for true.
+        dict.setSectionKey("firejail", "noDvd",         $(len(@"noDvd") > 0))
+        dict.setSectionKey("firejail", "noSound",       $(len(@"noSound") > 0))
+        dict.setSectionKey("firejail", "noAutoPulse",   $(len(@"noAutoPulse") > 0))
+        dict.setSectionKey("firejail", "no3d",          $(len(@"no3d") > 0))
+        dict.setSectionKey("firejail", "noX",           $(len(@"noX") > 0))
+        dict.setSectionKey("firejail", "noVideo",       $(len(@"noVideo") > 0))
+        dict.setSectionKey("firejail", "noDbus",        $(len(@"noDbus") > 0))
+        dict.setSectionKey("firejail", "noShell",       $(len(@"noShell") > 0))
+        dict.setSectionKey("firejail", "noDebuggers",   $(len(@"noDebuggers") > 0))
+        dict.setSectionKey("firejail", "noMachineId",   $(len(@"noMachineId") > 0))
+        dict.setSectionKey("firejail", "noRoot",        $(len(@"noRoot") > 0))
+        dict.setSectionKey("firejail", "noAllusers",    $(len(@"noAllusers") > 0))
+        dict.setSectionKey("firejail", "noU2f",         $(len(@"noU2f") > 0))
+        dict.setSectionKey("firejail", "privateTmp",    $(len(@"privateTmp") > 0))
+        dict.setSectionKey("firejail", "privateCache",  $(len(@"privateCache") > 0))
+        dict.setSectionKey("firejail", "privateDev",    $(len(@"privateDev") > 0))
+        dict.setSectionKey("firejail", "forceEnUsUtf8", $(len(@"forceEnUsUtf8") > 0))
+        dict.setSectionKey("firejail", "caps",          $(len(@"caps") > 0))
+        dict.setSectionKey("firejail", "seccomp",       $(len(@"seccomp") > 0))
+        dict.setSectionKey("firejail", "noTv",          $(len(@"noTv") > 0))
+        dict.setSectionKey("firejail", "writables",     $(len(@"writables") > 0))
+        dict.setSectionKey("firejail", "noMnt",         $(len(@"noMnt") > 0))
+        dict.setSectionKey("firejail", "maxSubProcesses",   @"maxSubProcesses")
+        dict.setSectionKey("firejail", "maxOpenFiles",      @"maxOpenFiles")
+        dict.setSectionKey("firejail", "maxFileSize",       @"maxFileSize")
+        dict.setSectionKey("firejail", "maxPendingSignals", @"maxPendingSignals")
+        dict.setSectionKey("firejail", "timeout",           @"timeout")
+        dict.setSectionKey("firejail", "maxCpu",            @"maxCpu")
+        dict.setSectionKey("firejail", "maxRam",            @"maxRam")
+        dict.setSectionKey("firejail", "cpuCoresByNumber",  @"cpuCoresByNumber")
+        dict.setSectionKey("firejail", "hostsFile", @"hostsFile")
+        dict.setSectionKey("firejail", "dns0",      @"dns0")
+        dict.setSectionKey("firejail", "dns1",      @"dns1")
+        dict.setSectionKey("firejail", "dns2",      @"dns2")
+        dict.setSectionKey("firejail", "dns3",      @"dns3")
+        dict.writeConfig(konfig)
+      except:
+        resp $getCurrentExceptionMsg()
+      redirect("/settings")
+
+  get "/settings/config":
+    createTFD()
+    restrictAccessTo(c, [Admin])
+    let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
+    resp genMainAdmin(c, genEditConfig(readFile(konfig)))
+
+  post "/settings/config/save":
+    createTFD()
+    restrictAccessTo(c, [Admin])
+    try:
+      discard loadConfig(newStringStream(@"config")) # Not a strong Validation.
+    except:
+      resp $getCurrentExceptionMsg()
+    let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
+    writeFile(konfig, strip(@"config"))
+    redirect("/settings")
 
 
-  #[
+#
+# Files
+#
 
-      Files
-
-  ]#
 
   get "/files":
     createTFD()
@@ -360,6 +477,11 @@ routes:
     if not fileExists(filepath):
       resp("Error: File was not found")
 
+    var downloadCount =
+      try: parseInt(getValue(db, sql"SELECT downloadCount FROM files where url = ?", filepath))
+      except: 0
+    inc downloadCount
+    exec(db, sql"UPDATE files SET downloadCount = ? where url = ?", downloadCount, filepath)
     sendFile(filepath)
 
 
@@ -378,7 +500,12 @@ routes:
 
     try:
       writeFile(path, request.formData.getOrDefault("file[]").body)
+      when defined(webp):
+        if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
+          discard cwebp(path, path, "drawing", quality=25)  # This sets quality of WEBP
       if fileExists(path):
+        # Do not insert into DB due to being a public image file
+        #exec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, 0)", path)
         resp("[\"/images/" & filename & "\"]")
 
     except:
@@ -400,24 +527,33 @@ routes:
     let filename  = request.formData["file"].fields["filename"]
     var path: string
 
+    const efspublic = storageEFS & "/files/public/"
+    const efsprivate = storageEFS & "/files/private/"
     if @"access" == "publicimage":
       path = "public/images/" & filename
-
+    elif @"access" == "public":
+      assert existsDir(efspublic), "storageEFS Public Folder not found: " & efspublic
+      path = efspublic & filename
     else:
-      path = storageEFS & "/files/" & @"access" & "/" & filename
+      assert existsDir(efsprivate), "storageEFS Private Folder not found: " & efsprivate
+      path = efsprivate & filename
 
     if fileExists(path):
       resp("Error: A file with the same name exists")
 
-    try:
-      writeFile(path, request.formData.getOrDefault("file").body)
-      if fileExists(path):
-        redirect("/files")
+    writeFile(path, request.formData.getOrDefault("file").body)
+    when defined(webp):
+      if @"webpstatus" == "true":
+        if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
+          discard cwebp(path, path, "drawing", quality=25)  # This sets quality of WEBP
+    if fileExists(path) and @"access" != "publicimage":
+      # TODO: There should not be a row with the file. But if the user manually
+      # deletes the file and reuploads it, it will still be present in th DB.
+      # This query fails due to UNIQUE requirement in the DB. To prevent error and
+      # try-except, it uses tryExec(). We could solve this by doing a sweep with walkDir().
+      discard tryExec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, 0)", path)
 
-    except:
-      resp("Error: Something went wrong adding the file")
-
-    resp("Error: Something went wrong")
+    redirect("/files")
 
 
   get "/files/delete/@access/@filename":
@@ -433,7 +569,9 @@ routes:
       fileDeleted = tryRemoveFile("public/images/" & decodeUrl(@"filename"))
 
     else:
-      fileDeleted = tryRemoveFile(storageEFS & "/files/" & @"access" & "/" & decodeUrl(@"filename"))
+      let path = storageEFS & "/files/" & @"access" & "/" & decodeUrl(@"filename")
+      fileDeleted = tryRemoveFile(path)
+      exec(db, sql"DELETE FROM files WHERE url = ?", path)
 
     if fileDeleted:
       redirect("/files")
@@ -442,13 +580,10 @@ routes:
       resp("Error: File not found")
 
 
+#
+# Users
+#
 
-
-  #[
-
-      Users
-
-  ]#
 
   get "/users":
     createTFD()
@@ -490,6 +625,48 @@ routes:
       exec(db, sql"UPDATE person SET name = ?, email = ? WHERE id = ?", @"name", @"email", c.userid)
 
     redirect("/users/profile")
+
+
+  post "/users/profile/update/test2fa":
+    createTFD()
+    restrictTestuser(HttpGet)
+
+    if not c.loggedIn:
+      redirect("/")
+
+    try:
+      if $newTotp(@"twofakey").now() == @"testcode":
+        resp("Success, the code matched")
+      else:
+        resp("Error, code did not match")
+    except:
+      resp("Error generating 2FA")
+
+
+  post "/users/profile/update/save2fa":
+    createTFD()
+    restrictTestuser(HttpGet)
+
+    if not c.loggedIn:
+      redirect("/")
+
+    if tryExec(db, sql"UPDATE person SET twofa = ? WHERE id = ?", @"twofakey", c.userid):
+      resp("Saved 2FA key")
+    else:
+      resp("Error saving 2FA key")
+
+
+  post "/users/profile/update/disable2fa":
+    createTFD()
+    restrictTestuser(HttpGet)
+
+    if not c.loggedIn:
+      redirect("/")
+
+    if tryExec(db, sql"UPDATE person SET twofa = ? WHERE id = ?", "", c.userid):
+      resp("Disabled 2FA key")
+    else:
+      resp("Error disabling 2FA key")
 
 
   get "/users/delete/@userID":
@@ -538,10 +715,11 @@ routes:
     if emailExist != "":
       redirect("/error/" & encodeUrl("Error: A user with that email does already exists"))
 
-    let salt = makeSalt()
-    let passwordOriginal = randomString(12)
-    let password = makePassword(passwordOriginal, salt)
-    let secretUrl = randomStringDigitAlpha(99)
+    let
+      salt = makeSalt()
+      passwordOriginal = $rand(10_00_00_00_00_01.int..89_99_99_99_99_98.int) # User Must change it anyways.
+      password = makePassword(passwordOriginal, salt)
+      secretUrl = repeat($rand(10_00_00_00_00_00_00_00_00.int..int.high), 5).center(99, rand(toSeq('a'..'z')))
 
     let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, salt, secretUrl) VALUES (?, ?, ?, ?, ?, ?)", @"name", emailReady, @"status", password, salt, secretUrl)
 
@@ -568,23 +746,17 @@ routes:
     ## Get a file
     createTFD()
     let filename = decodeUrl(@"filename")
-
     var filepath = storageEFS & "/users/" & filename
-
-    if not fileExists(filepath):
-      resp("")
-
+    if not fileExists(filepath): resp("")
     sendFile(filepath)
 
 
   post "/users/photo/upload":
     ## Uploads a new profile image for a user
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
 
-    if not c.loggedIn:
-      redirect("/")
+    if not c.loggedIn: redirect("/")
 
     let path = storageEFS & "/users/" & c.userid
     let base64 = split(c.req.body, ",")[1]
@@ -593,22 +765,17 @@ routes:
       writeFile(path & ".txt", base64)
       discard execProcess("base64 -d > " & path & ".png < " & path & ".txt")
       removeFile(path & ".txt")
-      if fileExists(path & ".png"):
-        resp("File saved")
-
+      if fileExists(path & ".png"): resp("File saved")
     except:
       resp("Error")
 
     resp("Error: Something went wrong")
 
 
+#
+# Blog
+#
 
-
-  #[
-
-      Blog
-
-  ]#
 
   get "/blogpagenew":
     createTFD()
@@ -625,7 +792,7 @@ routes:
     if url == getValue(db, sql"SELECT url FROM blog WHERE url = ?", url):
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
-    let blogID = insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags")
+    let blogID = insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags, pubDate, viewCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"pubdate", @"viewcount")
 
     resp genMainAdmin(c, genEditBlog(c, $blogID, true), "edit")
 
@@ -640,7 +807,7 @@ routes:
         resp("Error: A page with same URL already exists")
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
 
-    discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"blogid")
+    discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ?, pubDate = ?, viewCount = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"pubdate", @"viewcount", @"blogid")
 
     if @"inbackground" == "true":
       resp("OK")
@@ -677,16 +844,17 @@ routes:
   get re"/blog//*.":
     createTFD()
     let blogid = getValue(db, sql"SELECT id FROM blog WHERE url = ?", c.req.path.replace("/blog/", ""))
+
+    if blogid == "":
+      redirect("/")
+
     resp genPageBlog(c, blogid)
 
 
+#
+# Pages
+#
 
-
-  #[
-
-      Pages
-
-  ]#
 
   get "/pagenew":
     createTFD()
@@ -757,11 +925,11 @@ routes:
     resp genPage(c, pageid)
 
 
-  #[
+#
+# Sitemap
+#
 
-      Sitemap
 
-  ]#
   get "/sitemap.xml":
     writeFile("public/sitemap.xml", genSitemap())
     sendFile("public/sitemap.xml")

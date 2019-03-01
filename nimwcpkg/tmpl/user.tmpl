@@ -9,7 +9,7 @@
 # result = ""
 # if not c.loggedIn:
 #
-#   let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings WHERE id = ?", "1")
+#   let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings")
 
 <head>
   ${standardElements[0]}
@@ -22,8 +22,9 @@
 
       # when defined(demo):
         <div class="notification is-link">
-          <p><b>User:</b> test@test.com</p>
-          <p><b>Pass:</b> test</p>
+          <p> <b>User:</b> test@test.com</p>
+          <p> <b>Pass:</b> test</p>
+          <p> <b>2FA: </b> 123456</p>
         </div>
       # end when
 
@@ -44,15 +45,25 @@
       <div class="field form-group">
         <label class="label">Password</label>
         <div class="control has-icons-left has-icons-right">
-          <input type="password" class="form-control input is-rounded" name="password" autocomplete="current-password" minlength="4" placeholder="Password" dir="auto" required
-          # when defined(demo):
-            value="test"
+          <input type="password" class="form-control input is-rounded" name="password" autocomplete="current-password" placeholder="Password" dir="auto" required
+          # when defined(demo) or defined(dev):
+            minlength="4"  value="test"
+          # else:
+            minlength="10" value=""
           # end when
           >
         </div>
       </div>
-
-      <input href="#" type="submit" class="btn btn-custom btn-blue-secondary button is-primary is-fullwidth is-rounded" value="Login" />
+      <div class="field form-group">
+        <label class="label">2 Factor Auth (TOTP)</label>
+        <div class="control has-icons-left has-icons-right">
+          <input type="number" class="form-control input is-rounded has-text-centered" name="totp" placeholder="6 Digit Number" min="000000" max="999999" step="1" dir="auto"
+          # when defined(demo):
+            value="123456"
+          # end when
+          >
+        </div>
+      </div>
 
       #if useCaptcha:
         <div id="recaptcha">
@@ -60,6 +71,21 @@
           <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         </div>
       #end if
+
+      <div class="field form-group">
+        <label class="checkbox">
+          <input type="checkbox" title="I agree to the Terms Of Service and Cookies" required checked >
+            <a href="/settings/termsofservice"><small><i style="opacity:.5">I accept the Terms of Service</i></small></a>
+        </label>
+      </div>
+
+      <input href="#" type="submit" class="btn btn-custom btn-blue-secondary button is-primary is-fullwidth is-rounded" value="Login" />
+
+      ## DONT TOUCH, HoneyPot: https://github.com/ThomasTJdev/nim_websitecreator/issues/43#issue-403507393
+      <input type="password" class="form-control input is-rounded" name="password2" autocomplete="false" tabindex="-1" placeholder="Password" dir="auto" minlength="10" value="" style="
+      ${["display:none !important", "visibility:hidden !important", "opacity:0 !important"].rand}
+      " >
+      ## DONT TOUCH, HoneyPot: https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377
     </form>
   </div>
 
@@ -82,7 +108,7 @@
 #proc genUsers(c: var TData): string =
 # result = ""
 #
-# let allUsers = getAllRows(db, sql"SELECT id, name, email, status, lastOnline, secretUrl FROM person")
+# let allUsers = getAllRows(db, sql"SELECT id, name, email, status, lastOnline, secretUrl, twofa FROM person")
 
 
 <div id="users">
@@ -124,20 +150,24 @@
   <thead>
     <tr>
       <th>#</th>
+      <th>ID</th>
       <th>User</th>
       <th>Mail</th>
       <th>Last online</th>
       <th>Rank</th>
+      <th>2FA</th>
       <th>Delete</th>
     </tr>
   </thead>
   <tfoot>
     <tr>
       <th>#</th>
+      <th>ID</th>
       <th>User</th>
       <th>Mail</th>
       <th>Last online</th>
       <th>Rank</th>
+      <th>2FA</th>
       <th>Delete</th>
     </tr>
   </tfoot>
@@ -152,6 +182,7 @@
 #   counter += 1
   <tr>
     <td> $counter </td>
+    <td> ${user[0]} </td>
     <td> ${user[1]} </td>
     <td> ${user[2]} </td>
     #   if user[5] == "":
@@ -161,6 +192,11 @@
       <td> Mail unconfirmed </td>
       <td> Mail unconfirmed </td>
     #   end if
+    <td>
+    # if c.rank == Admin:
+       ${toUpperAscii($(user[6].len > 6))}
+    # end if
+    </td>
     <td class="is-danger has-text-centered"><a class="delete" href="/users/delete/${user[0]}" title="Kill ${user[1]} ?"></a></td>
 # end for
     </tbody>
@@ -180,7 +216,7 @@
 #proc genUsersProfile(c: var TData): string =
 # result = ""
 #
-# let userData = getAllRows(db, sql"SELECT id, name, email, status, lastOnline FROM person WHERE id = ?", c.userid)
+# let userData = getAllRows(db, sql"SELECT id, name, email, status, lastOnline, twofa FROM person WHERE id = ?", c.userid)
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.js" defer></script>
@@ -209,18 +245,70 @@
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="password" name="password" type="password" placeholder="password" class="form-control input" minlength="4" maxlength="128" required value="" dir="auto">
+            <input id="password" name="password" type="password" placeholder="password" class="form-control input" maxlength="128" required value="" dir="auto"
+            # when defined(demo) or defined(dev):
+              minlength="4"
+            # else:
+              minlength="10"
+            # end when
+            >
           </div>
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control input" minlength="4" maxlength="128" required placeholder="Confirm password" value="" dir="auto">
+            <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control input" maxlength="128" required placeholder="Confirm password" value="" dir="auto"
+            # when defined(demo) or defined(dev):
+              minlength="4"
+            # else:
+              minlength="10"
+            # end when
+            >
+          </div>
+
+          <div class="field" style="margin-bottom: 10px;">
+            <label class="label">2 Factor Authentication</label>
+            # if user[5].len() > 0:
+              <input class="input twofaEnabled" disabled="disabled" value="2FA is enabled">
+              <a href="#!" class="button is-danger is-small is-pulled-right	disable2fa">Disable</a>
+            # else:
+              <a href="#!" class="button is-info is-fullwidth show2fa">Enable</a>
+              <div class="hidden twofa-container">
+                <p>Open your <a href="https://freeotp.github.io">2FA App</a> and insert the code below. Test the code in input field below - on successful result, press "Save 2FA". You can Enable, Disable and Reset it at any time.</p>
+                <details>
+                  <summary>Extra Tech Info</summary>
+                  <small><ul>
+                    <li>Type:      TOTP</li>
+                    <li>Digits:    6   </li>
+                    <li>Algorithm: SHA1</li>
+                    <li>Interval:  30  </li>
+                    <li>Phone time must be correct.</li>
+                    <li>2FA Number must not be 6 identical digits.</li>
+                  </ul>
+                  </small>
+                  <br>
+                </details>
+                # proc twoFaKey(): string =
+                #   const items = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+                #   for i in countUp(0, 10):
+                #     result.add(rand(items))
+                #   end for
+                # end template
+                <input type="text" id="twofa-key" class="form-control input has-text-centered" disabled="disabled" value="${twoFaKey()}">
+                <input type="number" id="twofa-testcode" class="form-control input has-text-centered" placeholder="Test 2FA" min="000000" max="999999" step="1" autocomplete="off" dir="auto" value="">
+                <div>
+                  <a href="#!" class="button is-info is-pulled-left test2fa">Test 2FA</a>
+                  <a href="#!" class="hidden button is-success is-pulled-right save2fa">Save 2FA</a>
+                </div>
+              </div>
+            # end if
           </div>
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Status</label>
             <input type="text" class="form-control input" disabled="disabled" value="${user[3]}" dir="auto">
           </div>
+
+          <hr>
 
           <div class="save">
             <button type="submit" class="btn btn-success save submit button is-success is-fullwidth">Save</button>

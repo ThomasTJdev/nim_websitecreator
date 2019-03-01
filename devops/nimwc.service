@@ -1,0 +1,25 @@
+[Unit]
+Description=Nim Website Creator SystemD Service
+Documentation=https://github.com/ThomasTJdev/nim_websitecreator#nim-website-creator
+After=network-online.target   # postgres.service
+
+[Service]
+Type=simple
+User=nobody         # Change to your user.
+Restart=always      # on-failure
+RestartSec=1        # Sleep Seconds before restarting the process.
+RuntimeMaxSec=1w    # Restart process periodically. 1w=week, 1d=day, 1m=minute.
+TimeoutStartSec=999 # Timeout Seconds while starting the process.
+TimeoutStopSec=999  # Timeout Seconds while stopping the process.
+# ExecStartPre=     # Execute BEFORE start.
+ExecStart=nimwc     # Execute your nimwc command.
+# ExecStartPost=    # Execute AFTER start.
+# ExecReload=       # Execute while restarting the process.
+# ExecStop=         # Execute while stopping the process.
+# ExecStopPost=     # Execute AFTER stopping the process.
+# Environment=      # You can add any Environment variables here.
+WorkingDirectory=/home/<user>/.nimble/pkgs/nimwc-5.0.0/  # MODIFY to your installation path
+ExecStart=/home/<user>/.nimble/bin/nimwc
+
+[Install]
+WantedBy=multi-user.target

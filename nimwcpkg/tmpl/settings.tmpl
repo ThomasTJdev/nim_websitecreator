@@ -10,7 +10,7 @@
   #result = ""
 
   <div id="settings">
-    <h1>Settings</h1>
+    <h1>Dashboard</h1>
     <div class="container-fluid">
       <div class="row">
         <div class="col-12 col-md-6">
@@ -29,8 +29,8 @@
           <hr>
           <label class="label">Plugins</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a href="/plugins" class="btn btn-outline-primary button is-small">Plugins</a></div>
-            <div class="column"><a href="/plugins/repo" class="btn btn-outline-primary button is-small">Plugins repo</a></div>
+            <div class="column"><a href="/plugins" class="btn btn-outline-primary button is-small">Installed Plugins</a></div>
+            <div class="column"><a href="/plugins/repo" class="btn btn-outline-primary button is-small">Plugin Store</a></div>
           </div>
           <hr>
           <label class="label">Users</label>
@@ -42,46 +42,88 @@
           <label class="label">Files</label>
           <div class="buttons columns is-mobile">
             <div class="column"><a href="/files" class="btn btn-outline-primary button is-small">Files</a></div>
+          </div>
+          <hr>
+
+          # if c.rank == Admin or defined(demo):
+
+          <label class="label">Core</label>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a  class="btn btn-outline-primary button is-small"
+            # when not defined(demo):
+            href="/settings/blog"
+            # end when
+            >Blog settings</a></div>
+            <div class="column"><a class="btn btn-outline-primary button is-small"
+            # when not defined(demo):
+            href="/settings/edit"
+            # end when
+            >Edit Head, Navbar, Footer</a></div>
+          </div>
+          <hr>
+          <label class="label">CSS</label>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a class="btn btn-outline-primary button is-small"
+            # when not defined(demo):
+            href="/settings/editcss"
+            # end when
+            >Edit Core CSS</a></div>
+            <div class="column"><a class="btn btn-outline-primary button is-small"
+            # when not defined(demo):
+            href="/settings/editcsscustom"
+            # end when
+            >Edit Custom CSS</a></div>
+          </div>
+          <hr>
+          <label class="label">JavaScript</label>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a class="btn btn-outline-primary button is-small"
+            # when not defined(demo):
+            href="/settings/editjs"
+            # end when
+            >Edit Core JS</a></div>
+            <div class="column"><a class="btn btn-outline-primary button is-small"
+            # when not defined(demo):
+            href="/settings/editjscustom"
+            # end when
+            >Edit Custom JS</a></div>
+          </div>
+          <hr>
+
+          <label class="label">Server</label>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a class="btn btn-outline-primary button is-small" title="Force Server Restart, 1~9 Seconds delay"
+            # when not defined(demo):
+            href="/settings/forcerestart"
+            # end when
+            >Force Restart</a></div>
+            <div class="column"><a href="/settings/serverinfo" class="btn btn-outline-primary button is-small" title="Server Info">Info</a></div>
+            <div class="column"><a  class="btn btn-outline-primary button is-small" title="Server Config"
+            # when not defined(demo):
+              href="/settings/config"
+            # end when
+            >Config</a></div>
             <div class="column"><a href="/settings/logs" class="btn btn-outline-primary button is-small">Logs</a></div>
           </div>
           <hr>
-          # when defined(demo):
-          #   if c.loggedIn and c.rank != Admin:
-                <div class="notification is-danger" style="padding-top: 15px;">
-                  <p>The test user does not have access to edit the Settings, JS,
-                     CSS and HTML of the core. Some options are hidden.
-                  </p>
-                </div>
-          #   end if
+          # when defined(firejail):
+          <label class="label">Security</label>
+          <div class="buttons columns is-mobile">
+            <div class="column"><a href="/settings/firejail" class="btn btn-outline-primary button is-small" title="Firejail security is built-in on the Core of NimWC">Firejail</a></div>
+          </div>
+          <hr>
           # end when
-          #
-          # if c.rank == Admin:
 
-          <label class="label">Blog settings</label>
-          <div class="buttons columns is-mobile">
-            <div class="column"><a href="/settings/blog" class="btn btn-outline-primary button is-small">Blog settings</a></div>
-          </div>
-          <hr>
-          <label class="label">Settings</label>
-          <div class="buttons columns is-mobile">
-            <div class="column"><a href="/settings/edit" class="btn btn-outline-primary button is-small">Edit Hear, Navbar, Footer</a></div>
-          </div>
-          <div class="buttons columns is-mobile">
-            <div class="column"><a href="/settings/editjs" class="btn btn-outline-primary button is-small">Edit core JS file</a></div>
-            <div class="column"><a href="/settings/editjscustom" class="btn btn-outline-primary button is-small">Edit custom JS file</a></div>
-          </div>
-          <div class="buttons columns is-mobile">
-            <div class="column"><a href="/settings/editcss" class="btn btn-outline-primary button is-small">Edit core CSS file</a></div>
-            <div class="column"><a href="/settings/editcsscustom" class="btn btn-outline-primary button is-small">Edit custom CSS file</a></div>
-          </div>
-          <hr>
-          <label class="label">Server</label>
-          <div class="buttons columns is-mobile">
-            <div class="column"><a href="/settings/forcerestart" class="btn btn-outline-primary button is-small" title="Force Server Restart, 1~9 Seconds delay">Force Restart</a></div>
-            <div class="column"><a href="/settings/serverinfo" class="btn btn-outline-primary button is-small" title="Server Info">Info</a></div>
-          </div>
 
           # end if
+
+          # when defined(demo):
+            <div class="notification is-danger" style="padding-top: 15px;">
+              <b class="is-uppercase has-text-warning" title="Test user cant access the Core">
+                Some options are disabled on Demo!.
+              </b>
+            </div>
+          # end when
 
         </div>
       </div>
@@ -113,24 +155,20 @@
     <br>
     <div>
         <button type="submit" class="btn btn-success settingsSave button is-success">Save</button>
-        <button type="button" class="btn btn-secondary templateCode button is-info">See template</button>
     </div>
     <hr>
     <div>
-      <div>HTML &lt;head&gt;</div>
-      <pre class="templateCode templateCodehead hidden">${xmlEncode(head)}</pre>
+      <div>HTML <code> &lt;head&gt; </code></div>
       <textarea name="head" id="htmlSettings1">${page[1]}</textarea>
     </div>
     <br>
     <div>
-      <div>HTML &lt;header&gt; + &lt;navbar&gt;</div>
-      <pre class="templateCode templateCodenavbar hidden">${xmlEncode(navbar)}</pre>
+      <div>HTML <code> &lt;header&gt; </code> & <code> &lt;navbar&gt; </code> </div>
       <textarea name="navbar" id="htmlSettings2">${page[2]}</textarea>
     </div>
     <br>
     <div>
-      <div>HTML &lt;footer&gt;</div>
-      <pre class="templateCode templateCodefooter hidden">${xmlEncode(footer)}</pre>
+      <div>HTML <code> &lt;footer&gt; </code> </div>
       <textarea name="footer" id="htmlSettings3">${page[3]}</textarea>
     </div>
     <div style="margin-top: 15px;">

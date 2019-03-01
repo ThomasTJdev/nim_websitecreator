@@ -1,93 +1,67 @@
-# Copyright 2018 - Thomas T. Jarløv
-
 import strutils, osproc, os, json
 
+const
+  pluginRepo = "https://github.com/ThomasTJdev/nimwc_plugins.git"
+  pluginRepoName = "nimwc_plugins"
+  pluginHtmlListItem = """
+    <li data-plugin="$1" class="pluginSettings $6" data-enabled="$2">
+      <div class="name"> <a href="$3"><b>$4</b> <i>($5)</i></a> </div>
+      <div class="enablePlugin"  title="Turn ON">  Start </div>
+      <div class="disablePlugin" title="Turn OFF"> Stop  </div>
+    </li>"""
 
-const pluginRepo = "https://github.com/ThomasTJdev/nimwc_plugins.git"
-const pluginRepoName = "nimwc_plugins"
+
+proc pluginCheckGit*(): bool {.inline.} =
+  ## Checks if git exists
+  "git".findExe.len > 0
 
 
 proc pluginExtractDetails*(pluginFolder: string): tuple[name, version, description, url: string] =
   ## Get plugin data from [pluginName]/plugin.json
-
   let pluginJson = parseFile("plugins/" & pluginFolder & "/plugin.json")
   for plugin in items(pluginJson):
-    let name = plugin["name"].getStr()
-    let version = plugin["version"].getStr()
-    let description = plugin["description"].getStr()
-    let url = plugin["url"].getStr()
-
+    let
+      name = plugin["name"].getStr()
+      version = plugin["version"].getStr()
+      description = plugin["description"].getStr()
+      url = plugin["url"].getStr()
     return (name, version, description, url)
-
-
-proc pluginCheckGit*(): bool =
-  ## Checks if git exists
-
-  if execCmd("git > /dev/null") == 1:
-    true
-  else:
-    false
-
-
-proc pluginRepoExists(): bool =
-  ## Check if plugin repo exists
-
-  if fileExists("plugins/nimwc_plugins/plugins.json"):
-    true
-  else:
-    false
 
 
 proc pluginRepoClone*(): bool =
   ## Clones (updates) the plugin repo
-
-  if not pluginCheckGit():
+  if unlikely(not pluginCheckGit()):
     return false
-
-  let output = execCmd("git clone " & pluginRepo & " " & replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginRepoName)
-
+  let output = execCmd("git clone " & pluginRepo & " " &
+    replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginRepoName)
   if output != 0:
     return false
-
-  return pluginRepoExists()
+  return fileExists("plugins/nimwc_plugins/plugins.json")
 
 
 proc pluginRepoUpdate*(): bool =
   ## Clones (updates) the plugin repo
-
-  if not pluginCheckGit():
+  if unlikely(not pluginCheckGit()):
     return false
-
   let output = execCmd("git -C plugins/" & pluginRepoName & " pull")
-
   if output != 0:
     return false
-
-  return pluginRepoExists()
+  return fileExists("plugins/nimwc_plugins/plugins.json")
 
 
 proc pluginDownload*(pluginGit, pluginFolder: string): bool =
   ## Downloads an external plugin with clone
-
-  let output = execProcess("git clone " & pluginGit & " " & replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginFolder)
-
-  if output == ("fatal: repository '" & pluginGit & "' does not exists"):
-    false
-  else:
-    true
+  let output = execProcess("git clone " & pluginGit & " " &
+    replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginFolder)
+  result = output != "fatal: repository '" & pluginGit & "' does not exists"
 
 
 proc pluginUpdate*(pluginFolder: string): bool =
   ## Updates an external plugin with pull
-
   discard execCmd("git -C plugins/" & pluginFolder & " fetch --all")
   discard execCmd("git -C plugins/" & pluginFolder & " reset --hard origin/master")
   let output = execProcess("git -C plugins/" & pluginFolder & " pull")
-
-  if output == ("fatal: cannot change to " & pluginFolder & ": No such file or directory"):
-    false
-  else:
-    true
+  result = output != "fatal: cannot change to " & pluginFolder & ": No such file or directory"
 
 
 proc pluginDelete*(pluginFolder: string): bool =
@@ -95,13 +69,8 @@ proc pluginDelete*(pluginFolder: string): bool =
   for line in lines("plugins/plugin_import.txt"):
     if line == pluginFolder:
       return false
-
   let output = execProcess("rm -rf plugins/" & pluginFolder)
-
-  if output == ("fatal: cannot change to " & pluginFolder & ": No such file or directory"):
-    false
-  else:
-    true
+  result = output != "fatal: cannot change to " & pluginFolder & ": No such file or directory"
 
 
 proc pluginEnableDisable*(pluginPath, pluginName, status: string) =
@@ -166,28 +135,34 @@ proc extensionSettings(): seq[string] =
 
 proc genExtensionSettings*(): string =
   ## Generate HTML list items with plugins
-
-  var extensions = ""
   for plugin in extensionSettings():
     let pluginName = (split(plugin, ":"))[1]
-    let status = if (split(plugin, ":"))[0] == "true": "enabled" else: "disabled"
 
-    extensions.add("<li data-plugin=\"" & pluginName & "\" class=\"pluginSettings ")
+    result.add(pluginHtmlListItem.format(
+      # $1
+      pluginName,
 
-    if (split(plugin, ":"))[0] == "true":
-      extensions.add("enabled\" data-enabled=\"true\"")
-    else:
-      extensions.add("disabled\" data-enabled=\"false\"")
+      # $2
+      (split(plugin, ":"))[0] == "true",
 
-    extensions.add(">")
-    extensions.add("<div class=\"name\">")
-    if (split(plugin, ":"))[0] == "true":
-      extensions.add("  <a href=\"/" & pluginName & "/settings\">" & pluginName & " <i>[" & status & "]</i></a>")
-    else:
-      extensions.add("  " & pluginName & " <i>[" & status & "]</i>")
-    extensions.add("</div>")
-    extensions.add("<div class=\"enablePlugin\">Start</div>")
-    extensions.add("<div class=\"disablePlugin\">Stop</div>")
-    extensions.add("</li>")
+      # $3
+      if (split(plugin, ":"))[0] == "true":
+        pluginName & "/settings"
+      else:
+        "#",
 
-  return extensions
+      # $4
+      pluginName.capitalizeAscii,
+
+      # $5
+      if (split(plugin, ":"))[0] == "true":
+        "ON"
+      else:
+        "OFF",
+
+      # $6
+      if (split(plugin, ":"))[0] == "true":
+        "enabled"
+      else:
+        "disabled"
+    ))

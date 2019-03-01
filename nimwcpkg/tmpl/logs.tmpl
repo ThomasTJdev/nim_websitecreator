@@ -2,13 +2,11 @@
 #
 #proc genViewLogs(logcontent: string): string =
 #  result = ""
-<center>
-  <h1>Logs</h1>
-  <textarea name="logs" id="logs" title="Log Size: $logcontent.splitLines.len Lines." dir="auto" readonly autofocus spellcheck style="width:99%;height:90%">
-    $logcontent
-  </textarea>
-  <br>
-  <a class="btn btn-outline-primary button is-small" title="Copy Logs" onclick="document.querySelector('#logs').select();document.execCommand('copy')">
-    <button>Copy</button>
-  </a>
-</center>
+<h1 class="has-text-centered">Logs</h1>
+<textarea class="textarea is-info" name="logs" id="logs" title="Log Size: $logcontent.splitLines.len Lines." dir="auto" rows=20 readonly autofocus spellcheck style="width:99% !important;height:90% !important">
+$logcontent.strip
+</textarea>
+<br>
+<a title="Copy Logs" onclick="document.querySelector('#logs').select();document.execCommand('copy')">
+  <button class="btn btn-secondary button is-primary is-fullwidth">Copy</button>
+</a>

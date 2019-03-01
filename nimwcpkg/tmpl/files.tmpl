@@ -1,6 +1,6 @@
 #? stdtmpl | standard
 #
-#import mimetypes, ospaths, os, md5
+#import mimetypes, ospaths, os
 #
 #template `%`(idx: untyped): untyped =
 #  row[idx]
@@ -15,7 +15,7 @@
 # let mime            = newMimetypes()
 # let allFilesPrivate = filesListPrivate()
 # let allFilesPublic  = filesListPublic()
-# let allFilesPublicImages = filesListPublicFolderImages()
+# let allFilesPublicImages = filesListPublicFolderFiles()
 <div id="files">
   <h1 class="has-text-centered">Files</h1>
 
@@ -38,6 +38,8 @@
             <label class="custom-control-label" for="fileRadio3">Public file</label>
           </div>
 
+          <label><input type="checkbox" name="webpstatus" id="webpstatus"> Compress PNG and JPG using WEBP </label>
+
         </div>
         <input type="file" class="form-control-file" id="file" name="file">
       </div>
@@ -45,7 +47,7 @@
     </form>
   </div>
 
-  <h4>Public images (public/images)</h4>
+  <h4>Public Files (<code>/public/images/</code>)</h4>
 
   <table class="table is-bordered is-striped is-hoverable is-fullwidth">
     <thead>
@@ -54,7 +56,7 @@
         <th>Filename</th>
         <th>MimeType</th>
         <th>Size</th>
-        <th>MD5 CheckSum</th>
+        <th>Last Modification</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -64,7 +66,7 @@
         <th>Filename</th>
         <th>MimeType</th>
         <th>Size</th>
-        <th>MD5 CheckSum</th>
+        <th>Last Modification</th>
         <th>Delete</th>
       </tr>
     </tfoot>
@@ -77,57 +79,11 @@
       <td><a href="/images/${extractFilename(file)}" title="/images/${extractFilename(file)}" target="_blank">
           ${extractFilename(file)}</a>
       </td>
-      <td> ${ mime.getMimetype(file.splitFile.ext).toUpperAscii } </td>
-      <td> ${ file.getFileSize } </td>
-      <td> ${ file.readFile.getMD5 } </td>
+      <td> ${ mime.getMimetype(file.splitFile.ext) } </td>
+      <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
+      <td> ${ getLastModificationTime(file) } </td>
       <td class="is-danger is-narrow">
         <span class="deleteFile delete" data-url="/files/delete/publicimage/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
-      </td>
-    </tr>
-  # end for
-    </tbody>
-  </table>
-  <b>Total files:</b> <code> $counter </code>
-  <hr>
-
-
-  <h4>Private files (only for logged in users)</h4>
-
-  <table class="table is-bordered is-striped is-hoverable is-fullwidth">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Filename</th>
-        <th>MimeType</th>
-        <th>Size</th>
-        <th>MD5 CheckSum</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tfoot>
-      <tr>
-        <th>#</th>
-        <th>Filename</th>
-        <th>MimeType</th>
-        <th>Size</th>
-        <th>MD5 CheckSum</th>
-        <th>Delete</th>
-      </tr>
-    </tfoot>
-    <tbody>
-  # counter = 0
-  # for file in allFilesPrivate:
-  #  inc counter
-    <tr>
-      <td class="is-narrow"> $counter </td>
-      <td><a href="/files/stream/private/${extractFilename(file)}" title="${extractFilename(file)}" target="_blank">
-        ${extractFilename(file)}</a>
-      </td>
-      <td> ${ mime.getMimetype(file.splitFile.ext).toUpperAscii } </td>
-      <td> ${ file.getFileSize } </td>
-      <td> ${ file.readFile.getMD5 } </td>
-      <td class="is-danger is-narrow">
-        <span class="deleteFile delete" data-url="/files/delete/private/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
     </tr>
   # end for
@@ -146,7 +102,7 @@
         <th>Filename</th>
         <th>MimeType</th>
         <th>Size</th>
-        <th>MD5 CheckSum</th>
+        <th>Last Modification</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -156,7 +112,7 @@
         <th>Filename</th>
         <th>MimeType</th>
         <th>Size</th>
-        <th>MD5 CheckSum</th>
+        <th>Last Modification</th>
         <th>Delete</th>
       </tr>
     </tfoot>
@@ -169,9 +125,9 @@
       <td><a href="/files/stream/public/${extractFilename(file)}" title="${extractFilename(file)}" target="_blank">
         ${extractFilename(file)}</a>
       </td>
-      <td> ${ mime.getMimetype(file.splitFile.ext).toUpperAscii } </td>
-      <td> ${ file.getFileSize } </td>
-      <td> ${ file.readFile.getMD5 } </td>
+      <td> ${ mime.getMimetype(file.splitFile.ext) } </td>
+      <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
+      <td> ${ getLastModificationTime(file) } </td>
       <td class="is-danger is-narrow">
         <span class="deleteFile delete" data-url="/files/delete/public/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
@@ -180,6 +136,54 @@
     </tbody>
   </table>
   <b>Total files:</b> <code> $counter </code>
+  <hr>
+
+
+  <h4>Private files (only for logged in users)</h4>
+
+  <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>Last Modification</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>Last Modification</th>
+        <th>Delete</th>
+      </tr>
+    </tfoot>
+    <tbody>
+  # counter = 0
+  # for file in allFilesPrivate:
+  #  inc counter
+    <tr>
+      <td class="is-narrow"> $counter </td>
+      <td><a href="/files/stream/private/${extractFilename(file)}" title="${extractFilename(file)}" target="_blank">
+        ${extractFilename(file)}</a>
+      </td>
+      <td> ${ mime.getMimetype(file.splitFile.ext) } </td>
+      <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
+      <td> ${ getLastModificationTime(file) } </td>
+      <td class="is-danger is-narrow">
+        <span class="deleteFile delete" data-url="/files/delete/private/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
+      </td>
+    </tr>
+  # end for
+    </tbody>
+  </table>
+  <b>Total files:</b> <code> $counter </code>
+  <hr>
+
   <br>
   <br>
   <div class="notification is-danger">

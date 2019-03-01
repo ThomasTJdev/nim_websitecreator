@@ -26,13 +26,13 @@
 # var allBlogPages: seq[Row]
 #
 # if name.len() != 0:
-#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags FROM blog WHERE status IN " & status & " AND name LIKE ? ORDER BY " & sortingOrder), "%" & name & "%")
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags, viewCount, pubDate FROM blog WHERE status IN " & status & " AND name LIKE ? ORDER BY " & sortingOrder), "%" & name & "%")
 # elif category.len() != 0:
-#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags FROM blog WHERE status IN " & status & " AND category = ? ORDER BY " & sortingOrder), category)
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags, viewCount, pubDate FROM blog WHERE status IN " & status & " AND category = ? ORDER BY " & sortingOrder), category)
 # elif tags.len() != 0:
-#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags FROM blog WHERE status IN " & status & " AND tags LIKE ? ORDER BY " & sortingOrder), "%" & tags & "%")
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags, viewCount, pubDate FROM blog WHERE status IN " & status & " AND tags LIKE ? ORDER BY " & sortingOrder), "%" & tags & "%")
 # else:
-#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags FROM blog WHERE status IN " & status & " ORDER BY " & sortingOrder))
+#   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags, viewCount, pubDate FROM blog WHERE status IN " & status & " ORDER BY " & sortingOrder))
 # end if
 
 <div class="align-centeret">
@@ -75,7 +75,8 @@
 #
         <div>
           <div class="is-pulled-right is-hidden-mobile float-right d-none d-md-block">
-            <small>${epochDate(blog[5], "YYYY-MM-DD")}</small>
+            <small>${if blog[10] != "": blog[10] else: epochDate(blog[5], "YYYY-MM-DD")}</small>
+            <small class="blogViews" style="display: block;">Views: ${blog[9]}</small>
             # if c.loggedIn:
             <small style="display: block;">${statusIntToText(blog[4])}</small>
             # end if

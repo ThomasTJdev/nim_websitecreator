@@ -1,0 +1,106 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+
+ENV["LC_ALL"] = "en_US.UTF-8"  # This Locale will be shared on Host and Guest.
+
+VAGRANTFILE_API_VERSION = "2"  # Vagrantfile API/syntax version. Dont touch.
+
+
+$script = <<-SCRIPT
+
+echo Updating and Upgrading Pacman...
+yes | pacman -Syuu --needed
+
+echo Installing Database Server...
+pacman -Syu --needed --noconfirm --quiet git pacman-contrib base-devel libwebp firejail
+
+echo Installing Nim with ChooseNim...
+export CHOOSENIM_NO_ANALYTICS=1
+export PATH=$HOME/.nimble/bin:/root/.nimble/bin:$PATH
+echo "PATH=$HOME/.nimble/bin:/root/.nimble/bin:$PATH" >> ~/.profile
+echo "PATH=$HOME/.nimble/bin:/root/.nimble/bin:$PATH" >> ~/.bashrc
+echo "PATH=$HOME/.nimble/bin:/root/.nimble/bin:$PATH" >> /root/.profile
+echo "PATH=$HOME/.nimble/bin:/root/.nimble/bin:$PATH" >> /root/.bashrc
+source /root/.bashrc
+curl -sfk https://nim-lang.org/choosenim/init.sh > init.sh
+sh init.sh -y
+
+echo Updating Nimble...
+nimble -y refresh
+
+echo Installing Nim Website Creator...
+git clone https://github.com/ThomasTJdev/nim_websitecreator.git
+cd nim_websitecreator
+nim c -d:release -d:ssl -d:sqlite --passL:"-s" nimwc.nim
+
+echo Clean out...
+yes | pacman -Scc
+rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/nimblecache/* /tmp/* /var/log/journal/*
+
+SCRIPT
+
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  # Every Vagrant requires a box. See list http://vagrantbox.es
+  config.vm.box = "archlinux/archlinux"
+
+  # If true, then any SSH connections made will enable agent forwarding.
+  config.ssh.forward_agent = true
+
+  # Check for updates of the box on every boot.
+  config.vm.box_check_update = true
+
+  # Check SSL certificates of the server.
+  config.vm.box_download_insecure = true
+
+  # Checks all HTTP redirects, will be treated as trusted.
+  config.vm.box_download_location_trusted = true
+
+  # Time in seconds that Vagrant will wait for the machine to gracefully halt.
+  config.vm.graceful_halt_timeout = 5
+
+  # The hostname the virtual machine should have.
+  config.vm.hostname = "nim"
+
+  # Post boot up message.
+  config.vm.post_up_message = "Nim Website Creator Vagrant Box http://nimwc.org"
+
+  # Simple Bash Shell Provider, more than enough for Nim.
+  config.vm.provision "shell", inline: $script
+
+  # Create a forwarded port mapping which allows access to a specific port
+  # within the machine from a port on the host machine. In the example below,
+  # accessing "localhost:8080" will access port 80 on the guest machine.
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+
+  # Create a private network, which allows host-only access to the machine
+  # using a specific IP.
+  # config.vm.network "private_network", ip: "192.168.33.10"
+  # config.vm.network :private_network, ip: "192.168.58.111"
+
+  # Create a public network, which generally matched to bridged network.
+  # Bridged networks make the machine appear as another physical device on
+  # your network.
+  # config.vm.network "public_network"
+
+  # Share an additional folder to the guest VM. The first argument is
+  # the path on the host to the actual folder. The second argument is
+  # the path on the guest to mount the folder. And the optional third
+  # argument is a set of non-required options.
+  # config.vm.synced_folder "../data", "/vagrant_data"
+
+  config.vm.provider :virtualbox do |vb|
+    # Boot with headless mode or not.
+    vb.gui = false
+
+    # Use VBoxManage to customize the VM. For example to change memory:
+    vb.customize [
+      'modifyvm', :id,
+      '--natdnshostresolver1', 'on',
+      '--memory', '1024',
+      '--cpus', '2'
+    ]
+  end
+end

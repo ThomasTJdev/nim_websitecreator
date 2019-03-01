@@ -1,7 +1,4 @@
-import parsecfg, os, strutils, osproc, os, logging
-
-
-import ../utils/logging_nimwc
+import parsecfg, os, strutils, osproc, os, logging, ../utils/logging_nimwc
 
 
 setCurrentDir(getAppDir().replace("/nimwcpkg", ""))
@@ -15,8 +12,9 @@ let
   dict = loadConfig("config/config.cfg")
   tempDir = dict.getSectionValue("Storage", section)
   paths2create = [
-    "files", "files/efs", "fileslocal", tempDir, tempDir & "/tmp", tempDir & "/files",
-    tempDir & "/files/private", tempDir & "/files/public", tempDir & "/users",
+    "files", "files/efs", "fileslocal", tempDir, tempDir & "/tmp",
+    tempDir & "/files", tempDir & "/files/private",
+    tempDir & "/files/public", tempDir & "/users",
   ]
 
 # Create folders
