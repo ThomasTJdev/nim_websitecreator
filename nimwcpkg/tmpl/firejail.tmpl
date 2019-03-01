@@ -4,7 +4,8 @@
 #                 noDebuggers,noMachineId,noRoot,noAllusers,noU2f,privateTmp,privateCache,
 #                 privateDev,forceEnUsUtf8,caps,seccomp,noTv,writables,noMnt: bool,
 #                 maxSubProcesses, maxOpenFiles, maxFileSize, maxPendingSignals,
-#                 timeout, maxCpu, maxRam, cpuCoresByNumber: int): string =
+#                 timeout, maxCpu, maxRam, cpuCoresByNumber: int,
+#                 hostsFile, dns0, dns1, dns2, dns3: string): string =
 #  result = ""
 <div id="firejail">
   <h1 class="has-text-centered">Self-Firejailing Web Framework</h1>
@@ -364,7 +365,52 @@
           <br>cpuCoresByNumber
         </label>
       </td>
-      <td>CPU Cores to use, you can control how many CPU Cores NimWC uses. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, <code>0</code> is Maximum Performance, <code> ${countProcessors() - 1} </code> is Maximum, if you dont know or dont understand just leave it as <code>0</code>.</td>
+      <td>Dedicated CPU Cores to use, you can control how many CPU Cores NimWC uses. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, <code>0</code> is Maximum Performance, <code> ${countProcessors() - 1} </code> is Maximum, if you dont know or dont understand just leave it as <code>0</code>.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="text" name="hostsFile" placeholder="/etc/hosts" class="form-control input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$hostsFile">
+          <br>hostsFile
+        </label>
+      </td>
+      <td><a href="https://en.wikipedia.org/wiki/Hosts_%28file%29">Alternative or Fake <code>/etc/hosts</code> file</a> to use, you can use a limited or tweaked <code>/etc/hosts</code> for NimWC. <code>/etc/hosts</code> is Default, <code>/etc/hosts</code> is the real hosts file, the file must exist, the hosts file of NimWC can be different than the hosts file of the operating system, you can use this to block suspicious domains (Spamm, Scamm, BotNets, etc), if you dont know or dont understand just leave it as <code>/etc/hosts</code>.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="text" name="dns0" placeholder="1.1.1.1" class="form-control input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$dns0">
+          <br>dns0
+        </label>
+      </td>
+      <td><a href="https://en.wikipedia.org/wiki/Domain_Name_System">Alternative or Custom DNS Server IP Address Number 0</a>, the 4 DNS Servers must be provided or leave it Empty Blank, you can use a limited or tweaked DNS for NimWC. Empty blank field is Default, the DNS of NimWC can be different than the DNS of the operating system, if you dont know or dont understand just leave it as Empty Blank field (Empty string).</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="text" name="dns1" placeholder="1.0.0.1" class="form-control input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$dns1">
+          <br>dns1
+        </label>
+      </td>
+      <td><a href="https://en.wikipedia.org/wiki/Domain_Name_System">Alternative or Custom DNS Server IP Address Number 1</a>, the 4 DNS Servers must be provided or leave it Empty Blank, you can use a limited or tweaked DNS for NimWC. Empty blank field is Default, the DNS of NimWC can be different than the DNS of the operating system, if you dont know or dont understand just leave it as Empty Blank field (Empty string).</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="text" name="dns2" placeholder="8.8.8.8" class="form-control input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$dns2">
+          <br>dns2
+        </label>
+      </td>
+      <td><a href="https://en.wikipedia.org/wiki/Domain_Name_System">Alternative or Custom DNS Server IP Address Number 2</a>, the 4 DNS Servers must be provided or leave it Empty Blank, you can use a limited or tweaked DNS for NimWC. Empty blank field is Default, the DNS of NimWC can be different than the DNS of the operating system, if you dont know or dont understand just leave it as Empty Blank field (Empty string).</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="text" name="dns3" placeholder="8.8.4.4" class="form-control input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$dns3">
+          <br>dns3
+        </label>
+      </td>
+      <td><a href="https://en.wikipedia.org/wiki/Domain_Name_System">Alternative or Custom DNS Server IP Address Number 3</a>, the 4 DNS Servers must be provided or leave it Empty Blank, you can use a limited or tweaked DNS for NimWC. Empty blank field is Default, the DNS of NimWC can be different than the DNS of the operating system, if you dont know or dont understand just leave it as Empty Blank field (Empty string).</td>
     </tr>
     </tbody>
   </table>

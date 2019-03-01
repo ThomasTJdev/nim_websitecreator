@@ -150,6 +150,11 @@ proc launcherActivated() =
       dict = loadConfig(getAppDir() & "/config/config.cfg")
       cpuCores = dict.getSectionValue("firejail", "cpuCoresByNumber").parseInt
       corez = if cpuCores != 0: toSeq(0..cpuCores) else: @[]
+      hostz = dict.getSectionValue("firejail", "hostsFile").strip
+      dnsz = [dict.getSectionValue("firejail", "dns0").strip, dict.getSectionValue("firejail", "dns1").strip,
+              dict.getSectionValue("firejail", "dns2").strip, dict.getSectionValue("firejail", "dns3").strip]
+    assert countProcessors() > cpuCores, "Dedicated CPU Cores must be less or equal than the actual CPU Cores: " & $cpuCores
+    assert hostz.existsFile, "Hosts file not found: " & hostz
     let myjail = Firejail(
       noDvd:         dict.getSectionValue("firejail", "noDvd").parseBool,
       noSound:       dict.getSectionValue("firejail", "noSound").parseBool,
@@ -176,7 +181,7 @@ proc launcherActivated() =
     )
     nimwcCommand = myjail.makeCommand(
       command=getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun,
-      name="nimwc_main", hostsFile="/etc/hosts", # whitelist= @[getAppDir(), getCurrentDir()],
+      name="nimwc_main", # whitelist= @[getAppDir(), getCurrentDir()],
       maxSubProcesses = dict.getSectionValue("firejail", "maxSubProcesses").parseInt * 1_000_000,  # 1 is Ok, 0 is Disabled, int.high max.
       maxOpenFiles = dict.getSectionValue("firejail", "maxOpenFiles").parseInt * 1_000,        # Below 1000 NimWC may not start.
       maxFileSize = dict.getSectionValue("firejail", "maxFileSize").parseInt * 1_000_000_000,  # Below 1Mb NimWC may not start.
@@ -185,6 +190,8 @@ proc launcherActivated() =
       maxRam = dict.getSectionValue("firejail", "maxRam").parseInt * 1_000_000_000,            # Below 1Gb NimWC may fail.
       maxCpu = dict.getSectionValue("firejail", "maxCpu").parseInt,                            # 1 is Ok, 0 is Disabled, 255 max.
       cpuCoresByNumber = corez,                                                                # 0 is Disabled, else toSeq(0..corez)
+      hostsFile = hostz,        # Optional Alternative/Fake /etc/hosts
+      dnsServers = dnsz,        # Optional Alternative/Fake DNS, 4 Servers must be provided
     )
 
   const processOpts =

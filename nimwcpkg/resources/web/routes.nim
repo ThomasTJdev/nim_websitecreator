@@ -363,6 +363,11 @@ routes:
         dict.getSectionValue("firejail", "maxCpu").parseInt,
         dict.getSectionValue("firejail", "maxRam").parseInt,
         dict.getSectionValue("firejail", "cpuCoresByNumber").parseInt,
+        dict.getSectionValue("firejail", "hostsFile"),
+        dict.getSectionValue("firejail", "dns0"),
+        dict.getSectionValue("firejail", "dns1"),
+        dict.getSectionValue("firejail", "dns2"),
+        dict.getSectionValue("firejail", "dns3"),
       ))
 
   post "/settings/firejail/save":
@@ -406,6 +411,11 @@ routes:
         dict.setSectionKey("firejail", "maxCpu",            @"maxCpu")
         dict.setSectionKey("firejail", "maxRam",            @"maxRam")
         dict.setSectionKey("firejail", "cpuCoresByNumber",  @"cpuCoresByNumber")
+        dict.setSectionKey("firejail", "hostsFile", @"hostsFile")
+        dict.setSectionKey("firejail", "dns0",      @"dns0")
+        dict.setSectionKey("firejail", "dns1",      @"dns1")
+        dict.setSectionKey("firejail", "dns2",      @"dns2")
+        dict.setSectionKey("firejail", "dns3",      @"dns3")
         dict.writeConfig(konfig)
       except:
         resp $getCurrentExceptionMsg()
