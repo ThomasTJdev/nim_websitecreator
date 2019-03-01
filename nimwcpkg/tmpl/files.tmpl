@@ -47,7 +47,7 @@
     </form>
   </div>
 
-  <h4>Public Files (<code>/public/</code>)</h4>
+  <h4>Public Files (<code>/public/images/</code>)</h4>
 
   <table class="table is-bordered is-striped is-hoverable is-fullwidth">
     <thead>
@@ -84,6 +84,52 @@
       <td> ${ getLastModificationTime(file) } </td>
       <td class="is-danger is-narrow">
         <span class="deleteFile delete" data-url="/files/delete/publicimage/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
+      </td>
+    </tr>
+  # end for
+    </tbody>
+  </table>
+  <b>Total files:</b> <code> $counter </code>
+  <hr>
+
+
+  <h4>Public files (available to all)</h4>
+
+  <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>Last Modification</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>Last Modification</th>
+        <th>Delete</th>
+      </tr>
+    </tfoot>
+    <tbody>
+  # counter = 0
+  # for file in allFilesPublic:
+  #  inc counter
+    <tr>
+      <td class="is-narrow"> $counter </td>
+      <td><a href="/files/stream/public/${extractFilename(file)}" title="${extractFilename(file)}" target="_blank">
+        ${extractFilename(file)}</a>
+      </td>
+      <td> ${ mime.getMimetype(file.splitFile.ext) } </td>
+      <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
+      <td> ${ getLastModificationTime(file) } </td>
+      <td class="is-danger is-narrow">
+        <span class="deleteFile delete" data-url="/files/delete/public/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
       </td>
     </tr>
   # end for
@@ -138,50 +184,6 @@
   <b>Total files:</b> <code> $counter </code>
   <hr>
 
-
-  <h4>Public files (available to all)</h4>
-
-  <table class="table is-bordered is-striped is-hoverable is-fullwidth">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Filename</th>
-        <th>MimeType</th>
-        <th>Size</th>
-        <th>Last Modification</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tfoot>
-      <tr>
-        <th>#</th>
-        <th>Filename</th>
-        <th>MimeType</th>
-        <th>Size</th>
-        <th>Last Modification</th>
-        <th>Delete</th>
-      </tr>
-    </tfoot>
-    <tbody>
-  # counter = 0
-  # for file in allFilesPublic:
-  #  inc counter
-    <tr>
-      <td class="is-narrow"> $counter </td>
-      <td><a href="/files/stream/public/${extractFilename(file)}" title="${extractFilename(file)}" target="_blank">
-        ${extractFilename(file)}</a>
-      </td>
-      <td> ${ mime.getMimetype(file.splitFile.ext) } </td>
-      <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
-      <td> ${ getLastModificationTime(file) } </td>
-      <td class="is-danger is-narrow">
-        <span class="deleteFile delete" data-url="/files/delete/public/${extractFilename(file)}" title="Delete ${extractFilename(file)}"></span>
-      </td>
-    </tr>
-  # end for
-    </tbody>
-  </table>
-  <b>Total files:</b> <code> $counter </code>
   <br>
   <br>
   <div class="notification is-danger">
