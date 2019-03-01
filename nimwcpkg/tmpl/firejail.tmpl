@@ -297,11 +297,11 @@
     <tr>
       <td class="is-narrow">
         <label class="checkbox">
-          <input type="number" name="maxSubProcesses" min="0" max="2147483647" step="1" placeholder="0" class="form-control input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$maxSubProcesses">
+          <input type="number" name="maxSubProcesses" min="0" max="255" step="1" placeholder="0" class="form-control input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$maxSubProcesses">
           <br>maxSubProcesses
         </label>
       </td>
-      <td>Maximum Sub-Processes that can be created per Linux user inside of NimWC. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, <code>0</code> is Maximum Performance, if you dont know or dont understand just leave it as <code>0</code>. Anti-ForkBomb protection.</td>
+      <td>Maximum Sub-Processes on Hundreds that can be created per Linux user inside of NimWC. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, <code>0</code> is Maximum Performance, <code>255</code> is Maximum, if you dont know or dont understand just leave it as <code>0</code>. Anti-ForkBomb protection.</td>
     </tr>
     <tr>
       <td class="is-narrow">

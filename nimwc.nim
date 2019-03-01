@@ -177,7 +177,7 @@ proc launcherActivated() =
     nimwcCommand = myjail.makeCommand(
       command=getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun,
       name="nimwc_main", hostsFile="/etc/hosts", # whitelist= @[getAppDir(), getCurrentDir()],
-      maxSubProcesses = dict.getSectionValue("firejail", "maxSubProcesses").parseInt,          # 1 is Ok, 0 is Disabled, int.high max.
+      maxSubProcesses = dict.getSectionValue("firejail", "maxSubProcesses").parseInt * 1_000_000_000,  # 1 is Ok, 0 is Disabled, int.high max.
       maxOpenFiles = dict.getSectionValue("firejail", "maxOpenFiles").parseInt * 1_000,        # Below 1000 NimWC may not start.
       maxFileSize = dict.getSectionValue("firejail", "maxFileSize").parseInt * 1_000_000_000,  # Below 1Mb NimWC may not start.
       maxPendingSignals = dict.getSectionValue("firejail", "maxPendingSignals").parseInt * 10, # 1 is Ok, 0 is Disabled, int.high max.
