@@ -315,6 +315,7 @@ routes:
 
   get "/settings/serverinfo":
     createTFD()
+    restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
     resp genMainAdmin(c, genServerInfo())
 
