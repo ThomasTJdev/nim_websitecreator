@@ -37,10 +37,14 @@ if ($bsNavMobile != null) {
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   anchor.addEventListener('click', function (e) {
       e.preventDefault();
-
-      document.querySelector(this.getAttribute('href')).scrollIntoView({
+      try {
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
           behavior: 'smooth'
-      });
+        });
+      }
+      catch(err) {
+        console.log("Debug: Just a clickable element")
+      }
   });
 });
 
@@ -88,11 +92,13 @@ window.onload = function(){
   if (document.querySelector(".prismOn.language-bash") != null) {
     loadScript("https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-bash.min.js")
   }
-  setTimeout(function(){
-    Prism.highlightAll(false, function () {
-      console.log('Syntax highlight completed');
-    });
-  }, 1000);
+  if ($prism != null) {
+    setTimeout(function(){
+      Prism.highlightAll(false, function () {
+        console.log('Syntax highlight completed');
+      });
+    }, 1000);
+  }
 }
 
 
