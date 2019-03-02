@@ -29,7 +29,6 @@ task setup, "Generating executable":
   if not fileExists("config/config.cfg"):
     exec "cp -v config/config_default.cfg config/config.cfg"
 
-  exec "nim c -r -d:release -d:ssl nimwc.nim"
 
 before install:
     setupTask()
