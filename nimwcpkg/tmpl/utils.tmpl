@@ -163,13 +163,13 @@
 <h4 class="has-text-centered">Change editor</h4>
 <div class="buttons has-addons columns">
   <div class="column">
-    <button class="btn btn-primary switchEditorRawHTML button is-small is-fullwidth is-info">Switch to raw HTML</button>
+    <a href="#!" class="switchEditorRawHTML button is-small is-fullwidth is-info">Switch to raw HTML</a>
   </div>
   <div class="column">
-    <button class="btn btn-primary switchEditorSummernote button is-small is-fullwidth is-info">Switch to Summernote</button>
+    <a href="#!" class="switchEditorSummernote button is-small is-fullwidth is-info">Switch to Summernote</a>
   </div>
   <div class="column">
-    <button class="btn btn-primary switchEditorGrapesJS button is-small is-fullwidth is-info">Switch to GrapesJS</button>
+    <a href="#!" class="switchEditorGrapesJS button is-small is-fullwidth is-info">Switch to GrapesJS</a>
   </div>
 </div>
 <hr>
@@ -296,9 +296,9 @@
 </div>
 <div class="buttons" style="margin-bottom: 20px;">
   # if page:
-    <span data-url="/page/delete?pageid=$pageid" class="btn btn-danger pageDelete button is-danger" title="If you delete a page it can not be undone">Delete page</span>
+    <span data-url="/page/delete?pageid=$pageid" class="pageDelete button is-danger" title="If you delete a page it can not be undone">Delete page</span>
   # else:
-    <span data-url="/blogpage/delete?blogid=$pageid" class="btn btn-danger blogDelete button is-danger" title="If you delete a blogpost it can not be undone">Delete blogpost</span>
+    <span data-url="/blogpage/delete?blogid=$pageid" class="blogDelete button is-danger" title="If you delete a blogpost it can not be undone">Delete blogpost</span>
   # end if
 </div>
 # end if

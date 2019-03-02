@@ -2,17 +2,17 @@
     Change editor
 */
 $(document).ready(function() {
-  $( "button.switchEditorGrapesJS" ).click(function() {
+  $( "a.switchEditorGrapesJS" ).click(function() {
     document.cookie = "editor=grape;path=/"
     location.reload();
   });
 
-  $( "button.switchEditorSummernote" ).click(function() {
+  $( "a.switchEditorSummernote" ).click(function() {
     document.cookie = "editor=summernote;path=/";
     location.reload();
   });
 
-  $( "button.switchEditorRawHTML" ).click(function() {
+  $( "a.switchEditorRawHTML" ).click(function() {
     document.cookie = "editor=html;path=/";
     location.reload();
   });
@@ -23,7 +23,7 @@ $(document).ready(function() {
     Blog post
 */
 $(document).ready(function() {
-  $( "button.blogOptions" ).click(function() {
+  $( "a.blogOptions" ).click(function() {
     $("div.blogOptions.details").toggle();
   });
 
@@ -57,7 +57,7 @@ $(document).ready(function() {
     Page
 */
 $(document).ready(function() {
-  $( "button.pageOptions" ).click(function() {
+  $( "a.pageOptions" ).click(function() {
     $("div.pageOptions.details").toggle();
   });
 
