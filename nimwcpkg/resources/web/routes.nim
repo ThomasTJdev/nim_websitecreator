@@ -228,6 +228,7 @@ routes:
 
   post "/settings/updatejs":
     createTFD()
+    restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
 
     let jsFile = if @"customJs" == "true": "public/js/js_custom.js" else: "public/js/js.js"
@@ -252,12 +253,14 @@ routes:
 
   get "/settings/editcsscustom":
     createTFD()
+    restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
 
     resp genMainAdmin(c, genSettingsEditCss(c, true), "editcss")
 
   post "/settings/updatecss":
     createTFD()
+    restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
 
     let cssFile = if @"customCss" == "true": "public/css/style_custom.css" else: "public/css/style.css"
@@ -282,6 +285,7 @@ routes:
 
   post "/settings/updateblogsettings":
     createTFD()
+    restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin])
 
     var blogorder: string
@@ -305,6 +309,7 @@ routes:
 
   get "/settings/logs":
     createTFD()
+    restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
     resp genMainAdmin(c, genViewLogs(logcontent=readFile(logfile)))
 
@@ -425,12 +430,14 @@ routes:
 
   get "/settings/config":
     createTFD()
+    restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
     let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
     resp genMainAdmin(c, genEditConfig(readFile(konfig)))
 
   post "/settings/config/save":
     createTFD()
+    restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
     try:
       discard loadConfig(newStringStream(@"config")) # Not a strong Validation.
