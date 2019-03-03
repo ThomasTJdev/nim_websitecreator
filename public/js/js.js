@@ -53,10 +53,18 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
   Animations
 */
 var animation_elements = document.querySelectorAll('.reveal');
-var animation_elements_bottom = document.querySelectorAll('.reveal-bottom');
-var animation_elements_left = document.querySelectorAll('.reveal-left');
-var animation_elements_right = document.querySelectorAll('.reveal-right');
 var web_window = window;
+
+function parentOffsetTop( elem ) {
+  var location = 0;
+  if (elem.offsetParent) {
+    do {
+      location += elem.offsetTop;
+      elem = elem.offsetParent;
+    } while (elem);
+  }
+  return location >= 0 ? location : 0;
+};
 
 function check_if_in_view() {
   var window_height = web_window.innerHeight;
@@ -66,7 +74,7 @@ function check_if_in_view() {
   Array.prototype.forEach.call(animation_elements, function(el, i){
     var element = el;
     var element_height = el.offsetHeight;
-    var element_top_position = el.offsetTop;
+    var element_top_position = parentOffsetTop(el);
     var element_bottom_position = (element_top_position + element_height);
 
     if ((element_bottom_position >= window_top_position) && (element_top_position <= window_bottom_position)) {
