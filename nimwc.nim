@@ -206,8 +206,6 @@ proc launcherActivated() =
 
     if not running(nimhaMain):
       styledEcho(fgYellow, bgBlack, $now() & ": Restarting in 1 second.")
-
-      discard execCmd("pkill nimwc_main")
       sleep(1000)
 
       if userArgsRun != "":
