@@ -176,7 +176,7 @@ macro extensionCss(): string =
       extensions.add("<link rel=\"stylesheet\" href=\"/css/" & splitted[splitted.len - 1] & ".css\">\n")
 
     if staticRead(ppath & "/public/style_private.css") != "":
-      discard staticExec("cp " & $ppath & "/" & "/public/style_private.css " & mainDir & "/public/css/" & splitted[splitted.len-1] & "_private.css")
+      discard staticExec("cp " & $ppath & "/public/style_private.css " & mainDir & "/public/css/" & splitted[splitted.len-1] & "_private.css")
 
   when defined(dev):
     echo "Plugins - CSS:\n" & $extensions
