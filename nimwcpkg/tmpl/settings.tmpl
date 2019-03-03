@@ -50,42 +50,42 @@
           <label class="label">Core</label>
           <div class="buttons columns is-mobile">
             <div class="column"><a  class="btn btn-outline-primary button is-small"
-            # when not defined(demo):
-            href="/settings/blog"
-            # end when
+            # if c.rank == Admin:
+              href="/settings/blog"
+            # end if
             >Blog settings</a></div>
             <div class="column"><a class="btn btn-outline-primary button is-small"
-            # when not defined(demo):
-            href="/settings/edit"
-            # end when
+            # if c.rank == Admin:
+              href="/settings/edit"
+            # end if
             >Edit Head, Navbar, Footer</a></div>
           </div>
           <hr>
           <label class="label">CSS</label>
           <div class="buttons columns is-mobile">
             <div class="column"><a class="btn btn-outline-primary button is-small"
-            # when not defined(demo):
-            href="/settings/editcss"
-            # end when
+            # if c.rank == Admin:
+              href="/settings/editcss"
+            # end if
             >Edit Core CSS</a></div>
             <div class="column"><a class="btn btn-outline-primary button is-small"
-            # when not defined(demo):
-            href="/settings/editcsscustom"
-            # end when
+            # if c.rank == Admin:
+              href="/settings/editcsscustom"
+            # end if
             >Edit Custom CSS</a></div>
           </div>
           <hr>
           <label class="label">JavaScript</label>
           <div class="buttons columns is-mobile">
             <div class="column"><a class="btn btn-outline-primary button is-small"
-            # when not defined(demo):
-            href="/settings/editjs"
-            # end when
+            # if c.rank == Admin:
+              href="/settings/editjs"
+            # end if
             >Edit Core JS</a></div>
             <div class="column"><a class="btn btn-outline-primary button is-small"
-            # when not defined(demo):
-            href="/settings/editjscustom"
-            # end when
+            # if c.rank == Admin:
+              href="/settings/editjscustom"
+            # end if
             >Edit Custom JS</a></div>
           </div>
           <hr>
@@ -93,23 +93,31 @@
           <label class="label">Server</label>
           <div class="buttons columns is-mobile">
             <div class="column"><a class="btn btn-outline-primary button is-small restartServer" title="Force Server Restart, 1~9 Seconds delay"
-            # when not defined(demo):
+            # if c.rank == Admin:
               href="/settings/forcerestart"
-            # end when
+            # end if
             >Force Restart</a></div>
             <div class="column"><a href="/settings/serverinfo" class="btn btn-outline-primary button is-small" title="Server Info">Info</a></div>
             <div class="column"><a  class="btn btn-outline-primary button is-small" title="Server Config"
-            # when not defined(demo):
+            # if c.rank == Admin:
               href="/settings/config"
-            # end when
+            # end if
             >Config</a></div>
-            <div class="column"><a href="/settings/logs" class="btn btn-outline-primary button is-small">Logs</a></div>
+            <div class="column"><a class="btn btn-outline-primary button is-small"
+            # if c.rank == Admin:
+              href="/settings/logs"
+            # end if
+            >Logs</a></div>
           </div>
           <hr>
           # when defined(firejail):
           <label class="label">Security</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a href="/settings/firejail" class="btn btn-outline-primary button is-small" title="Firejail security is built-in on the Core of NimWC">Firejail</a></div>
+            <div class="column"><a class="btn btn-outline-primary button is-small" title="Firejail security is built-in on the Core of NimWC"
+            # if c.rank == Admin:
+              href="/settings/firejail"
+            # end if
+            >Firejail</a></div>
           </div>
           <hr>
           # end when

@@ -310,19 +310,19 @@ routes:
   get "/settings/logs":
     createTFD()
     restrictTestuser(c.req.reqMethod)
-    restrictAccessTo(c, [Admin, Moderator])
+    restrictAccessTo(c, [Admin])
     resp genMainAdmin(c, genViewLogs(logcontent=readFile(logfile)))
 
   get "/settings/forcerestart":
     createTFD()
     restrictTestuser(c.req.reqMethod)
-    restrictAccessTo(c, [Admin, Moderator])
+    restrictAccessTo(c, [Admin])
     quit()
 
   get "/settings/serverinfo":
     createTFD()
     restrictTestuser(c.req.reqMethod)
-    restrictAccessTo(c, [Admin, Moderator])
+    restrictAccessTo(c, [Admin])
     resp genMainAdmin(c, genServerInfo())
 
   get "/settings/termsofservice":
