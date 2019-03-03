@@ -17,31 +17,31 @@
           <hr>
           <label class="label">Blog</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a href="/blogpagenew" class="btn btn-outline-primary button is-small">Add blogpost</a></div>
-            <div class="column"><a href="/editpage/blogallpages" class="btn btn-outline-primary button is-small">Edit blogpost</a></div>
+            <div class="column"><a href="/blogpagenew" class="button is-small">Add blogpost</a></div>
+            <div class="column"><a href="/editpage/blogallpages" class="button is-small">Edit blogpost</a></div>
           </div>
           <hr>
           <label class="label">Pages</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a href="/pagenew" class="btn btn-outline-primary button is-small">Add page</a></div>
-            <div class="column"><a href="/editpage/allpages" class="btn btn-outline-primary button is-small">Edit pages</a></div>
+            <div class="column"><a href="/pagenew" class="button is-small">Add page</a></div>
+            <div class="column"><a href="/editpage/allpages" class="button is-small">Edit pages</a></div>
           </div>
           <hr>
           <label class="label">Plugins</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a href="/plugins" class="btn btn-outline-primary button is-small">Installed Plugins</a></div>
-            <div class="column"><a href="/plugins/repo" class="btn btn-outline-primary button is-small">Plugin Store</a></div>
+            <div class="column"><a href="/plugins" class="button is-small">Installed Plugins</a></div>
+            <div class="column"><a href="/plugins/repo" class="button is-small">Plugin Store</a></div>
           </div>
           <hr>
           <label class="label">Users</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a href="/users" class="btn btn-outline-primary button is-small">Users</a></div>
-            <div class="column"><a href="/users/profile" class="btn btn-outline-primary button is-small">My profile</a></div>
+            <div class="column"><a href="/users" class="button is-small">Users</a></div>
+            <div class="column"><a href="/users/profile" class="button is-small">My profile</a></div>
           </div>
           <hr>
           <label class="label">Files</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a href="/files" class="btn btn-outline-primary button is-small">Files</a></div>
+            <div class="column"><a href="/files" class="button is-small">Files</a></div>
           </div>
           <hr>
 
@@ -49,12 +49,12 @@
 
           <label class="label">Core</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a  class="btn btn-outline-primary button is-small"
+            <div class="column"><a  class="button is-small"
             # if c.rank == Admin:
               href="/settings/blog"
             # end if
             >Blog settings</a></div>
-            <div class="column"><a class="btn btn-outline-primary button is-small"
+            <div class="column"><a class="button is-small"
             # if c.rank == Admin:
               href="/settings/edit"
             # end if
@@ -63,12 +63,12 @@
           <hr>
           <label class="label">CSS</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a class="btn btn-outline-primary button is-small"
+            <div class="column"><a class="button is-small"
             # if c.rank == Admin:
               href="/settings/editcss"
             # end if
             >Edit Core CSS</a></div>
-            <div class="column"><a class="btn btn-outline-primary button is-small"
+            <div class="column"><a class="button is-small"
             # if c.rank == Admin:
               href="/settings/editcsscustom"
             # end if
@@ -77,12 +77,12 @@
           <hr>
           <label class="label">JavaScript</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a class="btn btn-outline-primary button is-small"
+            <div class="column"><a class="button is-small"
             # if c.rank == Admin:
               href="/settings/editjs"
             # end if
             >Edit Core JS</a></div>
-            <div class="column"><a class="btn btn-outline-primary button is-small"
+            <div class="column"><a class="button is-small"
             # if c.rank == Admin:
               href="/settings/editjscustom"
             # end if
@@ -92,18 +92,18 @@
 
           <label class="label">Server</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a class="btn btn-outline-primary button is-small restartServer" title="Force Server Restart, 1~9 Seconds delay"
+            <div class="column"><a class="button is-small restartServer" title="Force Server Restart, 1~9 Seconds delay"
             # if c.rank == Admin:
               href="/settings/forcerestart"
             # end if
             >Force Restart</a></div>
-            <div class="column"><a href="/settings/serverinfo" class="btn btn-outline-primary button is-small" title="Server Info">Info</a></div>
-            <div class="column"><a  class="btn btn-outline-primary button is-small" title="Server Config"
+            <div class="column"><a href="/settings/serverinfo" class="button is-small" title="Server Info">Info</a></div>
+            <div class="column"><a  class="button is-small" title="Server Config"
             # if c.rank == Admin:
               href="/settings/config"
             # end if
             >Config</a></div>
-            <div class="column"><a class="btn btn-outline-primary button is-small"
+            <div class="column"><a class="button is-small"
             # if c.rank == Admin:
               href="/settings/logs"
             # end if
@@ -113,7 +113,7 @@
           # when defined(firejail):
           <label class="label">Security</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a class="btn btn-outline-primary button is-small" title="Firejail security is built-in on the Core of NimWC"
+            <div class="column"><a class="button is-small" title="Firejail security is built-in on the Core of NimWC"
             # if c.rank == Admin:
               href="/settings/firejail"
             # end if
@@ -162,7 +162,7 @@
     </div>
     <br>
     <div>
-        <button type="submit" class="btn btn-success settingsSave button is-success">Save</button>
+        <button type="submit" class="settingsSave button is-success">Save</button>
     </div>
     <hr>
     <div>
@@ -180,7 +180,7 @@
       <textarea name="footer" id="htmlSettings3">${page[3]}</textarea>
     </div>
     <div style="margin-top: 15px;">
-        <button type="submit" class="btn btn-success settingsSave button is-success">Save</button>
+        <button type="submit" class="settingsSave button is-success">Save</button>
     </div>
   </form>
 
@@ -216,7 +216,7 @@
   <form class="standard settings" method="post" action="/settings/updatejs">
     <input name="customJs" value="${customJs}" style="display: none">
     <div>
-      <button type="submit" class="btn btn-success settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
+      <button type="submit" class="settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
     </div>
     <div>
       <textarea name="js" id="settingsCode" >
@@ -226,7 +226,7 @@ $line
       </textarea>
     </div>
     <div>
-      <button type="submit" class="btn btn-success settingsSaveCode button is-success">Save</button>
+      <button type="submit" class="settingsSaveCode button is-success">Save</button>
     </div>
   </form>
 </div>
@@ -260,7 +260,7 @@ $line
   <form class="standard settings" method="post" action="/settings/updatecss">
     <input name="customCss" value="${customCss}" style="display: none">
     <div>
-      <button type="submit" class="btn btn-success settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
+      <button type="submit" class="settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
     </div>
     <div>
       <textarea name="css" id="settingsCode" >
@@ -270,7 +270,7 @@ $line
       </textarea>
     </div>
     <div>
-      <button type="submit" class="btn btn-success settingsSaveCode button is-success">Save</button>
+      <button type="submit" class="settingsSaveCode button is-success">Save</button>
     </div>
   </form>
 </div>
@@ -313,7 +313,7 @@ $line
       </div>
     </div>
     <div>
-      <button type="submit" class="btn btn-success button is-success">Save</button>
+      <button type="submit" class="button is-success">Save</button>
     </div>
   </form>
 </div>

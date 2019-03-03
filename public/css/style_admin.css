@@ -203,14 +203,14 @@ div#settings div {
   margin-top: 0;
   padding-top: 0;
 }
-div#settings .btn {
+div#settings .button {
   width: 200px;
   background: white;
   -webkit-box-shadow: 1px 1px 5px 0 rgba(138,138,138,1);
   -moz-box-shadow: 1px 1px 5px 0 rgba(138,138,138,1);
   box-shadow: 1px 1px 5px 0 rgba(138,138,138,1);
 }
-div#settings .btn:hover {
+div#settings .button:hover {
   color: #042c57;
 }
 div#settings hr {
