@@ -432,10 +432,13 @@ template statusIntToCheckbox(status, value: string): string =
 when defined(demo):
   {. hint: "Demo is Enabled, Database Resets Automatically every hour." .}
   proc resetDB(db: DbConn) {.async.} =
-    ## The database will be overwritten with standard data every hour.
+    ## The database will be overwritten with standard data every hour. All
+    ## blog posts will be deleted.
     ##
-    ## This proc is used when the platform needs to run as a test or in demo-mode with public access.
+    ## This proc is used when the platform needs to run as a test or in
+    ## demo-mode with public access.
     await sleepAsync(3_600_000)
+    exec(db, sql"DELETE FROM blog")
     createStandardData(db)
 
 
