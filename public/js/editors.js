@@ -268,6 +268,8 @@ $(function() {
       lineWrapping: true,
       mode: "htmlmixed",
       autoCloseTags: true,
+      tabSize: 2,
+      indentWithTabs: false,
       matchTags: {bothTags: true},
       extraKeys: {"Ctrl-J": "toMatchingTag"}
     });
@@ -286,7 +288,6 @@ $(function() {
       editor.autoFormatRange(range.from, range.to);
       $("#save").attr("data-ischanged", "0");
     }
-    autoFormatSelection();
   }
 
 
