@@ -5,15 +5,6 @@ Short concise description of the problem. No narrative or conversational languag
 
 
 
-### Operating System:
-*Choose 1 or more. Mark the checkbox it with an `X`.*
-- [ ] GNU/Linux.
-- [ ] Apple Os X.
-- [ ] Microsoft Windows.
-- [ ] Other or Unknown or Unsupported.
-
-
-
 ### Bug Severity:
 *Choose only 1. Mark the checkbox it with an `X`.*
 - [ ] Low, Minor, Aesthetic, Small, Detail, Trivial.
@@ -27,7 +18,7 @@ Short concise description of the problem. No narrative or conversational languag
 ## Version
 *Semantic Version of this software the Bug Reproduces into. Type in the Version Number*
 ```
-    0.0.0
+    5.0.0
 ```
 
 
