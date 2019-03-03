@@ -190,7 +190,7 @@ const
             Nim Website Creator
           </h5>
           <p>
-            <p>License: GPLv3 - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></p>
+            <p>License: PPL - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></p>
           </p>
         </div>
       </div>
