@@ -169,14 +169,14 @@ macro extensionCss(): string =
 
   var extensions = ""
   for ppath in pluginsPath:
-    let splitted = $split(ppath, "/")
+    let splitted = split(ppath, "/")
 
     if staticRead(ppath & "/public/style.css") != "":
-      discard staticExec("cp " & $ppath & "/public/style.css " & mainDir & "/public/css/" & splitted[splitted.len - 1] & ".css")
+      discard staticExec("cp " & ppath & "/public/style.css " & mainDir & "public/css/" & splitted[splitted.len - 1] & ".css")
       extensions.add("<link rel=\"stylesheet\" href=\"/css/" & splitted[splitted.len - 1] & ".css\">\n")
 
     if staticRead(ppath & "/public/style_private.css") != "":
-      discard staticExec("cp " & $ppath & "/public/style_private.css " & mainDir & "/public/css/" & splitted[splitted.len-1] & "_private.css")
+      discard staticExec("cp " & ppath & "/public/style_private.css " & mainDir & "public/css/" & splitted[splitted.len-1] & "_private.css")
 
   when defined(dev):
     echo "Plugins - CSS:\n" & $extensions
@@ -198,11 +198,11 @@ macro extensionJs*(): string =
     let splitted = split(ppath, "/")
 
     if staticRead(ppath & "/public/js.js") != "":
-      discard staticExec("cp " & ppath & "/public/js.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
+      discard staticExec("cp " & ppath & "/public/js.js " & mainDir & "public/js/" & splitted[splitted.len-1] & ".js")
       extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer></script>\n")
 
     if staticRead(ppath & "/public/js_private.js") != "":
-      discard staticExec("cp " & ppath & "/public/js_private.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
+      discard staticExec("cp " & ppath & "/public/js_private.js " & mainDir & "public/js/" & splitted[splitted.len-1] & "_private.js")
 
   when defined(dev):
     echo "Plugins - JS:\n" & $extensions
