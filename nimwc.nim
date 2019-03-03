@@ -233,7 +233,7 @@ proc startupCheck() =
       quit()
     else:
       styledEcho(fgGreen, bgBlack,  compile_ok_msg)
-    quit()
+
 
 proc updateNimwc() =
   ## GIT hard update
