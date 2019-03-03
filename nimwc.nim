@@ -79,7 +79,7 @@ const
     --initplugin          Create plugin skeleton inside tmp/
 
   Compile options:
-    -d:sqlite             SQLite Dabatase is enabled. Postgres dabatase is disabled.
+    -d:postgres           Enable Postgres database (SQLite is standard)
     -d:firejail           Firejail is enabled. Runs secure.
     -d:webp               WebP is enabled. Optimize images.
     -d:rc                 Force Recompile (good for Troubleshooting).
