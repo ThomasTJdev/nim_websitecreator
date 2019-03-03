@@ -150,6 +150,7 @@
   <thead>
     <tr>
       <th>#</th>
+      <th>Avatar</th>
       <th>ID</th>
       <th>User</th>
       <th>Mail</th>
@@ -162,6 +163,7 @@
   <tfoot>
     <tr>
       <th>#</th>
+      <th>Avatar</th>
       <th>ID</th>
       <th>User</th>
       <th>Mail</th>
@@ -182,6 +184,7 @@
 #   counter += 1
   <tr>
     <td> $counter </td>
+    <td> <img id="libravatar" src="${ getLibravatarUrl($user[2], size=42) }"> </td>
     <td> ${user[0]} </td>
     <td> ${user[1]} </td>
     <td> ${user[2]} </td>
@@ -321,26 +324,12 @@
 
         <div id="editProfilePhoto">
           <div id="userPictureDialogInside">
-            <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-              <strong>Saved!</strong> Your profile picture was saved.
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-
-            <button id="userPictureSave" class="btn btn-custom btn-blue-primary button is-success is-fullwidth" style="display: none; margin-bottom: 10px;">Save picture</button>
-            <button id="userPictureNewdata" class="btn btn-custom btn-blue-primary button is-info is-fullwidth">Upload new picture</button>
+            <h5>Avatar</h5>
+            <img id="libravatar" title="${c.email}'s Avatar" src="${ getLibravatarUrl($c.email, size=350) }">
             <br><br>
-            # if fileExists(storageEFS & "/users/" & c.userid & ".png"):
-              <img id="userPictureEdit" src="/users/photo/stream/${c.userid}.png" style="max-width: 100%;">
-            # else:
-              <img id="userPictureEdit" src="/images/avatar.jpg" style="max-width: 100%;">
-            # end if
-
-            <div style="display: none;">
-              <input type="file" id="userPictureEditTemp" accept=".jpg,.jpeg,.png" title="*.jpg, *.jpeg, *.png" />
-            </div>
-
+            <a href="https://www.libravatar.org/accounts/upload_photo/" title="JPG, PNG, GIF" class="btn btn-custom btn-blue-primary button is-info is-fullwidth" target="_blank">Upload new photo</a>
+            <br>
+            <a href="https://www.libravatar.org/accounts/import_photo/" class="btn btn-custom button is-fullwidth" target="_blank">Import photo from other services</a>
           </div>
         </div>
 

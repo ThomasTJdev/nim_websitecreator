@@ -733,3 +733,13 @@ li.pluginRepo span.version.git {
   margin-left: auto;
   margin-right: auto;
 }
+
+
+
+/*
+  Avatar
+*/
+img#libravatar:hover {
+  filter: hue-rotate(180deg);
+  max-width: 99%;
+}
