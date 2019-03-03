@@ -1,8 +1,8 @@
-import os, strutils, sequtils, asyncdispatch, ../files/files_efs
+import os, strutils, sequtils, asyncdispatch
 
 const
-  filesListPrivatePath = storageEFS & "/files/private/*.*"
-  filesListPublicPath  = storageEFS & "/files/public/*.*"
+  filesListPrivatePath = "files/efs" & "/files/private/*.*"
+  filesListPublicPath  = "files/efs" & "/files/public/*.*"
 
 
 proc filesListPrivate*(): seq[string] =

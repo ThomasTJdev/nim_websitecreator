@@ -12,7 +12,7 @@ let
   dict = loadConfig("config/config.cfg")
   tempDir = dict.getSectionValue("Storage", section)
   paths2create = [
-    "files", "files/efs", "fileslocal", tempDir, tempDir & "/tmp",
+    "files", "files/efs", "fileslocal", tempDir & "/tmp",
     tempDir & "/files", tempDir & "/files/private",
     tempDir & "/files/public", tempDir & "/users",
   ]
