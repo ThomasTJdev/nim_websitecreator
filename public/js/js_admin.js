@@ -1,4 +1,25 @@
 /*
+  Core
+*/
+const btnRestart = document.querySelector("a.restartServer");
+if (btnRestart != null) {
+  btnRestart.addEventListener('click', function () {
+    var result = confirm("This will restart NimWC. Are you sure?");
+    if (result) {
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.open( "GET", "/settings/forcerestart", false ); // false for synchronous request
+      try {
+        xmlHttp.send( null );
+      }
+      catch(err) {
+        alert("Restart in progress. Wait a few seconds and then reload the page.");
+      }
+    }
+  });
+}
+
+
+/*
     Plugins
 */
 const $btnEnablePlugin = document.querySelectorAll(".enablePlugin");

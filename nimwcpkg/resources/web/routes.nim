@@ -310,8 +310,9 @@ routes:
 
   get "/settings/forcerestart":
     createTFD()
+    restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-    echo execCmdEx("pkill nimwc_main")
+    quit()
 
   get "/settings/serverinfo":
     createTFD()
