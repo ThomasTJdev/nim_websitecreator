@@ -12,11 +12,7 @@ if (btnRestart != null) {
         xmlHttp.send( null );
       }
       catch(err) {
-        if (err.slice(0,5) == "Error") {
-          alert(err)
-        } else {
-          alert("Restart in progress. Wait a few seconds and then reload the page.");
-        }
+        alert("Restart in progress. Wait a few seconds and then reload the page.");
       }
     }
   });
