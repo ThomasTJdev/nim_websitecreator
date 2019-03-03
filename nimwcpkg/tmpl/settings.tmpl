@@ -92,7 +92,11 @@
 
           <label class="label">Server</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a class="btn btn-outline-primary button is-small restartServer" title="Force Server Restart, 1~9 Seconds delay" target="_blank">Force Restart</a></div>
+            <div class="column"><a class="btn btn-outline-primary button is-small restartServer" title="Force Server Restart, 1~9 Seconds delay"
+            # when not defined(demo):
+              href="/settings/forcerestart"
+            # end when
+            >Force Restart</a></div>
             <div class="column"><a href="/settings/serverinfo" class="btn btn-outline-primary button is-small" title="Server Info">Info</a></div>
             <div class="column"><a  class="btn btn-outline-primary button is-small" title="Server Config"
             # when not defined(demo):
