@@ -97,7 +97,11 @@
               href="/settings/forcerestart"
             # end if
             >Force Restart</a></div>
-            <div class="column"><a href="/settings/serverinfo" class="button is-small" title="Server Info">Info</a></div>
+            <div class="column"><a class="button is-small" title="Server Info"
+            # if c.rank == Admin:
+              href="/settings/serverinfo"
+            # end if
+            >Server info</a></div>
             <div class="column"><a  class="button is-small" title="Server Config"
             # if c.rank == Admin:
               href="/settings/config"

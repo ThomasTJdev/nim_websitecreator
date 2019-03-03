@@ -6,25 +6,14 @@
 #  result = ""
 #
 #
-#  when defined(demo):
-#    const uname = "<i> Not available on Demo </i>"
-#    const distr = "<i> Not available on Demo </i>"
-#    const uptim = "<i> Not available on Demo </i>"
-#    const pubip = "<i> Not available on Demo </i>"
-#    const disks = "<i> Not available on Demo </i>"
-#    const hostn = "<i> Not available on Demo </i>"
-#    const jailv = "<i> Not available on Demo </i>"
-#    const jailf = "<i> Not available on Demo </i>"
-#  else:
-#    let hostn = getHostname()
-#    let uptim = execCmdEx("uptime --pretty").output.strip
-#    let disks = execCmdEx("df --human-readable --local --output=avail " & getCurrentDir()).output.strip
-#    let jailf = when defined(firejail): $firejailFeatures.pretty.strip else: "<i> Firejail is Disabled </i>"
-#    const uname = staticExec("uname -a").strip
-#    const distr = staticExec("lsb_release -a").strip
-#    const jailv = when defined(firejail): $firejailVersion else: "<i> Firejail is Disabled </i>"
-#    let pubip = newHttpClient().getContent("http://api.ipify.org").strip
-#  end when
+#  let hostn = getHostname()
+#  let uptim = execCmdEx("uptime --pretty").output.strip
+#  let disks = execCmdEx("df --human-readable --local --output=avail " & getCurrentDir()).output.strip
+#  let jailf = when defined(firejail): $firejailFeatures.pretty.strip else: "<i> Firejail is Disabled </i>"
+#  const uname = staticExec("uname -a").strip
+#  const distr = staticExec("lsb_release -a").strip
+#  const jailv = when defined(firejail): $firejailVersion else: "<i> Firejail is Disabled </i>"
+#  let pubip = newHttpClient().getContent("http://api.ipify.org").strip
 #
 #
 <div id="serverinfo">
