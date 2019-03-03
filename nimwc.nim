@@ -10,15 +10,15 @@ when defined(release): {.passL: "-s".}  # Force strip all on the resulting Binar
 const
   update_cmds = [
     "mv plugins/plugin_import.txt tmp/plugin_import.txt",
-    "mv plugins/css/style_custom.css tmp/style_custom.css",
-    "mv plugins/js/js_custom.js tmp/js_custom.js",
+    "mv public/css/style_custom.css tmp/style_custom.css",
+    "mv public/js/js_custom.js tmp/js_custom.js",
 
     "git fetch --all",
     "git reset --hard origin/master",
 
     "mv tmp/plugin_import.txt plugins/plugin_import.txt",
-    "mv tmp/style_custom.css plugins/css/style_custom.css",
-    "mv tmp/js_custom.js plugins/js/js_custom.js",
+    "mv tmp/style_custom.css public/css/style_custom.css",
+    "mv tmp/js_custom.js public/js/js_custom.js",
   ]  ## Bash Commands to Update NimWC.
 
   compile_start_msg =  """⏰ Compiling, Please wait ⏰
