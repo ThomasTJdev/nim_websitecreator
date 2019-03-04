@@ -216,7 +216,7 @@
 #proc genUsersProfile(c: var TData): string =
 # result = ""
 #
-# let userData = getAllRows(db, sql"SELECT id, name, email, status, lastOnline, twofa FROM person WHERE id = ?", c.userid)
+# let userData = getAllRows(db, sql"SELECT id, name, email, status, lastOnline, twofa, avatar FROM person WHERE id = ?", c.userid)
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.js" defer></script>
@@ -321,39 +321,10 @@
 
         <div id="editProfilePhoto">
           <div id="userPictureDialogInside">
-            <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-              <strong>Saved!</strong> Your profile picture was saved.
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <h3>Avatar</h3>
-            # var fallbackimg: string
-            # if fileExists(storageEFS & "/users/" & c.userid & ".png"):
-            #   fallbackimg = "/users/photo/stream/" & $c.userid & ".png"
-            # else:
-            #   fallbackimg = "/images/avatar.jpg"
-            # end if
-            <img id="libravatar" title="${c.email}'s Avatar" alt="${c.email}'s Avatar" src="${ getLibravatarUrl($c.email, size=350, default="404", fallback=fallbackimg) }" >
-            <hr>
-            <h5>Custom</h5>
-            <button id="userPictureSave" class="btn btn-custom btn-blue-primary button is-success is-fullwidth" style="display: none; margin-bottom: 10px;">Save photo</button>
-            <button id="userPictureNewdata" class="btn btn-custom btn-blue-primary button is-info is-fullwidth">Upload new Custom photo</button>
-            <div style="display: none;">
-              <input type="file" id="userPictureEditTemp" accept=".jpg,.jpeg,.png" title="JPG, JPEG, PNG" />
-            </div>
-            <hr>
-            <h5>Libravatar</h5>
-            <a href="https://www.libravatar.org/accounts/upload_photo/" title="JPG, PNG, GIF" class="btn btn-custom btn-blue-primary button is-info is-fullwidth" target="_blank">Upload new photo</a>
-            <br>
-            <a href="https://www.libravatar.org/accounts/import_photo/" class="btn btn-custom button is-fullwidth" target="_blank">Import photo from other services</a>
-            <br>
-            <div class="notification is-info">
-              <small>
-                Avatar Photos have fallback values: <br>
-                Libravatar &Longrightarrow; Gravatar &Longrightarrow; Custom &Longrightarrow; Default Avatar
-              </small>
-            </div>
+            <h5>Avatar</h5>
+            <img class="is-128x128 libravatar" title="${c.email}'s Avatar" alt="${c.email}'s Avatar" src="${user[6]}" style="width:128px;height:128px">
+            <br><br>
+            <a href="/users/profile/avatar" class="button is-success is-fullwidth">Change photo</a><br>
           </div>
         </div>
 
@@ -361,7 +332,92 @@
     </div>
 
 # end for
-
-
 </div>
 #end proc
+#
+#
+#
+#proc genAvatar(c: var TData): string =
+#  result = ""
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.6/cropper.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.6/cropper.min.js" defer ></script>
+<h1 class="has-text-centered">Choose your Avatar</h1>
+<div id="user" style="background:white">
+<form action="/users/profile/avatar/save" method="POST">
+<div class="columns">
+  <div class="column">
+    <label>
+    <input type="radio" name="avatar" required value="${ getLibravatarUrl($c.email, size=250, default="https://seccdn.libravatar.org/static/img/nobody/250.png") }">
+      <img class="image is-128x128 libravatar" src="${ getLibravatarUrl($c.email, size=250, default="https://seccdn.libravatar.org/static/img/nobody/250.png") }" title="Libravatar / Gravatar" alt="Libravatar / Gravatar">
+    </label>
+  </div>
+  <div class="column">
+    <label>
+    <input type="radio" name="avatar" required value="${ getLibravatarUrl("", size=128, default="robohash", forcedefault=true) }">
+      <img class="image is-128x128 libravatar" src="${ getLibravatarUrl("", size=128, default="robohash", forcedefault=true) }" title="Robohash" alt="Robohash">
+    </label>
+  </div>
+  <div class="column">
+    <label>
+    <input type="radio" name="avatar" required value="${ getLibravatarUrl("", size=128, default="identicon", forcedefault=true) }">
+      <img class="image is-128x128 libravatar" src="${ getLibravatarUrl("", size=128, default="identicon", forcedefault=true) }" title="Identicon" alt="Identicon">
+    </label>
+  </div>
+  <div class="column">
+    <label>
+    <input type="radio" name="avatar" required value="${ getLibravatarUrl("", size=128, default="monsterid", forcedefault=true) }">
+      <img class="image is-128x128 libravatar" src="${ getLibravatarUrl("", size=128, default="monsterid", forcedefault=true) }" title="MonsterID" alt="MonsterID">
+    </label>
+  </div>
+</div>
+<br>
+<div class="columns">
+  <div class="column">
+    <label>
+    <input type="radio" name="avatar" required value="${ getLibravatarUrl("", size=128, default="retro", forcedefault=true) }">
+      <img class="image is-128x128 libravatar" src="${ getLibravatarUrl("", size=128, default="retro", forcedefault=true) }" title="Retro" alt="Retro">
+    </label>
+  </div>
+  <div class="column">
+    <label>
+    <input type="radio" name="avatar" required value="${ getLibravatarUrl("", size=128, default="wavatar", forcedefault=true) }">
+      <img class="image is-128x128 libravatar" src="${ getLibravatarUrl("", size=128, default="wavatar", forcedefault=true) }" title="Wavatar" alt="Wavatar">
+    </label>
+  </div>
+  <div class="column">
+    <label>
+    <input type="radio" name="avatar" required value="/images/avatar.jpg">
+      <img class="image is-128x128 libravatar" src="/images/avatar.jpg" title="Default Avatar" alt="Default Avatar">
+    </label>
+  </div>
+  <div class="column">
+    <label>
+    <input type="radio" name="avatar" required value="/users/photo/stream/${c.userid}.png">
+    <img class="image is-128x128 libravatar" src="/users/photo/stream/${c.userid}.png" title="Custom" alt="Custom" style="max-width:99%">
+    </label>
+  </div>
+</div>
+<button type="submit" title="Save Avatar" class="btn btn-success newblogSave button is-success is-fullwidth">Save</button>
+</form>
+<hr>
+<details>
+  <summary>Libravatar</summary>
+  <center>
+  <a href="https://www.libravatar.org/accounts/upload_photo/" title="JPG, PNG, GIF" class="button is-small" target="_blank">Upload new photo</a>&nbsp;
+  <a href="https://www.libravatar.org/accounts/import_photo/" class="button is-small" target="_blank">Import photo from other services</a>
+  </center>
+</details>
+<hr>
+<details>
+  <summary>Upload Custom</summary>
+  <center>
+  <div>
+    <img id="userPictureEdit" class="image is-128x128 libravatar" src="/users/photo/stream/${c.userid}.png" title="Custom" alt="Custom" style="max-width:99%">
+  <div>
+  <input type="file" id="userPictureEditTemp" accept=".jpg,.jpeg,.png" title="JPG, PNG" /><br>
+  <button id="userPictureSave" class="button is-small">Upload</button>
+  </center>
+</details>
+<br>
+</div>
+# end proc

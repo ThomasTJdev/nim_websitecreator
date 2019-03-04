@@ -330,6 +330,17 @@ routes:
     let tos = readFile(getAppDir() & "/tmpl/tos.html")
     resp tos
 
+  get "/users/profile/avatar":
+    createTFD()
+    resp genMainAdmin(c, genAvatar(c))
+
+  post "/users/profile/avatar/save":
+    createTFD()
+    restrictTestuser(c.req.reqMethod)
+    if len(@"avatar") > 0:
+      exec(db, sql"UPDATE person SET avatar = ? WHERE id = ?", @"avatar", c.userid)
+    redirect("/users/profile")
+
   get "/settings/firejail":
     createTFD()
     restrictTestuser(c.req.reqMethod)
@@ -771,6 +782,7 @@ routes:
     let base64 = split(c.req.body, ",")[1]
 
     try:
+      discard existsOrCreateDir(storageEFS & "/users")
       writeFile(path & ".txt", base64)
       discard execProcess("base64 -d > " & path & ".png < " & path & ".txt")
       removeFile(path & ".txt")
