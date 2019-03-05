@@ -544,11 +544,23 @@ routes:
     if @"access" notin ["private", "public", "publicimage"]:
       resp("Error: Missing access right")
 
-    let filename  = request.formData["file"].fields["filename"]
-    var path: string
+    const
+      efspublic = storageEFS & "/files/public/"
+      efsprivate = storageEFS & "/files/private/"
+    var
+      path: string
+      filename  = request.formData["file"].fields["filename"]
+    let
+      filedata = request.formData.getOrDefault("file").body
+      fileexts = filename.splitFile.ext
+      usesWebp = @"webpstatus" == "true" and fileexts in [".png", ".jpg", ".jpeg"]
 
-    const efspublic = storageEFS & "/files/public/"
-    const efsprivate = storageEFS & "/files/private/"
+    if not usesWebp and @"checksum" == "true":
+      filename = getMD5(filedata) & fileexts
+
+    if @"normalize" == "true":
+      filename = filename.normalize
+
     if @"access" == "publicimage":
       path = "public/images/" & filename
     elif @"access" == "public":
@@ -558,17 +570,13 @@ routes:
       assert existsDir(efsprivate), "storageEFS Private Folder not found: " & efsprivate
       path = efsprivate & filename
 
-    if @"normalize" == "true": # lower and clean filename
-      path = path.normalize
-
     if fileExists(path):
       resp("Error: A file with the same name exists")
 
-    writeFile(path, request.formData.getOrDefault("file").body)
+    writeFile(path, filedata)
     when defined(webp):
-      if @"webpstatus" == "true":
-        if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
-          discard cwebp(path, path, "drawing", quality=25)  # This sets quality of WEBP
+      if usesWebp:
+        discard cwebp(path, path, "drawing", quality=25)  # This sets quality of WEBP
     if fileExists(path) and @"access" != "publicimage":
       # TODO: There should not be a row with the file. But if the user manually
       # deletes the file and reuploads it, it will still be present in th DB.

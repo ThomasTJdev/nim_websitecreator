@@ -69,12 +69,13 @@ function uploadFile(projectID) {
   var access    = $("input[name=fileRadio]:checked").attr("data-value");
   var webp      = $("#webpstatus").is(":checked");
   var norm      = $("#normalize").is(":checked");
+  var chks      = $("#checksum").is(":checked");
   var file      = $("#file").get(0).files[0];
   var filename  = file.name;
   var formData  = new FormData();
   formData.append('file', file);
   $.ajax({
-    url: "/files/upload/" + access + "?webpstatus=" + webp + "&normalize=" + norm,
+    url: "/files/upload/" + access + "?webpstatus=" + webp + "&normalize=" + norm + "&checksum=" + chks,
     data: formData,
     type: 'POST',
     cache: false,
