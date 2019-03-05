@@ -558,6 +558,9 @@ routes:
       assert existsDir(efsprivate), "storageEFS Private Folder not found: " & efsprivate
       path = efsprivate & filename
 
+    if @"normalize" == "true": # lower and clean filename
+      path = path.normalize
+
     if fileExists(path):
       resp("Error: A file with the same name exists")
 

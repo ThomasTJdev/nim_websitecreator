@@ -68,12 +68,13 @@ if ($btnFileDelete.length) {
 function uploadFile(projectID) {
   var access    = $("input[name=fileRadio]:checked").attr("data-value");
   var webp      = $("#webpstatus").is(":checked");
+  var norm      = $("#normalize").is(":checked");
   var file      = $("#file").get(0).files[0];
   var filename  = file.name;
   var formData  = new FormData();
   formData.append('file', file);
   $.ajax({
-    url: "/files/upload/" + access + "?webpstatus=" + webp,
+    url: "/files/upload/" + access + "?webpstatus=" + webp + "&normalize=" + norm,
     data: formData,
     type: 'POST',
     cache: false,
