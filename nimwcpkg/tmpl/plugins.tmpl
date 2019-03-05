@@ -82,6 +82,12 @@
 #         if installed:
             <p><b>License:  </b> ${ plugin["license"].getStr } </p>
             <p><b>Installed:</b> ${ getLastModificationTime("plugins/" & plugin["foldername"].getStr) } </p>
+            <p><b>Tags:     </b></p>
+            <div class="tags">
+#           for tagy in plugin["tags"]:
+              <span class="tag is-small is-rounded is-capitalized"> $tagy.getStr </span>
+#           end for
+            </div>
             <details>
               <summary>Git command</summary>
               <input type="text" class="input is-lowercase is-family-monospace" disabled value="git clone ${plugin["url"].getStr()}">
