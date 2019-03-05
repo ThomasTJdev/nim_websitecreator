@@ -52,17 +52,8 @@ function pluginChangeStatus(pluginName, pluginStatus) {
 /*
     Files
 */
-const btnFileAdd = document.querySelector("button.fileAdd");
-const btnFileUpload = document.querySelector("button.fileUpload");
 const $btnFileDelete = document.querySelectorAll("span.deleteFile");
-if (btnFileAdd != null) {
-  btnFileAdd.addEventListener('click', function () {
-    document.querySelector("form#fileAdd").classList.toggle("hidden");
-  });
-  btnFileUpload.addEventListener('click', function () {
-    uploadFile();
-  });
-}
+
 if ($btnFileDelete.length) {
   $btnFileDelete.forEach( el => {
     el.addEventListener('click', function (event) {

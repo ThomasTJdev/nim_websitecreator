@@ -19,34 +19,6 @@
 <div id="files">
   <h1 class="has-text-centered">Files</h1>
 
-  <div id="fileAddContainer">
-    <button class="btn btn-secondary fileAdd button is-info is-fullwidth">Upload new file</button>
-    <form id="fileAdd" class="is-invisible" method="post" action="/files/upload">
-      <div class="form-group">
-        <div style="margin-bottom: 10px;">
-
-          <div class="custom-control custom-radio">
-            <input data-value="publicimage" type="radio" id="fileRadio1" name="fileRadio" class="custom-control-input" checked>
-            <label class="custom-control-label" for="fileRadio1">Public image</label>
-          </div>
-          <div class="custom-control custom-radio">
-            <input data-value="private" type="radio" id="fileRadio2" name="fileRadio" class="custom-control-input">
-            <label class="custom-control-label" for="fileRadio2">Private file</label>
-          </div>
-          <div class="custom-control custom-radio">
-            <input data-value="public" type="radio" id="fileRadio3" name="fileRadio" class="custom-control-input">
-            <label class="custom-control-label" for="fileRadio3">Public file</label>
-          </div>
-
-          <label><input type="checkbox" name="webpstatus" id="webpstatus"> Compress PNG and JPG using WEBP </label>
-
-        </div>
-        <input type="file" class="form-control-file" id="file" name="file">
-      </div>
-      <button type="button" class="btn btn-success fileUpload button is-success">Upload</button>
-    </form>
-  </div>
-
   <h4>Public Files (<code>/public/images/</code>)</h4>
 
   <table class="table is-bordered is-striped is-hoverable is-fullwidth">
@@ -184,7 +156,34 @@
   <b>Total files:</b> <code> $counter </code>
   <hr>
 
-  <br>
+  <details id="fileAddContainer">
+    <summary class="label">Upload new file</summary>
+    <form id="fileAdd" >
+      <div class="form-group">
+        <div style="margin-bottom: 10px;">
+
+          <div class="custom-control custom-radio">
+            <input data-value="publicimage" type="radio" id="fileRadio1" name="fileRadio" class="custom-control-input" checked required >
+            <label class="custom-control-label" for="fileRadio1">Public image</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input data-value="private" type="radio" id="fileRadio2" name="fileRadio" class="custom-control-input" required >
+            <label class="custom-control-label" for="fileRadio2">Private file</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input data-value="public" type="radio" id="fileRadio3" name="fileRadio" class="custom-control-input" required >
+            <label class="custom-control-label" for="fileRadio3">Public file</label>
+          </div>
+
+          <label title="WebP is ~50% size of JPG"><input type="checkbox" name="webpstatus" id="webpstatus"> Compress PNG and JPG using WEBP </label>
+
+        </div>
+        <input type="file" class="form-control-file" id="file" name="file" required >
+      </div>
+      <button class="fileUpload button is-success" onClick="uploadFile()">Upload</button>
+    </form>
+  </details>
+
   <br>
   <div class="notification is-danger">
     Deleting files can not be undone.
