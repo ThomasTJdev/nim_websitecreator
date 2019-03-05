@@ -112,39 +112,7 @@
 
 
 <div id="users">
-  <h1>Users</h1>
-
-# if c.rank in [Admin, Moderator]:
-  <div id="usersAddContainer">
-    <button class="btn btn-secondary usersAdd button is-info is-fullwidth">Add new user</button>
-
-    <form id="usersAdd" class="is-invisible" method="post" action="/users/add">
-      <div class="field">
-        <label class="label">Name</label>
-        <input class="input" type="text" name="name" minlength="2" maxlength="50" required dir="auto" value="" />
-      </div>
-      <div class="field">
-        <label class="label">Email</label>
-        <input class="input" type="email" name="email" required value="" dir="auto"/>
-      </div>
-      <div class="field">
-        <label class="label">Status</label>
-        <div class="control select">
-          <select name="status" class="form-control form-control-sm">
-            <option value="User" selected>User</option>
-            <option value="Moderator">Moderator</option>
-            # if c.rank == Admin:
-            <option value="Admin">Admin</option>
-            #end if
-          </select>
-        </div>
-      </div>
-
-      <button type="submit" class="btn btn-success userDoAdd button is-success is-fullwidth">Add user</button>
-    </form>
-  </div>
-# end if
-
+  <h1 class="has-text-centered">Users</h1>
 
 <table class="table is-bordered is-striped is-hoverable is-fullwidth">
   <thead>
@@ -204,7 +172,38 @@
 # end for
     </tbody>
   </table>
-  <br>
+  <hr>
+
+# if c.rank in [Admin, Moderator]:
+  <details>
+    <summary class="label">Add new user</summary>
+    <form method="post" action="/users/add">
+      <div class="field">
+        <label class="label">Name</label>
+        <input class="input" type="text" name="name" minlength="2" maxlength="60" required dir="auto" value="" placeholder="Username" pattern="[a-zA-Z0-9_]{2,60}" style="max-width:50%"/>
+      </div>
+      <div class="field">
+        <label class="label">Email</label>
+        <input class="input" type="email" name="email" required value="" dir="auto" placeholder="user@example.com" minlength="5" style="max-width:50%"/>
+      </div>
+      <div class="field">
+        <label class="label">Status</label>
+        <div class="control select">
+          <select name="status" class="form-control form-control-sm">
+            <option value="User" selected>User</option>
+            <option value="Moderator">Moderator</option>
+            # if c.rank == Admin:
+              <option value="Admin">Admin</option>
+            #end if
+          </select>
+        </div>
+      </div>
+      <br>
+      <button type="submit" class="btn btn-success userDoAdd button is-success is-small">Add user</button>
+    </form>
+  </details><br>
+# end if
+
   <div class="notification is-danger">
     Deleting users can not be undone.
   </div>
