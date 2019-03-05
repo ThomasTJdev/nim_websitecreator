@@ -30,9 +30,6 @@ h5 {
 .hidden {
   display: none;
 }
-.align-centeret {
-  text-align: center;
-}
 
 div#background {
   background-attachment: fixed;

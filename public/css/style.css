@@ -371,9 +371,7 @@ h5 {
 .hidden {
   display: none;
 }
-.align-centeret {
-  text-align: center;
-}
+
 input {
   border: none;
   border-bottom: 1px solid grey;
