@@ -80,8 +80,9 @@
           ${plugin["description"].getStr()}
           <div><br>
 #         if installed:
+#           var creationt = getLastModificationTime("plugins/" & plugin["foldername"].getStr).utc
             <p><b>License:  </b> ${ plugin["license"].getStr } </p>
-            <p><b>Installed:</b> ${ getLastModificationTime("plugins/" & plugin["foldername"].getStr) } </p>
+            <p title="$creationt"><b>Installed:</b> ${ $days(now() - creationt) } Days ago. </p>
             <p><b>Tags:     </b></p>
             <div class="tags">
 #           for tagy in plugin["tags"]:
