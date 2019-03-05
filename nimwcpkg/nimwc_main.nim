@@ -27,6 +27,8 @@ import
   resources/utils/plugins,
   resources/web/google_recaptcha
 
+from md5 import getMD5
+
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
