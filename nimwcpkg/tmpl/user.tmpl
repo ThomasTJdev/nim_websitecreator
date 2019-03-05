@@ -118,7 +118,7 @@
   <div id="usersAddContainer">
     <button class="btn btn-secondary usersAdd button is-info is-fullwidth">Add new user</button>
 
-    <form id="usersAdd" class="hidden" method="post" action="/users/add">
+    <form id="usersAdd" class="is-invisible" method="post" action="/users/add">
       <div class="field">
         <label class="label">Name</label>
         <input class="input" type="text" name="name" minlength="2" maxlength="50" required dir="auto" value="" />
@@ -243,12 +243,12 @@
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Email<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="email" name="email" placeholder="email" type="email" class="form-control input" required minlength="3" maxlength="128" value="${user[2]}" dir="auto">
+            <input id="email" name="email" placeholder="email" type="email" autocomplete="username" class="form-control input" required minlength="3" maxlength="128" value="${user[2]}" dir="auto">
           </div>
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="password" name="password" type="password" placeholder="password" class="form-control input" maxlength="128" required value="" dir="auto"
+            <input id="password" name="password" type="password" placeholder="password" autocomplete="new-password" class="form-control input" maxlength="128" required value="" dir="auto"
             # when defined(demo) or defined(dev):
               minlength="4"
             # else:
@@ -259,57 +259,59 @@
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="passwordConfirm" name="passwordConfirm" type="password" class="form-control input" maxlength="128" required placeholder="Confirm password" value="" dir="auto"
+            <input id="passwordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" class="form-control input" maxlength="128" required placeholder="Confirm password" value="" dir="auto"
             # when defined(demo) or defined(dev):
               minlength="4"
             # else:
               minlength="10"
             # end when
             >
-          </div>
-
-          <div class="field" style="margin-bottom: 10px;">
-            <label class="label">2 Factor Authentication</label>
-            # if user[5].len() > 0:
-              <input class="input twofaEnabled" disabled="disabled" value="2FA is enabled">
-              <a href="#!" class="button is-danger is-small is-pulled-right	disable2fa">Disable</a>
-            # else:
-              <a href="#!" class="button is-info is-fullwidth show2fa">Enable</a>
-              <div class="hidden twofa-container">
-                <p>Open your <a href="https://freeotp.github.io">2FA App</a> and insert the code below. Test the code in input field below - on successful result, press "Save 2FA". You can Enable, Disable and Reset it at any time.</p>
-                <details>
-                  <summary>Extra Tech Info</summary>
-                  <small><ul>
-                    <li>Type:      TOTP</li>
-                    <li>Digits:    6   </li>
-                    <li>Algorithm: SHA1</li>
-                    <li>Interval:  30  </li>
-                    <li>Phone time must be correct.</li>
-                    <li>2FA Number must not be 6 identical digits.</li>
-                  </ul>
-                  </small>
-                  <br>
-                </details>
-                # proc twoFaKey(): string =
-                #   const items = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-                #   for i in countUp(0, 10):
-                #     result.add(rand(items))
-                #   end for
-                # end template
-                <input type="text" id="twofa-key" class="form-control input has-text-centered" disabled="disabled" value="${twoFaKey()}">
-                <input type="number" id="twofa-testcode" class="form-control input has-text-centered" placeholder="Test 2FA" min="000000" max="999999" step="1" autocomplete="off" dir="auto" value="">
-                <div>
-                  <a href="#!" class="button is-info is-pulled-left test2fa">Test 2FA</a>
-                  <a href="#!" class="hidden button is-success is-pulled-right save2fa">Save 2FA</a>
-                </div>
-              </div>
-            # end if
           </div>
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Status</label>
             <input type="text" class="form-control input" disabled="disabled" value="${user[3]}" dir="auto">
           </div>
+
+          <details class="field" style="margin-bottom: 10px;">
+            <summary class="label">2 Factor Authentication</summary>
+            # if user[5].len() > 0:
+              <div class="notification is-success has-text-centered twofaEnabled"><button class="delete"></button> &checkmark; 2FA is Enabled </div>
+              <a href="#!" class="button is-danger has-text-warning is-small disable2fa" title="Disable 2FA">Disable</a>
+              <br>
+            # else:
+                <p>Open your <a href="https://freeotp.github.io">2FA App</a> and insert the code below.<br>
+                   Test the code in the field below, on successful result press "Save 2FA".<br>
+                   You can Enable, Disable and Reset it at any time.
+                </p>
+                <small><br>
+                Tech Info:
+                <ul>
+                  <li>Type:      TOTP</li>
+                  <li>Digits:    6   </li>
+                  <li>Algorithm: SHA1</li>
+                  <li>Interval:  30  </li>
+                  <li>Phone time must be correct.</li>
+                  <li>2FA Number must not be 6 identical digits.</li>
+                </ul>
+                </small>
+                <br>
+                # proc twoFaKey(): string =
+                #   const items = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+                #   for i in countUp(0, 10):
+                #     result.add(rand(items))
+                #   end for
+                # end template
+                <input type="text" id="twofa-key" class="form-control input  has-text-centered has-text-weight-bold is-family-monospace is-narrow" disabled="disabled" style="width:10em" value="${twoFaKey()}"/>&nbsp;
+                <input type="tel" id="twofa-testcode" class="form-control input has-text-centered has-text-weight-bold is-family-monospace" placeholder="Test 2FA" min="000000" max="999999" step="1" maxlength="6" pattern="\d*" autocomplete="off" dir="auto" value="" style="width:6em"/>
+                <br><br>
+                <div>
+                  <a href="#!" class="button is-info is-pulled-left test2fa">Test 2FA</a>
+                  <a href="#!" class="button is-success is-pulled-right save2fa is-invisible">Save 2FA</a>
+                </div>
+                <br><br>
+            # end if
+          </details>
 
           <hr>
 
