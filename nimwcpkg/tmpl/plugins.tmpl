@@ -55,7 +55,7 @@
 #   var counter: int8
 #   for plugin in items(plugins):
 #     counter += 1
-#     let installed = if dirExists("plugins/" & plugin["foldername"].getStr()): true else: false
+#     let installed = dirExists("plugins/" & plugin["foldername"].getStr())
       <li>
       <article class="message pluginRepo ${if counter mod 2 == 0: "is-dark" else: "is-link"}" id="${plugin["foldername"].getStr.capitalizeAscii}">
         <div class="message-header">
@@ -71,7 +71,7 @@
             <span class="version git is-pulled-right"><b>Git version</b> <code>${plugin["version"].getStr()}</code></span>
 #         else:
             <span class="version is-pulled-right">
-              <b>Version:</b> <code>${plugin["version"].getStr()}</code>
+              <b>Version</b> <code>${plugin["version"].getStr()}</code>
             </span>
 #         end if
           </h5>
@@ -80,6 +80,13 @@
           ${plugin["description"].getStr()}
           <div><br>
 #         if installed:
+            <p><b>License:  </b> ${ plugin["license"].getStr } </p>
+            <p><b>Installed:</b> ${ getLastModificationTime("plugins/" & plugin["foldername"].getStr) } </p>
+            <details>
+              <summary>Git command</summary>
+              <input type="text" class="input is-lowercase is-family-monospace" disabled value="git clone ${plugin["url"].getStr()}">
+            </details>
+            <br>
             <a href="/plugins/repo/updateplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-warning button is-success is-fullwidth">Update</a><br>
             <a href="/plugins/repo/deleteplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-danger button is-danger is-fullwidth">Disable & Delete</a>
 #         else:
