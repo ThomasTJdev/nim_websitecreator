@@ -271,15 +271,18 @@ proc pluginSkeleton() =
     {
       "name": "$1",
       "foldername": "$2",
-      "version": "0.0.1",
+      "version": "0.1",
+      "requires": "$4",
       "url": "https://github.com/$3/$2",
       "method": "git",
       "description": "$2 plugin for Nim Website Creator.",
       "license": "MIT",
-      "web": ""
+      "web": "",
+      "email": "",
+      "sustainability": ""
     }
   ]
-  """.format(capitalizeAscii(pluginName), pluginName, getEnv("USER", "YourUser"))
+  """.format(capitalizeAscii(pluginName), pluginName, getEnv("USER", "YourUser"), nimwc_version.substr(0, 2))
 
   writeFile("tmp/" & pluginName & "/plugin.json", pluginJson)
   styledEcho(fgGreen, bgBlack, "NimWC: Created plugin skeleton, bye.")
