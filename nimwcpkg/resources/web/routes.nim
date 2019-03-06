@@ -759,6 +759,18 @@ routes:
     redirect("/users")
 
 
+  post "/users/reset":
+    createTFD()
+    restrictTestuser(HttpGet)
+    restrictAccessTo(c, [Admin])
+    discard tryExec(db, sql"DELETE FROM session WHERE userid = ?", @"userid")
+    discard tryExec(db, sql"UPDATE person SET name = ?, avatar = NULL, twofa = NULL, timezone = NULL WHERE id = ?", @"userid", @"userid")
+    if @"cleanout" == "true":
+      discard tryExec(db, sql"DELETE FROM pages WHERE author_id = ?", @"userid")
+      discard tryExec(db, sql"DELETE FROM blog WHERE author_id = ?", @"userid")
+    redirect("/users")
+
+
   get "/users/activate":
     createTFD()
     if @"id" == "" or @"ident" == "":

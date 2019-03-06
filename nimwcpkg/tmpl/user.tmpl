@@ -119,7 +119,7 @@
     <tr>
       <th>#</th>
       <th>ID</th>
-      <th>User</th>
+      <th>Name</th>
       <th>Mail</th>
       <th>Last online</th>
       <th>Rank</th>
@@ -132,7 +132,7 @@
     <tr>
       <th>#</th>
       <th>ID</th>
-      <th>User</th>
+      <th>Name</th>
       <th>Mail</th>
       <th>Last online</th>
       <th>Rank</th>
@@ -172,6 +172,7 @@
 # end for
     </tbody>
   </table>
+  <p class="pluginCount"><b>Total Users: </b><code>${allUsers.len}</code></p>
   <hr>
 
 # if c.rank in [Admin, Moderator]:
@@ -180,7 +181,7 @@
     <form method="post" action="/users/add">
       <div class="field">
         <label class="label">Name</label>
-        <input class="input" type="text" name="name" minlength="2" maxlength="60" required dir="auto" value="" placeholder="Username" pattern="[a-zA-Z0-9_]{2,60}" style="max-width:50%"/>
+        <input class="input" type="text" name="name" title="MarkDown, ResTructuredText, Plain Text" minlength="2" maxlength="60" required dir="auto" value="" placeholder="Username" pattern="[a-zA-Z0-9_]{2,60}" style="max-width:50%"/>
       </div>
       <div class="field">
         <label class="label">Email</label>
@@ -199,13 +200,36 @@
         </div>
       </div>
       <br>
-      <button type="submit" class="btn btn-success userDoAdd button is-success is-small">Add user</button>
+      <button type="submit" class="userDoAdd button is-success is-small">Add user</button>
     </form>
-  </details><br>
+  </details>
+  <hr>
 # end if
 
+
+# if c.rank == Admin:
+  <details>
+    <summary class="label">Quick user reset</summary>
+    <b>Admin can reset users by ID.</b>
+    <p>
+      <code>name</code> will be <code>id</code>. Disables 2 Factor Authentication and choosed Avatar.
+      <code>password</code> and <code>email</code> will not be changed. Users Blogs and Pages can be Deleted.
+      User will be logged out. User must login as soon as possible to Reconfigure its account.
+    </p>
+    <label class="label">ID</label>
+    <form method="post" action="/users/reset">
+      <input type="tel" id="userid" name="userid" title="User ID" class="form-control input has-text-centered has-text-weight-bold is-family-monospace" placeholder="User ID" min="1" step="1" maxlength="9" pattern="\d*" autocomplete="off" dir="auto" value="" style="width:9em" required /><br>
+      <label title="Delete all Pages and Blogs of this user"><input type="checkbox" name="cleanout" id="cleanout" > Delete Pages and Blogs of this user </label>
+      <br><br>
+      <button type="submit" class="button is-danger is-small">Reset user</button>
+    </form>
+  </details>
+  <hr>
+# end if
+
+
   <div class="notification is-danger">
-    Deleting users can not be undone.
+    Deleting users can not be undone. Resetting users can not be undone.
   </div>
 </div>
 #end proc
@@ -246,12 +270,12 @@
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Email<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="email" name="email" placeholder="email" type="email" autocomplete="username" class="form-control input" required minlength="3" maxlength="128" value="${user[2]}" dir="auto">
+            <input id="email" name="email" placeholder="email" type="email" autocomplete="username" class="form-control input" required minlength="3" maxlength="300" value="${user[2]}" dir="auto">
           </div>
 
           <div class="field" style="margin-bottom: 10px;">
             <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="password" name="password" type="password" placeholder="password" autocomplete="new-password" class="form-control input" maxlength="128" required value="" dir="auto"
+            <input id="password" name="password" type="password" placeholder="password" autocomplete="new-password" class="form-control input" maxlength="300" required value="" dir="auto"
             # when defined(demo) or defined(dev):
               minlength="4"
             # else:

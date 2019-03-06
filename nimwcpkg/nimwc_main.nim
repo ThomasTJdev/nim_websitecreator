@@ -10,7 +10,7 @@ when defined(windows):
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
-  base32, streams, encodings, nativesockets, libravatar, strtabs,
+  base32, streams, encodings, nativesockets, libravatar,
   oswalkdir as oc,
 
   resources/administration/create_adminuser,
