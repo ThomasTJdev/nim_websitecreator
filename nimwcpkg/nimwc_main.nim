@@ -10,7 +10,7 @@ when defined(windows):
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
-  base32, streams, encodings, nativesockets, libravatar,
+  base32, streams, encodings, nativesockets, libravatar, strtabs,
   oswalkdir as oc,
 
   resources/administration/create_adminuser,
@@ -28,6 +28,7 @@ import
   resources/web/google_recaptcha
 
 from md5 import getMD5
+from packages/docutils/rstgen import rstToHtml
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
