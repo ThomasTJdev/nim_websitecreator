@@ -181,7 +181,7 @@
     <form method="post" action="/users/add">
       <div class="field">
         <label class="label">Name</label>
-        <input class="input" type="text" name="name" title="MarkDown, ResTructuredText, Plain Text" minlength="2" maxlength="60" required dir="auto" value="" placeholder="Username" style="max-width:50%" pattern="^[\p{ASCII}]{3,60}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()">
+        <input class="input" type="text" name="name" title="MarkDown, ResTructuredText, Plain Text" minlength="2" maxlength="60" required dir="auto" value="" placeholder="Username" style="max-width:50%" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
       </div>
       <div class="field">
         <label class="label">Email</label>
@@ -261,7 +261,7 @@
         <form method="POST" action="/users/profile/update" style="background: white; padding: 10px; border: 1px solid grey; border-radius: 4px;">
           <div class="field" style="margin-bottom:9px">
             <label class="label">Name<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="name" name="name" type="text" placeholder="name" autocomplete="false" title="MarkDown, ResTructuredText, Plain Text" class="form-control input" required minlength="3" maxlength="60" value="${user[1]}" dir="auto" pattern="^[\p{ASCII}]{3,60}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()">
+            <input id="name" name="name" type="text" placeholder="name" autocomplete="false" title="MarkDown, ResTructuredText, Plain Text" class="form-control input" required minlength="3" maxlength="60" value="${user[1]}" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
             <label class="label">Name Preview</label>
             <p class="has-text-centered is-unselectable has-background-light">
               ${ rst2html(user[1]) }
