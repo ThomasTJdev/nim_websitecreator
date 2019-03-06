@@ -261,7 +261,7 @@
         <form method="POST" action="/users/profile/update" style="background: white; padding: 10px; border: 1px solid grey; border-radius: 4px;">
           <div class="field" style="margin-bottom:9px">
             <label class="label">Name<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="name" name="name" type="text" placeholder="name" autocomplete="false" title="MarkDown, ResTructuredText, Plain Text" class="form-control input" required minlength="3" maxlength="60" value="${user[1]}" dir="auto" pattern="^[\p{ASCII}]{3,60}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+            <input id="name" name="name" type="text" placeholder="name" autocomplete="false" title="MarkDown, ResTructuredText, Plain Text" class="form-control input" required minlength="3" maxlength="60" value="${user[1]}" dir="auto" pattern="^[\p{ASCII}]{3,60}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()">
             <label class="label">Name Preview</label>
             <p class="has-text-centered is-unselectable has-background-light">
               ${ rst2html(user[1]) }
@@ -270,7 +270,7 @@
 
           <div class="field" style="margin-bottom:9px">
             <label class="label">Email<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="email" name="email" placeholder="email" type="email" autocomplete="username" class="form-control input" required minlength="3" maxlength="300" value="${user[2]}" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+            <input id="email" name="email" placeholder="email" type="email" autocomplete="username" class="form-control input" required minlength="3" maxlength="300" value="${user[2]}" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()">
           </div>
 
           <div class="field" style="margin-bottom:9px">
