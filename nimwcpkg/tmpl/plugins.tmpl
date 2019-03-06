@@ -76,24 +76,35 @@
 #         end if
           </h5>
         </div>
+#           let mailz = plugin["email"].getStr.toLowerAscii.strip
+        <center>
+          <div class="image is-128x128">
+            <img class="image is-128x128 is-rounded libravatar" src="${ getLibravatarUrl(mailz) }" style="width:128px;height:128px;text-align:center">
+          </div>
+        </center>
         <div class="message-body">
-          ${ rst2html(plugin["description"].getStr) }
-          <div><br>
+          ${ rst2html(plugin["description"].getStr) } <br><br>
+        <div>
 #         if installed:
-#           var creationt = getLastModificationTime("plugins/" & plugin["foldername"].getStr).utc
-            <p><b>License:  </b> ${ plugin["license"].getStr } </p>
-            <p title="$creationt"><b>Installed:</b> ${ $days(now().utc - creationt) } Days ago. </p>
+            <ul>
+              <li><b>License:  </b> ${ plugin["license"].getStr } </li>
+              <li><b>Minimum NimWC Version:</b><code> ${ plugin["requires"].getStr } </code></li>
+              <li><b>Installed on:</b><code> ./plugins/${ plugin["foldername"].getStr }/ </code></li>
+              <li><b>Last Modification:</b> <code> ${ getLastModificationTime("plugins/" & plugin["foldername"].getStr).utc } </code></li>
+            </ul>
             <p><b>Tags:     </b></p>
             <div class="tags">
 #           for tagy in plugin["tags"]:
               <span class="tag is-small is-rounded is-capitalized"> $tagy.getStr </span>
 #           end for
             </div>
-            <details>
-              <summary>Git command</summary>
-              <input type="text" class="input is-lowercase is-family-monospace" disabled value="git clone ${plugin["url"].getStr()}">
+            <details style="opacity:.5">
+              <summary>Git</summary>
+              <input type="text" class="input is-lowercase is-family-monospace" readonly value="git clone ${plugin["url"].getStr()}"><br><br>
             </details>
-            <br>
+            <a href="${ if mailz.startsWith("http"): mailz else: "mailto:" & mailz }" class="button is-fullwidth is-small" title="Help, Support, Feedback, etc" target="_blank" style="opacity:.7">Talk to the Developer</a><br>
+            <a href="${ plugin["web"].getStr }" class="button is-fullwidth is-small" title="Go to Plugins web page" target="_blank" style="opacity:.7">Go to Plugins Web</a><br>
+            <a href="${ plugin["sustainability"].getStr }" class="button is-fullwidth is-small" title="Help to make Open Source Self-Sustainable" target="_blank" style="opacity:.7">Like & Subscribe</a><br>
             <a href="/plugins/repo/updateplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-warning button is-success is-fullwidth">Update</a><br>
             <a href="/plugins/repo/deleteplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-danger button is-danger is-fullwidth">Disable & Delete</a>
 #         else:
