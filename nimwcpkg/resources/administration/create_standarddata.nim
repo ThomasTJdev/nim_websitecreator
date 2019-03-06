@@ -23,7 +23,7 @@ const
   <link rel="icon" type="image/png" href="/images/logo/favicon-192x192.png" sizes="192x192">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/favicon-180x180.png">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
 
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/style_custom.css">
