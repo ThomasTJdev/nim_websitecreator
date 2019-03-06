@@ -181,11 +181,11 @@
     <form method="post" action="/users/add">
       <div class="field">
         <label class="label">Name</label>
-        <input class="input" type="text" name="name" title="MarkDown, ResTructuredText, Plain Text" minlength="2" maxlength="60" required dir="auto" value="" placeholder="Username" pattern="[a-zA-Z0-9_]{2,60}" style="max-width:50%"/>
+        <input class="input" type="text" name="name" title="MarkDown, ResTructuredText, Plain Text" minlength="2" maxlength="60" required dir="auto" value="" placeholder="Username" style="max-width:50%" value="${user[1]}" pattern="^[\p{ASCII}]{3,60}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()">
       </div>
       <div class="field">
         <label class="label">Email</label>
-        <input class="input" type="email" name="email" required value="" dir="auto" placeholder="user@example.com" minlength="5" style="max-width:50%"/>
+        <input class="input" type="email" name="email" required value="" dir="auto" placeholder="user@example.com" minlength="5" style="max-width:50%" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()"/>
       </div>
       <div class="field">
         <label class="label">Status</label>
