@@ -28,6 +28,7 @@ import
   resources/web/google_recaptcha
 
 from md5 import getMD5
+from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
 
 when defined(postgres): import db_postgres
@@ -392,6 +393,14 @@ template createTFD() =
 #
 # HTML tools
 #
+
+
+template rst2html*(stringy: string): string =
+  ## RST/MD to HTML using std lib.
+  try:
+    rstToHtml(stringy.strip, {}, newStringTable(modeStyleInsensitive))
+  except:
+    stringy
 
 
 template checkboxToInt(checkboxOnOff: string): string =

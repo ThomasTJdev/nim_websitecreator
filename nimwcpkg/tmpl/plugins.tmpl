@@ -77,7 +77,7 @@
           </h5>
         </div>
         <div class="message-body">
-          ${ rstToHtml(plugin["description"].getStr, {}, newStringTable(modeStyleInsensitive)) }
+          ${ rst2html(plugin["description"].getStr) }
           <div><br>
 #         if installed:
 #           var creationt = getLastModificationTime("plugins/" & plugin["foldername"].getStr).utc
