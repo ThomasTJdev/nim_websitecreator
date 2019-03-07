@@ -391,6 +391,10 @@ template createTFD() =
 #
 
 
+template minifyHtml*(htmlstr: string): string =
+  when defined(release): replace(htmlstr, re">\s+<", "> <").strip else: htmlstr
+
+
 template checkboxToInt(checkboxOnOff: string): string =
   ## When posting checkbox data from HTML form
   ## an "on" is sent when true. Convert to 1 or 0.
