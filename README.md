@@ -337,6 +337,8 @@ meaning that the real ones can not be altered from within NimWC.
 `noMnt=false` is for when you run multiple instances NimWC per server,
 because it may or may not block other instances of accesing subfolders on `/mnt/` simultaneously.
 
+`noX=false` if you are running a headless server.
+
 The features come from the Linux Kernel itself,
 so theres zero cost on performance and the technology is already there even if you use it or not.
 
