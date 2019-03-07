@@ -109,7 +109,7 @@ const
 
   nimwc_version =
     try:
-      filter_it("nimwc.nimble".readFile.splitLines, it.substr(0, 6) == "version")[0].split("=")[1].normalize ## Get NimWC Version at Compile-Time.
+      filter_it("nimwc.nimble".readFile.splitLines, it.substr(0, 6) == "version")[0].split("= ")[1].normalize.replace("\"", "") ## Get NimWC Version at Compile-Time.
     except:
       "5.0.0"  ## Set NimWC Version at Compile-Time, if ready from file failed.
 
@@ -245,6 +245,9 @@ proc updateNimwc() =
 
 proc pluginSkeleton() =
   ## Creates the skeleton (folders and files) for a plugin
+  const reqRoutes = "  get \"/$1/settings\":\n    resp(\"Plugin settings\")"
+  const reqCode = "proc $1Start*(db: DbConn) =\n  discard"
+
   styledEcho(fgCyan, bgBlack,
     "NimWC: Creating plugin skeleton\nThe plugin will be created inside tmp/")
   let pluginName = normalize(readLineFromStdin("Plugin name: "))
@@ -256,8 +259,8 @@ proc pluginSkeleton() =
   discard existsOrCreateDir("tmp/" & pluginName & "/public")
 
   # Create files
-  writeFile("tmp/" & pluginName & "/" & pluginName & ".nim", "# Code your plugins Backend logic here.\n")
-  writeFile("tmp/" & pluginName & "/routes.nim", "# https://github.com/dom96/jester#routes\n")
+  writeFile("tmp/" & pluginName & "/" & pluginName & ".nim", "# Code your plugins Backend logic here.\n" & reqCode.format(pluginName))
+  writeFile("tmp/" & pluginName & "/routes.nim", "  # https://github.com/dom96/jester#routes\n" & reqRoutes.format(pluginName))
   writeFile("tmp/" & pluginName & "/public/js.js", "/* https://github.com/pragmagic/karax OR Vanilla JavaScript */\n")
   writeFile("tmp/" & pluginName & "/public/style.css", "/* https://bulma.io/documentation OR https://picturepan2.github.io/spectre OR https://getbootstrap.com */\n")
 
