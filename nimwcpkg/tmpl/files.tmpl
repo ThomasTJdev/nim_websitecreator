@@ -19,6 +19,38 @@
 <div id="files">
   <h1 class="has-text-centered">Files</h1>
 
+  <details id="fileAddContainer">
+    <summary class="label">Upload new file</summary>
+    <form id="fileAdd" >
+      <div class="form-group">
+        <div style="margin-bottom: 10px;">
+
+          <div class="custom-control custom-radio">
+            <input data-value="publicimage" type="radio" id="fileRadio1" name="fileRadio" class="custom-control-input" checked required >
+            <label class="custom-control-label" for="fileRadio1">Public image</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input data-value="private" type="radio" id="fileRadio2" name="fileRadio" class="custom-control-input" required >
+            <label class="custom-control-label" for="fileRadio2">Private file</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input data-value="public" type="radio" id="fileRadio3" name="fileRadio" class="custom-control-input" required >
+            <label class="custom-control-label" for="fileRadio3">Public file</label>
+          </div>
+
+          <label title="WebP is ~50% size of JPG"><input type="checkbox" name="webpstatus" id="webpstatus"> Compress PNG and JPG using WEBP </label><br>
+          <label title="Force lowercase filename"><input type="checkbox" name="normalize" id="normalize" checked > Lowercase filename </label><br>
+          <label title="Use the MD5 CheckSum as filename"><input type="checkbox" name="checksum" id="checksum"> Use CheckSum as filename </label>
+
+        </div>
+        <input type="file" class="form-control-file" id="file" name="file" required >
+      </div>
+      <button class="fileUpload button is-success" onClick="uploadFile()">Upload</button>
+    </form>
+  </details>
+
+  <hr>
+
   <h4>Public Files (<code>/public/images/</code>)</h4>
 
   <table class="table is-bordered is-striped is-hoverable is-fullwidth">
@@ -155,36 +187,6 @@
   </table>
   <b>Total files:</b> <code> $counter </code>
   <hr>
-
-  <details id="fileAddContainer">
-    <summary class="label">Upload new file</summary>
-    <form id="fileAdd" >
-      <div class="form-group">
-        <div style="margin-bottom: 10px;">
-
-          <div class="custom-control custom-radio">
-            <input data-value="publicimage" type="radio" id="fileRadio1" name="fileRadio" class="custom-control-input" checked required >
-            <label class="custom-control-label" for="fileRadio1">Public image</label>
-          </div>
-          <div class="custom-control custom-radio">
-            <input data-value="private" type="radio" id="fileRadio2" name="fileRadio" class="custom-control-input" required >
-            <label class="custom-control-label" for="fileRadio2">Private file</label>
-          </div>
-          <div class="custom-control custom-radio">
-            <input data-value="public" type="radio" id="fileRadio3" name="fileRadio" class="custom-control-input" required >
-            <label class="custom-control-label" for="fileRadio3">Public file</label>
-          </div>
-
-          <label title="WebP is ~50% size of JPG"><input type="checkbox" name="webpstatus" id="webpstatus"> Compress PNG and JPG using WEBP </label><br>
-          <label title="Force lowercase filename"><input type="checkbox" name="normalize" id="normalize" checked > Lowercase filename </label><br>
-          <label title="Use the MD5 CheckSum as filename"><input type="checkbox" name="checksum" id="checksum"> Use CheckSum as filename </label>
-
-        </div>
-        <input type="file" class="form-control-file" id="file" name="file" required >
-      </div>
-      <button class="fileUpload button is-success" onClick="uploadFile()">Upload</button>
-    </form>
-  </details>
 
   <br>
   <div class="notification is-danger">
