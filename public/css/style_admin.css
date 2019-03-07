@@ -474,6 +474,16 @@ div#user input.twofaEnabled {
   }
 }
 
+/*
+  Users profile image
+*/
+div#user.image {
+  background: white;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid;
+}
+
 
 
 /*
