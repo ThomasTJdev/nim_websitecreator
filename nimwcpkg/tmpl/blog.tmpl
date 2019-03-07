@@ -35,7 +35,7 @@
 #   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags, viewCount, pubDate FROM blog WHERE status IN " & status & " ORDER BY " & sortingOrder))
 # end if
 
-<div class="align-centeredt">
+<div class="has-text-centered">
   <h1>All blog posts</h1>
   # if c.loggedIn:
     <h4>You are logged in, so all post are visible</h4>
