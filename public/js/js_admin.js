@@ -52,17 +52,8 @@ function pluginChangeStatus(pluginName, pluginStatus) {
 /*
     Files
 */
-const btnFileAdd = document.querySelector("button.fileAdd");
-const btnFileUpload = document.querySelector("button.fileUpload");
 const $btnFileDelete = document.querySelectorAll("span.deleteFile");
-if (btnFileAdd != null) {
-  btnFileAdd.addEventListener('click', function () {
-    document.querySelector("form#fileAdd").classList.toggle("hidden");
-  });
-  btnFileUpload.addEventListener('click', function () {
-    uploadFile();
-  });
-}
+
 if ($btnFileDelete.length) {
   $btnFileDelete.forEach( el => {
     el.addEventListener('click', function (event) {
@@ -77,12 +68,14 @@ if ($btnFileDelete.length) {
 function uploadFile(projectID) {
   var access    = $("input[name=fileRadio]:checked").attr("data-value");
   var webp      = $("#webpstatus").is(":checked");
+  var norm      = $("#normalize").is(":checked");
+  var chks      = $("#checksum").is(":checked");
   var file      = $("#file").get(0).files[0];
   var filename  = file.name;
   var formData  = new FormData();
   formData.append('file', file);
   $.ajax({
-    url: "/files/upload/" + access + "?webpstatus=" + webp,
+    url: "/files/upload/" + access + "?webpstatus=" + webp + "&normalize=" + norm + "&checksum=" + chks,
     data: formData,
     type: 'POST',
     cache: false,
@@ -250,7 +243,7 @@ function userUploadProfilePictures(dataURL) {
       if (response.slice(0,5) == "Error") {
         console.log("Error: Uploading new image");
       } else {
-        $(".alert").show(200);
+        location.reload();
       }
     }
   });

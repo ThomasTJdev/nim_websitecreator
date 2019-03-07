@@ -27,14 +27,14 @@
         <div class="field">
           <div class="control">
             <label class="label">Name</label>
-            <input class="input" type="text" id="name" name="name" minlength="2" maxlength="128" placeholder="Type Name for new Page" required value="${page[7]}" dir="auto">
+            <input class="input" type="text" id="name" name="name" minlength="2" maxlength="128" placeholder="Type Name for new Page" required value="${page[7]}" dir="auto" pattern="^[\p{ASCII}]{2,128}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
           </div>
         </div>
 
         <div class="field">
           <div class="control">
             <label class="label">URL</label>
-            <input class="input" type="text" id="url" name="url" minlength="2" maxlength="128" placeholder="eg. portfolio" value="${decodeUrl(page[8])}" required dir="auto">
+            <input class="input" type="text" id="url" name="url" minlength="2" maxlength="128" placeholder="eg. portfolio" value="${decodeUrl(page[8])}" required dir="auto" pattern="^[\p{ASCII}]{2,128}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()">
           </div>
         </div>
 

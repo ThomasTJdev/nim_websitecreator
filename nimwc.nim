@@ -109,7 +109,7 @@ const
 
   nimwc_version =
     try:
-      filter_it("nimwc.nimble".readFile.splitLines, it.substr(0, 6) == "version")[0].split("=")[1].normalize ## Get NimWC Version at Compile-Time.
+      filter_it("nimwc.nimble".readFile.splitLines, it.substr(0, 6) == "version")[0].split("= ")[1].normalize.replace("\"", "") ## Get NimWC Version at Compile-Time.
     except:
       "5.0.0"  ## Set NimWC Version at Compile-Time, if ready from file failed.
 
@@ -245,11 +245,13 @@ proc updateNimwc() =
 
 proc pluginSkeleton() =
   ## Creates the skeleton (folders and files) for a plugin
+  const reqRoutes = "  get \"/$1/settings\":\n    resp(\"Plugin settings\")"
+  const reqCode = "proc $1Start*(db: DbConn) =\n  discard"
 
   styledEcho(fgCyan, bgBlack,
     "NimWC: Creating plugin skeleton\nThe plugin will be created inside tmp/")
   let pluginName = normalize(readLineFromStdin("Plugin name: "))
-  echo ""
+  assert pluginName.len > 0, "Plugin Name must not be empty string: " & pluginName
 
   # Create dirs
   discard existsOrCreateDir("tmp")
@@ -257,13 +259,13 @@ proc pluginSkeleton() =
   discard existsOrCreateDir("tmp/" & pluginName & "/public")
 
   # Create files
-  writeFile("tmp/" & pluginName & "/" & pluginName & ".nim", "")
-  writeFile("tmp/" & pluginName & "/routes.nim", "")
-  writeFile("tmp/" & pluginName & "/public/js.js", "")
-  writeFile("tmp/" & pluginName & "/public/style.css", "")
+  writeFile("tmp/" & pluginName & "/" & pluginName & ".nim", "# Code your plugins Backend logic here.\n" & reqCode.format(pluginName))
+  writeFile("tmp/" & pluginName & "/routes.nim", "  # https://github.com/dom96/jester#routes\n" & reqRoutes.format(pluginName))
+  writeFile("tmp/" & pluginName & "/public/js.js", "/* https://github.com/pragmagic/karax OR Vanilla JavaScript */\n")
+  writeFile("tmp/" & pluginName & "/public/style.css", "/* https://bulma.io/documentation OR https://picturepan2.github.io/spectre OR https://getbootstrap.com */\n")
 
-  if readLineFromStdin("Include optional files (y/N): ").string.strip.toLowerAscii == "y":
-    writeFile("tmp/" & pluginName & "/html.tmpl", "")
+  if readLineFromStdin("\nInclude optional CSS/JS files (y/N): ").string.strip.toLowerAscii == "y":
+    writeFile("tmp/" & pluginName & "/html.tmpl", "<!-- https://nim-lang.org/docs/filters.html -->\n")
     writeFile("tmp/" & pluginName & "/public/js_private.js", "")
     writeFile("tmp/" & pluginName & "/public/style_private.css", "")
 
@@ -272,18 +274,21 @@ proc pluginSkeleton() =
     {
       "name": "$1",
       "foldername": "$2",
-      "version": "0.0.1",
-      "url": "",
+      "version": "0.1",
+      "requires": "$4",
+      "url": "https://github.com/$3/$2",
       "method": "git",
-      "description": "$3 plugin for Nim Website Creator.",
+      "description": "$2 plugin for Nim Website Creator.",
       "license": "MIT",
-      "web": ""
+      "web": "",
+      "email": "",
+      "sustainability": ""
     }
   ]
-  """.format(capitalizeAscii(pluginName), pluginName, pluginName)
+  """.format(capitalizeAscii(pluginName), pluginName, getEnv("USER", "YourUser"), nimwc_version.substr(0, 2))
 
   writeFile("tmp/" & pluginName & "/plugin.json", pluginJson)
-  styledEcho(fgGreen, bgBlack, "NimWC: Created plugin skeleton.")
+  styledEcho(fgGreen, bgBlack, "NimWC: Created plugin skeleton, bye.")
 
 if "help" in args:
   styledEcho(fgGreen, bgBlack, doc)
