@@ -243,7 +243,7 @@ function userUploadProfilePictures(dataURL) {
       if (response.slice(0,5) == "Error") {
         console.log("Error: Uploading new image");
       } else {
-        $(".alert").show(200);
+        location.reload();
       }
     }
   });
