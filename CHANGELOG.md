@@ -11,6 +11,7 @@
 
 
 ### Breaking changes
+- Plugins.json structure changed
 - New column in `person` table: `avatar`:
 ```sql
 ALTER TABLE person ADD COLUMN avatar VARCHAR(300);
