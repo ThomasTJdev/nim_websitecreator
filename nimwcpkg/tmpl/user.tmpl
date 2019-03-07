@@ -390,6 +390,18 @@
 <div class="columns">
   <div class="column">
     <label>
+    <input type="radio" name="avatar" required value="/users/photo/stream/${c.userid}.png">
+    <img class="image is-128x128 libravatar" src="/users/photo/stream/${c.userid}.png" title="Custom" alt="Custom" style="max-width:99%">
+    </label>
+  </div>
+  <div class="column">
+    <label>
+    <input type="radio" name="avatar" required value="/images/avatar.jpg">
+      <img class="image is-128x128 libravatar" src="/images/avatar.jpg" title="Default Avatar" alt="Default Avatar">
+    </label>
+  </div>
+  <div class="column">
+    <label>
     <input type="radio" name="avatar" required value="${ getLibravatarUrl($c.email, size=250, default="https://seccdn.libravatar.org/static/img/nobody/250.png") }">
       <img class="image is-128x128 libravatar" src="${ getLibravatarUrl($c.email, size=250, default="https://seccdn.libravatar.org/static/img/nobody/250.png") }" title="Libravatar / Gravatar" alt="Libravatar / Gravatar">
     </label>
@@ -425,18 +437,6 @@
     <label>
     <input type="radio" name="avatar" required value="${ getLibravatarUrl("", size=128, default="wavatar", forcedefault=true) }">
       <img class="image is-128x128 libravatar" src="${ getLibravatarUrl("", size=128, default="wavatar", forcedefault=true) }" title="Wavatar" alt="Wavatar">
-    </label>
-  </div>
-  <div class="column">
-    <label>
-    <input type="radio" name="avatar" required value="/images/avatar.jpg">
-      <img class="image is-128x128 libravatar" src="/images/avatar.jpg" title="Default Avatar" alt="Default Avatar">
-    </label>
-  </div>
-  <div class="column">
-    <label>
-    <input type="radio" name="avatar" required value="/users/photo/stream/${c.userid}.png">
-    <img class="image is-128x128 libravatar" src="/users/photo/stream/${c.userid}.png" title="Custom" alt="Custom" style="max-width:99%">
     </label>
   </div>
 </div>
