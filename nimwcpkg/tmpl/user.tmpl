@@ -351,7 +351,7 @@
 
           <h5 class="has-text-centered">Avatar</h5>
           <center>
-            <img class="is-128x128 libravatar" title="${c.email}'s Avatar" alt="${c.email}'s Avatar" src="${user[6]}" style="width:128px;height:128px;text-align:center">
+            <img class="is-128x128 libravatar" title="${c.email}'s Avatar" alt="${c.email}'s Avatar" src="${if user[6] == "": "/images/avatar.jpg" else: user[6]}" style="width:128px;height:128px;text-align:center">
           </center>
           <a href="/users/profile/avatar" class="button is-success is-fullwidth">Change photo</a>
 
