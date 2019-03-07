@@ -104,7 +104,7 @@
             </details>
             <a href="${ if mailz.startsWith("http"): mailz else: "mailto:" & mailz }" class="button is-fullwidth is-small" title="Help, Support, Feedback, etc" target="_blank" style="opacity:.7">Talk to the Developer</a><br>
             <a href="${ plugin["web"].getStr }" class="button is-fullwidth is-small" title="Go to Plugins web page" target="_blank" style="opacity:.7">Go to Plugins Web</a><br>
-            <a href="${ plugin["sustainability"].getStr }" class="button is-fullwidth is-small" title="Help to make Open Source Self-Sustainable" target="_blank" style="opacity:.7">Like & Subscribe</a><br>
+            <a href="${ plugin["sustainability"].getStr }" class="button is-fullwidth is-small" title="Help to make Open Source Self-Sustainable" target="_blank" style="opacity:.7">Subscribe to this Plugin</a><br>
             <a href="/plugins/repo/updateplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-warning button is-success is-fullwidth">Update</a><br>
             <a href="/plugins/repo/deleteplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-danger button is-danger is-fullwidth">Disable & Delete</a>
 #         else:
