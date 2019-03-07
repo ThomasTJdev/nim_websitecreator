@@ -76,10 +76,10 @@
 #         end if
           </h5>
         </div>
-#           let mailz = plugin["email"].getStr.toLowerAscii.strip
+#           let mail = plugin["email"].getStr.toLowerAscii.strip
         <center>
           <div class="image is-128x128">
-            <img class="image is-128x128 is-rounded libravatar" src="${ getLibravatarUrl(mailz) }" style="width:128px;height:128px;text-align:center">
+            <img class="image is-128x128 is-rounded libravatar" src="${ getLibravatarUrl(mail) }" style="width:128px;height:128px;text-align:center">
           </div>
         </center>
         <div class="message-body">
@@ -102,7 +102,7 @@
               <summary>Git</summary>
               <input type="text" class="input is-lowercase is-family-monospace" readonly value="git clone ${plugin["url"].getStr()}"><br><br>
             </details>
-            <a href="${ if mailz.startsWith("http"): mailz else: "mailto:" & mailz }" class="button is-fullwidth is-small" title="Help, Support, Feedback, etc" target="_blank" style="opacity:.7">Talk to the Developer</a><br>
+            <a href="${ if mail.startsWith("http"): mail else: "mailto:" & mail }" class="button is-fullwidth is-small" title="Help, Support, Feedback, etc" target="_blank" style="opacity:.7">Talk to the Developer</a><br>
             <a href="${ plugin["web"].getStr }" class="button is-fullwidth is-small" title="Go to Plugins web page" target="_blank" style="opacity:.7">Go to Plugins Web</a><br>
             <a href="${ plugin["sustainability"].getStr }" class="button is-fullwidth is-small" title="Help to make Open Source Self-Sustainable" target="_blank" style="opacity:.7">Subscribe</a><br>
             <a href="/plugins/repo/updateplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="btn btn-warning button is-success is-fullwidth">Update</a><br>
