@@ -1,3 +1,22 @@
+## v5.1.0
+### Changes
+- Support for libravatar on profile picture
+- Updated Bulma version
+- Admin can reset user
+- Design of plugin store is updated
+- Design of user overview
+- Design of user profile
+- Copy NimWC log with 1 click
+- Set uploaded files filename to lowercase or use MD5 checksum
+
+
+### Breaking changes
+- New column in `person` table: `avatar`:
+```sql
+ALTER TABLE person ADD COLUMN avatar VARCHAR(300);
+```
+
+
 ## v5.0.0
 ### Changes
 - Add Server Info page for Admins, it displays runtime server stats
