@@ -167,7 +167,12 @@
        ${toUpperAscii($(user[6].len > 6))}
     # end if
     </td>
-    <td> <a href="${user[7]}" target="_blank">${toUpperAscii($(user[7].len > 0))}</a> </td>
+    <td>
+    # if user[7].len > 0:
+      <a href="${user[7]}" target="_blank">${toUpperAscii($(user[7].len > 0))}</a> </td>
+    # else:
+      FALSE
+    # end if
     <td class="is-danger has-text-centered"><a class="delete" href="/users/delete/${user[0]}" title="Kill ${user[1]} ?"></a></td>
 # end for
     </tbody>
@@ -210,14 +215,15 @@
 # if c.rank == Admin:
   <details>
     <summary class="label">Quick user reset</summary>
-    <b>Admin can reset users by ID.</b>
+    <b>Reset user by ID</b>
     <p>
-      <code>name</code> will be <code>id</code>. Disables 2 Factor Authentication and choosed Avatar.
-      <code>password</code> and <code>email</code> will not be changed. Users Blogs and Pages can be Deleted.
-      User will be logged out. User must login as soon as possible to Reconfigure.
+      The <code>name</code> will be changed to the <code>user id</code>. Disables 2 Factor Authentication and choosed Avatar.
+      The <code>password</code> and <code>email</code> will not be changed.
+      Blogs and Pages created by the user can be deleted.
+      The user will be logged out. The user must login as soon as possible to reconfigure.
     </p>
-    <label class="label">ID</label>
     <form method="post" action="/users/reset">
+      <br>
       <input type="tel" id="userid" name="userid" title="User ID" class="form-control input has-text-centered has-text-weight-bold is-family-monospace" placeholder="User ID" min="1" step="1" maxlength="9" pattern="\d*" autocomplete="off" dir="auto" value="" style="width:9em" required /><br>
       <label title="Delete all Pages and Blogs of this user"><input type="checkbox" name="cleanout" id="cleanout" > Delete Pages and Blogs of this user </label>
       <br><br>
