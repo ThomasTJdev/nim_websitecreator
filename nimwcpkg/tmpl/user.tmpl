@@ -54,16 +54,16 @@
           >
         </div>
       </div>
-      <div class="field form-group">
-        <label class="label">2 Factor Auth (TOTP)</label>
+      <details class="field form-group">
+        <summary class="label">2 Factor Auth (TOTP)</summary>
         <div class="control has-icons-left has-icons-right">
-          <input type="number" class="form-control input is-rounded has-text-centered" name="totp" placeholder="6 Digit Number" min="000000" max="999999" step="1" dir="auto"
+          <input type="tel" class="form-control input is-rounded has-text-centered is-family-monospace" name="totp" placeholder="6 Digit Number" min="000000" max="999999" step="1" maxlength="6" dir="auto" pattern="\d*" autocomplete="off"
           # when defined(demo):
             value="123456"
           # end when
           >
         </div>
-      </div>
+      </details>
 
       #if useCaptcha:
         <div id="recaptcha">
