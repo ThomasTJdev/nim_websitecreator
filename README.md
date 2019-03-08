@@ -23,6 +23,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - ReCAPTCHA
 - HoneyPot-Field
 - BCrypt+Salt password hashing
+- No user Tracking Analytics
 - SQL Type-checked and Query-checked at compile-time, no SQL injections.
 - Multiple users with different ranks, role based access control.
 - Admin can choose how much CPU & RAM NimWC can use from the Admin Dashboard.
