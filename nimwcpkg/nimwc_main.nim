@@ -10,7 +10,7 @@ when defined(windows):
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
-  base32, streams, encodings, nativesockets,
+  base32, streams, encodings, nativesockets, libravatar,
   oswalkdir as oc,
 
   resources/administration/create_adminuser,
@@ -26,6 +26,10 @@ import
   resources/utils/logging_nimwc,
   resources/utils/plugins,
   resources/web/google_recaptcha
+
+from md5 import getMD5
+from strtabs import newStringTable, modeStyleInsensitive
+from packages/docutils/rstgen import rstToHtml
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
@@ -393,6 +397,14 @@ template createTFD() =
 
 template minifyHtml*(htmlstr: string): string =
   when defined(release): replace(htmlstr, re">\s+<", "> <").strip else: htmlstr
+
+
+template rst2html*(stringy: string): string =
+  ## RST/MD to HTML using std lib.
+  try:
+    rstToHtml(stringy.strip, {}, newStringTable(modeStyleInsensitive))
+  except:
+    stringy
 
 
 template checkboxToInt(checkboxOnOff: string): string =

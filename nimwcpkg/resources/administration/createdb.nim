@@ -35,7 +35,8 @@ const
       status     varchar(30)   not null,
       timezone   varchar(100),
       secretUrl  varchar(250),
-      lastOnline $2            not null           default $1
+      lastOnline $2            not null           default $1,
+      avatar     varchar(300)
     );""".format(sql_now, sql_timestamp, sql_id))
 
   sessionTable = sql("""

@@ -123,13 +123,13 @@
             # end if
             >Firejail</a></div>
           </div>
-          <hr>
           # end when
 
 
           # end if
 
           # when defined(demo):
+            <hr>
             <div class="notification is-danger" style="padding-top: 15px;">
               <b class="is-uppercase has-text-warning" title="Test user cant access the Core">
                 Some options are disabled on Demo!.
@@ -162,7 +162,7 @@
   <form class="standard settings" method="post" action="/settings/update">
     <div>
       <label class="label">Title</label>
-      <input class="input" name="title" id="title" required value="${page[4]}" style="width: 300px;" dir="auto"/>
+      <input type="text" class="input" name="title" id="title" required value="${page[4]}" style="width: 300px;" dir="auto" pattern="^[\p{ASCII}]{1,99}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')"/>
     </div>
     <br>
     <div>

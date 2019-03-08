@@ -35,7 +35,7 @@
 #   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags, viewCount, pubDate FROM blog WHERE status IN " & status & " ORDER BY " & sortingOrder))
 # end if
 
-<div class="align-centeret">
+<div class="has-text-centered">
   <h1>All blog posts</h1>
   # if c.loggedIn:
     <h4>You are logged in, so all post are visible</h4>
@@ -46,16 +46,16 @@
 
 # if allBlogPages.len < 1:
 #
-  <div class="align-centeret">
-    <h3><i>No blog posts</i></h3>
+  <div class="has-text-centered">
+    <h3 class="has-text-centered"><i>No blog posts</i></h3>
   </div>
 #
 # else:
 #
 #   if category.len() != 0:
-      <div class="align-centeret"><h3><i>Category: ${category}</i></h3></div>
+      <div class="has-text-centered"><h3 class="has-text-centered"><i>Category: ${category}</i></h3></div>
 #   elif tags.len() != 0:
-      <div class="align-centeret"><h3><i>Tags: ${tags}</i></h3></div>
+      <div class="has-text-centered"><h3 class="has-text-centered"><i>Tags: ${tags}</i></h3></div>
 #   end if
 #
   <ul class="list-group">

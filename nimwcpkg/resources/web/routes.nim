@@ -330,6 +330,17 @@ routes:
     let tos = readFile(getAppDir() & "/tmpl/tos.html")
     resp minifyHtml(tos)
 
+  get "/users/profile/avatar":
+    createTFD()
+    resp genMainAdmin(c, genAvatar(c))
+
+  post "/users/profile/avatar/save":
+    createTFD()
+    restrictTestuser(c.req.reqMethod)
+    if len(@"avatar") > 0:
+      exec(db, sql"UPDATE person SET avatar = ? WHERE id = ?", @"avatar", c.userid)
+    redirect("/users/profile")
+
   get "/settings/firejail":
     createTFD()
     restrictTestuser(c.req.reqMethod)
@@ -533,11 +544,23 @@ routes:
     if @"access" notin ["private", "public", "publicimage"]:
       resp("Error: Missing access right")
 
-    let filename  = request.formData["file"].fields["filename"]
-    var path: string
+    const
+      efspublic = storageEFS & "/files/public/"
+      efsprivate = storageEFS & "/files/private/"
+    var
+      path: string
+      filename  = request.formData["file"].fields["filename"]
+    let
+      filedata = request.formData.getOrDefault("file").body
+      fileexts = filename.splitFile.ext
+      usesWebp = @"webpstatus" == "true" and fileexts in [".png", ".jpg", ".jpeg"]
 
-    const efspublic = storageEFS & "/files/public/"
-    const efsprivate = storageEFS & "/files/private/"
+    if not usesWebp and @"checksum" == "true":
+      filename = getMD5(filedata) & fileexts
+
+    if @"normalize" == "true":
+      filename = filename.normalize
+
     if @"access" == "publicimage":
       path = "public/images/" & filename
     elif @"access" == "public":
@@ -550,11 +573,10 @@ routes:
     if fileExists(path):
       resp("Error: A file with the same name exists")
 
-    writeFile(path, request.formData.getOrDefault("file").body)
+    writeFile(path, filedata)
     when defined(webp):
-      if @"webpstatus" == "true":
-        if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
-          discard cwebp(path, path, "drawing", quality=25)  # This sets quality of WEBP
+      if usesWebp:
+        discard cwebp(path, path, "drawing", quality=25)  # This sets quality of WEBP
     if fileExists(path) and @"access" != "publicimage":
       # TODO: There should not be a row with the file. But if the user manually
       # deletes the file and reuploads it, it will still be present in th DB.
@@ -737,6 +759,18 @@ routes:
     redirect("/users")
 
 
+  post "/users/reset":
+    createTFD()
+    restrictTestuser(HttpGet)
+    restrictAccessTo(c, [Admin])
+    discard tryExec(db, sql"DELETE FROM session WHERE userid = ?", @"userid")
+    discard tryExec(db, sql"UPDATE person SET name = ?, avatar = NULL, twofa = NULL, timezone = NULL WHERE id = ?", @"userid", @"userid")
+    if @"cleanout" == "true":
+      discard tryExec(db, sql"DELETE FROM pages WHERE author_id = ?", @"userid")
+      discard tryExec(db, sql"DELETE FROM blog WHERE author_id = ?", @"userid")
+    redirect("/users")
+
+
   get "/users/activate":
     createTFD()
     if @"id" == "" or @"ident" == "":
@@ -771,6 +805,7 @@ routes:
     let base64 = split(c.req.body, ",")[1]
 
     try:
+      discard existsOrCreateDir(storageEFS & "/users")
       writeFile(path & ".txt", base64)
       discard execProcess("base64 -d > " & path & ".png < " & path & ".txt")
       removeFile(path & ".txt")
