@@ -477,7 +477,7 @@ when isMainModule:
 
   # When Demo Mode, Reset everything at start, create Test User, create Test Data, for use with Firejail `timeout=1`
   when defined(demo):
-    {. hint: "Demo is Enabled, Database Resets Automatically every hour.", passC: "-flto -ffast-math -march=native" .}
+    {. hint: "Demo is Enabled, Database Resets Automatically every hour." .}
     const resetSql = sql"DELETE FROM session; DELETE FROM pages; DELETE FROM blog; DELETE FROM files; DELETE FROM person"
     exec(db, resetSql)      # Reset everything
     createTestUser(db)      # Recreate Demo user
