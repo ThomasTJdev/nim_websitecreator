@@ -13,7 +13,8 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - WYSIWYG & Drag'n'Drop Editors with [Summernote](https://summernote.org), [CodeMirror](https://codemirror.net) or [GrapesJS](https://grapesjs.com).
 - Custom title, meta description and keywords for each page, SEO friendly.
 - Custom head, navbar and footer, no hardcoded watermarks, links or logos.
-- Upload files and images (private or public) directly from browser.
+- Upload/Download files and images (private or public), option to use MD5 CheckSum as filename.
+- Libravatar/Gravatar support for profile photos builtin.
 - 1 language for the whole stack, including high performance modules, scripting, devops, deploy, from WebAssembly to Assembly.
 
 ## Security
@@ -78,22 +79,25 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 To get started you only need:
 
 - Linux (For Windows [see Docker-for-Windows](http://docs.docker.com/docker-for-windows))
-- Nim >= `0.19.2`
+- Nim >= `0.19.4`
 
 Development dependencies (automatically installed by Nimble):
 
-- [Jester](https://github.com/dom96/jester/)    >= `0.4.1`
+- [Jester](https://github.com/dom96/jester/) >= `0.4.1`
 - [reCAPTCHA](https://github.com/euantorano/recaptcha.nim) >= `1.0.2`
-- [bCrypt](https://github.com/runvnc/bcryptnim)    >= `0.2.1`
+- [bCrypt](https://github.com/runvnc/bcryptnim) >= `0.2.1`
 - [datetime2human](https://github.com/juancarlospaco/nim-datetime2human) >= `0.2.2`
-- [otp](https://github.com/OpenSystemsLab/otp.nim)       >= `0.1.1`
-- [firejail](https://github.com/juancarlospaco/nim-firejail)  >= `0.4.0`
-- [webp](https://github.com/juancarlospaco/nim-webp-tools)      >= `0.1.0`
+- [otp](https://github.com/OpenSystemsLab/otp.nim) >= `0.1.1`
+- [Firejail](https://github.com/juancarlospaco/nim-firejail) >= `0.5.0`
+- [WebP](https://github.com/juancarlospaco/nim-webp-tools) >= `0.2.0`
+- [Libravatar](https://github.com/juancarlospaco/nim-libravatar#nim-libravatar) >= `0.4.0`
 
-Foreing dependencies:
+Foreing optional dependencies:
 
-- webp (libwebp)
-- firejail >= 0.9.58
+- webp (`libwebp`)
+- firejail >= `0.9.58`
+- Xvfb (`xorg-server-xvfb`)
+
 
 # Install
 
@@ -337,7 +341,10 @@ meaning that the real ones can not be altered from within NimWC.
 `noMnt=false` is for when you run multiple instances NimWC per server,
 because it may or may not block other instances of accesing subfolders on `/mnt/` simultaneously.
 
-`noX=false` if you are running a headless server.
+`noX=false` if you are running a headless server or ChromeBook.
+`noX=true` uses `Xvfb` for X Isolation (`xorg-server-xvfb`),
+you may need to install it if you want to use it, but is not a hard dependency,
+just use `noX=false` and you dont need to install it if you dont want to.
 
 The features come from the Linux Kernel itself,
 so theres zero cost on performance and the technology is already there even if you use it or not.
@@ -346,7 +353,7 @@ So in conclusion NimWC being compiled binary wont need access to most of your sy
 just its own folder, the integration with Firejails hides everything else.
 
 ### Install
-You local version of firejail to needs be >= 0.9.58. Install using your package manager:
+You local version of firejail to needs be >= `0.9.58`. Install using your package manager:
 ```
 # Arch (package manager)
 sudo pacman -S firejail
