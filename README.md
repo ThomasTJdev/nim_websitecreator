@@ -21,9 +21,9 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Self-Firejailing Web Framework (It Firejails itself) Best Linux Security integrated on the Core.
 - 2 Factor Athentication TOTP
 - ReCAPTCHA
-- HoneyPot-Field
+- [HoneyPot-Field](https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377)
 - BCrypt+Salt password hashing
-- No user Tracking Analytics
+- No user Tracking Analytics by default
 - SQL Type-checked and Query-checked at compile-time, no SQL injections.
 - Multiple users with different ranks, role based access control.
 - Admin can choose how much CPU & RAM NimWC can use from the Admin Dashboard.
