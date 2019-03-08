@@ -55,7 +55,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp minifyHtml(genMainAdmin(c, genPlugins(c)))
+    resp genMainAdmin(c, genPlugins(c))
 
 
   get "/plugins/status":
@@ -106,7 +106,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp minifyHtml(genMainAdmin(c, genPluginsRepo(c)))
+    resp genMainAdmin(c, genPluginsRepo(c))
 
 
   get "/plugins/repo/download":
@@ -193,13 +193,13 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp minifyHtml(genMainAdmin(c, genSettings(c)))
+    resp genMainAdmin(c, genSettings(c))
 
   get "/settings/edit":
     createTFD()
     restrictAccessTo(c, [Admin])
 
-    resp minifyHtml(genMainAdmin(c, genSettingsEdit(c), "edithtml"))
+    resp genMainAdmin(c, genSettingsEdit(c), "edithtml")
 
   post "/settings/update":
     createTFD()
@@ -311,7 +311,7 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin])
-    resp minifyHtml(genMainAdmin(c, genViewLogs(logcontent=readFile(logfile))))
+    resp genMainAdmin(c, genViewLogs(logcontent=readFile(logfile)))
 
   get "/settings/forcerestart":
     createTFD()
@@ -323,12 +323,12 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin])
-    resp minifyHtml(genMainAdmin(c, genServerInfo()))
+    resp genMainAdmin(c, genServerInfo())
 
   get "/settings/termsofservice":
     createTFD()
     let tos = readFile(getAppDir() & "/tmpl/tos.html")
-    resp minifyHtml(tos)
+    resp tos
 
   get "/users/profile/avatar":
     createTFD()
@@ -468,7 +468,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp minifyHtml(genMainAdmin(c, genFiles(c), "edit"))
+    resp genMainAdmin(c, genFiles(c), "edit")
 
 
   get "/files/raw":
@@ -620,14 +620,14 @@ routes:
     createTFD()
     if not c.loggedIn:
       redirect("/")
-    resp minifyHtml(genMainAdmin(c, genUsers(c)))
+    resp genMainAdmin(c, genUsers(c))
 
 
   get "/users/profile":
     createTFD()
     if not c.loggedIn:
       redirect("/")
-    resp minifyHtml(genMainAdmin(c, genUsersProfile(c), "users"))
+    resp genMainAdmin(c, genUsersProfile(c), "users")
 
 
   post "/users/profile/update":
