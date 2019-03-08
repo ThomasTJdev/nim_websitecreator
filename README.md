@@ -14,7 +14,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Custom title, meta description and keywords for each page, SEO friendly.
 - Custom head, navbar and footer, no hardcoded watermarks, links or logos.
 - Upload/Download files and images (private or public), option to use MD5 CheckSum as filename.
-- Libravatar/Gravatar support for profile photos builtin.
+- [Libravatar/Gravatar support for profile photos builtin.](https://wiki.libravatar.org/libraries/#index2h1)
 - 1 language for the whole stack, including high performance modules, scripting, devops, deploy, from WebAssembly to Assembly.
 
 ## Security
