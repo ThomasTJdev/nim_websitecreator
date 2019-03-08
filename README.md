@@ -80,7 +80,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 To get started you only need:
 
 - Linux (For Windows [see Docker-for-Windows](http://docs.docker.com/docker-for-windows))
-- Nim >= `0.19.4`
+- Nim >= `0.19.4` (Stable Release)
 
 Development dependencies (automatically installed by Nimble):
 
@@ -98,6 +98,8 @@ Foreing optional dependencies:
 - webp (`libwebp`)
 - firejail >= `0.9.58`
 - Xvfb (`xorg-server-xvfb`)
+
+**For stable development use Nim Stable Release**, Devel may or may not work, but is not stable by definition.
 
 
 # Install
