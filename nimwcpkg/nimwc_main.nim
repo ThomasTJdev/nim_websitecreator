@@ -482,6 +482,7 @@ when isMainModule:
     exec(db, resetSql)      # Reset everything
     createTestUser(db)      # Recreate Demo user
     createStandardData(db)  # Recreate Demo Data (Pages & Blogs)
+    # doAssert dict.getSectionValue("firejail", "timeout") == "1", "Firejail Timeout must be 1"
     info("Demo Mode: Database reset successful")
 
   # Activate Google reCAPTCHA
