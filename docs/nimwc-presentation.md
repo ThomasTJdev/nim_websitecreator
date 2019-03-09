@@ -97,13 +97,21 @@
 
 *Pic or didnt happen.*
 
-![Nim Kitten](nim-bad-cat.png)
+![Nim Kitten](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/docs/nim-bad-cat.png?raw=true)
 
 -----
 
-![File Upload](https://user-images.githubusercontent.com/1189414/53843893-b36bde00-3f82-11e9-9dc0-b5e594e28fc1.png)
+![File Upload](https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/nimwc-editor-summer.png)
 
-![User Reset](https://user-images.githubusercontent.com/1189414/53856259-fb552a00-3faf-11e9-89af-6a46d851ea05.png)
+-----
+
+![User Reset](https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/nimwc-editor-grape.png)
+
+-----
+
+##### CPU, Cores, RAM, SubProcesses
+
+![User Reset](https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/nimwc-admin-power.png)
 
 -----
 
@@ -111,7 +119,7 @@
 
 -----
 
-### Plugin Store
+##### Plugin Store
 
 ![Plugin Store](https://user-images.githubusercontent.com/1189414/53916106-14a5b700-4040-11e9-83d7-71e84923cd80.png)
 
