@@ -385,7 +385,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.6/cropper.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.6/cropper.min.js" defer ></script>
 <h1 class="has-text-centered">Choose your Avatar</h1>
-<div id="user" class="images">
+<div id="user" class="images" style="background:white;padding:9px;border:1px solid grey;border-radius:4px">
 <form action="/users/profile/avatar/save" method="POST">
 <div class="columns">
   <div class="column">
@@ -412,6 +412,9 @@
       <img class="image is-128x128 libravatar" src="${ getLibravatarUrl("", size=128, default="robohash", forcedefault=true) }" title="Robohash" alt="Robohash">
     </label>
   </div>
+</div>
+<br>
+<div class="columns">
   <div class="column">
     <label>
     <input type="radio" name="avatar" required value="${ getLibravatarUrl("", size=128, default="identicon", forcedefault=true) }">
@@ -424,9 +427,6 @@
       <img class="image is-128x128 libravatar" src="${ getLibravatarUrl("", size=128, default="monsterid", forcedefault=true) }" title="MonsterID" alt="MonsterID">
     </label>
   </div>
-</div>
-<br>
-<div class="columns">
   <div class="column">
     <label>
     <input type="radio" name="avatar" required value="${ getLibravatarUrl("", size=128, default="retro", forcedefault=true) }">
