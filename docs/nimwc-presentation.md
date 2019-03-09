@@ -109,6 +109,22 @@
 
 -----
 
+![](https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/nimwc-firejail0.png)
+
+-----
+
+![](https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/nimwc-firejail0.png)
+
+-----
+
+![](https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/nimwc-profile.png)
+
+-----
+
+![](https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/nimwc-files.png)
+
+-----
+
 ##### CPU, Cores, RAM, SubProcesses
 
 ![User Reset](https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/nimwc-admin-power.png)
