@@ -437,7 +437,7 @@ div#allblogPosts .list-group {
 }
 div#allblogPosts .list-group-item {
   background: white;
-  border: 1px solid #bcbcbc5c;
+  border: 1px solid #bcbcbc9e;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -457,6 +457,7 @@ div#allblogPosts .category,
 div#allblogPosts .tags {
   align-items: center;
   border-radius: 4px;
+  border: 1px solid #575757;
   display: inline-flex;
   font-size: .75rem;
   height: 2em;
@@ -471,10 +472,41 @@ div#allblogPosts .category {
   background-color: #959595;
   color: #ffffff;
 }
+div#allblogPosts .category:hover {
+  background-color: #b5b0b0;
+  color: rgb(68, 68, 68);
+}
+div#allblogPosts .category.active:hover,
+div#allblogPosts .category.active {
+  border: 1px solid black;
+  background-color: #575656;
+  color: white;
+  cursor: default;
+}
 div#allblogPosts .tags {
   background-color: #f5f5f5;
   color: #4a4a4a;
   margin-bottom: 0;
+}
+div#allblogPosts .tags:hover {
+  background-color: #e4e4e4;
+}
+/* Category selector on blog overview */
+div#allblogPosts .categories {
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+  text-align: center;
+  display: none;
+}
+div#allblogPosts .categories div {
+  display: inline-block;
+}
+div#allblogPosts .categories div a.category {
+  font-size: 1.2rem;
+  height: 2rem;
+  margin-top: 0;
 }
 
 

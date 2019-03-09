@@ -34,6 +34,9 @@
 # else:
 #   allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags, viewCount, pubDate FROM blog WHERE status IN " & status & " ORDER BY " & sortingOrder))
 # end if
+#
+#
+# let allCategories = getAllRows(db, sql("SELECT category FROM blog WHERE status IN " & status & " ORDER BY category ASC"))
 
 <div class="has-text-centered">
   <h1>All blog posts</h1>
@@ -57,6 +60,24 @@
 #   elif tags.len() != 0:
       <div class="has-text-centered"><h3 class="has-text-centered"><i>Tags: ${tags}</i></h3></div>
 #   end if
+#
+#   if allCategories.len() > 0:
+      <div class="categories">
+#     for cat in allCategories:
+#       if cat[0] == "":
+#         continue
+#       end if
+        <div>
+#       if category.len() > 0 and category == cat[0]:
+          <a href="/blog?category=${cat[0]}" class="category active">${cat[0]}</a>
+#       else:
+          <a href="/blog?category=${cat[0]}" class="category">${cat[0]}</a>
+#       end if
+        </div>
+#     end for
+      </div>
+#   end if
+#
 #
   <ul class="list-group">
 #   for blog in allBlogPages:

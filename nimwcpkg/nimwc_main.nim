@@ -5,7 +5,6 @@
 when defined(windows):
   {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
 {.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
-# when defined(demo): {.passC: "-flto -ffast-math -march=native".}
 
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
@@ -441,24 +440,6 @@ template statusIntToCheckbox(status, value: string): string =
 
 
 #
-# Proc's for demo usage
-#
-
-
-when defined(demo):
-  {. hint: "Demo is Enabled, Database Resets Automatically every hour." .}
-  proc resetDB(db: DbConn) {.async.} =
-    ## The database will be overwritten with standard data every hour. All
-    ## blog posts will be deleted.
-    ##
-    ## This proc is used when the platform needs to run as a test or in
-    ## demo-mode with public access.
-    await sleepAsync(3_600_000)
-    exec(db, sql"DELETE FROM blog")
-    createStandardData(db)
-
-
-#
 # Main module
 #
 
@@ -498,11 +479,15 @@ when isMainModule:
   if "newuser" in commandLineParams():
     createAdminUser(db, commandLineParams())
 
-  # Add test user
+  # When Demo Mode, Reset everything at start, create Test User, create Test Data, for use with Firejail `timeout=1`
   when defined(demo):
-    info("Demo option is activated.")
-    createTestUser(db)
-    asyncCheck resetDB(db)
+    {. hint: "Demo is Enabled, Database Resets Automatically every hour." .}
+    const resetSql = sql"DELETE FROM session; DELETE FROM pages; DELETE FROM blog; DELETE FROM files; DELETE FROM person"
+    exec(db, resetSql)      # Reset everything
+    createTestUser(db)      # Recreate Demo user
+    createStandardData(db)  # Recreate Demo Data (Pages & Blogs)
+    # doAssert dict.getSectionValue("firejail", "timeout") == "1", "Firejail Timeout must be 1"
+    info("Demo Mode: Database reset successful")
 
   # Activate Google reCAPTCHA
   setupReCapthca()
