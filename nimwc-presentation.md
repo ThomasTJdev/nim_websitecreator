@@ -93,6 +93,24 @@
 
 -----
 
+# Some Screenshots
+
+![File Upload](https://user-images.githubusercontent.com/1189414/53843893-b36bde00-3f82-11e9-9dc0-b5e594e28fc1.png)
+
+![User Reset](https://user-images.githubusercontent.com/1189414/53856259-fb552a00-3faf-11e9-89af-6a46d851ea05.png)
+
+-----
+
+![Libravatar](https://user-images.githubusercontent.com/1189414/53709326-72ef5180-3e16-11e9-944e-8120d6ab2959.png)
+
+-----
+
+### Plugin Store
+
+![Plugin Store](https://user-images.githubusercontent.com/1189414/53916106-14a5b700-4040-11e9-83d7-71e84923cd80.png)
+
+-----
+
 # Future
 
 - A lot of issues are feature plannings (roadmap)
@@ -112,5 +130,7 @@ Play with the Live Demo:
 Learn Nim:
 - https://nim-lang.org/learn.html
 
-GitHub:
+GitHub (this slides are there):
 - https://github.com/ThomasTJdev/nim_websitecreator
+
+*With &hearts; from the NimWC Team...*
