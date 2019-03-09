@@ -8,5 +8,4 @@ nimcache/* linguist-vendored
 private/* linguist-vendored
 public/* linguist-vendored
 plugins/* linguist-vendored
-nimwc-presentation-presentation.html linguist-vendored
-
+docs/* linguist-vendored
