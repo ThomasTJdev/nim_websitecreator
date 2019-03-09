@@ -117,6 +117,7 @@
             <a href="/plugins/repo/updateplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="button is-success is-fullwidth">Update</a><br>
             <a href="/plugins/repo/deleteplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="button is-danger is-fullwidth">Disable & Delete</a>
 #         else:
+            <a href="${ plugin["web"].getStr }" class="button is-fullwidth is-small" title="Go to Plugins web page" target="_blank" style="opacity:.7">Go to Plugins Web</a><br>
             <a href="/plugins/repo/downloadplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginrepo=${plugin["url"].getStr()}&pluginname=${plugin["name"].getStr()}" class="button is-success is-fullwidth">Download & Install</a>
 #         end if
           </div>
