@@ -95,7 +95,7 @@
 
 # Some Screenshots
 
-*Pic or didnt happen.*
+*Pics or didnt happen.*
 
 ![Nim Kitten](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/docs/nim-bad-cat.png?raw=true)
 
