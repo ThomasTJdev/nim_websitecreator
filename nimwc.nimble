@@ -4,7 +4,7 @@ author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev) & Juan Carlo
 description   = "Generate and host a website. Run the package and access your new webpage."
 license       = "PPL"
 bin           = @["nimwc"]
-skipDirs      = @["private", "tmp", "devops"]
+skipDirs      = @["private", "tmp", "devops", "docs"]
 installDirs   = @["config", "nimwcpkg", "plugins", "public"]
 
 
