@@ -38,7 +38,7 @@
     <div class="notification is-info">
       <h3>Please download the list of plugins.</h3>
     </div>
-    <a href="/plugins/repo/download" class="button is-primary is-large is-fullwidth is-rounded" >Download</a>
+    <a href="/plugins/repo/download" class="button is-primary is-large is-fullwidth is-rounded">Download plugin list</a>
   </div>
 
 # else:
@@ -46,8 +46,8 @@
 # let plugins = parseJson(readFile("plugins/nimwc_plugins/plugins.json"))
 
   <div class="buttons">
-    <a href="/plugins/repo/update" class="button is-link">Update plugins list</a>
-    <a href="/plugins" class="button is-link">Go to installed plugins</a>
+    <div><a href="/plugins/repo/update" class="button is-link">Update plugins list</a></div>
+    <div><a href="/plugins" class="button is-link">Go to installed plugins</a></div>
     <a href="https://github.com/ThomasTJdev/nimwc_plugins#contribute" class="button is-success is-fullwidth" title="Learn how to create new plugins" target="_blank">Add your plugin to the Plugin Store</a>
   </div>
   <p class="pluginCount"><b>Total Plugins: </b><code>${plugins.len}</code></p>
@@ -112,11 +112,12 @@
 #           if mail != "":
             <a href="${ if mail.startsWith("http"): mail else: "mailto:" & mail }" class="button is-fullwidth is-small" title="Help, Support, Feedback, etc" target="_blank" style="opacity:.7">Talk to the Developer</a><br>
 #           end if
-            <a href="${ plugin["web"].getStr }" class="button is-fullwidth is-small" title="Go to Plugins web page" target="_blank" style="opacity:.7">Go to Plugins Web</a><br>
+            <a href="${ plugin["web"].getStr }" class="button is-fullwidth is-small" title="Go to plugin website page" target="_blank" style="opacity:.7">Go to plugin website</a><br>
             <a href="${ plugin["sustainability"].getStr }" class="button is-fullwidth is-small" title="Help to make Open Source Self-Sustainable" target="_blank" style="opacity:.7">Subscribe</a><br>
             <a href="/plugins/repo/updateplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="button is-success is-fullwidth">Update</a><br>
             <a href="/plugins/repo/deleteplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="button is-danger is-fullwidth">Disable & Delete</a>
 #         else:
+            <a href="${ plugin["web"].getStr }" class="button is-fullwidth is-small" title="Go to plugin website page" target="_blank" style="opacity:.7">Go to plugin website</a><br>
             <a href="/plugins/repo/downloadplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginrepo=${plugin["url"].getStr()}&pluginname=${plugin["name"].getStr()}" class="button is-success is-fullwidth">Download & Install</a>
 #         end if
           </div>
@@ -132,8 +133,8 @@
 
   </ul>
   <p class="pluginCount"><b>Total Plugins: </b><code>${plugins.len}</code></p>
+  <a href="https://github.com/ThomasTJdev/nimwc_plugins#contribute" class="button is-success is-fullwidth" title="Learn how to create new plugins" target="_blank">Add your plugin to the Plugin Store</a>
 # end if
-<a href="https://github.com/ThomasTJdev/nimwc_plugins#contribute" class="button is-success is-fullwidth" title="Learn how to create new plugins" target="_blank">Add your plugin to the Plugin Store</a>
 <br>
 <div class="notification is-info">
   Plugins can do everything you want, HTML, CSS, JS, Nim, Canvas, WebGL, WASM, JavaScript Frameworks, use Dabatase etc.

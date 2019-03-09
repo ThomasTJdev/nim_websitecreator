@@ -534,6 +534,13 @@ div#files td.is-danger {
 div#plugins .buttons a {
   font-size: 95%
 }
+div#plugins .buttons div {
+  margin-left: auto;
+  margin-right: auto;
+}
+div#plugins .buttons div a {
+  width: 200px;
+}
 div#plugins span.version {
   margin-left: 10px;
 }
