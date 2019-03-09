@@ -112,12 +112,12 @@
 #           if mail != "":
             <a href="${ if mail.startsWith("http"): mail else: "mailto:" & mail }" class="button is-fullwidth is-small" title="Help, Support, Feedback, etc" target="_blank" style="opacity:.7">Talk to the Developer</a><br>
 #           end if
-            <a href="${ plugin["web"].getStr }" class="button is-fullwidth is-small" title="Go to Plugins web page" target="_blank" style="opacity:.7">Go to Plugins Web</a><br>
+            <a href="${ plugin["web"].getStr }" class="button is-fullwidth is-small" title="Go to plugin website page" target="_blank" style="opacity:.7">Go to plugin website</a><br>
             <a href="${ plugin["sustainability"].getStr }" class="button is-fullwidth is-small" title="Help to make Open Source Self-Sustainable" target="_blank" style="opacity:.7">Subscribe</a><br>
             <a href="/plugins/repo/updateplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="button is-success is-fullwidth">Update</a><br>
             <a href="/plugins/repo/deleteplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="button is-danger is-fullwidth">Disable & Delete</a>
 #         else:
-            <a href="${ plugin["web"].getStr }" class="button is-fullwidth is-small" title="Go to Plugins web page" target="_blank" style="opacity:.7">Go to Plugins Web</a><br>
+            <a href="${ plugin["web"].getStr }" class="button is-fullwidth is-small" title="Go to plugin website page" target="_blank" style="opacity:.7">Go to plugin website</a><br>
             <a href="/plugins/repo/downloadplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginrepo=${plugin["url"].getStr()}&pluginname=${plugin["name"].getStr()}" class="button is-success is-fullwidth">Download & Install</a>
 #         end if
           </div>
