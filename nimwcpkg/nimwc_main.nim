@@ -395,6 +395,10 @@ template createTFD() =
 #
 
 
+template minifyHtml*(htmlstr: string): string =
+  when defined(release): replace(htmlstr, re">\s+<", "> <").strip else: htmlstr
+
+
 template rst2html*(stringy: string): string =
   ## RST/MD to HTML using std lib.
   try:
