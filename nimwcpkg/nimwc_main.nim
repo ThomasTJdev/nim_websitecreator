@@ -396,6 +396,11 @@ template createTFD() =
 #
 
 
+template bulmaTheme*(c: var TData): string =
+  when defined(demo): """<link rel="stylesheet" href="https://unpkg.com/bulmaswatch@0.7.2/default/bulmaswatch.min.css">"""
+  else: "<link rel=stylesheet href=" & getValue(db, "select theme from session where id = ?" c.userid) & " >"
+
+
 template minifyHtml*(htmlstr: string): string =
   when defined(release): replace(htmlstr, re">\s+<", "> <").strip else: htmlstr
 
