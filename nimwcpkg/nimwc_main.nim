@@ -396,9 +396,15 @@ template createTFD() =
 #
 
 
-template bulmaTheme*(c: var TData): string =
-  when defined(demo): """<link rel="stylesheet" href="https://unpkg.com/bulmaswatch@0.7.2/default/bulmaswatch.min.css">"""
-  else: "<link rel=stylesheet href=" & getValue(db, "select theme from session where id = ?" c.userid) & " >"
+template bulma*(c: var TData): string =
+  const
+    bulmaDefault = "<link rel='stylesheet' href='https://unpkg.com/bulmaswatch@0.7.2/default/bulmaswatch.min.css'>"
+    bulmaSql = sql"select theme from person where id = ?"
+  when defined(demo): bulmaDefault
+  else:
+    let bt = getValue(db, bulmaSql, c.userid)
+    if bt.len > 9: "<link rel='stylesheet' href='" & bt & "'>"
+    else: bulmaDefault
 
 
 template minifyHtml*(htmlstr: string): string =
