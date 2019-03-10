@@ -205,7 +205,7 @@
   <div class="field">
     <div class="control">
       <label class="label">Category</label>
-      <input class="input" type="text" name="category" value="${category}" placeholder="Single word category" dir="auto" pattern="^[\p{ASCII}]{2,99}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()">
+      <input class="input" type="text" name="category" value="${category}" placeholder="Single word category" dir="auto" pattern="^[\p{ASCII}]{2,99}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
     </div>
   </div>
 
