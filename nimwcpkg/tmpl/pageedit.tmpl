@@ -34,7 +34,7 @@
         <div class="field">
           <div class="control">
             <label class="label">URL</label>
-            <input class="input" type="text" id="url" name="url" minlength="2" maxlength="128" placeholder="eg. portfolio" value="${decodeUrl(page[8])}" required dir="auto" pattern="^[\p{ASCII}]{2,128}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()">
+            <input class="input" type="text" id="url" name="url" minlength="2" maxlength="128" placeholder="eg. portfolio" value="${decodeUrl(page[8])}" required dir="auto" pattern="^[\p{ASCII}]{2,128}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
           </div>
         </div>
 
