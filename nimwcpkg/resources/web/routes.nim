@@ -341,6 +341,17 @@ routes:
       exec(db, sql"UPDATE person SET avatar = ? WHERE id = ?", @"avatar", c.userid)
     redirect("/users/profile")
 
+  get "/users/profile/themes":
+    createTFD()
+    resp genMainAdmin(c, genThemes(c))
+
+  post "/users/profile/themes/save":
+    createTFD()
+    restrictTestuser(c.req.reqMethod)
+    if @"theme".startsWith("https://") and @"theme".endsWith("/bulmaswatch.min.css"):
+      exec(db, sql"UPDATE person SET theme = ? WHERE id = ?", @"theme", c.userid)
+    redirect("/users/profile")
+
   get "/settings/firejail":
     createTFD()
     restrictTestuser(c.req.reqMethod)

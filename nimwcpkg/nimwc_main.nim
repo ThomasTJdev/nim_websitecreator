@@ -2,8 +2,6 @@
 #        (c) Copyright 2019 Thomas Toftgaard Jarløv
 #        Look at LICENSE for more info.
 #        All rights reserved.
-when defined(windows):
-  {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
 {.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
 
 import
@@ -67,6 +65,10 @@ const
   sql_now =
     when defined(postgres): "(extract(epoch from now()))" # Postgres epoch.
     else:                   "(strftime('%s', 'now'))"     # SQLite 3 epoch.
+
+  bulmaThemesJSON = staticRead"themes.json".strip ## Bulma Themes JSON from the API.
+
+let bulmaThemes* = parseJson(bulmaThemesJSON)["themes"]  ## Bulma Themes JSON
 
 
 macro configExists(): untyped =
