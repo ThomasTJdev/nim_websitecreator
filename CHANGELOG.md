@@ -1,3 +1,14 @@
+## v5.2.0
+### Changes
+- Support for Themes on user profile, themes are per user.
+
+### Breaking changes
+- New column in `person` table: `theme`:
+```sql
+ALTER TABLE person ADD COLUMN theme VARCHAR(300);
+```
+
+
 ## v5.1.0
 ### Changes
 - Support for libravatar on profile picture
