@@ -11,9 +11,9 @@
 #proc genNavbarLoggedinSettings(c: var TData): string =
 # result = ""
 <div id="navbarSettings" class="container-fluid">
-  <div style="display: inline-flex; float: right;">
+  <div style="display:inline-flex;float:right">
     <span class="nav-item"><a href="/settings">Settings</a></span>
-    <span class="nav-item" style="margin: 0 15px;"><a href="/logout">Logout</a></span>
+    <span class="nav-item" style="margin:0 15px"><a href="/logout">Logout</a></span>
   </div>
 </div>
 #end proc
@@ -25,9 +25,9 @@
 #proc genNavbarLoggedin(c: var TData): string =
 # result = ""
 <div id="navbarSettings" class="container-fluid">
-  <div style="display: inline-flex; float: right;">
+  <div style="display:inline-flex;float:right">
     <span class="nav-item"><a href="/users/profile">${c.username}</a></span>
-    <span class="nav-item" style="margin: 0 15px;"><a href="/logout">Logout</a></span>
+    <span class="nav-item" style="margin:0 15px"><a href="/logout">Logout</a></span>
   </div>
 </div>
 #end proc
@@ -38,7 +38,7 @@
 #proc genEditMixed(newPage = true): string =
 # result = ""
 # if not newPage:
-<div id="save" data-ischanged="0" style="display: none;"></div>
+<div id="save" data-ischanged="0" style="display:none"></div>
 # end if
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.css" integrity="sha256-I8NyGs4wjbMuBSUE40o55W6k6P7tu/7G28/JGUUYCIs=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/theme/monokai.min.css" integrity="sha256-jAukb65gp2gG6t4FtxpHgB3eFwM/rDUwrE2OaAp6+o8=" crossorigin="anonymous" />
@@ -59,7 +59,7 @@
 #
 #proc genEditHtml(): string =
 # result = ""
-<div id="save" data-ischanged="0" style="display: none;"></div>
+<div id="save" data-ischanged="0" style="display:none"></div>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.css" integrity="sha256-o/v/5fOniPHMAww4EAIfRBFV0SeoqksPrY0Yq5x+wSM=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/theme/monokai.min.css" integrity="sha256-6ov3WWd9ybfZPeJBlXBgQuD/aLhTRCEp5kBhqD9ke0o=" crossorigin="anonymous" />
@@ -79,7 +79,7 @@
 #
 #proc genEditJs(): string =
 # result = ""
-<div id="save" data-ischanged="0" style="display: none;"></div>
+<div id="save" data-ischanged="0" style="display:none"></div>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.css" integrity="sha256-o/v/5fOniPHMAww4EAIfRBFV0SeoqksPrY0Yq5x+wSM=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/theme/monokai.min.css" integrity="sha256-6ov3WWd9ybfZPeJBlXBgQuD/aLhTRCEp5kBhqD9ke0o=" crossorigin="anonymous" />
@@ -98,7 +98,7 @@
 #
 #proc genEditCss(): string =
 # result = ""
-<div id="save" data-ischanged="0" style="display: none;"></div>
+<div id="save" data-ischanged="0" style="display:none"></div>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.css" integrity="sha256-o/v/5fOniPHMAww4EAIfRBFV0SeoqksPrY0Yq5x+wSM=" crossorigin="anonymous" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/theme/monokai.min.css" integrity="sha256-6ov3WWd9ybfZPeJBlXBgQuD/aLhTRCEp5kBhqD9ke0o=" crossorigin="anonymous" />
@@ -221,7 +221,7 @@
 <hr>
 
 <h4 class="has-text-centered">HTML</h4>
-<div style="margin-bottom: 20px;">
+<div style="margin-bottom:20px">
 
   <div class="notification is-warning">
     If you disable standard default components (CSS/JS),

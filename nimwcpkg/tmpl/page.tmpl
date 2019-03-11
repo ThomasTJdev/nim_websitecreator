@@ -9,16 +9,16 @@
 # result = ""
 # let allPages = getAllRows(db, sql"SELECT id, name, description, status, modified, metadescription FROM pages ORDER BY modified DESC")
 
-<div style="text-align: center;">
-  <h1>Edit a page</h1>
+<div class="has-text-centered">
+  <h1 class="has-text-centered">Edit a page</h1>
 </div>
 
 <div id="allpagePosts">
 
 # if allPages.len < 1:
 #
-  <div style="text-align: center">
-    <h3><i>No pages</i></h3>
+  <div class="has-text-centered">
+    <h3 class="has-text-centered"><i>No pages</i></h3>
   </div>
 #
 # else:
@@ -29,12 +29,12 @@
       <div>
         <div class="is-pulled-right is-hidden-mobile">
           <small>${epochDate(page[4], "YYYY-MM-DD")}</small>
-          <small style="display: block;">${statusIntToText(page[3])}</small>
+          <small style="display:block">${statusIntToText(page[3])}</small>
         </div>
 
         <h5>${page[1]}</h5>
         <small class="is-hidden-tablet">${epochDate(page[4], "YYYY-MM-DD")}</small>
-        <div style="margin-top: 10px;">${page[5]}</div>
+        <div style="margin-top:9px">${page[5]}</div>
       </div>
     </a>
 #   end for

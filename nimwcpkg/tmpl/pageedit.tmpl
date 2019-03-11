@@ -17,8 +17,8 @@
 #   for page in pageData:
 <div id="pageData">
   <form class="standard page" method="post" action="/page/update">
-    <input name="pageid" value="$pageid" style="display: none" />
-    <div id="save" data-ischanged="0" style="display: none;"></div>
+    <input name="pageid" value="$pageid" style="display:none" />
+    <div id="save" data-ischanged="0" style="display:none"></div>
 
     <div id="pageHeader">
       <div class="pageOptions main">
@@ -80,7 +80,7 @@
 </div>
 #   end for
 # else:
-  <h5 style="color: red;">Something went wrong</h5>
+  <h5 class="has-text-danger">Something went wrong</h5>
 # end if
 
 ${genPageEditorImport(c, false)}

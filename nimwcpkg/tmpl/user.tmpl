@@ -18,7 +18,7 @@
   <div id="login">
 
     <form name="login" action="/dologin" method="POST" class="box">
-      <h3 style="line-height: 1.9rem;">Login to<br>${standardElements[3]}</h3>
+      <h3 style="line-height:1.9rem">Login to<br>${standardElements[3]}</h3>
 
       # when defined(demo):
         <div class="notification is-link">
@@ -29,7 +29,7 @@
       # end when
 
       # if errorMsg.len() != 0:
-      <div class="notification is-danger" style="text-align: center;font-size: 1.2rem; line-height: 1.8rem;"><b>$errorMsg</b></div>
+      <div class="notification is-danger" style="text-align:center;font-size:1.2rem;line-height:1.8rem"><b>$errorMsg</b></div>
       # end if
 
       <div class="field form-group">
@@ -94,8 +94,8 @@
   </footer>
 
   #else:
-    <div class="notification is-danger" style="text-align: center">
-      <h1>You are already logged in!</h1>
+    <div class="notification is-danger has-text-centered">
+      <h1 class="has-text-centered">You are already logged in!</h1>
     </div>
   #end if
 #end proc
@@ -264,19 +264,19 @@
     <div class="columns">
       <div class="column">
 
-        <form method="POST" action="/users/profile/update" style="background: white; padding: 10px; border: 1px solid grey; border-radius: 4px;">
+        <form method="POST" action="/users/profile/update" class="has-background-white has-text-black" style="padding:9px;border:1px solid grey;border-radius:4px">
           <div class="field" style="margin-bottom:9px">
-            <label class="label">Name<span style="color: red;font-weight: 600;">*</span></label>
+            <label class="label">Name<span class="has-text-danger has-text-weight-bold">*</span></label>
             <input id="name" name="name" type="text" placeholder="name" autocomplete="false" class="form-control input" required minlength="3" maxlength="60" value="${user[1]}" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
           </div>
 
           <div class="field" style="margin-bottom:9px">
-            <label class="label">Email<span style="color: red;font-weight: 600;">*</span></label>
+            <label class="label">Email<span class="has-text-danger has-text-weight-bold">*</span></label>
             <input id="email" name="email" placeholder="email" type="email" autocomplete="username" class="form-control input" required minlength="3" maxlength="300" value="${user[2]}" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()">
           </div>
 
           <div class="field" style="margin-bottom:9px">
-            <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
+            <label class="label">Password<span class="has-text-danger has-text-weight-bold">*</span></label>
             <input id="password" name="password" type="password" placeholder="Password" autocomplete="new-password" class="form-control input" maxlength="300" required value="" dir="auto"
             # when defined(demo) or defined(dev):
               minlength="4"
@@ -287,7 +287,7 @@
           </div>
 
           <div class="field" style="margin-bottom:9px">
-            <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
+            <label class="label">Password<span class="has-text-danger has-text-weight-bold">*</span></label>
             <input id="passwordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" class="form-control input" maxlength="128" required placeholder="Confirm password" value="" dir="auto"
             # when defined(demo) or defined(dev):
               minlength="4"
@@ -347,7 +347,7 @@
 
       <div class="column">
 
-        <div class="column" style="background: white; padding: 10px; border: 1px solid grey; border-radius: 4px;">
+        <div class="column" class="has-background-white has-text-black" style="padding:9px;border:1px solid grey;border-radius:4px">
 
           <h5 class="has-text-centered">Avatar</h5>
           <center>

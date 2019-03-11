@@ -8,7 +8,7 @@
 #
 #proc genPlugins(c: var TData): string =
 # result = ""
-<h1 style="text-align: center">Plugins</h1>
+<h1 class="has-text-centered">Plugins</h1>
 
 <ul class="pluginSettings">
   ${genExtensionSettings()}
@@ -22,7 +22,7 @@
 
 <div id="plugins">
 
-<h1 style="text-align: center">Plugin Store</h1>
+<h1 class="has-text-centered">Plugin Store</h1>
 
 # if not pluginCheckGit():
 
@@ -34,7 +34,7 @@
 
 # elif not fileExists("plugins/nimwc_plugins/plugins.json"):
 
-  <div style="text-align: center;">
+  <div class="has-text-centered">
     <div class="notification is-info">
       <h3>Please download the list of plugins.</h3>
     </div>
@@ -106,7 +106,7 @@
             </div>
             <details style="opacity:.5">
               <summary>Git</summary>
-              <input type="text" class="input is-lowercase is-family-monospace" readonly value="git clone ${plugin["url"].getStr()}" style="width: 415px;"><br><br>
+              <input type="text" class="input is-lowercase is-family-monospace" readonly value="git clone ${plugin["url"].getStr()}" style="width:415px"><br><br>
             </details>
             <br>
 #           if mail != "":
@@ -128,7 +128,7 @@
 
 #   end for
 # except:
-    <li><p style="padding: 10px;">There was an error in the formatting in the plugin list.<br><br>Please <a href="/plugins/repo/update">update the plugin list (click here)</a>.</p></li>
+    <li><p style="padding:9px">There was an error in the formatting in the plugin list.<br><br>Please <a href="/plugins/repo/update">update the plugin list (click here)</a>.</p></li>
 # end try
 
   </ul>

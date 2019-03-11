@@ -130,7 +130,7 @@
 
           # when defined(demo):
             <hr>
-            <div class="notification is-danger" style="padding-top: 15px;">
+            <div class="notification is-danger" style="padding-top:15px">
               <b class="is-uppercase has-text-warning" title="Test user cant access the Core">
                 Some options are disabled on Demo!.
               </b>
@@ -162,7 +162,7 @@
   <form class="standard settings" method="post" action="/settings/update">
     <div>
       <label class="label">Title</label>
-      <input type="text" class="input" name="title" id="title" required value="${page[4]}" style="width: 300px;" dir="auto" pattern="^[\p{ASCII}]{1,99}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')"/>
+      <input type="text" class="input" name="title" id="title" required value="${page[4]}" style="width:300px" dir="auto" pattern="^[\p{ASCII}]{1,99}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')"/>
     </div>
     <br>
     <div>
@@ -183,7 +183,7 @@
       <div>HTML <code> &lt;footer&gt; </code> </div>
       <textarea name="footer" id="htmlSettings3">${page[3]}</textarea>
     </div>
-    <div style="margin-top: 15px;">
+    <div style="margin-top:15px">
         <button type="submit" class="settingsSave button is-success">Save</button>
     </div>
   </form>
@@ -220,7 +220,7 @@
   <form class="standard settings" method="post" action="/settings/updatejs">
     <input name="customJs" value="${customJs}" style="display: none">
     <div>
-      <button type="submit" class="settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
+      <button type="submit" class="settingsSaveCode button is-success" style="margin-bottom:5px">Save</button>
     </div>
     <div>
       <textarea name="js" id="settingsCode" >
@@ -264,7 +264,7 @@ $line
   <form class="standard settings" method="post" action="/settings/updatecss">
     <input name="customCss" value="${customCss}" style="display: none">
     <div>
-      <button type="submit" class="settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
+      <button type="submit" class="settingsSaveCode button is-success" style="margin-bottom:5px">Save</button>
     </div>
     <div>
       <textarea name="css" id="settingsCode" >
@@ -293,7 +293,7 @@ $line
 <div id="settingsEdit">
   <h1>Edit blog settings</h1>
   <form class="standard settings" method="post" action="/settings/updateblogsettings">
-    <div style="max-width: 300px; margin-bottom: 20px;">
+    <div style="max-width:300px;margin-bottom:20px">
       <h2>Blog order</h2>
       <div class="field">
         <label class="label">Blogorder</label>
