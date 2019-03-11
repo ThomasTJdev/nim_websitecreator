@@ -10,6 +10,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 ## Blogs and pages
 - 1 Click Blogging posts directly from browser.
 - 1 Click Static web pages directly from browser.
+- Material Design, Solarized, Dark, etc choose your preferred theme.
 - WYSIWYG & Drag'n'Drop Editors with [Summernote](https://summernote.org), [CodeMirror](https://codemirror.net) or [GrapesJS](https://grapesjs.com).
 - Custom title, meta description and keywords for each page, SEO friendly.
 - Custom head, navbar and footer, no hardcoded watermarks, links or logos.
