@@ -326,7 +326,10 @@
                 #     result.add(rand(items))
                 #   end for
                 # end template
-                <input type="text" id="twofa-key" class="form-control input  has-text-centered has-text-weight-bold is-family-monospace is-narrow" disabled="disabled" style="width:10em" value="${twoFaKey()}"/>&nbsp;
+                # let twoFaKeys = twoFaKey()
+                # let twoFaLink = "otpauth://totp/" & $user[2] & "?algorithm=SHA1&digits=6&period=30&secret=" & twoFaKeys
+                <a href="$twoFaLink" title="2FA Provisioning URL Link"><small>$twoFaLink</small></a> <br>
+                <input type="text" id="twofa-key" class="form-control input  has-text-centered has-text-weight-bold is-family-monospace is-narrow" disabled="disabled" style="width:10em" value="$twoFaKeys"/>&nbsp;
                 <input type="tel" id="twofa-testcode" class="form-control input has-text-centered has-text-weight-bold is-family-monospace" placeholder="Test 2FA" min="000000" max="999999" step="1" maxlength="6" pattern="\d*" autocomplete="off" dir="auto" value="" style="width:6em"/>
                 <br><br>
                 <div>
