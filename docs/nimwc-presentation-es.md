@@ -150,7 +150,7 @@
 
 *Aprender Nim vale la pena...*
 
-[Comunidad](gatas.jpg)
+![Comunidad](https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/gatas.jpg)
 
 -----
 
