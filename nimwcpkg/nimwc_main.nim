@@ -394,6 +394,10 @@ template createTFD() =
 #
 
 
+template notifyHtml*(message: string, title="NimWC 👑", iconUrl="/favicon.ico", timeout: byte = 3): string =
+  "Notification.requestPermission(()=>{const n=new Notification('" & title & "',{body:'" & message.strip & "',icon:'" & iconUrl & "'});setTimeout(()=>{n.close()}," & $timeout & "000)});"
+
+
 template minifyHtml*(htmlstr: string): string =
   when defined(release): replace(htmlstr, re">\s+<", "> <").strip else: htmlstr
 
