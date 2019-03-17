@@ -431,13 +431,13 @@ const
       height: 100vh;
     }
     body .para_foo {
-      background-image: url(/images/par1b.jpeg);
+      background-image: url(/images/par1b.jpg);
     }
     body .para_bar {
-      background-image: url(/images/par2b.jpeg);
+      background-image: url(/images/par2b.jpg);
     }
     body .para_baz {
-      background-image: url(/images/par3b.jpeg);
+      background-image: url(/images/par3b.jpg);
     }
   </style>
   <div>
