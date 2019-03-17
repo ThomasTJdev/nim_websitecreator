@@ -299,7 +299,7 @@ proc checkLoggedIn(c: var TData) =
     if c.rank notin [Admin, Moderator, User]:
       c.loggedIn = false
 
-    discard tryExec(db, sql("UPDATE person SET lastOnline = ? WHERE id = ?"), c.userid, toInt(epochTime()))
+    discard tryExec(db, sql("UPDATE person SET lastOnline = ? WHERE id = ?"), toInt(epochTime()), c.userid)
 
   else:
     c.loggedIn = false

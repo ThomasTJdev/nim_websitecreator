@@ -372,3 +372,8 @@ cd firejail
 ./configure && make && sudo make install-strip
 ```
 </details>
+
+
+##### How to Jester
+
+https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/basico/jester/hello_web_3.nim#L38
