@@ -19,17 +19,28 @@ public/files/*
 
 public/robots.txt
 public/sitemap.xml
+
 public/css/*
-public/js/*
-public/images/*
 !public/css/style.css
 !public/css/style_admin.css
+
+public/js/*
 !public/js/js.js
 !public/js/js_admin.js
 !public/js/editor.js
 !public/js/codemirror_custom.js
 !public/js/grapesjsbs4.min.js
 !public/js/grapesjs_custom.js
+
+public/images/*
+!public/images/logo
+!public/images/logo/*
+!public/images/avatar.jpg
+!public/images/background.jpg
+!public/images/favicon.ico
+!public/images/par1b.jpg
+!public/images/par2b.jpg
+!public/images/par3b.jpg
 
 plugins/*
 !plugins/plugin_import.txt
