@@ -753,3 +753,13 @@ li.pluginRepo span.version.git {
 img.libravatar:hover {
   filter: hue-rotate(180deg);
 }
+
+
+
+/*
+  2 Factor Auth
+*/
+.twofaTechList {
+  list-style: disc;
+  margin-left: 25px;
+}
