@@ -127,7 +127,7 @@ let
   dict = loadConfig(getAppDir() & "/config/config.cfg")
   appName = dict.getSectionValue("Server", "appname").normalize
   appPath = getAppDir() & "/nimwcpkg/" & appName
-assert appName.len > 1, "Config error: appname must not be empty string"
+assert appName.len > 1, "Config error: appname must not be empty string: " & appName
 
 proc handler() {.noconv.} =
   ## Catch ctrl+c from user
