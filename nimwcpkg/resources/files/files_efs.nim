@@ -21,7 +21,7 @@ let
 info("Checking that required 'files' folders exists.")
 for folder in paths2create:
   discard existsOrCreateDir(folder)
-  assert fpUserWrite in getFilePermissions(folder), "Wrong folder permissions: " & $getFilePermissions(folder)
+  assert fpUserWrite in getFilePermissions(folder), "Wrong folder permissions:\n" & $getFilePermissions(folder) & folder
 
 # Storage settings
 if tempDir == "fileslocal" or defined(dev):
