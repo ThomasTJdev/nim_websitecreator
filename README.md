@@ -377,3 +377,15 @@ cd firejail
 ##### How to Jester
 
 https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/basico/jester/hello_web_3.nim#L38
+
+
+##### Resources
+
+<details>
+
+- [NimWC Logo, high quality, PNG.](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/public/images/logo)
+- [NimWC Presentation Slides, HTML5 3D, English.](http://htmlpreview.github.io/?https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/nimwc-presentation-presentation.html)
+- [NimWC Presentation Slides, HTML5 3D, Spanish.](http://htmlpreview.github.io/?https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/nimwc-presentation-es-presentation.html)
+- [NimWC Telegram Stickers on the Nim Pack.](https://t.me/addstickers/nimlang)
+
+</details>

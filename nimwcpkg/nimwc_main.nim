@@ -552,6 +552,7 @@ include "tmpl/sitemap.tmpl"
 include "tmpl/logs.tmpl"
 include "tmpl/serverinfo.tmpl"
 include "tmpl/editconfig.tmpl"
+include "tmpl/delayredirect.tmpl"
 when defined(firejail): include "tmpl/firejail.tmpl"
 
 
