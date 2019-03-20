@@ -246,7 +246,7 @@ proc updateNimwc() =
 proc pluginSkeleton() =
   ## Creates the skeleton (folders and files) for a plugin
   const reqRoutes = "  get \"/$1/settings\":\n    resp(\"Plugin settings\")"
-  const reqCode = "proc $1Start*(db: DbConn) =\n  discard"
+  const reqCode = "\nproc $1Start*(db: DbConn): auto =\n  ## Code your plugins start-up Backend logic here, db is the Database.\n  discard\n"
 
   styledEcho(fgCyan, bgBlack,
     "NimWC: Creating plugin skeleton\nThe plugin will be created inside tmp/")
