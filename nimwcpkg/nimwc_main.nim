@@ -263,7 +263,10 @@ proc init(c: var TData) =
 
 proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
-  let outp = execCmd("nim c " & checkCompileOptions & " -o:" & getAppDir() & "/nimwc_main_new_tmp " & getAppDir() & "/nimwc_main.nim")
+  let
+    appName = dict.getSectionValue("Server", "appname").normalize
+    appPath = getAppDir() & "/nimwcpkg/" & appName
+    outp = execCmd("nim c " & checkCompileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
   moveFile(getAppDir() & "/nimwc_main_new_tmp", getAppDir() & "/nimwc_main_new")
   return outp
 
