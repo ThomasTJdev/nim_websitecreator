@@ -124,7 +124,10 @@ let
   args = replace(commandLineParams().join(" "), "-", "")
   userArgs = if args == "": "" else: " " & args
   userArgsRun = if args == "": "" else: " --run " & args
-
+  dict = loadConfig(getAppDir() & "/config/config.cfg")
+  appName = dict.getSectionValue("Server", "appname").normalize
+  appPath = getAppDir() & "/nimwcpkg/" & appName
+assert appName.len > 1, "Config error: appname must not be empty string: " & appName
 
 proc handler() {.noconv.} =
   ## Catch ctrl+c from user
@@ -144,10 +147,9 @@ proc launcherActivated() =
   var nimwcCommand: string
 
   when not defined(firejail):
-    nimwcCommand = getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun
+    nimwcCommand = appPath & userArgsRun
   else:
     let
-      dict = loadConfig(getAppDir() & "/config/config.cfg")
       cpuCores = dict.getSectionValue("firejail", "cpuCoresByNumber").parseInt
       corez = if cpuCores != 0: toSeq(0..cpuCores) else: @[]
       hostz = dict.getSectionValue("firejail", "hostsFile").strip
@@ -180,8 +182,8 @@ proc launcherActivated() =
       noMnt:         dict.getSectionValue("firejail", "noMnt").parseBool,
     )
     nimwcCommand = myjail.makeCommand(
-      command=getAppDir() & "/nimwcpkg/nimwc_main" & userArgsRun,
-      name="nimwc_main", # whitelist= @[getAppDir(), getCurrentDir()],
+      command=appPath & userArgsRun,
+      name = appName, # whitelist= @[getAppDir(), getCurrentDir()],
       maxSubProcesses = dict.getSectionValue("firejail", "maxSubProcesses").parseInt * 1_000_000,  # 1 is Ok, 0 is Disabled, int.high max.
       maxOpenFiles = dict.getSectionValue("firejail", "maxOpenFiles").parseInt * 1_000,        # Below 1000 NimWC may not start.
       maxFileSize = dict.getSectionValue("firejail", "maxFileSize").parseInt * 1_000_000_000,  # Below 1Mb NimWC may not start.
@@ -200,9 +202,9 @@ proc launcherActivated() =
   nimhaMain = startProcess(nimwcCommand, options = processOpts)
 
   while runInLoop:
-    if fileExists(getAppDir() & "/nimwcpkg/nimwc_main_new"):
+    if fileExists(appPath & "_new"):
       kill(nimhaMain)
-      moveFile(getAppDir() & "/nimwcpkg/nimwc_main_new", getAppDir() & "/nimwcpkg/nimwc_main")
+      moveFile(appPath & "_new", appPath)
 
     if not running(nimhaMain):
       styledEcho(fgYellow, bgBlack, $now() & ": Restarting in 1 second.")
@@ -223,9 +225,9 @@ proc startupCheck() =
   ## Checking if the main-program file exists. If not it will
   ## be compiled with args and compiler options (compiler
   ## options should be specified in the *.nim.pkg)
-  if not fileExists(getAppDir() & "/nimwcpkg/nimwc_main") or defined(rc):
+  if not fileExists(appPath) or defined(rc):
     styledEcho(fgGreen, bgBlack, compile_start_msg & userArgs)
-    let output = execCmd("nim c " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
+    let output = execCmd("nim c --out:" & appPath & " " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
     if output == 1:
       styledEcho(fgRed, bgBlack, compile_fail_msg)
       quit()
