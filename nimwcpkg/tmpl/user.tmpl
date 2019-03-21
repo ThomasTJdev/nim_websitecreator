@@ -35,7 +35,7 @@
       <div class="field form-group">
         <label class="label">Email</label>
         <div class="control has-icons-left has-icons-right">
-          <input type="email" class="form-control input is-rounded" name="email" placeholder="Email" minlength="5" dir="auto" required autofocus
+          <input type="email" class="input is-rounded" name="email" placeholder="Email" minlength="5" dir="auto" required autofocus
           # when defined(demo):
             value="test@test.com"
           # end when
@@ -45,7 +45,7 @@
       <div class="field form-group">
         <label class="label">Password</label>
         <div class="control has-icons-left has-icons-right">
-          <input type="password" class="form-control input is-rounded" name="password" autocomplete="current-password" placeholder="Password" dir="auto" required
+          <input type="password" class="input is-rounded" name="password" autocomplete="current-password" placeholder="Password" dir="auto" required
           # when defined(demo) or defined(dev):
             minlength="4"  value="test"
           # else:
@@ -57,7 +57,7 @@
       <details class="field form-group">
         <summary class="label">2 Factor Auth (TOTP)</summary>
         <div class="control has-icons-left has-icons-right">
-          <input type="tel" class="form-control input is-rounded has-text-centered is-family-monospace" name="totp" placeholder="6 Digit Number" min="000000" max="999999" step="1" maxlength="6" dir="auto" pattern="\d*" autocomplete="off"
+          <input type="tel" class="input is-rounded has-text-centered is-family-monospace" name="totp" placeholder="6 Digit Number" min="000000" max="999999" step="1" maxlength="6" dir="auto" pattern="\d*" autocomplete="off"
           # when defined(demo):
             value="123456"
           # end when
@@ -79,10 +79,10 @@
         </label>
       </div>
 
-      <input href="#" type="submit" class="btn btn-custom btn-blue-secondary button is-primary is-fullwidth is-rounded" value="Login" />
+      <input href="#" type="submit" class="button is-primary is-fullwidth is-rounded" value="Login" />
 
       ## DONT TOUCH, HoneyPot: https://github.com/ThomasTJdev/nim_websitecreator/issues/43#issue-403507393
-      <input type="password" class="form-control input is-rounded" name="password2" autocomplete="false" tabindex="-1" placeholder="Password" dir="auto" minlength="10" value="" style="
+      <input type="password" class="input is-rounded" name="password2" autocomplete="false" tabindex="-1" placeholder="Password" dir="auto" minlength="10" value="" style="
       ${["display:none !important", "visibility:hidden !important", "opacity:0 !important"].rand}
       " >
       ## DONT TOUCH, HoneyPot: https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377
@@ -195,7 +195,7 @@
       <div class="field">
         <label class="label">Status</label>
         <div class="control select">
-          <select name="status" class="form-control form-control-sm">
+          <select name="status">
             <option value="User" selected>User</option>
             <option value="Moderator">Moderator</option>
             # if c.rank == Admin:
@@ -224,7 +224,7 @@
     </p>
     <form method="post" action="/users/reset">
       <br>
-      <input type="tel" id="userid" name="userid" title="User ID" class="form-control input has-text-centered has-text-weight-bold is-family-monospace" placeholder="User ID" min="1" step="1" maxlength="9" pattern="\d*" autocomplete="off" dir="auto" value="" style="width:9em" required /><br>
+      <input type="tel" id="userid" name="userid" title="User ID" class="input has-text-centered has-text-weight-bold is-family-monospace" placeholder="User ID" min="1" step="1" maxlength="9" pattern="\d*" autocomplete="off" dir="auto" value="" style="width:9em" required /><br>
       <label title="Delete all Pages and Blogs of this user"><input type="checkbox" name="cleanout" id="cleanout" > Delete Pages and Blogs of this user </label>
       <br><br>
       <button type="submit" class="button is-danger is-small">Reset user</button>
@@ -266,6 +266,7 @@
 
         <form method="POST" action="/users/profile/update" class="has-background-white has-text-black" style="padding:9px;border:1px solid grey;border-radius:4px">
           <div class="field" style="margin-bottom:9px">
+<<<<<<< HEAD
             <label class="label">Name<span class="has-text-danger has-text-weight-bold">*</span></label>
             <input id="name" name="name" type="text" placeholder="name" autocomplete="false" class="form-control input" required minlength="3" maxlength="60" value="${user[1]}" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
           </div>
@@ -278,6 +279,20 @@
           <div class="field" style="margin-bottom:9px">
             <label class="label">Password<span class="has-text-danger has-text-weight-bold">*</span></label>
             <input id="password" name="password" type="password" placeholder="Password" autocomplete="new-password" class="form-control input" maxlength="300" required value="" dir="auto"
+=======
+            <label class="label">Name<span style="color: red;font-weight: 600;">*</span></label>
+            <input id="name" name="name" type="text" placeholder="name" autocomplete="false" class="input" required minlength="3" maxlength="60" value="${user[1]}" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+          </div>
+
+          <div class="field" style="margin-bottom:9px">
+            <label class="label">Email<span style="color: red;font-weight: 600;">*</span></label>
+            <input id="email" name="email" placeholder="email" type="email" autocomplete="username" class="input" required minlength="3" maxlength="300" value="${user[2]}" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()">
+          </div>
+
+          <div class="field" style="margin-bottom:9px">
+            <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
+            <input id="password" name="password" type="password" placeholder="Password" autocomplete="new-password" class="input" maxlength="300" required value="" dir="auto"
+>>>>>>> f977bbe45eca5abea6710af04aa15193e93051f8
             # when defined(demo) or defined(dev):
               minlength="4"
             # else:
@@ -287,8 +302,8 @@
           </div>
 
           <div class="field" style="margin-bottom:9px">
-            <label class="label">Password<span class="has-text-danger has-text-weight-bold">*</span></label>
-            <input id="passwordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" class="form-control input" maxlength="128" required placeholder="Confirm password" value="" dir="auto"
+            <label class="label">Password<span style="color: red;font-weight: 600;">*</span></label>
+            <input id="passwordConfirm" name="passwordConfirm" type="password" autocomplete="new-password" class="input" maxlength="128" required placeholder="Confirm password" value="" dir="auto"
             # when defined(demo) or defined(dev):
               minlength="4"
             # else:
@@ -329,8 +344,8 @@
                 </ul>
                 </small>
                 <br>
-                <input type="text" id="twofa-key" class="form-control input  has-text-centered has-text-weight-bold is-family-monospace is-narrow" disabled="disabled" style="width:10em" value="$twoFaKeys"/>&nbsp;
-                <input type="tel" id="twofa-testcode" class="form-control input has-text-centered has-text-weight-bold is-family-monospace" placeholder="Test 2FA" min="000000" max="999999" step="1" maxlength="6" pattern="\d*" autocomplete="off" dir="auto" value="" style="width:6em"/>
+                <input type="text" id="twofa-key" class="input  has-text-centered has-text-weight-bold is-family-monospace is-narrow" disabled="disabled" style="width:10em" value="$twoFaKeys"/>&nbsp;
+                <input type="tel" id="twofa-testcode" class="input has-text-centered has-text-weight-bold is-family-monospace" placeholder="Test 2FA" min="000000" max="999999" step="1" maxlength="6" pattern="\d*" autocomplete="off" dir="auto" value="" style="width:6em"/>
                 <br><br>
                 <div>
                   <a href="#!" class="button is-info is-pulled-left test2fa">Test 2FA</a>
@@ -342,7 +357,7 @@
           <br>
 
           <div class="save">
-            <button type="submit" class="btn btn-success save submit button is-success is-fullwidth">Save</button>
+            <button type="submit" class="save submit button is-success is-fullwidth">Save</button>
           </div>
         </form>
 
@@ -362,17 +377,17 @@
 
           <div class="field" style="margin-bottom:9px">
             <label class="label">Status</label>
-            <input type="text" class="form-control input" disabled="disabled" value="${user[3]}" dir="auto">
+            <input type="text" class="input" disabled="disabled" value="${user[3]}" dir="auto">
           </div>
 
           <div class="field" style="margin-bottom:9px">
             <label class="label">ID</label>
-            <input type="text" class="form-control input" disabled="disabled" value="${user[0]}" dir="auto">
+            <input type="text" class="input" disabled="disabled" value="${user[0]}" dir="auto">
           </div>
 
           <div class="field" style="margin-bottom:9px">
             <label class="label">Last activity</label>
-            <input type="text" class="form-control input" disabled="disabled" value="${ fromUnix(parseInt(user[4])).utc }" dir="auto">
+            <input type="text" class="input" disabled="disabled" value="${ fromUnix(parseInt(user[4])).utc }" dir="auto">
           </div>
 
         </div>
@@ -445,7 +460,7 @@
     </label>
   </div>
 </div>
-<button type="submit" title="Save Avatar" class="btn btn-success newblogSave button is-success is-fullwidth">Save</button>
+<button type="submit" title="Save Avatar" class="newblogSave button is-success is-fullwidth">Save</button>
 </form>
 <hr>
 <details>

@@ -7,7 +7,7 @@
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
-  base32, streams, encodings, nativesockets, libravatar,
+  base32, streams, encodings, nativesockets, libravatar, html_tools,
   oswalkdir as oc,
 
   resources/administration/create_adminuser,
@@ -265,7 +265,10 @@ proc init(c: var TData) =
 
 proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
-  let outp = execCmd("nim c " & checkCompileOptions & " -o:" & getAppDir() & "/nimwc_main_new_tmp " & getAppDir() & "/nimwc_main.nim")
+  let
+    appName = dict.getSectionValue("Server", "appname").normalize
+    appPath = getAppDir() & "/nimwcpkg/" & appName
+    outp = execCmd("nim c " & checkCompileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
   moveFile(getAppDir() & "/nimwc_main_new_tmp", getAppDir() & "/nimwc_main_new")
   return outp
 
@@ -389,67 +392,6 @@ template createTFD() =
   if request.cookies.len > 0:
     checkLoggedIn(c)
   c.loggedIn = loggedIn(c)
-
-
-#
-# HTML tools
-#
-
-
-template bulma*(c: var TData): string =
-  const
-    bulmaDefault = "<link rel='stylesheet' href='https://unpkg.com/bulmaswatch@0.7.2/default/bulmaswatch.min.css'>"
-    bulmaSql = sql"select theme from person where id = ?"
-  when defined(demo): bulmaDefault
-  else:
-    let bt = getValue(db, bulmaSql, c.userid)
-    if bt.len > 9: "<link rel='stylesheet' href='" & bt & "'>"
-    else: bulmaDefault
-
-
-template minifyHtml*(htmlstr: string): string =
-  when defined(release): replace(htmlstr, re">\s+<", "> <").strip else: htmlstr
-
-
-template rst2html*(stringy: string): string =
-  ## RST/MD to HTML using std lib.
-  try:
-    rstToHtml(stringy.strip, {}, newStringTable(modeStyleInsensitive))
-  except:
-    stringy
-
-
-template checkboxToInt(checkboxOnOff: string): string =
-  ## When posting checkbox data from HTML form
-  ## an "on" is sent when true. Convert to 1 or 0.
-  if checkboxOnOff == "on": "1" else: "0"
-
-
-template checkboxToChecked(checkboxOnOff: string): string =
-  ## When parsing DB data on checkboxes convert
-  ## 1 or 0 to HTML checked to set checkbox
-  if checkboxOnOff == "1": "checked" else: ""
-
-
-template statusIntToText(status: string): string =
-  ## When parsing DB status convert 0, 1 and 3 to human names
-  case status
-  of "0": "Development"
-  of "1": "Private"
-  of "2": "Public"
-  else:   "Error"
-
-
-template statusIntToCheckbox(status, value: string): string =
-  ## When parsing DB status convert to HTML selected on selects
-  if status == "0" and value == "0":
-    "selected"
-  elif status == "1" and value == "1":
-    "selected"
-  elif status == "2" and value == "2":
-    "selected"
-  else:
-    ""
 
 
 #
