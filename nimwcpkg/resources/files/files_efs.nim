@@ -1,4 +1,4 @@
-import parsecfg, os, strutils, osproc, os, logging, ../utils/logging_nimwc
+import parsecfg, os, strutils, logging, ../utils/logging_nimwc
 
 
 setCurrentDir(getAppDir().replace("/nimwcpkg", ""))
@@ -21,6 +21,7 @@ let
 info("Checking that required 'files' folders exists.")
 for folder in paths2create:
   discard existsOrCreateDir(folder)
+  assert fpUserWrite in getFilePermissions(folder), "Wrong folder permissions:\n" & $getFilePermissions(folder) & folder
 
 # Storage settings
 if tempDir == "fileslocal" or defined(dev):
@@ -29,7 +30,6 @@ if tempDir == "fileslocal" or defined(dev):
     createSymlink(src= appDir & "/" & tempDir & "/*",
                   dest=appDir & "/files/efs/")
   except: discard
-
 else:
   info("Symlinking " & tempDir & " to files/efs")
   try:
