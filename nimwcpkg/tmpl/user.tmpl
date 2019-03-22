@@ -309,10 +309,13 @@
                    You can Enable, Disable and Reset it at any time.
                 </p>
                 # proc twoFaKey(): string =
-                #   const items = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-                #   for i in countUp(0, 10):
-                #     result.add(rand(items))
-                #   end for
+                #   when defined(demo): result = "ABCDEFGHIJ"
+                #   else:
+                #     const items = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+                #     for i in countUp(0, 10):
+                #       result.add(rand(items))
+                #     end for
+                #   end when
                 # end template
                 # let twoFaKeys = twoFaKey()
                 # let twoFaLink = "otpauth://totp/" & $user[2] & "?algorithm=SHA1&digits=6&period=30&secret=" & twoFaKeys
