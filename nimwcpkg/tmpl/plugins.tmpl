@@ -38,7 +38,7 @@
     <div class="notification is-info">
       <h3>Please download the list of plugins.</h3>
     </div>
-    <a href="/plugins/repo/download" class="button is-primary is-large is-fullwidth is-rounded">Download plugin list</a>
+    <a href="/plugins/repo/download" class="button is-primary is-large is-fullwidth is-rounded" onclick="${ notifyHtml("Updating Plugin list") }">Download plugin list</a>
   </div>
 
 # else:
@@ -118,7 +118,7 @@
             <a href="/plugins/repo/deleteplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginname=${plugin["name"].getStr()}" class="button is-danger is-fullwidth">Disable & Delete</a>
 #         else:
             <a href="${ plugin["web"].getStr }" class="button is-fullwidth is-small" title="Go to plugin website page" target="_blank" style="opacity:.7">Go to plugin website</a><br>
-            <a href="/plugins/repo/downloadplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginrepo=${plugin["url"].getStr()}&pluginname=${plugin["name"].getStr()}" class="button is-success is-fullwidth">Download & Install</a>
+            <a href="/plugins/repo/downloadplugin?pluginfolder=${plugin["foldername"].getStr()}&pluginrepo=${plugin["url"].getStr()}&pluginname=${plugin["name"].getStr()}" class="button is-success is-fullwidth" onclick="${ notifyHtml("Installing Plugin: " & plugin["name"].getStr) }">Download & Install</a>
 #         end if
           </div>
         </div>
