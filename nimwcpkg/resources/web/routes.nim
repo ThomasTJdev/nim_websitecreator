@@ -972,6 +972,12 @@ routes:
     writeFile("public/sitemap.xml", genSitemap())
     sendFile("public/sitemap.xml")
 
+
+#
+# Pages
+#
+
+
   get re"/*.":
     createTFD()
     const sql_page = sql"SELECT id FROM pages WHERE url = ?"
