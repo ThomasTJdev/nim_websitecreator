@@ -963,10 +963,10 @@ routes:
     resp genMainAdmin(c, genEditPage(c, @"pageid"), "edit")
 
 
-  get re"/p//*.":
+  get re"/*.":
     createTFD()
-    let pageid = getValue(db, sql"SELECT id FROM pages WHERE url = ?", c.req.path.replace("/p/", ""))
-    resp genPage(c, pageid)
+    const sql_page = sql"SELECT id FROM pages WHERE url = ?"
+    resp genPage(c, getValue(db, sql_page, c.req.path))
 
 
 #

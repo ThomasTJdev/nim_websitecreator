@@ -20,7 +20,7 @@
 #
 # for page in allPages:
 <url>
-  <loc>${mainWebsite}/p/${page[0]}</loc>
+  <loc>${ $mainWebsite & $page[0] }</loc>
   <lastmod>${fromUnix(parseInt(page[1]))}</lastmod>
   <priority>0.90</priority>
 </url>
