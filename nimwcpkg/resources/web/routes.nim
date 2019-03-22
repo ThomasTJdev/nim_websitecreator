@@ -963,12 +963,6 @@ routes:
     resp genMainAdmin(c, genEditPage(c, @"pageid"), "edit")
 
 
-  get re"/*.":
-    createTFD()
-    const sql_page = sql"SELECT id FROM pages WHERE url = ?"
-    resp genPage(c, getValue(db, sql_page, c.req.path))
-
-
 #
 # Sitemap
 #
@@ -977,3 +971,8 @@ routes:
   get "/sitemap.xml":
     writeFile("public/sitemap.xml", genSitemap())
     sendFile("public/sitemap.xml")
+
+  get re"/*.":
+    createTFD()
+    const sql_page = sql"SELECT id FROM pages WHERE url = ?"
+    resp genPage(c, getValue(db, sql_page, c.req.path))
