@@ -1,4 +1,4 @@
-import os, osproc, rdstdin, sequtils, strutils, terminal, times, json
+import os, osproc, parsecfg, rdstdin, sequtils, strutils, terminal, times, json
 
 when not defined(firejail): {.warning: "Firejail is Disabled, Running Unsecure.".}
 else:                       import firejail, parsecfg
