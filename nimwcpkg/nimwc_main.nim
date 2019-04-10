@@ -235,6 +235,8 @@ let
   proxyURL  = dict.getSectionValue("Proxy", "url")
   proxyPath = dict.getSectionValue("Proxy", "path")
 
+  stdLang   = dict.getSectionValue("Language", "standardLang")
+
   logfile =
     when defined(release): dict.getSectionValue("Logging", "logfile")
     else:                  dict.getSectionValue("Logging", "logfiledev")
