@@ -1,3 +1,8 @@
+## v5.1.1
+### Changes
+- Fixed bug in recompile function. Used when enabling/disabling plugins
+
+
 ## v5.1.0
 ### Changes
 - Support for libravatar on profile picture
