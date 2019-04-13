@@ -125,7 +125,7 @@ let
   userArgs = if args == "": "" else: " " & args
   userArgsRun = if args == "": "" else: " --run " & args
   dict = loadConfig(getAppDir() & "/config/config.cfg")
-  appName = dict.getSectionValue("Server", "appname").normalize
+  appName = dict.getSectionValue("Server", "appname")
   appPath = getAppDir() & "/nimwcpkg/" & appName
 assert appName.len > 1, "Config error: appname must not be empty string: " & appName
 
