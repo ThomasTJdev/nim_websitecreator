@@ -655,6 +655,7 @@ li.pluginRepo span.version.git {
   margin-right: auto;
   background-color: white;
   padding: 20px;
+  word-break: break-all;
 }
 
 
