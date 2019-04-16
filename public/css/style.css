@@ -429,6 +429,9 @@ div#login {
   -moz-box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
   box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
 }
+#login form summary {
+  cursor: pointer;
+}
 #recaptcha {
   margin-bottom: 5px;
   margin-top: 20px;
