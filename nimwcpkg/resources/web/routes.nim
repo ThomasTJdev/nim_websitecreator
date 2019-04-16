@@ -558,8 +558,8 @@ routes:
     if not usesWebp and @"checksum" == "true":
       filename = getMD5(filedata) & fileexts
 
-    if @"normalize" == "true":
-      filename = filename.normalize
+    if @"lowercase" == "true":
+      filename = filename.toLowerAscii()
 
     if @"access" == "publicimage":
       path = "public/images/" & filename
