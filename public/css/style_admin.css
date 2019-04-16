@@ -520,7 +520,6 @@ div#user.image {
 /*
   Files
 */
-div#fileAddContainer,
 div#files {
   background: #ffffffd6;
   border-radius: 10px;
@@ -529,8 +528,8 @@ div#files {
   max-width: 1000px;
   padding: 10px;
 }
-div#fileAddContainer {
-  margin-bottom: 20px;
+details#fileAddContainer>summary {
+  cursor: pointer;
 }
 form#fileAdd {
   border: 1px solid grey;
