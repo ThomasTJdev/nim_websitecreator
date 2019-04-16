@@ -11,10 +11,7 @@ const
 
   head* = """
   <meta charset="utf-8">
-  <title>Nim Website Creator</title>
   <meta name="generator" content="Nim Website Creator">
-  <meta name="description" content="Nim Website Creator">
-  <meta name="keywords" content="Nim Website Creator">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="shortcut icon" href="/favicon.ico">
@@ -34,10 +31,7 @@ const
 
   headClean = """
   <meta charset="utf-8">
-  <title></title>
   <meta name="generator" content="">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="/css/style.css">
