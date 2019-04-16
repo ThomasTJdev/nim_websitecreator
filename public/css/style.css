@@ -9,7 +9,6 @@ body {
 
 div#background {
   background-attachment: fixed;
-  background-attachment: fixed;
   background-image: url("/images/background.jpg");
   background-position: top center;
   background-repeat: no-repeat;
@@ -70,6 +69,20 @@ header {
   margin-right: auto;
   display: block;
 }
+
+/*
+  Bootstrap specific
+*/
+.hidden {
+  display: none;
+}
+.has-text-centered {
+  text-align: center;
+}
+div#allblogPosts ul {
+  padding-inline-start: 0;
+}
+
 
 /*
   Navbar Bootstrap
@@ -430,13 +443,13 @@ div#allblogPosts {
   margin-bottom: 40px;
   margin-top: 55px;
 }
-div#allblogPosts .list-group {
+div#allblogPosts ul {
   margin-left: auto;
   margin-right: auto;
   max-width: 800px;
   width: 100%;
 }
-div#allblogPosts .list-group-item {
+div#allblogPosts ul>li {
   background: white;
   border: 1px solid #bcbcbc9e;
   display: block;
@@ -444,9 +457,6 @@ div#allblogPosts .list-group-item {
   margin-right: auto;
   padding: 1rem;
   width: 100%;
-}
-div#allblogPosts a.list-group-item {
-  color: black;
 }
 div#allblogPosts h5.blogName {
   font-weight: 600;

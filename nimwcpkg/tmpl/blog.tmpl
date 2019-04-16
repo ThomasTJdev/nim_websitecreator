@@ -78,7 +78,7 @@
 #   end if
 #
 #
-  <ul class="list-group">
+  <ul>
 #   for blog in allBlogPages:
 #     var blogTitle = ""
 #     if edit:
@@ -87,12 +87,7 @@
 #       blogTitle = "<h5 class='blogName'><a class='blogName' href='/blog/" & blog[1] & "'>" & blog[2] & "</a></h5>"
 #     end if
 #
-#     if edit:
-      <li class="list-group-item">
-#     else:
-      <li class="list-group-item">
-#     end if
-#
+      <li>
         <div>
           <div class="is-pulled-right is-hidden-mobile float-right d-none d-md-block">
             <small>${if blog[10] != "": blog[10] else: epochDate(blog[5], "YYYY-MM-DD")}</small>
@@ -116,16 +111,11 @@
 #           end if
           </div>
         </div>
-#     if edit:
       </li>
-#     else:
-      </li>
-#     end if
-#
 #   end for
   </ul>
 #
 # end if
-
+#
 </div>
 #end proc
