@@ -269,7 +269,7 @@ proc recompile*(): int {.inline.} =
     appName = dict.getSectionValue("Server", "appname")
     appPath = getAppDir() & "/" & appName
     outp = execCmd("nim c " & checkCompileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
-  moveFile(getAppDir() & "/nimwc_main_new_tmp", getAppDir() & "/nimwc_main_new")
+  moveFile(getAppDir() & "/" & appName & "_new_tmp", getAppDir() & "/" & appName & "_new")
   return outp
 
 #
