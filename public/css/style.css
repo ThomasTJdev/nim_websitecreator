@@ -455,6 +455,7 @@ div#allblogPosts ul {
 div#allblogPosts ul>li {
   background: white;
   border: 1px solid #bcbcbc9e;
+  color: black;
   display: block;
   margin-left: auto;
   margin-right: auto;
