@@ -36,7 +36,7 @@
 # end if
 #
 #
-# let allCategories = getAllRows(db, sql("SELECT category FROM blog WHERE status IN " & status & " ORDER BY category ASC"))
+# let allCategories = getAllRows(db, sql("SELECT DISTINCT category FROM blog WHERE status IN " & status & " ORDER BY category ASC"))
 
 <div id="allblogPosts">
   <div class="has-text-centered">
