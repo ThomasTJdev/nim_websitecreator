@@ -544,7 +544,7 @@ routes:
     if @"access" notin ["private", "public", "publicimage"]:
       resp("Error: Missing access right")
 
-    const
+    let
       efspublic = storageEFS & "/files/public/"
       efsprivate = storageEFS & "/files/private/"
     var
@@ -789,7 +789,7 @@ routes:
     ## Get a file
     createTFD()
     let filename = decodeUrl(@"filename")
-    var filepath = storageEFS & "/users/" & filename
+    let filepath = storageEFS & "/users/" & filename
     if not fileExists(filepath): resp("")
     sendFile(filepath)
 
