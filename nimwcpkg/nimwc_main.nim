@@ -430,10 +430,6 @@ when isMainModule:
   assert db is DbConn, "Connection to DB could not be established, failed to open Database."
   info("Connection to DB is established.")
 
-  # Add admin user
-  if "newuser" in commandLineParams():
-    createAdminUser(db, commandLineParams())
-
   # When Demo Mode, Reset everything at start, create Test User, create Test Data, for use with Firejail `timeout=1`
   when defined(demo):
     {. hint: "Demo is Enabled, Database Resets Automatically every hour." .}
@@ -444,8 +440,9 @@ when isMainModule:
     # doAssert dict.getSectionValue("firejail", "timeout") == "1", "Firejail Timeout must be 1"
     info("Demo Mode: Database reset successful")
 
-  # Activate Google reCAPTCHA
-  setupReCapthca()
+  # Add admin user
+  if "newuser" in commandLineParams():
+    createAdminUser(db, commandLineParams())
 
   # Update sql database from extensions
   extensionUpdateDB(db)
@@ -462,15 +459,23 @@ when isMainModule:
       else:
         createStandardData(db, "bulma")
 
+  # If user has provided arguments then quit
+  if commandLineParams().len != 0:
+    quit()
+
   # Create robots.txt
   writeFile("public/robots.txt", "User-agent: *\nSitemap: " & mainWebsite & "/sitemap.xml")
+
+  # Activate Google reCAPTCHA
+  setupReCapthca()
 
   # Check if custom js and css exists
   if not fileExists("public/css/style_custom.css"):
     writeFile("public/css/style_custom.css", "")
   if not fileExists("public/js/js_custom.js"):
     writeFile("public/js/js_custom.js", "")
-  info("Up and running!.")
+
+  info("Up and running!")
 
 
 #

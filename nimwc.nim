@@ -202,17 +202,23 @@ proc launcherActivated() =
   nimhaMain = startProcess(nimwcCommand, options = processOpts)
 
   while runInLoop:
+    # If nimha_main has been recompile, check for a new version
     if fileExists(appPath & "_new"):
       kill(nimhaMain)
       moveFile(appPath & "_new", appPath)
 
+    # Loop to check if nimwc_main is running
     if not running(nimhaMain):
+      # Quit if user has provided arguments
+      if args.len() != 0:
+        styledEcho(fgYellow, bgBlack, $now() & ": User provided arguments: " & args)
+        styledEcho(fgYellow, bgBlack, $now() & ": Run again without arguments, exiting..")
+        quit()
+
       styledEcho(fgYellow, bgBlack, $now() & ": Restarting in 1 second.")
       sleep(1000)
 
-      if userArgsRun != "":
-        styledEcho(fgGreen, bgBlack, " Using args: " & userArgsRun)
-
+      # Start nimha_main as process
       nimhaMain = startProcess(nimwcCommand, options = processOpts)
 
     sleep(2000)
