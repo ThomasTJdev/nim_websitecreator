@@ -8,7 +8,7 @@
 #
 #
 #
-#proc genEditPage(c: var TData, pageid: string, newPage = false): string =
+#proc genEditPage(c: var TData, pageid, newPage: string): string =
 # result = ""
 #
 # let pageData = getAllRows(db, sql"SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, url, status FROM pages WHERE id = ?", pageid)
@@ -65,7 +65,7 @@
     <hr>
 
     <div>
-      # if newPage:
+      # if newPage == "true":
         ${genPageEditorMainNew(c, "standardpage")
       # else:
         ${genPageEditorMainEdit(c, page[4])}

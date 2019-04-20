@@ -838,7 +838,7 @@ routes:
 
     let blogID = insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags, pubDate, viewCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"pubdate", @"viewcount")
 
-    resp genMainAdmin(c, genEditBlog(c, $blogID, true), "edit")
+    redirect("/editpage/blog/" & $blogID & "?newpage=true")
 
 
   post "/blogpage/update":
@@ -877,7 +877,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMainAdmin(c, genEditBlog(c, @"blogid"), "edit")
+    resp genMainAdmin(c, genEditBlog(c, @"blogid", @"newpage"), "edit")
 
 
   get "/blog":
@@ -919,7 +919,7 @@ routes:
 
     let pageID = insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags")
 
-    resp genMainAdmin(c, genEditPage(c, $pageID, true), "edit")
+    redirect("/editpage/page/" & $pageID & "?newpage=true")
 
 
   post "/page/update":
@@ -960,7 +960,7 @@ routes:
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
 
-    resp genMainAdmin(c, genEditPage(c, @"pageid"), "edit")
+    resp genMainAdmin(c, genEditPage(c, @"pageid", @"newpage"), "edit")
 
 
   get re"/p//*.":
