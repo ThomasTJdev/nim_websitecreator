@@ -432,13 +432,13 @@ when isMainModule:
 
   # When Demo Mode, Reset everything at start, create Test User, create Test Data, for use with Firejail `timeout=1`
   when defined(demo):
-    {. hint: "Demo is Enabled, Database Resets Automatically every hour." .}
-    const resetSql = sql"DELETE FROM session; DELETE FROM pages; DELETE FROM blog; DELETE FROM files; DELETE FROM person"
-    exec(db, resetSql)      # Reset everything
-    createTestUser(db)      # Recreate Demo user
-    createStandardData(db)  # Recreate Demo Data (Pages & Blogs)
+    {. hint: "Demo is Enabled, reverting demo users changes." .}
+    exec(db, sql"DELETE FROM blog;")  # Delete blogposts
+    standardDataBlogpost1(db)         # Add blogpost 1
+    standardDataBlogpost2(db)         # Add blogpost 2
+    standardDataBlogpost3(db)         # Add blogpost 3
     # doAssert dict.getSectionValue("firejail", "timeout") == "1", "Firejail Timeout must be 1"
-    info("Demo Mode: Database reset successful")
+    info("Demo Mode: Database reverted to default")
 
   # Add admin user
   if "newuser" in commandLineParams():
