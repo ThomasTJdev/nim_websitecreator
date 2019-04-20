@@ -4,17 +4,17 @@
 $(document).ready(function() {
   $( "a.switchEditorGrapesJS" ).click(function() {
     document.cookie = "editor=grape;path=/"
-    location.reload();
+    window.location = window.location.pathname;
   });
 
   $( "a.switchEditorSummernote" ).click(function() {
     document.cookie = "editor=summernote;path=/";
-    location.reload();
+    window.location = window.location.pathname;
   });
 
   $( "a.switchEditorRawHTML" ).click(function() {
     document.cookie = "editor=html;path=/";
-    location.reload();
+    window.location = window.location.pathname;
   });
 });
 
