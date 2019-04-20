@@ -339,7 +339,7 @@ const
                 </h4>
                 <p style="margin-bottom: 0rem;">
                   <label style="width: 70px;">Clone:</label>
-                  <kbd>git clone https://git.io/f4AfL</kbd>
+                  <kbd>git clone https://github.com/ThomasTJdev/nim_websitecreator.git</kbd>
                 </p>
                 <p>
                   <label style="width: 70px;">Compile:</label>
@@ -379,7 +379,7 @@ const
                 <h4>Learn more
                 </h4>
                 <p style="margin-bottom: 0.3rem;">You can visit the
-                  <a href="https://git.io/f4AfL">Github page</a> to see the code
+                  <a href="https://github.com/ThomasTJdev/nim_websitecreator">Github page</a> to see the code
                 </p>
                 <p>Checkout the features and see the examples on how to use NimWC
                 </p>

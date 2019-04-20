@@ -692,6 +692,7 @@ _________________*/
   color: #fff;
   background-color: #212529;
   border-radius: .2rem;
+  word-break: break-all;
 }
 @media only screen and (max-width: 768px) {
   #frontpage .title {
