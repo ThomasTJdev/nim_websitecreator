@@ -72,7 +72,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - [NGINX Config](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template.
 - [SystemD Service](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template.
 - [Vagrantfile](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template.
-- [Dockerfile](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template.
+- [Dockerfile](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/docker/) template.
 
 
 # Requirements
@@ -272,7 +272,8 @@ GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma 
 
 **Docker**
 
-- [Use the Dockerfile](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/devops/Dockerfile) as starting point for your NimWC containers.
+- [Use the Dockerfile](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/devops/docker/) as starting point for your NimWC containers.
+- You can run the build_docker.sh and run_docker.sh scripts without changing anything to try out nimwc.
 
 
 **Vagrant**
