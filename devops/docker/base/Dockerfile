@@ -1,14 +1,11 @@
-FROM archlinux/base
-ENV PATH=/root/.nimble/bin:$PATH
+FROM nimlang/nim
 RUN export CHOOSENIM_NO_ANALYTICS=1 
-RUN pacman -Syu --needed --noconfirm --quiet git libwebp firejail base-devel
-RUN curl -sfk https://nim-lang.org/choosenim/init.sh > init.sh && sh init.sh -y
-RUN nimble -y refresh
 RUN git clone https://github.com/ThomasTJdev/nim_websitecreator.git
 WORKDIR /nim_websitecreator/
 # install dependencies
-RUN nimble install -dy
+# firejail does not work in docker
+RUN nimble install -dy && nimble remove -y firejail
 #compile
-RUN nim c -d:ssl -d:sqlite --passL:"-s" nimwc.nim
-RUN rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/nimblecache/* /tmp/* /var/log/journal/*
+RUN rm nimwc.nim.cfg && nim c -d:release -d:webp -d:ssl -d:sqlite --passL:"-s" nimwc.nim
+RUN rm -rf /var/lib/apt/lists/* /var/tmp/* /tmp/nimblecache/* /tmp/* /var/log/journal/* 
 EXPOSE 7000
