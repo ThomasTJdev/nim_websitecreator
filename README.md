@@ -92,6 +92,7 @@ Development dependencies (automatically installed by Nimble):
 - [Firejail](https://github.com/juancarlospaco/nim-firejail) >= `0.5.0`
 - [WebP](https://github.com/juancarlospaco/nim-webp-tools) >= `0.2.0`
 - [Libravatar](https://github.com/juancarlospaco/nim-libravatar#nim-libravatar) >= `0.4.0`
+- [HTML-Tools](https://github.com/juancarlospaco/nim-html-tools#features) >= `0.1.0`
 
 Foreing optional dependencies:
 
@@ -103,6 +104,9 @@ Foreing optional dependencies:
 
 **When using Firejail and enabling/disabling a plugin a full restart of NimWC is required.**
 It is therefore not advised to enable/disable plugins in the browser when using Firejail.
+
+Most of Dependencies are also from the NimWC Core Devs team,
+and are splitted only to give back to the Nim community so they can re-use the code.
 
 
 # Install

@@ -35,11 +35,7 @@
       <div class="field form-group">
         <label class="label">Email</label>
         <div class="control has-icons-left has-icons-right">
-          <input type="email" class="input is-rounded" name="email" placeholder="Email" minlength="5" dir="auto" required autofocus
-          # when defined(demo):
-            value="test@test.com"
-          # end when
-          >
+          ${ inputEmailHtml(value= when defined(demo): "test@test.com" else: "", name="email", class="input is-rounded", id="email", placeholder="Email", required=true) }
         </div>
       </div>
       <div class="field form-group">
@@ -190,7 +186,7 @@
       </div>
       <div class="field">
         <label class="label">Email</label>
-        <input class="input" type="email" name="email" required value="" dir="auto" placeholder="user@example.com" minlength="5" style="max-width:50%" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()"/>
+        ${ inputEmailHtml(name="email", class="input", id="email", placeholder="user@example.com", required=true) }
       </div>
       <div class="field">
         <label class="label">Status</label>
@@ -272,7 +268,7 @@
 
           <div class="field" style="margin-bottom:9px">
             <label class="label">Email<span style="color: red;font-weight: 600;">*</span></label>
-            <input id="email" name="email" placeholder="email" type="email" autocomplete="username" class="input" required minlength="3" maxlength="300" value="${user[2]}" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()">
+            ${ inputEmailHtml(value=user[2], name="email", class="input", id="email", placeholder="Email", required=true) }
           </div>
 
           <div class="field" style="margin-bottom:9px">
@@ -334,7 +330,7 @@
                 <br><br>
                 <div>
                   <a href="#!" class="button is-info is-pulled-left test2fa">Test 2FA</a>
-                  <a href="#!" class="button is-success is-pulled-right save2fa is-invisible">Save 2FA</a>
+                  <a href="#!" class="button is-success is-pulled-right save2fa is-invisible" onclick="${ notifyHtml("2 Factor Authentication Activated") }">Save 2FA</a>
                 </div>
                 <br><br>
             # end if
@@ -460,7 +456,7 @@
   <div>
     <img id="userPictureEdit" class="image is-128x128 libravatar" src="/users/photo/stream/${c.userid}.png" title="Custom" alt="Custom" style="max-width:99%">
   <div>
-  <input type="file" id="userPictureEditTemp" accept=".jpg,.jpeg,.png" title="JPG, PNG" /><br>
+  ${ inputFileHtml(name="userPictureEditTemp", class="button", id="userPictureEditTemp", required=true) } <br>
   <button id="userPictureSave" class="button is-small">Upload</button>
   </center>
 </details>

@@ -92,7 +92,7 @@
 
           <label class="label">Server</label>
           <div class="buttons columns is-mobile">
-            <div class="column"><a class="button is-small restartServer" title="Force Server Restart, 1~9 Seconds delay"
+            <div class="column"><a class="button is-small restartServer" title="Force Server Restart, 1~9 Seconds delay" onclick="${ notifyHtml("Server Restarting now, please wait a few seconds") }"
             # if c.rank == Admin:
               href="/settings/forcerestart"
             # end if
@@ -162,7 +162,7 @@
   <form class="standard settings" method="post" action="/settings/update">
     <div>
       <label class="label">Title</label>
-      <input type="text" class="input" name="title" id="title" required value="${page[4]}" style="width: 300px;" dir="auto" pattern="^[\p{ASCII}]{1,99}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')"/>
+      <input type="text" class="input" name="title" id="title" required value="${page[4]}" style="width: 300px;" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')"/>
     </div>
     <br>
     <div>
