@@ -101,6 +101,8 @@ Foreing optional dependencies:
 
 **For stable development use Nim Stable Release**, Devel may or may not work, but is not stable by definition.
 
+**When using Firejail and adding a new Plugin a full Restart is required.**
+
 
 # Install
 
