@@ -270,121 +270,95 @@ const
   frontpage = """
   <div id="frontpage">
     <div class="title">
-      <h1 class="reveal reveal-bottom">Nim Website Creator
-      </h1>
-      <h2 class="reveal reveal-bottom">Websites on the fly
-      </h2>
+      <h1 class="reveal reveal-bottom">Nim Website Creator</h1>
+      <h2 class="reveal reveal-bottom">Self-Firejailing Web Framework with 2 Factor Auth</h2>
+      <h5 class="reveal reveal-bottom">
+        Static/Dynamic Webs, Admin Dashboard, Plugin Store, WebP, Libravatar/Gravatar, Uploads/Downloads, Mailer,
+        WYSIWYG Editors, Bulma or Bootstrap, SEO-friendly, ReCAPTCHA, Auto-Rotating Logger, High Availability, and really too many features to list...
+      </h5>
       <h2 class="reveal reveal-bottom seemore">
-        <a href="#start" class="jump">See more</a>
+        <a href="#start" class="jump">Learn something awesome today</a>
       </h2>
     </div>
     <div id="start" class="text2 reveal reveal-bottom">
-      <h2>NimWC is a new tool for
-        <br>generating websites on the fly
-      </h2>
+      <h2>C Speed, Python-like Syntax</h2>
+      <h4>1 language for the whole stack, Backend & Frontend. Seamlessly interoperate with anything that has C API.</h4>
     </div>
     <div class="text3">
       <div class="container-fluid">
         <div class="columns row">
-          <div class="column col-12 col-md-4">
+          <div class="column">
             <div class="text3element">
               <h4>One click install
               </h4>
-              <p>Install with Nim's <a href="http://nimble.directory">package manager Nimble</a> or compile yourself. Just run the file, and your website is up and running.
-              </p>
+              <p>Install using Nim's <a href="http://nimble.directory">package manager Nimble</a> or
+              <a href="https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/docker">use Docker</a> or
+              <a href="https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/autoinstall.sh">use AutoInstall script</a> or
+              <a href="https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops">check the DevOps resources</a>.</p>
             </div>
           </div>
-          <div class="column col-12 col-md-4">
+          <div class="column">
             <div class="text3element">
-              <h4>Plugins
-              </h4>
-              <p>Install plugins within the browser, e.g. <a href="https://github.com/ThomasTJdev/nimwc_backup">backup function</a>, <a href="https://github.com/ThomasTJdev/nimwc_themes">themes</a>, etc. <a href="https://github.com/ThomasTJdev/nimwc_plugins#contribute">Easy development of new plugins</a>.
-              </p>
+              <h4>Plugin Store</h4>
+              <p>Its like an App Store but for Features, install plugins within the browser. A feature, a click.</p>
+              <p><a href="https://github.com/ThomasTJdev/nimwc_plugins#contribute">Code your ideas into features, create your own Plugin</a>.</p>
+              <p>Skeleton Creator helps you make new Plugins.</p>
             </div>
           </div>
-          <div class="column col-12 col-md-4">
+          <div class="column">
             <div class="text3element">
-              <h4>Speed and security
+              <h4>Speed + Security
               </h4>
-              <p>NimWC is developed with <a href="https://nim-lang.org">the programming language Nim</a> to <a href="https://nim-lang.org/features.html">ensure high speed and stability</a>.
-              </p>
+              <p>Written using <a href="https://nim-lang.org">the Nim programming language</a> to <a href="https://nim-lang.org/features.html">ensure high performance</a>.</p>
+              <p><a href="https://github.com/ThomasTJdev/nim_websitecreator#security">Firejail is integrated, the framework Firejails itself.</a></p>
+              <p>2 Factor Authentication is enabled by default.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="text4">
-      <h2>Installation
-      </h2>
-      <div class="text4container">
-        <div class="container-fluid">
-          <div class="columns row">
-            <div class="column col-12 col-md-6">
-              <div class="text4element">
-                <h4>Nimble
-                </h4>
-                <p style="margin-bottom: 0rem;">
-                  <label style="width: 70px;">Install:</label>
-                  <kbd>nimble install nimwc</kbd>
-                </p>
-                <p>
-                  <label style="width: 70px;">Run:</label>
-                  <kbd>nimwc</kbd>
-                </p>
-              </div>
-            </div>
-            <div class="column col-12 col-md-6">
-              <div class="text4element">
-                <h4>Compile
-                </h4>
-                <p style="margin-bottom: 0rem;">
-                  <label style="width: 70px;">Clone:</label>
-                  <kbd>git clone https://github.com/ThomasTJdev/nim_websitecreator.git</kbd>
-                </p>
-                <p>
-                  <label style="width: 70px;">Compile:</label>
-                  <kbd>nim c -r nimwc.nim</kbd>
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <h2>Install & Run</h2>
+      <iframe width="99%" height="480" src="https://www.youtube-nocookie.com/embed/3R1l4Ha0tDI" frameborder=0 allowfullscreen
+      style="height:480px !important;clip-path:polygon(1% 3%,98% 0,100% 96%,0 100%)">https://youtu.be/3R1l4Ha0tDI</iframe>
     </div>
     <div class="text5">
-      <h2 class="sub1 reveal reveal-bottom">NimWC is 100% free
-      </h2>
-      <h2 class="sub2 reveal reveal-bottom">NimWC is 100% open source
-      </h2>
+      <h2 class="sub1 reveal reveal-bottom">Less code, more performance, no programmed obsolescence</h2>
+      <h4 class="sub2 reveal reveal-bottom">
+        Nim compiles to tiny single-file dependency-free optimized native binaries.
+        The C sources will still compile 100 years in the future, will your stack compile 1 year in the future?.</h4>
     </div>
     <div class="text6">
-      <h2>Next step
-      </h2>
       <div class="text6container">
         <div class="container-fluid">
           <div class="columns row">
-            <div class="column col-12 col-md-6">
+            <div class="column">
               <div class="text6element">
-                <h4>Try NimWC
-                </h4>
-                <p style="margin-bottom: 0.3rem;">Try the test user without registration
-                </p>
-                <p>Go to
-                  <a href="/login">the login page</a> and login with the test user.
-                </p>
+                <h4>Try NimWC</h4>
+                <p style="margin-bottom: .3rem;"><a href="/login"><b>Try the test user without registration.</b></a></p>
+                <p>Go to the login page and login with the test user.</p>
               </div>
             </div>
-            <div class="column col-12 col-md-6">
+            <div class="column">
               <div class="text6element">
-                <h4>Learn more
-                </h4>
-                <p style="margin-bottom: 0.3rem;">You can visit the
-                  <a href="https://github.com/ThomasTJdev/nim_websitecreator">Github page</a> to see the code
-                </p>
-                <p>Checkout the features and see the examples on how to use NimWC
-                </p>
+                <h4>Learn more</h4>
+                <p style="margin-bottom: .3rem;">Visit the <a href="https://github.com/ThomasTJdev/nim_websitecreator">Github page</a> to see the examples on how to use NimWC.</p>
+                <p>Try NimWC for your new projects.</p>
+                <p><b>Star NimWC on GitHub!.</b></p>
               </div>
             </div>
+            <div class="column">
+            <div class="text6element">
+              <h4>Keep pushing the limits</h4>
+              <p>Can you write YAML?, then you can code a web app!.</p>
+              <p>Keep It Simple, this is how a <i>Hello World</i> looks like:</p>
+<textarea rows=3 readonly disabled >
+routes:
+  get "/yourUrlHere":
+    resp "Hello World"</textarea><br>
+            <small><a href="https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/basico/jester/hello_web_3.nim#L38">A more complete example</a></small>
+            </div>
+          </div>
           </div>
         </div>
       </div>
