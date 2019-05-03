@@ -1,8 +1,10 @@
 import os
 
-const
-  filesListPrivatePath = "files/efs/files/private/*.*"
-  filesListPublicPath  = "files/efs/files/public/*.*"
+import files_efs
+
+let
+  filesListPrivatePath = storageEFS / "files/private/*.*"
+  filesListPublicPath  = storageEFS / "files/public/*.*"
 
 
 proc filesListPrivate*(): seq[string] {.inline.} =

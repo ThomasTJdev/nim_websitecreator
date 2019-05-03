@@ -49,7 +49,7 @@ proc sendMailNow*(subject, message, recipient: string) {.async.} =
 
 proc sendAdminMailNow*(subject, message: string) {.async.} =
   ## Send email only to Admin.
-  when defined(dev):
+  when defined(dev) and not defined(devemailon):
     info("Dev is true, email is not sent")
     return
   if adminEmail == "":

@@ -1,3 +1,8 @@
+## v5.1.1
+### Changes
+- Fixed bug in recompile function. Used when enabling/disabling plugins
+
+
 ## v5.1.0
 ### Changes
 - Support for libravatar on profile picture
@@ -8,13 +13,22 @@
 - Design of user profile
 - Copy NimWC log with 1 click
 - Set uploaded files filename to lowercase or use MD5 checksum
-
+- Custom appname
+- Wrong order of params in lastOnline
+- Docs added
+- CSS class to hide or show blog categories
+- Minify HTML
 
 ### Breaking changes
 - Plugins.json structure changed
 - New column in `person` table: `avatar`:
 ```sql
 ALTER TABLE person ADD COLUMN avatar VARCHAR(300);
+```
+- A new param in the config.cfg file, which is used in the `<html lang="?">`:
+```config
+[Language]
+standardLang = "en"
 ```
 
 

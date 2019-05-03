@@ -8,7 +8,7 @@
 #
 #
 #
-#proc genEditBlog(c: var TData, blogid: string, newPage = false): string =
+#proc genEditBlog(c: var TData, blogid, newPage: string): string =
 # result = ""
 #
 # let pageData = getAllRows(db, sql"SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, url, status FROM blog WHERE id = ?", blogid)
@@ -49,7 +49,7 @@
         <div class="buttonGroup">
           <button type="button" class="blogSave button is-small is-success">Save</button>
           <a href="#!" class="blogOptions button is-small is-link">Options</a>
-          <a href="/blog/${page[8]}" class="button is-small is-link">View blog</a>
+          <a href="/blog/${page[8]}" class="button is-small is-link isBlog preview">View blog</a>
         </div>
       </div>
       <div class="blogOptions details">
@@ -62,7 +62,7 @@
     <hr>
 
     <div>
-      # if newPage:
+      # if newPage == "true":
         ${genPageEditorMainNew(c, "blogpage")
       # else:
         ${genPageEditorMainEdit(c, page[4])}

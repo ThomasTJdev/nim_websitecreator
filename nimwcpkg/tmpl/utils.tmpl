@@ -163,13 +163,25 @@
 <h4 class="has-text-centered">Change editor</h4>
 <div class="buttons has-addons columns">
   <div class="column">
-    <a href="#!" class="switchEditorRawHTML button is-small is-fullwidth is-info">Switch to raw HTML</a>
+    <a href="#!"
+#   if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "html":
+      disabled="disabled"
+#   end if
+    class="switchEditorRawHTML button is-small is-fullwidth is-info">Switch to raw HTML</a>
   </div>
   <div class="column">
-    <a href="#!" class="switchEditorSummernote button is-small is-fullwidth is-info">Switch to Summernote</a>
+    <a href="#!"
+#   if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "summernote":
+    disabled="disabled"
+#   end if
+    class="switchEditorSummernote button is-small is-fullwidth is-info">Switch to Summernote</a>
   </div>
   <div class="column">
-    <a href="#!" class="switchEditorGrapesJS button is-small is-fullwidth is-info">Switch to GrapesJS</a>
+    <a href="#!"
+#   if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "grape":
+    disabled="disabled"
+#   end if
+    class="switchEditorGrapesJS button is-small is-fullwidth is-info">Switch to GrapesJS</a>
   </div>
 </div>
 <hr>
@@ -182,7 +194,7 @@
   <div class="field">
     <div class="control">
       <label class="label">Publication date (visible on the blog overview)</label>
-      <input class="input" type="date" name="pubdate" value="${pubDate}" min="${pubDate}" dir="auto" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" required >
+      <input class="input" type="date" name="pubdate" value="${pubDate}" dir="auto" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" required >
       <i class="is-size-7">If no date is specified, the creation date will be used. The date has no effect and will only be shown on the blog overview page. Format the date: YYYY-MM-DD</i>
     </div>
   </div>
@@ -212,7 +224,7 @@
   <div class="field">
     <div class="control">
       <label class="label">Tags</label>
-      <input class="input" type="text" name="tags" value="${tags}" placeholder="Comma separated tags, e.g. nim,macro" dir="auto" pattern="^[\p{ASCII}]{2,99}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '').toLowerCase()">
+      <input class="input" type="text" name="tags" value="${tags}" placeholder="Comma separated tags, e.g. nim,macro" dir="auto" pattern="^[\p{ASCII}]{2,99}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
     </div>
   </div>
 
@@ -412,12 +424,18 @@
   </div>
 # else:
   <textarea name="editordata" id="editordataCodemirror">
-    <div id="mainContainer" class="${classBlogPage}">
-      <h1>Title</h1>
-      <p>The first paragraph</p>
-      <hr>
-      <p>The second paragraph</p>
-    </div>
+<div id="mainContainer" class="${classBlogPage}">
+  <h1>
+    Title
+  </h1>
+  <p>
+    The first paragraph
+  </p>
+  <hr>
+  <p>
+    The second paragraph
+  </p>
+</div>
   </textarea>
 # end if
 #end proc

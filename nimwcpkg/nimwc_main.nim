@@ -235,6 +235,8 @@ let
   proxyURL  = dict.getSectionValue("Proxy", "url")
   proxyPath = dict.getSectionValue("Proxy", "path")
 
+  stdLang   = dict.getSectionValue("Language", "standardLang")
+
   logfile =
     when defined(release): dict.getSectionValue("Logging", "logfile")
     else:                  dict.getSectionValue("Logging", "logfiledev")
@@ -264,10 +266,10 @@ proc init(c: var TData) =
 proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
   let
-    appName = dict.getSectionValue("Server", "appname").normalize
-    appPath = getAppDir() & "/nimwcpkg/" & appName
+    appName = dict.getSectionValue("Server", "appname")
+    appPath = getAppDir() & "/" & appName
     outp = execCmd("nim c " & checkCompileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
-  moveFile(getAppDir() & "/nimwc_main_new_tmp", getAppDir() & "/nimwc_main_new")
+  moveFile(getAppDir() & "/" & appName & "_new_tmp", getAppDir() & "/" & appName & "_new")
   return outp
 
 #
@@ -428,22 +430,19 @@ when isMainModule:
   assert db is DbConn, "Connection to DB could not be established, failed to open Database."
   info("Connection to DB is established.")
 
+  # When Demo Mode, Reset everything at start, create Test User, create Test Data, for use with Firejail `timeout=1`
+  when defined(demo):
+    {. hint: "Demo is Enabled, reverting demo users changes." .}
+    exec(db, sql"DELETE FROM blog;")  # Delete blogposts
+    standardDataBlogpost1(db)         # Add blogpost 1
+    standardDataBlogpost2(db)         # Add blogpost 2
+    standardDataBlogpost3(db)         # Add blogpost 3
+    # doAssert dict.getSectionValue("firejail", "timeout") == "1", "Firejail Timeout must be 1"
+    info("Demo Mode: Database reverted to default")
+
   # Add admin user
   if "newuser" in commandLineParams():
     createAdminUser(db, commandLineParams())
-
-  # When Demo Mode, Reset everything at start, create Test User, create Test Data, for use with Firejail `timeout=1`
-  when defined(demo):
-    {. hint: "Demo is Enabled, Database Resets Automatically every hour." .}
-    const resetSql = sql"DELETE FROM session; DELETE FROM pages; DELETE FROM blog; DELETE FROM files; DELETE FROM person"
-    exec(db, resetSql)      # Reset everything
-    createTestUser(db)      # Recreate Demo user
-    createStandardData(db)  # Recreate Demo Data (Pages & Blogs)
-    # doAssert dict.getSectionValue("firejail", "timeout") == "1", "Firejail Timeout must be 1"
-    info("Demo Mode: Database reset successful")
-
-  # Activate Google reCAPTCHA
-  setupReCapthca()
 
   # Update sql database from extensions
   extensionUpdateDB(db)
@@ -460,15 +459,23 @@ when isMainModule:
       else:
         createStandardData(db, "bulma")
 
+  # If user has provided arguments then quit
+  if commandLineParams().len != 0:
+    quit()
+
   # Create robots.txt
   writeFile("public/robots.txt", "User-agent: *\nSitemap: " & mainWebsite & "/sitemap.xml")
+
+  # Activate Google reCAPTCHA
+  setupReCapthca()
 
   # Check if custom js and css exists
   if not fileExists("public/css/style_custom.css"):
     writeFile("public/css/style_custom.css", "")
   if not fileExists("public/js/js_custom.js"):
     writeFile("public/js/js_custom.js", "")
-  info("Up and running!.")
+
+  info("Up and running!")
 
 
 #

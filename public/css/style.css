@@ -9,7 +9,6 @@ body {
 
 div#background {
   background-attachment: fixed;
-  background-attachment: fixed;
   background-image: url("/images/background.jpg");
   background-position: top center;
   background-repeat: no-repeat;
@@ -70,6 +69,20 @@ header {
   margin-right: auto;
   display: block;
 }
+
+/*
+  Bootstrap specific
+*/
+.hidden {
+  display: none;
+}
+.has-text-centered {
+  text-align: center;
+}
+div#allblogPosts ul {
+  padding-inline-start: 0;
+}
+
 
 /*
   Navbar Bootstrap
@@ -416,6 +429,9 @@ div#login {
   -moz-box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
   box-shadow: 0 0 10px 2px rgba(0,0,0,0.75);
 }
+#login form summary {
+  cursor: pointer;
+}
 #recaptcha {
   margin-bottom: 5px;
   margin-top: 20px;
@@ -428,24 +444,23 @@ div#login {
 */
 div#allblogPosts {
   margin-bottom: 40px;
+  margin-top: 55px;
 }
-div#allblogPosts .list-group {
+div#allblogPosts ul {
   margin-left: auto;
   margin-right: auto;
   max-width: 800px;
   width: 100%;
 }
-div#allblogPosts .list-group-item {
+div#allblogPosts ul>li {
   background: white;
   border: 1px solid #bcbcbc9e;
+  color: black;
   display: block;
   margin-left: auto;
   margin-right: auto;
   padding: 1rem;
   width: 100%;
-}
-div#allblogPosts a.list-group-item {
-  color: black;
 }
 div#allblogPosts h5.blogName {
   font-weight: 600;
@@ -506,7 +521,7 @@ div#allblogPosts .categories div {
 div#allblogPosts .categories div a.category {
   font-size: 1.2rem;
   height: 2rem;
-  margin-top: 0;
+  margin-top: .2rem;
 }
 
 
@@ -677,6 +692,7 @@ _________________*/
   color: #fff;
   background-color: #212529;
   border-radius: .2rem;
+  word-break: break-all;
 }
 @media only screen and (max-width: 768px) {
   #frontpage .title {

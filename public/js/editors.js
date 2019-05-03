@@ -4,17 +4,17 @@
 $(document).ready(function() {
   $( "a.switchEditorGrapesJS" ).click(function() {
     document.cookie = "editor=grape;path=/"
-    location.reload();
+    window.location = window.location.pathname;
   });
 
   $( "a.switchEditorSummernote" ).click(function() {
     document.cookie = "editor=summernote;path=/";
-    location.reload();
+    window.location = window.location.pathname;
   });
 
   $( "a.switchEditorRawHTML" ).click(function() {
     document.cookie = "editor=html;path=/";
-    location.reload();
+    window.location = window.location.pathname;
   });
 });
 
@@ -92,13 +92,22 @@ $(document).ready(function() {
     Save page
 */
 function savePage() {
+  // Check for GrapeJS
   if($('#gjshidden').length > 0 ){
     $("#gjshidden").val(editor.getHtml() + "<style>" + editor.getCss() + "</style>")
   }
+  // Check for summernote
   if($('#summernote').length > 0) {
     $("#summernoteHidden").html($('#summernote').summernote('code'));
     charCount = 0;
   }
+  // Update preview link
+  var previewUrl = "/p/" + $("#url").val();
+  if ($(".preview").hasClass("isBlog")) {
+    previewUrl = "/blog/" + $("#url").val();
+  }
+  $(".preview").attr("href", previewUrl);
+  // Post data
   $.ajax({
     url: $("form.standard").attr("action") + "?inbackground=true",
     type: 'POST',

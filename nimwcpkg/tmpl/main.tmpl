@@ -6,7 +6,7 @@
 #
 # let title = getValue(db, sql"SELECT title FROM settings")
 <!DOCTYPE html>
-<html class="has-navbar-fixed-top">
+<html lang="${stdLang}" class="has-navbar-fixed-top">
 <head>
   <meta charset="utf-8">
   <meta name="generator" content="Nim Website Creator">
@@ -96,7 +96,7 @@
 # let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings")
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
-<html class="has-navbar-fixed-top loggedin-${c.loggedIn}">
+<html lang="${stdLang}" class="has-navbar-fixed-top loggedin-${c.loggedIn}">
 <head>
 # if standardElements[3] != "":
   <title>${standardElements[3]}</title>
@@ -168,10 +168,10 @@ ${extensionCss()}
 #   status = "0,1,2"
 # end if
 #
-# let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, title, metadescription, metakeywords  FROM pages WHERE id = ? AND status IN (" & status & ")"), pageid)
+# let pageData = getRow(db, sql("SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, title, metadescription, metakeywords FROM pages WHERE id = ? AND status IN (" & status & ")"), pageid)
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
 <!DOCTYPE html>
-<html class="has-navbar-fixed-top loggedin-${c.loggedIn}">
+<html lang="${stdLang}" class="has-navbar-fixed-top loggedin-${c.loggedIn}">
 
 <head>
 # if pageData[7] != "":
@@ -258,7 +258,7 @@ ${extensionCss()}
 # let loggedIn = if c.loggedIn == true: "true" else: "false"
 #
 <!DOCTYPE html>
-<html class="has-navbar-fixed-top loggedin-${c.loggedIn}">
+<html lang="${stdLang}" class="has-navbar-fixed-top loggedin-${c.loggedIn}">
 
 
 <head>

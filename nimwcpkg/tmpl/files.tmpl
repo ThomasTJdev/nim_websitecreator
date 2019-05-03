@@ -41,13 +41,13 @@
           </div>
 
           <label title="WebP is ~50% size of JPG"><input type="checkbox" name="webpstatus" id="webpstatus"> Compress PNG and JPG using WEBP </label><br>
-          <label title="Force lowercase filename"><input type="checkbox" name="normalize" id="normalize" checked > Lowercase filename </label><br>
+          <label title="Force lowercase filename"><input type="checkbox" name="lowercase" id="lowercase" checked > Lowercase filename </label><br>
           <label title="Use the MD5 CheckSum as filename"><input type="checkbox" name="checksum" id="checksum"> Use CheckSum as filename </label>
 
         </div>
         <input type="file" class="form-control-file" id="file" name="file" required >
       </div>
-      <button class="fileUpload button is-success" onClick="uploadFile()">Upload</button>
+      <button type="button" class="fileUpload button is-success" onClick="uploadFile()">Upload</button>
     </form>
   </details>
 

@@ -1,4 +1,4 @@
-import os, osproc, rdstdin, sequtils, strutils, terminal, times, json
+import os, osproc, parsecfg, rdstdin, sequtils, strutils, terminal, times, json
 
 when not defined(firejail): {.warning: "Firejail is Disabled, Running Unsecure.".}
 else:                       import firejail, parsecfg
@@ -125,7 +125,7 @@ let
   userArgs = if args == "": "" else: " " & args
   userArgsRun = if args == "": "" else: " --run " & args
   dict = loadConfig(getAppDir() & "/config/config.cfg")
-  appName = dict.getSectionValue("Server", "appname").normalize
+  appName = dict.getSectionValue("Server", "appname")
   appPath = getAppDir() & "/nimwcpkg/" & appName
 assert appName.len > 1, "Config error: appname must not be empty string: " & appName
 
@@ -202,17 +202,23 @@ proc launcherActivated() =
   nimhaMain = startProcess(nimwcCommand, options = processOpts)
 
   while runInLoop:
+    # If nimha_main has been recompile, check for a new version
     if fileExists(appPath & "_new"):
       kill(nimhaMain)
       moveFile(appPath & "_new", appPath)
 
+    # Loop to check if nimwc_main is running
     if not running(nimhaMain):
+      # Quit if user has provided arguments
+      if args.len() != 0:
+        styledEcho(fgYellow, bgBlack, $now() & ": User provided arguments: " & args)
+        styledEcho(fgYellow, bgBlack, $now() & ": Run again without arguments, exiting..")
+        quit()
+
       styledEcho(fgYellow, bgBlack, $now() & ": Restarting in 1 second.")
       sleep(1000)
 
-      if userArgsRun != "":
-        styledEcho(fgGreen, bgBlack, " Using args: " & userArgsRun)
-
+      # Start nimha_main as process
       nimhaMain = startProcess(nimwcCommand, options = processOpts)
 
     sleep(2000)
