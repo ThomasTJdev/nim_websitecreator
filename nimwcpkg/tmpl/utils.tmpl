@@ -217,14 +217,14 @@
   <div class="field">
     <div class="control">
       <label class="label">Category</label>
-      <input class="input" type="text" name="category" value="${category}" placeholder="Single word category" dir="auto" pattern="^[\p{ASCII}]{2,99}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+      <input class="input" type="text" name="category" value="${category}" placeholder="Single word category" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
     </div>
   </div>
 
   <div class="field">
     <div class="control">
       <label class="label">Tags</label>
-      <input class="input" type="text" name="tags" value="${tags}" placeholder="Comma separated tags, e.g. nim,macro" dir="auto" pattern="^[\p{ASCII}]{2,99}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+      <input class="input" type="text" name="tags" value="${tags}" placeholder="Comma separated tags, e.g. nim,macro" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
     </div>
   </div>
 
@@ -280,7 +280,7 @@
   <div class="field">
     <div class="control">
       <label class="label">Title</label>
-      <input class="input" type="text" name="title" value="${title}" dir="auto" pattern="^[\p{ASCII}]{2,99}$$" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+      <input class="input" type="text" name="title" value="${title}" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
     </div>
   </div>
 
