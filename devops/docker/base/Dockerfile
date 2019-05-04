@@ -1,5 +1,4 @@
 FROM nimlang/nim
-RUN export CHOOSENIM_NO_ANALYTICS=1 
 RUN git clone https://github.com/ThomasTJdev/nim_websitecreator.git
 WORKDIR /nim_websitecreator/
 # install dependencies
