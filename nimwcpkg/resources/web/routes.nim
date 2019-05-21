@@ -887,7 +887,10 @@ routes:
 
   get re"/blog//*.":
     createTFD()
-    let blogid = getValue(db, sql"SELECT id FROM blog WHERE url = ?", c.req.path.replace("/blog/", ""))
+
+    let access = if c.loggedIn: "(0,1,2)" else: "(2)"
+
+    let blogid = getValue(db, sql("SELECT id FROM blog WHERE url = ? AND status IN " & access), c.req.path.replace("/blog/", ""))
 
     if blogid == "":
       redirect("/")
