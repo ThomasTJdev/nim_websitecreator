@@ -270,121 +270,157 @@ const
   frontpage = """
   <div id="frontpage">
     <div class="title">
-      <h1 class="reveal reveal-bottom">Nim Website Creator
-      </h1>
-      <h2 class="reveal reveal-bottom">Websites on the fly
-      </h2>
+      <h1 class="reveal reveal-bottom">Nim Website Creator</h1>
+      <h2 class="reveal reveal-bottom">Open-source website framework</h2>
       <h2 class="reveal reveal-bottom seemore">
-        <a href="#start" class="jump">See more</a>
+        <a href="#start" class="jump">Get started today!</a>
       </h2>
     </div>
     <div id="start" class="text2 reveal reveal-bottom">
-      <h2>NimWC is a new tool for
-        <br>generating websites on the fly
-      </h2>
+      <h2>NimWC is a new tool for<br>
+      generating websites on the fly</h2>
+      <div class="featurelist">
+        <ul>
+          <li>Explore the dashboard with access to the plugin store</li>
+          <li>Admin configuration of the backend from the browser</li>
+          <li>Custom profiles with Libravatar/Gravatar</li>
+          <li>SEO optimized</li>
+          <li>Secured by self-firejailing and 2FA</li>
+          <li>1 language for the whole stack</li>
+          <li>C speed</li>
+          <li>Python-like syntax</li>
+          <li>Seamlessly integration with anything that has a C API</li>
+          <li>.. and much more!</li>
+        </ul>
+      </div>
     </div>
     <div class="text3">
       <div class="container-fluid">
         <div class="columns row">
-          <div class="column col-12 col-md-4">
+          <div class="column">
             <div class="text3element">
               <h4>One click install
               </h4>
-              <p>Install with Nim's <a href="http://nimble.directory">package manager Nimble</a> or compile yourself. Just run the file, and your website is up and running.
-              </p>
+              <p>Install using Nim's <a href="http://nimble.directory">package manager Nimble</a>,
+              <a href="https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/docker">use the Docker template</a> or
+              <a href="https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/autoinstall.sh">use the AutoInstall script</a>.</p>
+              <br>
+              <p>For more options <a href="https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops">checkout the DevOps resources</a>.</p>
             </div>
           </div>
-          <div class="column col-12 col-md-4">
+          <div class="column">
             <div class="text3element">
-              <h4>Plugins
-              </h4>
-              <p>Install plugins within the browser, e.g. <a href="https://github.com/ThomasTJdev/nimwc_backup">backup function</a>, <a href="https://github.com/ThomasTJdev/nimwc_themes">themes</a>, etc. <a href="https://github.com/ThomasTJdev/nimwc_plugins#contribute">Easy development of new plugins</a>.
-              </p>
+              <h4>Plugin Store</h4>
+              <p>Its like an App Store but for features. Install plugins within the browser - a feature, a click.</p>
+              <br>
+              <p><a href="https://github.com/ThomasTJdev/nimwc_plugins#contribute">Code your ideas into features, create your own Plugin</a>.</p>
             </div>
           </div>
-          <div class="column col-12 col-md-4">
+          <div class="column">
             <div class="text3element">
-              <h4>Speed and security
+              <h4>Speed + Security
               </h4>
-              <p>NimWC is developed with <a href="https://nim-lang.org">the programming language Nim</a> to <a href="https://nim-lang.org/features.html">ensure high speed and stability</a>.
-              </p>
+              <p>Written using <a href="https://nim-lang.org">the Nim programming language</a> to <a href="https://nim-lang.org/features.html">ensure high performance</a>.</p>
+              <br>
+              <p><a href="https://github.com/ThomasTJdev/nim_websitecreator#security">Firejail and 2 Factor Authentication is enabled by default.</a></p>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="text4">
-      <h2>Installation
-      </h2>
+      <h2>Install & Run</h2>
       <div class="text4container">
         <div class="container-fluid">
           <div class="columns row">
-            <div class="column col-12 col-md-6">
+            <div class="column col-12 col-md-4">
               <div class="text4element">
-                <h4>Nimble
-                </h4>
-                <p style="margin-bottom: 0rem;">
-                  <label style="width: 70px;">Install:</label>
+                <h4>Nimble</h4>
+                <p>
+                  <label>Install:</label>
                   <kbd>nimble install nimwc</kbd>
                 </p>
                 <p>
-                  <label style="width: 70px;">Run:</label>
+                  <label>Run:</label>
                   <kbd>nimwc</kbd>
                 </p>
               </div>
             </div>
-            <div class="column col-12 col-md-6">
+            <div class="column col-12 col-md-4">
               <div class="text4element">
-                <h4>Compile
-                </h4>
-                <p style="margin-bottom: 0rem;">
-                  <label style="width: 70px;">Clone:</label>
+                <h4>Compile</h4>
+                <p>
+                  <label>Clone:</label>
                   <kbd>git clone https://github.com/ThomasTJdev/nim_websitecreator.git</kbd>
                 </p>
                 <p>
-                  <label style="width: 70px;">Compile:</label>
+                  <label>Compile:</label>
                   <kbd>nim c -r nimwc.nim</kbd>
+                </p>
+              </div>
+            </div>
+            <div class="column col-12 col-md-4">
+              <div class="text4element">
+                <h4>Auto install</h4>
+                <p>
+                  <label>Install:</label>
+                  <kbd>curl https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/devops/autoinstall.sh -sSf | sh</kbd>
+                </p>
+                <p>
+                  <span>Follow the tutorial in the terminal</span>
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <br>
+      <iframe width="100%" height="480" src="https://www.youtube-nocookie.com/embed/3R1l4Ha0tDI" frameborder=0 allowfullscreen
+      style="height:480px !important;">https://youtu.be/3R1l4Ha0tDI</iframe>
     </div>
     <div class="text5">
-      <h2 class="sub1 reveal reveal-bottom">NimWC is 100% free
-      </h2>
-      <h2 class="sub2 reveal reveal-bottom">NimWC is 100% open source
-      </h2>
+      <h2 class="sub1 reveal reveal-bottom">Less code, more performance<br>use Nim-Lang</h2>
+      <h4 class="sub2 reveal reveal-bottom">
+        Nim compiles to tiny single-file which is a dependency-free optimized native binaries.
+        The C sources will still compile 100 years in the future, will your stack compile 1 year in the future?.</h4>
     </div>
     <div class="text6">
-      <h2>Next step
-      </h2>
       <div class="text6container">
         <div class="container-fluid">
           <div class="columns row">
-            <div class="column col-12 col-md-6">
+            <div class="column">
               <div class="text6element">
-                <h4>Try NimWC
-                </h4>
-                <p style="margin-bottom: 0.3rem;">Try the test user without registration
-                </p>
-                <p>Go to
-                  <a href="/login">the login page</a> and login with the test user.
-                </p>
+                <h4>Try NimWC</h4>
+                <p>You can try NimWC without registration or installation.</p>
+                <br>
+                <p><a href="/login">Login</a> with the test users credentials to explore NimWC options.</p>
               </div>
             </div>
-            <div class="column col-12 col-md-6">
+            <div class="column">
               <div class="text6element">
-                <h4>Learn more
-                </h4>
-                <p style="margin-bottom: 0.3rem;">You can visit the
-                  <a href="https://github.com/ThomasTJdev/nim_websitecreator">Github page</a> to see the code
-                </p>
-                <p>Checkout the features and see the examples on how to use NimWC
-                </p>
+                <h4>Learn more</h4>
+                <p>Visit the <a href="https://github.com/ThomasTJdev/nim_websitecreator">Github page</a> to see the examples on how to use NimWC.</p>
+                <br>
+                <p>Got a question? Open an issue!.</p>
+                <br>
+                <a class="github-button" href="https://github.com/ThomasTJdev/nim_websitecreator" data-icon="octicon-star" data-size="large" aria-label="Star ThomasTJdev/nim_websitecreator on GitHub">Star</a>
+                <a class="github-button" href="https://github.com/ThomasTJdev/nim_websitecreator/fork" data-icon="octicon-repo-forked" data-size="large" aria-label="Fork ThomasTJdev/nim_websitecreator on GitHub">Fork</a>
+                <a class="github-button" href="https://github.com/ThomasTJdev/nim_websitecreator/issues" data-icon="octicon-issue-opened" data-size="large" aria-label="Issue ThomasTJdev/nim_websitecreator on GitHub">Issue</a>
               </div>
             </div>
+            <div class="column">
+            <div class="text6element">
+              <h4>Keep pushing the limits</h4>
+              <p>Can you write YAML? then you can code a web app and a NimWC plugin!</p>
+              <br>
+              <p><b>Keep It Simple</b><br>this is how a <i>Hello World</i> looks like:</p>
+<textarea rows=3 readonly disabled >
+routes:
+  get "/yourUrlHere":
+    resp "Hello World"</textarea><br>
+            <small><a href="https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/basico/jester/hello_web_3.nim#L38">A more complete example</a></small>
+            </div>
+          </div>
           </div>
         </div>
       </div>
@@ -392,6 +428,7 @@ const
     <div class="spacer">
     </div>
   </div>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
   """
 
   blogpost1 = """

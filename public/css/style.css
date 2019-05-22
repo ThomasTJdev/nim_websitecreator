@@ -14,8 +14,8 @@ div#background {
   background-repeat: no-repeat;
   background-size: 100%;
   background-size: cover;
-  filter: alpha(opacity=50);
-  opacity: 0.50;
+  filter: alpha(opacity=30);
+  opacity: 0.30;
   height: 100%;
   left: 0;
   position: fixed;
@@ -657,11 +657,19 @@ _________________*/
 #frontpage .text3 .text3element h4 {
   font-weight: 400;
   font-size: 1.9rem;
+  text-decoration: underline;
 }
 #frontpage .text3 .text3element p {
   line-height: 2rem;
   font-size: 20px;
   font-weight: 300;
+}
+#frontpage .text4 .text4element p {
+  margin-bottom: 0.8rem;
+}
+#frontpage .text4 .text4element p label {
+  width: 60px;
+  display: inline-block;
 }
 #frontpage .text4 h2,
 #frontpage .text6 h2 {
@@ -670,7 +678,7 @@ _________________*/
   color: #005bbc;
 }
 #frontpage .text6 {
-  margin-top: 150px;
+  margin-top: 75px;
 }
 #frontpage .text4container,
 #frontpage .text6container {
@@ -679,6 +687,20 @@ _________________*/
   background-color: rgba(255, 255, 255, 0.74);
   border: 1px solid #d9d9d9e8;
   border-radius: 15px;
+}
+#frontpage .text6container {
+  text-align: center;
+  font-size: 1.1rem;
+}
+#frontpage div.featurelist {
+  font-size: 1.2rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+#frontpage div.featurelist ul {
+  list-style: disc;
+  margin-left: 45px;
 }
 #frontpage .spacer {
   height: 150px;
