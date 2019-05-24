@@ -1,0 +1,36 @@
+image: alpine/latest
+
+packages:
+  - xvfb
+  - firejail
+  - libwebp
+  - axel
+  - tar
+  - xz
+
+sources:
+  - https://github.com/ThomasTJdev/nim_websitecreator
+
+environment:
+  CHOOSENIM_CHOOSE_VERSION: "0.19.6"
+  CHOOSENIM_NO_ANALYTICS: 1
+  PATH: /home/build/nim-$CHOOSENIM_CHOOSE_VERSION/bin:$PATH
+
+tasks:
+  - setup: |
+      axel https://nim-lang.org/download/nim-$CHOOSENIM_CHOOSE_VERSION.tar.xz
+      tar -xf nim-$CHOOSENIM_CHOOSE_VERSION.tar.xz
+      cd nim-$CHOOSENIM_CHOOSE_VERSION
+      sh build.sh
+      bin/nim c koch
+      ./koch tools
+      bin/nimble -y refresh
+      bin/nimble -y install jester recaptcha bcrypt datetime2human otp firejail webp libravatar html_tools
+
+  - build: |
+      cd
+      cd nim_websitecreator
+      cp config/config_default.cfg config/config.cfg
+      /home/build/nim-$CHOOSENIM_CHOOSE_VERSION/bin/nim c -d:ssl -d:webp -d:firejail -d:adminnotify nimwc.nim
+      ./nimwc --version
+      ./nimwc --help

@@ -1,0 +1,29 @@
+image: debian/testing
+
+packages:
+  - xvfb
+  - firejail
+  - webp
+  - curl
+
+sources:
+  - https://github.com/ThomasTJdev/nim_websitecreator
+
+environment:
+  CHOOSENIM_CHOOSE_VERSION: "0.19.6"
+  CHOOSENIM_NO_ANALYTICS: 1
+  PATH: $HOME/.nimble/bin:$PATH
+
+tasks:
+  - setup: |
+      curl https://nim-lang.org/choosenim/init.sh -sSf > init.sh
+      sh init.sh -y
+      /home/build/.nimble/bin/nimble -y refresh
+      /home/build/.nimble/bin/nimble -y install jester recaptcha bcrypt datetime2human otp firejail webp libravatar html_tools
+
+  - build: |
+      cd nim_websitecreator
+      cp config/config_default.cfg config/config.cfg
+      /home/build/.nimble/bin/nim c -d:ssl -d:webp -d:firejail -d:adminnotify nimwc.nim
+      ./nimwc --version
+      ./nimwc --help
