@@ -9,6 +9,8 @@
 - Paste the whole YAML on the form and click Submit.
 - Wait ~5 minutes.
 
+[Example Success.](https://builds.sr.ht/~juancarlospaco/job/64011) [Example Fail.](https://builds.sr.ht/~juancarlospaco/job/63997)
+
 
 # Why?
 
