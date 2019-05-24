@@ -64,6 +64,7 @@ const
 
   Options:
     -h --help             Show this output.
+    --version             Show Version and exit.
     --newuser             Add an admin user. Combine with -u, -p and -e.
       -u:<admin username>
       -p:<admin password>
