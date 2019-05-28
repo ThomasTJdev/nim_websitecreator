@@ -50,16 +50,27 @@ const
   Author name:  Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (http://github.com/juancarlospaco)"""
 
   checkCompileOptions* = ["",
-    when defined(adminnotify): " -d:adminnotify",
-    when defined(dev):         " -d:dev",
-    when defined(devemailon):  " -d:devemailon",
-    when defined(demo):        " -d:demo",
-    when defined(ssl):         " -d:ssl",
-    when defined(postgres):    " -d:postgres",
-    when defined(webp):        " -d:webp",
-    when defined(firejail):    " -d:firejail",
-    when defined(release):     " -d:release",
-    when defined(quick):       " -d:quick"
+    when defined(adminnotify):     " -d:adminnotify",
+    when defined(dev):             " -d:dev",
+    when defined(devemailon):      " -d:devemailon",
+    when defined(demo):            " -d:demo",
+    when defined(postgres):        " -d:postgres",
+    when defined(webp):            " -d:webp",
+    when defined(firejail):        " -d:firejail",
+
+    when defined(ssl):             " -d:ssl",
+    when defined(release):         " -d:release",
+    when defined(quick):           " -d:quick",
+    when defined(memProfiler):     " -d:memProfiler",
+    when defined(nimTypeNames):    " -d:nimTypeNames",
+    when defined(useRealtimeGC):   " -d:useRealtimeGC",
+    when defined(tinyc):           " -d:tinyc",
+    when defined(useNimRtl):       " -d:useNimRtl",
+    when defined(useFork):         " -d:useFork",
+    when defined(useMalloc):       " -d:useMalloc",
+    when defined(uClibc):          " -d:uClibc",
+    when defined(checkAbi):        " -d:checkAbi",
+    when defined(noSignalHandler): " -d:noSignalHandler",
   ].join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 

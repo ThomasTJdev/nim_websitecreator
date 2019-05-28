@@ -9,16 +9,16 @@ when defined(release): {.passL: "-s".}  # Force strip all on the resulting Binar
 
 const
   update_cmds = [
-    "mv plugins/plugin_import.txt tmp/plugin_import.txt",
-    "mv public/css/style_custom.css tmp/style_custom.css",
-    "mv public/js/js_custom.js tmp/js_custom.js",
+    "mv --verbose plugins/plugin_import.txt tmp/plugin_import.txt",
+    "mv --verbose public/css/style_custom.css tmp/style_custom.css",
+    "mv --verbose public/js/js_custom.js tmp/js_custom.js",
 
     "git fetch --all",
     "git reset --hard origin/master",
 
-    "mv tmp/plugin_import.txt plugins/plugin_import.txt",
-    "mv tmp/style_custom.css public/css/style_custom.css",
-    "mv tmp/js_custom.js public/js/js_custom.js",
+    "mv --verbose tmp/plugin_import.txt plugins/plugin_import.txt",
+    "mv --verbose tmp/style_custom.css public/css/style_custom.css",
+    "mv --verbose tmp/js_custom.js public/js/js_custom.js",
   ]  ## Bash Commands to Update NimWC.
 
   compile_start_msg =  """⏰ Compiling, Please wait ⏰
@@ -52,7 +52,7 @@ const
   ➡️ You can check your source code with: nim check YourFile.nim
   ➡️ Check the Configuration of NimWC and its Plugins.
   ➡️ Remove new Plugins, restore previous Configuration.
-   Check that you have the latest Version. Check the Documentation.
+  Check that you have the latest Version. Check the Documentation.
   """  ## Message to show when Compiling Failed.
 
   doc = """ Nim Website Creator - https://NimWC.org
@@ -97,16 +97,27 @@ const
   """
 
   compileOptions = ["",
-    when defined(adminnotify): " -d:adminnotify",
-    when defined(dev):         " -d:dev",
-    when defined(devemailon):  " -d:devemailon",
-    when defined(demo):        " -d:demo",
-    when defined(ssl):         " -d:ssl",
-    when defined(postgres):    " -d:postgres",
-    when defined(webp):        " -d:webp",
-    when defined(firejail):    " -d:firejail",
-    when defined(release):     " -d:release",
-    when defined(quick):       " -d:quick"
+    when defined(adminnotify):     " -d:adminnotify",
+    when defined(dev):             " -d:dev",
+    when defined(devemailon):      " -d:devemailon",
+    when defined(demo):            " -d:demo",
+    when defined(postgres):        " -d:postgres",
+    when defined(webp):            " -d:webp",
+    when defined(firejail):        " -d:firejail",
+
+    when defined(ssl):             " -d:ssl",
+    when defined(release):         " -d:release",
+    when defined(quick):           " -d:quick",
+    when defined(memProfiler):     " -d:memProfiler",
+    when defined(nimTypeNames):    " -d:nimTypeNames",
+    when defined(useRealtimeGC):   " -d:useRealtimeGC",
+    when defined(tinyc):           " -d:tinyc",
+    when defined(useNimRtl):       " -d:useNimRtl",
+    when defined(useFork):         " -d:useFork",
+    when defined(useMalloc):       " -d:useMalloc",
+    when defined(uClibc):          " -d:uClibc",
+    when defined(checkAbi):        " -d:checkAbi",
+    when defined(noSignalHandler): " -d:noSignalHandler",
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   nimwc_version =
