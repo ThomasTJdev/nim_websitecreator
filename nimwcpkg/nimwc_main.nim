@@ -2,8 +2,6 @@
 #        (c) Copyright 2019 Thomas Toftgaard Jarløv
 #        Look at LICENSE for more info.
 #        All rights reserved.
-when defined(windows):
-  {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
 {.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
 
 import
@@ -61,6 +59,7 @@ const
     when defined(webp):        " -d:webp",
     when defined(firejail):    " -d:firejail",
     when defined(release):     " -d:release"
+    when defined(quick):       " -d:quick"
   ].join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
