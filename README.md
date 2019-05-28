@@ -316,6 +316,10 @@ sudo systemctl status nimwc
 ```
 
 
+**CI Builds**
+
+- [YAML Build templates for several Linux Distros (SourceHut).](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/sourcehut#whats-this)
+
 </details>
 
 
