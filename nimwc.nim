@@ -113,7 +113,7 @@ const
     try:
       filter_it("nimwc.nimble".readFile.splitLines, it.substr(0, 6) == "version")[0].split("= ")[1].normalize.replace("\"", "") ## Get NimWC Version at Compile-Time.
     except:
-      "5.0.0"  ## Set NimWC Version at Compile-Time, if ready from file failed.
+      "5.0.1"  ## Set NimWC Version at Compile-Time, if ready from file failed.
 
 
 var
