@@ -8,19 +8,6 @@ when defined(windows):
 when defined(release): {.passL: "-s".}  # Force strip all on the resulting Binary.
 
 const
-  update_cmds = [
-    "mv --verbose plugins/plugin_import.txt tmp/plugin_import.txt",
-    "mv --verbose public/css/style_custom.css tmp/style_custom.css",
-    "mv --verbose public/js/js_custom.js tmp/js_custom.js",
-
-    "git fetch --all",
-    "git reset --hard origin/master",
-
-    "mv --verbose tmp/plugin_import.txt plugins/plugin_import.txt",
-    "mv --verbose tmp/style_custom.css public/css/style_custom.css",
-    "mv --verbose tmp/js_custom.js public/js/js_custom.js",
-  ]  ## Bash Commands to Update NimWC.
-
   compile_start_msg =  """⏰ Compiling, Please wait ⏰
     ☑️ Using compile options from *.nim.cfg
     ☑️ Using params: """  ## Message to show when started Compiling.
@@ -105,19 +92,19 @@ const
     when defined(webp):            " -d:webp",
     when defined(firejail):        " -d:firejail",
 
-    when defined(ssl):             " -d:ssl",
-    when defined(release):         " -d:release",
-    when defined(quick):           " -d:quick",
-    when defined(memProfiler):     " -d:memProfiler",
-    when defined(nimTypeNames):    " -d:nimTypeNames",
-    when defined(useRealtimeGC):   " -d:useRealtimeGC",
-    when defined(tinyc):           " -d:tinyc",
-    when defined(useNimRtl):       " -d:useNimRtl",
-    when defined(useFork):         " -d:useFork",
-    when defined(useMalloc):       " -d:useMalloc",
-    when defined(uClibc):          " -d:uClibc",
-    when defined(checkAbi):        " -d:checkAbi",
-    when defined(noSignalHandler): " -d:noSignalHandler",
+    when defined(ssl):             " -d:ssl",            # SSL
+    when defined(release):         " -d:release",        # Build for Production
+    when defined(quick):           " -d:quick",          # Tiny file but slow
+    when defined(memProfiler):     " -d:memProfiler",    # RAM Profiler debug
+    when defined(nimTypeNames):    " -d:nimTypeNames",   # Debug names
+    when defined(useRealtimeGC):   " -d:useRealtimeGC",  # Real Time GC
+    when defined(tinyc):           " -d:tinyc",          # TinyC compiler
+    when defined(useNimRtl):       " -d:useNimRtl",      # NimRTL.dll
+    when defined(useFork):         " -d:useFork",        # Fork instead of Spawn
+    when defined(useMalloc):       " -d:useMalloc",      # Use Malloc for gc:none
+    when defined(uClibc):          " -d:uClibc",         # uClibc instead of glibC
+    when defined(checkAbi):        " -d:checkAbi",       # Check C ABI compatibility
+    when defined(noSignalHandler): " -d:noSignalHandler" # No convert crash to signal
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   nimwc_version =
@@ -257,11 +244,17 @@ proc startupCheck() =
 proc updateNimwc() =
   ## GIT hard update
   if "gitupdate" in commandLineParams() or defined(gitupdate):
-    discard existsOrCreateDir("tmp")
-    for comand in update_cmds:
-      discard execCmd(comand)
-    styledEcho(fgGreen, bgBlack, "\n\nNimWC has been updated\n\n")
-    quit()
+    assert existsDir"plugins/" and existsDir"public/", "Folders not found."
+    let
+      pluginImport = readFile"plugins/plugin_import.txt"  # Save Contents
+      styleCustom = readFile"public/css/style_custom.css"
+      jsCustom = readFile"public/js/js_custom.js"
+    discard execCmd("git fetch --all")
+    discard execCmd("git reset --hard origin/master")
+    writeFile("plugins/plugin_import.txt", pluginImport)  # Write Content again
+    writeFile("public/css/style_custom.css", styleCustom)
+    writeFile("public/js/js_custom.js", jsCustom)
+    quit("\n\nNimWC has been updated\n\n", 0)
 
 
 proc pluginSkeleton() =
