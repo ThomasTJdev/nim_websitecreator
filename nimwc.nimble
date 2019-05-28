@@ -43,6 +43,9 @@ task setup, "Generating executable":
   if defined(demo):
     echo "Demo Mode: Database will reset each hour with the standard data."
 
+  if not defined(ssl):
+    echo "SSL Not Defined: SSL is Disabled, Running Unsecure."
+
 
 before install:
   setupTask()
