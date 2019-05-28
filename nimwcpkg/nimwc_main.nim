@@ -400,10 +400,6 @@ template createTFD() =
 
 when isMainModule:
   echo startup_msg
-  # Show commandline help info
-  if "help" in commandLineParams():
-    echo commandLineHelp()
-    quit()
   randomize()
 
   # Storage location. Folders are created in the module files_efs.nim
