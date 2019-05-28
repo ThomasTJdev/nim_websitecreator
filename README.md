@@ -20,7 +20,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 ## Security
 - Self-Firejailing Web Framework (It Firejails itself) Best Linux Security integrated on the Core.
 - 2 Factor Athentication TOTP
-- ReCAPTCHA
+- ReCAPTCHA (Optional)
 - [HoneyPot-Field](https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377)
 - BCrypt+Salt password hashing
 - No user Tracking Analytics by default
