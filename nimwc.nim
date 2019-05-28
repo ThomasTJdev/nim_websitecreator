@@ -105,7 +105,8 @@ const
     when defined(postgres):    " -d:postgres",
     when defined(webp):        " -d:webp",
     when defined(firejail):    " -d:firejail",
-    when defined(release):     " -d:release"
+    when defined(release):     " -d:release",
+    when defined(quick):       " -d:quick"
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   nimwc_version =

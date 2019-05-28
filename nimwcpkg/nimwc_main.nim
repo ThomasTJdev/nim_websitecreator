@@ -432,7 +432,6 @@ when isMainModule:
     standardDataBlogpost1(db)         # Add blogpost 1
     standardDataBlogpost2(db)         # Add blogpost 2
     standardDataBlogpost3(db)         # Add blogpost 3
-    # doAssert dict.getSectionValue("firejail", "timeout") == "1", "Firejail Timeout must be 1"
     info("Demo Mode: Database reverted to default")
 
   # Add admin user
@@ -478,23 +477,12 @@ when isMainModule:
 #
 
 
-include "tmpl/utils.tmpl"
-include "tmpl/blog.tmpl"
-include "tmpl/blogedit.tmpl"
-include "tmpl/blognew.tmpl"
-include "tmpl/files.tmpl"
-include "tmpl/page.tmpl"
-include "tmpl/pageedit.tmpl"
-include "tmpl/pagenew.tmpl"
-include "tmpl/settings.tmpl"
-include "tmpl/plugins.tmpl"
-include "tmpl/user.tmpl"
-include "tmpl/main.tmpl"
-include "tmpl/sitemap.tmpl"
-include "tmpl/logs.tmpl"
-include "tmpl/serverinfo.tmpl"
-include "tmpl/editconfig.tmpl"
-include "tmpl/delayredirect.tmpl"
+include
+  "tmpl/utils.tmpl", "tmpl/blog.tmpl", "tmpl/blogedit.tmpl", "tmpl/blognew.tmpl",
+  "tmpl/files.tmpl", "tmpl/page.tmpl", "tmpl/pageedit.tmpl", "tmpl/pagenew.tmpl",
+  "tmpl/settings.tmpl", "tmpl/plugins.tmpl", "tmpl/user.tmpl", "tmpl/main.tmpl",
+  "tmpl/sitemap.tmpl", "tmpl/logs.tmpl", "tmpl/serverinfo.tmpl",
+  "tmpl/editconfig.tmpl", "tmpl/delayredirect.tmpl"
 when defined(firejail): include "tmpl/firejail.tmpl"
 
 
