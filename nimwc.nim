@@ -318,15 +318,15 @@ proc startupCheck() =
       styledEcho(fgGreen, bgBlack,  compile_ok_msg)
 
 
-for tipoDeClave, clave, valor in getopt():
-  case tipoDeClave
+for keysType, keys, values in getopt():
+  case keysType
   of cmdShortOption, cmdLongOption:
-    case clave
+    case keys
     of "version": quit(nimwc_version, 0)
     of "initplugin": pluginSkeleton()
     of "gitupdate": updateNimwc()
     of "putenv":
-      let envy = valor.split"="
+      let envy = values.split"="
       styledEcho(fgMagenta, bgBlack, $envy)
       putEnv(envy[0], envy[1])
     of "help":
