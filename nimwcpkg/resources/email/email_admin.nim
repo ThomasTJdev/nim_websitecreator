@@ -23,5 +23,5 @@ const adminErrorMsg = """
 proc sendEmailAdminError*(msg: string) {.async.} =
   ## Send email - user removed
   await sendAdminMailNow(
-    "[NimWC] Admin: Error occurred",
+    "Admin: Error occurred",
     genEmailMessage(adminErrorMsg.format(msg, msg.splitLines.len, now())))
