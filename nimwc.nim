@@ -93,8 +93,6 @@ const
     resp "<center><h1> $1 Plugin Settings."  ## Code your plugins Settings logic here.
   """
 
-  reqCode = "\nproc $1Start*(db: DbConn): auto =\n  ## Code your plugins start-up Backend logic here, db is the Database.\n  discard\n"
-
   pluginJson = """
   [
     {
@@ -145,6 +143,13 @@ const
     except:
       "5.0.1"  ## Set NimWC Version at Compile-Time, if ready from file failed.
 
+
+const reqCode = """
+proc $1Start*(db: DbConn): auto =
+  ## Code your Plugins start-up Backend logic here, db is the Database, see $1
+  discard
+""".format(when defined(postgres): "https://nim-lang.org/docs/db_postgres.html"
+           else: "https://nim-lang.org/docs/db_sqlite.html")
 
 var
   runInLoop = true
