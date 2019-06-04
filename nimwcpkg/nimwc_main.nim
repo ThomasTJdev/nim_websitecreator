@@ -13,7 +13,6 @@ import
   resources/administration/create_adminuser,
   resources/administration/create_standarddata,
   resources/administration/createdb,
-  resources/administration/help,
   resources/email/email_registration,
   resources/files/files_efs,
   resources/files/files_utils,
@@ -155,7 +154,7 @@ macro extensionUpdateDatabase(): untyped =
 
   extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
   if pluginsPath.len == 0:
-    extensions.add("  discard")
+    extensions.add("  discard  # Plugin list is currently empty.")
 
   else:
     for ppath in pluginsPath:
