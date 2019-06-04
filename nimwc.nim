@@ -86,8 +86,7 @@ const
 
   skeletonMsg = """NimWC: Creating plugin skeleton.
   New plugin template will be created inside the folder:  tmp/
-  (the files will have useful comments with help & links)
-  """
+  (the files will have useful comments with help & links) """
 
   reqRoutes = """
   get "/$1/settings":
