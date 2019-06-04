@@ -440,10 +440,11 @@ when isMainModule:
   # When Demo Mode, Reset everything at start, create Test User, create Test Data, for use with Firejail `timeout=1`
   when defined(demo):
     {. hint: "Demo is Enabled, reverting demo users changes." .}
-    exec(db, sql"DELETE FROM blog;")  # Delete blogposts
+    exec(db, sql"DELETE FROM blog;DELETE FROM person;")  # Delete blogposts
     standardDataBlogpost1(db)         # Add blogpost 1
     standardDataBlogpost2(db)         # Add blogpost 2
     standardDataBlogpost3(db)         # Add blogpost 3
+    createTestUser(db)                # Add Test user
     info("Demo Mode: Database reverted to default")
 
   # Add admin user
