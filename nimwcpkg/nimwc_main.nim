@@ -58,19 +58,21 @@ const
     when defined(webp):            " -d:webp",
     when defined(firejail):        " -d:firejail",
 
-    when defined(ssl):             " -d:ssl",
-    when defined(release):         " -d:release",
-    when defined(quick):           " -d:quick",
-    when defined(memProfiler):     " -d:memProfiler",
-    when defined(nimTypeNames):    " -d:nimTypeNames",
-    when defined(useRealtimeGC):   " -d:useRealtimeGC",
-    when defined(tinyc):           " -d:tinyc",
-    when defined(useNimRtl):       " -d:useNimRtl",
-    when defined(useFork):         " -d:useFork",
-    when defined(useMalloc):       " -d:useMalloc",
-    when defined(uClibc):          " -d:uClibc",
-    when defined(checkAbi):        " -d:checkAbi",
-    when defined(noSignalHandler): " -d:noSignalHandler",
+    when defined(ssl):               " -d:ssl",               # SSL
+    when defined(release):           " -d:release",           # Build for Production
+    when defined(quick):             " -d:quick",             # Tiny file but slow
+    when defined(memProfiler):       " -d:memProfiler",       # RAM Profiler debug
+    when defined(nimTypeNames):      " -d:nimTypeNames",      # Debug names
+    when defined(useRealtimeGC):     " -d:useRealtimeGC",     # Real Time GC
+    when defined(tinyc):             " -d:tinyc",             # TinyC compiler
+    when defined(useNimRtl):         " -d:useNimRtl",         # NimRTL.dll
+    when defined(useFork):           " -d:useFork",           # Fork instead of Spawn
+    when defined(useMalloc):         " -d:useMalloc",         # Use Malloc for gc:none
+    when defined(uClibc):            " -d:uClibc",            # uClibc instead of glibC
+    when defined(checkAbi):          " -d:checkAbi",          # Check C ABI compatibility
+    when defined(noSignalHandler):   " -d:noSignalHandler",   # No convert crash to signal
+    when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg", # Use Std Out as Std Msg
+    when defined(nimOldShiftRight):  " -d:nimOldShiftRight"   # http://forum.nim-lang.org/t/4891#30600
   ].join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
