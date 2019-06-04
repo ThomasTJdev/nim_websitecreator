@@ -1,4 +1,4 @@
-import os, osproc, parsecfg, rdstdin, sequtils, strutils, terminal, times, json
+import os, osproc, parsecfg, rdstdin, sequtils, strutils, terminal, times, json, parseopt
 
 when not defined(firejail): {.warning: "Firejail is Disabled, Running Unsecure.".}
 else:                       import firejail, parsecfg
@@ -57,7 +57,7 @@ const
       -p:<admin password>
       -e:<admin email>`
     --insertdata          Insert standard data (override existing data).
-        bulma               - standard data based on Bulma
+        bulma               - standard data based on Bulma (Default)
         bootstrap           - standard data based on Bootstrap
         clean               - standard data without a CSS/JS framework
     --newdb               Generates the database with standard tables
@@ -65,6 +65,7 @@ const
                           newdb will be initialized automatic, if no database exists.
     --gitupdate           Updates and force a hard reset.
     --initplugin          Create plugin skeleton inside tmp/
+    --putenv:key=value    Set an environment variable.
 
   Compile options:
     -d:postgres           Enable Postgres database (SQLite is standard)
@@ -92,19 +93,21 @@ const
     when defined(webp):            " -d:webp",
     when defined(firejail):        " -d:firejail",
 
-    when defined(ssl):             " -d:ssl",            # SSL
-    when defined(release):         " -d:release",        # Build for Production
-    when defined(quick):           " -d:quick",          # Tiny file but slow
-    when defined(memProfiler):     " -d:memProfiler",    # RAM Profiler debug
-    when defined(nimTypeNames):    " -d:nimTypeNames",   # Debug names
-    when defined(useRealtimeGC):   " -d:useRealtimeGC",  # Real Time GC
-    when defined(tinyc):           " -d:tinyc",          # TinyC compiler
-    when defined(useNimRtl):       " -d:useNimRtl",      # NimRTL.dll
-    when defined(useFork):         " -d:useFork",        # Fork instead of Spawn
-    when defined(useMalloc):       " -d:useMalloc",      # Use Malloc for gc:none
-    when defined(uClibc):          " -d:uClibc",         # uClibc instead of glibC
-    when defined(checkAbi):        " -d:checkAbi",       # Check C ABI compatibility
-    when defined(noSignalHandler): " -d:noSignalHandler" # No convert crash to signal
+    when defined(ssl):               " -d:ssl",               # SSL
+    when defined(release):           " -d:release",           # Build for Production
+    when defined(quick):             " -d:quick",             # Tiny file but slow
+    when defined(memProfiler):       " -d:memProfiler",       # RAM Profiler debug
+    when defined(nimTypeNames):      " -d:nimTypeNames",      # Debug names
+    when defined(useRealtimeGC):     " -d:useRealtimeGC",     # Real Time GC
+    when defined(tinyc):             " -d:tinyc",             # TinyC compiler
+    when defined(useNimRtl):         " -d:useNimRtl",         # NimRTL.dll
+    when defined(useFork):           " -d:useFork",           # Fork instead of Spawn
+    when defined(useMalloc):         " -d:useMalloc",         # Use Malloc for gc:none
+    when defined(uClibc):            " -d:uClibc",            # uClibc instead of glibC
+    when defined(checkAbi):          " -d:checkAbi",          # Check C ABI compatibility
+    when defined(noSignalHandler):   " -d:noSignalHandler",   # No convert crash to signal
+    when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg", # Use Std Out as Std Msg
+    when defined(nimOldShiftRight):  " -d:nimOldShiftRight"   # http://forum.nim-lang.org/t/4891#30600
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   nimwc_version =
@@ -128,6 +131,71 @@ let
   appName = dict.getSectionValue("Server", "appname")
   appPath = getAppDir() & "/nimwcpkg/" & appName
 assert appName.len > 1, "Config error: appname must not be empty string: " & appName
+
+
+proc updateNimwc() =
+  ## GIT hard update
+  assert existsDir"plugins/" and existsDir"public/", "Folders not found."
+  let
+    pluginImport = readFile"plugins/plugin_import.txt"  # Save Contents
+    styleCustom = readFile"public/css/style_custom.css"
+    jsCustom = readFile"public/js/js_custom.js"
+  discard execCmd("git fetch --all")
+  discard execCmd("git reset --hard origin/master")
+  writeFile("plugins/plugin_import.txt", pluginImport)  # Write Content again
+  writeFile("public/css/style_custom.css", styleCustom)
+  writeFile("public/js/js_custom.js", jsCustom)
+  quit("\n\nNimWC has been updated\n\n", 0)
+
+
+proc pluginSkeleton() =
+  ## Creates the skeleton (folders and files) for a plugin
+  const reqRoutes = "  get \"/$1/settings\":\n    resp(\"Plugin settings\")"
+  const reqCode = "\nproc $1Start*(db: DbConn): auto =\n  ## Code your plugins start-up Backend logic here, db is the Database.\n  discard\n"
+
+  styledEcho(fgCyan, bgBlack,
+    "NimWC: Creating plugin skeleton\nThe plugin will be created inside tmp/")
+  let pluginName = normalize(readLineFromStdin("Plugin name: "))
+  assert pluginName.len > 0, "Plugin Name must not be empty string: " & pluginName
+
+  # Create dirs
+  discard existsOrCreateDir("tmp")
+  discard existsOrCreateDir("tmp/" & pluginName)
+  discard existsOrCreateDir("tmp/" & pluginName & "/public")
+
+  # Create files
+  writeFile("tmp/" & pluginName & "/" & pluginName & ".nim", "# Code your plugins Backend logic here.\n" & reqCode.format(pluginName))
+  writeFile("tmp/" & pluginName & "/routes.nim", "  # https://github.com/dom96/jester#routes\n" & reqRoutes.format(pluginName))
+  writeFile("tmp/" & pluginName & "/public/js.js", "/* https://github.com/pragmagic/karax OR Vanilla JavaScript */\n")
+  writeFile("tmp/" & pluginName & "/public/style.css", "/* https://bulma.io/documentation OR https://picturepan2.github.io/spectre OR https://getbootstrap.com */\n")
+
+  if readLineFromStdin("\nInclude optional CSS/JS files (y/N): ").string.strip.toLowerAscii == "y":
+    writeFile("tmp/" & pluginName & "/html.tmpl", "<!-- https://nim-lang.org/docs/filters.html -->\n")
+    writeFile("tmp/" & pluginName & "/public/js_private.js", "")
+    writeFile("tmp/" & pluginName & "/public/style_private.css", "")
+
+  let pluginJson = """
+  [
+    {
+      "name": "$1",
+      "foldername": "$2",
+      "version": "0.1",
+      "requires": "$4",
+      "url": "https://github.com/$3/$2",
+      "method": "git",
+      "description": "$2 plugin for Nim Website Creator.",
+      "license": "MIT",
+      "web": "",
+      "email": "",
+      "sustainability": ""
+    }
+  ]
+  """.format(capitalizeAscii(pluginName), pluginName, getEnv("USER", "YourUser"), nimwc_version.substr(0, 2))
+
+  writeFile("tmp/" & pluginName & "/plugin.json", pluginJson)
+  styledEcho(fgGreen, bgBlack, "NimWC: Created plugin skeleton, bye.")
+  quit(0)
+
 
 proc handler() {.noconv.} =
   ## Catch ctrl+c from user
@@ -210,9 +278,9 @@ proc launcherActivated() =
     # Loop to check if nimwc_main is running
     if not running(nimhaMain):
       # Quit if user has provided arguments
-      if args.len() != 0:
+      if args.len != 0:
         styledEcho(fgYellow, bgBlack, $now() & ": User provided arguments: " & args)
-        styledEcho(fgYellow, bgBlack, $now() & ": Run again without arguments, exiting..")
+        styledEcho(fgYellow, bgBlack, $now() & ": Run again without arguments, exiting.")
         quit()
 
       styledEcho(fgYellow, bgBlack, $now() & ": Restarting in 1 second.")
@@ -241,81 +309,22 @@ proc startupCheck() =
       styledEcho(fgGreen, bgBlack,  compile_ok_msg)
 
 
-proc updateNimwc() =
-  ## GIT hard update
-  if "gitupdate" in commandLineParams() or defined(gitupdate):
-    assert existsDir"plugins/" and existsDir"public/", "Folders not found."
-    let
-      pluginImport = readFile"plugins/plugin_import.txt"  # Save Contents
-      styleCustom = readFile"public/css/style_custom.css"
-      jsCustom = readFile"public/js/js_custom.js"
-    discard execCmd("git fetch --all")
-    discard execCmd("git reset --hard origin/master")
-    writeFile("plugins/plugin_import.txt", pluginImport)  # Write Content again
-    writeFile("public/css/style_custom.css", styleCustom)
-    writeFile("public/js/js_custom.js", jsCustom)
-    quit("\n\nNimWC has been updated\n\n", 0)
+for tipoDeClave, clave, valor in getopt():
+  case tipoDeClave
+  of cmdShortOption, cmdLongOption:
+    case clave
+    of "version": quit(nimwc_version, 0)
+    of "initplugin": pluginSkeleton()
+    of "gitupdate": updateNimwc()
+    of "putenv":
+      let envy = valor.split"="
+      styledEcho(fgMagenta, bgBlack, $envy)
+      putEnv(envy[0], envy[1])
+    of "help":
+      styledEcho(fgGreen, bgBlack, doc)
+      quit(0)
+  of cmdArgument: discard
+  of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)
 
-
-proc pluginSkeleton() =
-  ## Creates the skeleton (folders and files) for a plugin
-  const reqRoutes = "  get \"/$1/settings\":\n    resp(\"Plugin settings\")"
-  const reqCode = "\nproc $1Start*(db: DbConn): auto =\n  ## Code your plugins start-up Backend logic here, db is the Database.\n  discard\n"
-
-  styledEcho(fgCyan, bgBlack,
-    "NimWC: Creating plugin skeleton\nThe plugin will be created inside tmp/")
-  let pluginName = normalize(readLineFromStdin("Plugin name: "))
-  assert pluginName.len > 0, "Plugin Name must not be empty string: " & pluginName
-
-  # Create dirs
-  discard existsOrCreateDir("tmp")
-  discard existsOrCreateDir("tmp/" & pluginName)
-  discard existsOrCreateDir("tmp/" & pluginName & "/public")
-
-  # Create files
-  writeFile("tmp/" & pluginName & "/" & pluginName & ".nim", "# Code your plugins Backend logic here.\n" & reqCode.format(pluginName))
-  writeFile("tmp/" & pluginName & "/routes.nim", "  # https://github.com/dom96/jester#routes\n" & reqRoutes.format(pluginName))
-  writeFile("tmp/" & pluginName & "/public/js.js", "/* https://github.com/pragmagic/karax OR Vanilla JavaScript */\n")
-  writeFile("tmp/" & pluginName & "/public/style.css", "/* https://bulma.io/documentation OR https://picturepan2.github.io/spectre OR https://getbootstrap.com */\n")
-
-  if readLineFromStdin("\nInclude optional CSS/JS files (y/N): ").string.strip.toLowerAscii == "y":
-    writeFile("tmp/" & pluginName & "/html.tmpl", "<!-- https://nim-lang.org/docs/filters.html -->\n")
-    writeFile("tmp/" & pluginName & "/public/js_private.js", "")
-    writeFile("tmp/" & pluginName & "/public/style_private.css", "")
-
-  let pluginJson = """
-  [
-    {
-      "name": "$1",
-      "foldername": "$2",
-      "version": "0.1",
-      "requires": "$4",
-      "url": "https://github.com/$3/$2",
-      "method": "git",
-      "description": "$2 plugin for Nim Website Creator.",
-      "license": "MIT",
-      "web": "",
-      "email": "",
-      "sustainability": ""
-    }
-  ]
-  """.format(capitalizeAscii(pluginName), pluginName, getEnv("USER", "YourUser"), nimwc_version.substr(0, 2))
-
-  writeFile("tmp/" & pluginName & "/plugin.json", pluginJson)
-  styledEcho(fgGreen, bgBlack, "NimWC: Created plugin skeleton, bye.")
-
-if "help" in args:
-  styledEcho(fgGreen, bgBlack, doc)
-  quit(0)
-
-if "version" in args:
-  styledEcho(fgCyan, bgBlack, nimwc_version)
-  quit(0)
-
-if "initplugin" in args:
-  pluginSkeleton()
-  quit(0)
-
-updateNimwc()
 startupCheck()
 launcherActivated()
