@@ -1,5 +1,6 @@
 import strutils, osproc, os, json
 
+
 const
   pluginRepo = "https://github.com/ThomasTJdev/nimwc_plugins.git"
   pluginRepoName = "nimwc_plugins"
@@ -65,12 +66,17 @@ proc pluginUpdate*(pluginFolder: string): bool =
 
 
 proc pluginDelete*(pluginFolder: string): bool =
-  ## Updates an external plugin with pull
+  ## Delete a Plugin from the filesystem.
   for line in lines("plugins/plugin_import.txt"):
     if line == pluginFolder:
       return false
-  let output = execProcess("rm -rf plugins/" & pluginFolder)
-  result = output != "fatal: cannot change to " & pluginFolder & ": No such file or directory"
+  try:
+    removeDir("plugins/" & pluginFolder)
+    result = true
+  except:
+    result = false
+  finally:
+    echo "Removed Plugin folder and subfolders: ./plugins/" & pluginFolder
 
 
 proc pluginEnableDisable*(pluginPath, pluginName, status: string) =
@@ -83,9 +89,7 @@ proc pluginEnableDisable*(pluginPath, pluginName, status: string) =
 
   var newFile = ""
   for line in lines("plugins/plugin_import.txt"):
-    if line == "":
-      continue
-    if line == pluginPath:
+    if line == "" or line == pluginPath:
       continue
     else:
       newFile.add(line)
@@ -103,7 +107,7 @@ proc extensionSettings(): seq[string] =
   ## are enabled or disabled. The result will be "true:pluginname"
   ## or "false:pluginname".
 
-  let plugins = (readFile("plugins/plugin_import.txt").split("\n"))
+  let plugins = readFile("plugins/plugin_import.txt").splitLines
 
   # Walk through files and folders in the plugin directory
   var extensions: seq[string]
