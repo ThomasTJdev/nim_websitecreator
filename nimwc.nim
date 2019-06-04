@@ -84,6 +84,36 @@ const
     Learn more: http://nim-lang.org/learn.html http://nim-lang.github.io/Nim/lib.html
   """
 
+  skeletonMsg = """NimWC: Creating plugin skeleton.
+  New plugin template will be created inside the folder:  tmp/
+  (the files will have useful comments with help & links)
+  """
+
+  reqRoutes = """
+  get "/$1/settings":
+    resp "<center><h1> $1 Plugin Settings."  ## Code your plugins Settings logic here.
+  """
+
+  reqCode = "\nproc $1Start*(db: DbConn): auto =\n  ## Code your plugins start-up Backend logic here, db is the Database.\n  discard\n"
+
+  pluginJson = """
+  [
+    {
+      "name": "$1",
+      "foldername": "$2",
+      "version": "0.1",
+      "requires": "$4",
+      "url": "https://github.com/$3/$2",
+      "method": "git",
+      "description": "$2 plugin for Nim Website Creator.",
+      "license": "MIT",
+      "web": "",
+      "email": "",
+      "sustainability": ""
+    }
+  ]
+  """
+
   compileOptions = ["",
     when defined(adminnotify):     " -d:adminnotify",
     when defined(dev):             " -d:dev",
@@ -150,11 +180,7 @@ proc updateNimwc() =
 
 proc pluginSkeleton() =
   ## Creates the skeleton (folders and files) for a plugin
-  const reqRoutes = "  get \"/$1/settings\":\n    resp(\"Plugin settings\")"
-  const reqCode = "\nproc $1Start*(db: DbConn): auto =\n  ## Code your plugins start-up Backend logic here, db is the Database.\n  discard\n"
-
-  styledEcho(fgCyan, bgBlack,
-    "NimWC: Creating plugin skeleton\nThe plugin will be created inside tmp/")
+  styledEcho(fgCyan, bgBlack, skeletonMsg)
   let pluginName = normalize(readLineFromStdin("Plugin name: "))
   assert pluginName.len > 0, "Plugin Name must not be empty string: " & pluginName
 
@@ -174,25 +200,8 @@ proc pluginSkeleton() =
     writeFile("tmp/" & pluginName & "/public/js_private.js", "")
     writeFile("tmp/" & pluginName & "/public/style_private.css", "")
 
-  let pluginJson = """
-  [
-    {
-      "name": "$1",
-      "foldername": "$2",
-      "version": "0.1",
-      "requires": "$4",
-      "url": "https://github.com/$3/$2",
-      "method": "git",
-      "description": "$2 plugin for Nim Website Creator.",
-      "license": "MIT",
-      "web": "",
-      "email": "",
-      "sustainability": ""
-    }
-  ]
-  """.format(capitalizeAscii(pluginName), pluginName, getEnv("USER", "YourUser"), nimwc_version.substr(0, 2))
-
-  writeFile("tmp/" & pluginName & "/plugin.json", pluginJson)
+  writeFile("tmp/" & pluginName & "/plugin.json",
+    pluginJson.format(capitalizeAscii(pluginName), pluginName, getEnv("USER", "YourUser"), nimwc_version.substr(0, 2)))
   styledEcho(fgGreen, bgBlack, "NimWC: Created plugin skeleton, bye.")
   quit(0)
 
