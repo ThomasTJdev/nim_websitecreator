@@ -59,6 +59,7 @@ const
 
     when defined(ssl):               " -d:ssl",               # SSL
     when defined(release):           " -d:release",           # Build for Production
+    when defined(danger):            " -d:danger",            # Build for Production
     when defined(quick):             " -d:quick",             # Tiny file but slow
     when defined(memProfiler):       " -d:memProfiler",       # RAM Profiler debug
     when defined(nimTypeNames):      " -d:nimTypeNames",      # Debug names
@@ -72,6 +73,7 @@ const
     when defined(noSignalHandler):   " -d:noSignalHandler",   # No convert crash to signal
     when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg", # Use Std Out as Std Msg
     when defined(nimOldShiftRight):  " -d:nimOldShiftRight"   # http://forum.nim-lang.org/t/4891#30600
+    when defined(nimOldCaseObjects): " -d:nimOldCaseObjects"  # old case switch
   ].join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
