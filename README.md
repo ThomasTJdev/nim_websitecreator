@@ -82,7 +82,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 To get started you only need:
 
 - Linux (For Windows [see Docker-for-Windows](http://docs.docker.com/docker-for-windows))
-- Nim >= `0.19.6` (Stable Release)
+- Nim >= `0.20.0` (Stable Release)
 
 Development dependencies (automatically installed by Nimble):
 

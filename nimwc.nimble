@@ -10,7 +10,7 @@ installDirs   = @["config", "nimwcpkg", "plugins", "public"]
 
 
 # Dependencies
-requires "nim >= 0.19.6"
+requires "nim >= 0.20.0"
 requires "jester >= 0.4.1"
 requires "recaptcha >= 1.0.2"
 requires "bcrypt >= 0.2.1"
