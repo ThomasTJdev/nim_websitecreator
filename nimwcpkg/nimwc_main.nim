@@ -493,12 +493,12 @@ when isMainModule:
 
 
 include
-  "tmpl/utils.tmpl", "tmpl/blog.tmpl", "tmpl/blogedit.tmpl", "tmpl/blognew.tmpl",
-  "tmpl/files.tmpl", "tmpl/page.tmpl", "tmpl/pageedit.tmpl", "tmpl/pagenew.tmpl",
-  "tmpl/settings.tmpl", "tmpl/plugins.tmpl", "tmpl/user.tmpl", "tmpl/main.tmpl",
-  "tmpl/sitemap.tmpl", "tmpl/logs.tmpl", "tmpl/serverinfo.tmpl",
-  "tmpl/editconfig.tmpl", "tmpl/delayredirect.tmpl"
-when defined(firejail): include "tmpl/firejail.tmpl"
+  "tmpl/utils.nimf", "tmpl/blog.nimf", "tmpl/blogedit.nimf", "tmpl/blognew.nimf",
+  "tmpl/files.nimf", "tmpl/page.nimf", "tmpl/pageedit.nimf", "tmpl/pagenew.nimf",
+  "tmpl/settings.nimf", "tmpl/plugins.nimf", "tmpl/user.nimf", "tmpl/main.nimf",
+  "tmpl/sitemap.nimf", "tmpl/logs.nimf", "tmpl/serverinfo.nimf",
+  "tmpl/editconfig.nimf", "tmpl/delayredirect.nimf"
+when defined(firejail): include "tmpl/firejail.nimf"
 
 
 #
