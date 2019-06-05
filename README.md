@@ -27,8 +27,9 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - SQL Type-checked and Query-checked at compile-time, no SQL injections.
 - Multiple users with different ranks, role based access control.
 - Admin can choose how much CPU & RAM NimWC can use from the Admin Dashboard.
+- [We recommend `mpwc` stateless password manager because uses MasterPassword algo (200Kb size).](https://github.com/SolitudeSF/mpwc#mpwc)
 - [We recommend FreeOTP 2 Factor Athentication App because is Open Source (400Kb size).](https://freeotp.github.io),
-[as alternative you can try AndOTP (5Mb size).](https://github.com/andOTP/andOTP)
+[As alternative, try AndOTP (5Mb size).](https://github.com/andOTP/andOTP)
 
 ## Configuration
 - Edit core or custom JS and CSS directly from browser, UI/UX Designer friendly.
@@ -309,7 +310,8 @@ Copy the file called `nimwc.service` inside `/lib/systemd/system/`
 sudo nano /lib/systemd/system/nimwc.service
 ```
 
-## Enable auto start and start it:
+Enable auto start and start it:
+
 ```
 sudo systemctl enable nimwc
 sudo systemctl start nimwc
@@ -320,6 +322,15 @@ sudo systemctl status nimwc
 **CI Builds**
 
 - [YAML Build templates for several Linux Distros (SourceHut).](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/sourcehut#whats-this)
+
+
+**Build for old Linux**
+
+Sometimes you may need Build for very very old Linux, like old Centos and Debian Old Stable,
+from a recent Linux, like new Arch or Ubuntu,
+heres how you can do it, without a virtual machine with an old Linux to build.
+
+- https://github.com/wheybags/glibc_version_header#glibc-version-header-generator
 
 </details>
 
