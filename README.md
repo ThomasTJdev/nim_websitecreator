@@ -324,13 +324,15 @@ sudo systemctl status nimwc
 - [YAML Build templates for several Linux Distros (SourceHut).](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/sourcehut#whats-this)
 
 
-**Build for old Linux**
+**CrossCompiling, Build for old Linux**
 
 Sometimes you may need Build for very very old Linux, like old Centos and Debian Old Stable,
 from a recent Linux, like new Arch or Ubuntu,
 heres how you can do it, without a virtual machine with an old Linux to build.
 
 - https://github.com/wheybags/glibc_version_header#glibc-version-header-generator
+- https://github.com/phusion/holy-build-box#system-for-building-cross-distribution-linux-binaries
+- https://github.com/dockcross/dockcross#dockcross
 
 </details>
 
