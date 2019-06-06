@@ -1,10 +1,9 @@
-import
-  asyncdispatch, smtp, strutils, os, htmlparser, asyncnet, parsecfg, times,
-  ../email/email_connection,
-  ../email/email_generate_message
+import asyncdispatch, ../email/email_connection, ../email/email_generate_message
+from strutils import format, countLines
+from times import now
 
 
-const adminErrorMsg = """
+const adminErrorMsg = """<!DOCTYPE html>
   <center>
     <h1>Error Logs</h1>
     <p>Hi Admin, an error occurred at $3 </p>
@@ -24,4 +23,4 @@ proc sendEmailAdminError*(msg: string) {.async.} =
   ## Send email - user removed
   await sendAdminMailNow(
     "Admin: Error occurred",
-    genEmailMessage(adminErrorMsg.format(msg, msg.splitLines.len, now())))
+    genEmailMessage(adminErrorMsg.format(msg, msg.countLines, now())))
