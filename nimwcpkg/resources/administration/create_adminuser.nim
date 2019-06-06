@@ -20,9 +20,12 @@ const
   $1 Test user already exists. """
 
 
+using db: DbConn
+
+
 randomize()
 
-proc createAdminUser*(db: DbConn, args: seq[string]) =
+proc createAdminUser*(db, args: seq[string]) =
   ## Create new admin user.
   const sql_anyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
   let anyAdmin = getAllRows(db, sql_anyAdmin)
@@ -59,7 +62,7 @@ proc createAdminUser*(db: DbConn, args: seq[string]) =
   info("Admin added.")
 
 
-proc createTestUser*(db: DbConn) =
+proc createTestUser*(db) =
   ## Create new admin user.
   const sql_anyAdmin = sql"SELECT id FROM person WHERE email = 'test@test.com'"
   let anyAdmin = getAllRows(db, sql_anyAdmin)
