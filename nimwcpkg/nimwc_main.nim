@@ -2,7 +2,7 @@
 #        (c) Copyright 2019 Thomas Toftgaard Jarløv
 #        Look at LICENSE for more info.
 #        All rights reserved.
-{.passL: "-s".}  # Force strip all on the resulting Binary, so its smaller.
+when defined(release): {.passL: "-s".}  # Force strip all on the resulting Binary.
 
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
