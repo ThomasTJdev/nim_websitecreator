@@ -1,4 +1,7 @@
-import parsecfg, strutils, os
+import parsecfg
+
+from strutils import format, replace
+from os import getAppDir
 
 
 const
@@ -38,8 +41,8 @@ const
 
 let
   dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
-  title = dict.getSectionValue("Server","title")
-  website = dict.getSectionValue("Server","website")
+  title = dict.getSectionValue("Server", "title")
+  website = dict.getSectionValue("Server", "website")
   mailStyleHeader = mailStyleHeaderMsg.format(website, title)
   mailStyleFooter = mailStyleFooterMsg.format(website, title)
 
