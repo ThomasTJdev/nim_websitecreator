@@ -12,7 +12,6 @@ import
 
   resources/administration/create_adminuser,
   resources/administration/create_standarddata,
-  resources/administration/createdb,
   resources/email/email_registration,
   resources/files/files_efs,
   resources/files/files_utils,
@@ -416,19 +415,6 @@ when isMainModule:
   echo startup_msg
   randomize()
 
-  # Storage location. Folders are created in the module files_efs.nim
-  when not defined(ignoreefs) and defined(release):
-    # Check access to EFS file system
-    info("Checking storage access.")
-    if not existsDir(storageEFS):
-      fatal("isMainModule: No access to storage in release mode. Critical.")
-      sleep(2_000)
-      quit()
-
-  # Generate DB
-  if "newdb" in commandLineParams() or not fileExists(db_host):
-    generateDB()
-
   # Connect to DB
   let dbconnection =
     when defined(postgres): "host=" & $db_host & " port=" & $db_port & " dbname=" & $db_name & " user=" & $db_user & " password=" & $db_pass & " connect_timeout=9"
@@ -448,10 +434,6 @@ when isMainModule:
     standardDataBlogpost3(db)         # Add blogpost 3
     createTestUser(db)                # Add Test user
     info("Demo Mode: Database reverted to default")
-
-  # Add admin user
-  if "newuser" in commandLineParams():
-    createAdminUser(db, commandLineParams())
 
   # Update sql database from extensions
   extensionUpdateDB(db)
@@ -493,11 +475,23 @@ when isMainModule:
 
 
 include
-  "tmpl/utils.nimf", "tmpl/blog.nimf", "tmpl/blogedit.nimf", "tmpl/blognew.nimf",
-  "tmpl/files.nimf", "tmpl/page.nimf", "tmpl/pageedit.nimf", "tmpl/pagenew.nimf",
-  "tmpl/settings.nimf", "tmpl/plugins.nimf", "tmpl/user.nimf", "tmpl/main.nimf",
-  "tmpl/sitemap.nimf", "tmpl/logs.nimf", "tmpl/serverinfo.nimf",
-  "tmpl/editconfig.nimf", "tmpl/delayredirect.nimf"
+  "tmpl/blog.nimf",
+  "tmpl/blogedit.nimf",
+  "tmpl/blognew.nimf",
+  "tmpl/delayredirect.nimf",
+  "tmpl/editconfig.nimf",
+  "tmpl/files.nimf",
+  "tmpl/logs.nimf",
+  "tmpl/main.nimf",
+  "tmpl/page.nimf",
+  "tmpl/pageedit.nimf",
+  "tmpl/pagenew.nimf",
+  "tmpl/plugins.nimf",
+  "tmpl/serverinfo.nimf",
+  "tmpl/settings.nimf",
+  "tmpl/sitemap.nimf",
+  "tmpl/user.nimf",
+  "tmpl/utils.nimf"
 when defined(firejail): include "tmpl/firejail.nimf"
 
 
@@ -531,7 +525,7 @@ template restrictAccessTo(c: var TData, ranks: varargs[Rank]) =
 macro generateRoutes(): typed =
   ## The macro generates the routes for Jester.
   ## Routes are found in the resources/web/routes.nim.
-  ## All plugins 'routes.nim' are also included.
+  ## All plugins "routes.nim" are also included.
   var extensions = staticRead("resources/web/routes.nim")
 
   for ppath in pluginsPath:
