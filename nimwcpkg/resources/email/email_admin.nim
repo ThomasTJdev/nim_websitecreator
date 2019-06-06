@@ -1,6 +1,10 @@
-import asyncdispatch, ../email/email_connection, ../email/email_generate_message
+import asyncdispatch
+
 from strutils import format, countLines
 from times import now
+
+from ../email/email_generate_message import genEmailMessage
+from ../email/email_connection import sendAdminMailNow
 
 
 const adminErrorMsg = """<!DOCTYPE html>
