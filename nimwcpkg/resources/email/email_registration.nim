@@ -1,7 +1,11 @@
-import
-  asyncdispatch, smtp, strutils, os, htmlparser, asyncnet, parsecfg,
-  ../email/email_connection,
-  ../email/email_generate_message
+import asyncdispatch, parsecfg
+
+from strutils import replace, format
+from os import getAppDir
+
+from ../email/email_generate_message import genEmailMessage
+from ../email/email_connection import sendMailNow
+
 
 const
   activationMsg = """
@@ -38,23 +42,26 @@ const
     <br><br>
     Thank you for registering and becoming a part of $2!"""
 
+
 let
   dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
-  title = dict.getSectionValue("Server","title")
-  website = dict.getSectionValue("Server","website")
-  supportEmail = dict.getSectionValue("SMTP","SMTPEmailSupport")
+  title = dict.getSectionValue("Server", "title")
+  website = dict.getSectionValue("Server", "website")
+  supportEmail = dict.getSectionValue("SMTP", "SMTPEmailSupport")
 
 
-proc sendEmailActivationManual*(email, userName, password, activateUrl, invitorName: string) {.async.} =
-  ## Send the activation email, when admin added a new user
+using email, userName, password, activateUrl, invitorName: string
+
+
+proc sendEmailActivationManual*(email, userName, password, activateUrl, invitorName) {.async.} =
+  ## Send the activation email, when admin added a new user.
   let message = activationMsg.format(
     userName, invitorName, email, password,
     (website & activateUrl), title, website, supportEmail)
   await sendMailNow(title & " - Email Confirmation", genEmailMessage(message), email)
 
 
-proc sendEmailRegistrationFollowup*(email, userName: string) {.async.} =
-  ## Send a follow up mail, if user
-  ## has not used their activation link
+proc sendEmailRegistrationFollowup*(email, userName) {.async.} =
+  ## Send a follow up mail, if user has not used their activation link.
   let message = registrationMsg.format(userName, title, website, supportEmail)
   await sendMailNow(title & "- Reminder: Email Confirmation", genEmailMessage(message), email)
