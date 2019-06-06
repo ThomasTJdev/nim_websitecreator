@@ -17,7 +17,10 @@ let
   adminEmail   = dict.getSectionValue("SMTP", "SMTPEmailAdmin")
 
 
-proc sendMailNow*(subject, message, recipient: string) {.async.} =
+using subject, message, recipient: string
+
+
+proc sendMailNow*(subject, message, recipient) {.async.} =
   ## Send the email through smtp
   when defined(demo):
     info("Demo is true, email is not send")
@@ -47,7 +50,7 @@ proc sendMailNow*(subject, message, recipient: string) {.async.} =
     info("Email sent")
 
 
-proc sendAdminMailNow*(subject, message: string) {.async.} =
+proc sendAdminMailNow*(subject, message) {.async.} =
   ## Send email only to Admin.
   when defined(dev) and not defined(devemailon):
     info("Dev is true, email is not sent")
