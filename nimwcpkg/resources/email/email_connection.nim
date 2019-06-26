@@ -5,8 +5,8 @@ import
 # Changing app dir due to, that module is not imported from main module
 let appDir = getAppDir().replace("/nimwcpkg", "")
 let configFile = appDir / "config/config.cfg"
-assert existsDir(appDir), "appDir directory not found: " & appDir
-assert existsFile(configFile), "config/config.cfg file not found: " & configFile
+assert existsDir(appDir), "appDir directory not found"
+assert existsFile(configFile), "config/config.cfg file not found"
 setCurrentDir(appDir)
 
 const otherHeaders = @[("Content-Type", "text/html; charset=\"UTF-8\"")]
