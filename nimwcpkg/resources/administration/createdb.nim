@@ -7,7 +7,9 @@ when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
 let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
+let configFile = "config/config.cfg"
 assert existsDir(nimwcpkgDir), "nimwcpkg directory not found: " & nimwcpkgDir
+assert existsFile(configFile), "config/config.cfg file not found: " & configFile
 setCurrentDir(nimwcpkgDir)
 
 const
@@ -144,9 +146,10 @@ const
 
 
 proc generateDB*() =
+  assert existsFile(configFile), "config/config.cfg file not found: " & configFile
   info("Database: Generating database")
   let
-    dict = loadConfig("config/config.cfg")
+    dict = loadConfig(configFile)
     db_user = dict.getSectionValue("Database", "user")
     db_pass = dict.getSectionValue("Database", "pass")
     db_name = dict.getSectionValue("Database", "name")
