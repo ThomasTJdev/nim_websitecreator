@@ -19,13 +19,16 @@ proc pluginCheckGit*(): bool {.inline.} =
 
 proc pluginExtractDetails*(pluginFolder: string): tuple[name, version, description, url: string] =
   ## Get plugin data from [pluginName]/plugin.json
-  let pluginJson = parseFile("plugins/" & pluginFolder & "/plugin.json")
+  assert pluginFolder.len > 0, "pluginFolder must not be empty string"
+  let pluginJsonPath = "plugins/" & pluginFolder & "/plugin.json"
+  assert existsFile(pluginJsonPath), "pluginJsonPath file not found (plugin.json)"
+  let pluginJson = parseFile(pluginJsonPath)
   for plugin in items(pluginJson):
     let
-      name = plugin["name"].getStr()
-      version = plugin["version"].getStr()
-      description = plugin["description"].getStr()
-      url = plugin["url"].getStr()
+      name = plugin["name"].getStr.strip
+      version = plugin["version"].getStr.strip
+      description = plugin["description"].getStr.strip
+      url = plugin["url"].getStr.strip
     return (name, version, description, url)
 
 
@@ -33,8 +36,9 @@ proc pluginRepoClone*(): bool =
   ## Clones (updates) the plugin repo
   if unlikely(not pluginCheckGit()):
     return false
-  let output = execCmd("git clone " & pluginRepo & " " &
-    replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginRepoName)
+  let folder = replace(getAppDir(), "/nimwcpkg", "") & "/plugins/"
+  assert existsDir(folder), "pluginRepoClone folder not found (Plugins)"
+  let output = execCmd("git clone " & pluginRepo & " " & folder & pluginRepoName)
   if output != 0:
     return false
   return fileExists("plugins/nimwc_plugins/plugins.json")
@@ -44,7 +48,9 @@ proc pluginRepoUpdate*(): bool =
   ## Clones (updates) the plugin repo
   if unlikely(not pluginCheckGit()):
     return false
-  let output = execCmd("git -C plugins/" & pluginRepoName & " pull")
+  let folder = "plugins" / pluginRepoName
+  assert existsDir(folder), "pluginRepoUpdate folder not found (Plugins)"
+  let output = execCmd("git -C " & folder & " pull")
   if output != 0:
     return false
   return fileExists("plugins/nimwc_plugins/plugins.json")
@@ -52,6 +58,8 @@ proc pluginRepoUpdate*(): bool =
 
 proc pluginDownload*(pluginGit, pluginFolder: string): bool =
   ## Downloads an external plugin with clone
+  assert pluginGit.len > 0, "pluginGit must not be empty string"
+  assert pluginFolder.len > 0, "pluginFolder must not be empty string"
   let output = execProcess("git clone " & pluginGit & " " &
     replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginFolder)
   result = output != "fatal: repository '" & pluginGit & "' does not exists"
@@ -59,6 +67,7 @@ proc pluginDownload*(pluginGit, pluginFolder: string): bool =
 
 proc pluginUpdate*(pluginFolder: string): bool =
   ## Updates an external plugin with pull
+  assert pluginFolder.len > 0, "pluginFolder must not be empty string"
   discard execCmd("git -C plugins/" & pluginFolder & " fetch --all")
   discard execCmd("git -C plugins/" & pluginFolder & " reset --hard origin/master")
   let output = execProcess("git -C plugins/" & pluginFolder & " pull")
@@ -67,6 +76,7 @@ proc pluginUpdate*(pluginFolder: string): bool =
 
 proc pluginDelete*(pluginFolder: string): bool =
   ## Delete a Plugin from the filesystem.
+  assert pluginFolder.len > 0, "pluginFolder must not be empty string"
   for line in lines("plugins/plugin_import.txt"):
     if line == pluginFolder:
       return false
@@ -86,7 +96,9 @@ proc pluginEnableDisable*(pluginPath, pluginName, status: string) =
   ##                       this will enable the plugin (add a line)
   ## @"status" == true  => Plugin is enabled,
   ##                       this will disable the plugin (remove the line)
-
+  assert pluginPath.len > 0, "pluginPath must not be empty string"
+  assert pluginName.len > 0, "pluginName must not be empty string"
+  assert status in ["false", "true"], "status must be true or false"
   var newFile = ""
   for line in lines("plugins/plugin_import.txt"):
     if line == "" or line == pluginPath:
