@@ -545,11 +545,11 @@ routes:
 
 
 using
-  db: DbConn
+
   dataStyle: string
 
 
-proc standardDataSettings*(db, dataStyle) =
+proc standardDataSettings*(db: DbConn, dataStyle) =
   ## Settings
   info"Standard data: Inserting settings-data."
   exec(db, sql"DELETE FROM settings")
@@ -562,7 +562,7 @@ proc standardDataSettings*(db, dataStyle) =
     discard insertID(db, sql"INSERT INTO settings (title, head, navbar, footer) VALUES (?, ?, ?, ?)", title, head, navbar, footer)
 
 
-proc standardDataFrontpage*(db, dataStyle = "") =
+proc standardDataFrontpage*(db: DbConn, dataStyle = "") =
   ## Frontpage
   info"Standard data: Inserting frontpage-data."
   let frontpageExists = getValue(db, sql"SELECT id FROM pages WHERE url = ?", "frontpage")
@@ -575,7 +575,7 @@ proc standardDataFrontpage*(db, dataStyle = "") =
       discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "frontpage", "Frontpage", frontpage, "1", "1", "1", "NimWC Nim Website Creator", "NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.", "website,blog,nim,nimwc")
 
 
-proc standardDataAbout*(db) =
+proc standardDataAbout*(db: DbConn) =
   ## About
   info"Standard data: Inserting about-data."
   let aboutExists = getValue(db, sql"SELECT id FROM pages WHERE url = ?", "about")
@@ -585,7 +585,7 @@ proc standardDataAbout*(db) =
   discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "about", "About", about, "1", "1", "1", "About Nim Website Creator", "NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.", "website,blog,nim,nimwc")
 
 
-proc standardDataBlogpost1*(db) =
+proc standardDataBlogpost1*(db: DbConn) =
   ## Blog post
   info"Standard data: Inserting blog post-data"
   let blogExists = getValue(db, sql"SELECT id FROM blog WHERE url = ?", "standardpost")
@@ -595,7 +595,7 @@ proc standardDataBlogpost1*(db) =
   discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpost", "Standard blogpost", blogpost1, "1", "1", "1", "NimWC Example blogpost", "This is an example blogpost using the default styling.", "website,blog,nim,nimwc")
 
 
-proc standardDataBlogpost2*(db) =
+proc standardDataBlogpost2*(db: DbConn) =
   ## Blog post
   info"Standard data: Inserting blog post-data."
   let blogExists = getValue(db, sql"SELECT id FROM blog WHERE url = ?", "standardpostv2")
@@ -605,7 +605,7 @@ proc standardDataBlogpost2*(db) =
   discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv2", "Parallax post v2", blogpost2, "1", "1", "1", "NimWC Example blogpost parallax", "This is an example blogpost using parallax created with NimWC.", "website,blog,nim,nimwc,parallax")
 
 
-proc standardDataBlogpost3*(db) =
+proc standardDataBlogpost3*(db: DbConn) =
   ## Blog post
   info"Standard data: Inserting blog post-data."
   let blogExists = getValue(db, sql"SELECT id FROM blog WHERE url = ?", "standardpostv3")
@@ -615,7 +615,7 @@ proc standardDataBlogpost3*(db) =
   discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv3", "Custom styling", blogpost3, "1", "1", "1", "NimWC Example blogpost custom", "This is an example blogpost using custom styling.", "website,blog,nim,nimwc")
 
 
-proc createStandardData*(db, dataStyle = "bulma") =
+proc createStandardData*(db: DbConn, dataStyle = "bulma") =
   ## Insert basic data
   info"Standard data: Inserting standard data."
   standardDataSettings(db, dataStyle)
