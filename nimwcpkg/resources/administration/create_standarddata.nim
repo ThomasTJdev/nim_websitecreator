@@ -549,6 +549,7 @@ using dataStyle: string
 
 proc standardDataSettings*(db: DbConn, dataStyle) =
   ## Settings
+  assert dataStyle in ["bulma", "bootstrap", "clean"], "dataStyle must be one of bulma, bootstrap, clean: " & dataStyle
   info"Standard data: Inserting settings-data."
   exec(db, sql"DELETE FROM settings")
 
@@ -615,6 +616,7 @@ proc standardDataBlogpost3*(db: DbConn) =
 
 proc createStandardData*(db: DbConn, dataStyle = "bulma") =
   ## Insert basic data
+  assert dataStyle in ["bulma", "bootstrap", "clean"], "dataStyle must be one of bulma, bootstrap, clean: " & dataStyle
   info"Standard data: Inserting standard data."
   standardDataSettings(db, dataStyle)
   standardDataFrontpage(db, dataStyle)
