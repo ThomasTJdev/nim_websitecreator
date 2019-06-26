@@ -27,6 +27,8 @@ proc setupReCapthca*() =
 
 
 proc checkReCaptcha*(antibot, userIP: string): Future[bool] {.async.} =
+  assert antibot.len > 0, "antibot must not be empty string"
+  assert userIP.len > 0, "userIP must not be empty string"
   if useCaptcha:
     var captchaValid: bool = false
     try:
