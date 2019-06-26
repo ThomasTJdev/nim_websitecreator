@@ -55,6 +55,11 @@ using email, userName, password, activateUrl, invitorName: string
 
 proc sendEmailActivationManual*(email, userName, password, activateUrl, invitorName) {.async.} =
   ## Send the activation email, when admin added a new user.
+  assert email.len > 0, "email must not be empty string"
+  assert userName.len > 0, "userName must not be empty string"
+  assert password.len > 0, "password must not be empty string"
+  assert activateUrl.len > 0, "activateUrl must not be empty string"
+  assert invitorName.len > 0, "invitorName must not be empty string"
   let message = activationMsg.format(
     userName, invitorName, email, password,
     (website & activateUrl), title, website, supportEmail)
@@ -63,5 +68,7 @@ proc sendEmailActivationManual*(email, userName, password, activateUrl, invitorN
 
 proc sendEmailRegistrationFollowup*(email, userName) {.async.} =
   ## Send a follow up mail, if user has not used their activation link.
+  assert email.len > 0, "email must not be empty string"
+  assert userName.len > 0, "userName must not be empty string"
   let message = registrationMsg.format(userName, title, website, supportEmail)
   await sendMailNow(title & "- Reminder: Email Confirmation", genEmailMessage(message), email)
