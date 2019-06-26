@@ -6,8 +6,9 @@ import
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
-
-setCurrentDir(getAppDir().replace("/nimwcpkg", "") & "/")
+let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
+assert existsDir(nimwcpkgDir), "nimwcpkg directory not found: " & nimwcpkgDir
+setCurrentDir(nimwcpkgDir)
 
 const
   sql_now =
