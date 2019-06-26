@@ -1,11 +1,17 @@
 import os, parsecfg, times, logging, strutils
 import ../email/email_admin
 
-setCurrentDir(getAppDir().replace("/nimwcpkg", "") & "/")
+
+let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
+let configFile = nimwcpkgDir / "config/config.cfg"
+assert existsDir(nimwcpkgDir), "nimwcpkg directory not found"
+assert existsFile(configFile), "config/config.cfg file not found"
+
+setCurrentDir(nimwcpkgDir)
 discard existsOrCreateDir("log")
 
 let
-  dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
+  dict = loadConfig(configFile)
   fileDebug = dict.getSectionValue("Logging", "logfiledev")
   fileProd =  dict.getSectionValue("Logging", "logfile")
 
@@ -19,9 +25,11 @@ addHandler(rolling_file_logger)
 
 template log2admin*(msg: string) =
   ## Logs the error messages to Admin via mail if ``adminnotify`` is defined.
+  assert msg.len > 0, "msg must not be empty string"
   if "adminnotify" in commandLineParams() or  defined(adminnotify):
     discard sendEmailAdminError($now() & " - " & msg)
   else:
     error(msg)
 
 debug("Rolling File Logger logs at: " & defaultFilename())
+assert existsFile(defaultFilename()), "defaultFilename logging file not found"
