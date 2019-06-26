@@ -49,4 +49,5 @@ let
 
 proc genEmailMessage*(msgContent: string): string {.inline.} =
   ## Generate email content
+  assert msgContent.len > 0, "msgContent must not be empty string"
   mailStyleHeader & msgContent & mailStyleFrom & mailStyleFooter
