@@ -25,7 +25,7 @@ using db: DbConn
 
 randomize()
 
-proc createAdminUser*(db, args: seq[string]) =
+proc createAdminUser*(db: DbConn, args: seq[string]) {.discardable.} =
   ## Create new admin user.
   const sql_anyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
   let anyAdmin = getAllRows(db, sql_anyAdmin)
