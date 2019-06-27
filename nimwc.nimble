@@ -29,7 +29,7 @@ task setup, "Generating executable":
     quit("Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows")
 
   if not fileExists("config/config.cfg"):
-    exec "cp -v config/config_default.cfg config/config.cfg"
+    cpFile("config/config_default.cfg", "config/config.cfg")
 
   if defined(webp):
     foreignDep "libwebp"
@@ -45,6 +45,9 @@ task setup, "Generating executable":
 
   if not defined(ssl):
     echo "SSL Not Defined: SSL is Disabled, Running Unsecure."
+
+  if not defined(firejail):
+    echo "Firejail Not Defined: Firejail is Disabled, Running Unsecure."
 
 
 before install:
