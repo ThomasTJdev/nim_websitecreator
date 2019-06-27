@@ -7,7 +7,7 @@ import
 
 
 when not defined(firejail): {.warning: "Firejail is Disabled, Running Unsecure.".}
-else:                       import firejail, parsecfg
+else:                       import firejail
 
 when defined(windows):
   {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
@@ -146,7 +146,7 @@ const
 
   nimwc_version =
     try:
-      filter_it("nimwc.nimble".readFile.splitLines, it.substr(0, 6) == "version")[0].split("= ")[1].normalize.replace("\"", "") ## Get NimWC Version at Compile-Time.
+      filterIt("nimwc.nimble".readFile.splitLines, it.substr(0, 6) == "version")[0].split("= ")[1].normalize.replace("\"", "") ## Get NimWC Version at Compile-Time.
     except:
       "5.0.1"  ## Set NimWC Version at Compile-Time, if ready from file failed.
 
