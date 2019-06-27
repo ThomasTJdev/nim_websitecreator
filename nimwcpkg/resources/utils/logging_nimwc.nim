@@ -26,7 +26,7 @@ addHandler(rolling_file_logger)
 template log2admin*(msg: string) =
   ## Logs the error messages to Admin via mail if ``adminnotify`` is defined.
   assert msg.len > 0, "msg must not be empty string"
-  if "adminnotify" in commandLineParams() or  defined(adminnotify):
+  if "adminnotify" in commandLineParams() or defined(adminnotify):
     discard sendEmailAdminError($now() & " - " & msg)
   else:
     error(msg)
