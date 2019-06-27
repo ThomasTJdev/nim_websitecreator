@@ -208,13 +208,17 @@ proc pluginSkeleton() =
   writeFile("tmp/" & pluginName & "/public/style.css",
     "/* https://bulma.io/documentation OR https://picturepan2.github.io/spectre OR https://getbootstrap.com */\n")
 
-  if readLineFromStdin("\nInclude optional CSS/JS files (y/N): ").string.strip.toLowerAscii == "y":
+  if readLineFromStdin("\nInclude optional files (y/N): ").string.strip.toLowerAscii == "y":
     writeFile("tmp/" & pluginName & "/public/js_private.js", "")
     writeFile("tmp/" & pluginName & "/public/style_private.css", "")
     writeFile("tmp/" & pluginName & "/.gitattributes", "*.* linguist-language=Nim\n")
     writeFile("tmp/" & pluginName & "/.gitignore", "*.c\n*.h\n*.o\n")
     writeFile("tmp/" & pluginName & "/html.nimf",
       "<!-- https://nim-lang.org/docs/filters.html -->\n")
+    writeFile("tmp/" & pluginName & "/changelog.md",
+      "# 0.0.1\n\n- First initial version created at " & $now())
+    writeFile("tmp/" & pluginName & "/" & pluginName & ".nim.cfg",
+      "# https://nim-lang.org/docs/parsecfg.html\n")
 
   writeFile("tmp/" & pluginName & "/plugin.json",
     pluginJson.format(capitalizeAscii(pluginName), pluginName,
