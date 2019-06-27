@@ -28,4 +28,4 @@ proc sendEmailAdminError*(msg: string) {.async.} =
   assert msg.len > 0, "msg must not be empty string: " & msg
   await sendAdminMailNow(
     "Admin: Error occurred",
-    genEmailMessage(adminErrorMsg.format(msg.strip, msg.countLines, now())))
+    genEmailMessage(adminErrorMsg.format(msg, msg.countLines, now())))

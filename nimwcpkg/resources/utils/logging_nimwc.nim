@@ -32,4 +32,3 @@ template log2admin*(msg: string) =
     error(msg)
 
 debug("Rolling File Logger logs at: " & defaultFilename())
-assert existsFile(defaultFilename()), "defaultFilename logging file not found"
