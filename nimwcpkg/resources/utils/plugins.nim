@@ -50,7 +50,7 @@ proc pluginRepoUpdate*(): bool =
     return false
   let folder = "plugins" / pluginRepoName
   assert existsDir(folder), "pluginRepoUpdate folder not found (Plugins)"
-  let output = execCmd("git -C " & folder & " pull")
+  let output = execCmd("git --force -C " & folder & " pull")
   if output != 0:
     return false
   return fileExists("plugins/nimwc_plugins/plugins.json")
@@ -60,7 +60,7 @@ proc pluginDownload*(pluginGit, pluginFolder: string): bool =
   ## Downloads an external plugin with clone
   assert pluginGit.len > 0, "pluginGit must not be empty string"
   assert pluginFolder.len > 0, "pluginFolder must not be empty string"
-  let output = execProcess("git clone " & pluginGit & " " &
+  let output = execProcess("git clone --depth 1 " & pluginGit & " " &
     replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginFolder)
   result = output != "fatal: repository '" & pluginGit & "' does not exists"
 
@@ -70,13 +70,14 @@ proc pluginUpdate*(pluginFolder: string): bool =
   assert pluginFolder.len > 0, "pluginFolder must not be empty string"
   discard execCmd("git -C plugins/" & pluginFolder & " fetch --all")
   discard execCmd("git -C plugins/" & pluginFolder & " reset --hard origin/master")
-  let output = execProcess("git -C plugins/" & pluginFolder & " pull")
+  let output = execProcess("git --force -C plugins/" & pluginFolder & " pull")
   result = output != "fatal: cannot change to " & pluginFolder & ": No such file or directory"
 
 
 proc pluginDelete*(pluginFolder: string): bool =
   ## Delete a Plugin from the filesystem.
   assert pluginFolder.len > 0, "pluginFolder must not be empty string"
+  assert existsFile"plugins/plugin_import.txt", "plugins/plugin_import.txt not found"
   for line in lines("plugins/plugin_import.txt"):
     if line == pluginFolder:
       return false
