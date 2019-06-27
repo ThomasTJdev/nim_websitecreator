@@ -100,6 +100,7 @@ proc pluginEnableDisable*(pluginPath, pluginName, status: string) =
   assert pluginPath.len > 0, "pluginPath must not be empty string"
   assert pluginName.len > 0, "pluginName must not be empty string"
   assert status in ["false", "true"], "status must be true or false"
+  assert existsFile"plugins/plugin_import.txt", "plugins/plugin_import.txt not found"
   var newFile = ""
   for line in lines("plugins/plugin_import.txt"):
     if line == "" or line == pluginPath:
@@ -119,7 +120,7 @@ proc extensionSettings(): seq[string] =
   ## Macro to check if plugins listed in plugins_imported.txt
   ## are enabled or disabled. The result will be "true:pluginname"
   ## or "false:pluginname".
-
+  assert existsFile"plugins/plugin_import.txt", "plugins/plugin_import.txt not found"
   let plugins = readFile("plugins/plugin_import.txt").splitLines
 
   # Walk through files and folders in the plugin directory
