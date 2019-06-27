@@ -1,5 +1,11 @@
 import os, osproc, parsecfg, rdstdin, sequtils, strutils, terminal, times, json, parseopt
 
+import
+  nimwcpkg/resources/administration/createdb,
+  nimwcpkg/resources/files/files_efs,
+  nimwcpkg/resources/administration/create_adminuser
+
+
 when not defined(firejail): {.warning: "Firejail is Disabled, Running Unsecure.".}
 else:                       import firejail, parsecfg
 
@@ -33,8 +39,7 @@ const
   ☑️ Access Settings page at http://127.0.0.1:<port>/settings
   """  ## Message to show when finished Compiling OK.
 
-  compile_fail_msg = """ Compile Error
-
+  compile_fail_msg = """Compile Error
   ⚠️ Compile-time or Configuration or Plugin error occurred.
   ➡️ You can check your source code with: nim check YourFile.nim
   ➡️ Check the Configuration of NimWC and its Plugins.
@@ -52,10 +57,11 @@ const
   Options:
     -h --help             Show this output.
     --version             Show Version and exit.
+    --debugConfig         Show configuration and compile options and continue.
     --newuser             Add an admin user. Combine with -u, -p and -e.
       -u:<admin username>
       -p:<admin password>
-      -e:<admin email>`
+      -e:<admin email>
     --insertdata          Insert standard data (override existing data).
         bulma               - standard data based on Bulma (Default)
         bootstrap           - standard data based on Bootstrap
@@ -66,18 +72,17 @@ const
     --gitupdate           Updates and force a hard reset.
     --initplugin          Create plugin skeleton inside tmp/
     --putenv:key=value    Set an environment variable.
+    -f, --forceBuild      Force Recompile, rebuild all modules.
 
   Compile options:
     -d:postgres           Enable Postgres database (SQLite is standard)
     -d:firejail           Firejail is enabled. Runs secure.
     -d:webp               WebP is enabled. Optimize images.
-    -d:rc                 Force Recompile (good for Troubleshooting).
     -d:adminnotify        Send error logs (ERROR) to the specified Admin email.
     -d:dev                Development (ignore reCaptcha, no emails, more Verbose).
     -d:devemailon         Send email when -d:dev is activated.
     -d:demo               Public demo mode. Enable Test user. 2FA ignored.
                           Force database reset every 1 hour. Some options Disabled.
-    -d:gitupdate          Force update from Git and force a hard reset.
 
   Tips:
     Always Compile with -d:release for Production. We recommend Firejail too.
@@ -88,7 +93,7 @@ const
   New plugin template will be created inside the folder:  tmp/
   (the files will have useful comments with help & links) """
 
-  reqRoutes = """
+  reqRoutes = """# https://github.com/dom96/jester#routes
   get "/$1/settings":
     resp "<center><h1> $1 Plugin Settings."  ## Code your plugins Settings logic here.
   """
@@ -121,7 +126,8 @@ const
     when defined(firejail):        " -d:firejail",
 
     when defined(ssl):               " -d:ssl",               # SSL
-    when defined(release):           " -d:release",           # Build for Production
+    when defined(release):           " -d:release --listFullPaths:off --excessiveStackTrace:off",  # Build for Production
+    when defined(danger):            " -d:danger",            # Build for Production
     when defined(quick):             " -d:quick",             # Tiny file but slow
     when defined(memProfiler):       " -d:memProfiler",       # RAM Profiler debug
     when defined(nimTypeNames):      " -d:nimTypeNames",      # Debug names
@@ -134,7 +140,8 @@ const
     when defined(checkAbi):          " -d:checkAbi",          # Check C ABI compatibility
     when defined(noSignalHandler):   " -d:noSignalHandler",   # No convert crash to signal
     when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg", # Use Std Out as Std Msg
-    when defined(nimOldShiftRight):  " -d:nimOldShiftRight"   # http://forum.nim-lang.org/t/4891#30600
+    when defined(nimOldShiftRight):  " -d:nimOldShiftRight",  # http://forum.nim-lang.org/t/4891#30600
+    when defined(nimOldCaseObjects): " -d:nimOldCaseObjects"  # old case switch
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   nimwc_version =
@@ -144,7 +151,7 @@ const
       "5.0.1"  ## Set NimWC Version at Compile-Time, if ready from file failed.
 
 
-const reqCode = """
+const reqCode = """# Code your plugins Backend logic on this file.
 proc $1Start*(db: DbConn): auto =
   ## Code your Plugins start-up Backend logic here, db is the Database, see $1
   discard
@@ -179,14 +186,14 @@ proc updateNimwc() =
   writeFile("plugins/plugin_import.txt", pluginImport)  # Write Content again
   writeFile("public/css/style_custom.css", styleCustom)
   writeFile("public/js/js_custom.js", jsCustom)
-  quit("\n\nNimWC has been updated\n\n", 0)
+  quit("\n\nNimWC has been updated.\n\n", 0)
 
 
 proc pluginSkeleton() =
   ## Creates the skeleton (folders and files) for a plugin
   styledEcho(fgCyan, bgBlack, skeletonMsg)
   let pluginName = normalize(readLineFromStdin("Plugin name: "))
-  assert pluginName.len > 0, "Plugin Name must not be empty string: " & pluginName
+  assert pluginName.len > 1, "Plugin Name must not be empty string: " & pluginName
 
   # Create dirs
   discard existsOrCreateDir("tmp")
@@ -194,20 +201,25 @@ proc pluginSkeleton() =
   discard existsOrCreateDir("tmp/" & pluginName & "/public")
 
   # Create files
-  writeFile("tmp/" & pluginName & "/" & pluginName & ".nim", "# Code your plugins Backend logic here.\n" & reqCode.format(pluginName))
-  writeFile("tmp/" & pluginName & "/routes.nim", "  # https://github.com/dom96/jester#routes\n" & reqRoutes.format(pluginName))
-  writeFile("tmp/" & pluginName & "/public/js.js", "/* https://github.com/pragmagic/karax OR Vanilla JavaScript */\n")
-  writeFile("tmp/" & pluginName & "/public/style.css", "/* https://bulma.io/documentation OR https://picturepan2.github.io/spectre OR https://getbootstrap.com */\n")
+  writeFile("tmp/" & pluginName & "/" & pluginName & ".nim", reqCode.format(pluginName))
+  writeFile("tmp/" & pluginName & "/routes.nim", reqRoutes.format(pluginName))
+  writeFile("tmp/" & pluginName & "/public/js.js",
+    "/* https://github.com/pragmagic/karax OR Vanilla JavaScript */\n")
+  writeFile("tmp/" & pluginName & "/public/style.css",
+    "/* https://bulma.io/documentation OR https://picturepan2.github.io/spectre OR https://getbootstrap.com */\n")
 
   if readLineFromStdin("\nInclude optional CSS/JS files (y/N): ").string.strip.toLowerAscii == "y":
-    writeFile("tmp/" & pluginName & "/html.tmpl", "<!-- https://nim-lang.org/docs/filters.html -->\n")
     writeFile("tmp/" & pluginName & "/public/js_private.js", "")
     writeFile("tmp/" & pluginName & "/public/style_private.css", "")
+    writeFile("tmp/" & pluginName & "/.gitattributes", "*.* linguist-language=Nim\n")
+    writeFile("tmp/" & pluginName & "/.gitignore", "*.c\n*.h\n*.o\n")
+    writeFile("tmp/" & pluginName & "/html.nimf",
+      "<!-- https://nim-lang.org/docs/filters.html -->\n")
 
   writeFile("tmp/" & pluginName & "/plugin.json",
-    pluginJson.format(capitalizeAscii(pluginName), pluginName, getEnv("USER", "YourUser"), nimwc_version.substr(0, 2)))
-  styledEcho(fgGreen, bgBlack, "NimWC: Created plugin skeleton, bye.")
-  quit(0)
+    pluginJson.format(capitalizeAscii(pluginName), pluginName,
+    getEnv("USER", "YourUser"), nimwc_version.substr(0, 2)))
+  quit("\n\nNimWC created a new Plugin skeleton, happy hacking, bye.\n\n", 0)
 
 
 proc handler() {.noconv.} =
@@ -312,14 +324,21 @@ proc startupCheck() =
   ## Checking if the main-program file exists. If not it will
   ## be compiled with args and compiler options (compiler
   ## options should be specified in the *.nim.pkg)
-  if not fileExists(appPath) or defined(rc):
+
+  # Storage location. Folders are created in the module files_efs.nim
+  when not defined(ignoreefs) and defined(release):
+    if not existsDir(storageEFS):  # Check access to EFS file system.
+      quit("No access to storage in release mode. Critical.")
+
+  if not fileExists(appPath):
     styledEcho(fgGreen, bgBlack, compile_start_msg & userArgs)
-    let output = execCmd("nim c --out:" & appPath & " " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
-    if output == 1:
-      styledEcho(fgRed, bgBlack, compile_fail_msg)
-      quit()
+    let (output, exitCode) = execCmdEx("nim c --out:" & appPath & " " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
+    if exitCode != 0:
+      styledEcho(fgRed, bgBlack, compile_fail_msg & output)
+      quit(exitCode)
     else:
-      styledEcho(fgGreen, bgBlack,  compile_ok_msg)
+      styledEcho(fgGreen, bgBlack, compile_ok_msg)
+
 
 
 for keysType, keys, values in getopt():
@@ -329,6 +348,12 @@ for keysType, keys, values in getopt():
     of "version": quit(nimwc_version, 0)
     of "initplugin": pluginSkeleton()
     of "gitupdate": updateNimwc()
+    of "forceBuild", "f": removeFile(appPath)
+    of "newdb": generateDB()
+    # of "newuser": createAdminUser()
+    of "debugConfig":
+      styledEcho(fgMagenta, bgBlack, $compileOptions)
+      styledEcho(fgMagenta, bgBlack, $dict)
     of "putenv":
       let envy = values.split"="
       styledEcho(fgMagenta, bgBlack, $envy)
@@ -338,6 +363,8 @@ for keysType, keys, values in getopt():
       quit(0)
   of cmdArgument: discard
   of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)
+
+
 
 startupCheck()
 launcherActivated()
