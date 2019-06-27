@@ -176,7 +176,9 @@ assert appName.len > 1, "Config error: appname must not be empty string: " & app
 
 proc updateNimwc() =
   ## GIT hard update
-  assert existsDir"plugins/" and existsDir"public/", "Folders not found."
+  assert existsDir"plugins/", "plugins folder not found."
+  assert existsDir"public/css/", "public/css/ folder not found."
+  assert existsDir"public/js/", "public/js/ folder not found."
   assert existsFile"plugins/plugin_import.txt", "plugins/plugin_import.txt not found"
   assert existsFile"public/css/style_custom.css", "public/css/style_custom.css not found"
   assert existsFile"public/js/js_custom.js", "public/js/js_custom.js not found"
