@@ -24,9 +24,8 @@ randomize()
 
 proc createAdminUser*(db: DbConn, args: seq[string]) {.discardable.} =
   ## Create new admin user.
-  assert args.len > 0, "args must not be empty seq: " & $args
-  const sql_anyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
-  let anyAdmin = getAllRows(db, sql_anyAdmin)
+  const sqlAnyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
+  let anyAdmin = getAllRows(db, sqlAnyAdmin)
   info(createAdminUserMsg.format(anyAdmin.len))
 
   var iName, iEmail, iPwd: string
@@ -55,22 +54,28 @@ proc createAdminUser*(db: DbConn, args: seq[string]) {.discardable.} =
   let
     salt = makeSalt()
     password = makePassword(iPwd, salt)
+  const sqlAddAdmin = sql"""
+    INSERT INTO person (name, email, password, salt, status)
+    VALUES (?, ?, ?, ?, ?)"""
 
-  discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", $iName, $iEmail, password, salt, "Admin")
+  discard insertID(db, sqlAddAdmin, $iName, $iEmail, password, salt, "Admin")
   info("Admin added.")
 
 
-proc createTestUser*(db: DbConn) =
+proc createTestUser*(db: DbConn) {.discardable.} =
   ## Create new admin user.
-  const sql_anyAdmin = sql"SELECT id FROM person WHERE email = 'test@test.com'"
-  let anyAdmin = getAllRows(db, sql_anyAdmin)
+  const sqlAnyAdmin = sql"SELECT id FROM person WHERE email = 'test@test.com'"
+  let anyAdmin = getAllRows(db, sqlAnyAdmin)
   info(createTestUserMsg.format(anyAdmin.len))
 
   if anyAdmin.len < 1:
     const salt = "0".repeat(128)  # Weak Salt for Test user only.
-    let password = makePassword("test", salt)
+    let sqlAddTestUser = sql("""
+      INSERT INTO person (name, email, password, salt, status)
+      VALUES ('Testuser', 'test@test.com', '$1', '$2', 'Moderator')
+    """.format(makePassword("test", salt), salt))
 
-    discard insertID(db, sql("INSERT INTO person (name, email, password, salt, status) VALUES ('Testuser', 'test@test.com', '$1', '$2', 'Moderator')".format(password, salt)))
+    discard insertID(db, sqlAddTestUser)
 
     info("Test user added!.")
   else:
