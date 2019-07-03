@@ -1,4 +1,4 @@
-import parsecfg
+import parsecfg, contra
 
 from strutils import format, replace
 from os import getAppDir
@@ -49,5 +49,6 @@ let
 
 proc genEmailMessage*(msgContent: string): string {.inline.} =
   ## Generate email content
-  assert msgContent.len > 0, "msgContent must not be empty string"
+  preconditions msgContent.len > 0
+  postconditions result.len > msgContent.len
   mailStyleHeader & msgContent & mailStyleFrom & mailStyleFooter

@@ -1,4 +1,4 @@
-import asyncdispatch
+import asyncdispatch, contra
 
 from strutils import format, countLines
 from times import now
@@ -25,7 +25,8 @@ const adminErrorMsg = """<!DOCTYPE html>
 
 proc sendEmailAdminError*(msg: string) {.async.} =
   ## Send email - user removed
-  assert msg.len > 0, "msg must not be empty string: " & msg
+  preconditions msg.len > 0
+  postconditions result is Future[void]
   await sendAdminMailNow(
     "Admin: Error occurred",
     genEmailMessage(adminErrorMsg.format(msg, msg.countLines, now())))

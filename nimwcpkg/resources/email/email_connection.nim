@@ -1,5 +1,5 @@
 import
-  asyncdispatch, smtp, strutils, os, htmlparser, asyncnet, parsecfg, times, logging,
+  asyncdispatch, smtp, strutils, os, asyncnet, parsecfg, logging, contra,
   ../utils/logging_nimwc
 
 # Changing app dir due to, that module is not imported from main module
@@ -21,14 +21,10 @@ let
   adminEmail   = dict.getSectionValue("SMTP", "SMTPEmailAdmin")
 
 
-using subject, message, recipient: string
-
-
-proc sendMailNow*(subject, message, recipient) {.async.} =
+proc sendMailNow*(subject, message, recipient: string) {.async.} =
   ## Send the email through smtp
-  assert subject.len > 0, "subject must not be empty string"
-  assert message.len > 0, "message must not be empty string"
-  assert recipient.len > 0, "recipient must not be empty string"
+  preconditions subject.len > 0, message.len > 0, recipient.len > 0
+  postconditions result is Future[void]
   when defined(demo):
     info("Demo is true, email is not send")
   when defined(dev) and not defined(devemailon):
@@ -57,10 +53,10 @@ proc sendMailNow*(subject, message, recipient) {.async.} =
     info("Email sent")
 
 
-proc sendAdminMailNow*(subject, message) {.async.} =
+proc sendAdminMailNow*(subject, message: string) {.async.} =
   ## Send email only to Admin.
-  assert subject.len > 0, "subject must not be empty string"
-  assert message.len > 0, "message must not be empty string"
+  preconditions subject.len > 0, message.len > 0
+  postconditions result is Future[void]
   when defined(dev) and not defined(devemailon):
     info("Dev is true, email is not sent")
     return
