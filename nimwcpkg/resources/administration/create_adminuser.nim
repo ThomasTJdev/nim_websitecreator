@@ -1,8 +1,5 @@
-import
-  os, strutils, logging, random, base32,
-  ../password/password_generate,
-  ../password/salt_generate,
-  ../utils/logging_nimwc
+import os, strutils, logging, rdstdin, contra
+import ../password/password_generate, ../password/salt_generate, ../utils/logging_nimwc
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
@@ -12,44 +9,35 @@ const
   createAdminUserMsg = """Checking if any Admin exists in the database...
   $1 Admins already exists. Adding 1 new Admin.
   Requirements:
-    - name  > 3 characters long.
-    - email > 5 characters long.
-    - pwd   > 9 characters long. """
+    - Username > 3 characters long.
+    - Email    > 5 characters long.
+    - Password > 9 characters long."""
 
   createTestUserMsg = """Checking if any test@test.com exists in the database...
-  $1 Test user already exists. """
+  $1 Test user already exists."""
 
 
-randomize()
+proc ask4UserPass*(): tuple[iName: string, iEmail: string, iPwd: string] =
+  ## Ask the user for user, mail, password, and return them.
+  postconditions result.iName.len > 3, result.iEmail.len > 5, result.iPwd.len > 9 # Contract
+  var iName, iEmail, iPwd, iPwd2: string
+  while not(iName.len > 3 and iName.len < 60):  # Max len from DB SQL
+    iName = readLineFromStdin("\nType Username: ").strip
+  while not(iEmail.len > 5 and iEmail.len < 254):
+    iName = readLineFromStdin("\nType Email (Lowercase): ").strip.toLowerAscii
+  while not(iPwd.len > 9 and iPwd.len < 300 and iPwd == iPwd2):
+    iPwd = readLineFromStdin("\nType Password: ").strip  # Type it Twice.
+    iPwd2 = readLineFromStdin("\nConfirm Password (Repeat it again): ").strip
+  result = (iName: iName, iEmail: iEmail, iPwd: iPwd)
 
-proc createAdminUser*(db: DbConn, args: seq[string]) {.discardable.} =
+
+proc createAdminUser*(db: DbConn) {.discardable.} =
   ## Create new admin user.
   const sqlAnyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
   let anyAdmin = getAllRows(db, sqlAnyAdmin)
   info(createAdminUserMsg.format(anyAdmin.len))
 
-  var iName, iEmail, iPwd: string
-  for arg in args:
-    if arg.substr(0, 1) == "u:":
-      iName = arg.substr(2, arg.len).strip
-    elif arg.substr(0, 1) == "p:":
-      iPwd = arg.substr(2, arg.len).strip
-    elif arg.substr(0, 1) == "e:":
-      iEmail = arg.substr(2, arg.len).strip
-
-  # TODO: https://github.com/ThomasTJdev/nim_websitecreator/issues/57
-  if iName.len < 3:
-    error("Missing or invalid Name to create Admin user: " & iName)
-    sleep(3000)
-    return
-  if iEmail.len < 5:
-    error("Missing or invalid Email to create Admin user: " & iEmail)
-    sleep(3000)
-    return
-  if iPwd.len < 9:
-    error("Missing or invalid Password to create Admin user.")
-    sleep(3000)
-    return
+  let (iName, iEmail, iPwd) = ask4UserPass() # Ask for User/Password/Mail
 
   let
     salt = makeSalt()
