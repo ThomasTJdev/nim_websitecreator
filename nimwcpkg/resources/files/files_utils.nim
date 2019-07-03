@@ -1,25 +1,23 @@
-import os
-
-import files_efs
-
-let
-  filesListPrivatePath = storageEFS / "files/private/*.*"
-  filesListPublicPath  = storageEFS / "files/public/*.*"
+import os, contra
+from files_efs import storageEFS
 
 
 proc filesListPrivate*(): seq[string] {.inline.} =
   ## Get all filenames for project files
-  for file in walkFiles(filesListPrivatePath):
+  preconditions existsDir(storageEFS / "files/private/")
+  for file in walkFiles(storageEFS / "files/private/*.*"):
     result.add(file)
 
 
 proc filesListPublic*(): seq[string] {.inline.} =
   ## Get all filenames for project files
-  for file in walkFiles(filesListPublicPath):
+  preconditions existsDir(storageEFS / "files/public/")
+  for file in walkFiles(storageEFS / "files/public/*.*"):
     result.add(file)
 
 
 proc filesListPublicFolderFiles*(): seq[string] {.inline.} =
   ## Get all filenames for project files
+  preconditions existsDir("public/images/")
   for file in walkFiles("public/images/*.*"):
     result.add(file)
