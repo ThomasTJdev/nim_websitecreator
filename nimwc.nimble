@@ -20,6 +20,7 @@ requires "firejail >= 0.5.0"
 requires "webp >= 0.2.0"
 requires "libravatar >= 0.4.0"
 requires "html_tools >= 0.1.0"
+requires "contra >= 0.1.0"
 
 
 import distros
