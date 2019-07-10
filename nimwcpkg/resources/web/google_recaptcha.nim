@@ -1,4 +1,4 @@
-import recaptcha, parsecfg, asyncdispatch, os, logging
+import recaptcha, parsecfg, asyncdispatch, os, logging, contra
 
 from strutils import replace
 
@@ -11,12 +11,13 @@ var
 
 let
   dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
-  recaptchaSecretKey = dict.getSectionValue("reCAPTCHA","Secretkey")
-  recaptchaSiteKey* = dict.getSectionValue("reCAPTCHA","Sitekey")
+  recaptchaSecretKey = dict.getSectionValue("reCAPTCHA", "Secretkey")
+  recaptchaSiteKey* = dict.getSectionValue("reCAPTCHA", "Sitekey")
 
 
 proc setupReCapthca*() =
   ## Activate Google reCAPTCHA
+  preconditions existsFile(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
   if len(recaptchaSecretKey) > 0 and len(recaptchaSiteKey) > 0:
     useCaptcha = true
     captcha = initReCaptcha(recaptchaSecretKey, recaptchaSiteKey)
@@ -27,10 +28,9 @@ proc setupReCapthca*() =
 
 
 proc checkReCaptcha*(antibot, userIP: string): Future[bool] {.async.} =
-  assert antibot.len > 0, "antibot must not be empty string"
-  assert userIP.len > 0, "userIP must not be empty string"
+  preconditions antibot.len > 0, userIP.len > 0
   if useCaptcha:
-    var captchaValid: bool = false
+    var captchaValid = false
     try:
       captchaValid = await captcha.verify(antibot, userIP)
     except:
