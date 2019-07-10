@@ -1,4 +1,4 @@
-import strutils, osproc, os, json
+import strutils, osproc, os, json, contra
 
 
 const
@@ -19,9 +19,9 @@ proc pluginCheckGit*(): bool {.inline.} =
 
 proc pluginExtractDetails*(pluginFolder: string): tuple[name, version, description, url: string] =
   ## Get plugin data from [pluginName]/plugin.json
-  assert pluginFolder.len > 0, "pluginFolder must not be empty string"
+  preconditions pluginFolder.len > 0, existsDir(pluginFolder)
+  postconditions result[0].len > 0, result[1].len > 0, result[2].len > 0, result[3].len > 0, pluginJson.len > 0, existsFile(pluginJsonPath)
   let pluginJsonPath = "plugins/" & pluginFolder & "/plugin.json"
-  assert existsFile(pluginJsonPath), "pluginJsonPath file not found (plugin.json)"
   let pluginJson = parseFile(pluginJsonPath)
   for plugin in items(pluginJson):
     let
@@ -34,10 +34,11 @@ proc pluginExtractDetails*(pluginFolder: string): tuple[name, version, descripti
 
 proc pluginRepoClone*(): bool =
   ## Clones (updates) the plugin repo
+  preconditions existsDir(replace(getAppDir(), "/nimwcpkg", "") & "/plugins/")
+  postconditions fileExists("plugins/nimwc_plugins/plugins.json") or output != 0
   if unlikely(not pluginCheckGit()):
     return false
   let folder = replace(getAppDir(), "/nimwcpkg", "") & "/plugins/"
-  assert existsDir(folder), "pluginRepoClone folder not found (Plugins)"
   let output = execCmd("git clone " & pluginRepo & " " & folder & pluginRepoName)
   if output != 0:
     return false
@@ -46,6 +47,8 @@ proc pluginRepoClone*(): bool =
 
 proc pluginRepoUpdate*(): bool =
   ## Clones (updates) the plugin repo
+  preconditions existsDir("plugins" / pluginRepoName)
+  postconditions fileExists("plugins/nimwc_plugins/plugins.json") or output != 0
   if unlikely(not pluginCheckGit()):
     return false
   let folder = "plugins" / pluginRepoName
@@ -58,8 +61,7 @@ proc pluginRepoUpdate*(): bool =
 
 proc pluginDownload*(pluginGit, pluginFolder: string): bool =
   ## Downloads an external plugin with clone
-  assert pluginGit.len > 0, "pluginGit must not be empty string"
-  assert pluginFolder.len > 0, "pluginFolder must not be empty string"
+  preconditions pluginGit.len > 0, pluginFolder.len > 0
   let output = execProcess("git clone --depth 1 " & pluginGit & " " &
     replace(getAppDir(), "/nimwcpkg", "") & "/plugins/" & pluginFolder)
   result = output != "fatal: repository '" & pluginGit & "' does not exists"
@@ -67,7 +69,7 @@ proc pluginDownload*(pluginGit, pluginFolder: string): bool =
 
 proc pluginUpdate*(pluginFolder: string): bool =
   ## Updates an external plugin with pull
-  assert pluginFolder.len > 0, "pluginFolder must not be empty string"
+  preconditions pluginFolder.len > 0
   discard execCmd("git -C plugins/" & pluginFolder & " fetch --all")
   discard execCmd("git -C plugins/" & pluginFolder & " reset --hard origin/master")
   let output = execProcess("git --force -C plugins/" & pluginFolder & " pull")
@@ -76,8 +78,7 @@ proc pluginUpdate*(pluginFolder: string): bool =
 
 proc pluginDelete*(pluginFolder: string): bool =
   ## Delete a Plugin from the filesystem.
-  assert pluginFolder.len > 0, "pluginFolder must not be empty string"
-  assert existsFile"plugins/plugin_import.txt", "plugins/plugin_import.txt not found"
+  preconditions pluginFolder.len > 0, existsFile"plugins/plugin_import.txt"
   for line in lines("plugins/plugin_import.txt"):
     if line == pluginFolder:
       return false
@@ -97,10 +98,8 @@ proc pluginEnableDisable*(pluginPath, pluginName, status: string) =
   ##                       this will enable the plugin (add a line)
   ## @"status" == true  => Plugin is enabled,
   ##                       this will disable the plugin (remove the line)
-  assert pluginPath.len > 0, "pluginPath must not be empty string"
-  assert pluginName.len > 0, "pluginName must not be empty string"
-  assert status in ["false", "true"], "status must be true or false"
-  assert existsFile"plugins/plugin_import.txt", "plugins/plugin_import.txt not found"
+  preconditions pluginPath.len > 0, pluginName.len > 0, status in ["false", "true"], existsFile"plugins/plugin_import.txt"
+  postconditions existsFile"plugins/plugin_import.txt"
   var newFile = ""
   for line in lines("plugins/plugin_import.txt"):
     if line == "" or line == pluginPath:
@@ -117,10 +116,11 @@ proc pluginEnableDisable*(pluginPath, pluginName, status: string) =
 
 
 proc extensionSettings(): seq[string] =
-  ## Macro to check if plugins listed in plugins_imported.txt
+  ## Proc to check if plugins listed in plugins_imported.txt
   ## are enabled or disabled. The result will be "true:pluginname"
   ## or "false:pluginname".
-  assert existsFile"plugins/plugin_import.txt", "plugins/plugin_import.txt not found"
+  preconditions existsDir"plugins/", existsFile"plugins/plugin_import.txt"
+  postconditions if readFile("plugins/plugin_import.txt").splitLines.len > 0: result.len > 0 else: false
   let plugins = readFile("plugins/plugin_import.txt").splitLines
 
   # Walk through files and folders in the plugin directory
@@ -137,13 +137,13 @@ proc extensionSettings(): seq[string] =
     # If the plugins is present in plugin_import, set the
     # plugin status to true, else false
     if ppathName in plugins:
-      if extensions.len() == 0:
+      if extensions.len == 0:
         extensions = @["true:" & ppathName]
       else:
         extensions.add("true:" & ppathName)
 
     else:
-      if extensions.len() == 0:
+      if extensions.len == 0:
         extensions = @["false:" & ppathName]
       else:
         extensions.add("false:" & ppathName)
@@ -153,6 +153,8 @@ proc extensionSettings(): seq[string] =
 
 proc genExtensionSettings*(): string =
   ## Generate HTML list items with plugins
+  preconditions extensionSettings().len > 0
+  postconditions result.len > 0
   for plugin in extensionSettings():
     let pluginName = (split(plugin, ":"))[1]
 
