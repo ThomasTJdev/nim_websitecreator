@@ -17,9 +17,10 @@ const
   $1 Test user already exists."""
 
 
-proc ask4UserPass*(): tuple[iName: string, iEmail: string, iPwd: string] =
+proc ask4UserPass*(): tuple[iName, iEmail, iPwd: string] =
   ## Ask the user for user, mail, password, and return them.
-  postconditions result.iName.len > 3, result.iEmail.len > 5, result.iPwd.len > 9 # Contract
+  postconditions(result.iName.len > 3, result.iEmail.len > 5, result.iPwd.len > 9,
+    result.iName.len < 60, result.iEmail.len < 255, result.iPwd.len < 301)
   var iName, iEmail, iPwd, iPwd2: string
   while not(iName.len > 3 and iName.len < 60):  # Max len from DB SQL
     iName = readLineFromStdin("\nType Username: ").strip
@@ -33,6 +34,8 @@ proc ask4UserPass*(): tuple[iName: string, iEmail: string, iPwd: string] =
 
 proc createAdminUser*(db: DbConn) {.discardable.} =
   ## Create new admin user.
+  postconditions(iName.len > 3, iEmail.len > 5, iPwd.len > 9, salt.len > 100, password.len > salt.len,
+    iName.len < 60, iEmail.len < 254, iPwd.len < 301, salt.len < 129, password.len < 301)
   const sqlAnyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
   let anyAdmin = getAllRows(db, sqlAnyAdmin)
   info(createAdminUserMsg.format(anyAdmin.len))
@@ -46,7 +49,7 @@ proc createAdminUser*(db: DbConn) {.discardable.} =
     INSERT INTO person (name, email, password, salt, status)
     VALUES (?, ?, ?, ?, ?)"""
 
-  discard insertID(db, sqlAddAdmin, $iName, $iEmail, password, salt, "Admin")
+  discard insertID(db, sqlAddAdmin, iName, iEmail, password, salt, "Admin")
   info("Admin added.")
 
 
@@ -58,12 +61,11 @@ proc createTestUser*(db: DbConn) {.discardable.} =
 
   if anyAdmin.len < 1:
     const salt = "0".repeat(128)  # Weak Salt for Test user only.
-    let sqlAddTestUser = sql("""
+    const sqlAddTestUser = sql("""
       INSERT INTO person (name, email, password, salt, status)
-      VALUES ('Testuser', 'test@test.com', '$1', '$2', 'Moderator')
-    """.format(makePassword("test", salt), salt))
+      VALUES ('Testuser', 'test@test.com', ?, '$1', 'Moderator')""".format(salt))
 
-    discard insertID(db, sqlAddTestUser)
+    discard insertID(db, sqlAddTestUser, makePassword("test", salt))
 
     info("Test user added!.")
   else:
