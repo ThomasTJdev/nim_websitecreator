@@ -7,7 +7,7 @@ when defined(release): {.passL: "-s".}  # Force strip all on the resulting Binar
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
-  base32, streams, encodings, nativesockets, libravatar, html_tools,
+  base32, streams, encodings, nativesockets, libravatar, html_tools, contra,
   oswalkdir as oc,
 
   resources/administration/create_adminuser,
@@ -71,8 +71,8 @@ const
     when defined(checkAbi):          " -d:checkAbi",          # Check C ABI compatibility
     when defined(noSignalHandler):   " -d:noSignalHandler",   # No convert crash to signal
     when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg", # Use Std Out as Std Msg
-    when defined(nimOldShiftRight):  " -d:nimOldShiftRight"   # http://forum.nim-lang.org/t/4891#30600
-    when defined(nimOldCaseObjects): " -d:nimOldCaseObjects"  # old case switch
+    when defined(nimOldShiftRight):  " -d:nimOldShiftRight",  # http://forum.nim-lang.org/t/4891#30600
+    when defined(nimOldCaseObjects): " -d:nimOldCaseObjects", # old case switch
   ].join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
@@ -80,6 +80,12 @@ const
     when defined(postgres): "(extract(epoch from now()))" # Postgres epoch.
     else:                   "(strftime('%s', 'now'))"     # SQLite 3 epoch.
 
+randomize()
+
+
+#
+# Macros
+#
 
 macro configExists(): untyped =
   ## Macro to check if the config file is present
@@ -90,17 +96,14 @@ macro configExists(): untyped =
     quit()
 
 configExists()
-randomize()
-
-#
-# Macros
-#
 
 
-proc getPluginsPath*(): seq[string] {.compileTime.} =
+func getPluginsPath*(): seq[string] {.compileTime.} =
   ## Get all plugins path
   ##
   ## Generates a seq[string] with the path to the plugins
+  preconditions existsFile(replace(parentDir(currentSourcePath()), "/nimwcpkg", "") / "plugins/plugin_import.txt")
+  postconditions result.allIt(it.len > 0)
   let
     dir = parentDir(currentSourcePath())
     realPath = replace(dir, "/nimwcpkg", "")
@@ -123,7 +126,7 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
 
   return extensions
 
-let pluginsPath = getPluginsPath()
+const pluginsPath = getPluginsPath()
 
 
 macro extensionImport(): untyped =
@@ -132,6 +135,8 @@ macro extensionImport(): untyped =
   ## Generate code for importing modules from extensions.
   ## The extensions main module needs to be in plugins/plugin_import.txt
   ## to be activated. Only 1 module will be imported.
+  preconditions pluginsPath.allIt(it.len > 0)
+  postconditions extensions.countLines > 0
   var extensions = ""
   for ppath in pluginsPath:
     let splitted = split(ppath, "/")
@@ -151,6 +156,8 @@ macro extensionUpdateDatabase(): untyped =
   ## Generate proc for updating the database with new tables etc.
   ## The extensions main module shall contain a proc named 'proc <extensionname>Start(db: DbConn) ='
   ## The proc will be executed when the program is executed.
+  preconditions pluginsPath.allIt(it.len > 0)
+  postconditions extensions.countLines > 0
   var extensions = ""
 
   extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
@@ -179,8 +186,10 @@ macro extensionCss(): string =
   ## renaming to <extensionname>.css
   ##
   ## 2) Insert <style>-link into HTML
+  preconditions pluginsPath.allIt(it.len > 0), existsDir(parentDir(currentSourcePath()))
+  postconditions extensions.countLines > 0
   let dir = parentDir(currentSourcePath())
-  let mainDir = $replace(dir, "/nimwcpkg", "")
+  let mainDir = replace(dir, "/nimwcpkg", "")
 
   var extensions = ""
   for ppath in pluginsPath:
@@ -205,6 +214,8 @@ macro extensionJs*(): string =
   ## renaming to <extensionname>.js
   ##
   ## 2) Insert <js>-link into HTML
+  preconditions pluginsPath.allIt(it.len > 0), existsDir(parentDir(currentSourcePath()))
+  postconditions extensions.countLines > 0
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -230,7 +241,7 @@ macro extensionJs*(): string =
 
 
 var db {.global.}: DbConn
-
+assert existsFile(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"), "config.cfg not found"
 let
   dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
@@ -260,7 +271,7 @@ settings:
   bindAddr = mainURL
 
 
-proc init(c: var TData) =
+func init(c: var TData) {.inline.} =
   ## Empty out user session data
   c.userpass = ""
   c.username = ""
@@ -277,12 +288,13 @@ proc init(c: var TData) =
 
 proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
-  let
-    appName = dict.getSectionValue("Server", "appname")
-    appPath = getAppDir() & "/" & appName
-    outp = execCmd("nim c " & checkCompileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
+  preconditions existsDir(getAppDir() / dict.getSectionValue("Server", "appname")), checkCompileOptions.len > 0
+  postconditions result == 0
+  let appName = dict.getSectionValue("Server", "appname")
+  let appPath = getAppDir() / appName
+  result = execCmd("nim c " & checkCompileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
   moveFile(getAppDir() & "/" & appName & "_new_tmp", getAppDir() & "/" & appName & "_new")
-  return outp
+
 
 #
 # Validation check
@@ -307,14 +319,14 @@ proc checkLoggedIn(c: var TData) =
 
     c.userid = getValue(db, sql"SELECT userid FROM session WHERE ip = ? AND key = ?", c.req.ip, sid)
 
-    let row = getRow(db, sql("SELECT name, email, status FROM person WHERE id = ?"), c.userid)
+    let row = getRow(db, sql"SELECT name, email, status FROM person WHERE id = ?", c.userid)
     c.username  = row[0]
     c.email     = toLowerAscii(row[1])
     c.rank      = parseEnum[Rank](row[2])
     if c.rank notin [Admin, Moderator, User]:
       c.loggedIn = false
 
-    discard tryExec(db, sql("UPDATE person SET lastOnline = ? WHERE id = ?"), toInt(epochTime()), c.userid)
+    discard tryExec(db, sql"UPDATE person SET lastOnline = ? WHERE id = ?", toInt(epochTime()), c.userid)
 
   else:
     c.loggedIn = false
@@ -327,6 +339,8 @@ proc checkLoggedIn(c: var TData) =
 
 proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string] =
   ## User login
+  preconditions email.len > 5, pass.len > 9, email.len < 255, pass.len < 301, totpRaw.len == 6
+  postconditions result[1].len > 10, result[1].len < 85
   when not defined(demo):
     if email == "test@test.com":
       return (false, "Email must not be test@test.com.")
@@ -382,7 +396,7 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string
   return (false, "Login failed")
 
 
-proc logout(c: var TData) =
+proc logout(c: var TData) {.inline.} =
   ## Logout
   const query = sql"DELETE FROM session WHERE ip = ? AND key = ?"
   c.username = ""
@@ -428,7 +442,9 @@ when isMainModule:
   # When Demo Mode, Reset everything at start, create Test User, create Test Data, for use with Firejail `timeout=1`
   when defined(demo):
     {. hint: "Demo is Enabled, reverting demo users changes." .}
-    exec(db, sql"DELETE FROM blog;DELETE FROM person;")  # Delete blogposts
+    const sqlDeleteBlogTestuser = sql"""DELETE FROM blog;
+    DELETE FROM person WHERE name = 'Testuser' AND email = 'test@test.com';"""
+    exec(db, sqlDeleteBlogTestuser)  # Delete blogposts
     standardDataBlogpost1(db)         # Add blogpost 1
     standardDataBlogpost2(db)         # Add blogpost 2
     standardDataBlogpost3(db)         # Add blogpost 3
@@ -440,8 +456,7 @@ when isMainModule:
 
   # Insert standard data
   if "insertdata" in commandLineParams():
-    echo "\nInsert standard data?"
-    echo "This will override existing data (y/N):"
+    echo "\n\nInsert standard data?\nThis will override existing data (y/N):"
     if readLine(stdin).string.strip.toLowerAscii == "y":
       if "bootstrap" in commandLineParams():
         createStandardData(db, "bootstrap")
@@ -510,8 +525,8 @@ template restrictTestuser(httpMethod: HttpMethod) =
     if c.loggedIn and c.rank != Admin:
       if httpMethod == HttpPost:
         resp("Error: The test user does not have access to this area")
-      else:
-        redirect("/error/" & encodeUrl("Error: The test user does not have access to this area"))
+      else:  # encodeUrl() the string.
+        redirect("/error/Error%3A+The+test+user+does+not+have+access+to+this+area")
 
 
 template restrictAccessTo(c: var TData, ranks: varargs[Rank]) =
@@ -526,6 +541,7 @@ macro generateRoutes(): typed =
   ## The macro generates the routes for Jester.
   ## Routes are found in the resources/web/routes.nim.
   ## All plugins "routes.nim" are also included.
+  preconditions existsFile"resources/web/routes.nim"
   var extensions = staticRead("resources/web/routes.nim")
 
   for ppath in pluginsPath:
