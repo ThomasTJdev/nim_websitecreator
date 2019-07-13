@@ -12,6 +12,7 @@ const
   <meta name="generator" content="Nim Website Creator">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="author" href="humans.txt">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" href="/images/logo/favicon-16x16.png" sizes="16x16">
   <link rel="icon" type="image/png" href="/images/logo/favicon-32x32.png" sizes="32x32">
@@ -32,6 +33,7 @@ const
   <meta name="generator" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="author" href="humans.txt">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/style_custom.css">
 
@@ -41,6 +43,7 @@ const
 
   headBootstrap = """
   <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="author" href="humans.txt">
   <link rel="shortcut icon" href="/images/logo/favicon.ico">
   <link rel="icon" type="image/png" href="/images/logo/favicon-16x16.png" sizes="16x16">
   <link rel="icon" type="image/png" href="/images/logo/favicon-32x32.png" sizes="32x32">
