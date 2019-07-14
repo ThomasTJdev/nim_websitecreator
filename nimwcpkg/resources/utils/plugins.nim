@@ -120,7 +120,7 @@ proc extensionSettings(): seq[string] =
   ## are enabled or disabled. The result will be "true:pluginname"
   ## or "false:pluginname".
   preconditions existsDir"plugins/", existsFile"plugins/plugin_import.txt"
-  postconditions if readFile("plugins/plugin_import.txt").splitLines.len > 0: result.len > 0 else: false
+  postconditions if readFile("plugins/plugin_import.txt").splitLines.len > 0: result.len > 0 else: true
   let plugins = readFile("plugins/plugin_import.txt").splitLines
 
   # Walk through files and folders in the plugin directory
