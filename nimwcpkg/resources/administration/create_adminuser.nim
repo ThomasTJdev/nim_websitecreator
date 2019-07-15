@@ -1,6 +1,8 @@
 import os, strutils, logging, rdstdin, contra
 import ../password/password_generate, ../password/salt_generate, ../utils/logging_nimwc
 
+import ../administration/connectdb
+
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
@@ -32,10 +34,11 @@ proc ask4UserPass*(): tuple[iName, iEmail, iPwd: string] =
   result = (iName: iName, iEmail: iEmail, iPwd: iPwd)
 
 
-proc createAdminUser*(db: DbConn) {.discardable.} =
+proc createAdminUser*() {.discardable.} =
   ## Create new admin user.
-  postconditions(iName.len > 3, iEmail.len > 5, iPwd.len > 9, salt.len > 100, password.len > salt.len,
-    iName.len < 60, iEmail.len < 254, iPwd.len < 301, salt.len < 129, password.len < 301)
+
+  connectDb() # Read config, connect database, inject it as db variable.
+
   const sqlAnyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
   let anyAdmin = getAllRows(db, sqlAnyAdmin)
   info(createAdminUserMsg.format(anyAdmin.len))
@@ -51,6 +54,7 @@ proc createAdminUser*(db: DbConn) {.discardable.} =
 
   discard insertID(db, sqlAddAdmin, iName, iEmail, password, salt, "Admin")
   info("Admin added.")
+  close(db)
 
 
 proc createTestUser*(db: DbConn) {.discardable.} =
