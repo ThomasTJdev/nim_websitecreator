@@ -26,9 +26,9 @@ proc ask4UserPass*(): tuple[iName, iEmail, iPwd: string] =
   var iName, iEmail, iPwd, iPwd2: string
   while not(iName.len > 3 and iName.len < 60):  # Max len from DB SQL
     iName = readLineFromStdin("\nType Username: ").strip
-  while not(iEmail.len > 5 and iEmail.len < 254):
-    iName = readLineFromStdin("\nType Email (Lowercase): ").strip.toLowerAscii
-  while not(iPwd.len > 9 and iPwd.len < 300 and iPwd == iPwd2):
+  while not(iEmail.len > 5 and iEmail.len < 255):
+    iEmail = readLineFromStdin("\nType Email (Lowercase): ").strip.toLowerAscii
+  while not(iPwd.len > 9 and iPwd.len < 301 and iPwd == iPwd2):
     iPwd = readLineFromStdin("\nType Password: ").strip  # Type it Twice.
     iPwd2 = readLineFromStdin("\nConfirm Password (Repeat it again): ").strip
   result = (iName: iName, iEmail: iEmail, iPwd: iPwd)
@@ -38,6 +38,7 @@ proc createAdminUser*() {.discardable.} =
   ## Create new admin user.
 
   connectDb() # Read config, connect database, inject it as db variable.
+  assert db is DbConn, "Failed to connect to database"
 
   const sqlAnyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
   let anyAdmin = getAllRows(db, sqlAnyAdmin)
