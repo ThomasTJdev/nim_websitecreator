@@ -8,7 +8,7 @@ when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
 let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
-let configFile = "config/config.cfg"
+const configFile = "config/config.cfg"
 assert existsDir(nimwcpkgDir), "nimwcpkg directory not found: " & nimwcpkgDir
 assert existsFile(configFile), "config/config.cfg file not found: " & configFile
 setCurrentDir(nimwcpkgDir)
