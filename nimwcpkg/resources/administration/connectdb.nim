@@ -1,4 +1,5 @@
 import os, parsecfg
+export parsecfg
 
 from strutils import strip
 
