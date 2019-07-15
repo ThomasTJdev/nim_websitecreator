@@ -1,6 +1,7 @@
 import
   os, parsecfg, strutils, logging,
   ../administration/create_standarddata,
+  ../administration/connectdb,
   ../utils/logging_nimwc
 
 when defined(postgres): import db_postgres
@@ -148,28 +149,8 @@ const
 proc generateDB*() =
   assert existsFile(configFile), "config/config.cfg file not found: " & configFile
   info("Database: Generating database")
-  let
-    dict = loadConfig(configFile)
-    db_user = dict.getSectionValue("Database", "user")
-    db_pass = dict.getSectionValue("Database", "pass")
-    db_name = dict.getSectionValue("Database", "name")
-    db_host = dict.getSectionValue("Database", "host")
-    db_folder = dict.getSectionValue("Database", "folder")
-    dbexists =
-      when defined(postgres): db_host.len > 2
-      else:                   fileExists(db_host)
 
-  if dbexists:
-    info("Database: Database already exists. Inserting standard tables if they do not exist.")
-
-  when not defined(postgres): discard existsOrCreateDir(db_folder)  # Creating folder
-
-  info("Database: Opening database")  # Open DB
-  var db =
-    when defined(postgres):
-      db_postgres.open(connection=db_host, user=db_user, password=db_pass, database=db_name)
-    else:
-      db_sqlite.open(db_host, "", "", "")
+  connectDb() # Read config, connect database, inject it as db variable.
 
   # User
   if not db.tryExec(personTable):
