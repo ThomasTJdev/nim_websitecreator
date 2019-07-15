@@ -1,17 +1,17 @@
-import os, osproc, parsecfg, rdstdin, sequtils, strutils, terminal, times, json, parseopt
+import os, osproc, parsecfg, rdstdin, sequtils, strutils, terminal, times, json, parseopt, contra
 
 import
   nimwcpkg/resources/administration/createdb,
   nimwcpkg/resources/files/files_efs,
   nimwcpkg/resources/administration/create_adminuser
 
-
-when not defined(firejail): {.warning: "Firejail is Disabled, Running Unsecure.".}
-else:                       import firejail
-
-when defined(windows):
-  {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
-when defined(release): {.passL: "-s".}  # Force strip all on the resulting Binary.
+when defined(release): {.passL: "-s".}
+when defined(danger):  {.passC: "-flto -ffast-math -march=native".}
+when defined(windows): {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
+when not defined(contracts): {.warning: "Design by Contract is Disabled, Running Unassertive.".}
+when not defined(ssl):       {.warning: "SSL is Disabled, Running Unsecure.".}
+when not defined(firejail):  {.warning: "Firejail is Disabled, Running Unsecure.".}
+else: import firejail
 
 const
   compile_start_msg =  """⏰ Compiling, Please wait ⏰
@@ -48,41 +48,39 @@ const
   """  ## Message to show when Compiling Failed.
 
   doc = """ Nim Website Creator - https://NimWC.org
-  Self-Firejailing 2-Factor-Auth Nim Web Framework thats simple to use.
+  Self-Firejailing 2-Factor-Auth Nim Web Framework with Design by Contract.
   Run it, access your web, customize, add plugins, deploy today anywhere.
 
   Usage:
-    nimwc <optional params>
+    nimwc <compile options> <options>
 
   Options:
-    -h --help             Show this output.
-    --version             Show Version and exit.
-    --debugConfig         Show configuration and compile options and continue.
-    --newuser             Add an admin user. Combine with -u, -p and -e.
-      -u:<admin username>
-      -p:<admin password>
-      -e:<admin email>
-    --insertdata          Insert standard data (override existing data).
-        bulma               - standard data based on Bulma (Default)
-        bootstrap           - standard data based on Bootstrap
-        clean               - standard data without a CSS/JS framework
-    --newdb               Generates the database with standard tables
-                          (does NOT override or delete tables).
-                          newdb will be initialized automatic, if no database exists.
-    --gitupdate           Updates and force a hard reset.
-    --initplugin          Create plugin skeleton inside tmp/
-    --putenv:key=value    Set an environment variable.
-    -f, --forceBuild      Force Recompile, rebuild all modules.
+    -h --help          Show this output.
+    --version          Show Version and exit.
+    --debugConfig      Show configuration and compile options and continue.
+    --newuser          Add 1 new Admin user (asks name, mail and password).
+    --insertdata       Insert the standard data (override existing data).
+        bulma            - standard data based on Bulma (Default)
+        bootstrap        - standard data based on Bootstrap
+        clean            - standard data without a CSS/JS framework
+    --newdb            Generates the database with standard tables
+                       (does NOT override or delete tables).
+                       newdb will be initialized automatic, if no database exists.
+    --gitupdate        Updates and force a hard reset.
+    --initplugin       Create plugin skeleton inside tmp/
+    --putenv:key=value Set an environment variable.
+    -f, --forceBuild   Force Recompile, rebuild all modules.
 
   Compile options:
-    -d:postgres           Enable Postgres database (SQLite is standard)
-    -d:firejail           Firejail is enabled. Runs secure.
-    -d:webp               WebP is enabled. Optimize images.
-    -d:adminnotify        Send error logs (ERROR) to the specified Admin email.
-    -d:dev                Development (ignore reCaptcha, no emails, more Verbose).
-    -d:devemailon         Send email when -d:dev is activated.
-    -d:demo               Public demo mode. Enable Test user. 2FA ignored.
-                          Force database reset every 1 hour. Some options Disabled.
+    -d:postgres        Enable Postgres database (SQLite is standard)
+    -d:firejail        Firejail is enabled. Runs secure.
+    -d:webp            WebP is enabled. Optimize images.
+    -d:adminnotify     Send error logs (ERROR) to the specified Admin email.
+    -d:dev             Development (ignore reCaptcha, no emails, more Verbose).
+    -d:devemailon      Send email when -d:dev is activated.
+    -d:demo            Public demo mode. Enable Test user. 2FA ignored.
+                       Force database reset every 1 hour. Some options Disabled.
+    -d:contracts       Force Design by Contract enabled. Runs assertive.
 
   Tips:
     Always Compile with -d:release for Production. We recommend Firejail too.
@@ -176,18 +174,15 @@ assert appName.len > 1, "Config error: appname must not be empty string: " & app
 
 proc updateNimwc() =
   ## GIT hard update
-  assert existsDir"plugins/", "plugins folder not found."
-  assert existsDir"public/css/", "public/css/ folder not found."
-  assert existsDir"public/js/", "public/js/ folder not found."
-  assert existsFile"plugins/plugin_import.txt", "plugins/plugin_import.txt not found"
-  assert existsFile"public/css/style_custom.css", "public/css/style_custom.css not found"
-  assert existsFile"public/js/js_custom.js", "public/js/js_custom.js not found"
+  preconditions(existsDir"plugins/", existsDir"public/css/", existsDir"public/js/",
+    existsFile"plugins/plugin_import.txt", existsFile"public/css/style_custom.css",
+    existsFile"public/js/js_custom.js", findExe"git".len > 0)
+  # No postconditions because we directly quit anyways.
   let
     pluginImport = readFile"plugins/plugin_import.txt"  # Save Contents
     styleCustom = readFile"public/css/style_custom.css"
     jsCustom = readFile"public/js/js_custom.js"
-  discard execCmd("git fetch --all")
-  discard execCmd("git reset --hard origin/master")
+  discard execCmd("git fetch --all ; git reset --hard origin/master")
   writeFile("plugins/plugin_import.txt", pluginImport)  # Write Content again
   writeFile("public/css/style_custom.css", styleCustom)
   writeFile("public/js/js_custom.js", jsCustom)
@@ -333,7 +328,8 @@ proc startupCheck() =
   ## Checking if the main-program file exists. If not it will
   ## be compiled with args and compiler options (compiler
   ## options should be specified in the *.nim.pkg)
-
+  preconditions compileOptions.len > 0, appPath.len > 0, storageEFS.len > 0, existsFile(getAppDir() & "/nimwcpkg/nimwc_main.nim")
+  postconditions output.len > 0
   # Storage location. Folders are created in the module files_efs.nim
   when not defined(ignoreefs) and defined(release):
     if not existsDir(storageEFS):  # Check access to EFS file system.
@@ -349,31 +345,33 @@ proc startupCheck() =
       styledEcho(fgGreen, bgBlack, compile_ok_msg)
 
 
-
-for keysType, keys, values in getopt():
-  case keysType
-  of cmdShortOption, cmdLongOption:
-    case keys
-    of "version": quit(nimwc_version, 0)
-    of "initplugin": pluginSkeleton()
-    of "gitupdate": updateNimwc()
-    of "forceBuild", "f": removeFile(appPath)
-    of "newdb": generateDB()
-    # of "newuser": createAdminUser()
-    of "debugConfig":
-      styledEcho(fgMagenta, bgBlack, $compileOptions)
-      styledEcho(fgMagenta, bgBlack, $dict)
-    of "putenv":
-      let envy = values.split"="
-      styledEcho(fgMagenta, bgBlack, $envy)
-      putEnv(envy[0], envy[1])
-    of "help":
-      styledEcho(fgGreen, bgBlack, doc)
-      quit(0)
-  of cmdArgument: discard
-  of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)
+#
+# Argument parsing and function calling.
+#
 
 
-
-startupCheck()
-launcherActivated()
+when isMainModule:
+  for keysType, keys, values in getopt():
+    case keysType
+    of cmdShortOption, cmdLongOption:
+      case keys
+      of "version": quit(nimwc_version, 0)
+      of "help":
+        styledEcho(fgGreen, bgBlack, doc)
+        quit(0)
+      of "debugConfig":
+        styledEcho(fgMagenta, bgBlack, $compileOptions)
+        styledEcho(fgMagenta, bgBlack, $dict)
+      of "putenv":
+        let envy = values.split"="
+        styledEcho(fgMagenta, bgBlack, $envy)
+        putEnv(envy[0], envy[1])
+      of "initplugin": pluginSkeleton()
+      of "gitupdate": updateNimwc()
+      of "forceBuild", "f": removeFile(appPath)
+      of "newdb": generateDB()
+      of "newuser": createAdminUser()
+    of cmdArgument:
+      startupCheck()
+      launcherActivated()
+    of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)
