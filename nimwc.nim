@@ -329,7 +329,6 @@ proc startupCheck() =
   ## be compiled with args and compiler options (compiler
   ## options should be specified in the *.nim.pkg)
   preconditions compileOptions.len > 0, appPath.len > 0, storageEFS.len > 0, existsFile(getAppDir() & "/nimwcpkg/nimwc_main.nim")
-  postconditions output.len > 0
   # Storage location. Folders are created in the module files_efs.nim
   when not defined(ignoreefs) and defined(release):
     if not existsDir(storageEFS):  # Check access to EFS file system.
