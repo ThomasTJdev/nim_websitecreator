@@ -180,9 +180,8 @@ proc generateDB*() =
   if not db.tryExec(filesTable):
     info("Database: Files table already exists")
 
-  if not dbexists:
-    info("Database: Inserting standard elements")
-    createStandardData(db)
+  info("Database: Inserting standard elements")
+  createStandardData(db)
 
   info("Database: Closing database")
   close(db)
