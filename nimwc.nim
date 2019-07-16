@@ -178,15 +178,17 @@ proc updateNimwc() =
     existsFile"plugins/plugin_import.txt", existsFile"public/css/style_custom.css",
     existsFile"public/js/js_custom.js", findExe"git".len > 0)
   # No postconditions because we directly quit anyways.
+  const cmd = "git fetch --all ; git reset --hard origin/master"
   let
     pluginImport = readFile"plugins/plugin_import.txt"  # Save Contents
     styleCustom = readFile"public/css/style_custom.css"
     jsCustom = readFile"public/js/js_custom.js"
-  discard execCmd("git fetch --all ; git reset --hard origin/master")
+  echo cmd
+  discard execCmd(cmd)
   writeFile("plugins/plugin_import.txt", pluginImport)  # Write Content again
   writeFile("public/css/style_custom.css", styleCustom)
   writeFile("public/js/js_custom.js", jsCustom)
-  quit("\n\nNimWC has been updated.\n\n", 0)
+  quit("\n\nNimWC has been updated.\n", 0)
 
 
 proc pluginSkeleton() =
