@@ -26,6 +26,8 @@ from md5 import getMD5
 from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
 
+when defined(glibc):   {.passC: "-include ../force_link_glibc_25.h" .}
+
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
@@ -57,6 +59,8 @@ const
     when defined(postgres):        " -d:postgres",
     when defined(webp):            " -d:webp",
     when defined(firejail):        " -d:firejail",
+    when defined(contracts):       " -d:contracts",
+    when defined(glibc):           " -d:glibc",
 
     when defined(ssl):               " -d:ssl",               # SSL
     when defined(release):           " -d:release",           # Build for Production
