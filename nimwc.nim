@@ -8,6 +8,15 @@ import
 when defined(release): {.passL: "-s".}
 when defined(danger):  {.passC: "-flto -ffast-math -march=native".}
 when defined(glibc):   {.passC: "-include force_link_glibc_25.h" .}
+when defined(hardened):
+  when defined(danger): {.fatal: "-d:hardened is incompatible with -d:danger".}
+  when not defined(contracts): {.fatal: "-d:hardened requires -d:contracts".}
+  when not defined(ssl): {.fatal: "-d:hardened requires -d:ssl".}
+  when not defined(firejail): {.hint: "-d:hardened recommends -d:firejail".}
+  {.warning: "Security Hardened mode is enabled, up to -25% performance loss. Running Hardened.".}
+  const hardenedFlags = "-fstack-protector-all -Wstack-protector --param ssp-buffer-size=4 -pie -fPIE -Wformat -Wformat-security -D_FORTIFY_SOURCE=2 -Wall -Wextra -Wconversion -Wsign-conversion -mindirect-branch=thunk -mfunction-return=thunk -fstack-clash-protection -Wl,-z,relro,-z,now -Wl,-z,noexecstack -fsanitize=signed-integer-overflow -fsanitize-undefined-trap-on-error"
+  {.passC: hardenedFlags, passL: hardenedFlags, assertions: on.}
+  # http:wiki.debian.org/Hardening http:wiki.gentoo.org/wiki/Hardened_Gentoo http:security.stackexchange.com/questions/24444/what-is-the-most-hardened-set-of-options-for-gcc-compiling-c-c
 when defined(windows): {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
 when not defined(contracts): {.warning: "Design by Contract is Disabled, Running Unassertive.".}
 when not defined(ssl):       {.warning: "SSL is Disabled, Running Unsecure.".}
@@ -49,7 +58,7 @@ const
   """  ## Message to show when Compiling Failed.
 
   doc = """ Nim Website Creator - https://NimWC.org
-  Self-Firejailing 2-Factor-Auth Nim Web Framework with Design by Contract.
+  Self-Firejailing 2-Factor-Auth Hardened Nim Web Framework with Design by Contract.
   Run it, access your web, customize, add plugins, deploy today anywhere.
 
   Usage:             nimwc <compile options> <options>
@@ -75,6 +84,7 @@ const
   Compile options:
     -d:postgres      Enable Postgres database (SQLite is default)
     -d:firejail      Firejail is enabled. Runs secure.
+    -d:hardened      Security Hardened mode is enabled. Runs hardened.
     -d:webp          WebP is enabled. Optimize images.
     -d:adminnotify   Send error logs (ERROR) to the specified Admin email.
     -d:dev           Development (ignore reCaptcha, no emails, more Verbose).
