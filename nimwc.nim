@@ -7,6 +7,7 @@ import
 
 when defined(release): {.passL: "-s".}
 when defined(danger):  {.passC: "-flto -ffast-math -march=native".}
+when defined(glibc):   {.passC: "-include force_link_glibc_25.h" .}
 when defined(windows): {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
 when not defined(contracts): {.warning: "Design by Contract is Disabled, Running Unassertive.".}
 when not defined(ssl):       {.warning: "SSL is Disabled, Running Unsecure.".}
@@ -51,37 +52,37 @@ const
   Self-Firejailing 2-Factor-Auth Nim Web Framework with Design by Contract.
   Run it, access your web, customize, add plugins, deploy today anywhere.
 
-  Usage:
-    nimwc <compile options> <options>
+  Usage:             nimwc <compile options> <options>
 
   Options:
-    -h --help          Show this output.
-    --version          Show Version and exit.
-    --showConfig       Show configuration and compile options and continue.
-    --newuser          Add 1 new Admin user (asks name, mail and password).
-    --insertdata       Insert the standard data (override existing data).
-        bulma            - standard data based on Bulma (Default)
-        bootstrap        - standard data based on Bootstrap
-        clean            - standard data without a CSS/JS framework
-    --newdb            Generates the database with standard tables
-                       (does NOT override or delete tables).
-                       newdb will be initialized automatic, if no database exists.
-    --gitupdate        Update from Git and force a hard reset.
-    --initplugin       Create plugin skeleton inside tmp/
-    --putenv:key=value Set an environment variable.
-    -f, --forceBuild   Force Recompile, rebuild all modules.
-    --backupdb         Signed full backup of database and continue.
+    -h --help        Show this output.
+    --version        Show Version and exit.
+    --showConfig     Show configuration and compile options and continue.
+    --newuser        Add 1 new Admin user (asks name, mail and password).
+    --insertdata     Insert the standard data (override existing data).
+        bulma         - standard data based on Bulma (Default)
+        bootstrap     - standard data based on Bootstrap
+        clean         - standard data without a CSS/JS framework
+    --newdb          Generates the database with standard tables
+                      (does NOT override or delete tables).
+                      newdb will be initialized automatic, if no database exists.
+    --gitupdate      Update from Git and force a hard reset.
+    --initplugin     Create plugin skeleton inside tmp/
+    --putenv:key=val Set an environment variable.
+    -f, --forceBuild Force Recompile, rebuild all modules.
+    --backupdb       Compressed signed full backup of database and continue.
 
   Compile options:
-    -d:postgres        Enable Postgres database (SQLite is standard)
-    -d:firejail        Firejail is enabled. Runs secure.
-    -d:webp            WebP is enabled. Optimize images.
-    -d:adminnotify     Send error logs (ERROR) to the specified Admin email.
-    -d:dev             Development (ignore reCaptcha, no emails, more Verbose).
-    -d:devemailon      Send email when -d:dev is activated.
-    -d:demo            Public demo mode. Enable Test user. 2FA ignored.
-                       Force database reset every 1 hour. Some options Disabled.
-    -d:contracts       Force Design by Contract enabled. Runs assertive.
+    -d:postgres      Enable Postgres database (SQLite is standard)
+    -d:firejail      Firejail is enabled. Runs secure.
+    -d:webp          WebP is enabled. Optimize images.
+    -d:adminnotify   Send error logs (ERROR) to the specified Admin email.
+    -d:dev           Development (ignore reCaptcha, no emails, more Verbose).
+    -d:devemailon    Send email when -d:dev is activated.
+    -d:demo          Public demo mode. Enable Test user. 2FA ignored.
+                      Force database reset every 1 hour. Some options Disabled.
+    -d:contracts     Force Design by Contract enabled. Runs assertive.
+    -d:glibc         Compatibility with GlibC 2.5, x86_64, year ~2000, for old Linuxes
 
   Tips:
     Use -d:release for Production. Use -d:contracts for Debug. We recommend Firejail.
@@ -123,6 +124,8 @@ const
     when defined(postgres):        " -d:postgres",
     when defined(webp):            " -d:webp",
     when defined(firejail):        " -d:firejail",
+    when defined(contracts):       " -d:contracts",
+    when defined(glibc):           " -d:glibc",
 
     when defined(ssl):               " -d:ssl",               # SSL
     when defined(release):           " -d:release --listFullPaths:off --excessiveStackTrace:off",  # Build for Production
@@ -140,7 +143,8 @@ const
     when defined(noSignalHandler):   " -d:noSignalHandler",   # No convert crash to signal
     when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg", # Use Std Out as Std Msg
     when defined(nimOldShiftRight):  " -d:nimOldShiftRight",  # http://forum.nim-lang.org/t/4891#30600
-    when defined(nimOldCaseObjects): " -d:nimOldCaseObjects"  # old case switch
+    when defined(nimOldCaseObjects): " -d:nimOldCaseObjects", # old case switch
+    when defined(nimBinaryStdFiles): " -d:d:nimBinaryStdFiles", # stdin/stdout old binary open
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   nimwc_version =
