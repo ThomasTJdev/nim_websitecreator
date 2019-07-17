@@ -1,8 +1,12 @@
 import
-  os, parsecfg, strutils, logging,
+  os, parsecfg, strutils, logging, contra,
   ../administration/create_standarddata,
   ../administration/connectdb,
   ../utils/logging_nimwc
+
+from osproc import execCmdEx
+from nativesockets import Port
+from times import now, `$`
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
@@ -145,9 +149,15 @@ const
       lastModified  $2                NOT NULL     default $1
     );""".format(sql_now, sql_timestamp, sql_id))
 
+  fileBackup = "nimwc_" & (when defined(postgres): "postgres_" else: "sqlite_")
+
+  cmdBackup =
+    when defined(postgres): "pg_dump --verbose --no-password --encoding=UTF8 --lock-wait-timeout=99 --host=$1 --port=$2 --username=$3 --file='$4' --dbname=$5 $6"
+    else: "sqlite3 -readonly -echo $1 '.backup $2'"
+
 
 proc generateDB*() =
-  assert existsFile(configFile), "config/config.cfg file not found: " & configFile
+  preconditions existsFile(configFile)
   info("Database: Generating database")
 
   connectDb() # Read config, connect database, inject it as db variable.
@@ -185,3 +195,19 @@ proc generateDB*() =
 
   info("Database: Closing database")
   close(db)
+
+
+proc backupDb*(dbname: string, filename = fileBackup & $now() & ".sql",
+    host = "localhost", port = Port(5432), username = getEnv("USER", "root"),
+    dataOnly = false, inserts = false): tuple[output: TaintedString, exitCode: int] =
+  ## Backup the whole Database to a plain-text Raw SQL Query human-readable file.
+  preconditions(dbname.len > 1, host.len > 0, username.len > 0, not(existsFile(filename)),
+    when defined(postgres): findExe"pg_dump".len > 0 else: findExe"sqlite3".len > 0)
+  postconditions result.output.len > 0
+  when defined(postgres):
+    let cmd = cmdBackup.format(host, port, username, filename, dbname,
+    (if dataOnly: " --data-only " else: "") & (if inserts: " --inserts " else: ""))
+  else:  # SQLite .dump is Not working, Docs says it should.
+    let cmd = cmdBackup.format(dbname, filename)
+  when not defined(release): echo cmd
+  result = execCmdEx(cmd)
