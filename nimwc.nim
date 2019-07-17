@@ -70,6 +70,7 @@ const
     --initplugin       Create plugin skeleton inside tmp/
     --putenv:key=value Set an environment variable.
     -f, --forceBuild   Force Recompile, rebuild all modules.
+    --backupdb         Backup database and continue (filename is Date ISO format).
 
   Compile options:
     -d:postgres        Enable Postgres database (SQLite is standard)
@@ -367,11 +368,12 @@ when isMainModule:
         let envy = values.split"="
         styledEcho(fgMagenta, bgBlack, $envy)
         putEnv(envy[0], envy[1])
-      of "initplugin": pluginSkeleton()
+      of "initplugin": pluginSkeleton() # Interactive (Asks to user).
       of "gitupdate": updateNimwc()
       of "forceBuild", "f": removeFile(appPath)
       of "newdb": generateDB()
       of "newuser": createAdminUser()
+      of "backupdb": echo backupDb(dbname = "website")
     of cmdArgument:
       startupCheck()
       launcherActivated()
