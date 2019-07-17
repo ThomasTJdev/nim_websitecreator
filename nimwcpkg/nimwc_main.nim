@@ -37,6 +37,8 @@ else:                       from firejail import firejailVersion, firejailFeatur
 
 
 const
+  cmdStrip = "strip --strip-all --remove-section=.comment "
+
   config_not_found_msg = """
   🐛 ERROR: Config file (config.cfg) could not be found. 🐛
   A template (config_default.cfg) is copied to "config/config.cfg".
@@ -293,6 +295,7 @@ proc recompile*(): int {.inline.} =
   let appName = dict.getSectionValue("Server", "appname")
   let appPath = getAppDir() / appName
   result = execCmd("nim c " & checkCompileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
+  if result == 0 and findExe"strip".len > 0: discard execCmd(cmdStrip & appPath & "_new_tmp")
   moveFile(getAppDir() & "/" & appName & "_new_tmp", getAppDir() & "/" & appName & "_new")
 
 

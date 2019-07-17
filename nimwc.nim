@@ -57,7 +57,7 @@ const
   Options:
     -h --help          Show this output.
     --version          Show Version and exit.
-    --debugConfig      Show configuration and compile options and continue.
+    --showConfig       Show configuration and compile options and continue.
     --newuser          Add 1 new Admin user (asks name, mail and password).
     --insertdata       Insert the standard data (override existing data).
         bulma            - standard data based on Bulma (Default)
