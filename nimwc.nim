@@ -73,7 +73,7 @@ const
     --backupdb       Compressed signed full backup of database and continue.
 
   Compile options:
-    -d:postgres      Enable Postgres database (SQLite is standard)
+    -d:postgres      Enable Postgres database (SQLite is default)
     -d:firejail      Firejail is enabled. Runs secure.
     -d:webp          WebP is enabled. Optimize images.
     -d:adminnotify   Send error logs (ERROR) to the specified Admin email.
@@ -370,7 +370,7 @@ when isMainModule:
         styledEcho(fgMagenta, bgBlack, $dict)
       of "putenv":
         let envy = values.split"="
-        styledEcho(fgMagenta, bgBlack, $envy)
+        styledEcho(fgBlue, bgBlack, $envy)
         putEnv(envy[0], envy[1])
       of "initplugin": pluginSkeleton() # Interactive (Asks to user).
       of "gitupdate": updateNimwc()
