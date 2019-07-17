@@ -70,7 +70,7 @@ const
     --initplugin       Create plugin skeleton inside tmp/
     --putenv:key=value Set an environment variable.
     -f, --forceBuild   Force Recompile, rebuild all modules.
-    --backupdb         Backup database and continue (filename is Date ISO format).
+    --backupdb         Signed full backup of database and continue.
 
   Compile options:
     -d:postgres        Enable Postgres database (SQLite is standard)
