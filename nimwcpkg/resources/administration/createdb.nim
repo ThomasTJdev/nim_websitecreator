@@ -201,7 +201,7 @@ proc generateDB*() =
 
 proc backupDb*(dbname: string, filename = fileBackup & $now() & ".sql",
     host = "localhost", port = Port(5432), username = getEnv("USER", "root"),
-    dataOnly = false, inserts = false): tuple[output: TaintedString, exitCode: int] =
+    dataOnly = false, inserts = false, sign = true): tuple[output: TaintedString, exitCode: int] =
   ## Backup the whole Database to a plain-text Raw SQL Query human-readable file.
   preconditions(dbname.len > 1, host.len > 0, username.len > 0, not(existsFile(filename)),
     when defined(postgres): findExe"pg_dump".len > 0 else: findExe"sqlite3".len > 0)
@@ -213,5 +213,5 @@ proc backupDb*(dbname: string, filename = fileBackup & $now() & ".sql",
     let cmd = cmdBackup.format(dbname, filename)
   when not defined(release): echo cmd
   result = execCmdEx(cmd)
-  if result.exitCode == 0 and findExe"gpg".len > 0:
+  if sign and result.exitCode == 0 and findExe"gpg".len > 0:
     discard execCmdEx(cmdSign & filename)
