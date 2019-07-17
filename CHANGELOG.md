@@ -1,3 +1,16 @@
+## v5.x.x
+### Changes
+- Compatible with Nim >= `0.20.2`.
+- Security Hardened mode via compile time flag `-d:hardened` (based from Gentoo Hardened and Debian Hardened).
+- Design by Contract mode via compile time flag `-d:contracts` (similar to Ada, Eiffel, etc).
+- GlibC 2.5 Compatibility mode via compile time flag `-d:glibc` (allows to run on very old Linux, Debian Old Stable, Centos, etc).
+- Clean out, style fixes, performance fixes, etc.
+- Refactor on command line arguments parsing.
+- Update readme.
+
+Note: Security Hardened mode by definition has a performance cost (20% average, 25% peak).
+
+
 ## v5.1.1
 ### Changes
 - Fixed bug in recompile function. Used when enabling/disabling plugins
