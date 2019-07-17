@@ -66,7 +66,7 @@ const
     --newdb            Generates the database with standard tables
                        (does NOT override or delete tables).
                        newdb will be initialized automatic, if no database exists.
-    --gitupdate        Updates and force a hard reset.
+    --gitupdate        Update from Git and force a hard reset.
     --initplugin       Create plugin skeleton inside tmp/
     --putenv:key=value Set an environment variable.
     -f, --forceBuild   Force Recompile, rebuild all modules.
@@ -84,7 +84,7 @@ const
     -d:contracts       Force Design by Contract enabled. Runs assertive.
 
   Tips:
-    Always Compile with -d:release for Production. We recommend Firejail too.
+    Use -d:release for Production. Use -d:contracts for Debug. We recommend Firejail.
     Learn more: http://nim-lang.org/learn.html http://nim-lang.github.io/Nim/lib.html
   """
 
