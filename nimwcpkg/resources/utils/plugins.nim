@@ -1,4 +1,5 @@
-import strutils, osproc, os, json, contra
+import os, strutils, json, contra
+from osproc import execCmd, execProcess
 
 
 const
@@ -12,14 +13,9 @@ const
     </li>"""
 
 
-proc pluginCheckGit*(): bool {.inline.} =
-  ## Checks if git exists
-  "git".findExe.len > 0
-
-
 proc pluginExtractDetails*(pluginFolder: string): tuple[name, version, description, url: string] =
   ## Get plugin data from [pluginName]/plugin.json
-  preconditions pluginFolder.len > 0, existsDir(pluginFolder)
+  preconditions pluginFolder.len > 0
   postconditions result[0].len > 0, result[1].len > 0, result[2].len > 0, result[3].len > 0
   let pluginJsonPath = "plugins/" & pluginFolder & "/plugin.json"
   let pluginJson = parseFile(pluginJsonPath)
@@ -36,7 +32,7 @@ proc pluginRepoClone*(): bool =
   ## Clones (updates) the plugin repo
   preconditions existsDir(replace(getAppDir(), "/nimwcpkg", "") & "/plugins/")
   postconditions fileExists("plugins/nimwc_plugins/plugins.json")
-  if unlikely(not pluginCheckGit()): return false
+  if unlikely(not("git".findExe.len > 0)): return false
   let folder = replace(getAppDir(), "/nimwcpkg", "") & "/plugins/"
   let output = execCmd("git clone " & pluginRepo & " " & folder & pluginRepoName)
   if output != 0: return false
@@ -47,7 +43,7 @@ proc pluginRepoUpdate*(): bool =
   ## Clones (updates) the plugin repo
   preconditions existsDir("plugins" / pluginRepoName)
   postconditions fileExists("plugins/nimwc_plugins/plugins.json")
-  if unlikely(not pluginCheckGit()): return false
+  if unlikely(not("git".findExe.len > 0)): return false
   let folder = "plugins" / pluginRepoName
   assert existsDir(folder), "pluginRepoUpdate folder not found (Plugins)"
   let output = execCmd("git --force -C " & folder & " pull")
