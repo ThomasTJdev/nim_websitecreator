@@ -157,6 +157,10 @@ const
 
   cmdSign = "gpg --clear-sign --armor --detach-sign --digest-algo sha512 "
 
+  cmdChecksum = "sha512sum --tag "
+
+  cmdTar = "tar cafv "
+
 
 proc generateDB*() =
   preconditions existsFile(configFile)
@@ -201,17 +205,27 @@ proc generateDB*() =
 
 proc backupDb*(dbname: string, filename = fileBackup & $now() & ".sql",
     host = "localhost", port = Port(5432), username = getEnv("USER", "root"),
-    dataOnly = false, inserts = false, sign = true): tuple[output: TaintedString, exitCode: int] =
+    dataOnly = false, inserts = false, checksum = true, sign = true, targz = true,
+    ): tuple[output: TaintedString, exitCode: int] =
   ## Backup the whole Database to a plain-text Raw SQL Query human-readable file.
   preconditions(dbname.len > 1, host.len > 0, username.len > 0, not(existsFile(filename)),
     when defined(postgres): findExe"pg_dump".len > 0 else: findExe"sqlite3".len > 0)
-  postconditions result.output.len > 0
   when defined(postgres):
-    let cmd = cmdBackup.format(host, port, username, filename, dbname,
+    var cmd = cmdBackup.format(host, port, username, filename, dbname,
     (if dataOnly: " --data-only " else: "") & (if inserts: " --inserts " else: ""))
   else:  # SQLite .dump is Not working, Docs says it should.
-    let cmd = cmdBackup.format(dbname, filename)
+    var cmd = cmdBackup.format(dbname, filename)
   when not defined(release): echo cmd
   result = execCmdEx(cmd)
-  if sign and result.exitCode == 0 and findExe"gpg".len > 0:
-    discard execCmdEx(cmdSign & filename)
+  if checksum and result.exitCode == 0 and findExe"sha512sum".len > 0:
+    cmd = cmdChecksum & filename & " > " & filename & ".sha512"
+    when not defined(release): echo cmd
+    result = execCmdEx(cmd)
+    if sign and result.exitCode == 0 and findExe"gpg".len > 0:
+      cmd = cmdSign & filename
+      when not defined(release): echo cmd
+      result = execCmdEx(cmd)
+      if targz and result.exitCode == 0 and findExe"tar".len > 0:
+        cmd = cmdTar & filename & ".tar.gz " & filename & " " & filename & ".sha512 " & filename & ".asc"
+        when not defined(release): echo cmd
+        result = execCmdEx(cmd)
