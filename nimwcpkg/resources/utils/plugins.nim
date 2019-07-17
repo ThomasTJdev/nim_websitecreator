@@ -36,12 +36,10 @@ proc pluginRepoClone*(): bool =
   ## Clones (updates) the plugin repo
   preconditions existsDir(replace(getAppDir(), "/nimwcpkg", "") & "/plugins/")
   postconditions fileExists("plugins/nimwc_plugins/plugins.json") or output != 0
-  if unlikely(not pluginCheckGit()):
-    return false
+  if unlikely(not pluginCheckGit()): return false
   let folder = replace(getAppDir(), "/nimwcpkg", "") & "/plugins/"
   let output = execCmd("git clone " & pluginRepo & " " & folder & pluginRepoName)
-  if output != 0:
-    return false
+  if output != 0: return false
   return fileExists("plugins/nimwc_plugins/plugins.json")
 
 
@@ -49,13 +47,11 @@ proc pluginRepoUpdate*(): bool =
   ## Clones (updates) the plugin repo
   preconditions existsDir("plugins" / pluginRepoName)
   postconditions fileExists("plugins/nimwc_plugins/plugins.json") or output != 0
-  if unlikely(not pluginCheckGit()):
-    return false
+  if unlikely(not pluginCheckGit()): return false
   let folder = "plugins" / pluginRepoName
   assert existsDir(folder), "pluginRepoUpdate folder not found (Plugins)"
   let output = execCmd("git --force -C " & folder & " pull")
-  if output != 0:
-    return false
+  if output != 0: return false
   return fileExists("plugins/nimwc_plugins/plugins.json")
 
 
@@ -80,8 +76,7 @@ proc pluginDelete*(pluginFolder: string): bool =
   ## Delete a Plugin from the filesystem.
   preconditions pluginFolder.len > 0, existsFile"plugins/plugin_import.txt"
   for line in lines("plugins/plugin_import.txt"):
-    if line == pluginFolder:
-      return false
+    if line == pluginFolder: return false
   try:
     removeDir("plugins/" & pluginFolder)
     result = true
@@ -131,8 +126,7 @@ proc extensionSettings(): seq[string] =
     let ppathName = replace(ppath, "plugins/", "")
 
     # Skip these files/folders
-    if ppathName in ["nimwc_plugins", "plugin_import.txt"]:
-      continue
+    if ppathName in ["nimwc_plugins", "plugin_import.txt"]: continue
 
     # If the plugins is present in plugin_import, set the
     # plugin status to true, else false
