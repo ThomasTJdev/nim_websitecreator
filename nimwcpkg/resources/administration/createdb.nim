@@ -155,6 +155,8 @@ const
     when defined(postgres): "pg_dump --verbose --no-password --encoding=UTF8 --lock-wait-timeout=99 --host=$1 --port=$2 --username=$3 --file='$4' --dbname=$5 $6"
     else: "sqlite3 -readonly -echo $1 '.backup $2'"
 
+  cmdSign = "gpg --clear-sign --armor --detach-sign --digest-algo sha512 "
+
 
 proc generateDB*() =
   preconditions existsFile(configFile)
@@ -211,3 +213,5 @@ proc backupDb*(dbname: string, filename = fileBackup & $now() & ".sql",
     let cmd = cmdBackup.format(dbname, filename)
   when not defined(release): echo cmd
   result = execCmdEx(cmd)
+  if result.exitCode == 0 and findExe"gpg".len > 0:
+    discard execCmdEx(cmdSign & filename)
