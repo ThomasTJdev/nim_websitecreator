@@ -21,7 +21,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Self-Firejailing Web Framework (It Firejails itself) Best Linux Security integrated on the Core.
 - 2 Factor Athentication TOTP
 - [Contract Programming, Design by Contract](https://dev.to/juancarlospaco/design-by-contract-immutability-side-effects-and-gulag-44fk).
-- Security Hardened mode by default (based from [Gentoo Hardened](https://wiki.gentoo.org/wiki/Hardened_Gentoo) and [Debian Hardened](https://wiki.debian.org/Hardening)).
+- Security Hardened by default (based from [Gentoo Hardened](https://wiki.gentoo.org/wiki/Hardened_Gentoo) and [Debian Hardened](https://wiki.debian.org/Hardening)).
 - ReCAPTCHA (Optional)
 - [HoneyPot-Field](https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377)
 - BCrypt+Salt password hashing
