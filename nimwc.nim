@@ -387,6 +387,7 @@ when isMainModule:
       of "forceBuild", "f": removeFile(appPath)
       of "newdb": generateDB()
       of "newuser": createAdminUser()
+      of "insertdata": createStandardData(values.normalize)
       of "backupdb": echo backupDb(dbname = "website")
     of cmdArgument:
       startupCheck()
