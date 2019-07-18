@@ -55,7 +55,7 @@ proc createAdminUser*() {.discardable.} =
 
   discard insertID(db, sqlAddAdmin, iName, iEmail, password, salt,
     if readLineFromStdin("\nis Admin? (y/N): ").normalize == "y": "Admin" else: "Moderator")
-  info("Admin added.")
+  info("1 new user added: " & iName)
   close(db)
 
 
