@@ -2,6 +2,7 @@ import os, osproc, parsecfg, rdstdin, sequtils, strutils, terminal, times, json,
 
 import
   nimwcpkg/resources/administration/createdb,
+  nimwcpkg/resources/administration/create_standarddata,
   nimwcpkg/resources/administration/connectdb,
   nimwcpkg/resources/files/files_efs,
   nimwcpkg/resources/administration/create_adminuser
@@ -234,58 +235,62 @@ proc handler() {.noconv.} =
 setControlCHook(handler)
 
 
-proc launcherActivated() =
+proc launcherActivated(cfg: Config) =
   ## 1) Executing the main-program in a loop.
   ## 2) Each time a new compiled file is available,
   ##    the program exits the running process and starts a new
   styledEcho(fgGreen, bgBlack, $now() & ": Nim Website Creator: Launcher starting.")
   var nimwcCommand: string
-
+  let
+    args = replace(commandLineParams().join(" "), "-", "")
+    userArgs = if args == "": "" else: " " & args
+    userArgsRun = if args == "": "" else: " --run " & args
+    appPath = getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname")
   when not defined(firejail):
     nimwcCommand = appPath & userArgsRun
   else:
     let
-      cpuCores = dict.getSectionValue("firejail", "cpuCoresByNumber").parseInt
+      cpuCores = cfg.getSectionValue("firejail", "cpuCoresByNumber").parseInt
       corez = if cpuCores != 0: toSeq(0..cpuCores) else: @[]
-      hostz = dict.getSectionValue("firejail", "hostsFile").strip
-      dnsz = [dict.getSectionValue("firejail", "dns0").strip, dict.getSectionValue("firejail", "dns1").strip,
-              dict.getSectionValue("firejail", "dns2").strip, dict.getSectionValue("firejail", "dns3").strip]
+      hostz = cfg.getSectionValue("firejail", "hostsFile").strip
+      dnsz = [cfg.getSectionValue("firejail", "dns0").strip, cfg.getSectionValue("firejail", "dns1").strip,
+              cfg.getSectionValue("firejail", "dns2").strip, cfg.getSectionValue("firejail", "dns3").strip]
     assert countProcessors() > cpuCores, "Dedicated CPU Cores must be less or equal than the actual CPU Cores: " & $cpuCores
     assert hostz.existsFile, "Hosts file not found: " & hostz
     let myjail = Firejail(
-      noDvd:         dict.getSectionValue("firejail", "noDvd").parseBool,
-      noSound:       dict.getSectionValue("firejail", "noSound").parseBool,
-      noAutoPulse:   dict.getSectionValue("firejail", "noAutoPulse").parseBool,
-      no3d:          dict.getSectionValue("firejail", "no3d").parseBool,
-      noX:           dict.getSectionValue("firejail", "noX").parseBool,
-      noVideo:       dict.getSectionValue("firejail", "noVideo").parseBool,
-      noDbus:        dict.getSectionValue("firejail", "noDbus").parseBool,
-      noShell:       dict.getSectionValue("firejail", "noShell").parseBool,
-      noDebuggers:   dict.getSectionValue("firejail", "noDebuggers").parseBool,
-      noMachineId:   dict.getSectionValue("firejail", "noMachineId").parseBool,
-      noRoot:        dict.getSectionValue("firejail", "noRoot").parseBool,
-      noAllusers:    dict.getSectionValue("firejail", "noAllusers").parseBool,
-      noU2f:         dict.getSectionValue("firejail", "noU2f").parseBool,
-      privateTmp:    dict.getSectionValue("firejail", "privateTmp").parseBool,
-      privateCache:  dict.getSectionValue("firejail", "privateCache").parseBool,
-      privateDev:    dict.getSectionValue("firejail", "privateDev").parseBool,
-      forceEnUsUtf8: dict.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
-      caps:          dict.getSectionValue("firejail", "caps").parseBool,
-      seccomp:       dict.getSectionValue("firejail", "seccomp").parseBool,
-      noTv:          dict.getSectionValue("firejail", "noTv").parseBool,
-      writables:     dict.getSectionValue("firejail", "writables").parseBool,
-      noMnt:         dict.getSectionValue("firejail", "noMnt").parseBool,
+      noDvd:         cfg.getSectionValue("firejail", "noDvd").parseBool,
+      noSound:       cfg.getSectionValue("firejail", "noSound").parseBool,
+      noAutoPulse:   cfg.getSectionValue("firejail", "noAutoPulse").parseBool,
+      no3d:          cfg.getSectionValue("firejail", "no3d").parseBool,
+      noX:           cfg.getSectionValue("firejail", "noX").parseBool,
+      noVideo:       cfg.getSectionValue("firejail", "noVideo").parseBool,
+      noDbus:        cfg.getSectionValue("firejail", "noDbus").parseBool,
+      noShell:       cfg.getSectionValue("firejail", "noShell").parseBool,
+      noDebuggers:   cfg.getSectionValue("firejail", "noDebuggers").parseBool,
+      noMachineId:   cfg.getSectionValue("firejail", "noMachineId").parseBool,
+      noRoot:        cfg.getSectionValue("firejail", "noRoot").parseBool,
+      noAllusers:    cfg.getSectionValue("firejail", "noAllusers").parseBool,
+      noU2f:         cfg.getSectionValue("firejail", "noU2f").parseBool,
+      privateTmp:    cfg.getSectionValue("firejail", "privateTmp").parseBool,
+      privateCache:  cfg.getSectionValue("firejail", "privateCache").parseBool,
+      privateDev:    cfg.getSectionValue("firejail", "privateDev").parseBool,
+      forceEnUsUtf8: cfg.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
+      caps:          cfg.getSectionValue("firejail", "caps").parseBool,
+      seccomp:       cfg.getSectionValue("firejail", "seccomp").parseBool,
+      noTv:          cfg.getSectionValue("firejail", "noTv").parseBool,
+      writables:     cfg.getSectionValue("firejail", "writables").parseBool,
+      noMnt:         cfg.getSectionValue("firejail", "noMnt").parseBool,
     )
     nimwcCommand = myjail.makeCommand(
       command=appPath & userArgsRun,
-      name = dict.getSectionValue("Server", "appname"), # whitelist= @[getAppDir(), getCurrentDir()],
-      maxSubProcesses = dict.getSectionValue("firejail", "maxSubProcesses").parseInt * 1_000_000,  # 1 is Ok, 0 is Disabled, int.high max.
-      maxOpenFiles = dict.getSectionValue("firejail", "maxOpenFiles").parseInt * 1_000,        # Below 1000 NimWC may not start.
-      maxFileSize = dict.getSectionValue("firejail", "maxFileSize").parseInt * 1_000_000_000,  # Below 1Mb NimWC may not start.
-      maxPendingSignals = dict.getSectionValue("firejail", "maxPendingSignals").parseInt * 10, # 1 is Ok, 0 is Disabled, int.high max.
-      timeout = dict.getSectionValue("firejail", "timeout").parseInt,                          # 1 is Ok, 0 is Disabled, 255 max. It will actually Restart instead of Stopping.
-      maxRam = dict.getSectionValue("firejail", "maxRam").parseInt * 1_000_000_000,            # Below 1Gb NimWC may fail.
-      maxCpu = dict.getSectionValue("firejail", "maxCpu").parseInt,                            # 1 is Ok, 0 is Disabled, 255 max.
+      name = cfg.getSectionValue("Server", "appname"), # whitelist= @[getAppDir(), getCurrentDir()],
+      maxSubProcesses = cfg.getSectionValue("firejail", "maxSubProcesses").parseInt * 1_000_000,  # 1 is Ok, 0 is Disabled, int.high max.
+      maxOpenFiles = cfg.getSectionValue("firejail", "maxOpenFiles").parseInt * 1_000,        # Below 1000 NimWC may not start.
+      maxFileSize = cfg.getSectionValue("firejail", "maxFileSize").parseInt * 1_000_000_000,  # Below 1Mb NimWC may not start.
+      maxPendingSignals = cfg.getSectionValue("firejail", "maxPendingSignals").parseInt * 10, # 1 is Ok, 0 is Disabled, int.high max.
+      timeout = cfg.getSectionValue("firejail", "timeout").parseInt,                          # 1 is Ok, 0 is Disabled, 255 max. It will actually Restart instead of Stopping.
+      maxRam = cfg.getSectionValue("firejail", "maxRam").parseInt * 1_000_000_000,            # Below 1Gb NimWC may fail.
+      maxCpu = cfg.getSectionValue("firejail", "maxCpu").parseInt,                            # 1 is Ok, 0 is Disabled, 255 max.
       cpuCoresByNumber = corez,                                                                # 0 is Disabled, else toSeq(0..corez)
       hostsFile = hostz,        # Optional Alternative/Fake /etc/hosts
       dnsServers = dnsz,        # Optional Alternative/Fake DNS, 4 Servers must be provided
@@ -322,12 +327,16 @@ proc launcherActivated() =
   quit()
 
 
-proc startupCheck() =
+proc startupCheck(cfg: Config) =
   ## Checking if the main-program file exists. If not it will
   ## be compiled with args and compiler options (compiler
   ## options should be specified in the *.nim.pkg)
-  preconditions compileOptions.len > 0, appPath.len > 0, storageEFS.len > 0, existsFile(getAppDir() & "/nimwcpkg/nimwc_main.nim")
+  preconditions compileOptions.len > 0, storageEFS.len > 0, existsFile(getAppDir() & "/nimwcpkg/nimwc_main.nim")
   # Storage location. Folders are created in the module files_efs.nim
+  let
+    args = replace(commandLineParams().join(" "), "-", "")
+    userArgs = if args == "": "" else: " " & args 
+    appPath = getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname")
   when not defined(ignoreefs) and defined(release):
     if not existsDir(storageEFS):  # Check access to EFS file system.
       quit("No access to storage in release mode. Critical.")
@@ -348,44 +357,35 @@ proc startupCheck() =
 
 
 when isMainModule:
-  var dict = loadConfig(getAppDir() / "config/config.cfg")
-
-  # let
-  #   args = replace(commandLineParams().join(" "), "-", "")
-  #   userArgs = if args == "": "" else: " " & args
-  #   userArgsRun = if args == "": "" else: " --run " & args
-  #   appPath = getAppDir() / "nimwcpkg" / dict.getSectionValue("Server", "appname")
+  let cfg = loadConfig(getAppDir() / "config/config.cfg")
+  connectDb() # Read config, connect database, inject it as "db" variable.
   for keysType, keys, values in getopt():
     case keysType
     of cmdShortOption, cmdLongOption:
       case keys
       of "version": quit(nimwc_version, 0)
-      of "config":  dict = loadConfig(values)
       of "help":
         styledEcho(fgGreen, bgBlack, doc)
         quit(0)
       of "showConfig":
         styledEcho(fgMagenta, bgBlack, $compileOptions)
-        styledEcho(fgMagenta, bgBlack, $dict)
+        styledEcho(fgMagenta, bgBlack, $cfg)
       of "putenv":
         let envy = values.split"="
         styledEcho(fgBlue, bgBlack, $envy)
         putEnv(envy[0], envy[1])
       of "initplugin": pluginSkeleton() # Interactive (Asks to user).
       of "gitupdate": updateNimwc()
-      of "forceBuild", "f": removeFile(getAppDir() / "nimwcpkg" / dict.getSectionValue("Server", "appname"))
-      of "newdb": generateDB()
-      of "newuser": createAdminUser()
-      of "insertdata": createStandardData(values.normalize)
-      of "backupdb": echo backupDb(dbname = "website")
+      of "forceBuild", "f": removeFile(getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname"))
+      of "newdb": generateDB(db)
+      of "newuser": createAdminUser(db)
+      of "insertdata": createStandardData(db, values.normalize)
+      of "backupdb": echo backupDb(cfg.getSectionValue("Database", "name"))
     of cmdArgument:
       discard
     of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)
-  
-  connectDb() # Read config, connect database, inject it as "db" variable.
-  
 
-  startupCheck()
-  launcherActivated()
+  startupCheck(cfg)
+  launcherActivated(cfg)
 
   close(db)
