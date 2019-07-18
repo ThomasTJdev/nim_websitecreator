@@ -2,8 +2,6 @@
 #        (c) Copyright 2019 Thomas Toftgaard Jarløv
 #        Look at LICENSE for more info.
 #        All rights reserved.
-when defined(release): {.passL: "-s".}  # Force strip all on the resulting Binary.
-
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
@@ -25,8 +23,6 @@ import
 from md5 import getMD5
 from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
-
-when defined(glibc):   {.passC: "-include ../force_link_glibc_25.h" .}
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
