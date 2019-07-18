@@ -624,7 +624,7 @@ proc standardDataBlogpost3*(db: DbConn) =
   discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv3", "Custom styling", blogpost3, "1", "1", "1", "NimWC Example blogpost custom", "This is an example blogpost using custom styling.", "website,blog,nim,nimwc")
 
 
-proc createStandardData*(db: DbConn, dataStyle = "bulma") =
+proc createStandardData*(db: DbConn, dataStyle = "bulma") {.discardable.} =
   ## Insert basic data
   preconditions dataStyle in ["bulma", "bootstrap", "clean"]
   info"Standard data: Inserting standard data."
