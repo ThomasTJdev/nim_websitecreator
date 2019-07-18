@@ -148,6 +148,10 @@ const
       lastModified  $2                NOT NULL     default $1
     );""".format(sql_now, sql_timestamp, sql_id))
 
+  sqlVacuum =
+    when defined(postgres): sql"VACUUM (VERBOSE, ANALYZE);"
+    else:                   sql"VACUUM;"
+
   fileBackup = "nimwc_" & (when defined(postgres): "postgres_" else: "sqlite_")
 
   cmdBackup =
@@ -225,3 +229,7 @@ proc backupDb*(dbname: string, filename = fileBackup & $now() & ".sql",
         cmd = cmdTar & filename & ".tar.gz " & filename & " " & filename & ".sha512 " & filename & ".asc"
         when not defined(release): echo cmd
         result = execCmdEx(cmd)
+
+
+proc vacuumDb*(db: DbConn): bool {.inline.} =
+  db.tryExec(sqlVacuum)
