@@ -7,6 +7,9 @@ import
   nimwcpkg/resources/files/files_efs,
   nimwcpkg/resources/administration/create_adminuser
 
+when defined(postgres): import db_postgres
+else:                   import db_sqlite
+
 hardenedBuild()
 
 when defined(windows): {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
@@ -72,6 +75,7 @@ const
     --initplugin     Create plugin skeleton inside tmp/
     --putenv:key=val Set an environment variable.
     -f, --forceBuild Force Recompile, rebuild all modules.
+    --vacuumdb       Vacuum database and continue.
     --backupdb       Compressed signed full backup of database and continue.
 
   Compile options:
@@ -243,7 +247,6 @@ proc launcherActivated(cfg: Config) =
   var nimwcCommand: string
   let
     args = replace(commandLineParams().join(" "), "-", "")
-    userArgs = if args == "": "" else: " " & args
     userArgsRun = if args == "": "" else: " --run " & args
     appPath = getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname")
   when not defined(firejail):
@@ -335,7 +338,7 @@ proc startupCheck(cfg: Config) =
   # Storage location. Folders are created in the module files_efs.nim
   let
     args = replace(commandLineParams().join(" "), "-", "")
-    userArgs = if args == "": "" else: " " & args 
+    userArgs = if args == "": "" else: " " & args
     appPath = getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname")
   when not defined(ignoreefs) and defined(release):
     if not existsDir(storageEFS):  # Check access to EFS file system.
@@ -352,12 +355,12 @@ proc startupCheck(cfg: Config) =
 
 
 #
-# Argument parsing and function calling.
+# Argument parsing and main function calling.
 #
 
 
 when isMainModule:
-  let cfg = loadConfig(getAppDir() / "config/config.cfg")
+  let cfg = loadConfig(getAppDir() / "config/config.cfg") # cfg is Config.
   connectDb() # Read config, connect database, inject it as "db" variable.
   for keysType, keys, values in getopt():
     case keysType
@@ -380,12 +383,11 @@ when isMainModule:
       of "newdb": generateDB(db)
       of "newuser": createAdminUser(db)
       of "insertdata": createStandardData(db, values.normalize)
+      of "vacuumdb": echo vacuumDb(db)
       of "backupdb": echo backupDb(cfg.getSectionValue("Database", "name"))
     of cmdArgument:
       discard
     of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)
-
+  close(db)  # Must close here, subrunner re-opens.
   startupCheck(cfg)
   launcherActivated(cfg)
-
-  close(db)
