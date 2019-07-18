@@ -34,12 +34,8 @@ proc ask4UserPass*(): tuple[iName, iEmail, iPwd: string] =
   result = (iName: iName, iEmail: iEmail, iPwd: iPwd)
 
 
-proc createAdminUser*() {.discardable.} =
+proc createAdminUser*(db: DbConn) {.discardable.} =
   ## Create new admin user.
-
-  connectDb() # Read config, connect database, inject it as db variable.
-  assert db is DbConn, "Failed to connect to database"
-
   const sqlAnyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
   let anyAdmin = getAllRows(db, sqlAnyAdmin)
   info(createAdminUserMsg.format(anyAdmin.len))
@@ -56,7 +52,6 @@ proc createAdminUser*() {.discardable.} =
   discard insertID(db, sqlAddAdmin, iName, iEmail, password, salt,
     if readLineFromStdin("\nis Admin? (y/N): ").normalize == "y": "Admin" else: "Moderator")
   info("1 new user added: " & iName)
-  close(db)
 
 
 proc createTestUser*(db: DbConn) {.discardable.} =
