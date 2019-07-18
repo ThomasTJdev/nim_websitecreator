@@ -10,7 +10,7 @@ installDirs   = @["config", "nimwcpkg", "plugins", "public"]
 
 
 # Dependencies
-requires "nim >= 0.20.0"
+requires "nim >= 0.20.2"
 requires "jester >= 0.4.1"
 requires "recaptcha >= 1.0.2"
 requires "bcrypt >= 0.2.1"
@@ -20,7 +20,7 @@ requires "firejail >= 0.5.0"
 requires "webp >= 0.2.0"
 requires "libravatar >= 0.4.0"
 requires "html_tools >= 0.1.0"
-requires "contra >= 0.1.0"
+requires "contra >= 0.2.0"
 
 
 import distros
