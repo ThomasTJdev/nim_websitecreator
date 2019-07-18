@@ -2,21 +2,12 @@ import os, osproc, parsecfg, rdstdin, sequtils, strutils, terminal, times, json,
 
 import
   nimwcpkg/resources/administration/createdb,
+  nimwcpkg/resources/administration/connectdb,
   nimwcpkg/resources/files/files_efs,
   nimwcpkg/resources/administration/create_adminuser
 
-when defined(release): {.passL: "-s".}
-when defined(danger):  {.passC: "-flto -ffast-math -march=native".}
-when defined(glibc):   {.passC: "-include force_link_glibc_25.h" .}
-when defined(hardened):
-  when not defined(ssl): {.fatal: "-d:hardened requires -d:ssl".}
-  when defined(danger):  {.fatal: "-d:hardened is incompatible with -d:danger".}
-  when not defined(contracts): {.fatal: "-d:hardened requires -d:contracts".}
-  when not defined(firejail):  {.hint: "-d:hardened recommends -d:firejail".}
-  {.hint: "Security Hardened mode is enabled. Running Hardened.".}
-  const hf = "-fstack-protector-all -Wstack-protector --param ssp-buffer-size=4 -pie -fPIE -Wformat -Wformat-security -D_FORTIFY_SOURCE=2 -Wall -Wextra -Wconversion -Wsign-conversion -mindirect-branch=thunk -mfunction-return=thunk -fstack-clash-protection -Wl,-z,relro,-z,now -Wl,-z,noexecstack -fsanitize=signed-integer-overflow -fsanitize-undefined-trap-on-error -Wl,-z,noexecheap -fno-common"
-  {.passC: hf, passL: hf, assertions: on.}
-  # http:wiki.debian.org/Hardening http:wiki.gentoo.org/wiki/Hardened_Gentoo http:security.stackexchange.com/questions/24444/what-is-the-most-hardened-set-of-options-for-gcc-compiling-c-c
+hardenedBuild()
+
 when defined(windows): {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
 when not defined(contracts): {.warning: "Design by Contract is Disabled, Running Unassertive.".}
 when not defined(ssl):       {.warning: "SSL is Disabled, Running Unsecure.".}
@@ -67,6 +58,7 @@ const
     -h --help        Show this output.
     --version        Show Version and exit.
     --showConfig     Show configuration and compile options and continue.
+    --config:foo.cfg Alternative full path to config.cfg (Default config/config.cfg)
     --newuser        Add 1 new Admin user (asks name, mail and password).
     --insertdata     Insert the standard data (override existing data).
         bulma         - standard data based on Bulma (Default)
@@ -176,17 +168,6 @@ var
   nimhaMain: Process
 
 
-## Parse commandline params
-let
-  args = replace(commandLineParams().join(" "), "-", "")
-  userArgs = if args == "": "" else: " " & args
-  userArgsRun = if args == "": "" else: " --run " & args
-  dict = loadConfig(getAppDir() & "/config/config.cfg")
-  appName = dict.getSectionValue("Server", "appname")
-  appPath = getAppDir() & "/nimwcpkg/" & appName
-assert appName.len > 1, "Config error: appname must not be empty string: " & appName
-
-
 proc updateNimwc() =
   ## GIT hard update
   preconditions(existsDir"plugins/", existsDir"public/css/", existsDir"public/js/",
@@ -198,7 +179,7 @@ proc updateNimwc() =
     pluginImport = readFile"plugins/plugin_import.txt"  # Save Contents
     styleCustom = readFile"public/css/style_custom.css"
     jsCustom = readFile"public/js/js_custom.js"
-  echo cmd
+  when not defined(release): echo cmd
   discard execCmd(cmd)
   writeFile("plugins/plugin_import.txt", pluginImport)  # Write Content again
   writeFile("public/css/style_custom.css", styleCustom)
@@ -297,7 +278,7 @@ proc launcherActivated() =
     )
     nimwcCommand = myjail.makeCommand(
       command=appPath & userArgsRun,
-      name = appName, # whitelist= @[getAppDir(), getCurrentDir()],
+      name = dict.getSectionValue("Server", "appname"), # whitelist= @[getAppDir(), getCurrentDir()],
       maxSubProcesses = dict.getSectionValue("firejail", "maxSubProcesses").parseInt * 1_000_000,  # 1 is Ok, 0 is Disabled, int.high max.
       maxOpenFiles = dict.getSectionValue("firejail", "maxOpenFiles").parseInt * 1_000,        # Below 1000 NimWC may not start.
       maxFileSize = dict.getSectionValue("firejail", "maxFileSize").parseInt * 1_000_000_000,  # Below 1Mb NimWC may not start.
@@ -367,15 +348,23 @@ proc startupCheck() =
 
 
 when isMainModule:
+  var dict = loadConfig(getAppDir() / "config/config.cfg")
+
+  # let
+  #   args = replace(commandLineParams().join(" "), "-", "")
+  #   userArgs = if args == "": "" else: " " & args
+  #   userArgsRun = if args == "": "" else: " --run " & args
+  #   appPath = getAppDir() / "nimwcpkg" / dict.getSectionValue("Server", "appname")
   for keysType, keys, values in getopt():
     case keysType
     of cmdShortOption, cmdLongOption:
       case keys
       of "version": quit(nimwc_version, 0)
+      of "config":  dict = loadConfig(values)
       of "help":
         styledEcho(fgGreen, bgBlack, doc)
         quit(0)
-      of "debugConfig":
+      of "showConfig":
         styledEcho(fgMagenta, bgBlack, $compileOptions)
         styledEcho(fgMagenta, bgBlack, $dict)
       of "putenv":
@@ -384,12 +373,19 @@ when isMainModule:
         putEnv(envy[0], envy[1])
       of "initplugin": pluginSkeleton() # Interactive (Asks to user).
       of "gitupdate": updateNimwc()
-      of "forceBuild", "f": removeFile(appPath)
+      of "forceBuild", "f": removeFile(getAppDir() / "nimwcpkg" / dict.getSectionValue("Server", "appname"))
       of "newdb": generateDB()
       of "newuser": createAdminUser()
       of "insertdata": createStandardData(values.normalize)
       of "backupdb": echo backupDb(dbname = "website")
     of cmdArgument:
-      startupCheck()
-      launcherActivated()
+      discard
     of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)
+  
+  connectDb() # Read config, connect database, inject it as "db" variable.
+  
+
+  startupCheck()
+  launcherActivated()
+
+  close(db)
