@@ -14,8 +14,8 @@ when defined(hardened):
   when not defined(contracts): {.fatal: "-d:hardened requires -d:contracts".}
   when not defined(firejail):  {.hint: "-d:hardened recommends -d:firejail".}
   {.hint: "Security Hardened mode is enabled. Running Hardened.".}
-  const hardenedFlags = "-fstack-protector-all -Wstack-protector --param ssp-buffer-size=4 -pie -fPIE -Wformat -Wformat-security -D_FORTIFY_SOURCE=2 -Wall -Wextra -Wconversion -Wsign-conversion -mindirect-branch=thunk -mfunction-return=thunk -fstack-clash-protection -Wl,-z,relro,-z,now -Wl,-z,noexecstack -fsanitize=signed-integer-overflow -fsanitize-undefined-trap-on-error -Wl,-z,noexecheap -fno-common"
-  {.passC: hardenedFlags, passL: hardenedFlags, assertions: on.}
+  const hf = "-fstack-protector-all -Wstack-protector --param ssp-buffer-size=4 -pie -fPIE -Wformat -Wformat-security -D_FORTIFY_SOURCE=2 -Wall -Wextra -Wconversion -Wsign-conversion -mindirect-branch=thunk -mfunction-return=thunk -fstack-clash-protection -Wl,-z,relro,-z,now -Wl,-z,noexecstack -fsanitize=signed-integer-overflow -fsanitize-undefined-trap-on-error -Wl,-z,noexecheap -fno-common"
+  {.passC: hf, passL: hf, assertions: on.}
   # http:wiki.debian.org/Hardening http:wiki.gentoo.org/wiki/Hardened_Gentoo http:security.stackexchange.com/questions/24444/what-is-the-most-hardened-set-of-options-for-gcc-compiling-c-c
 when defined(windows): {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
 when not defined(contracts): {.warning: "Design by Contract is Disabled, Running Unassertive.".}
@@ -229,7 +229,7 @@ proc pluginSkeleton() =
     writeFile("tmp/" & pluginName & "/public/js_private.js", "")
     writeFile("tmp/" & pluginName & "/public/style_private.css", "")
     writeFile("tmp/" & pluginName & "/.gitattributes", "*.* linguist-language=Nim\n")
-    writeFile("tmp/" & pluginName & "/.gitignore", "*.c\n*.h\n*.o\n")
+    writeFile("tmp/" & pluginName & "/.gitignore", "*.c\n*.h\n*.o\n*.sql\n*.sha512\n*.asc")
     writeFile("tmp/" & pluginName & "/html.nimf",
       "<!-- https://nim-lang.org/docs/filters.html -->\n")
     writeFile("tmp/" & pluginName & "/changelog.md",
