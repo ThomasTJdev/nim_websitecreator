@@ -1,7 +1,6 @@
 import
   os, parsecfg, strutils, logging, contra,
   ../administration/create_standarddata,
-  ../administration/connectdb,
   ../utils/logging_nimwc
 
 from osproc import execCmdEx
@@ -162,11 +161,8 @@ const
   cmdTar = "tar cafv "
 
 
-proc generateDB*() =
-  preconditions existsFile(configFile)
+proc generateDB*(db: DbConn) =
   info("Database: Generating database")
-
-  connectDb() # Read config, connect database, inject it as db variable.
 
   # User
   if not db.tryExec(personTable):
