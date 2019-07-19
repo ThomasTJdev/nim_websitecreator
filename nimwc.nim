@@ -127,45 +127,44 @@ const doc = """Nim Website Creator - https://NimWC.org
 Self-Firejailing 2-Factor-Auth Hardened Nim Web Framework with Design by Contract.
 Run it, access your web, customize, add plugins, deploy today anywhere.
 
-Usage:             nimwc <compile options> <options>
+Usage:            nimwc <compile options> <options>
 
 Options:
-  -h --help        Show this output.
-  --version        Show Version and exit.
-  --showConfig     Show configuration and compile options and continue.
-  --config:foo.cfg Alternative full path to config.cfg (Default config/config.cfg)
-  --newuser        Add 1 new Admin user (asks name, mail and password).
-  --insertdata     Insert the standard data (override existing data).
-      bulma         - standard data based on Bulma (Default)
-      bootstrap     - standard data based on Bootstrap
-      clean         - standard data without a CSS/JS framework
-  --newdb          Generates the database with standard tables
-                    (does NOT override or delete tables).
-                    newdb will be initialized automatic, if no database exists.
-  --gitupdate      Update from Git and force a hard reset.
-  --initplugin     Create plugin skeleton inside tmp/
-  --putenv:key=val Set an environment variable.
-  -f, --forceBuild Force Recompile, rebuild all modules.
-  --vacuumdb       Vacuum database and continue.
-  --backupdb       Compressed signed full backup of database and continue.
+ -h --help        Show this help.
+ --version        Show Version and exit.
+ --showConfig     Show configuration and compile options and continue.
+ --newuser        Add 1 new Admin or Moderator user (asks name, mail & password)
+ --insertdata     Insert the standard data on database (override existing data)
+    bulma         - standard data based on Bulma (Default)
+    bootstrap     - standard data based on Bootstrap
+    clean         - standard data without a CSS/JS framework
+ --newdb          Generates the database with standard tables
+                  (does NOT override or delete tables).
+                  newdb will be initialized automatic, if no database exists.
+ --gitupdate      Update from Git, force a hard reset and exit
+ --initplugin     Create plugin skeleton inside tmp/
+ --putenv:key=val Set an environment variable and continue
+ -f, --forceBuild Force Recompile, rebuild all modules.
+ --vacuumdb       Vacuum database and continue.
+ --backupdb       Compressed signed full backup of database and continue.
 
 Compile options:
-  -d:postgres      Postgres database is enabled (SQLite is default)
-  -d:firejail      Firejail is enabled. Runs secure.
-  -d:hardened      Security Hardened mode is enabled. Runs hardened.
-  -d:webp          WebP is enabled. Optimize images.
-  -d:recaptcha     Recaptcha AntiSpamm is enabled.
-  -d:adminnotify   Send error logs (ERROR) to the specified Admin email.
-  -d:dev           Development (ignore reCaptcha, no emails, more Verbose).
-  -d:devemailon    Send email when -d:dev is activated.
-  -d:demo          Public demo mode. Enable Test user. 2FA ignored.
-                    Force database reset every 1 hour. Some options Disabled.
-  -d:contracts     Force Design by Contract enabled. Runs assertive.
-  -d:glibc         Compatibility with GlibC 2.5, x86_64, year ~2000, for old Linuxes
+ -d:postgres      Postgres database is enabled (SQLite is default)
+ -d:firejail      Firejail is enabled. Runs secure.
+ -d:hardened      Security Hardened mode is enabled.
+ -d:webp          WebP is enabled. Optimize images.
+ -d:recaptcha     Recaptcha AntiSpamm is enabled (Google API, wont work over Tor)
+ -d:adminnotify   Send error logs (ERROR) to the specified Admin email.
+ -d:dev           Development (ignore reCaptcha, no emails, more Verbose).
+ -d:devemailon    Send email when -d:dev is activated.
+ -d:demo          Public demo mode. Enable Test user. 2FA ignored.
+                  Force database reset every 1 hour. Some options Disabled.
+ -d:contracts     Force Design by Contract enabled. Runs assertive.
+ -d:glibc         Compatibility with GlibC 2.5, x86_64, year ~2000, for old Linuxes
 
 Tips:
-  Use -d:release for Production. Use -d:contracts for Debug. We recommend Firejail.
-  Learn more: http://nim-lang.org/learn.html http://nim-lang.github.io/Nim/lib.html
+ Use -d:release for Production. Use -d:contracts for Debug. We recommend Firejail.
+ Learn more: http://nim-lang.org/learn.html http://nim-lang.github.io/Nim/lib.html
 """
 
 var
