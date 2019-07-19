@@ -102,7 +102,7 @@
     <td> <b>SSL enabled</b> </td>       <td>${defined(ssl)}</td>
   </tr>
   <tr>
-    <td> <b>ReCaptcha enabled</b> </td> <td>$useCaptcha</td>
+    <td> <b>ReCaptcha enabled</b> </td> <td>${defined(recaptcha)}</td>
   </tr>
   <tr>
     <td> <b>WebP enabled</b> </td>      <td>${defined(webp)}</td>
