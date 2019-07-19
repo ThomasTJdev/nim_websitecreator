@@ -150,10 +150,11 @@ Options:
   --backupdb       Compressed signed full backup of database and continue.
 
 Compile options:
-  -d:postgres      Enable Postgres database (SQLite is default)
+  -d:postgres      Postgres database is enabled (SQLite is default)
   -d:firejail      Firejail is enabled. Runs secure.
   -d:hardened      Security Hardened mode is enabled. Runs hardened.
   -d:webp          WebP is enabled. Optimize images.
+  -d:recaptcha     Recaptcha AntiSpamm is enabled.
   -d:adminnotify   Send error logs (ERROR) to the specified Admin email.
   -d:dev           Development (ignore reCaptcha, no emails, more Verbose).
   -d:devemailon    Send email when -d:dev is activated.
