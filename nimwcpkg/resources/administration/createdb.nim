@@ -208,7 +208,7 @@ proc backupDb*(dbname: string, filename = fileBackup & $now() & ".sql",
     dataOnly = false, inserts = false, checksum = true, sign = true, targz = true,
     ): tuple[output: TaintedString, exitCode: int] =
   ## Backup the whole Database to a plain-text Raw SQL Query human-readable file.
-  preconditions(dbname.len > 1, host.len > 0, username.len > 0, not(existsFile(filename)),
+  preconditions(dbname.len > 1, host.len > 0, username.len > 0,
     when defined(postgres): findExe"pg_dump".len > 0 else: findExe"sqlite3".len > 0)
   when defined(postgres):
     var cmd = cmdBackup.format(host, port, username, filename, dbname,
