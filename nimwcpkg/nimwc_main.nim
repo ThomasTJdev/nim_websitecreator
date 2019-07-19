@@ -4,7 +4,7 @@
 #        All rights reserved.
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
-  parsecfg, random, re, recaptcha, sequtils, strutils, times, datetime2human,
+  parsecfg, random, re, sequtils, strutils, times, datetime2human,
   base32, streams, encodings, nativesockets, libravatar, html_tools, contra,
   oswalkdir as oc,
 
@@ -32,6 +32,8 @@ else:                   from webp import cwebp
 
 when not defined(firejail): {. warning: "Firejail is Disabled, Running Unsecure." .}
 else:                       from firejail import firejailVersion, firejailFeatures
+
+when defined(recaptcha): import recaptcha
 
 
 const
@@ -475,8 +477,7 @@ when isMainModule:
   # Create robots.txt
   writeFile("public/robots.txt", "User-agent: *\nSitemap: " & mainWebsite & "/sitemap.xml")
 
-  # Activate Google reCAPTCHA
-  setupReCapthca()
+  when defined(recaptcha): setupRecaptcha()  # Activate Google reCAPTCHA
 
   # Check if custom js and css exists
   if not fileExists("public/css/style_custom.css"):
