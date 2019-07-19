@@ -23,9 +23,10 @@ routes:
       when not defined(release): echo "HONEYPOT: " & @"password2"
       redirect("/login?msg=" & encodeUrl("Error: You need to verify, that you are not a robot!"))
     when not defined(dev):
-      if useCaptcha:
-        if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
-          redirect("/login?msg=" & encodeUrl("Error: You need to verify, that you are not a robot!"))
+      when defined(recaptcha):
+        if useCaptcha:
+          if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
+            redirect("/login?msg=" & encodeUrl("Error: You need to verify, that you are not a robot!"))
 
     let (loginB, loginS) = login(c, replace(toLowerAscii(@"email"), " ", ""), replace(@"password", " ", ""), @"totp")
     if loginB:
