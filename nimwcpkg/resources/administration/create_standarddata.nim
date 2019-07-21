@@ -593,7 +593,7 @@ proc standardDataAbout*(db: DbConn) =
 
 proc standardDataBlogpost1*(db: DbConn) =
   ## Blog post
-  info"Standard data: Inserting blog post-data"
+  info"Standard data: Inserting blog post-data (1)."
   const sqlBlogExists = sql"SELECT id FROM blog WHERE url = 'standardpost'"
   let blogExists = getValue(db, sqlBlogExists)
   if blogExists != "":
@@ -604,7 +604,7 @@ proc standardDataBlogpost1*(db: DbConn) =
 
 proc standardDataBlogpost2*(db: DbConn) =
   ## Blog post
-  info"Standard data: Inserting blog post-data."
+  info"Standard data: Inserting blog post-data (2)."
   const sqlBlog2Exists = sql"SELECT id FROM blog WHERE url = 'standardpostv2'"
   let blogExists = getValue(db, sqlBlog2Exists)
   if blogExists != "":
@@ -615,7 +615,7 @@ proc standardDataBlogpost2*(db: DbConn) =
 
 proc standardDataBlogpost3*(db: DbConn) =
   ## Blog post
-  info"Standard data: Inserting blog post-data."
+  info"Standard data: Inserting blog post-data (3)."
   const sqlBlog3Exists = sql"SELECT id FROM blog WHERE url = 'standardpostv3'"
   let blogExists = getValue(db, sqlBlog3Exists)
   if blogExists != "":
