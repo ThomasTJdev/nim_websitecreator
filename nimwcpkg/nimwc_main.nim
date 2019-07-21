@@ -183,7 +183,7 @@ macro extensionUpdateDatabase(): untyped =
 extensionUpdateDatabase()
 
 
-proc extensionCss(): string =
+proc extensionCss(): string {.compiletime.} =
   ## Macro with 2 functions
   ##
   ## 1) Copy the plugins style.css to the public css/ folder and
@@ -210,14 +210,14 @@ proc extensionCss(): string =
   return extensions
 
 
-proc extensionJs*(): string =
+proc extensionJs*(): string {.compiletime.} =
   ## Macro with 2 functions
   ##
   ## 1) Copy the plugins js.js to the public js/ folder and
   ## renaming to <extensionname>.js
   ##
   ## 2) Insert <js>-link into HTML
-  preconditions pluginsPath.allIt(it.len > 0), existsDir(parentDir(currentSourcePath()))
+  preconditions pluginsPath.allIt(it.len > 0)
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -494,6 +494,7 @@ when isMainModule:
 
 
 include
+  "tmpl/utils.nimf",  # Utils should be first.
   "tmpl/blog.nimf",
   "tmpl/blogedit.nimf",
   "tmpl/blognew.nimf",
@@ -509,8 +510,7 @@ include
   "tmpl/serverinfo.nimf",
   "tmpl/settings.nimf",
   "tmpl/sitemap.nimf",
-  "tmpl/user.nimf",
-  "tmpl/utils.nimf"
+  "tmpl/user.nimf"
 when defined(firejail): include "tmpl/firejail.nimf"
 
 
