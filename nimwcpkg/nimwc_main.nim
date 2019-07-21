@@ -6,7 +6,7 @@ import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, sequtils, strutils, times, datetime2human,
   base32, streams, encodings, nativesockets, libravatar, html_tools, contra,
-  oswalkdir,
+  oswalkdir
 
 import
   resources/administration/create_adminuser,
@@ -183,7 +183,7 @@ macro extensionUpdateDatabase(): untyped =
 extensionUpdateDatabase()
 
 
-macro extensionCss(): string =
+proc extensionCss(): string =
   ## Macro with 2 functions
   ##
   ## 1) Copy the plugins style.css to the public css/ folder and
@@ -210,7 +210,7 @@ macro extensionCss(): string =
   return extensions
 
 
-macro extensionJs*(): string =
+proc extensionJs*(): string =
   ## Macro with 2 functions
   ##
   ## 1) Copy the plugins js.js to the public js/ folder and
@@ -368,7 +368,7 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string
 
       # If an OTP key is present
       if row[7].len() != 0:
-        if totpRaw == "" or not isDigit(totpRaw):
+        if totpRaw == "":
           return (false, "Insert your 2 Factor Authentication code")
 
         let totp = parseInt(totpRaw)
