@@ -1,6 +1,6 @@
 #? stdtmpl | standard
 #
-#import mimetypes, ospaths, os
+#import mimetypes, os
 #
 #template `%`(idx: untyped): untyped =
 #  row[idx]
