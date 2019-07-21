@@ -19,6 +19,7 @@ when not defined(firejail):  {.warning: "Firejail is Disabled, Running Unsecure.
 else: import firejail
 
 const
+  cmdStrip = "strip --strip-all --remove-section=.comment "
   compile_start_msg =  """⏰ Compiling, Please wait ⏰
     ☑️ Using compile options from *.nim.cfg
     ☑️ Using params: """  ## Message to show when started Compiling.
@@ -351,6 +352,8 @@ proc startupCheck(cfg: Config) =
       quit(exitCode)
     else:
       styledEcho(fgGreen, bgBlack, compile_ok_msg)
+      when defined(release):
+        if findExe"strip".len > 0: discard execCmd(cmdStrip & appPath)
 
 
 #
