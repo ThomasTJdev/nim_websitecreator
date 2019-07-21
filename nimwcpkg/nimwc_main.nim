@@ -17,8 +17,7 @@ import
   resources/password/salt_generate,
   resources/session/user_data,
   resources/utils/logging_nimwc,
-  resources/utils/plugins,
-  resources/web/google_recaptcha
+  resources/utils/plugins
 
 from md5 import getMD5
 from strtabs import newStringTable, modeStyleInsensitive
@@ -33,7 +32,7 @@ else:                   from webp import cwebp
 when not defined(firejail): {. warning: "Firejail is Disabled, Running Unsecure." .}
 else:                       from firejail import firejailVersion, firejailFeatures
 
-when defined(recaptcha): import recaptcha
+when defined(recaptcha): import recaptcha, resources/web/google_recaptcha
 
 
 const
