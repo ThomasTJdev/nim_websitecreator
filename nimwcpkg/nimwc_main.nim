@@ -6,8 +6,9 @@ import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, sequtils, strutils, times, datetime2human,
   base32, streams, encodings, nativesockets, libravatar, html_tools, contra,
-  oswalkdir as oc,
+  oswalkdir,
 
+import
   resources/administration/create_adminuser,
   resources/administration/create_standarddata,
   resources/email/email_registration,
@@ -62,7 +63,7 @@ const
     when defined(glibc):           " -d:glibc",
 
     when defined(ssl):               " -d:ssl",               # SSL
-    when defined(release):           " -d:release",           # Build for Production
+    when defined(release):           " -d:release --listFullPaths:off --excessiveStackTrace:off",  # Build for Production
     when defined(danger):            " -d:danger",            # Build for Production
     when defined(quick):             " -d:quick",             # Tiny file but slow
     when defined(memProfiler):       " -d:memProfiler",       # RAM Profiler debug
@@ -78,6 +79,7 @@ const
     when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg", # Use Std Out as Std Msg
     when defined(nimOldShiftRight):  " -d:nimOldShiftRight",  # http://forum.nim-lang.org/t/4891#30600
     when defined(nimOldCaseObjects): " -d:nimOldCaseObjects", # old case switch
+    when defined(nimBinaryStdFiles): " -d:d:nimBinaryStdFiles", # stdin/stdout old binary open
   ].join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
@@ -117,7 +119,7 @@ func getPluginsPath*(): seq[string] {.compileTime.} =
     extensions: seq[string]
 
   # Loop through all files and folders
-  for plugin in oc.walkDir("plugins/"):
+  for plugin in oswalkdir.walkDir("plugins/"):
     let (pd, ppath) = plugin
     discard pd
 
@@ -434,9 +436,11 @@ when isMainModule:
   let dbconnection =
     when defined(postgres): "host=" & $db_host & " port=" & $db_port & " dbname=" & $db_name & " user=" & $db_user & " password=" & $db_pass & " connect_timeout=9"
     else: db_host
+
   db =
     when defined(postgres): db_postgres.open("", "", "", dbconnection)
     else:                   db_sqlite.open(dbconnection, "", "", "")
+
   assert db is DbConn, "Connection to DB could not be established, failed to open Database."
   info("Connection to DB is established.")
 
