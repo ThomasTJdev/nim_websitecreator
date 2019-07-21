@@ -32,7 +32,9 @@ else:                   from webp import cwebp
 when not defined(firejail): {. warning: "Firejail is Disabled, Running Unsecure." .}
 else:                       from firejail import firejailVersion, firejailFeatures
 
-when defined(recaptcha): import recaptcha, resources/web/google_recaptcha
+when defined(recaptcha):
+  import recaptcha
+  import resources/web/google_recaptcha
 
 
 const
@@ -105,7 +107,6 @@ func getPluginsPath*(): seq[string] {.compileTime.} =
   ## Get all plugins path
   ##
   ## Generates a seq[string] with the path to the plugins
-  preconditions existsFile(replace(parentDir(currentSourcePath()), "/nimwcpkg", "") / "plugins/plugin_import.txt")
   postconditions result.allIt(it.len > 0)
   let
     dir = parentDir(currentSourcePath())
@@ -139,7 +140,6 @@ macro extensionImport(): untyped =
   ## The extensions main module needs to be in plugins/plugin_import.txt
   ## to be activated. Only 1 module will be imported.
   preconditions pluginsPath.allIt(it.len > 0)
-  postconditions extensions.countLines > 0
   var extensions = ""
   for ppath in pluginsPath:
     let splitted = split(ppath, "/")
@@ -160,7 +160,6 @@ macro extensionUpdateDatabase(): untyped =
   ## The extensions main module shall contain a proc named 'proc <extensionname>Start(db: DbConn) ='
   ## The proc will be executed when the program is executed.
   preconditions pluginsPath.allIt(it.len > 0)
-  postconditions extensions.countLines > 0
   var extensions = ""
 
   extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
@@ -189,8 +188,7 @@ macro extensionCss(): string =
   ## renaming to <extensionname>.css
   ##
   ## 2) Insert <style>-link into HTML
-  preconditions pluginsPath.allIt(it.len > 0), existsDir(parentDir(currentSourcePath()))
-  postconditions extensions.countLines > 0
+  preconditions pluginsPath.allIt(it.len > 0)
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -218,7 +216,6 @@ macro extensionJs*(): string =
   ##
   ## 2) Insert <js>-link into HTML
   preconditions pluginsPath.allIt(it.len > 0), existsDir(parentDir(currentSourcePath()))
-  postconditions extensions.countLines > 0
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -291,7 +288,7 @@ func init(c: var TData) {.inline.} =
 
 proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
-  preconditions existsDir(getAppDir() / dict.getSectionValue("Server", "appname")), checkCompileOptions.len > 0
+  preconditions checkCompileOptions.len > 0
   postconditions result == 0
   let appName = dict.getSectionValue("Server", "appname")
   let appPath = getAppDir() / appName
@@ -544,7 +541,6 @@ macro generateRoutes(): typed =
   ## The macro generates the routes for Jester.
   ## Routes are found in the resources/web/routes.nim.
   ## All plugins "routes.nim" are also included.
-  preconditions existsFile"resources/web/routes.nim"
   var extensions = staticRead("resources/web/routes.nim")
 
   for ppath in pluginsPath:
