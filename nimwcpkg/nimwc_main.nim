@@ -37,6 +37,8 @@ when defined(recaptcha):
   import recaptcha
   import resources/web/google_recaptcha
 
+hardenedBuild()
+
 
 const
   cmdStrip = "strip --strip-all --remove-section=.comment "
@@ -60,7 +62,6 @@ const
     when defined(webp):            " -d:webp",
     when defined(firejail):        " -d:firejail",
     when defined(contracts):       " -d:contracts",
-    when defined(glibc):           " -d:glibc",
 
     when defined(ssl):               " -d:ssl",               # SSL
     when defined(release):           " -d:release --listFullPaths:off --excessiveStackTrace:off",  # Build for Production
