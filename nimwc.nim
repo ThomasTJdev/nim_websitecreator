@@ -161,7 +161,6 @@ Compile options:
  -d:demo          Public demo mode. Enable Test user. 2FA ignored.
                   Force database reset every 1 hour. Some options Disabled.
  -d:contracts     Force Design by Contract enabled. Runs assertive.
- -d:glibc         Compatibility with GlibC 2.5, x86_64, year ~2000, for old Linuxes
 
 Tips:
  Use -d:release for Production. Use -d:contracts for Debug. We recommend Firejail.
