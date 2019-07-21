@@ -295,7 +295,8 @@ proc recompile*(): int {.inline.} =
   let appName = dict.getSectionValue("Server", "appname")
   let appPath = getAppDir() / appName
   result = execCmd("nim c " & checkCompileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
-  if result == 0 and findExe"strip".len > 0: discard execCmd(cmdStrip & appPath & "_new_tmp")
+  when defined(release):
+    if result == 0 and findExe"strip".len > 0: discard execCmd(cmdStrip & appPath & "_new_tmp")
   moveFile(getAppDir() & "/" & appName & "_new_tmp", getAppDir() & "/" & appName & "_new")
 
 
