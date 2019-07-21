@@ -24,7 +24,7 @@
 
 <h1 style="text-align: center">Plugin Store</h1>
 
-# if not pluginCheckGit():
+# if not(findExe"git".len > 0):
 
   <div class="notification is-danger">
     <h3>Git (<code>git</code>) is not installed. Please install it.
