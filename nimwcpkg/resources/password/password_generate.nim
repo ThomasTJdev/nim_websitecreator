@@ -9,6 +9,6 @@ proc makeSessionKey*(): string {.inline.} =
 
 proc makePassword*(password, salt: string, comparingTo = ""): string {.inline.} =
   ## Creates an MD5 hash by combining password and salt.
-  preconditions password.len > 9, salt.len > 45
+  preconditions password.len > 3, password.len < 300, salt.len > 45
   postconditions result.len > 45
   result = hash(getMD5(salt & getMD5(password)), if comparingTo != "": comparingTo else: genSalt(8))
