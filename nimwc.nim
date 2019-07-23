@@ -130,19 +130,17 @@ Options:
  --version        Show Version and exit.
  --showConfig     Show configuration and compile options and continue.
  --newuser        Add 1 new Admin or Moderator user (asks name, mail & password)
- --insertdata     Insert the standard data on database (override existing data)
-    bulma         - standard data based on Bulma (Default)
-    bootstrap     - standard data based on Bootstrap
-    clean         - standard data without a CSS/JS framework
- --newdb          Generates the database with standard tables
-                  (does NOT override or delete tables).
-                  newdb will be initialized automatic, if no database exists.
  --gitupdate      Update from Git, force a hard reset and exit
  --initplugin     Create plugin skeleton inside tmp/
  --putenv:key=val Set an environment variable and continue
  -f, --forceBuild Force Recompile, rebuild all modules.
  --vacuumdb       Vacuum database and continue.
  --backupdb       Compressed signed full backup of database and continue.
+ --newdb          Generates a database with standard tables (Wont override data)
+                  If no database exists,new db will be initialized automatically
+ --insertdata:bulma Insert Bulma standard data on database (Default,overrides data)
+ --insertdata:bootstrap Insert Bulma standard data on database (overrides data)
+ --insertdata:clean     Insert Clean standard data on database (overrides data)
 
 Compile options:
  -d:postgres      Postgres database is enabled (SQLite is default)
