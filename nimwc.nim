@@ -34,12 +34,9 @@ const
       nimwc
 
   ☑️ To add an admin user, append args:
-      ./nimwc newuser -u:name -p:password -e:email
+      ./nimwc --newuser
 
   ☑️ To insert standard data in the database, append args:
-      ./nimwc insertdata
-
-  ☑️ To insert standard data in the database:
       ./nimwc --insertdata
 
   ☑️ Access Settings page at http://127.0.0.1:<port>/settings
