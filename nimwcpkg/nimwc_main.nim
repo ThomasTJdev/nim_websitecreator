@@ -41,7 +41,7 @@ hardenedBuild()
 
 
 const
-  cmdStrip = "strip --strip-all --remove-section=.comment "
+  cmdStrip = "strip --strip-all --remove-section=.note.gnu.gold-version --remove-section=.comment --remove-section=.note --remove-section=.note.gnu.build-id --remove-section=.note.ABI-tag "
 
   config_not_found_msg = """
   🐛 ERROR: Config file (config.cfg) could not be found. 🐛
