@@ -29,7 +29,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - No user Tracking Analytics by default
 - SQL Type-checked and Query-checked at compile-time, no SQL injections.
 - No Regular Expressions used on the Core, [No Regex Bugs and Vulnerabilities](https://blog.cloudflare.com/details-of-the-cloudflare-outage-on-july-2-2019) (you can still use Regex).
-- No XML nor YAML used on the Core, No XML Vulnerabilities, No YAML Vulnerabilities (you can still use XML and YAML).
+- No XML nor YAML nor ZIP used on the Core, No XML Vulnerabilities, No YAML Vulnerabilities, etc (you can still use XML and YAML and ZIP).
 - Multiple users with different ranks, role based access control.
 - Admin can choose how much CPU & RAM NimWC can use from the Admin Dashboard.
 - [We recommend `mpwc` stateless password manager because uses MasterPassword algo (200Kb size).](https://github.com/SolitudeSF/mpwc#mpwc)
