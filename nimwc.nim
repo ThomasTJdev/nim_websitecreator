@@ -21,8 +21,7 @@ else: import firejail
 const
   cmdStrip = "strip --strip-all --remove-section=.note.gnu.gold-version --remove-section=.comment --remove-section=.note --remove-section=.note.gnu.build-id --remove-section=.note.ABI-tag "
   compile_start_msg =  """⏰ Compiling, Please wait ⏰
-    ☑️ Using compile options from *.nim.cfg
-    ☑️ Using params: """  ## Message to show when started Compiling.
+  ☑️ Using compile options from *.nim.cfg. Using params: """  ## Message to show when started Compiling.
 
   compile_ok_msg =  """ Nim Website Creator Compiled Ok!
 
@@ -44,15 +43,15 @@ const
 
   compile_fail_msg = """Compile Error
   ⚠️ Compile-time or Configuration or Plugin error occurred.
-  ➡️ You can check your source code with: nim check YourFile.nim
-  ➡️ Check the Configuration of NimWC and its Plugins.
-  ➡️ Remove new Plugins, restore previous Configuration.
+  ➡️ Check your source code: nim check YourFile.nim; nimpretty YourFile.nim
+  ➡️ Check the Configuration of NimWC and its Plugins. Recompile with Contracts.
+  ➡️ Remove new Plugins, restore previous Configuration. Recompile as Hardened.
   Check that you have the latest Version. Check the Documentation.
   """  ## Message to show when Compiling Failed.
 
   skeletonMsg = """NimWC: Creating plugin skeleton.
   New plugin template will be created inside the folder:  tmp/
-  (the files will have useful comments with help & links) """
+  (The files will have useful comments with help & links). """
 
   reqRoutes = """# https://github.com/dom96/jester#routes
   get "/$1/settings":
@@ -148,18 +147,20 @@ Options:
 Compile options:
  -d:postgres      Postgres database is enabled (SQLite is default)
  -d:firejail      Firejail is enabled. Runs secure.
- -d:hardened      Security Hardened mode is enabled.
- -d:webp          WebP is enabled. Optimize images.
- -d:recaptcha     Recaptcha AntiSpamm is enabled (Google API, wont work over Tor)
+ -d:hardened      Security Hardened mode is enabled. Runs Hardened.
+ -d:webp          WebP is enabled. Optimize images and photos.
+ -d:recaptcha     Recaptcha AntiSpamm is enabled (Google API,wont work over Tor)
  -d:adminnotify   Send error logs (ERROR) to the specified Admin email.
  -d:dev           Development (ignore reCaptcha, no emails, more Verbose).
- -d:devemailon    Send email when -d:dev is activated.
- -d:demo          Public demo mode. Enable Test user. 2FA ignored.
+ -d:devemailon    Send error logs email when -d:dev is activated.
+ -d:demo          Public demo mode. Enable Test user. 2FA ignored. Pages Reset.
                   Force database reset every 1 hour. Some options Disabled.
  -d:contracts     Force Design by Contract enabled. Runs assertive.
 
-Tips:
- Use -d:release for Production. Use -d:contracts for Debug. We recommend Firejail.
+Compile Flag Quick Tips:
+ Fastest         -d:release -d:danger --gc:markAndSweep
+ Balanced        -d:release -d:firejail --styleCheck:hint
+ Safest          -d:release -d:contracts -d:hardened -d:firejail --styleCheck:hint
  Learn more: http://nim-lang.org/learn.html http://nim-lang.github.io/Nim/lib.html
 """
 
