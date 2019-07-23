@@ -157,7 +157,7 @@ Compile options:
                   Force database reset every 1 hour. Some options Disabled.
  -d:contracts     Force Design by Contract enabled. Runs assertive.
 
-Compile Flag Quick Tips:
+Compile options quick tips (Release builds are automatically stripped):
  Fastest         -d:release -d:danger --gc:markAndSweep
  Balanced        -d:release -d:firejail --styleCheck:hint
  Safest          -d:release -d:contracts -d:hardened -d:firejail --styleCheck:hint
