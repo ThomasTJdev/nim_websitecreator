@@ -376,7 +376,7 @@ when isMainModule:
       of "newuser": createAdminUser(db)
       of "insertdata": createStandardData(db, values.normalize)
       of "vacuumdb": echo vacuumDb(db)
-      of "backupdb": echo backupDb(cfg.getSectionValue("Database", "host"))
+      of "backupdb": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"))
     of cmdArgument:
       discard
     of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)
