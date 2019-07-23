@@ -380,6 +380,6 @@ when isMainModule:
     of cmdArgument:
       discard
     of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)
-  # close(db)
+
   startupCheck(cfg)
   launcherActivated(cfg)
