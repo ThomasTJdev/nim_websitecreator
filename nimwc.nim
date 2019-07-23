@@ -120,7 +120,7 @@ proc $1Start*(db: DbConn): auto =
            else: "https://nim-lang.org/docs/db_sqlite.html")
 
 const doc = """Nim Website Creator - https://NimWC.org
-Self-Firejailing 2-Factor-Auth Hardened Nim Web Framework with Design by Contract.
+Self-Firejailing 2-Factor-Auth Hardened Nim Web Framework with Design by Contract
 Run it, access your web, customize, add plugins, deploy today anywhere.
 
 Usage:            nimwc <compile options> <options>
@@ -128,13 +128,13 @@ Usage:            nimwc <compile options> <options>
 Options:
  -h --help        Show this help.
  --version        Show Version and exit.
- --showConfig     Show configuration and compile options and continue.
+ --showConfig     Show parsed INI configuration and compile options and continue
  --newuser        Add 1 new Admin or Moderator user (asks name, mail & password)
- --gitupdate      Update from Git, force a hard reset and exit
- --initplugin     Create plugin skeleton inside tmp/
- --putenv:key=val Set an environment variable and continue
- -f, --forceBuild Force Recompile, rebuild all modules.
- --vacuumdb       Vacuum database and continue.
+ --gitupdate      Update from Git origin master then force a hard reset and exit
+ --initplugin     Create 1 new empty plugin skeleton inside the folder ./tmp/
+ --putenv:key=val Set 1 environment variable (key and value pair) and continue.
+ -f, --forceBuild Force Recompile, rebuild all modules, ignore build cache.
+ --vacuumdb       Vacuum database and continue (database maintenance).
  --backupdb       Compressed signed full backup of database and continue.
  --newdb          Generates a database with standard tables (Wont override data)
                   If no database exists,new db will be initialized automatically
@@ -142,7 +142,7 @@ Options:
  --insertdata:bootstrap Insert Bulma standard data on database (overrides data)
  --insertdata:clean     Insert Clean standard data on database (overrides data)
 
-Compile options:
+Compile options (Optimize/Enable/Disable features when compiling source code):
  -d:postgres      Postgres database is enabled (SQLite is default)
  -d:firejail      Firejail is enabled. Runs secure.
  -d:hardened      Security Hardened mode is enabled. Runs Hardened.
@@ -155,12 +155,13 @@ Compile options:
                   Force database reset every 1 hour. Some options Disabled.
  -d:contracts     Force Design by Contract enabled. Runs assertive.
 
-Compile options quick tips (Release builds are automatically stripped):
- Fastest         -d:release -d:danger --gc:markAndSweep
- Balanced        -d:release -d:firejail --styleCheck:hint
- Safest          -d:release -d:contracts -d:hardened -d:firejail --styleCheck:hint
- Learn more: http://nim-lang.org/learn.html http://nim-lang.github.io/Nim/lib.html
-"""
+Compile options quick tip (Release builds are automatically stripped/optimized):
+ Fastest       -d:release -d:danger --gc:markAndSweep
+ Balanced      -d:release -d:firejail --styleCheck:hint
+ Safest        -d:release -d:contracts -d:hardened -d:firejail --styleCheck:hint
+
+Learn more http://nim-lang.org/learn.html http://nim-lang.org/documentation.html
+http://nim-lang.github.io/Nim/lib.html http://nim-lang.org/docs/theindex.html"""
 
 var
   runInLoop = true
