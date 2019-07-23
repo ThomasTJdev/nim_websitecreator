@@ -158,7 +158,7 @@ const
     when defined(postgres): "pg_dump --verbose --no-password --encoding=UTF8 --lock-wait-timeout=99 --host=$1 --port=$2 --username=$3 --file='$4' --dbname=$5 $6"
     else: "sqlite3 -readonly -echo $1 '.backup $2'"
 
-  cmdSign = "gpg --clear-sign --armor --detach-sign --digest-algo sha512 "
+  cmdSign = "gpg --armor --detach-sign --yes --digest-algo sha512 "
 
   cmdChecksum = "sha512sum --tag "
 
@@ -203,7 +203,8 @@ proc generateDB*(db: DbConn) =
   close(db)
 
 
-proc backupDb*(dbname: string, filename = fileBackup & $now() & ".sql",
+proc backupDb*(dbname: string,
+    filename = fileBackup & replace($now(), ":", "_") & ".sql",
     host = "localhost", port = Port(5432), username = getEnv("USER", "root"),
     dataOnly = false, inserts = false, checksum = true, sign = true, targz = true,
     ): tuple[output: TaintedString, exitCode: int] =
@@ -229,6 +230,10 @@ proc backupDb*(dbname: string, filename = fileBackup & $now() & ".sql",
         cmd = cmdTar & filename & ".tar.gz " & filename & " " & filename & ".sha512 " & filename & ".asc"
         when not defined(release): echo cmd
         result = execCmdEx(cmd)
+        if result.exitCode == 0:
+          removeFile(filename)
+          removeFile(filename & ".sha512")
+          removeFile(filename & ".asc")
 
 
 proc vacuumDb*(db: DbConn): bool {.inline.} =
