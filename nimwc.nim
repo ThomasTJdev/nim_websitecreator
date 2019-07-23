@@ -132,7 +132,6 @@ Options:
  --newuser        Add 1 new Admin or Moderator user (asks name, mail & password)
  --gitupdate      Update from Git origin master then force a hard reset and exit
  --initplugin     Create 1 new empty plugin skeleton inside the folder ./tmp/
- --putenv:key=val Set 1 environment variable (key and value pair) and continue.
  -f, --forcebuild Force Recompile, rebuild all modules, ignore build cache.
  --vacuumdb       Vacuum database and continue (database maintenance).
  --backupdb       Compressed signed full backup of database and continue.
@@ -370,10 +369,6 @@ when isMainModule:
       of "showconfig":
         styledEcho(fgMagenta, bgBlack, $compileOptions)
         styledEcho(fgMagenta, bgBlack, $cfg)
-      of "putenv":
-        let envy = values.split"="
-        styledEcho(fgBlue, bgBlack, $envy)
-        putEnv(envy[0], envy[1])
       of "initplugin": pluginSkeleton() # Interactive (Asks to user).
       of "gitupdate": updateNimwc()
       of "forcebuild", "f": removeFile(getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname"))
