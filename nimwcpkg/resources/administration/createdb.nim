@@ -237,4 +237,5 @@ proc backupDb*(dbname: string,
 
 
 proc vacuumDb*(db: DbConn): bool {.inline.} =
+  echo "Vacuum database (database maintenance)"
   db.tryExec(sqlVacuum)
