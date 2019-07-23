@@ -344,8 +344,8 @@ proc checkLoggedIn(c: var TData) =
 
 proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string] =
   ## User login
-  preconditions email.len > 5, pass.len > 9, email.len < 255, pass.len < 301, totpRaw.len == 6
-  postconditions result[1].len > 10, result[1].len < 85
+  preconditions email.len > 5, pass.len > 3, email.len < 255, pass.len < 301
+  postconditions result[1].len > 1, result[1].len < 85
   when not defined(demo):
     if email == "test@test.com":
       return (false, "Email must not be test@test.com.")
@@ -543,7 +543,7 @@ template restrictAccessTo(c: var TData, ranks: varargs[Rank]) =
       resp(Http404, "")
 
 
-macro generateRoutes(): typed =
+macro generateRoutes() =
   ## The macro generates the routes for Jester.
   ## Routes are found in the resources/web/routes.nim.
   ## All plugins "routes.nim" are also included.
