@@ -381,10 +381,10 @@ when isMainModule:
       of "newuser": createAdminUser(db)
       of "insertdata": createStandardData(db, values.normalize)
       of "vacuumdb": echo vacuumDb(db)
-      of "backupdb": echo backupDb(cfg.getSectionValue("Database", "name"))
+      of "backupdb": echo backupDb(cfg.getSectionValue("Database", "host"))
     of cmdArgument:
       discard
     of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)
-  close(db)  # Must close here, subrunner re-opens.
+  # close(db)
   startupCheck(cfg)
   launcherActivated(cfg)
