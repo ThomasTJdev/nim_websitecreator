@@ -128,11 +128,11 @@ Usage:            nimwc <compile options> <options>
 Options:
  -h --help        Show this help.
  --version        Show Version and exit.
+ -f, --forcebuild Force Recompile.
  --showconfig     Show parsed INI configuration and compile options and continue
  --newuser        Add 1 new Admin or Moderator user (asks name, mail & password)
  --gitupdate      Update from Git origin master then force a hard reset and exit
  --initplugin     Create 1 new empty plugin skeleton inside the folder ./tmp/
- -f, --forcebuild Force Recompile, rebuild all modules, ignore build cache.
  --vacuumdb       Vacuum database and continue (database maintenance).
  --backupdb       Compressed signed full backup of database and continue.
  --newdb          Generates a database with standard tables (Wont override data)
