@@ -19,7 +19,7 @@ when not defined(firejail):  {.warning: "Firejail is Disabled, Running Unsecure.
 else: import firejail
 
 const
-  cmdStrip = "strip --strip-all --remove-section=.comment "
+  cmdStrip = "strip --strip-all --remove-section=.note.gnu.gold-version --remove-section=.comment --remove-section=.note --remove-section=.note.gnu.build-id --remove-section=.note.ABI-tag "
   compile_start_msg =  """⏰ Compiling, Please wait ⏰
     ☑️ Using compile options from *.nim.cfg
     ☑️ Using params: """  ## Message to show when started Compiling.
