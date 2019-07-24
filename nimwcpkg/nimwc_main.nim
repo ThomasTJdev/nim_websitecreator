@@ -33,9 +33,6 @@ else:                   from webp import cwebp
 when not defined(firejail): {. warning: "Firejail is Disabled, Running Unsecure." .}
 else:                       from firejail import firejailVersion, firejailFeatures
 
-when defined(recaptcha):
-  import recaptcha
-  import resources/web/google_recaptcha
 
 hardenedBuild()
 
