@@ -1,5 +1,4 @@
 import math, random, os, contra
-randomize()
 
 var urandom: File
 let useUrandom = urandom.open("/dev/urandom")

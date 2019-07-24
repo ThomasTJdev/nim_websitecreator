@@ -33,9 +33,8 @@ else:                   from webp import cwebp
 when not defined(firejail): {. warning: "Firejail is Disabled, Running Unsecure." .}
 else:                       from firejail import firejailVersion, firejailFeatures
 
-
 hardenedBuild()
-
+randomize()
 
 const
   cmdStrip = "strip --strip-all --remove-section=.note.gnu.gold-version --remove-section=.comment --remove-section=.note --remove-section=.note.gnu.build-id --remove-section=.note.ABI-tag "
@@ -84,8 +83,6 @@ const
   sql_now =
     when defined(postgres): "(extract(epoch from now()))" # Postgres epoch.
     else:                   "(strftime('%s', 'now'))"     # SQLite 3 epoch.
-
-randomize()
 
 
 #
@@ -429,7 +426,6 @@ template createTFD() =
 
 when isMainModule:
   echo startup_msg
-  randomize()
 
   # Connect to DB
   let dbconnection =
