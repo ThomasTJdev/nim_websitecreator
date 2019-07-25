@@ -1,14 +1,20 @@
 ## v5.x.x
 ### Changes
 - Compatible with Nim >= `0.20.2`.
-- Security Hardened mode via compile time flag `-d:hardened` (based from Gentoo Hardened and Debian Hardened).
-- Design by Contract mode via compile time flag `-d:contracts` (similar to Ada, Eiffel, etc).
-- GlibC 2.5 Compatibility mode via compile time flag `-d:glibc` (allows to run on very old Linux, Debian Old Stable, Centos, etc).
+- `-d:hardened` Security Hardened mode via compile time flag, optional (based from Gentoo Hardened and Debian Hardened).
+- `-d:contracts` Design by Contract mode via compile time flag, optional (similar to Ada, Eiffel, etc).
+- `--backupdb` Compressed signed full backup of database. Vacuum database.
+- `-d:recaptcha` Can enable/disable code generation for ReCaptcha at compile time.
+- `--showconfig` Print to terminal the parsed INI configuration and compile options for debug.
+- `connectDb()` Template injects `db` of type `DbConn` wherever you call it.
+- Release builds are automatically stripped.
+- Clean out code, update Readme, update docs, update help messages on terminal.
+- No HTML/CSS/JS/UI/Visuals touched, nor added nor removed, no visual changes.
 - Clean out, style fixes, performance fixes, etc.
 - Refactor on command line arguments parsing.
 - Update readme.
 
-Note: Security Hardened mode by definition has a performance cost (20% average, 25% peak).
+Note: Security Hardened mode by definition has a performance cost (~20%).
 
 
 ## v5.1.1
