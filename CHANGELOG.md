@@ -1,4 +1,4 @@
-## v5.x.x
+## v5.5.0
 ### Changes
 - Compatible with Nim >= `0.20.2`.
 - `-d:hardened` Security Hardened mode via compile time flag, optional (based from Gentoo Hardened and Debian Hardened).
