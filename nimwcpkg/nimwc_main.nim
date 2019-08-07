@@ -46,7 +46,7 @@ const
 
   startup_msg = """
   Package:      Nim Website Creator - https://NimWC.org
-  Description:  Nim Website Framework that is simple to use.
+  Description:  Nim open-source website framework that is simple to use.
   Author name:  Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (http://github.com/juancarlospaco)"""
 
   checkCompileOptions* = ["",
