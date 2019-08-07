@@ -164,7 +164,7 @@ http://nim-lang.github.io/Nim/lib.html http://nim-lang.org/docs/theindex.html"""
 
 var
   runInLoop = true
-  nimhaMain: Process
+  nimwcMain: Process
 
 
 proc updateNimwc() =
@@ -226,7 +226,7 @@ proc pluginSkeleton() =
 proc handler() {.noconv.} =
   ## Catch ctrl+c from user
   runInLoop = false
-  kill(nimhaMain)
+  kill(nimwcMain)
   styledEcho(fgYellow, bgBlack, "CTRL+C Pressed, NimWC is shutting down, bye.")
   quit()
 
@@ -296,16 +296,16 @@ proc launcherActivated(cfg: Config) =
   const processOpts =
     when defined(release): {poParentStreams, poEvalCommand}
     else:                  {poParentStreams, poEvalCommand, poEchoCmd}
-  nimhaMain = startProcess(nimwcCommand, options = processOpts)
+  nimwcMain = startProcess(nimwcCommand, options = processOpts)
 
   while runInLoop:
     # If nimha_main has been recompile, check for a new version
     if fileExists(appPath & "_new"):
-      kill(nimhaMain)
+      kill(nimwcMain)
       moveFile(appPath & "_new", appPath)
 
     # Loop to check if nimwc_main is running
-    if not running(nimhaMain):
+    if not running(nimwcMain):
       # Quit if user has provided arguments
       if args.len != 0:
         styledEcho(fgYellow, bgBlack, $now() & ": User provided arguments: " & args)
@@ -316,7 +316,7 @@ proc launcherActivated(cfg: Config) =
       sleep(1000)
 
       # Start nimha_main as process
-      nimhaMain = startProcess(nimwcCommand, options = processOpts)
+      nimwcMain = startProcess(nimwcCommand, options = processOpts)
 
     sleep(2000)
 
