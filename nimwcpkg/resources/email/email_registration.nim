@@ -35,8 +35,7 @@ const
     <br><br>
     We are looking forward to see you at $3!
     We have sent you an activation email with your password.
-    You just need to click on the link become a part of $3.
-    <a href="https://freeotp.github.io">Get FreeOTP App at https://freeotp.github.io</a>
+    You just need to click on the link to become a part of $3.
     <br><br>
     Please do not hesitate to contact us at $5, if you have any questions.
     <br><br>
