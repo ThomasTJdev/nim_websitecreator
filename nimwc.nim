@@ -23,13 +23,13 @@ const
   compile_start_msg =  """⏰ Compiling, Please wait ⏰
   ☑️ Using compile options from *.nim.cfg. Using params: """  ## Message to show when started Compiling.
 
-  compile_ok_msg =  """ Nim Website Creator Compiled Ok!
+  compile_ok_msg =  """ Nim Website Creator compiling OK!
 
-  ☑️️ To start Nim Website Creator and access at http://127.0.0.1:<port>
+  ☑️️ Start Nim Website Creator and access it at http://127.0.0.1:<port>
       # Manually compiled
       ./nimwc
 
-      # Through nimble, then just run with symlink
+      # Through nimble: Run binary or use symlink
       nimwc
 
   ☑️ To add an admin user, append args:
@@ -38,7 +38,7 @@ const
   ☑️ To insert standard data in the database, append args:
       ./nimwc --insertdata
 
-  ☑️ Access Settings page at http://127.0.0.1:<port>/settings
+  ☑️ Access the Settings page at http://127.0.0.1:<port>/settings
   """  ## Message to show when finished Compiling OK.
 
   compile_fail_msg = """Compile Error
