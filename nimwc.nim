@@ -120,7 +120,7 @@ proc $1Start*(db: DbConn): auto =
            else: "https://nim-lang.org/docs/db_sqlite.html")
 
 const doc = """Nim Website Creator - https://NimWC.org
-Self-Firejailing 2-Factor-Auth Hardened Nim Web Framework with Design by Contract
+Nim open-source website framework that is simple to use.
 Run it, access your web, customize, add plugins, deploy today anywhere.
 
 Usage:            nimwc <compile options> <options>
