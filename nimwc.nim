@@ -112,9 +112,9 @@ const
     except:
       "5.5.0"  ## Set NimWC Version at Compile-Time, if ready from file failed.
 
-const reqCode = """# Code your plugins Backend logic on this file.
+const reqCode = """# Code your plugins backend logic in this file.
 proc $1Start*(db: DbConn): auto =
-  ## Code your Plugins start-up Backend logic here, db is the Database, see $1
+  ## Code your plugins start-up backend logic here, db is the database, see $1
   discard
 """.format(when defined(postgres): "https://nim-lang.org/docs/db_postgres.html"
            else: "https://nim-lang.org/docs/db_sqlite.html")
@@ -130,7 +130,7 @@ Options:
  --version        Show Version and exit.
  -f, --forcebuild Force Recompile.
  --showconfig     Show parsed INI configuration and compile options and continue
- --newadmin        Add 1 new Admin or Moderator user (asks name, mail & password)
+ --newadmin       Add 1 new Admin or Moderator user (asks name, mail & password)
  --gitupdate      Update from Git origin master then force a hard reset and exit
  --initplugin     Create 1 new empty plugin skeleton inside the folder ./tmp/
  --vacuumdb       Vacuum database and continue (database maintenance).
