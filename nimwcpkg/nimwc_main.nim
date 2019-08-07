@@ -343,7 +343,7 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string
   preconditions email.len > 5, pass.len > 3, email.len < 255, pass.len < 301
   when not defined(demo):
     if email == "test@test.com":
-      return (false, "Email must not be test@test.com.")
+      return (false, "Email may not be test@test.com")
   if email.len == 0 or pass.len == 0:
     return (false, "Empty password or username")
 
