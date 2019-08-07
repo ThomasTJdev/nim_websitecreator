@@ -217,6 +217,8 @@ These options are only available at compiletime:
 * `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org). This option will override the database each hour with the standard data.
 * `-d:gitupdate` = Updates and force a hard reset
 * `-d:postgres` = Use Postgres database instead of SQLite
+* `-d:contracts` = Checks pre- and post-conditions when compiled with -d:release
+* `-d:hardened` = Hardens security, requires -d:contracts
 
 
 # User profiles
