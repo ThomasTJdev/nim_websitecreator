@@ -227,7 +227,7 @@ proc handler() {.noconv.} =
   ## Catch ctrl+c from user
   runInLoop = false
   kill(nimhaMain)
-  styledEcho(fgYellow, bgBlack, "CTRL+C Pressed, NimWC is shutting down, Bye.")
+  styledEcho(fgYellow, bgBlack, "CTRL+C Pressed, NimWC is shutting down, bye.")
   quit()
 
 setControlCHook(handler)
@@ -252,7 +252,7 @@ proc launcherActivated(cfg: Config) =
       hostz = cfg.getSectionValue("firejail", "hostsFile").strip
       dnsz = [cfg.getSectionValue("firejail", "dns0").strip, cfg.getSectionValue("firejail", "dns1").strip,
               cfg.getSectionValue("firejail", "dns2").strip, cfg.getSectionValue("firejail", "dns3").strip]
-    assert countProcessors() > cpuCores, "Dedicated CPU Cores must be less or equal than the actual CPU Cores: " & $cpuCores
+    assert countProcessors() > cpuCores, "Dedicated CPU Cores must be less or equal to the actual CPU Cores: " & $cpuCores
     assert hostz.existsFile, "Hosts file not found: " & hostz
     let myjail = Firejail(
       noDvd:         cfg.getSectionValue("firejail", "noDvd").parseBool,
