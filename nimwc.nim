@@ -203,7 +203,7 @@ proc pluginSkeleton() =
   writeFile("tmp/" & pluginName & "/public/js.js",
     "/* https://github.com/pragmagic/karax OR Vanilla JavaScript */\n")
   writeFile("tmp/" & pluginName & "/public/style.css",
-    "/* https://bulma.io/documentation OR https://picturepan2.github.io/spectre OR https://getbootstrap.com */\n")
+    "/* https://bulma.io/documentation OR https://getbootstrap.com OR clean CSS */\n")
 
   if readLineFromStdin("\nInclude optional files (y/N): ").string.strip.toLowerAscii == "y":
     writeFile("tmp/" & pluginName & "/public/js_private.js", "")
