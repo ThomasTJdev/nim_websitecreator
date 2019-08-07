@@ -309,13 +309,13 @@ To activate Google reCAPTCHA [claim you site and server key](https://www.google.
 
 - [Use the SystemD Service file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/devops/nimwc.service) as starting point for your NimWC SystemD Services.
 
-Copy the file called `nimwc.service` inside `/lib/systemd/system/`
+Copy the file `nimwc.service` into `/lib/systemd/system/`
 
 ```
 sudo nano /lib/systemd/system/nimwc.service
 ```
 
-Enable auto start and start it:
+Enable auto start of NimWC:
 
 ```
 sudo systemctl enable nimwc
