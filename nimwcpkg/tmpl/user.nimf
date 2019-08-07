@@ -35,7 +35,12 @@
       <div class="field form-group">
         <label class="label">Email</label>
         <div class="control has-icons-left has-icons-right">
-          ${ inputEmailHtml(value= when defined(demo): "test@test.com" else: "", name="email", class="input is-rounded", id="email", placeholder="Email", required=true) }
+          # when defined(demo):
+          #   let emailDefault = "test@test.com"
+          # else:
+          #   let emailDefault = ""
+          # end when
+          <input type="email" value="${emailDefault}" name="email" class="input is-rounded" id="email" placeholder="Email" title="Email" required autocomplete="email" minlength="5" maxlength="254" onClick="if(this.value===''){this.value='@'}" onblur="this.value=this.value.replace(/\s\s+/g,' ').replace(/^\s+|\s+$$/g,'').toLowerCase()" dir="auto" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$$">
         </div>
       </div>
       <div class="field form-group">
@@ -188,7 +193,7 @@
       </div>
       <div class="field">
         <label class="label">Email</label>
-        ${ inputEmailHtml(name="email", class="input", id="email", placeholder="user@example.com", required=true) }
+        <input type="email" value="${when defined(demo): "test@test.com" else: ""}" name="email" class="input" id="email" placeholder="user@example.com" title="Email" required autocomplete="email" minlength="5" maxlength="254" onClick="if(this.value===''){this.value='@'}" onblur="this.value=this.value.replace(/\s\s+/g,' ').replace(/^\s+|\s+$$/g,'').toLowerCase()" dir="auto" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$$">
       </div>
       <div class="field">
         <label class="label">Status</label>
@@ -270,7 +275,7 @@
 
           <div class="field" style="margin-bottom:9px">
             <label class="label">Email<span style="color: red;font-weight: 600;">*</span></label>
-            ${ inputEmailHtml(value=user[2], name="email", class="input", id="email", placeholder="Email", required=true) }
+            <input type="email" value="${user[2]}" name="email" class="input" id="email" placeholder="Email" title="Email" required autocomplete="email" minlength="5" maxlength="254" onClick="if(this.value===''){this.value='@'}" onblur="this.value=this.value.replace(/\s\s+/g,' ').replace(/^\s+|\s+$$/g,'').toLowerCase()" dir="auto" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$$">
           </div>
 
           <div class="field" style="margin-bottom:9px">
@@ -458,7 +463,8 @@
   <div>
     <img id="userPictureEdit" class="image is-128x128 libravatar" src="/users/photo/stream/${c.userid}.png" title="Custom" alt="Custom" style="max-width:99%">
   <div>
-  ${ inputFileHtml(name="userPictureEditTemp", class="button", id="userPictureEditTemp", required=true) } <br>
+    <input type="file" name="userPictureEditTemp" class="button" id="userPictureEditTemp" title=".jpg, .jpeg, .gif, .png, .webp" accept=".jpg, .jpeg, .gif, .png, .webp" onChange="if(!this.value.toLowerCase().match(/(.*?)\.(jpg|jpeg|gif|png|webp)$$/)){alert('Invalid File Format. (.jpg, .jpeg, .gif, .png, .webp)');this.value='';return false}">
+    <br>
   <button id="userPictureSave" class="button is-small">Upload</button>
   </center>
 </details>

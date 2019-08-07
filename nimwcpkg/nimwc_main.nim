@@ -5,7 +5,7 @@
 import
   asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
   parsecfg, random, re, sequtils, strutils, times, datetime2human,
-  base32, streams, encodings, nativesockets, libravatar, html_tools, contra,
+  base32, streams, encodings, nativesockets, libravatar, contra,
   oswalkdir
 
 import
@@ -18,11 +18,13 @@ import
   resources/password/salt_generate,
   resources/session/user_data,
   resources/utils/logging_nimwc,
-  resources/utils/plugins
+  resources/utils/plugins,
+  resources/web/html_utils
 
 from md5 import getMD5
 from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
+from html_tools import notifyHtml, rst2html
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
