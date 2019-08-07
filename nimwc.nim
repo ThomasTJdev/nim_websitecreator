@@ -155,7 +155,7 @@ Compile options (features when compiling source code):
  -d:contracts     Force Design by Contract enabled. Runs assertive.
 
 Compile options quick tip (release builds are automatically stripped/optimized):
- Fastest       -d:release -d:danger --gc:markAndSweep
+ Fastest       -d:release -d:danger
  Balanced      -d:release -d:firejail --styleCheck:hint
  Safest        -d:release -d:contracts -d:hardened -d:firejail --styleCheck:hint
 
