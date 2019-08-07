@@ -218,7 +218,7 @@ These options are only available at compiletime:
 * `-d:gitupdate` = Updates and force a hard reset
 * `-d:postgres` = Use Postgres database instead of SQLite
 * `-d:contracts` = Checks pre- and post-conditions when compiled with -d:release
-* `-d:hardened` = Hardens security, requires -d:contracts
+* `-d:hardened` = Hardens security, requires -d:contracts. Performance cost at ~20%.
 
 
 # User profiles

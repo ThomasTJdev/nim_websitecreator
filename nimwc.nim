@@ -144,7 +144,7 @@ Options:
 Compile options (features when compiling source code):
  -d:postgres      Postgres database is enabled (SQLite is default)
  -d:firejail      Firejail is enabled. Runs secure.
- -d:hardened      Security Hardened mode is enabled. Runs Hardened.
+ -d:hardened      Security Hardened mode is enabled. Runs Hardened. Performance cost at ~20%.
  -d:webp          WebP is enabled. Optimize images and photos.
  -d:recaptcha     Recaptcha AntiSpamm is enabled (Google API,wont work over Tor)
  -d:adminnotify   Send error logs (ERROR) to the specified Admin email.
