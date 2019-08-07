@@ -5,7 +5,7 @@ import ../email/email_admin
 
 let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
 let configFile = nimwcpkgDir / "config/config.cfg"
-assert existsDir(nimwcpkgDir), "nimwcpkg directory not found"
+assert existsDir(nimwcpkgDir), "nimwcpkg directory not found: " & nimwcpkgDir
 assert existsFile(configFile), "config/config.cfg file not found"
 
 setCurrentDir(nimwcpkgDir)
