@@ -27,10 +27,10 @@ from packages/docutils/rstgen import rstToHtml
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
-when not defined(webp): {. warning: "WebP is Disabled, No Image Optimizations." .}
+when not defined(webp): {. warning: "WebP is disabled, no image optimizations possible." .}
 else:                   from webp import cwebp
 
-when not defined(firejail): {. warning: "Firejail is Disabled, Running Unsecure." .}
+when not defined(firejail): {. warning: "Firejail is disabled, running unsecure." .}
 else:                       from firejail import firejailVersion, firejailFeatures
 
 hardenedBuild()
@@ -42,11 +42,11 @@ const
   config_not_found_msg = """
   🐛 ERROR: Config file (config.cfg) could not be found. 🐛
   A template (config_default.cfg) is copied to "config/config.cfg".
-  Please configure it and restart Nim Website Creator. Bye. """
+  Please configure it and restart Nim Website Creator, bye. """
 
   startup_msg = """
   Package:      Nim Website Creator - https://NimWC.org
-  Description:  Self-Firejailing Nim Web Framework thats simple to use.
+  Description:  Nim Website Framework that is simple to use.
   Author name:  Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (http://github.com/juancarlospaco)"""
 
   checkCompileOptions* = ["",
