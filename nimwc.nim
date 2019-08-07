@@ -175,12 +175,12 @@ proc updateNimwc() =
   # No postconditions because we directly quit anyways.
   const cmd = "git fetch --all ; git reset --hard origin/master"
   let
-    pluginImport = readFile"plugins/plugin_import.txt"  # Save Contents
+    pluginImport = readFile"plugins/plugin_import.txt"  # Save contents
     styleCustom = readFile"public/css/style_custom.css"
     jsCustom = readFile"public/js/js_custom.js"
   when not defined(release): echo cmd
   discard execCmd(cmd)
-  writeFile("plugins/plugin_import.txt", pluginImport)  # Write Content again
+  writeFile("plugins/plugin_import.txt", pluginImport)  # Write contents back
   writeFile("public/css/style_custom.css", styleCustom)
   writeFile("public/js/js_custom.js", jsCustom)
   quit("\n\nNimWC has been updated.\n", 0)
@@ -190,7 +190,7 @@ proc pluginSkeleton() =
   ## Creates the skeleton (folders and files) for a plugin
   styledEcho(fgCyan, bgBlack, skeletonMsg)
   let pluginName = normalize(readLineFromStdin("Plugin name: "))
-  assert pluginName.len > 1, "Plugin Name must not be empty string: " & pluginName
+  assert pluginName.len > 1, "Plugin name must not be empty string: " & pluginName
 
   # Create dirs
   discard existsOrCreateDir("tmp")
