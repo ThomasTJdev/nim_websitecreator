@@ -39,14 +39,14 @@ const
       ./nimwc --insertdata
 
   ☑️ Access the Settings page at http://127.0.0.1:<port>/settings
-  """  ## Message to show when finished Compiling OK.
+  """  ## Message to show when compiling has finished and was OK.
 
   compile_fail_msg = """Compile Error
   ⚠️ Compile-time or Configuration or Plugin error occurred.
+  ➡️ Check the configuration file of NimWC and enabled plugins. Recompile with -d:contracts.
+  ➡️ Remove new plugins, restore previous configuration. Recompile as Hardened.
+  ➡️ ️️Check that you have the latest NimWC version and check the documentation.
   ➡️ Check your source code: nim check YourFile.nim; nimpretty YourFile.nim
-  ➡️ Check the Configuration of NimWC and its Plugins. Recompile with Contracts.
-  ➡️ Remove new Plugins, restore previous Configuration. Recompile as Hardened.
-  Check that you have the latest Version. Check the Documentation.
   """  ## Message to show when Compiling Failed.
 
   skeletonMsg = """NimWC: Creating plugin skeleton.
