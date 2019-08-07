@@ -14,7 +14,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Custom title, meta description and keywords for each page, SEO friendly.
 - Custom head, navbar and footer, no hardcoded watermarks, links or logos.
 - Upload/Download files and images (private or public), option to use MD5 CheckSum as filename.
-- [Libravatar/Gravatar support for profile photos builtin.](https://wiki.libravatar.org/libraries/#index2h1)
+- [Libravatar/Gravatar support](https://wiki.libravatar.org/libraries/#index2h1) for profile photos builtin.
 - 1 language for the whole stack, including high performance modules, scripting, devops, deploy, from WebAssembly to Assembly.
 
 ## Security
@@ -62,7 +62,7 @@ As alternative, [try AndOTP](https://github.com/andOTP/andOTP) (5Mb size).
 ## Performance
 - High performance with low resources (RPi, VPS, cloud, old pc, etc).
 - Runs on any non-Windows OS, Architecture and Hardware that can compile C code.
-- [Independent TechEmpower Benchmarks show Nim web server as one of the fastest in the world.](https://www.techempower.com/benchmarks/#section=data-r17&hw=cl&test=json)
+- Independent [TechEmpower Benchmarks](https://www.techempower.com/benchmarks/#section=data-r17&hw=cl&test=json) show Nim web server as one of the fastest in the world.
 - High Availability design by default.
 - Full Stack with the same programming language, including DevOps and Scripting.
 - 0 Dependency binary (Postgres/SSL/WebP/Firejail required if using it).
