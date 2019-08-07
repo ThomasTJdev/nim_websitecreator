@@ -490,6 +490,9 @@ div#user input.twofaEnabled {
   color: #3a3a3a;
   width: auto;
 }
+div#user summary {
+  cursor: pointer;
+}
 @media only screen and (max-width: 768px) {
   div#user label {
     margin-top: 15px;
