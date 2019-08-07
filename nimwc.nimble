@@ -31,6 +31,7 @@ task setup, "Generating executable":
 
   if not fileExists("config/config.cfg"):
     cpFile("config/config_default.cfg", "config/config.cfg")
+    echo "Config file created. Please update the file: config/config.cfg."
 
   if defined(webp):
     foreignDep "libwebp"
@@ -45,10 +46,10 @@ task setup, "Generating executable":
     echo "Demo Mode: Database will reset each hour with the standard data."
 
   if not defined(ssl):
-    echo "SSL Not Defined: SSL is Disabled, Running Unsecure."
+    echo "SSL not defined: SSL is disabled, running unsecure."
 
   if not defined(firejail):
-    echo "Firejail Not Defined: Firejail is Disabled, Running Unsecure."
+    echo "Firejail not defined: Firejail is disabled, running unsecure."
 
 
 before install:
