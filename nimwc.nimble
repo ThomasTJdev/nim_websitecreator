@@ -39,9 +39,6 @@ task setup, "Generating executable":
   if defined(firejail):
     foreignDep "firejail"
 
-  if defined(postgres):
-    foreignDep "postgres"
-
   if defined(demo):
     echo "Demo Mode: Database will reset each hour with the standard data."
 
