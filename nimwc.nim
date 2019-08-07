@@ -33,7 +33,7 @@ const
       nimwc
 
   ☑️ To add an admin user, append args:
-      ./nimwc --newuser
+      ./nimwc --newadmin
 
   ☑️ To insert standard data in the database, append args:
       ./nimwc --insertdata
@@ -130,7 +130,7 @@ Options:
  --version        Show Version and exit.
  -f, --forcebuild Force Recompile.
  --showconfig     Show parsed INI configuration and compile options and continue
- --newuser        Add 1 new Admin or Moderator user (asks name, mail & password)
+ --newadmin        Add 1 new Admin or Moderator user (asks name, mail & password)
  --gitupdate      Update from Git origin master then force a hard reset and exit
  --initplugin     Create 1 new empty plugin skeleton inside the folder ./tmp/
  --vacuumdb       Vacuum database and continue (database maintenance).
@@ -373,7 +373,7 @@ when isMainModule:
       of "gitupdate": updateNimwc()
       of "forcebuild", "f": removeFile(getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname"))
       of "newdb": generateDB(db)
-      of "newuser": createAdminUser(db)
+      of "newadmin": createAdminUser(db)
       of "insertdata": createStandardData(db, values.normalize)
       of "vacuumdb": echo vacuumDb(db)
       of "backupdb": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"))
