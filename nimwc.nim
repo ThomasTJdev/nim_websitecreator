@@ -136,12 +136,12 @@ Options:
  --vacuumdb       Vacuum database and continue (database maintenance).
  --backupdb       Compressed signed full backup of database and continue.
  --newdb          Generates a database with standard tables (Wont override data)
-                  If no database exists,new db will be initialized automatically
- --insertdata:bulma Insert Bulma standard data on database (Default,overrides data)
- --insertdata:bootstrap Insert Bulma standard data on database (overrides data)
- --insertdata:clean     Insert Clean standard data on database (overrides data)
+                  If no database exists, new db will be initialized automatically
+ --insertdata:bulma     Insert Bulma standard data into the database (default, overrides data)
+ --insertdata:bootstrap Insert Bootstrap standard data into the database (overrides data)
+ --insertdata:clean     Insert clean (no framework) standard data into the database (overrides data)
 
-Compile options (Optimize/Enable/Disable features when compiling source code):
+Compile options (features when compiling source code):
  -d:postgres      Postgres database is enabled (SQLite is default)
  -d:firejail      Firejail is enabled. Runs secure.
  -d:hardened      Security Hardened mode is enabled. Runs Hardened.
@@ -154,7 +154,7 @@ Compile options (Optimize/Enable/Disable features when compiling source code):
                   Force database reset every 1 hour. Some options Disabled.
  -d:contracts     Force Design by Contract enabled. Runs assertive.
 
-Compile options quick tip (Release builds are automatically stripped/optimized):
+Compile options quick tip (release builds are automatically stripped/optimized):
  Fastest       -d:release -d:danger --gc:markAndSweep
  Balanced      -d:release -d:firejail --styleCheck:hint
  Safest        -d:release -d:contracts -d:hardened -d:firejail --styleCheck:hint
