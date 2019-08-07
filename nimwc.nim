@@ -44,10 +44,10 @@ const
   compile_fail_msg = """Compile Error
   ⚠️ Compile-time or Configuration or Plugin error occurred.
   ➡️ Check the configuration file of NimWC and enabled plugins. Recompile with -d:contracts.
-  ➡️ Remove new plugins, restore previous configuration. Recompile as Hardened.
+  ➡️ Remove new plugins, restore previous configuration.
   ➡️ ️️Check that you have the latest NimWC version and check the documentation.
   ➡️ Check your source code: nim check YourFile.nim; nimpretty YourFile.nim
-  """  ## Message to show when Compiling Failed.
+  """  ## Message to show when an error occurred during compiling.
 
   skeletonMsg = """NimWC: Creating plugin skeleton.
   New plugin template will be created inside the folder:  tmp/
