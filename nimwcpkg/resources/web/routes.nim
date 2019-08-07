@@ -765,7 +765,7 @@ routes:
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
     discard tryExec(db, sql"DELETE FROM session WHERE userid = ?", @"userid")
-    discard tryExec(db, sql"UPDATE person SET name = ?, avatar = NULL, twofa = NULL, timezone = NULL WHERE id = ?", @"userid", @"userid")
+    discard tryExec(db, sql"UPDATE person SET avatar = NULL, twofa = NULL, timezone = NULL WHERE id = ?", @"userid")
     if @"cleanout" == "true":
       discard tryExec(db, sql"DELETE FROM pages WHERE author_id = ?", @"userid")
       discard tryExec(db, sql"DELETE FROM blog WHERE author_id = ?", @"userid")

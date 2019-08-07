@@ -215,8 +215,8 @@
     <summary class="label">Quick user reset</summary>
     <b>Reset user by ID</b>
     <p>
-      The <code>name</code> will be changed to the <code>user id</code>. Disables 2 Factor Authentication and choosed Avatar.
-      The <code>password</code> and <code>email</code> will not be changed.
+      Disables 2 Factor Authentication and removes Avatar.
+      The <code>name</code>, <code>password</code> and <code>email</code> will not be changed.
       Blogs and Pages created by the user can be deleted.
       The user will be logged out. The user must login as soon as possible to reconfigure.
     </p>
