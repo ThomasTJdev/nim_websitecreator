@@ -105,7 +105,7 @@ Foreing optional dependencies:
 
 - webp (`libwebp`)
 - firejail >= `0.9.58`
-- Xvfb (`xorg-server-xvfb`)
+- Xvfb (`xorg-server-xvfb`, required by firejail setting `noX=`)
 
 **For stable development use Nim Stable Release**, Devel may or may not work, but is not stable by definition.
 
