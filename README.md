@@ -32,9 +32,9 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - No XML nor YAML nor ZIP used on the Core, No XML Vulnerabilities, No YAML Vulnerabilities, etc (you can still use XML and YAML and ZIP).
 - Multiple users with different ranks, role based access control.
 - Admin can choose how much CPU & RAM NimWC can use from the Admin Dashboard.
-- [We recommend `mpwc` stateless password manager because uses MasterPassword algo (200Kb size).](https://github.com/SolitudeSF/mpwc#mpwc)
-- [We recommend FreeOTP 2 Factor Athentication App because is Open Source (400Kb size).](https://freeotp.github.io),
-[As alternative, try AndOTP (5Mb size).](https://github.com/andOTP/andOTP)
+- We recommend [mpwc](https://github.com/SolitudeSF/mpwc#mpwc) stateless password manager because uses MasterPassword algo (200Kb size).
+- We recommend [FreeOTP 2 Factor Athentication App](https://freeotp.github.io) because is Open Source (400Kb size),
+As alternative, [try AndOTP](https://github.com/andOTP/andOTP) (5Mb size).
 
 ## Configuration
 - Edit core or custom JS and CSS directly from browser, UI/UX Designer friendly.
