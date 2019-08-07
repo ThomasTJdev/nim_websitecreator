@@ -55,7 +55,7 @@ const
 
   reqRoutes = """# https://github.com/dom96/jester#routes
   get "/$1/settings":
-    resp "<center><h1> $1 Plugin Settings."  ## Code your plugins Settings logic here.
+    resp "<center><h1> $1 Plugin Settings."  ## Code your plugins settings logic here.
   """
 
   pluginJson = """
