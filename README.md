@@ -87,7 +87,7 @@ As alternative, [try AndOTP](https://github.com/andOTP/andOTP) (5Mb size).
 To get started you only need:
 
 - Linux (For Windows [see Docker-for-Windows](http://docs.docker.com/docker-for-windows))
-- Nim >= `0.20.0` (Stable Release)
+- Nim >= `0.20.2` (Stable Release)
 
 Development dependencies (automatically installed by Nimble):
 
