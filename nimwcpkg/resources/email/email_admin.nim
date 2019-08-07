@@ -11,7 +11,7 @@ const adminErrorMsg = """<!DOCTYPE html>
   <center>
     <h1>Error Logs</h1>
     <p>Hi Admin, an error occurred at $3 </p>
-    <textarea name="logs" id="logs" title="Log Size: $2 Lines." dir="auto" rows=20 readonly autofocus spellcheck style="width:99% !important">
+    <textarea name="logs" id="logs" title="Log Size: $2 Lines." dir="auto" rows=20 readonly autofocus spellcheck style="width:99% !important;">
       $1
     </textarea>
     <br>
