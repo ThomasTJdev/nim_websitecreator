@@ -111,7 +111,7 @@ proc extensionSettings(): seq[string] =
   ## are enabled or disabled. The result will be "true:pluginname"
   ## or "false:pluginname".
   preconditions existsDir"plugins/", existsFile"plugins/plugin_import.txt"
-  postconditions if readFile("plugins/plugin_import.txt").splitLines.len > 0: result.len > 0 else: true
+  postconditions if readFile("plugins/plugin_import.txt").splitLines.len > 1: result.len > 0 else: true
   let plugins = readFile("plugins/plugin_import.txt").splitLines
 
   # Walk through files and folders in the plugin directory
@@ -143,8 +143,6 @@ proc extensionSettings(): seq[string] =
 
 proc genExtensionSettings*(): string =
   ## Generate HTML list items with plugins
-  preconditions extensionSettings().len > 0
-  postconditions result.len > 0
   for plugin in extensionSettings():
     let pluginName = (split(plugin, ":"))[1]
 
