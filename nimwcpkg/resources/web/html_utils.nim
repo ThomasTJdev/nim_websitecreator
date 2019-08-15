@@ -5,6 +5,16 @@ from packages/docutils/rstgen import rstToHtml
 from packages/docutils/rst import RstParseOption
 
 
+const inputNumber = (
+  r"""<input type="tel" value="$1" name="$2" class="$3" id="$4" placeholder="$5" title="$5" """ &
+  r"""$6 min="$7" max="$8" maxlength="$9" step="1" pattern="\d*" autocomplete="off" dir="auto">"""
+  )
+
+const inputFile = (
+  r"""<input type="file" name="$1" class="$2" id="$3" title="$5" accept="$5" $4 """ &
+  r"""onChange="if(!this.value.toLowerCase().match(/(.*?)\.($6)$$/)){alert('Invalid File Format. ($5)');this.value='';return false}">"""
+  )
+
 const imageLazy = """
   <img class="$5" id="$2" alt="$6" data-src="$1" src="" lazyload="on" onclick="this.src=this.dataset.src" onmouseover="this.src=this.dataset.src" width="$3" heigth="$4"/>
   <script>
@@ -46,6 +56,16 @@ template statusIntToCheckbox*(status, value: string): string =
     "selected"
   else:
     ""
+
+
+template inputNumberHtml*(value="", name="", class="input", id="", placeholder="0", required=true, min:byte=0.byte, max:int=byte.high.int, maxlenght=3): string =
+  ## HTML Input Number, no Negative, maxlenght enforced, dir auto, etc.
+  inputNumber.format(value, name, class, id, placeholder, if required: "required" else: "", min, max, maxlenght)
+
+
+template inputFileHtml*(name="", class="input", id="", required=true, fileExtensions=[".jpg", ".jpeg", ".gif", ".png", ".webp"]): string =
+  ## HTML Input File, by default for Images but you can customize, validates **before** Upload.
+  inputFile.format(name, class, id, if required: "required" else: "", fileExtensions.join(","), fileExtensions.join("|").replace(".", ""))
 
 
 template imgLazyLoadHtml*(src, id: string, width="", heigth="", class="", alt=""): string =
