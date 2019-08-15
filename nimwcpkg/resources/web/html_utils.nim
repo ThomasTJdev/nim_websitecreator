@@ -1,5 +1,18 @@
-import
-  asyncdispatch, logging, os, parsecfg, recaptcha, strutils
+import asyncdispatch, logging, os, parsecfg, recaptcha, strutils
+
+from strtabs import newStringTable, modeStyleInsensitive
+from packages/docutils/rstgen import rstToHtml
+from packages/docutils/rst import RstParseOption
+
+
+const imageLazy = """
+  <img class="$5" id="$2" alt="$6" data-src="$1" src="" lazyload="on" onclick="this.src=this.dataset.src" onmouseover="this.src=this.dataset.src" width="$3" heigth="$4"/>
+  <script>
+    const i = document.querySelector("img#$2");
+    window.addEventListener('scroll',()=>{if(i.offsetTop<window.innerHeight+window.pageYOffset+99){i.src=i.dataset.src}});
+    window.addEventListener('resize',()=>{if(i.offsetTop<window.innerHeight+window.pageYOffset+99){i.src=i.dataset.src}});
+  </script>
+"""
 
 
 template checkboxToInt*(checkboxOnOff: string): string =
@@ -33,6 +46,27 @@ template statusIntToCheckbox*(status, value: string): string =
     "selected"
   else:
     ""
+
+
+template imgLazyLoadHtml*(src, id: string, width="", heigth="", class="", alt=""): string =
+  ## HTML Image LazyLoad. https://codepen.io/FilipVitas/pen/pQBYQd (Must have ID!)
+  imageLazy.format(src, id, width, heigth, class,  alt)
+
+
+template notifyHtml*(message: string, title="NimWC 👑", iconUrl="/favicon.ico", timeout: byte = 3): string =
+  "Notification.requestPermission(()=>{const n=new Notification('" & title & "',{body:'" & message.strip & "',icon:'" & iconUrl & "'});setTimeout(()=>{n.close()}," & $timeout & "000)});"
+
+
+template minifyHtml*(htmlstr: string): string =
+  when defined(release): replace(htmlstr, re">\s+<", "> <").strip else: htmlstr
+
+
+template rst2html*(stringy: string, options={roSupportMarkdown}): string =
+  ## RST/Markdown to HTML using std lib.
+  try:
+    rstToHtml(stringy.strip, options, newStringTable(modeStyleInsensitive))
+  except:
+    stringy
 
 
 when defined(recaptcha):
