@@ -24,7 +24,6 @@ import
 from md5 import getMD5
 from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
-from html_tools import notifyHtml, rst2html
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
