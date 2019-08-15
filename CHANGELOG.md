@@ -13,6 +13,7 @@
 - Clean out, style fixes, performance fixes, etc.
 - Refactor on command line arguments parsing.
 - Update readme.
+- Remove dependency on HTML_Tools package (used functions copied on html_utils).
 
 Note: Security Hardened mode by definition has a performance cost (~20%).
 
