@@ -18,17 +18,24 @@ const
   createTestUserMsg = """Checking if any test@test.com exists in the database...
   $1 Test user already exists."""
 
+  nameMinLen  = 3
+  nameMaxLen = 60
+  emailMinLen = 5
+  emailMaxLen = 255
+  passwordMinLen = 9
+  passwordMaxLen  = 301
+
 
 proc ask4UserPass*(): tuple[iName, iEmail, iPwd: string] =
   ## Ask the user for user, mail, password, and return them.
-  postconditions(result.iName.len > 3, result.iEmail.len > 5, result.iPwd.len > 9,
-    result.iName.len < 60, result.iEmail.len < 255, result.iPwd.len < 301)
+  postconditions(result.iName.len > nameMinLen, result.iEmail.len > emailMinLen, result.iPwd.len > passwordMinLen,
+    result.iName.len < nameMaxLen, result.iEmail.len < emailMaxLen, result.iPwd.len < passwordMaxLen)
   var iName, iEmail, iPwd, iPwd2: string
-  while not(iName.len > 3 and iName.len < 60):  # Max len from DB SQL
+  while not(iName.len > nameMinLen and iName.len < nameMaxLen):  # Max len from DB SQL
     iName = readLineFromStdin("\nType Username: ").strip
-  while not(iEmail.len > 5 and iEmail.len < 255):
+  while not(iEmail.len > emailMinLen and iEmail.len < emailMaxLen):
     iEmail = readLineFromStdin("\nType Email (Lowercase): ").strip.toLowerAscii
-  while not(iPwd.len > 9 and iPwd.len < 301 and iPwd == iPwd2):
+  while not(iPwd.len > passwordMinLen and iPwd.len < passwordMaxLen and iPwd == iPwd2):
     iPwd = readLineFromStdin("\nType Password: ").strip  # Type it Twice.
     iPwd2 = readLineFromStdin("\nConfirm Password (Repeat it again): ").strip
   result = (iName: iName, iEmail: iEmail, iPwd: iPwd)
