@@ -334,7 +334,7 @@ proc startupCheck(cfg: Config) =
     args = replace(commandLineParams().join(" "), "-", "")
     userArgs = if args == "": "" else: " " & args
     appPath = getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname")
-  when not defined(ignoreefs) and defined(release):
+  when not defined(ignoreefs):
     if not existsDir(storageEFS):  # Check access to EFS file system.
       quit("No access to storage in release mode. Critical.")
 
