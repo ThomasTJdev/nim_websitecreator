@@ -1,4 +1,4 @@
-import asyncdispatch, logging, os, parsecfg, recaptcha, strutils
+import asyncdispatch, logging, os, parsecfg, recaptcha, strutils, re
 
 from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
