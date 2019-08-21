@@ -1,14 +1,18 @@
 import
-  asyncdispatch, smtp, strutils, os, htmlparser, asyncnet, parsecfg, times, logging,
+  asyncdispatch, smtp, strutils, os, asyncnet, parsecfg, logging, contra,
   ../utils/logging_nimwc
 
 # Changing app dir due to, that module is not imported from main module
-setCurrentDir(getAppDir())
+let appDir = getAppDir().replace("/nimwcpkg", "")
+let configFile = appDir / "config/config.cfg"
+assert existsDir(appDir), "appDir directory not found: " & appDir
+assert existsFile(configFile), "config/config.cfg file not found"
+setCurrentDir(appDir)
 
 const otherHeaders = @[("Content-Type", "text/html; charset=\"UTF-8\"")]
 
 let
-  dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
+  dict = loadConfig(configFile)
   smtpAddress  = dict.getSectionValue("SMTP", "SMTPAddress")
   smtpPort     = dict.getSectionValue("SMTP", "SMTPPort")
   smtpFrom     = dict.getSectionValue("SMTP", "SMTPFrom")
@@ -19,6 +23,8 @@ let
 
 proc sendMailNow*(subject, message, recipient: string) {.async.} =
   ## Send the email through smtp
+  preconditions subject.len > 0, message.len > 0, recipient.len > 0
+  postconditions result is Future[void]
   when defined(demo):
     info("Demo is true, email is not send")
   when defined(dev) and not defined(devemailon):
@@ -49,6 +55,8 @@ proc sendMailNow*(subject, message, recipient: string) {.async.} =
 
 proc sendAdminMailNow*(subject, message: string) {.async.} =
   ## Send email only to Admin.
+  preconditions subject.len > 0, message.len > 0
+  postconditions result is Future[void]
   when defined(dev) and not defined(devemailon):
     info("Dev is true, email is not sent")
     return

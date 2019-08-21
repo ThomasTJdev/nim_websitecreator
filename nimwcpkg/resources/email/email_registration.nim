@@ -1,7 +1,11 @@
-import
-  asyncdispatch, smtp, strutils, os, htmlparser, asyncnet, parsecfg,
-  ../email/email_connection,
-  ../email/email_generate_message
+import asyncdispatch, parsecfg, contra
+
+from strutils import replace, format
+from os import getAppDir
+
+from ../email/email_generate_message import genEmailMessage
+from ../email/email_connection import sendMailNow
+
 
 const
   activationMsg = """
@@ -31,30 +35,36 @@ const
     <br><br>
     We are looking forward to see you at $3!
     We have sent you an activation email with your password.
-    You just need to click on the link become a part of $3.
-    <a href="https://freeotp.github.io">Get FreeOTP App at https://freeotp.github.io</a>
+    You just need to click on the link to become a part of $3.
     <br><br>
     Please do not hesitate to contact us at $5, if you have any questions.
     <br><br>
     Thank you for registering and becoming a part of $2!"""
 
+
 let
   dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
-  title = dict.getSectionValue("Server","title")
-  website = dict.getSectionValue("Server","website")
-  supportEmail = dict.getSectionValue("SMTP","SMTPEmailSupport")
+  title = dict.getSectionValue("Server", "title")
+  website = dict.getSectionValue("Server", "website")
+  supportEmail = dict.getSectionValue("SMTP", "SMTPEmailSupport")
 
 
-proc sendEmailActivationManual*(email, userName, password, activateUrl, invitorName: string) {.async.} =
-  ## Send the activation email, when admin added a new user
+using email, userName, password, activateUrl, invitorName: string
+
+
+proc sendEmailActivationManual*(email, userName, password, activateUrl, invitorName) {.async.} =
+  ## Send the activation email, when admin added a new user.
+  preconditions email.len > 5, userName.len > 0, password.len > 3, activateUrl.len > 0, invitorName.len > 0
+  postconditions result is Future[void]
   let message = activationMsg.format(
     userName, invitorName, email, password,
     (website & activateUrl), title, website, supportEmail)
   await sendMailNow(title & " - Email Confirmation", genEmailMessage(message), email)
 
 
-proc sendEmailRegistrationFollowup*(email, userName: string) {.async.} =
-  ## Send a follow up mail, if user
-  ## has not used their activation link
-  let message = registrationMsg.format(userName, title, website, supportEmail)
-  await sendMailNow(title & "- Reminder: Email Confirmation", genEmailMessage(message), email)
+proc sendEmailRegistrationFollowup*(email, userName) {.async.} =
+  ## Send a follow up mail, if user has not used their activation link.
+  preconditions email.len > 5, userName.len > 0
+  postconditions result is Future[void]
+  await sendMailNow(title & "- Reminder: Email Confirmation",
+    genEmailMessage(registrationMsg.format(userName, title, website, supportEmail)), email)

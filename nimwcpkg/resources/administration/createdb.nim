@@ -1,13 +1,20 @@
 import
-  os, parsecfg, strutils, logging,
+  os, parsecfg, strutils, logging, contra,
   ../administration/create_standarddata,
   ../utils/logging_nimwc
+
+from osproc import execCmdEx
+from nativesockets import Port, `$`
+from times import now, `$`
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
-
-setCurrentDir(getAppDir().replace("/nimwcpkg", "") & "/")
+let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
+const configFile = "config/config.cfg"
+assert existsDir(nimwcpkgDir), "nimwcpkg directory not found: " & nimwcpkgDir
+assert existsFile(configFile), "config/config.cfg file not found: " & configFile
+setCurrentDir(nimwcpkgDir)
 
 const
   sql_now =
@@ -141,31 +148,25 @@ const
       lastModified  $2                NOT NULL     default $1
     );""".format(sql_now, sql_timestamp, sql_id))
 
+  sqlVacuum =
+    when defined(postgres): sql"VACUUM (VERBOSE, ANALYZE);"
+    else:                   sql"VACUUM;"
 
-proc generateDB*() =
+  fileBackup = "nimwc_" & (when defined(postgres): "postgres_" else: "sqlite_")
+
+  cmdBackup =
+    when defined(postgres): "pg_dump --verbose --no-password --encoding=UTF8 --lock-wait-timeout=99 --host=$1 --port=$2 --username=$3 --file='$4' --dbname=$5 $6"
+    else: "sqlite3 -readonly -echo $1 '.backup $2'"
+
+  cmdSign = "gpg --armor --detach-sign --yes --digest-algo sha512 "
+
+  cmdChecksum = "sha512sum --tag "
+
+  cmdTar = "tar cafv "
+
+
+proc generateDB*(db: DbConn) =
   info("Database: Generating database")
-  let
-    dict = loadConfig("config/config.cfg")
-    db_user = dict.getSectionValue("Database", "user")
-    db_pass = dict.getSectionValue("Database", "pass")
-    db_name = dict.getSectionValue("Database", "name")
-    db_host = dict.getSectionValue("Database", "host")
-    db_folder = dict.getSectionValue("Database", "folder")
-    dbexists =
-      when defined(postgres): db_host.len > 2
-      else:                   fileExists(db_host)
-
-  if dbexists:
-    info("Database: Database already exists. Inserting standard tables if they do not exist.")
-
-  when not defined(postgres): discard existsOrCreateDir(db_folder)  # Creating folder
-
-  info("Database: Opening database")  # Open DB
-  var db =
-    when defined(postgres):
-      db_postgres.open(connection=db_host, user=db_user, password=db_pass, database=db_name)
-    else:
-      db_sqlite.open(db_host, "", "", "")
 
   # User
   if not db.tryExec(personTable):
@@ -195,9 +196,46 @@ proc generateDB*() =
   if not db.tryExec(filesTable):
     info("Database: Files table already exists")
 
-  if not dbexists:
-    info("Database: Inserting standard elements")
-    createStandardData(db)
+  info("Database: Inserting standard elements")
+  createStandardData(db)
 
   info("Database: Closing database")
   close(db)
+
+
+proc backupDb*(dbname: string,
+    filename = fileBackup & replace($now(), ":", "_") & ".sql",
+    host = "localhost", port = Port(5432), username = getEnv("USER", "root"),
+    dataOnly = false, inserts = false, checksum = true, sign = true, targz = true,
+    ): tuple[output: TaintedString, exitCode: int] =
+  ## Backup the whole Database to a plain-text Raw SQL Query human-readable file.
+  preconditions(dbname.len > 0, host.len > 0, username.len > 0,
+    when defined(postgres): findExe"pg_dump".len > 0 else: findExe"sqlite3".len > 0)
+  when defined(postgres):
+    var cmd = cmdBackup.format(host, $port, username, filename, dbname,
+    (if dataOnly: " --data-only " else: "") & (if inserts: " --inserts " else: ""))
+  else:  # SQLite .dump is Not working, Docs says it should.
+    var cmd = cmdBackup.format(dbname, filename)
+  when not defined(release): echo cmd
+  result = execCmdEx(cmd)
+  if checksum and result.exitCode == 0 and findExe"sha512sum".len > 0:
+    cmd = cmdChecksum & filename & " > " & filename & ".sha512"
+    when not defined(release): echo cmd
+    result = execCmdEx(cmd)
+    if sign and result.exitCode == 0 and findExe"gpg".len > 0:
+      cmd = cmdSign & filename
+      when not defined(release): echo cmd
+      result = execCmdEx(cmd)
+      if targz and result.exitCode == 0 and findExe"tar".len > 0:
+        cmd = cmdTar & filename & ".tar.gz " & filename & " " & filename & ".sha512 " & filename & ".asc"
+        when not defined(release): echo cmd
+        result = execCmdEx(cmd)
+        if result.exitCode == 0:
+          removeFile(filename)
+          removeFile(filename & ".sha512")
+          removeFile(filename & ".asc")
+
+
+proc vacuumDb*(db: DbConn): bool {.inline.} =
+  echo "Vacuum database (database maintenance)"
+  db.tryExec(sqlVacuum)

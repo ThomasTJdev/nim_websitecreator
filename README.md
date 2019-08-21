@@ -14,20 +14,26 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 - Custom title, meta description and keywords for each page, SEO friendly.
 - Custom head, navbar and footer, no hardcoded watermarks, links or logos.
 - Upload/Download files and images (private or public), option to use MD5 CheckSum as filename.
-- [Libravatar/Gravatar support for profile photos builtin.](https://wiki.libravatar.org/libraries/#index2h1)
+- [Libravatar/Gravatar support](https://wiki.libravatar.org/libraries/#index2h1) for profile photos builtin.
 - 1 language for the whole stack, including high performance modules, scripting, devops, deploy, from WebAssembly to Assembly.
 
 ## Security
 - Self-Firejailing Web Framework (It Firejails itself) Best Linux Security integrated on the Core.
 - 2 Factor Athentication TOTP
-- ReCAPTCHA
+- [Design by Contract, Contract Programming](https://dev.to/juancarlospaco/design-by-contract-immutability-side-effects-and-gulag-44fk).
+- Security Hardened by default (based from [Gentoo Hardened](https://wiki.gentoo.org/wiki/Hardened_Gentoo) and [Debian Hardened](https://wiki.debian.org/Hardening), checked with [`hardening-check`](https://bitbucket.org/Alexander-Shukaev/hardening-check)).
+- Coded following the [Power of 10: NASA Coding guidelines for safety-critical code](https://en.wikipedia.org/wiki/The_Power_of_10:_Rules_for_Developing_Safety-Critical_Code#Rules) (as much as possible).
+- ReCAPTCHA (Optional)
 - [HoneyPot-Field](https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377)
 - BCrypt+Salt password hashing
 - No user Tracking Analytics by default
 - SQL Type-checked and Query-checked at compile-time, no SQL injections.
+- No XML nor YAML nor ZIP used on the Core, No XML Vulnerabilities, No YAML Vulnerabilities, etc (you can still use XML and YAML and ZIP).
 - Multiple users with different ranks, role based access control.
-- Admin can choose how much CPU & RAM NimWC can use from the Admin Dashboard.
-- [We recommend FreeOTP 2 Factor Athentication App because is Open Source.](https://freeotp.github.io)
+- Admin can choose how much CPU & RAM NimWC can use from the Admin Dashboard (using the compile flag `-d:firejail`)
+- We recommend [mpwc](https://github.com/SolitudeSF/mpwc#mpwc) stateless password manager because uses MasterPassword algo (200Kb size).
+- We recommend [FreeOTP 2 Factor Athentication App](https://freeotp.github.io) because is Open Source (400Kb size),
+As alternative, [try AndOTP](https://github.com/andOTP/andOTP) (5Mb size).
 
 ## Configuration
 - Edit core or custom JS and CSS directly from browser, UI/UX Designer friendly.
@@ -55,7 +61,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 ## Performance
 - High performance with low resources (RPi, VPS, cloud, old pc, etc).
 - Runs on any non-Windows OS, Architecture and Hardware that can compile C code.
-- [Independent TechEmpower Benchmarks show Nim web server as one of the fastest in the world.](https://www.techempower.com/benchmarks/#section=data-r17&hw=cl&test=json)
+- Independent [TechEmpower Benchmarks](https://www.techempower.com/benchmarks/#section=data-r17&hw=cl&test=json) show Nim web server as one of the fastest in the world.
 - High Availability design by default.
 - Full Stack with the same programming language, including DevOps and Scripting.
 - 0 Dependency binary (Postgres/SSL/WebP/Firejail required if using it).
@@ -80,7 +86,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 To get started you only need:
 
 - Linux (For Windows [see Docker-for-Windows](http://docs.docker.com/docker-for-windows))
-- Nim >= `0.19.4` (Stable Release)
+- Nim >= `0.20.2` (Stable Release)
 
 Development dependencies (automatically installed by Nimble):
 
@@ -98,7 +104,7 @@ Foreing optional dependencies:
 
 - webp (`libwebp`)
 - firejail >= `0.9.58`
-- Xvfb (`xorg-server-xvfb`)
+- Xvfb (`xorg-server-xvfb`, required by firejail setting `noX=`)
 
 **For stable development use Nim Stable Release**, Devel may or may not work, but is not stable by definition.
 
@@ -138,7 +144,7 @@ nimble install nimwc
 nano ~/.nimble/pkgs/nimwc-5.0.0/config/config.cfg
 
 # Run nimwc
-# (to add an Admin user append "newuser": nimwc --newuser -u:admin -p:pass -e:a@a.com)
+# (to add an Admin user append "newadmin": nimwc --newadmin -u:admin -p:pass -e:a@a.com)
 # (to include some standard pages: nimwc --insertdata)
 nimwc
 
@@ -170,7 +176,7 @@ nimble install jester recaptcha bcrypt datetime2human otp firejail webp
 nim c nimwc.nim
 
 # Run nimwc
-# (to add an Admin user append "--newuser": ./nimwc --newuser -u:admin -p:pass -e:a@a.com)
+# (to add an Admin user append "--newadmin": ./nimwc --newadmin -u:admin -p:pass -e:a@a.com)
 # (to include some standard pages: nimwc --insertdata)
 ./nimwc
 
@@ -187,7 +193,7 @@ nim c nimwc.nim
 
 These arguments should be prepended to executable file, e.g. `./nimwc cdata`
 
-* `--newuser` = Add the Admin user. The `-u:<username>`, `-p:<password>` and `-e:<email>` args are required. E.g. `--newuser -u:admin -p:pass -e:a@a.com`
+* `--newadmin` = Add the Admin user. The `-u:<username>`, `-p:<password>` and `-e:<email>` args are required. E.g. `--newadmin -u:admin -p:pass -e:a@a.com`
   * `-u:<admin username>`
   * `-p:<admin password>`
   * `-e:<admin email>`
@@ -210,6 +216,8 @@ These options are only available at compiletime:
 * `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org). This option will override the database each hour with the standard data.
 * `-d:gitupdate` = Updates and force a hard reset
 * `-d:postgres` = Use Postgres database instead of SQLite
+* `-d:contracts` = Checks pre- and post-conditions when compiled with -d:release
+* `-d:hardened` = Hardens security, requires -d:contracts. Performance cost at ~20%.
 
 
 # User profiles
@@ -302,19 +310,35 @@ To activate Google reCAPTCHA [claim you site and server key](https://www.google.
 
 - [Use the SystemD Service file](https://github.com/ThomasTJdev/nim_websitecreator/blob/master/devops/nimwc.service) as starting point for your NimWC SystemD Services.
 
-Copy the file called `nimwc.service` inside `/lib/systemd/system/`
+Copy the file `nimwc.service` into `/lib/systemd/system/`
 
 ```
 sudo nano /lib/systemd/system/nimwc.service
 ```
 
-## Enable auto start and start it:
+Enable auto start of NimWC:
+
 ```
 sudo systemctl enable nimwc
 sudo systemctl start nimwc
 sudo systemctl status nimwc
 ```
 
+
+**CI Builds**
+
+- [YAML Build templates for several Linux Distros (SourceHut).](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/sourcehut#whats-this)
+
+
+**CrossCompiling, Build for old Linux**
+
+Sometimes you may need Build for very very old Linux, like old Centos and Debian Old Stable,
+from a recent Linux, like new Arch or Ubuntu,
+heres how you can do it, without a virtual machine with an old Linux to build.
+
+- https://github.com/wheybags/glibc_version_header#glibc-version-header-generator
+- https://github.com/phusion/holy-build-box#system-for-building-cross-distribution-linux-binaries
+- https://github.com/dockcross/dockcross#dockcross
 
 </details>
 

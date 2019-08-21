@@ -1,18 +1,32 @@
-import
-  asyncdispatch, smtp, strutils, os, htmlparser, asyncnet, parsecfg,
-  ../email/email_connection,
-  ../email/email_generate_message
+import asyncdispatch, contra
 
-const AdminErrorMsg = """
-  Hi Admin
-  <br><br>
-  An error occurred.
-  <br><br>
-  $1
-  <br><br>"""
+from strutils import format, countLines
+from times import now
+
+from ../email/email_generate_message import genEmailMessage
+from ../email/email_connection import sendAdminMailNow
+
+
+const adminErrorMsg = """<!DOCTYPE html>
+  <center>
+    <h1>Error Logs</h1>
+    <p>Hi Admin, an error occurred at $3 </p>
+    <textarea name="logs" id="logs" title="Log Size: $2 Lines." dir="auto" rows=20 readonly autofocus spellcheck style="width:99% !important;">
+      $1
+    </textarea>
+    <br>
+    <a title="Copy Logs" onclick="document.querySelector('#logs').select();document.execCommand('copy')">
+      <button>Copy</button>
+    </a>
+    <br>
+  </center>
+  """
 
 
 proc sendEmailAdminError*(msg: string) {.async.} =
   ## Send email - user removed
-  await sendAdminMailNow("Admin: Error occurred",
-                         genEmailMessage(AdminErrorMsg.format(msg)))
+  preconditions msg.len > 0
+  postconditions result is Future[void]
+  await sendAdminMailNow(
+    "Admin: Error occurred",
+    genEmailMessage(adminErrorMsg.format(msg, msg.countLines, now())))

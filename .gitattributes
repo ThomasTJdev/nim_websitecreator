@@ -1,11 +1,3 @@
-static/* linguist-vendored
-config/* linguist-vendored
-data/* linguist-vendored
-files/* linguist-vendored
-fileslocal/* linguist-vendored
-log/* linguist-vendored
-nimcache/* linguist-vendored
-private/* linguist-vendored
-public/* linguist-vendored
-plugins/* linguist-vendored
-docs/* linguist-vendored
+*.nims linguist-language=Nim
+*.nim linguist-language=Nim
+*.* linguist-language=Nim

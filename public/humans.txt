@@ -1,0 +1,10 @@
+/* TEAM */
+Your title: Your name.
+
+/* THANKS */
+Nim: http://nim-lang.org
+Nim Website Creator: http://nimwc.org
+
+/* SITE */
+Language: English
+Doctype: HTML5

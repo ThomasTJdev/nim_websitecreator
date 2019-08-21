@@ -470,7 +470,7 @@ compile_nimwc() {
   # Admin user and standard data
   printf "  %b %s\\n" "${INFO}" "Adding admin user"
   printf "  %b %s\\n" "${INFO}" "Inserting standard data"
-  local strRunData="yes | ./nimwc newuser u:${CFG_USERNAME} e:${CFG_EMAIL} p:${CFG_PASS} ${CFG_STANDARDDATA}"
+  local strRunData="yes | ./nimwc newadmin u:${CFG_USERNAME} e:${CFG_EMAIL} p:${CFG_PASS} ${CFG_STANDARDDATA}"
   eval $strRunData
 }
 

@@ -25,7 +25,7 @@ tasks:
       bin/nim c koch
       ./koch tools
       bin/nimble -y refresh
-      bin/nimble -y install jester recaptcha bcrypt datetime2human otp firejail webp libravatar html_tools
+      bin/nimble -y install jester recaptcha bcrypt datetime2human otp firejail webp libravatar
 
   - build: |
       cd

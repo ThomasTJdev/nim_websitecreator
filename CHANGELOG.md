@@ -1,3 +1,23 @@
+## v5.5.0
+### Changes
+- Compatible with Nim >= `0.20.2`.
+- `-d:hardened` Security Hardened mode via compile time flag, optional (based from Gentoo Hardened and Debian Hardened).
+- `-d:contracts` Design by Contract mode via compile time flag, optional (similar to Ada, Eiffel, etc).
+- `--backupdb` Compressed signed full backup of database. Vacuum database.
+- `-d:recaptcha` Can enable/disable code generation for ReCaptcha at compile time.
+- `--showconfig` Print to terminal the parsed INI configuration and compile options for debug.
+- `connectDb()` Template injects `db` of type `DbConn` wherever you call it.
+- Release builds are automatically stripped.
+- Clean out code, update Readme, update docs, update help messages on terminal.
+- No HTML/CSS/JS/UI/Visuals touched, nor added nor removed, no visual changes.
+- Clean out, style fixes, performance fixes, etc.
+- Refactor on command line arguments parsing.
+- Update readme.
+- Remove dependency on HTML_Tools package (used functions copied on html_utils).
+
+Note: Security Hardened mode by definition has a performance cost (~20%).
+
+
 ## v5.1.1
 ### Changes
 - Fixed bug in recompile function. Used when enabling/disabling plugins

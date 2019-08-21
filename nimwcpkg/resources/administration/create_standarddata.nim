@@ -1,6 +1,4 @@
-import
-  os, strutils, rdstdin, logging,
-  ../utils/logging_nimwc
+import logging, contra, ../utils/logging_nimwc
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
@@ -14,13 +12,14 @@ const
   <meta name="generator" content="Nim Website Creator">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="author" href="humans.txt">
   <link rel="shortcut icon" href="/favicon.ico">
   <link rel="icon" type="image/png" href="/images/logo/favicon-16x16.png" sizes="16x16">
   <link rel="icon" type="image/png" href="/images/logo/favicon-32x32.png" sizes="32x32">
   <link rel="icon" type="image/png" href="/images/logo/favicon-192x192.png" sizes="192x192">
   <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/favicon-180x180.png">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
 
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/style_custom.css">
@@ -34,6 +33,7 @@ const
   <meta name="generator" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <link rel="author" href="humans.txt">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/style_custom.css">
 
@@ -43,6 +43,7 @@ const
 
   headBootstrap = """
   <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="author" href="humans.txt">
   <link rel="shortcut icon" href="/images/logo/favicon.ico">
   <link rel="icon" type="image/png" href="/images/logo/favicon-16x16.png" sizes="16x16">
   <link rel="icon" type="image/png" href="/images/logo/favicon-32x32.png" sizes="32x32">
@@ -544,36 +545,46 @@ routes:
   """
 
 
-proc standardDataSettings*(db: DbConn, dataStyle: string) =
+using dataStyle: string
+
+
+proc standardDataSettings*(db: DbConn, dataStyle) =
   ## Settings
+  preconditions dataStyle in ["bulma", "bootstrap", "clean"]
   info"Standard data: Inserting settings-data."
   exec(db, sql"DELETE FROM settings")
-
-  if dataStyle == "bootstrap":
-    discard insertID(db, sql"INSERT INTO settings (title, head, navbar, footer) VALUES (?, ?, ?, ?)", title, headBootstrap, navbarBootstrap, footer)
-  elif dataStyle == "clean":
-    discard insertID(db, sql"INSERT INTO settings (title, head, navbar, footer) VALUES (?, ?, ?, ?)", title, headClean, navbarClean, footerClean)
+  const sqlDataSettings = sql"INSERT INTO settings (title, head, navbar, footer) VALUES (?, ?, ?, ?)"
+  case dataStyle
+  of "bootstrap":
+    discard insertID(db, sqlDataSettings, title, headBootstrap, navbarBootstrap, footer)
+  of "clean":
+    discard insertID(db, sqlDataSettings, title, headClean, navbarClean, footerClean)
   else:
-    discard insertID(db, sql"INSERT INTO settings (title, head, navbar, footer) VALUES (?, ?, ?, ?)", title, head, navbar, footer)
+    discard insertID(db, sqlDataSettings, title, head, navbar, footer)
 
 
-proc standardDataFrontpage*(db: DbConn, dataStyle = "") =
+proc standardDataFrontpage*(db: DbConn, dataStyle = "bulma") =
   ## Frontpage
+  preconditions dataStyle in ["bulma", "clean"]
   info"Standard data: Inserting frontpage-data."
-  let frontpageExists = getValue(db, sql"SELECT id FROM pages WHERE url = ?", "frontpage")
+  const sqlFrontpageExist = sql"SELECT id FROM pages WHERE url = 'frontpage'"
+  let frontpageExists = getValue(db, sqlFrontpageExist)
   if frontpageExists != "":
     exec(db, sql"DELETE FROM pages WHERE id = ?", frontpageExists)
-
+  const sqlFrontpageData = sql"""
+    INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
   if dataStyle == "clean":
-    discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "frontpage", "Frontpage", frontpageClean, "1", "1", "1", "", "", "")
+    discard insertID(db, sqlFrontpageData, "1", "2", "frontpage", "Frontpage", frontpageClean, "1", "1", "1", "", "", "")
   else:
-      discard insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "frontpage", "Frontpage", frontpage, "1", "1", "1", "NimWC Nim Website Creator", "NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.", "website,blog,nim,nimwc")
+      discard insertID(db, sqlFrontpageData, "1", "2", "frontpage", "Frontpage", frontpage, "1", "1", "1", "NimWC Nim Website Creator", "NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.", "website,blog,nim,nimwc")
 
 
 proc standardDataAbout*(db: DbConn) =
   ## About
   info"Standard data: Inserting about-data."
-  let aboutExists = getValue(db, sql"SELECT id FROM pages WHERE url = ?", "about")
+  const sqlAboutExists = sql"SELECT id FROM pages WHERE url = 'about'"
+  let aboutExists = getValue(db, sqlAboutExists)
   if aboutExists != "":
     exec(db, sql"DELETE FROM pages WHERE id = ?", aboutExists)
 
@@ -582,8 +593,9 @@ proc standardDataAbout*(db: DbConn) =
 
 proc standardDataBlogpost1*(db: DbConn) =
   ## Blog post
-  info"Standard data: Inserting blog post-data"
-  let blogExists = getValue(db, sql"SELECT id FROM blog WHERE url = ?", "standardpost")
+  info"Standard data: Inserting blog post-data (1)."
+  const sqlBlogExists = sql"SELECT id FROM blog WHERE url = 'standardpost'"
+  let blogExists = getValue(db, sqlBlogExists)
   if blogExists != "":
     exec(db, sql"DELETE FROM blog WHERE id = ?", blogExists)
 
@@ -592,8 +604,9 @@ proc standardDataBlogpost1*(db: DbConn) =
 
 proc standardDataBlogpost2*(db: DbConn) =
   ## Blog post
-  info"Standard data: Inserting blog post-data."
-  let blogExists = getValue(db, sql"SELECT id FROM blog WHERE url = ?", "standardpostv2")
+  info"Standard data: Inserting blog post-data (2)."
+  const sqlBlog2Exists = sql"SELECT id FROM blog WHERE url = 'standardpostv2'"
+  let blogExists = getValue(db, sqlBlog2Exists)
   if blogExists != "":
     exec(db, sql"DELETE FROM blog WHERE id = ?", blogExists)
 
@@ -602,16 +615,18 @@ proc standardDataBlogpost2*(db: DbConn) =
 
 proc standardDataBlogpost3*(db: DbConn) =
   ## Blog post
-  info"Standard data: Inserting blog post-data."
-  let blogExists = getValue(db, sql"SELECT id FROM blog WHERE url = ?", "standardpostv3")
+  info"Standard data: Inserting blog post-data (3)."
+  const sqlBlog3Exists = sql"SELECT id FROM blog WHERE url = 'standardpostv3'"
+  let blogExists = getValue(db, sqlBlog3Exists)
   if blogExists != "":
     exec(db, sql"DELETE FROM blog WHERE id = ?", blogExists)
 
   discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv3", "Custom styling", blogpost3, "1", "1", "1", "NimWC Example blogpost custom", "This is an example blogpost using custom styling.", "website,blog,nim,nimwc")
 
 
-proc createStandardData*(db: DbConn, dataStyle = "bulma") =
+proc createStandardData*(db: DbConn, dataStyle = "bulma") {.discardable.} =
   ## Insert basic data
+  preconditions dataStyle in ["bulma", "bootstrap", "clean"]
   info"Standard data: Inserting standard data."
   standardDataSettings(db, dataStyle)
   standardDataFrontpage(db, dataStyle)

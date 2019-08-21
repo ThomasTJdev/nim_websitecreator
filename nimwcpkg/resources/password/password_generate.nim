@@ -1,11 +1,14 @@
-import md5, bcrypt, ../password/salt_generate
+import md5, bcrypt, contra, ../password/salt_generate
 
 
 proc makeSessionKey*(): string {.inline.} =
   ## Creates a random key to be used to authorize a session.
+  postconditions result.len > 0
   bcrypt.hash(makeSalt(), genSalt(8))
 
 
 proc makePassword*(password, salt: string, comparingTo = ""): string {.inline.} =
   ## Creates an MD5 hash by combining password and salt.
-  hash(getMD5(salt & getMD5(password)), if comparingTo != "": comparingTo else: genSalt(8))
+  preconditions password.len > 3, password.len < 300, salt.len > 45
+  postconditions result.len > 45
+  result = hash(getMD5(salt & getMD5(password)), if comparingTo != "": comparingTo else: genSalt(8))

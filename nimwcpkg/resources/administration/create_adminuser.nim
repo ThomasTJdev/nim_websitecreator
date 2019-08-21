@@ -1,70 +1,80 @@
-import
-  os, strutils, logging, random, base32,
-  ../password/password_generate,
-  ../password/salt_generate,
-  ../utils/logging_nimwc
+import os, strutils, logging, rdstdin, contra
+import ../password/password_generate, ../password/salt_generate, ../utils/logging_nimwc
+
+import ../administration/connectdb
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
-randomize()
 
-proc createAdminUser*(db: DbConn, args: seq[string]) =
+
+const
+  createAdminUserMsg = """Checking if any Admin exists in the database...
+  $1 Admins already exists. Adding 1 new Admin.
+  Requirements:
+    - Username > 3 characters long.
+    - Email    > 5 characters long.
+    - Password > 9 characters long."""
+
+  createTestUserMsg = """Checking if any test@test.com exists in the database...
+  $1 Test user already exists."""
+
+  nameMinLen  = 3
+  nameMaxLen = 60
+  emailMinLen = 5
+  emailMaxLen = 255
+  passwordMinLen = 9
+  passwordMaxLen  = 301
+
+
+proc ask4UserPass*(): tuple[iName, iEmail, iPwd: string] =
+  ## Ask the user for user, mail, password, and return them.
+  postconditions(result.iName.len > nameMinLen, result.iEmail.len > emailMinLen, result.iPwd.len > passwordMinLen,
+    result.iName.len < nameMaxLen, result.iEmail.len < emailMaxLen, result.iPwd.len < passwordMaxLen)
+  var iName, iEmail, iPwd, iPwd2: string
+  while not(iName.len > nameMinLen and iName.len < nameMaxLen):  # Max len from DB SQL
+    iName = readLineFromStdin("\nType Username: ").strip
+  while not(iEmail.len > emailMinLen and iEmail.len < emailMaxLen):
+    iEmail = readLineFromStdin("\nType Email (Lowercase): ").strip.toLowerAscii
+  while not(iPwd.len > passwordMinLen and iPwd.len < passwordMaxLen and iPwd == iPwd2):
+    iPwd = readLineFromStdin("\nType Password: ").strip  # Type it Twice.
+    iPwd2 = readLineFromStdin("\nConfirm Password (Repeat it again): ").strip
+  result = (iName: iName, iEmail: iEmail, iPwd: iPwd)
+
+
+proc createAdminUser*(db: DbConn) {.discardable.} =
   ## Create new admin user.
-  info("Checking if any Admin exists in DB.")
-  const sql_anyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
-  let anyAdmin = getAllRows(db, sql_anyAdmin)
-  info($anyAdmin.len() & " Admins already exist. Adding 1 new Admin.")
-  info("Requirements:")
-  info(" - name  > 3")
-  info(" - email > 5")
-  info(" - pwd   > 9")
+  const sqlAnyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
+  let anyAdmin = getAllRows(db, sqlAnyAdmin)
+  info(createAdminUserMsg.format(anyAdmin.len))
 
-  var iName, iEmail, iPwd: string
-  for arg in args:
-    if arg.substr(0, 1) == "u:":
-      iName = arg.substr(2, arg.len()).strip
-    elif arg.substr(0, 1) == "p:":
-      iPwd = arg.substr(2, arg.len()).strip
-    elif arg.substr(0, 1) == "e:":
-      iEmail = arg.substr(2, arg.len()).strip
-
-  # TODO: https://github.com/ThomasTJdev/nim_websitecreator/issues/57
-  if iName.len < 3:
-    error("Missing or invalid Name to create Admin user: " & iName)
-    sleep(3000)
-    return
-  if iEmail.len < 5:
-    error("Missing or invalid Email to create Admin user: " & iEmail)
-    sleep(3000)
-    return
-  if iPwd.len < 9:
-    error("Missing or invalid Password to create Admin user.")
-    sleep(3000)
-    return
+  let (iName, iEmail, iPwd) = ask4UserPass() # Ask for User/Password/Mail
 
   let
     salt = makeSalt()
     password = makePassword(iPwd, salt)
+  const sqlAddAdmin = sql"""
+    INSERT INTO person (name, email, password, salt, status)
+    VALUES (?, ?, ?, ?, ?)"""
 
-  discard insertID(db, sql"INSERT INTO person (name, email, password, salt, status) VALUES (?, ?, ?, ?, ?)", $iName, $iEmail, password, salt, "Admin")
-  info("Admin added.")
+  discard insertID(db, sqlAddAdmin, iName, iEmail, password, salt,
+    if readLineFromStdin("\nis Admin? (y/N): ").normalize == "y": "Admin" else: "Moderator")
+  info("1 new user added: " & iName)
 
 
-proc createTestUser*(db: DbConn) =
+proc createTestUser*(db: DbConn) {.discardable.} =
   ## Create new admin user.
-  info("Checking if any test@test.com exists in DB.")
-  const sql_anyAdmin = sql"SELECT id FROM person WHERE email = 'test@test.com'"
-  let anyAdmin = getAllRows(db, sql_anyAdmin)
+  const sqlAnyAdmin = sql"SELECT id FROM person WHERE email = 'test@test.com'"
+  let anyAdmin = getAllRows(db, sqlAnyAdmin)
+  info(createTestUserMsg.format(anyAdmin.len))
 
-  if anyAdmin.len() < 1:
-    info("No test user exists. Creating it!.")
-
+  if anyAdmin.len < 1:
     const salt = "0".repeat(128)  # Weak Salt for Test user only.
-    let password = makePassword("test", salt)
+    const sqlAddTestUser = sql("""
+      INSERT INTO person (name, email, password, salt, status)
+      VALUES ('Testuser', 'test@test.com', ?, '$1', 'Moderator')""".format(salt))
 
-    discard insertID(db, sql("INSERT INTO person (name, email, password, salt, status) VALUES ('Testuser', 'test@test.com', '$1', '$2', 'Moderator')".format(password, salt)))
+    discard insertID(db, sqlAddTestUser, makePassword("test", salt))
 
     info("Test user added!.")
-
   else:
     info("Test user already exists. Skipping it.")
