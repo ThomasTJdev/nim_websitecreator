@@ -98,7 +98,6 @@ Development dependencies (automatically installed by Nimble):
 - [Firejail](https://github.com/juancarlospaco/nim-firejail) >= `0.5.0`
 - [WebP](https://github.com/juancarlospaco/nim-webp-tools) >= `0.2.0`
 - [Libravatar](https://github.com/juancarlospaco/nim-libravatar#nim-libravatar) >= `0.4.0`
-- [HTML-Tools](https://github.com/juancarlospaco/nim-html-tools#features) >= `0.1.0`
 
 Foreing optional dependencies:
 
@@ -210,14 +209,14 @@ These arguments should be prepended to executable file, e.g. `./nimwc cdata`
 These options are only available at compiletime:
 
 * `-d:rc` = Recompile. NimWC is using a launcher, it is therefore needed to force a recompile.
-* `-d:adminnotify` = Send error logs (ERROR) to the specified admin email
-* `-d:dev` = Development
-* `-d:devemailon` = Send email when `-d:dev` is activated
-* `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org). This option will override the database each hour with the standard data.
-* `-d:gitupdate` = Updates and force a hard reset
-* `-d:postgres` = Use Postgres database instead of SQLite
-* `-d:contracts` = Checks pre- and post-conditions when compiled with -d:release
-* `-d:hardened` = Hardens security, requires -d:contracts. Performance cost at ~20%.
+* `-d:adminnotify` = Send error logs (ERROR) to the specified admin email.
+* `-d:dev` = Development.
+* `-d:devemailon` = Send email when `-d:dev` is activated.
+* `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org). This option will override the database every 1 hour with the standard data.
+* `-d:gitupdate` = Updates directly from Git and force a hard reset.
+* `-d:postgres` = Use Postgres database instead of SQLite.
+* `-d:contracts` = Checks pre- and post-conditions when compiled with `-d:release`.
+* `-d:hardened` = Hardens security, requires `-d:contracts`. Performance cost ~20% max.
 
 
 # User profiles
