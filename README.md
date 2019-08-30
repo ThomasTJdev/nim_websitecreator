@@ -142,7 +142,7 @@ nimble install nimwc
 nano ~/.nimble/pkgs/nimwc-5.0.0/config/config.cfg
 
 # Run nimwc
-# (to add an Admin user append "newadmin": nimwc --newadmin -u:admin -p:pass -e:a@a.com)
+# (to add an Admin append the arg "newadmin": nimwc --newadmin)
 # (to include some standard pages: nimwc --insertdata)
 nimwc
 
@@ -174,7 +174,7 @@ nimble install jester recaptcha bcrypt datetime2human otp firejail webp
 nim c nimwc.nim
 
 # Run nimwc
-# (to add an Admin user append "--newadmin": ./nimwc --newadmin -u:admin -p:pass -e:a@a.com)
+# (to add an Admin append the arg "newadmin": nimwc --newadmin)
 # (to include some standard pages: nimwc --insertdata)
 ./nimwc
 
@@ -191,10 +191,7 @@ nim c nimwc.nim
 
 These arguments should be prepended to executable file, e.g. `./nimwc cdata`
 
-* `--newadmin` = Add the Admin user. The `-u:<username>`, `-p:<password>` and `-e:<email>` args are required. E.g. `--newadmin -u:admin -p:pass -e:a@a.com`
-  * `-u:<admin username>`
-  * `-p:<admin password>`
-  * `-e:<admin email>`
+* `--newadmin` = Add the Admin user.
 * `--insertdata` = Insert standard data (this will override existing data)
   * `bulma` = Use Bulma CSS
   * `bootstrap` = Use Bootstrap and jQuery
