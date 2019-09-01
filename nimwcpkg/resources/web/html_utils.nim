@@ -99,7 +99,7 @@ when defined(recaptcha):
     recaptchaSecretKey = dict.getSectionValue("reCAPTCHA", "Secretkey")
     recaptchaSiteKey* = dict.getSectionValue("reCAPTCHA", "Sitekey")
 
-  proc setupReCapthca*(recaptchaSiteKey = recaptchaSiteKey, recaptchaSecretKey = recaptchaSecretKey) =
+  proc setupReCaptcha*(recaptchaSiteKey = recaptchaSiteKey, recaptchaSecretKey = recaptchaSecretKey) =
     ## Activate Google reCAPTCHA
     preconditions recaptchaSiteKey.len > 0, recaptchaSecretKey.len > 0
     if len(recaptchaSecretKey) > 0 and len(recaptchaSiteKey) > 0:
