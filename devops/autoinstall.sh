@@ -17,7 +17,7 @@
 set -e
 
 # Location for final installation log storage
-installLoc=$HOME/.nimwc
+installLoc=$HOME/nimwc
 
 # Git url
 gitRepoUrl="https://github.com/ThomasTJdev/nim_websitecreator.git"
@@ -320,15 +320,15 @@ setStandardData() {
   case ${Choices} in
       "Bulma (Recommended)")
           printf "  %b Bulma standard data On\\n" "${INFO}"
-          CFG_STANDARDDATA="insertdata bulma"
+          CFG_STANDARDDATA="--insertdata bulma"
           ;;
       Bootstrap)
           printf "  %b Bootstrap standard data\\n" "${INFO}"
-          CFG_STANDARDDATA="insertdata bootstrap"
+          CFG_STANDARDDATA="--insertdata bootstrap"
           ;;
       Clean)
           printf "  %b No framework standard data\\n" "${INFO}"
-          CFG_STANDARDDATA="insertdata clean"
+          CFG_STANDARDDATA="--insertdata clean"
           ;;
       Off)
           printf "  %b Standard data off\\n" "${INFO}"
@@ -366,20 +366,19 @@ setSymbolicLink() {
   local Choices
 
   ToggleCommand=(whiptail --separate-output --radiolist "Make symbolic link to NimWC?" ${r} ${c} 6)
-  ChooseOptions=("On (Recommended)" "" on
+  ChooseOptions=("On" "" on
       Off "" off)
   Choices=$("${ToggleCommand[@]}" "${ChooseOptions[@]}" 2>&1 >/dev/tty) || (printf "  %bCancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}" && exit 1)
   case ${Choices} in
-      "On (Recommended)")
+      "On")
           printf "  %b Symbolic link On\\n" "${INFO}"
-          check_req firejail
           # Set it to true
-          CFG_SYMBOLIC=true
+          CFG_SYMBOLIC=false
           ;;
       Off)
           printf "  %b Symbolic link Off\\n" "${INFO}"
           # or false
-          CFG_SYMBOLIC=false
+          CFG_SYMBOLIC=true
           ;;
   esac
 }
@@ -390,20 +389,20 @@ setCompileFlag() {
   local Choices
 
   ToggleCommand=(whiptail --separate-output --radiolist "Use firejail?" ${r} ${c} 6)
-  ChooseOptions=("On (Recommended)" "" on
-      Off "" off)
+  ChooseOptions=("Off" "" on
+                On "" off)
   Choices=$("${ToggleCommand[@]}" "${ChooseOptions[@]}" 2>&1 >/dev/tty) || (printf "  %bCancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}" && exit 1)
   case ${Choices} in
-      "On (Recommended)")
+      Off)
+          printf "  %b Firejail Off\\n" "${INFO}"
+          # To false
+          CFG_FIREJAIL=false
+          ;;
+      On)
           printf "  %b Firejail On\\n" "${INFO}"
           check_req firejail
           # Set it to true
           CFG_FIREJAIL=true
-          ;;
-      Off)
-          printf "  %b Firejail Off\\n" "${INFO}"
-          # or false
-          CFG_FIREJAIL=false
           ;;
   esac
 }
@@ -467,11 +466,28 @@ compile_nimwc() {
     printf "  %b %s\\n" "${TICK}" "Systemctl enabled"
   fi
 
-  # Admin user and standard data
-  printf "  %b %s\\n" "${INFO}" "Adding admin user"
-  printf "  %b %s\\n" "${INFO}" "Inserting standard data"
-  local strRunData="yes | ./nimwc newadmin u:${CFG_USERNAME} e:${CFG_EMAIL} p:${CFG_PASS} ${CFG_STANDARDDATA}"
-  eval $strRunData
+  # Generate DB
+  local strRunDataDb="./nimwc --newdb"
+  eval $strRunDataDb
+
+  # Insert standard data
+  if [[ ! -z "${CFG_STANDARDDATA}" ]]; then
+    printf "  %b %s\\n" "${INFO}" "Inserting standard data"
+    local strRunData="yes | ./nimwc ${CFG_STANDARDDATA}"
+    eval $strRunData
+  fi
+
+  # Add admin user
+  printf "  %b %s\\n" "${INFO}" "To finish the setup of NimWC, add an Admin user:"
+  printf "  %b %s\\n" "${INFO}" " .${installLoc}/nimwc --newadmin"
+
+  if [[ "${EUID}" -eq 1 ]]; then
+    printf "\\n\\n"
+    printf "  %b %s\\n" "${INFO}" "NimWC was installed as a non-root user, remember to:"
+    printf "  %b %s\\n" "${INFO}" " Make a servicefile to autostart\\n"
+    printf "  %b %s\\n" "${INFO}" " Symlink to enable start with 'nimwc'"
+    printf "  %b %s\\n" "${INFO}" "   ln -s ${directory}/nimwc /usr/bin/nimwc"
+  fi
 }
 
 
@@ -571,6 +587,7 @@ main() {
         printf "\\n"
         printf "  %b %s\\n" "${TICK}" "You are running as non-root user"
         printf "  %b %s\\n" "${CROSS}" "NimWC will not be enabled with systemctl"
+        printf "  %b %s\\n" "${CROSS}" "NimWC will not be symlinked to /usr/bin"
     fi
 
     # Check req
@@ -586,7 +603,8 @@ main() {
     setInstallFolder ${installLoc}
 
     # Login details
-    setUserParams
+    #  - This is now done within nimwc (5.5.0)
+    #setUserParams
 
     # Standard data
     setStandardData
@@ -600,9 +618,9 @@ main() {
     fi
 
     # Enable with systemctl
-    if [[ "${EUID}" -eq 0 ]]; then
-      setSystemctl
-    fi
+    #if [[ "${EUID}" -eq 0 ]]; then
+    #  setSystemctl
+    #fi
 
     # Create folder
     printf "\\n"
