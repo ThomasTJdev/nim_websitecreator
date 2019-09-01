@@ -101,7 +101,6 @@ when defined(recaptcha):
 
   proc setupReCaptcha*(recaptchaSiteKey = recaptchaSiteKey, recaptchaSecretKey = recaptchaSecretKey) =
     ## Activate Google reCAPTCHA
-    preconditions recaptchaSiteKey.len > 0, recaptchaSecretKey.len > 0
     if len(recaptchaSecretKey) > 0 and len(recaptchaSiteKey) > 0:
       useCaptcha = true
       captcha = initReCaptcha(recaptchaSecretKey, recaptchaSiteKey)
@@ -113,7 +112,6 @@ when defined(recaptcha):
 
   proc checkReCaptcha*(antibot, userIP: string): Future[bool] {.async.} =
     ## Check if Google reCAPTCHA is Valid
-    preconditions antibot.len > 0, userIP.len > 0
     if useCaptcha:
       var captchaValid = false
       try:
