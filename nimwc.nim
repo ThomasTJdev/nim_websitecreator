@@ -378,7 +378,15 @@ when isMainModule:
       of "forcebuild", "f": removeFile(getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname"))
       of "newdb": generateDB(db)
       of "newadmin": createAdminUser(db)
-      of "insertdata": createStandardData(db, values.normalize)
+      of "insertdata":
+        const styles = @["bulma", "bootstrap", "clean"]
+        var styleExist = false
+        for data in commandLineParams():
+          if $data in styles:
+            createStandardData(db, $data, confirm=true)
+            styleExist = true
+        if not styleExist:
+          echo("\nStandard data: Please specify data style:\n  1) bulma\n  2) bootstrap\n  3) clean\n!! Data not inserted !!")
       of "vacuumdb": echo vacuumDb(db)
       of "backupdb": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"))
     of cmdArgument:

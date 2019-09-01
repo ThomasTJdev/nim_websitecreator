@@ -1,5 +1,7 @@
 import logging, contra, ../utils/logging_nimwc
 
+from rdstdin import readLineFromStdin
+
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
@@ -415,11 +417,12 @@ const
               <p>Can you write YAML? then you can code a web app and a NimWC plugin!</p>
               <br>
               <p><b>Keep It Simple</b><br>this is how a <i>Hello World</i> looks like:</p>
-<textarea rows=3 readonly disabled >
-routes:
-  get "/yourUrlHere":
-    resp "Hello World"</textarea><br>
-            <small><a href="https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/basico/jester/hello_web_3.nim#L38">A more complete example</a></small>
+              <textarea rows=3 readonly disabled >
+              routes:
+                get "/yourUrlHere":
+                  resp "Hello World"</textarea>
+              <br>
+              <small><a href="https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/basico/jester/hello_web_3.nim#L38">A more complete example</a></small>
             </div>
           </div>
           </div>
@@ -551,7 +554,7 @@ using dataStyle: string
 proc standardDataSettings*(db: DbConn, dataStyle) =
   ## Settings
   preconditions dataStyle in ["bulma", "bootstrap", "clean"]
-  info"Standard data: Inserting settings-data."
+  info("Standard data: Inserting settings-data.")
   exec(db, sql"DELETE FROM settings")
   const sqlDataSettings = sql"INSERT INTO settings (title, head, navbar, footer) VALUES (?, ?, ?, ?)"
   case dataStyle
@@ -566,7 +569,7 @@ proc standardDataSettings*(db: DbConn, dataStyle) =
 proc standardDataFrontpage*(db: DbConn, dataStyle = "bulma") =
   ## Frontpage
   preconditions dataStyle in ["bulma", "clean"]
-  info"Standard data: Inserting frontpage-data."
+  info("Standard data: Inserting frontpage-data.")
   const sqlFrontpageExist = sql"SELECT id FROM pages WHERE url = 'frontpage'"
   let frontpageExists = getValue(db, sqlFrontpageExist)
   if frontpageExists != "":
@@ -582,7 +585,7 @@ proc standardDataFrontpage*(db: DbConn, dataStyle = "bulma") =
 
 proc standardDataAbout*(db: DbConn) =
   ## About
-  info"Standard data: Inserting about-data."
+  info("Standard data: Inserting about-data.")
   const sqlAboutExists = sql"SELECT id FROM pages WHERE url = 'about'"
   let aboutExists = getValue(db, sqlAboutExists)
   if aboutExists != "":
@@ -593,7 +596,7 @@ proc standardDataAbout*(db: DbConn) =
 
 proc standardDataBlogpost1*(db: DbConn) =
   ## Blog post
-  info"Standard data: Inserting blog post-data (1)."
+  info("Standard data: Inserting blog post-data (1).")
   const sqlBlogExists = sql"SELECT id FROM blog WHERE url = 'standardpost'"
   let blogExists = getValue(db, sqlBlogExists)
   if blogExists != "":
@@ -604,7 +607,7 @@ proc standardDataBlogpost1*(db: DbConn) =
 
 proc standardDataBlogpost2*(db: DbConn) =
   ## Blog post
-  info"Standard data: Inserting blog post-data (2)."
+  info("Standard data: Inserting blog post-data (2).")
   const sqlBlog2Exists = sql"SELECT id FROM blog WHERE url = 'standardpostv2'"
   let blogExists = getValue(db, sqlBlog2Exists)
   if blogExists != "":
@@ -615,7 +618,7 @@ proc standardDataBlogpost2*(db: DbConn) =
 
 proc standardDataBlogpost3*(db: DbConn) =
   ## Blog post
-  info"Standard data: Inserting blog post-data (3)."
+  info("Standard data: Inserting blog post-data (3).")
   const sqlBlog3Exists = sql"SELECT id FROM blog WHERE url = 'standardpostv3'"
   let blogExists = getValue(db, sqlBlog3Exists)
   if blogExists != "":
@@ -624,10 +627,15 @@ proc standardDataBlogpost3*(db: DbConn) =
   discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv3", "Custom styling", blogpost3, "1", "1", "1", "NimWC Example blogpost custom", "This is an example blogpost using custom styling.", "website,blog,nim,nimwc")
 
 
-proc createStandardData*(db: DbConn, dataStyle = "bulma") {.discardable.} =
+proc createStandardData*(db: DbConn, dataStyle = "bulma", confirm = false) {.discardable.} =
   ## Insert basic data
-  preconditions dataStyle in ["bulma", "bootstrap", "clean"]
-  info"Standard data: Inserting standard data."
+  if confirm:
+    let stdData = readLineFromStdin("\nInsert (overwrite) with standard " & dataStyle & " data (y/n): ")
+    if $stdData notin ["y", "yes"]:
+      info("Standard data: Exited by user")
+      return
+
+  info("Standard data: Inserting standard data.")
   standardDataSettings(db, dataStyle)
   standardDataFrontpage(db, dataStyle)
   if dataStyle != "clean":
