@@ -170,37 +170,31 @@ proc generateDB*(db: DbConn) =
 
   # User
   if not db.tryExec(personTable):
-    info("Database: Person table already exists")
+    info("Database: Could not create table person")
 
   # Session
   if not db.tryExec(sessionTable):
-    info("Database: Session table already exists")
+    info("Database: Could not create table session")
 
   # History
   if not db.tryExec(historyTable):
-    info("Database: History table already exists")
+    info("Database: Could not create table history")
 
   # Settings
   if not db.tryExec(settingsTable):
-    info("Database: Settings table already exists")
+    info("Database: Could not create table settings")
 
   # Pages
   if not db.tryExec(pagesTable):
-    info("Database: Pages table already exists")
+    info("Database: Could not create table pages")
 
   # Blog
   if not db.tryExec(blogTable):
-    info("Database: Blog table already exists")
+    info("Database: Could not create table blog")
 
   # Files
   if not db.tryExec(filesTable):
-    info("Database: Files table already exists")
-
-  info("Database: Inserting standard elements")
-  createStandardData(db)
-
-  info("Database: Closing database")
-  close(db)
+    info("Database: Could not create table files")
 
 
 proc backupDb*(dbname: string,
