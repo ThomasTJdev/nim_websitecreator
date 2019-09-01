@@ -144,7 +144,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
 
     if pluginUpdate(@"pluginfolder"):
-      redirect("/plugins/updating?pluginActivity=" & encodeUrl("installing " & @"pluginname"))
+      redirect("/plugins/updating?status=false&pluginname=" & @"pluginname" & "&pluginActivity=" & encodeUrl("installing " & @"pluginname"))
     else:
       redirect("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginfolder"))
 
