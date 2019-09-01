@@ -1,3 +1,7 @@
+## v5.5.2
+### Changes
+- ReCaptcha compile flag missing + minor bugs
+
 ## v5.5.1
 ### Changes
 - Contra preconditions check for salt removed due to random len

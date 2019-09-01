@@ -111,7 +111,7 @@ const
     try:
       filterIt("nimwc.nimble".readFile.splitLines, it.substr(0, 6) == "version")[0].split("= ")[1].normalize.replace("\"", "") ## Get NimWC Version at Compile-Time.
     except:
-      "5.5.1"  ## Set NimWC Version at Compile-Time, if reading from file fails.
+      "5.5.2"  ## Set NimWC Version at Compile-Time, if reading from file fails.
 
 const reqCode = """# Code your plugins backend logic in this file.
 proc $1Start*(db: DbConn): auto =
