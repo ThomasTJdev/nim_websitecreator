@@ -59,6 +59,7 @@ const
     when defined(webp):            " -d:webp",
     when defined(firejail):        " -d:firejail",
     when defined(contracts):       " -d:contracts",
+    when defined(recaptcha):       " -d:recaptcha",
 
     when defined(ssl):               " -d:ssl",               # SSL
     when defined(release):           " -d:release --listFullPaths:off --excessiveStackTrace:off",  # Build for Production
