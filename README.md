@@ -89,14 +89,15 @@ To get started you only need:
 
 Development dependencies (automatically installed by Nimble):
 
-- [Jester](https://github.com/dom96/jester/) >= `0.4.1`
-- [reCAPTCHA](https://github.com/euantorano/recaptcha.nim) >= `1.0.2`
 - [bCrypt](https://github.com/runvnc/bcryptnim) >= `0.2.1`
+- [Contra](https://github.com/juancarlospaco/nim-contra) >= `0.2.0`
 - [datetime2human](https://github.com/juancarlospaco/nim-datetime2human) >= `0.2.2`
-- [otp](https://github.com/OpenSystemsLab/otp.nim) >= `0.1.1`
 - [Firejail](https://github.com/juancarlospaco/nim-firejail) >= `0.5.0`
-- [WebP](https://github.com/juancarlospaco/nim-webp-tools) >= `0.2.0`
+- [Jester](https://github.com/dom96/jester/) >= `0.4.1`
 - [Libravatar](https://github.com/juancarlospaco/nim-libravatar#nim-libravatar) >= `0.4.0`
+- [otp](https://github.com/OpenSystemsLab/otp.nim) >= `0.1.1`
+- [reCAPTCHA](https://github.com/euantorano/recaptcha.nim) >= `1.0.2`
+- [WebP](https://github.com/juancarlospaco/nim-webp-tools) >= `0.2.0`
 
 Foreing optional dependencies:
 
@@ -139,7 +140,7 @@ nimble install nimwc
 
 # Edit the config.cfg accordingly
 # (change the confg.cfg path to your nimble folder and the correct package version)
-nano ~/.nimble/pkgs/nimwc-5.0.0/config/config.cfg
+nano ~/.nimble/pkgs/nimwc-5.5.0/config/config.cfg
 
 # Run nimwc
 # (to add an Admin append the arg "newadmin": nimwc --newadmin)
@@ -168,7 +169,7 @@ cp config/config_default.cfg config/config.cfg
 nano config/config.cfg
 
 # Install dependencies
-nimble install jester recaptcha bcrypt datetime2human otp firejail webp
+nimble install jester recaptcha bcrypt datetime2human otp firejail webp, contra
 
 # Compile nimwc
 nim c nimwc.nim
