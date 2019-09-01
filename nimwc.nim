@@ -369,9 +369,7 @@ when isMainModule:
     of cmdShortOption, cmdLongOption:
       case keys
       of "version": quit(nimwc_version, 0)
-      of "help":
-        styledEcho(fgGreen, bgBlack, doc)
-        quit(0)
+      of "help": styledEcho(fgGreen, bgBlack, doc)
       of "showconfig":
         styledEcho(fgMagenta, bgBlack, $compileOptions)
         styledEcho(fgMagenta, bgBlack, $cfg)
@@ -386,6 +384,9 @@ when isMainModule:
     of cmdArgument:
       discard
     of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)
+
+    if keys.len() != 0:
+      quit(0)
 
   startupCheck(cfg)
   launcherActivated(cfg)
