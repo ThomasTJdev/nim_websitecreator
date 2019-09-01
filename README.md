@@ -105,13 +105,10 @@ Foreing optional dependencies:
 - firejail >= `0.9.58`
 - Xvfb (`xorg-server-xvfb`, required by firejail setting `noX=`)
 
-**For stable development use Nim Stable Release**, Devel may or may not work, but is not stable by definition.
+OBS:
+- **Use Nim Stable Release**, Devel may or may not work.
 
-**When using Firejail and enabling/disabling a plugin a full restart of NimWC is required.**
-It is therefore not advised to enable/disable plugins in the browser when using Firejail.
-
-Most of Dependencies are also from the NimWC Core Devs team,
-and are splitted only to give back to the Nim community so they can re-use the code.
+- **When using Firejail and enabling/disabling a plugin a manual full restart of NimWC is required.** It is therefore not advised to enable/disable plugins in the browser when using Firejail.
 
 
 # Install
@@ -126,10 +123,10 @@ curl https://nim-lang.org/choosenim/init.sh -sSf | sh
 
 ## Install NimWC
 
-You only need to perform 1a **or** 1b - not both of them.
+You only need to perform 1a **or** 1b  **or** 1c - not both of them.
 
 
-### 1a) Install
+### 1a) Install with Nimble
 
 <details>
 If you are using [Nimble](https://github.com/nim-lang/nimble) an executable will be generated and symlinked to `nimwc`, which then can be executed anywhere on your system.
@@ -140,7 +137,7 @@ nimble install nimwc
 
 # Edit the config.cfg accordingly
 # (change the confg.cfg path to your nimble folder and the correct package version)
-nano ~/.nimble/pkgs/nimwc-5.5.0/config/config.cfg
+nano ~/.nimble/pkgs/nimwc-5.5.1/config/config.cfg
 
 # Run nimwc
 # (to add an Admin append the arg "newadmin": nimwc --newadmin)
@@ -184,6 +181,15 @@ nim c nimwc.nim
 ```
 
 </details>
+
+
+### 1c) Curl
+
+This will guide you through the installation.
+
+```
+curl https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/devops/autoinstall.sh -sSf | sh
+```
 
 
 # Use
