@@ -1,3 +1,11 @@
+## v5.5.1
+### Changes
+- Contra preconditions check for salt removed due to random len
+- If user does not have access to page (e.g. `/p/mypage`) redirect to `/`
+- On startup it is checked, that the tables are present in the database
+- Args `--insertdata`, post-conditions replaced with error message and user needs to confirm to avoid overwriting
+
+
 ## v5.5.0
 ### Changes
 - Compatible with Nim >= `0.20.2`.
