@@ -110,7 +110,7 @@ const
     try:
       filterIt("nimwc.nimble".readFile.splitLines, it.substr(0, 6) == "version")[0].split("= ")[1].normalize.replace("\"", "") ## Get NimWC Version at Compile-Time.
     except:
-      "5.5.0"  ## Set NimWC Version at Compile-Time, if ready from file failed.
+      "5.5.1"  ## Set NimWC Version at Compile-Time, if reading from file fails.
 
 const reqCode = """# Code your plugins backend logic in this file.
 proc $1Start*(db: DbConn): auto =
@@ -183,7 +183,8 @@ proc updateNimwc() =
   writeFile("plugins/plugin_import.txt", pluginImport)  # Write contents back
   writeFile("public/css/style_custom.css", styleCustom)
   writeFile("public/js/js_custom.js", jsCustom)
-  quit("\n\nNimWC has been updated.\n", 0)
+  echo "\n\n\nTo finish the update:\n - Compile NimWC\n - Run with the arg `--newdb`\n"
+  quit("Git fetch done\n", 0)
 
 
 proc pluginSkeleton() =
@@ -338,7 +339,12 @@ proc startupCheck(cfg: Config) =
     if not existsDir(storageEFS):  # Check access to EFS file system.
       quit("No access to storage in release mode. Critical.")
 
+  # Ensure that the tables are present in the DB
+  connectDb()
+  generateDB(db)
+
   if not fileExists(appPath):
+    # Ensure that the DB tables are created
     styledEcho(fgGreen, bgBlack, compile_start_msg & userArgs)
     let (output, exitCode) = execCmdEx("nim c --out:" & appPath & " " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
     if exitCode != 0:
