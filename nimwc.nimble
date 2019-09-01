@@ -1,5 +1,5 @@
 # Package
-version       = "5.5.0"
+version       = "5.5.1"
 author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev) & Juan Carlos (https://github.com/juancarlospaco)"
 description   = "Generate and host a website. Run the package and access your new webpage."
 license       = "PPL"
@@ -11,15 +11,15 @@ installDirs   = @["config", "nimwcpkg", "plugins", "public"]
 
 # Dependencies
 requires "nim >= 0.20.2"
-requires "jester >= 0.4.1"
-requires "recaptcha >= 1.0.2"
 requires "bcrypt >= 0.2.1"
-requires "datetime2human >= 0.2.2"
-requires "otp >= 0.1.1"
-requires "firejail >= 0.5.0"
-requires "webp >= 0.2.0"
-requires "libravatar >= 0.4.0"
 requires "contra >= 0.2.0"
+requires "datetime2human >= 0.2.2"
+requires "firejail >= 0.5.0"
+requires "jester >= 0.4.1"
+requires "libravatar >= 0.4.0"
+requires "otp >= 0.1.1"
+requires "recaptcha >= 1.0.2"
+requires "webp >= 0.2.0"
 
 
 import distros
