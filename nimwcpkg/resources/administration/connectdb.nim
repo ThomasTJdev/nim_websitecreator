@@ -1,4 +1,4 @@
-import os, parsecfg
+import os, logging, parsecfg, ../utils/logging_nimwc
 export parsecfg
 
 from strutils import strip
@@ -20,7 +20,7 @@ template connectDb*(configFile = "config/config.cfg"): untyped =
       when defined(postgres): db_host.len > 2
       else:                   fileExists(db_host)
 
-  if dbexists: echo("Database: Database already exists.")
+  if dbexists: info("Database: Already exists")
 
   when defined(postgres):
     assert db_user.len > 0, "db_user must not be empty string."

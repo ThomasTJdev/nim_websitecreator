@@ -166,7 +166,7 @@ const
 
 
 proc generateDB*(db: DbConn) =
-  info("Database: Generating database")
+  info("Database: Generating database tables")
 
   # User
   if not db.tryExec(personTable):
