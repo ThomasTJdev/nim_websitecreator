@@ -973,7 +973,14 @@ routes:
 
   get re"/p//*.":
     createTFD()
-    let pageid = getValue(db, sql"SELECT id FROM pages WHERE url = ?", c.req.path.replace("/p/", ""))
+
+    let access = if c.loggedIn: "(0,1,2)" else: "(2)"
+
+    let pageid = getValue(db, sql("SELECT id FROM pages WHERE url = ? AND status IN " & access), c.req.path.replace("/p/", ""))
+    
+    if pageid == "":
+      redirect("/")
+
     resp genPage(c, pageid)
 
 
