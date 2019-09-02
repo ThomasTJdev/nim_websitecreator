@@ -179,11 +179,13 @@ proc updateNimwc() =
     pluginImport = readFile"plugins/plugin_import.txt"  # Save contents
     styleCustom = readFile"public/css/style_custom.css"
     jsCustom = readFile"public/js/js_custom.js"
+    humansTxt = readFile"public/humans.txt"
   when not defined(release): echo cmd
   discard execCmd(cmd)
   writeFile("plugins/plugin_import.txt", pluginImport)  # Write contents back
   writeFile("public/css/style_custom.css", styleCustom)
   writeFile("public/js/js_custom.js", jsCustom)
+  writeFile("public/humans.txt", humansTxt)
   echo "\n\n\nTo finish the update:\n - Compile NimWC\n - Run with the arg `--newdb`\n"
   quit("Git fetch done\n", 0)
 
