@@ -88,7 +88,7 @@ const
     when defined(recaptcha):       " -d:recaptcha",
 
     when defined(ssl):               " -d:ssl",               # SSL
-    when defined(release):           " -d:release --listFullPaths:off --excessiveStackTrace:off",  # Build for Production
+    when defined(release):           " -d:release --listFullPaths:off",  # Build for Production
     when defined(danger):            " -d:danger",            # Build for Production
     when defined(quick):             " -d:quick",             # Tiny file but slow
     when defined(memProfiler):       " -d:memProfiler",       # RAM Profiler debug
