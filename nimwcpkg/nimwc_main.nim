@@ -40,11 +40,6 @@ randomize()
 const
   cmdStrip = "strip --strip-all --remove-section=.note.gnu.gold-version --remove-section=.comment --remove-section=.note --remove-section=.note.gnu.build-id --remove-section=.note.ABI-tag "
 
-  config_not_found_msg = """
-  🐛 ERROR: Config file (config.cfg) could not be found. 🐛
-  A template (config_default.cfg) is copied to "config/config.cfg".
-  Please configure it and restart Nim Website Creator, bye. """
-
   startup_msg = """
   Package:      Nim Website Creator - https://NimWC.org
   Description:  Nim open-source website framework that is simple to use.
@@ -90,16 +85,6 @@ const
 #
 # Macros
 #
-
-macro configExists(): untyped =
-  ## Macro to check if the config file is present
-  let dir = parentDir(currentSourcePath())
-  if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
-    echo config_not_found_msg
-    discard staticExec("cp " & dir & "/config/config_default.cfg " & dir & "/config/config.cfg")
-    quit()
-
-configExists()
 
 
 func getPluginsPath*(): seq[string] {.compileTime.} =

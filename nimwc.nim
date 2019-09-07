@@ -49,6 +49,11 @@ const
   ➡️ Check your source code: nim check YourFile.nim; nimpretty YourFile.nim
   """  ## Message to show when an error occurred during compiling.
 
+  config_not_found_msg = """
+  🐛 WARNING: Config file (config.cfg) could not be found. 🐛
+  A template (config_default.cfg) is copied to "config/config.cfg".
+  Please configure it and restart Nim Website Creator."""
+
   skeletonMsg = """NimWC: Creating plugin skeleton.
   New plugin template will be created inside the folder:  tmp/
   (The files will have useful comments with help & links). """
@@ -166,6 +171,16 @@ http://nim-lang.github.io/Nim/lib.html http://nim-lang.org/docs/theindex.html"""
 var
   runInLoop = true
   nimwcMain: Process
+
+
+macro configExists(): untyped =
+  ## Macro to check if the config file is present
+  let dir = parentDir(currentSourcePath())
+  if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
+    echo config_not_found_msg
+    discard staticExec("cp " & dir & "/config/config_default.cfg " & dir & "/config/config.cfg")
+
+configExists()
 
 
 proc updateNimwc() =
@@ -367,6 +382,7 @@ proc startupCheck(cfg: Config) =
 when isMainModule:
   let cfg = loadConfig(getAppDir() / "config/config.cfg") # cfg is Config.
   connectDb() # Read config, connect database, inject it as "db" variable.
+
   for keysType, keys, values in getopt():
     case keysType
     of cmdShortOption, cmdLongOption:
