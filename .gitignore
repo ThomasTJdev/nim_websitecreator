@@ -1,5 +1,7 @@
 .vscode
 
+backup
+
 config/config.cfg
 
 data/*
