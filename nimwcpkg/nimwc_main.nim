@@ -473,8 +473,6 @@ when isMainModule:
   # Create robots.txt
   writeFile("public/robots.txt", "User-agent: *\nSitemap: " & mainWebsite & "/sitemap.xml")
 
-  when defined(recaptcha): setupReCaptcha()  # Activate Google reCAPTCHA
-
   # Check if custom js and css exists
   if not fileExists("public/css/style_custom.css"):
     writeFile("public/css/style_custom.css", "")

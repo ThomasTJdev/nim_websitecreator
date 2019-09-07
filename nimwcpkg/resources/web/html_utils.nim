@@ -109,6 +109,8 @@ when defined(recaptcha):
       useCaptcha = false
       warn("Failed to initialize ReCAPTCHA.")
 
+  setupReCaptcha()
+
 
   proc checkReCaptcha*(antibot, userIP: string): Future[bool] {.async.} =
     ## Check if Google reCAPTCHA is Valid
