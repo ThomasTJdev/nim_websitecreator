@@ -104,7 +104,7 @@ const
     when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg", # Use Std Out as Std Msg
     when defined(nimOldShiftRight):  " -d:nimOldShiftRight",  # http://forum.nim-lang.org/t/4891#30600
     when defined(nimOldCaseObjects): " -d:nimOldCaseObjects", # old case switch
-    when defined(nimBinaryStdFiles): " -d:d:nimBinaryStdFiles", # stdin/stdout old binary open
+    when defined(nimBinaryStdFiles): " -d:nimBinaryStdFiles", # stdin/stdout old binary open
   ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   nimwc_version =
@@ -179,11 +179,13 @@ proc updateNimwc() =
     pluginImport = readFile"plugins/plugin_import.txt"  # Save contents
     styleCustom = readFile"public/css/style_custom.css"
     jsCustom = readFile"public/js/js_custom.js"
+    humansTxt = readFile"public/humans.txt"
   when not defined(release): echo cmd
   discard execCmd(cmd)
   writeFile("plugins/plugin_import.txt", pluginImport)  # Write contents back
   writeFile("public/css/style_custom.css", styleCustom)
   writeFile("public/js/js_custom.js", jsCustom)
+  writeFile("public/humans.txt", humansTxt)
   echo "\n\n\nTo finish the update:\n - Compile NimWC\n - Run with the arg `--newdb`\n"
   quit("Git fetch done\n", 0)
 
