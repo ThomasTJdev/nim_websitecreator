@@ -198,14 +198,19 @@ curl https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/dev
 
 These arguments should be prepended to executable file, e.g. `./nimwc cdata`
 
+* `--showconfig` = Show parsed INI configuration and compile options.
 * `--newadmin` = Add the Admin user.
-* `--insertdata` = Insert standard data (this will override existing data)
+* `--gitupdate` = Updates and force a hard reset.
+* `--initplugin` = Create plugin skeleton inside tmp/.
+* `--vacuumdb` = Vacuum database and continue (database maintenance).
+* `--backupdb` = Compressed full backup of database.
+* `--backupdb-gpg` = Compressed signed full backup of database.
+* `--newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
+* `--insertdata` = Insert standard data, e.g `--insertdata bulma` (this will override existing data)
   * `bulma` = Use Bulma CSS
   * `bootstrap` = Use Bootstrap and jQuery
   * `clean` = No framework is used
-* `--newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
-* `--gitupdate` = Updates and force a hard reset
-* `--initplugin` = Create plugin skeleton inside tmp/
+
 
 ## Compile options:
 
