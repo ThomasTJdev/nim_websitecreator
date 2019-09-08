@@ -392,8 +392,8 @@ when isMainModule:
         if not styleExist:
           echo("\nStandard data: Please specify data style:\n  1) bulma\n  2) bootstrap\n  3) clean\n!! Data not inserted !!")
       of "vacuumdb": echo vacuumDb(db)
-      of "backupdb-gpg": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"), gpg=true)
-      of "backupdb": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"), gpg=false)
+      of "backupdb-gpg": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"))
+      of "backupdb": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"), checksum=false, sign=false, targz=false)
     of cmdArgument:
       discard
     of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)

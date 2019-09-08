@@ -200,8 +200,7 @@ proc generateDB*(db: DbConn) =
 proc backupDb*(dbname: string,
     filename = "backup" / fileBackup & replace($now(), ":", "_") & ".sql",
     host = "localhost", port = Port(5432), username = getEnv("USER", "root"),
-    dataOnly = false, inserts = false, checksum = true, sign = true, targz = true,
-    gpg = false): tuple[output: TaintedString, exitCode: int] =
+    dataOnly = false, inserts = false, checksum = true, sign = true, targz = true): tuple[output: TaintedString, exitCode: int] =
   ## Backup the whole Database to a plain-text Raw SQL Query human-readable file.
   preconditions(dbname.len > 0, host.len > 0, username.len > 0,
     when defined(postgres): findExe("pg_dump").len > 0 else: findExe("sqlite3").len > 0)
@@ -217,7 +216,7 @@ proc backupDb*(dbname: string,
   when not defined(release): info("Database backup: " & cmd)
   result = execCmdEx(cmd)
 
-  if gpg and checksum and result.exitCode == 0 and findExe("sha512sum").len > 0:
+  if checksum and result.exitCode == 0 and findExe("sha512sum").len > 0:
     cmd = cmdChecksum & filename & " > " & filename & ".sha512"
     when not defined(release): info("Database backup (sha512sum): " & cmd)
     result = execCmdEx(cmd)
