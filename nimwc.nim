@@ -110,7 +110,7 @@ const
     when defined(nimOldShiftRight):  " -d:nimOldShiftRight",  # http://forum.nim-lang.org/t/4891#30600
     when defined(nimOldCaseObjects): " -d:nimOldCaseObjects", # old case switch
     when defined(nimBinaryStdFiles): " -d:nimBinaryStdFiles", # stdin/stdout old binary open
-  ].join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
+  ].deduplicate.join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   nimwc_version =
     try:

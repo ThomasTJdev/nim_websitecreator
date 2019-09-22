@@ -74,7 +74,7 @@ const
     when defined(nimOldShiftRight):  " -d:nimOldShiftRight",  # http://forum.nim-lang.org/t/4891#30600
     when defined(nimOldCaseObjects): " -d:nimOldCaseObjects", # old case switch
     when defined(nimBinaryStdFiles): " -d:nimBinaryStdFiles", # stdin/stdout old binary open
-  ].join  ## Checking for known compile options and returning them as a space separated string.
+  ].deduplicate.join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
   sql_now =
