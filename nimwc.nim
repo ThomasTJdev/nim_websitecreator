@@ -391,6 +391,7 @@ when isMainModule:
       of "version": quit(nimwc_version, 0)
       of "help": styledEcho(fgGreen, bgBlack, doc)
       of "showconfig":
+        styledEcho(fgMagenta, bgBlack, $commandLineParams())
         styledEcho(fgMagenta, bgBlack, $compileOptions)
         styledEcho(fgMagenta, bgBlack, $cfg)
       of "initplugin": pluginSkeleton() # Interactive (Asks to user).
