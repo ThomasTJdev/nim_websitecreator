@@ -1,11 +1,12 @@
-import json
-
 import
   nimwcpkg/resources/administration/createdb,
   nimwcpkg/resources/administration/create_standarddata,
   nimwcpkg/resources/administration/connectdb,
   nimwcpkg/resources/files/files_efs,
   nimwcpkg/resources/administration/create_adminuser
+
+when defined(packedjson): import packedjson
+else:                     import json
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
@@ -82,15 +83,16 @@ const
   """
 
   compileOptions = ["",
-    when defined(adminnotify):     " -d:adminnotify",
-    when defined(dev):             " -d:dev",
-    when defined(devemailon):      " -d:devemailon",
-    when defined(demo):            " -d:demo",
-    when defined(postgres):        " -d:postgres",
-    when defined(webp):            " -d:webp",
-    when defined(firejail):        " -d:firejail",
-    when defined(contracts):       " -d:contracts",
-    when defined(recaptcha):       " -d:recaptcha",
+    when defined(adminnotify):       " -d:adminnotify",
+    when defined(dev):               " -d:dev",
+    when defined(devemailon):        " -d:devemailon",
+    when defined(demo):              " -d:demo",
+    when defined(postgres):          " -d:postgres",
+    when defined(webp):              " -d:webp",
+    when defined(firejail):          " -d:firejail",
+    when defined(contracts):         " -d:contracts",
+    when defined(recaptcha):         " -d:recaptcha",
+    when defined(packedjson):        " -d:packedjson",
 
     when defined(ssl):               " -d:ssl",               # SSL
     when defined(release):           " -d:release --listFullPaths:off",  # Build for Production
