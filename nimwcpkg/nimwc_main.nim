@@ -73,7 +73,7 @@ const
     when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg", # Use Std Out as Std Msg
     when defined(nimOldShiftRight):  " -d:nimOldShiftRight",  # http://forum.nim-lang.org/t/4891#30600
     when defined(nimOldCaseObjects): " -d:nimOldCaseObjects", # old case switch
-    when defined(nimBinaryStdFiles): " -d:nimBinaryStdFiles", # stdin/stdout old binary open
+    when defined(nimDontSetUtf8CodePage): " -d:nimDontSetUtf8CodePage", # stdin/stdout Not UTF-8
   ].deduplicate.join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
