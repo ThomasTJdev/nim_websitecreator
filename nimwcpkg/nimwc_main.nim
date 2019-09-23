@@ -3,7 +3,7 @@
 #        Look at LICENSE for more info.
 #        All rights reserved.
 import
-  asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
+  asyncdispatch, bcrypt, cgi, jester, macros, os, osproc, logging, otp,
   parsecfg, random, re, sequtils, strutils, times, datetime2human,
   base32, streams, encodings, nativesockets, libravatar, contra,
   oswalkdir
@@ -24,6 +24,9 @@ import
 from md5 import getMD5
 from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
+
+when defined(packedjson): import packedjson
+else:                     import json
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
@@ -46,15 +49,16 @@ const
   Author name:  Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (http://github.com/juancarlospaco)"""
 
   checkCompileOptions* = ["",
-    when defined(adminnotify):     " -d:adminnotify",
-    when defined(dev):             " -d:dev",
-    when defined(devemailon):      " -d:devemailon",
-    when defined(demo):            " -d:demo",
-    when defined(postgres):        " -d:postgres",
-    when defined(webp):            " -d:webp",
-    when defined(firejail):        " -d:firejail",
-    when defined(contracts):       " -d:contracts",
-    when defined(recaptcha):       " -d:recaptcha",
+    when defined(adminnotify):       " -d:adminnotify",
+    when defined(dev):               " -d:dev",
+    when defined(devemailon):        " -d:devemailon",
+    when defined(demo):              " -d:demo",
+    when defined(postgres):          " -d:postgres",
+    when defined(webp):              " -d:webp",
+    when defined(firejail):          " -d:firejail",
+    when defined(contracts):         " -d:contracts",
+    when defined(recaptcha):         " -d:recaptcha",
+    when defined(packedjson):        " -d:packedjson",
 
     when defined(ssl):               " -d:ssl",               # SSL
     when defined(release):           " -d:release --listFullPaths:off",  # Build for Production
