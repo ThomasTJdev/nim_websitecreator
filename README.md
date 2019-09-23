@@ -85,7 +85,7 @@ As alternative, [try AndOTP](https://github.com/andOTP/andOTP) (5Mb size).
 To get started you only need:
 
 - Linux (For Windows [see Docker-for-Windows](http://docs.docker.com/docker-for-windows))
-- Nim >= `0.20.2` (Stable Release)
+- Nim >= `1.0.0` (Stable Release)
 
 Development dependencies (automatically installed by Nimble):
 
@@ -98,6 +98,7 @@ Development dependencies (automatically installed by Nimble):
 - [otp](https://github.com/OpenSystemsLab/otp.nim) >= `0.1.1`
 - [reCAPTCHA](https://github.com/euantorano/recaptcha.nim) >= `1.0.2`
 - [WebP](https://github.com/juancarlospaco/nim-webp-tools) >= `0.2.0`
+- [PackedJSON](https://github.com/Araq/packedjson#packedjson) >= `0.1.0`
 
 Foreing optional dependencies:
 
@@ -225,6 +226,7 @@ These options are only available at compiletime:
 * `-d:postgres` = Use Postgres database instead of SQLite.
 * `-d:contracts` = Checks pre- and post-conditions when compiled with `-d:release`.
 * `-d:hardened` = Hardens security, requires `-d:contracts`. Performance cost ~20% max.
+* `-d:packedjson` = Use PackedJSON instead of std lib JSON. Performance optimization.
 
 
 # User profiles
