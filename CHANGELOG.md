@@ -1,3 +1,13 @@
+## v5.5.5
+### Changes
+- Nim V1.0 compatible
+- PackedJSON Compile-Time optional, for performance and resource usage improvements, via `-d:packedjson`
+- Simplify imports
+- Update Docs
+- Fix #119
+- Minor bugs
+
+
 ## v5.5.2
 ### Changes
 - ReCaptcha compile flag missing + minor bugs
