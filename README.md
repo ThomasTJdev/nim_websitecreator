@@ -226,7 +226,7 @@ These options are only available at compiletime:
 * `-d:postgres` = Use Postgres database instead of SQLite.
 * `-d:contracts` = Checks pre- and post-conditions when compiled with `-d:release`.
 * `-d:hardened` = Hardens security, requires `-d:contracts`. Performance cost ~20% max.
-* `-d:packedjson` = Use PackedJSON instead of std lib JSON. Performance optimization.
+* `-d:packedjson` = Use [PackedJSON](https://github.com/Araq/packedjson#packedjson) instead of [std lib JSON](https://nim-lang.github.io/Nim/json.html). Performance optimization.
 
 
 # User profiles
