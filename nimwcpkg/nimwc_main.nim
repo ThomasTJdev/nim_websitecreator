@@ -1,13 +1,3 @@
-#        TTJ
-#        (c) Copyright 2019 Thomas Toftgaard Jarløv
-#        Look at LICENSE for more info.
-#        All rights reserved.
-import
-  asyncdispatch, bcrypt, cgi, jester, macros, os, osproc, logging, otp,
-  parsecfg, random, re, sequtils, strutils, times, datetime2human,
-  base32, streams, encodings, nativesockets, libravatar, contra,
-  oswalkdir
-
 import
   resources/administration/create_adminuser,
   resources/administration/create_standarddata,
@@ -21,8 +11,6 @@ import
   resources/utils/plugins,
   resources/web/html_utils
 
-from md5 import getMD5
-from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
 
 when defined(packedjson): import packedjson
