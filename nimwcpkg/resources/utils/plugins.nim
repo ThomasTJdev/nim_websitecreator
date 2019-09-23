@@ -1,6 +1,8 @@
-import os, strutils, json, contra
+import os, strutils, contra
 from osproc import execCmd, execProcess
 
+when defined(packedjson): import packedjson
+else:                     import json
 
 const
   pluginRepo = "https://github.com/ThomasTJdev/nimwc_plugins.git"
