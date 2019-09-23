@@ -162,6 +162,7 @@ Compile options (features when compiling source code):
  -d:demo          Public demo mode. Enable Test user. 2FA ignored. Pages Reset.
                   Force database reset every 1 hour. Some options Disabled.
  -d:contracts     Force Design by Contract enabled. Runs assertive.
+ -d:packedjson    PackedJSON replaces std lib JSON. Optional compatible performance optimization.
 
 Compile options quick tip (release builds are automatically stripped/optimized):
  Fastest       -d:release -d:danger
