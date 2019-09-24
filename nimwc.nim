@@ -111,7 +111,6 @@ const
     when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg", # Use Std Out as Std Msg
     when defined(nimOldShiftRight):  " -d:nimOldShiftRight",  # http://forum.nim-lang.org/t/4891#30600
     when defined(nimOldCaseObjects): " -d:nimOldCaseObjects", # old case switch
-    when defined(nimDontSetUtf8CodePage): " -d:nimDontSetUtf8CodePage", # stdin/stdout Not UTF-8
   ].deduplicate.join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   nimwc_version =
