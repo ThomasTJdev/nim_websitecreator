@@ -113,11 +113,7 @@ const
     when defined(nimOldCaseObjects): " -d:nimOldCaseObjects", # old case switch
   ].deduplicate.join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
-  nimwc_version =
-    try:
-      filterIt("nimwc.nimble".readFile.splitLines, it.substr(0, 6) == "version")[0].split("= ")[1].normalize.replace("\"", "") ## Get NimWC Version at Compile-Time.
-    except:
-      "5.5.5"  ## Set NimWC Version at Compile-Time, if reading from file fails.
+  NimblePkgVersion {.strdefine.} = "5.5.5"  ## Set NimWC Version
 
 const reqCode = """# Code your plugins backend logic in this file.
 proc $1Start*(db: DbConn): auto =
@@ -241,7 +237,7 @@ proc pluginSkeleton() =
 
   writeFile("tmp/" & pluginName & "/plugin.json",
     pluginJson.format(capitalizeAscii(pluginName), pluginName,
-    getEnv("USER", "YourUser"), nimwc_version.substr(0, 2)))
+    getEnv("USER", "YourUser"), NimblePkgVersion.substr(0, 2)))
   quit("\n\nNimWC created a new Plugin skeleton, happy hacking, bye.\n\n", 0)
 
 
@@ -390,7 +386,7 @@ when isMainModule:
     case keysType
     of cmdShortOption, cmdLongOption:
       case keys
-      of "version": quit(nimwc_version, 0)
+      of "version": quit(NimblePkgVersion, 0)
       of "help": styledEcho(fgGreen, bgBlack, doc)
       of "showconfig":
         styledEcho(fgMagenta, bgBlack, $commandLineParams())
