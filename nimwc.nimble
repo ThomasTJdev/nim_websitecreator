@@ -12,7 +12,7 @@ installDirs   = @["config", "nimwcpkg", "plugins", "public"]
 # Dependencies
 requires "nim >= 1.0.0"
 requires "bcrypt >= 0.2.1"
-requires "contra >= 0.2.0"
+requires "contra >= 0.2.5"
 requires "datetime2human >= 0.2.2"
 requires "firejail >= 0.5.0"
 requires "jester >= 0.4.1"

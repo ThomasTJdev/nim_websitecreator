@@ -1,7 +1,5 @@
-import os, strutils, logging, rdstdin, contra
-import ../password/password_generate, ../password/salt_generate, ../utils/logging_nimwc
-
-import ../administration/connectdb
+import strutils, logging, rdstdin, contra
+import ../password/password_generate, ../password/salt_generate
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
