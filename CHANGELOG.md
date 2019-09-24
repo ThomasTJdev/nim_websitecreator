@@ -3,7 +3,7 @@
 - Nim V1.0 compatible
 - PackedJSON Compile-Time optional compatible performance optimization, via `-d:packedjson` https://github.com/Araq/packedjson#packedjson
 - Simplify imports, some imports are now placed in `*.nim.cfg`.
-- Version is now set using Nimbles `NimblePkgVersion`.
+- Version is now set using Nimbles `NimblePkgVersion` https://github.com/nim-lang/nimble/blob/master/changelog.markdown#0110---22092019
 - Update Docs
 - Fix #119
 - Minor bugs
