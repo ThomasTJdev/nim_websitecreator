@@ -19,7 +19,7 @@ requires "jester >= 0.4.1"
 requires "libravatar >= 0.4.0"
 requires "otp >= 0.1.1"
 requires "recaptcha >= 1.0.2"
-requires "webp >= 0.2.0"
+requires "webp >= 0.2.5"
 requires "packedjson >= 0.1.0"
 
 
