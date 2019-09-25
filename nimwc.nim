@@ -5,19 +5,12 @@ import
   nimwcpkg/resources/files/files_efs,
   nimwcpkg/resources/administration/create_adminuser
 
-when defined(packedjson): import packedjson
-else:                     import json
-
-when defined(postgres): import db_postgres
-else:                   import db_sqlite
-
 hardenedBuild()
 
-when defined(windows):        {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
-when not defined(contracts):  {.warning: "Design by Contract is Disabled, Running Unassertive.".}
-when not defined(ssl):        {.warning: "SSL is Disabled, Running Unsecure.".}
-when not defined(firejail):   {.warning: "Firejail is Disabled, Running Unsecure.".}
-else: import firejail
+when defined(windows):       {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
+when not defined(contracts): {.warning: "Design by Contract is Disabled, Running Unassertive.".}
+when not defined(ssl):       {.warning: "SSL is Disabled, Running Unsecure.".}
+when not defined(firejail):  {.warning: "Firejail is Disabled, Running Unsecure.".}
 
 const
   cmdStrip = "strip --strip-all --remove-section=.note.gnu.gold-version --remove-section=.comment --remove-section=.note --remove-section=.note.gnu.build-id --remove-section=.note.ABI-tag "
@@ -117,10 +110,11 @@ const
 
 const reqCode = """# Code your plugins backend logic in this file.
 proc $1Start*(db: DbConn): auto =
-  ## Code your plugins start-up backend logic here, db is the database, see $1
+  ## Code your plugins start-up backend logic here, db is the database.
+  ## - Postgres Documentation: https://nim-lang.org/docs/db_postgres.html
+  ## - SQLite 3 Documentation: https://nim-lang.org/docs/db_sqlite.html
   discard
-""".format(when defined(postgres): "https://nim-lang.org/docs/db_postgres.html"
-           else: "https://nim-lang.org/docs/db_sqlite.html")
+"""
 
 const doc = """Nim Website Creator - https://NimWC.org
 Nim open-source website framework that is simple to use.
