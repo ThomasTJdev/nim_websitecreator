@@ -6,9 +6,9 @@ import
 import
   bcrypt,          # https://github.com/runvnc/bcryptnim#bcrypt
   contra,          # https://github.com/juancarlospaco/nim-contra#contra
-  datetime2human,  # https://github.com/juancarlospaco/nim-datetime2human#nim-datetime2human
+  datetime2human,  # https://github.com/juancarlospaco/nim-datetime2human
   jester,          # https://github.com/dom96/jester#jester
-  libravatar,      # https://github.com/juancarlospaco/nim-libravatar#nim-libravatar
+  libravatar,      # https://github.com/juancarlospaco/nim-libravatar
   otp              # https://github.com/OpenSystemsLab/otp.nim#otpnim
 
 import
