@@ -4,15 +4,7 @@ from osproc import execCmd, execProcess
 when defined(packedjson): import packedjson
 else:                     import json
 
-const
-  pluginRepo = "https://github.com/ThomasTJdev/nimwc_plugins.git"
-  pluginRepoName = "nimwc_plugins"
-  pluginHtmlListItem = """
-    <li data-plugin="$1" class="pluginSettings $6" data-enabled="$2">
-      <div class="name"> <a href="$3"><b>$4</b> <i>($5)</i></a> </div>
-      <div class="enablePlugin"  title="Turn ON">  Start </div>
-      <div class="disablePlugin" title="Turn OFF"> Stop  </div>
-    </li>"""
+import ../../constants/constants
 
 
 proc pluginExtractDetails*(pluginFolder: string): tuple[name, version, description, url: string] =
