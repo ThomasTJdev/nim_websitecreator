@@ -1,3 +1,6 @@
+import macros, times, base32, oswalkdir
+from packages/docutils/rstgen import rstToHtml
+
 import
   resources/administration/create_adminuser,
   resources/administration/create_standarddata,
@@ -11,18 +14,13 @@ import
   resources/utils/plugins,
   resources/web/html_utils
 
-from packages/docutils/rstgen import rstToHtml
-
 hardenedBuild()
 randomize()
 
 const
-  cmdStrip = "strip --strip-all --remove-section=.note.gnu.gold-version --remove-section=.comment --remove-section=.note --remove-section=.note.gnu.build-id --remove-section=.note.ABI-tag "
-
-  startup_msg = """
-  Package:      Nim Website Creator - https://NimWC.org
-  Description:  Nim open-source website framework that is simple to use.
-  Author name:  Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (http://github.com/juancarlospaco)"""
+  cmdStrip {.strdefine.} = ""  # Defined statically on nimwc_main.nim.cfg,
+  sql_now {.strdefine.} = ""   # to keep code clean of long static strings
+  startup_msg {.strdefine.} = ""
 
   checkCompileOptions* = ["",
     when defined(adminnotify):       " -d:adminnotify",
@@ -55,10 +53,6 @@ const
     when defined(nimOldCaseObjects): " -d:nimOldCaseObjects", # old case switch
   ].deduplicate.join  ## Checking for known compile options and returning them as a space separated string.
   # Used within plugin route, where a recompile is required to include/exclude a plugin.
-
-  sql_now =
-    when defined(postgres): "(extract(epoch from now()))" # Postgres epoch.
-    else:                   "(strftime('%s', 'now'))"     # SQLite 3 epoch.
 
 
 #
