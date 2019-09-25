@@ -74,7 +74,9 @@ template imgLazyLoadHtml*(src, id: string, width="", heigth="", class="", alt=""
 
 
 template notifyHtml*(message: string, title="NimWC 👑", iconUrl="/favicon.ico", timeout: byte = 3): string =
-  "Notification.requestPermission(()=>{const n=new Notification('" & title & "',{body:'" & message.strip & "',icon:'" & iconUrl & "'});setTimeout(()=>{n.close()}," & $timeout & "000)});"
+  ("Notification.requestPermission(()=>{const n=new Notification('" &
+    title & "',{body:'" & message.strip & "',icon:'" & iconUrl &
+    "'});setTimeout(()=>{n.close()}," & $timeout & "000)});")
 
 
 template minifyHtml*(htmlstr: string): string =
