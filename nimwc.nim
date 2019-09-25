@@ -8,7 +8,7 @@ import
 
 hardenedBuild()
 
-when defined(windows):       {.fatal: "Cannot run on Windows, but you can try Docker for Windows: http://docs.docker.com/docker-for-windows".}
+
 when not defined(contracts): {.warning: "Design by Contract is Disabled, Running Unassertive.".}
 when not defined(ssl):       {.warning: "SSL is Disabled, Running Unsecure.".}
 when not defined(firejail):  {.warning: "Firejail is Disabled, Running Unsecure.".}
