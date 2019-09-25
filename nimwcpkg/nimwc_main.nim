@@ -2,6 +2,7 @@ import macros, times, base32, oswalkdir
 from packages/docutils/rstgen import rstToHtml
 
 import
+  constants/constants,
   resources/administration/create_adminuser,
   resources/administration/create_standarddata,
   resources/email/email_registration,
@@ -16,43 +17,6 @@ import
 
 hardenedBuild()
 randomize()
-
-const
-  cmdStrip {.strdefine.} = ""  # Defined statically on nimwc_main.nim.cfg,
-  sql_now {.strdefine.} = ""   # to keep code clean of long static strings
-  startup_msg {.strdefine.} = ""
-
-  checkCompileOptions* = ["",
-    when defined(adminnotify):       " -d:adminnotify",
-    when defined(dev):               " -d:dev",
-    when defined(devemailon):        " -d:devemailon",
-    when defined(demo):              " -d:demo",
-    when defined(postgres):          " -d:postgres",
-    when defined(webp):              " -d:webp",
-    when defined(firejail):          " -d:firejail",
-    when defined(contracts):         " -d:contracts",
-    when defined(recaptcha):         " -d:recaptcha",
-    when defined(packedjson):        " -d:packedjson",
-
-    when defined(ssl):               " -d:ssl",               # SSL
-    when defined(release):           " -d:release --listFullPaths:off",  # Build for Production
-    when defined(danger):            " -d:danger",            # Build for Production
-    when defined(quick):             " -d:quick",             # Tiny file but slow
-    when defined(memProfiler):       " -d:memProfiler",       # RAM Profiler debug
-    when defined(nimTypeNames):      " -d:nimTypeNames",      # Debug names
-    when defined(useRealtimeGC):     " -d:useRealtimeGC",     # Real Time GC
-    when defined(tinyc):             " -d:tinyc",             # TinyC compiler
-    when defined(useNimRtl):         " -d:useNimRtl",         # NimRTL.dll
-    when defined(useFork):           " -d:useFork",           # Fork instead of Spawn
-    when defined(useMalloc):         " -d:useMalloc",         # Use Malloc for gc:none
-    when defined(uClibc):            " -d:uClibc",            # uClibc instead of glibC
-    when defined(checkAbi):          " -d:checkAbi",          # Check C ABI compatibility
-    when defined(noSignalHandler):   " -d:noSignalHandler",   # No convert crash to signal
-    when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg", # Use Std Out as Std Msg
-    when defined(nimOldShiftRight):  " -d:nimOldShiftRight",  # http://forum.nim-lang.org/t/4891#30600
-    when defined(nimOldCaseObjects): " -d:nimOldCaseObjects", # old case switch
-  ].deduplicate.join  ## Checking for known compile options and returning them as a space separated string.
-  # Used within plugin route, where a recompile is required to include/exclude a plugin.
 
 
 #
@@ -245,11 +209,11 @@ func init(c: var TData) {.inline.} =
 
 proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
-  preconditions checkCompileOptions.len > 0
+  preconditions compileOptions.len > 0
   postconditions result == 0
   let appName = dict.getSectionValue("Server", "appname")
   let appPath = getAppDir() / appName
-  result = execCmd("nim c " & checkCompileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
+  result = execCmd("nim c " & compileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
   when defined(release):
     if result == 0 and findExe"strip".len > 0: discard execCmd(cmdStrip & appPath & "_new_tmp")
   moveFile(getAppDir() & "/" & appName & "_new_tmp", getAppDir() & "/" & appName & "_new")
