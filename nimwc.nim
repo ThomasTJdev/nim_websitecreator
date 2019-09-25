@@ -1,4 +1,5 @@
 import
+  nimwcpkg/constants/constants,
   nimwcpkg/resources/administration/createdb,
   nimwcpkg/resources/administration/create_standarddata,
   nimwcpkg/resources/administration/connectdb,
@@ -11,50 +12,6 @@ when defined(windows):       {.fatal: "Cannot run on Windows, but you can try Do
 when not defined(contracts): {.warning: "Design by Contract is Disabled, Running Unassertive.".}
 when not defined(ssl):       {.warning: "SSL is Disabled, Running Unsecure.".}
 when not defined(firejail):  {.warning: "Firejail is Disabled, Running Unsecure.".}
-
-const
-  cmdStrip {.strdefine.} = ""           # Defined statically on nimwc.nim.cfg,
-  compile_start_msg {.strdefine.} = ""  # to keep code clean of long static strings
-  compile_ok_msg {.strdefine.} = ""
-  compile_fail_msg {.strdefine.} = ""
-  config_not_found_msg {.strdefine.} = ""
-  skeletonMsg {.strdefine.} = ""
-  reqRoutes {.strdefine.} = ""
-  pluginJson {.strdefine.} = ""
-  reqCode {.strdefine.} = ""
-  doc {.strdefine.} = ""
-  NimblePkgVersion {.strdefine.} = "5.5.5"  ## Set NimWC Version
-
-  compileOptions = ["",
-    when defined(adminnotify):       " -d:adminnotify",
-    when defined(dev):               " -d:dev",
-    when defined(devemailon):        " -d:devemailon",
-    when defined(demo):              " -d:demo",
-    when defined(postgres):          " -d:postgres",
-    when defined(webp):              " -d:webp",
-    when defined(firejail):          " -d:firejail",
-    when defined(contracts):         " -d:contracts",
-    when defined(recaptcha):         " -d:recaptcha",
-    when defined(packedjson):        " -d:packedjson",
-
-    when defined(ssl):               " -d:ssl",               # SSL
-    when defined(release):           " -d:release --listFullPaths:off",  # Build for Production
-    when defined(danger):            " -d:danger",            # Build for Production
-    when defined(quick):             " -d:quick",             # Tiny file but slow
-    when defined(memProfiler):       " -d:memProfiler",       # RAM Profiler debug
-    when defined(nimTypeNames):      " -d:nimTypeNames",      # Debug names
-    when defined(useRealtimeGC):     " -d:useRealtimeGC",     # Real Time GC
-    when defined(tinyc):             " -d:tinyc",             # TinyC compiler
-    when defined(useNimRtl):         " -d:useNimRtl",         # NimRTL.dll
-    when defined(useFork):           " -d:useFork",           # Fork instead of Spawn
-    when defined(useMalloc):         " -d:useMalloc",         # Use Malloc for gc:none
-    when defined(uClibc):            " -d:uClibc",            # uClibc instead of glibC
-    when defined(checkAbi):          " -d:checkAbi",          # Check C ABI compatibility
-    when defined(noSignalHandler):   " -d:noSignalHandler",   # No convert crash to signal
-    when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg", # Use Std Out as Std Msg
-    when defined(nimOldShiftRight):  " -d:nimOldShiftRight",  # http://forum.nim-lang.org/t/4891#30600
-    when defined(nimOldCaseObjects): " -d:nimOldCaseObjects", # old case switch
-  ].deduplicate.join  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
 
 var
