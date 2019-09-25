@@ -1,5 +1,15 @@
-import macros, times, base32, oswalkdir
-from packages/docutils/rstgen import rstToHtml
+import
+  asyncdispatch, base32, cgi, encodings, logging, md5, nativesockets, os,
+  osproc, oswalkdir, parsecfg, random, re, sequtils, streams, strtabs,
+  strutils, times, macros, packages/docutils/rstgen
+
+import
+  bcrypt,          # https://github.com/runvnc/bcryptnim#bcrypt
+  contra,          # https://github.com/juancarlospaco/nim-contra#contra
+  datetime2human,  # https://github.com/juancarlospaco/nim-datetime2human#nim-datetime2human
+  jester,          # https://github.com/dom96/jester#jester
+  libravatar,      # https://github.com/juancarlospaco/nim-libravatar#nim-libravatar
+  otp              # https://github.com/OpenSystemsLab/otp.nim#otpnim
 
 import
   constants/constants,
@@ -14,6 +24,15 @@ import
   resources/utils/logging_nimwc,
   resources/utils/plugins,
   resources/web/html_utils
+
+when defined(postgres): import db_postgres
+else:                   import db_sqlite
+
+when not defined(webp): {. warning: "WebP is disabled, no image optimizations possible." .}
+else:                   from webp import cwebp
+
+when not defined(firejail): {. warning: "Firejail is disabled, running unsecure." .}
+else:                       from firejail import firejailVersion, firejailFeatures
 
 hardenedBuild()
 randomize()
@@ -60,7 +79,7 @@ macro extensionImport(): untyped =
   ## Generate code for importing modules from extensions.
   ## The extensions main module needs to be in plugins/plugin_import.txt
   ## to be activated. Only 1 module will be imported.
-  preconditions pluginsPath.allIt(it.len > 0)
+  # preconditions pluginsPath.allIt(it.len > 0)
   var extensions = ""
   for ppath in pluginsPath:
     let splitted = split(ppath, "/")
@@ -80,7 +99,7 @@ macro extensionUpdateDatabase(): untyped =
   ## Generate proc for updating the database with new tables etc.
   ## The extensions main module shall contain a proc named 'proc <extensionname>Start(db: DbConn) ='
   ## The proc will be executed when the program is executed.
-  preconditions pluginsPath.allIt(it.len > 0)
+  # preconditions pluginsPath.allIt(it.len > 0)
   var extensions = ""
 
   extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
@@ -109,7 +128,7 @@ proc extensionCss(): string {.compiletime.} =
   ## renaming to <extensionname>.css
   ##
   ## 2) Insert <style>-link into HTML
-  preconditions pluginsPath.allIt(it.len > 0)
+  # preconditions pluginsPath.allIt(it.len > 0)
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -136,7 +155,7 @@ proc extensionJs*(): string {.compiletime.} =
   ## renaming to <extensionname>.js
   ##
   ## 2) Insert <js>-link into HTML
-  preconditions pluginsPath.allIt(it.len > 0)
+  # preconditions pluginsPath.allIt(it.len > 0)
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -209,7 +228,7 @@ func init(c: var TData) {.inline.} =
 
 proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
-  preconditions compileOptions.len > 0
+  # preconditions compileOptions.len > 0
   postconditions result == 0
   let appName = dict.getSectionValue("Server", "appname")
   let appPath = getAppDir() / appName
@@ -262,7 +281,7 @@ proc checkLoggedIn(c: var TData) =
 
 proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string] =
   ## User login
-  preconditions email.len > 5, pass.len > 3, email.len < 255, pass.len < 301
+  # preconditions email.len > 5, pass.len > 3, email.len < 255, pass.len < 301
   when not defined(demo):
     if email == "test@test.com":
       return (false, "Email may not be test@test.com")
