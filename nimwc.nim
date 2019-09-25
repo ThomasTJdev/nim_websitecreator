@@ -245,10 +245,9 @@ when isMainModule:
       of "newdb": generateDB(db)
       of "newadmin": createAdminUser(db)
       of "insertdata":
-        const styles = @["bulma", "bootstrap", "clean"]
         var styleExist = false
         for data in commandLineParams():
-          if $data in styles:
+          if $data in ["bulma", "bootstrap", "clean"]:
             createStandardData(db, $data, confirm=true)
             styleExist = true
         if not styleExist:
