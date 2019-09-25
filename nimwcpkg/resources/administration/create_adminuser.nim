@@ -1,27 +1,8 @@
 import strutils, logging, rdstdin, contra
-import ../password/password_generate, ../password/salt_generate
+import ../../constants/constants, ../password/password_generate, ../password/salt_generate
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
-
-
-const
-  createAdminUserMsg = """Checking if any Admin exists in the database...
-  $1 Admins already exists. Adding 1 new Admin.
-  Requirements:
-    - Username > 3 characters long.
-    - Email    > 5 characters long.
-    - Password > 9 characters long."""
-
-  createTestUserMsg = """Checking if any test@test.com exists in the database...
-  $1 Test user already exists."""
-
-  nameMinLen  = 3
-  nameMaxLen = 60
-  emailMinLen = 5
-  emailMaxLen = 255
-  passwordMinLen = 9
-  passwordMaxLen  = 301
 
 
 proc ask4UserPass*(): tuple[iName, iEmail, iPwd: string] =
