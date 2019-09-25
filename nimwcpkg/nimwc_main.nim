@@ -13,18 +13,6 @@ import
 
 from packages/docutils/rstgen import rstToHtml
 
-when defined(packedjson): import packedjson
-else:                     import json
-
-when defined(postgres): import db_postgres
-else:                   import db_sqlite
-
-when not defined(webp): {. warning: "WebP is disabled, no image optimizations possible." .}
-else:                   from webp import cwebp
-
-when not defined(firejail): {. warning: "Firejail is disabled, running unsecure." .}
-else:                       from firejail import firejailVersion, firejailFeatures
-
 hardenedBuild()
 randomize()
 
