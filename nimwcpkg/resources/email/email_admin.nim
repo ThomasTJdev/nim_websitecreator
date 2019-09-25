@@ -3,24 +3,9 @@ import asyncdispatch, contra
 from strutils import format, countLines
 from times import now
 
+import ../../constants/constants
 from ../email/email_generate_message import genEmailMessage
 from ../email/email_connection import sendAdminMailNow
-
-
-const adminErrorMsg = """<!DOCTYPE html>
-  <center>
-    <h1>Error Logs</h1>
-    <p>Hi Admin, an error occurred at $3 </p>
-    <textarea name="logs" id="logs" title="Log Size: $2 Lines." dir="auto" rows=20 readonly autofocus spellcheck style="width:99% !important;">
-      $1
-    </textarea>
-    <br>
-    <a title="Copy Logs" onclick="document.querySelector('#logs').select();document.execCommand('copy')">
-      <button>Copy</button>
-    </a>
-    <br>
-  </center>
-  """
 
 
 proc sendEmailAdminError*(msg: string) {.async.} =
