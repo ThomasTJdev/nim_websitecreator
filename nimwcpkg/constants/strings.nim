@@ -158,21 +158,21 @@ Run it, access your web, customize, add plugins, deploy today anywhere.
 Usage:            nimwc <compile options> <options>
 
 Options:
-  -h --help        Show this help.
-  --version        Show Version and exit.
+  -h --help        Show this help and exit.
+  --version        Show Version (SemVer) and exit.
   -f, --forcebuild Force Recompile.
-  --showconfig     Show parsed INI configuration and compile options.
+  --showconfig     Show parsed INI configuration, compile options, command parameters.
   --newadmin       Add 1 new Admin or Moderator user (asks name, mail & password).
   --gitupdate      Update from Git origin master then force a hard reset and exit.
   --initplugin     Create 1 new empty plugin skeleton inside the folder ./tmp/
   --vacuumdb       Vacuum database and continue (database maintenance).
   --backupdb       Compressed full backup of database.
-  --backupdb-gpg   Compressed signed full backup of database.
+  --backupdb-gpg   Compressed signed full backup of database (GPG+SHA512).
   --newdb          Generates a database with standard tables (Wont override data).
                     If no database exists, new db will be initialized automatically.
-  --insertdata bulma     Insert Bulma standard data into the database (default, overrides data)
-  --insertdata bootstrap Insert Bootstrap standard data into the database (overrides data)
-  --insertdata clean     Insert clean (no framework) standard data into the database (overrides data)
+  --insertdata bulma     Insert https://bulma.io data into database (default, overrides data)
+  --insertdata bootstrap Insert https://getbootstrap.com data into database (overrides data)
+  --insertdata clean     Insert clean (no framework) standard data into database (overrides data)
 
 Compile options (features when compiling source code):
   -d:postgres      Postgres database is enabled (SQLite is default)
