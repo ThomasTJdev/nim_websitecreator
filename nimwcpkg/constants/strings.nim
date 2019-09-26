@@ -167,11 +167,11 @@ Options:
   --vacuumdb       Vacuum database and continue (database maintenance).
   --backupdb       Compressed full backup of database.
   --backupdb-gpg   Compressed signed full backup of database (GPG+SHA512).
-  --newdb          Generates a database with standard tables (Wont override data).
-                    If no database exists, new db will be initialized automatically.
   --insertdata bulma     Insert https://bulma.io data into database (default, overrides data)
   --insertdata bootstrap Insert https://getbootstrap.com data into database (overrides data)
   --insertdata clean     Insert clean (no framework) standard data into database (overrides data)
+  --newdb          Generates a database with standard tables (Wont override data).
+                    If no database exists, new db will be initialized automatically.
 
 Compile options (features when compiling source code):
   -d:postgres      Postgres database is enabled (SQLite is default)
@@ -182,10 +182,10 @@ Compile options (features when compiling source code):
   -d:adminnotify   Send error logs (ERROR) to the specified Admin email.
   -d:dev           Development (ignore reCaptcha, no emails, more Verbose).
   -d:devemailon    Send error logs email when -d:dev is activated.
-  -d:demo          Public demo mode. Enable Test user. 2FA ignored. Pages Reset.
-                    Force database reset every 1 hour. Some options Disabled.
   -d:contracts     Force Design by Contract enabled. Runs assertive.
   -d:packedjson    PackedJSON replaces std lib JSON. Optional compatible performance optimization.
+  -d:demo          Public demo mode. Enable Test user. 2FA ignored. Pages Reset.
+                    Force database reset every 1 hour. Some options Disabled.
 
 Compile options quick tip (release builds are automatically stripped/optimized):
   Fastest       -d:release -d:danger
