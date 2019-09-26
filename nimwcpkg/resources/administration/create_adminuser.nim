@@ -5,7 +5,7 @@ when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
 
-proc ask4UserPass*(): tuple[iName, iEmail, iPwd: string] =
+func ask4UserPass*(): tuple[iName, iEmail, iPwd: string] {.inline.} =
   ## Ask the user for user, mail, password, and return them.
   postconditions(result.iName.len > nameMinLen, result.iEmail.len > emailMinLen, result.iPwd.len > passwordMinLen,
     result.iName.len < nameMaxLen, result.iEmail.len < emailMaxLen, result.iPwd.len < passwordMaxLen)
