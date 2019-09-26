@@ -3,7 +3,9 @@
 
 
 const
-  NimblePkgVersion* {.strdefine.} = "5.5.5"  ## Set NimWC Version
+  NimblePkgVersion* {.strdefine.} = "5.5.5"  ## NimWC Version (SemVer)
+
+  commitHash* = staticExec"git rev-parse --short HEAD" ## NimWC Version (Git Hash)
 
   compileOptions* = (
     (when defined(adminnotify):       " -d:adminnotify"       else: "") &
@@ -157,7 +159,8 @@ Usage:            nimwc <compile options> <options>
 
 Options:
   -h --help        Show this help and exit.
-  --version        Show Version (SemVer) and exit.
+  --version        Show Version (SemVer).
+  --version-hash   Show Version (Git Short Hash).
   -f, --forcebuild Force Recompile.
   --showconfig     Show parsed INI configuration, compile options, command parameters.
   --newadmin       Add 1 new Admin or Moderator user (asks name, mail & password).
