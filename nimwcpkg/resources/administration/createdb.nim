@@ -7,9 +7,7 @@ import ../../constants/constants
 
 
 let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
-const configFile = "config/config.cfg"
 assert existsDir(nimwcpkgDir), "nimwcpkg directory not found: " & nimwcpkgDir
-assert existsFile(configFile), "config/config.cfg file not found: " & configFile
 setCurrentDir(nimwcpkgDir)
 
 
