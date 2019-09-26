@@ -193,7 +193,7 @@ Compile options quick tip (release builds are automatically stripped/optimized):
   Safest        -d:release -d:contracts -d:hardened -d:firejail --styleCheck:hint
 
 Learn more http://nim-lang.org/learn.html http://nim-lang.org/documentation.html
-http://nim-lang.github.io/Nim/lib.html http://nim-lang.org/docs/theindex.html
+http://nim-lang.org/docs/lib.html http://nim-lang.org/docs/theindex.html http://nimble.directory
 """
 
 
