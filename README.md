@@ -429,3 +429,8 @@ https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/b
 - [NimWC Telegram Stickers on the Nim Pack.](https://t.me/addstickers/nimlang)
 
 </details>
+
+
+## Stars
+
+[![Stargazers over time](https://starchart.cc/ThomasTJdev/nim_websitecreator.svg)](https://starchart.cc/ThomasTJdev/nim_websitecreator)
