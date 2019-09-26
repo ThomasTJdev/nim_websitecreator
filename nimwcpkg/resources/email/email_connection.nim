@@ -1,4 +1,6 @@
-import asyncdispatch, smtp, strutils, os, parsecfg, logging, contra
+import asyncdispatch, smtp, strutils, os, parsecfg, logging, contra, tables
+
+import ../utils/configs
 
 # Changing app dir due to, that module is not imported from main module
 let appDir = getAppDir().replace("/nimwcpkg", "")
@@ -10,13 +12,13 @@ setCurrentDir(appDir)
 const otherHeaders = @[("Content-Type", "text/html; charset=\"UTF-8\"")]
 
 let
-  dict = loadConfig(configFile)
-  smtpAddress  = dict.getSectionValue("SMTP", "SMTPAddress")
-  smtpPort     = dict.getSectionValue("SMTP", "SMTPPort")
-  smtpFrom     = dict.getSectionValue("SMTP", "SMTPFrom")
-  smtpUser     = dict.getSectionValue("SMTP", "SMTPUser")
-  smtpPassword = dict.getSectionValue("SMTP", "SMTPPassword")
-  adminEmail   = dict.getSectionValue("SMTP", "SMTPEmailAdmin")
+  dict = getConfig(configFile, "SMTP")
+  smtpAddress  = dict["SMTPAddress"]
+  smtpPort     = dict["SMTPPort"]
+  smtpFrom     = dict["SMTPFrom"]
+  smtpUser     = dict["SMTPUser"]
+  smtpPassword = dict["SMTPPassword"]
+  adminEmail   = dict["SMTPEmailAdmin"]
 
 
 proc sendMailNow*(subject, message, recipient: string) {.async.} =
