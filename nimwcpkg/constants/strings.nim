@@ -152,7 +152,6 @@ const
 
 const doc* = """
 Nim Website Creator 👑 https://NimWC.org 👑 Nim open-source web framework that is simple to use.
-Run it, access your web, customize, add plugins, deploy today anywhere!.
 
 Usage:            nimwc <compile options> <options>
 
@@ -174,18 +173,18 @@ Options:
                     If no database exists, new db will be initialized automatically.
 
 Compile options (features when compiling source code):
-  -d:postgres      Postgres database is enabled (SQLite is default)
-  -d:firejail      Firejail is enabled. Runs secure.
-  -d:hardened      Security Hardened mode is enabled. Runs Hardened. Performance cost at ~20%.
-  -d:webp          WebP is enabled. Optimize images and photos.
-  -d:recaptcha     Recaptcha AntiSpamm is enabled (Google API,wont work over Tor)
-  -d:adminnotify   Send error logs (ERROR) to the specified Admin email.
-  -d:dev           Development (ignore reCaptcha, no emails, more Verbose).
-  -d:devemailon    Send error logs email when -d:dev is activated.
-  -d:contracts     Force Design by Contract enabled. Runs assertive.
-  -d:packedjson    PackedJSON replaces std lib JSON. Optional compatible performance optimization.
-  -d:demo          Public demo mode. Enable Test user. 2FA ignored. Pages Reset.
-                    Force database reset every 1 hour. Some options Disabled.
+  -d:postgres    Postgres replaces SQLite (SQLite is default) https://u.nu/b1c8
+  -d:firejail    Firejail is enabled. Runs secure and isolated. https://u.nu/teb6
+  -d:webp        WebP is enabled. Optimize images and photos. https://u.nu/0o5t
+  -d:recaptcha   Recaptcha AntiSpamm enabled (wont work on Tor) https://u.nu/hbc7
+  -d:packedjson  PackedJSON replaces JSON. Performance optimization. https://u.nu/byf-
+  -d:hardened    Security Hardened mode. Runs Hardened. ~20% Performance cost max.
+  -d:adminnotify Send error logs (ERROR) to the specified Admin email.
+  -d:dev         Development (ignore reCaptcha, no emails, more Verbose).
+  -d:devemailon  Send error logs email when -d:dev is activated.
+  -d:contracts   Force Design by Contract enabled. Runs assertive.
+  -d:demo        Public demo mode. Enable Test user. 2FA ignored. Pages Reset.
+                  Force database reset every 1 hour. Some options Disabled.
 
 Compile options quick tip (release builds are automatically stripped/optimized):
   Fastest       -d:release -d:danger
