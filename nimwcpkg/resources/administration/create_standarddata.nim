@@ -6,13 +6,10 @@ when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
 import ../../constants/constants
-export head, navbar, footer  # HTML template fragments
+export head, navbar, footer, title  # HTML template fragments
 
 
-using dataStyle: string
-
-
-proc standardDataSettings*(db: DbConn, dataStyle) =
+proc standardDataSettings*(db: DbConn, dataStyle = "bulma") =
   ## Settings
   preconditions dataStyle in ["bulma", "bootstrap", "clean"]
   info("Standard data: Inserting settings-data.")
