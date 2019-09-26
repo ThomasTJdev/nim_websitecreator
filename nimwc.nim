@@ -244,6 +244,7 @@ when isMainModule:
     of cmdShortOption, cmdLongOption:
       case keys
       of "version": quit(NimblePkgVersion, 0)
+      of "version-hash": quit(commitHash, 0)
       of "help": styledEcho(fgGreen, bgBlack, doc)
       of "showconfig":
         styledEcho(fgMagenta, bgBlack, $commandLineParams())
