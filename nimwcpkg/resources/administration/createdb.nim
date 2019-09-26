@@ -1,13 +1,9 @@
-import os, strutils, contra, osproc, logging
-
-from nativesockets import Port, `$`
-from times import now, `$`
+import os, strutils, contra, osproc, logging, times, nativesockets
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
-import
-  ../../constants/constants
+import ../../constants/constants
 
 
 let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")

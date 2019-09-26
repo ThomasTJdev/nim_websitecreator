@@ -14,7 +14,7 @@ let
   mailStyleFooter = mailStyleFooterMsg.format(website, title)
 
 
-proc genEmailMessage*(msgContent: string): string {.inline.} =
+template genEmailMessage*(msgContent: string): string =
   ## Generate email content
   preconditions msgContent.len > 0
   postconditions result.len > msgContent.len
