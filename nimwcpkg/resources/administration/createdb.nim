@@ -1,12 +1,13 @@
-import os, parsecfg, strutils, contra, osproc, logging
+import os, strutils, contra, osproc, logging
 
 from nativesockets import Port, `$`
 from times import now, `$`
 
+when defined(postgres): import db_postgres
+else:                   import db_sqlite
+
 import
-  ../../constants/constants,
-  ../administration/create_standarddata,
-  ../utils/logging_nimwc
+  ../../constants/constants
 
 
 let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")

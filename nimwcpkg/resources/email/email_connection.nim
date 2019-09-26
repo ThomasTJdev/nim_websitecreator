@@ -1,6 +1,4 @@
-import
-  asyncdispatch, smtp, strutils, os, asyncnet, parsecfg, logging, contra,
-  ../utils/logging_nimwc
+import asyncdispatch, smtp, strutils, os, parsecfg, logging, contra
 
 # Changing app dir due to, that module is not imported from main module
 let appDir = getAppDir().replace("/nimwcpkg", "")

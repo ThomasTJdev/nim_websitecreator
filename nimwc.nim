@@ -1,3 +1,7 @@
+import os, osproc, parsecfg, parseopt, rdstdin, sequtils, strutils, terminal, times
+
+import contra        # https://github.com/juancarlospaco/nim-contra#contra
+
 import
   nimwcpkg/constants/constants,
   nimwcpkg/resources/administration/createdb,
@@ -5,6 +9,12 @@ import
   nimwcpkg/resources/administration/connectdb,
   nimwcpkg/resources/files/files_efs,
   nimwcpkg/resources/administration/create_adminuser
+
+when defined(postgres): import db_postgres
+else:                   import db_sqlite
+
+when not defined(firejail): {. warning: "Firejail is disabled, running unsecure." .}
+else:                       from firejail import firejailVersion, firejailFeatures
 
 hardenedBuild()
 

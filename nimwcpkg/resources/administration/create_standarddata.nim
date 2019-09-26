@@ -1,4 +1,4 @@
-import logging, contra, ../utils/logging_nimwc
+import logging, contra
 
 from rdstdin import readLineFromStdin
 

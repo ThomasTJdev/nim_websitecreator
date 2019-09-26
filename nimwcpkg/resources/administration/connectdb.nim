@@ -1,7 +1,4 @@
-import os, logging, parsecfg, ../utils/logging_nimwc
-export parsecfg
-
-from strutils import strip
+import os, logging, parsecfg, strutils
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
@@ -9,11 +6,12 @@ else:                   import db_sqlite
 
 template connectDb*(configFile = "config/config.cfg"): untyped =
   ## Connect the Database and injects a ``db`` variable with the ``DbConn``.
+  assert configFile.len > 0, "configFile must not be empty string."
   let
     dict = loadConfig(configFile)
-    db_user = dict.getSectionValue("Database", "user").strip
-    db_pass = dict.getSectionValue("Database", "pass").strip
-    db_name = dict.getSectionValue("Database", "name").strip
+    db_user {.used.} = dict.getSectionValue("Database", "user").strip
+    db_pass {.used.} = dict.getSectionValue("Database", "pass").strip
+    db_name {.used.} = dict.getSectionValue("Database", "name").strip
     db_host = dict.getSectionValue("Database", "host").strip
     db_folder = dict.getSectionValue("Database", "folder").strip
     dbexists =

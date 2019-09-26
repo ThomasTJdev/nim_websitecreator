@@ -1,4 +1,4 @@
-import parsecfg, os, strutils, logging, contra, ../utils/logging_nimwc
+import parsecfg, os, strutils, logging, contra
 
 
 let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
