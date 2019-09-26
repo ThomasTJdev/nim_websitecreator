@@ -1,8 +1,10 @@
-import asyncdispatch, logging, os, parsecfg, recaptcha, strutils, re
+import asyncdispatch, logging, os, parsecfg, recaptcha, strutils, re, tables
 
 from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
 from packages/docutils/rst import RstParseOption
+
+import ../utils/configs
 
 
 const inputNumber = (
@@ -97,9 +99,9 @@ when defined(recaptcha):
     captcha*: ReCaptcha
 
   let
-    dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
-    recaptchaSecretKey = dict.getSectionValue("reCAPTCHA", "Secretkey")
-    recaptchaSiteKey* = dict.getSectionValue("reCAPTCHA", "Sitekey")
+    dict = getConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg", "reCAPTCHA")
+    recaptchaSecretKey = dict["Secretkey"]
+    recaptchaSiteKey* = dict["Sitekey"]
 
   proc setupReCaptcha*(recaptchaSiteKey = recaptchaSiteKey, recaptchaSecretKey = recaptchaSecretKey) =
     ## Activate Google reCAPTCHA
