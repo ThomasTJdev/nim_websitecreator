@@ -151,9 +151,8 @@ const
 
 
 const doc* = """
-Nim Website Creator - https://NimWC.org
-Nim open-source website framework that is simple to use.
-Run it, access your web, customize, add plugins, deploy today anywhere.
+Nim Website Creator 👑 https://NimWC.org 👑 Nim open-source web framework that is simple to use.
+Run it, access your web, customize, add plugins, deploy today anywhere!.
 
 Usage:            nimwc <compile options> <options>
 
@@ -195,7 +194,6 @@ Compile options quick tip (release builds are automatically stripped/optimized):
 
 Learn more http://nim-lang.org/learn.html http://nim-lang.org/documentation.html
 http://nim-lang.github.io/Nim/lib.html http://nim-lang.org/docs/theindex.html
-
 """
 
 
