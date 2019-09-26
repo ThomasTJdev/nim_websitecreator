@@ -192,9 +192,7 @@ Compile options quick tip (release builds are automatically stripped/optimized):
   Balanced      -d:release -d:firejail --styleCheck:hint
   Safest        -d:release -d:contracts -d:hardened -d:firejail --styleCheck:hint
 
-Learn more http://nim-lang.org/learn.html http://nim-lang.org/documentation.html
-http://nim-lang.org/docs/lib.html http://nim-lang.org/docs/theindex.html http://nimble.directory
-"""
+Docs http://u.nu/q2h9 http://u.nu/lyfa http://u.nu/etkb http://u.nu/pjxf http://u.nu/ykw- http://u.nu/k0lt """
 
 
 const reqCode* = """
