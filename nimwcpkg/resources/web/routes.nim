@@ -350,43 +350,19 @@ routes:
     when not defined(firejail):
       redirect("/")
     else:
-      let dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
+      let c = getConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg", "firejail")
       resp genMainAdmin(c, genFirejail(
-        dict.getSectionValue("firejail", "noDvd").parseBool,
-        dict.getSectionValue("firejail", "noSound").parseBool,
-        dict.getSectionValue("firejail", "noAutoPulse").parseBool,
-        dict.getSectionValue("firejail", "no3d").parseBool,
-        dict.getSectionValue("firejail", "noX").parseBool,
-        dict.getSectionValue("firejail", "noVideo").parseBool,
-        dict.getSectionValue("firejail", "noDbus").parseBool,
-        dict.getSectionValue("firejail", "noShell").parseBool,
-        dict.getSectionValue("firejail", "noDebuggers").parseBool,
-        dict.getSectionValue("firejail", "noMachineId").parseBool,
-        dict.getSectionValue("firejail", "noRoot").parseBool,
-        dict.getSectionValue("firejail", "noAllusers").parseBool,
-        dict.getSectionValue("firejail", "noU2f").parseBool,
-        dict.getSectionValue("firejail", "privateTmp").parseBool,
-        dict.getSectionValue("firejail", "privateCache").parseBool,
-        dict.getSectionValue("firejail", "privateDev").parseBool,
-        dict.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
-        dict.getSectionValue("firejail", "caps").parseBool,
-        dict.getSectionValue("firejail", "seccomp").parseBool,
-        dict.getSectionValue("firejail", "noTv").parseBool,
-        dict.getSectionValue("firejail", "writables").parseBool,
-        dict.getSectionValue("firejail", "noMnt").parseBool,
-        dict.getSectionValue("firejail", "maxSubProcesses").parseInt,
-        dict.getSectionValue("firejail", "maxOpenFiles").parseInt,
-        dict.getSectionValue("firejail", "maxFileSize").parseInt,
-        dict.getSectionValue("firejail", "maxPendingSignals").parseInt,
-        dict.getSectionValue("firejail", "timeout").parseInt,
-        dict.getSectionValue("firejail", "maxCpu").parseInt,
-        dict.getSectionValue("firejail", "maxRam").parseInt,
-        dict.getSectionValue("firejail", "cpuCoresByNumber").parseInt,
-        dict.getSectionValue("firejail", "hostsFile"),
-        dict.getSectionValue("firejail", "dns0"),
-        dict.getSectionValue("firejail", "dns1"),
-        dict.getSectionValue("firejail", "dns2"),
-        dict.getSectionValue("firejail", "dns3"),
+        c["noDvd"].parseBool, c["noSound"].parseBool, c["noAutoPulse"].parseBool,
+        c["no3d"].parseBool, c["noX"].parseBool, c["noVideo"].parseBool,
+        c["noDbus"].parseBool, c["noShell"].parseBool, c["noDebuggers"].parseBool,
+        c["noMachineId"].parseBool, c["noRoot"].parseBool, c["noAllusers"].parseBool,
+        c["noU2f"].parseBool, c["privateTmp"].parseBool, c["privateCache"].parseBool,
+        c["privateDev"].parseBool, c["forceEnUsUtf8"].parseBool, c["caps"].parseBool,
+        c["seccomp"].parseBool, c["noTv"].parseBool, c["writables"].parseBool,
+        c["noMnt"].parseBool, c["maxSubProcesses"].parseInt, c["maxOpenFiles"].parseInt,
+        c["maxFileSize"].parseInt, c["maxPendingSignals"].parseInt, c["timeout"].parseInt,
+        c["maxCpu"].parseInt, c["maxRam"].parseInt, c["cpuCoresByNumber"].parseInt, c["hostsFile"],
+        c["dns0"], c["dns1"], c["dns2"], c["dns3"],
       ))
 
   post "/settings/firejail/save":
@@ -977,7 +953,7 @@ routes:
     let access = if c.loggedIn: "(0,1,2)" else: "(2)"
 
     let pageid = getValue(db, sql("SELECT id FROM pages WHERE url = ? AND status IN " & access), c.req.path.replace("/p/", ""))
-    
+
     if pageid == "":
       redirect("/")
 
