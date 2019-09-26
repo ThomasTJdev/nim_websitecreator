@@ -166,9 +166,9 @@ Options:
   --newadmin       Add 1 new Admin or Moderator user (asks name, mail & password).
   --gitupdate      Update from Git origin master then force a hard reset and exit.
   --initplugin     Create 1 new empty plugin skeleton inside the folder ./tmp/
-  --vacuumdb       Vacuum database and continue (database maintenance).
+  --vacuumdb       Vacuum database and continue (automatic database maintenance).
   --backupdb       Full backup of database (Raw SQL plain text file).
-  --backupdb-gpg   Compressed signed full backup of database (GPG+SHA512).
+  --backupdb-gpg   Compressed signed full backup of database (GPG+SHA512+TarGz).
   --insertdata bulma     Insert https://bulma.io data into database (default, overrides data)
   --insertdata bootstrap Insert https://getbootstrap.com data into database (overrides data)
   --insertdata clean     Insert clean (no framework) standard data into database (overrides data)
