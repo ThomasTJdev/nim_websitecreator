@@ -152,8 +152,7 @@ const
   pluginRepoName* = "nimwc_plugins"
 
 
-const doc* = """
-Nim Website Creator 👑 https://NimWC.org 👑 Nim open-source web framework that is simple to use.
+const doc* = """Nim Website Creator 👑 https://NimWC.org 👑 Nim open-source web framework that is simple to use.
 
 Usage:            nimwc <compile options> <options>
 
@@ -190,7 +189,7 @@ Compile options (features when compiling source code):
                   Force database reset every 1 hour. Some options Disabled.
 
 Compile options quick tip (release builds are automatically stripped/optimized):
-  Fastest       -d:release -d:danger
+  Fastest       -d:release -d:danger -d:packedjson
   Balanced      -d:release -d:firejail --styleCheck:hint
   Safest        -d:release -d:contracts -d:hardened -d:firejail --styleCheck:hint
 
