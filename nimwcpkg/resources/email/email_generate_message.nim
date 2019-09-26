@@ -1,15 +1,15 @@
-import parsecfg, contra
+import parsecfg, contra, tables
 
 from strutils import format, replace
 from os import getAppDir
 
-import ../../constants/constants
+import ../../constants/constants, ../utils/configs
 
 
 let
-  dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
-  title = dict.getSectionValue("Server", "title")
-  website = dict.getSectionValue("Server", "website")
+  dict = getConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg", "Server")
+  title = dict["title"]
+  website = dict["website"]
   mailStyleHeader = mailStyleHeaderMsg.format(website, title)
   mailStyleFooter = mailStyleFooterMsg.format(website, title)
 
