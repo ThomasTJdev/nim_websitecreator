@@ -245,14 +245,14 @@ when isMainModule:
       case keys
       of "version": quit(NimblePkgVersion, 0)
       of "version-hash": quit(commitHash, 0)
-      of "help": styledEcho(fgGreen, bgBlack, doc)
+      of "help", "fullhelp": styledEcho(fgGreen, bgBlack, doc)
       of "showconfig":
         styledEcho(fgMagenta, bgBlack, $commandLineParams())
         styledEcho(fgMagenta, bgBlack, $compileOptions)
         styledEcho(fgMagenta, bgBlack, $cfg)
       of "initplugin": pluginSkeleton() # Interactive (Asks to user).
       of "gitupdate": updateNimwc()
-      of "forcebuild", "f": removeFile(getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname"))
+      of "forcebuild", "f": echo tryRemoveFile(getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname"))
       of "newdb": generateDB(db)
       of "newadmin": createAdminUser(db)
       of "insertdata":
