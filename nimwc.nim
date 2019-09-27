@@ -1,9 +1,9 @@
-import os, osproc, parsecfg, parseopt, rdstdin, sequtils, strutils, terminal, times
+import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times
 
 import contra        # https://github.com/juancarlospaco/nim-contra#contra
 
 import
-  nimwcpkg/constants/constants,
+  nimwcpkg/constants/constants, nimwcpkg/enums/enums,
   nimwcpkg/resources/administration/createdb,
   nimwcpkg/resources/administration/create_standarddata,
   nimwcpkg/resources/administration/connectdb,
@@ -262,13 +262,9 @@ when isMainModule:
       of "newdb": generateDB(db)
       of "newadmin": createAdminUser(db)
       of "insertdata":
-        var styleExist = false
-        for data in commandLineParams():
-          if $data in ["bulma", "bootstrap", "clean"]:
-            createStandardData(db, $data, confirm=true)
-            styleExist = true
-        if not styleExist:
-          echo("\nStandard data: Please specify data style:\n  1) bulma\n  2) bootstrap\n  3) clean\n!! Data not inserted !!")
+        if "bootstrap" in commandLineParams(): createStandardData(db, cssBootstrap, on)
+        elif "clean" in commandLineParams():   createStandardData(db, cssClean, on)
+        else:                                  createStandardData(db, cssBulma, on)
       of "vacuumdb": echo vacuumDb(db)
       of "backupdb-gpg": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"))
       of "backupdb": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"), checksum=false, sign=false, targz=false)
