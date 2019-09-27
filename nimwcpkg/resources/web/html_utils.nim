@@ -7,24 +7,25 @@ from packages/docutils/rst import RstParseOption
 import ../utils/configs
 
 
-const inputNumber = (
-  r"""<input type="tel" value="$1" name="$2" class="$3" id="$4" placeholder="$5" title="$5" """ &
-  r"""$6 min="$7" max="$8" maxlength="$9" step="1" pattern="\d*" autocomplete="off" dir="auto">"""
-  )
+const
+  inputNumber = r"""
+    <input type="tel" value="$1" name="$2" class="$3" id="$4" placeholder="$5" title="$5"
+    $6 min="$7" max="$8" maxlength="$9" step="1" pattern="\d*" autocomplete="off" dir="auto">
+  """
 
-const inputFile = (
-  r"""<input type="file" name="$1" class="$2" id="$3" title="$5" accept="$5" $4 """ &
-  r"""onChange="if(!this.value.toLowerCase().match(/(.*?)\.($6)$$/)){alert('Invalid File Format. ($5)');this.value='';return false}">"""
-  )
+  inputFile = r"""
+    <input type="file" name="$1" class="$2" id="$3" title="$5" accept="$5" $4
+    onChange="if(!this.value.toLowerCase().match(/(.*?)\.($6)$$/)){alert('Invalid File Format. ($5)');this.value='';return false}">
+  """
 
-const imageLazy = """
-  <img class="$5" id="$2" alt="$6" data-src="$1" src="" lazyload="on" onclick="this.src=this.dataset.src" onmouseover="this.src=this.dataset.src" width="$3" heigth="$4"/>
-  <script>
-    const i = document.querySelector("img#$2");
-    window.addEventListener('scroll',()=>{if(i.offsetTop<window.innerHeight+window.pageYOffset+99){i.src=i.dataset.src}});
-    window.addEventListener('resize',()=>{if(i.offsetTop<window.innerHeight+window.pageYOffset+99){i.src=i.dataset.src}});
-  </script>
-"""
+  imageLazy = r"""
+    <img class="$5" id="$2" alt="$6" data-src="$1" src="" lazyload="on" onclick="this.src=this.dataset.src" onmouseover="this.src=this.dataset.src" width="$3" heigth="$4"/>
+    <script>
+      const i = document.querySelector("img#$2");
+      window.addEventListener('scroll',()=>{if(i.offsetTop<window.innerHeight+window.pageYOffset+99){i.src=i.dataset.src}});
+      window.addEventListener('resize',()=>{if(i.offsetTop<window.innerHeight+window.pageYOffset+99){i.src=i.dataset.src}});
+    </script>
+  """
 
 
 template checkboxToInt*(checkboxOnOff: string): string =
