@@ -434,3 +434,16 @@ https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/b
 ## Stars
 
 [![Stargazers over time](https://starchart.cc/ThomasTJdev/nim_websitecreator.svg)](https://starchart.cc/ThomasTJdev/nim_websitecreator)
+
+
+#### License
+
+[TLDR PPL](https://tldrlegal.com/license/peer-production-license)
+The Peer Production License ([PPL](https://tldrlegal.com/license/peer-production-license))
+is derived from the Creative Commons *Attribution-NonCommercial-ShareAlike* license.
+However unlike CC-BY-NC-SA, PPL demands reciprocation (whether monetary or otherwise)
+from non-contributing commercial entities (aka Big Corporations).
+This means, that a mega-corporation cannot just take all the code, rename it,
+and sell it without contributing back.
+The Peer Production License is a reciprocity-based license by which commons are freely accessible to those who contribute to create them,
+while third party non-contributing entities profiting from these commons can be charged a license fee to sustain the project in the long run.
