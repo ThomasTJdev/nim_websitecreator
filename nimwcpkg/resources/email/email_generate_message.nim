@@ -1,4 +1,4 @@
-import parsecfg, contra, tables
+import contra, tables
 
 from strutils import format, replace
 from os import getAppDir
