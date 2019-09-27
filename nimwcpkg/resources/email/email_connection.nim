@@ -1,4 +1,4 @@
-import asyncdispatch, smtp, strutils, os, parsecfg, logging, contra, tables
+import asyncdispatch, smtp, strutils, os, logging, contra, tables
 
 import ../utils/configs
 
