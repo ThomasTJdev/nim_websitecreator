@@ -6,6 +6,7 @@
 - Move static `const` very long strings to a dedicated `constants.nim` file, to keep code clean of long static strings.
 - Version is now set using Nimbles `NimblePkgVersion` https://github.com/nim-lang/nimble/blob/master/changelog.markdown#0110---22092019
 - Add proc `getConfig(path, section)` to get a `Table` of configs, to DRY reading configs.
+- Add `--version-hash` to show Version (Git Short Hash).
 - Update Docs
 - Fix #119
 - Minor bugs
