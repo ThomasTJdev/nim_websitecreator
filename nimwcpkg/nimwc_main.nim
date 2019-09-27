@@ -1,6 +1,6 @@
 import
   asyncdispatch, base32, cgi, encodings, logging, md5, nativesockets, os,
-  osproc, oswalkdir, parsecfg, random, re, sequtils, streams, strtabs,
+  osproc, oswalkdir, parsecfg, random, re, rdstdin, sequtils, streams, strtabs,
   strutils, tables, times, macros, packages/docutils/rstgen
 
 import
@@ -12,7 +12,7 @@ import
   otp              # https://github.com/OpenSystemsLab/otp.nim#otpnim
 
 import
-  constants/constants,
+  constants/constants, enums/enums,
   resources/administration/create_adminuser,
   resources/administration/create_standarddata,
   resources/email/email_registration,
@@ -400,15 +400,11 @@ when isMainModule:
   extensionUpdateDB(db)
 
   # Insert standard data
-  if "insertdata" in commandLineParams():
-    echo "\n\nInsert standard data?\nThis will override existing data (y/N):"
-    if readLine(stdin).string.strip.toLowerAscii == "y":
-      if "bootstrap" in commandLineParams():
-        createStandardData(db, "bootstrap")
-      elif "clean" in commandLineParams():
-        createStandardData(db, "clean")
-      else:
-        createStandardData(db, "bulma")
+  if "insertdata" in commandLineParams() and readLineFromStdin(
+    "Insert standard data?\nThis will override existing data! (y/n):").normalize == "y":
+    if "bootstrap" in commandLineParams(): createStandardData(db, cssBootstrap)
+    elif "clean" in commandLineParams():   createStandardData(db, cssClean)
+    else:                                  createStandardData(db, cssBulma)
 
   # If user has provided arguments then quit
   if commandLineParams().len != 0:
