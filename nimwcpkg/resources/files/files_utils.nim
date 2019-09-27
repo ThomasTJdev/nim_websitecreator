@@ -1,6 +1,3 @@
-import os, contra
-from files_efs import storageEFS
-
 
 proc filesListPrivate*(): seq[string] {.inline.} =
   ## Get all filenames for project files
