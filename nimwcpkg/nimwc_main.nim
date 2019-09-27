@@ -15,7 +15,7 @@ import
   constants/constants, enums/enums,
   resources/administration/create_adminuser,
   resources/administration/create_standarddata,
-  resources/email/email_registration,
+  resources/email/email,
   resources/files/files_efs,
   resources/files/files_utils,
   resources/password/password_generate,
