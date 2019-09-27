@@ -2,6 +2,7 @@
 ## So we dont have to do ``if $option in ["foo", "bar"]: doStuff()`` everywhere.
 ## Its imposible for an enum to not be one of its members and is faster.
 ## This is the recommended/safe way of doing options instead of strings, AFAIK.
+## Only put Enums here, no code logic, keep it compile-time static.
 
 
 type

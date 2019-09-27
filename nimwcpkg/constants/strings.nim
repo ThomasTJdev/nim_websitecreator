@@ -38,6 +38,10 @@ const
     (when defined(nimOldCaseObjects): " -d:nimOldCaseObjects" else: "")  # old case switch
   )  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
+  fileBackup* =
+    when defined(db_postgres): "nimwc_postgres_"
+    else: "nimwc_sqlite_"
+
   title* = "Nim Website Creator"
 
   compile_start_msg* = """

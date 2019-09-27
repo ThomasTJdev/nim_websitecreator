@@ -1,3 +1,4 @@
+## Static string HTML constants, do NOT put any run-time logic here, only consts.
 from strutils import unindent
 
 
