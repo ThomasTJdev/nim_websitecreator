@@ -255,7 +255,7 @@ when isMainModule:
       of "version": quit(NimblePkgVersion, 0)
       of "version-hash": quit(commitHash, 0)
       of "help", "fullhelp": styledEcho(fgGreen, bgBlack, doc)
-      of "showconfig": styledEcho(fgMagenta, bgBlack, $commandLineParams(), $compileOptions, $cfg)
+      of "showconfig": styledEcho(fgMagenta, bgBlack, $compileOptions, "\n\n", $cfg)
       of "initplugin": pluginSkeleton() # Interactive (Asks to user).
       of "gitupdate": updateNimwc()
       of "forcebuild", "f": echo tryRemoveFile(getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname"))
