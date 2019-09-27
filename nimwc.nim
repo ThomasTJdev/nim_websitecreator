@@ -7,7 +7,7 @@ import
   nimwcpkg/resources/administration/createdb,
   nimwcpkg/resources/administration/create_standarddata,
   nimwcpkg/resources/administration/connectdb,
-  nimwcpkg/resources/files/files_efs,
+  nimwcpkg/resources/files/files,
   nimwcpkg/resources/administration/create_adminuser
 
 when defined(postgres): import db_postgres
@@ -213,7 +213,7 @@ proc startupCheck(cfg: Config) =
   ## be compiled with args and compiler options (compiler
   ## options should be specified in the *.nim.pkg)
   preconditions compileOptions.len > 0, storageEFS.len > 0, existsFile(getAppDir() & "/nimwcpkg/nimwc_main.nim")
-  # Storage location. Folders are created in the module files_efs.nim
+  # Storage location. Folders are created in the module files.nim
   let
     args = replace(commandLineParams().join(" "), "-", "")
     userArgs = if args == "": "" else: " " & args
