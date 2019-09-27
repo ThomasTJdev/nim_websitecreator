@@ -1,32 +1,30 @@
-import logging, contra
+import logging, strutils
 
 from rdstdin import readLineFromStdin
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
-import ../../constants/constants
+import ../../constants/constants, ../../enums/enums
 export head, navbar, footer, title  # HTML template fragments
 
 
-proc standardDataSettings*(db: DbConn, dataStyle = "bulma") =
+proc standardDataSettings*(db: DbConn, dataStyle = cssBulma) =
   ## Settings
-  preconditions dataStyle in ["bulma", "bootstrap", "clean"]
   info("Standard data: Inserting settings-data.")
   exec(db, sql"DELETE FROM settings")
   const sqlDataSettings = sql"INSERT INTO settings (title, head, navbar, footer) VALUES (?, ?, ?, ?)"
   case dataStyle
-  of "bootstrap":
+  of cssBootstrap:
     discard insertID(db, sqlDataSettings, title, headBootstrap, navbarBootstrap, footer)
-  of "clean":
+  of cssClean:
     discard insertID(db, sqlDataSettings, title, headClean, navbarClean, footerClean)
   else:
     discard insertID(db, sqlDataSettings, title, head, navbar, footer)
 
 
-proc standardDataFrontpage*(db: DbConn, dataStyle = "bulma") =
+proc standardDataFrontpage*(db: DbConn, dataStyle = cssBulma) =
   ## Frontpage
-  preconditions dataStyle in ["bulma", "clean"]
   info("Standard data: Inserting frontpage-data.")
   const sqlFrontpageExist = sql"SELECT id FROM pages WHERE url = 'frontpage'"
   let frontpageExists = getValue(db, sqlFrontpageExist)
@@ -35,7 +33,7 @@ proc standardDataFrontpage*(db: DbConn, dataStyle = "bulma") =
   const sqlFrontpageData = sql"""
     INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
-  if dataStyle == "clean":
+  if dataStyle == cssClean:
     discard insertID(db, sqlFrontpageData, "1", "2", "frontpage", "Frontpage", frontpageClean, "1", "1", "1", "", "", "")
   else:
       discard insertID(db, sqlFrontpageData, "1", "2", "frontpage", "Frontpage", frontpage, "1", "1", "1", "NimWC Nim Website Creator", "NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.", "website,blog,nim,nimwc")
@@ -85,18 +83,16 @@ proc standardDataBlogpost3*(db: DbConn) =
   discard insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", "1", "2", "standardpostv3", "Custom styling", blogpost3, "1", "1", "1", "NimWC Example blogpost custom", "This is an example blogpost using custom styling.", "website,blog,nim,nimwc")
 
 
-proc createStandardData*(db: DbConn, dataStyle = "bulma", confirm = false) {.discardable.} =
+proc createStandardData*(db: DbConn, dataStyle = cssBulma, confirm = false) {.discardable.} =
   ## Insert basic data
-  if confirm:
-    let stdData = readLineFromStdin("\nInsert (overwrite) with standard " & dataStyle & " data (y/n): ")
-    if $stdData notin ["y", "yes"]:
-      info("Standard data: Exited by user")
-      return
+  if confirm and readLineFromStdin("Insert (overwrite) with standard " & $dataStyle & " data? (y/n): ").normalize != "y":
+    info("Standard data: Exited by user")
+    return
 
   info("Standard data: Inserting standard data.")
   standardDataSettings(db, dataStyle)
   standardDataFrontpage(db, dataStyle)
-  if dataStyle != "clean":
+  if dataStyle != cssClean:
     standardDataAbout(db)
     standardDataBlogpost1(db)
     standardDataBlogpost2(db)
