@@ -29,8 +29,8 @@ let
 
 # Order is important here.
 include
-  "_email_generate_message",
-  "_sendmail",
-  "_sendmail_admin",
-  "_senderror_admin",
-  "_email_registration"
+  "_messages",
+  "_sendemails",
+  "_sendemails_admins",
+  "_senderrors_admins",
+  "_registrations"

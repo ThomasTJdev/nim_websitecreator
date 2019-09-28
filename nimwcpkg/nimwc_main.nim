@@ -12,15 +12,9 @@ import
   otp              # https://github.com/OpenSystemsLab/otp.nim#otpnim
 
 import
-  constants/constants, enums/enums,
-  database/database,
-  email/email,
-  files/files,
-  password/password,
-  session/session,
-  utils/logging_nimwc,
-  plugins/plugins,
-  web/html_utils
+  constants/constants, enums/enums, databases/databases, emails/emails,
+  files/files, passwords/passwords, sessions/sessions, utils/loggers,
+  plugins/plugins, webs/html_utils
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
@@ -422,28 +416,7 @@ when isMainModule:
 #
 # Include HTML files
 #
-
-
-include
-  "tmpl/utils.nimf",  # Utils should be first.
-  "tmpl/blog.nimf",
-  "tmpl/blogedit.nimf",
-  "tmpl/blognew.nimf",
-  "tmpl/delayredirect.nimf",
-  "tmpl/editconfig.nimf",
-  "tmpl/files.nimf",
-  "tmpl/logs.nimf",
-  "tmpl/main.nimf",
-  "tmpl/page.nimf",
-  "tmpl/pageedit.nimf",
-  "tmpl/pagenew.nimf",
-  "tmpl/plugins.nimf",
-  "tmpl/serverinfo.nimf",
-  "tmpl/settings.nimf",
-  "tmpl/sitemap.nimf",
-  "tmpl/user.nimf"
-when defined(firejail): include "tmpl/firejail.nimf"
-
+include nimfs/nimfs
 
 #
 # Routes for WWW
@@ -474,9 +447,9 @@ template restrictAccessTo(c: var TData, ranks: varargs[Rank]) =
 
 macro generateRoutes() =
   ## The macro generates the routes for Jester.
-  ## Routes are found in the web/routes.nim.
+  ## Routes are found in the webs/routes.nim.
   ## All plugins "routes.nim" are also included.
-  var extensions = staticRead("web/routes.nim")
+  var extensions = staticRead("webs/routes.nim")
 
   for ppath in pluginsPath:
     extensions.add("\n\n" & staticRead(ppath & "/routes.nim"))

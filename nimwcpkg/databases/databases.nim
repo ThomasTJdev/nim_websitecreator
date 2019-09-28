@@ -2,7 +2,7 @@ import os, parsecfg, tables, osproc, logging, times, nativesockets, strutils, rd
 
 import contra
 
-import ../constants/constants, ../utils/configs, ../password/password, ../enums/enums
+import ../constants/constants, ../utils/configs, ../passwords/passwords, ../enums/enums
 export head, navbar, footer, title  # HTML template fragments
 
 when defined(postgres): import db_postgres
@@ -18,9 +18,9 @@ template vacuumDb*(db: DbConn): bool = db.tryExec(sqlVacuum)
 
 # Order is important here.
 include
-  "_connectdb",
-  "_createdb",
-  "_create_testuser",
-  "_create_adminuser",
-  "_create_standarddata",
-  "_backupdb"
+  "_connectdbs",
+  "_createdbs",
+  "_testusers",
+  "_adminusers",
+  "_standarddatas",
+  "_backupdbs"

@@ -26,4 +26,4 @@ once:  # https://nim-lang.github.io/Nim/system.html#once.t%2Cuntyped
     assert fpUserWrite in getFilePermissions(folder), "Wrong folder permissions:\n" & $getFilePermissions(folder) & folder
 
 
-include "_files_utils"
+include "_walkers"

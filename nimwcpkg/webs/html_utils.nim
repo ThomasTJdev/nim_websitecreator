@@ -4,7 +4,7 @@ from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
 from packages/docutils/rst import RstParseOption
 
-when defined(recaptcha): include captcha
+when defined(recaptcha): include captchas
 
 const
   inputNumber = r"""

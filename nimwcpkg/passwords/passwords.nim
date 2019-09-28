@@ -7,5 +7,5 @@ let useUrandom = urandom.open("/dev/urandom")
 
 # Order is important here.
 include
-  "_salt_generate",
-  "_password_generate"
+  "_salts",
+  "_passwords"
