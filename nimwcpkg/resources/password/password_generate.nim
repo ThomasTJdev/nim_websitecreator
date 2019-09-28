@@ -1,10 +1,8 @@
-import md5, bcrypt, contra, ../password/salt_generate
-
+## Do NOT import this file directly, instead import ``password.nim``
 
 template makeSessionKey*(): string =
   ## Creates a random key to be used to authorize a session.
   bcrypt.hash(makeSalt(), genSalt(8))
-
 
 template makePassword*(password, salt: string, comparingTo = ""): string =
   ## Creates an MD5 hash by combining password and salt.
