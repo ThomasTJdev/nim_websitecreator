@@ -9,7 +9,7 @@ assert existsDir(nimwcpkgDir), "nimwcpkg directory not found: " & nimwcpkgDir
 assert existsFile(configFile), "config/config.cfg file not found"
 
 setCurrentDir(nimwcpkgDir)
-discard existsOrCreateDir("log")
+once: discard existsOrCreateDir("log")
 
 addHandler(newConsoleLogger(fmtStr = verboseFmtStr))
 addHandler(newRollingFileLogger( # Logs to rotating files.

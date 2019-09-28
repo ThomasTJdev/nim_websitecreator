@@ -1,4 +1,5 @@
 ## Static string HTML constants, do NOT put any run-time logic here, only consts.
+## Do NOT import this file directly, instead import ``constants.nim``
 from strutils import unindent
 
 

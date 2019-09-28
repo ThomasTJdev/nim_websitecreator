@@ -1,3 +1,4 @@
+## Do NOT import this file directly, instead import ``email.nim``
 
 proc sendAdminMailNow*(subject, message: string) {.async.} =
   ## Send email only to Admin.

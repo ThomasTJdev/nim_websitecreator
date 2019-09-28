@@ -1,3 +1,4 @@
+## Do NOT import this file directly, instead import ``email.nim``
 
 proc sendMailNow*(subject, message, recipient: string) {.async.} =
   ## Send the email through smtp

@@ -1,4 +1,5 @@
 ## Static integer constants, do NOT put any run-time logic here, only consts.
+## Do NOT import this file directly, instead import ``constants.nim``
 
 
 const  # nimwcpkg/resources/administration/create_adminuser.nim

@@ -1,5 +1,6 @@
 ## Static string Bash Commands constants, do NOT put any run-time logic here, only consts.
 ## Ignore line lenght on this file.
+## Do NOT import this file directly, instead import ``constants.nim``
 
 
 const

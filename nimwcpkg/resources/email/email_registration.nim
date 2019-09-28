@@ -1,3 +1,4 @@
+## Do NOT import this file directly, instead import ``email.nim``
 
 proc sendEmailActivationManual*(email, userName, password, activateUrl, invitorName: string) {.async.} =
   ## Send the activation email, when admin added a new user.
