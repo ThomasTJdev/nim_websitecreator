@@ -2,7 +2,7 @@
 ## Do NOT import this file directly, instead import ``constants.nim``
 
 
-const  # nimwcpkg/resources/administration/create_adminuser.nim
+const  # nimwcpkg/resources/database/create_adminuser.nim
   nameMinLen* = 3
 
   nameMaxLen* = 60
