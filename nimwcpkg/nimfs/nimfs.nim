@@ -17,4 +17,5 @@ include
   "settings.nimf",
   "sitemap.nimf",
   "user.nimf"
+
 when defined(firejail): include "firejail.nimf"
