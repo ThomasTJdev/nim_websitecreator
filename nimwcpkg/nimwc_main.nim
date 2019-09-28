@@ -13,14 +13,14 @@ import
 
 import
   constants/constants, enums/enums,
-  resources/database/database,
-  resources/email/email,
-  resources/files/files,
-  resources/password/password,
-  resources/session/session,
-  resources/utils/logging_nimwc,
-  resources/utils/plugins,
-  resources/web/html_utils
+  database/database,
+  email/email,
+  files/files,
+  password/password,
+  session/session,
+  utils/logging_nimwc,
+  utils/plugins,
+  web/html_utils
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
@@ -474,9 +474,9 @@ template restrictAccessTo(c: var TData, ranks: varargs[Rank]) =
 
 macro generateRoutes() =
   ## The macro generates the routes for Jester.
-  ## Routes are found in the resources/web/routes.nim.
+  ## Routes are found in the web/routes.nim.
   ## All plugins "routes.nim" are also included.
-  var extensions = staticRead("resources/web/routes.nim")
+  var extensions = staticRead("web/routes.nim")
 
   for ppath in pluginsPath:
     extensions.add("\n\n" & staticRead(ppath & "/routes.nim"))
