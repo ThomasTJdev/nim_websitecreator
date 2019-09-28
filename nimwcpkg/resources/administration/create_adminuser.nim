@@ -1,5 +1,5 @@
 import strutils, logging, rdstdin, contra
-import ../../constants/constants, ../password/password_generate, ../password/salt_generate
+import ../../constants/constants, ../password/password
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
