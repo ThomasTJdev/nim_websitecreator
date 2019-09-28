@@ -1,0 +1,6 @@
+#? stdtmpl | standard
+#
+#
+#template `%`(idx: untyped): untyped =
+#  row[idx]
+#end template
