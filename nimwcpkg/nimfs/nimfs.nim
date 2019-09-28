@@ -1,21 +1,22 @@
 
 include
   "utils.nimf",  # Utils should be first.
-  "blog.nimf",
-  "blogedit.nimf",
-  "blognew.nimf",
-  "delayredirect.nimf",
-  "editconfig.nimf",
+  "blogs/blogs.nimf",
+  "blogs/edits.nimf",
+  "blogs/creates.nimf",
+  "delayredirects.nimf",
+  "configs.nimf",
   "files.nimf",
   "logs.nimf",
-  "main.nimf",
-  "page.nimf",
-  "pageedit.nimf",
-  "pagenew.nimf",
+  "mains.nimf",
+  "pages/pages.nimf",
+  "pages/edits.nimf",
+  "pages/creates.nimf",
   "plugins.nimf",
-  "serverinfo.nimf",
+  "statuspages.nimf",
   "settings.nimf",
-  "sitemap.nimf",
-  "user.nimf"
+  "sitemaps.nimf",
+  "users.nimf"
 
-when defined(firejail): include "firejail.nimf"
+
+when defined(firejail): include "firejails.nimf"

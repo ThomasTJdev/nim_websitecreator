@@ -12,9 +12,8 @@ import
   otp              # https://github.com/OpenSystemsLab/otp.nim#otpnim
 
 import
-  constants/constants, enums/enums, databases/databases, emails/emails,
-  files/files, passwords/passwords, sessions/sessions, utils/loggers,
-  plugins/plugins, webs/html_utils
+  constants/constants, enums/enums, databases/databases, emails/emails, files/files,
+  passwords/passwords, sessions/sessions, utils/loggers, plugins/plugins, webs/html_utils
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
