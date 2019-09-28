@@ -13,8 +13,7 @@ import
 
 import
   constants/constants, enums/enums,
-  resources/administration/create_adminuser,
-  resources/administration/create_standarddata,
+  resources/database/database,
   resources/email/email,
   resources/files/files,
   resources/password/password,
