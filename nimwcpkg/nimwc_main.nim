@@ -19,7 +19,7 @@ import
   password/password,
   session/session,
   utils/logging_nimwc,
-  utils/plugins,
+  plugins/plugins,
   web/html_utils
 
 when defined(postgres): import db_postgres
