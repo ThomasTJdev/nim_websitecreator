@@ -8,9 +8,9 @@ import ../constants/constants
 
 # Order is important here.
 include
-  "_details",
-  "_repo",
-  "_download",
-  "_delete",
-  "_switcher",
+  "_detailers",
+  "_repos",
+  "_downloaders",
+  "_deleters",
+  "_switchers",
   "_settings"
