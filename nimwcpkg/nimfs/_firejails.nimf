@@ -1,5 +1,6 @@
 #? stdtmpl | standard
 #
+#
 #proc genFirejail(noDvd,noSound,noAutoPulse,no3d,noX,noVideo,noDbus,noShell,
 #                 noDebuggers,noMachineId,noRoot,noAllusers,noU2f,privateTmp,privateCache,
 #                 privateDev,forceEnUsUtf8,caps,seccomp,noTv,writables,noMnt: bool,

@@ -1,9 +1,5 @@
 #? stdtmpl | standard
 #
-#template `%`(idx: untyped): untyped =
-#  row[idx]
-#end template
-#
 #
 #proc genFormLogin(c: var TData, errorMsg = ""): string =
 # result = ""

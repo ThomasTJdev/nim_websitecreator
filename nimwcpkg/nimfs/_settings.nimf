@@ -1,14 +1,7 @@
 #? stdtmpl | standard
 #
-#template `%`(idx: untyped): untyped =
-#  row[idx]
-#end template
-#
-#
 #
 #proc genSettings(c: var TData): string =
-  #result = ""
-
   <div id="settings">
     <h1>Dashboard</h1>
     <div class="container-fluid">

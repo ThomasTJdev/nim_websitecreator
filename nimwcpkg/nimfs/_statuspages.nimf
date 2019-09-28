@@ -3,8 +3,8 @@
 #import httpclient  #HACK: Do NOT move to main,leave it here.
 #
 #proc genServerInfo(): string =
-#  let jailf = when defined(firejail): $firejailFeatures.pretty.strip else: "<i> Firejail is Disabled </i>"
-#  const jailv = when defined(firejail): $firejailVersion else: "<i> Firejail is Disabled </i>"
+  #const jailv = when defined(firejail): $firejailVersion else: "<i> Firejail is Disabled </i>"
+  #let jailf = when defined(firejail): $firejailFeatures.pretty.strip else: "<i> Firejail is Disabled </i>"
   <div id="serverinfo">
     <h1 class="has-text-centered">Server Info</h1>
     <table border=1 class="table is-bordered is-striped is-hoverable is-fullwidth">
@@ -22,19 +22,19 @@
       </tfoot>
       <tbody class="is-family-monospace">
       <tr>
-        <td> <b>System</b> </td>            <td> $staticExec("uname -a").strip </td>
+        <td> <b>System</b> </td>            <td> ${ staticExec("uname -a").strip } </td>
       </tr>
       <tr>
-        <td> <b>Distro</b> </td>            <td> $staticExec("lsb_release -a").strip </td>
+        <td> <b>Distro</b> </td>            <td> ${ staticExec("lsb_release -a").strip } </td>
       </tr>
       <tr>
-        <td> <b>Uptime</b> </td>            <td> $execCmdEx("uptime --pretty").output </td>
+        <td> <b>Uptime</b> </td>            <td> ${ execCmdEx("uptime --pretty").output } </td>
       </tr>
       <tr>
-        <td> <b>Disk</b> </td>              <td> $execCmdEx("df --human-readable --local --output=avail " & getCurrentDir()).output </td>
+        <td> <b>Disk</b> </td>              <td> ${ execCmdEx("df --human-readable --local --output=avail " & getCurrentDir()).output } </td>
       </tr>
       <tr>
-        <td> <b>Hostname</b> </td>          <td> $getHostname() </td>
+        <td> <b>Hostname</b> </td>          <td> ${ getHostname() } </td>
       </tr>
       <tr>
         <td> <b>Compile Date</b> </td>      <td> $CompileDate </td>
@@ -55,7 +55,7 @@
         <td> <b>CPU</b> </td>               <td> $hostCPU.toUpperAscii </td>
       </tr>
       <tr>
-        <td> <b>CPU Count</b> </td>         <td>${countProcessors()}</td>
+        <td> <b>CPU Count</b> </td>         <td>${ countProcessors() }</td>
       </tr>
       <tr>
         <td> <b>OS</b> </td>                <td>$hostOS.toUpperAscii</td>
@@ -64,25 +64,25 @@
         <td> <b>Endian</b> </td>            <td>$cpuEndian</td>
       </tr>
       <tr>
-        <td> <b>Temp Directory</b> </td>    <td>${getTempDir()}</td>
+        <td> <b>Temp Directory</b> </td>    <td>${ getTempDir() }</td>
       </tr>
       <tr>
-        <td> <b>Current Directory</b> </td> <td>${getCurrentDir()}</td>
+        <td> <b>Current Directory</b> </td> <td>${ getCurrentDir() }</td>
       </tr>
       <tr>
         <td> <b>Log File</b> </td>          <td>${logfile}</td>
       </tr>
       <tr>
-        <td> <b>App Directory</b> </td>     <td>${getAppDir()}</td>
+        <td> <b>App Directory</b> </td>     <td>${ getAppDir() }</td>
       </tr>
       <tr>
         <td> <b>Biggest Integer</b> </td>   <td>$int.high</td>
       </tr>
       <tr>
-        <td> <b>Server DateTime</b> </td>   <td>${now()}</td>
+        <td> <b>Server DateTime</b> </td>   <td>${ now() }</td>
       </tr>
       <tr>
-        <td> <b>Encoding</b> </td>          <td>${getCurrentEncoding()}</td>
+        <td> <b>Encoding</b> </td>          <td>${ getCurrentEncoding() }</td>
       </tr>
       <tr>
         <td> <b>SSL enabled</b> </td>       <td>${defined(ssl)}</td>

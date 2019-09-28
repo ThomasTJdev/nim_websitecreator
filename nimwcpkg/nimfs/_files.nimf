@@ -2,15 +2,8 @@
 #
 #import mimetypes, os
 #
-#template `%`(idx: untyped): untyped =
-#  row[idx]
-#end template
-#
-#
-#
 #
 #proc genFiles(c: var TData): string =
-# result = ""
 #
 # let mime            = newMimetypes()
 # let allFilesPrivate = filesListPrivate()
