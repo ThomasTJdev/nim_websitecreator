@@ -1,7 +1,4 @@
-import random
-
-var urandom: File
-let useUrandom = urandom.open("/dev/urandom")
+## Do NOT import this file directly, instead import ``password.nim``
 
 proc makeSalt*(): string =
   ## Generate random salt. Uses cryptographically secure /dev/urandom
