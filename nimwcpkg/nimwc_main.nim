@@ -19,7 +19,7 @@ import
   resources/files/files,
   resources/password/password_generate,
   resources/password/salt_generate,
-  resources/session/user_data,
+  resources/session/session,
   resources/utils/logging_nimwc,
   resources/utils/plugins,
   resources/web/html_utils
