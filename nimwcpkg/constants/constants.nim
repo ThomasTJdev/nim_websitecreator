@@ -1,2 +1,2 @@
 ## Just include all constants here, so we keep them separated by topic
-include integers, commands, strings, sqls, htmls  # Order is NOT important here
+include "_integers", "_commands", "_strings", "_sqls", "_htmls"  # Order is NOT important here
