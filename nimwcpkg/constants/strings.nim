@@ -157,6 +157,18 @@ const
   pluginRepoName* = "nimwc_plugins"
 
 
+const reqCode* = """
+
+# Code your plugins backend logic in this file.
+proc $1Start*(db: DbConn): auto =
+  ## Code your plugins start-up backend logic here, db is the database.
+  ## - Postgres Documentation: https://nim-lang.org/docs/db_postgres.html
+  ## - SQLite 3 Documentation: https://nim-lang.org/docs/db_sqlite.html
+  discard  # Your code here...
+
+"""
+
+
 const doc* = """Nim Website Creator 👑 https://NimWC.org 👑 Nim open-source web framework that is simple to use.
 
 Usage:            nimwc <compile options> <options>
@@ -199,15 +211,3 @@ Compile options quick tip (release builds are automatically stripped/optimized):
   Safest        -d:release -d:contracts -d:hardened -d:firejail --styleCheck:hint
 
 Docs http://u.nu/q2h9 http://u.nu/lyfa http://u.nu/etkb http://u.nu/pjxf http://u.nu/ykw- http://u.nu/k0lt """
-
-
-const reqCode* = """
-
-# Code your plugins backend logic in this file.
-proc $1Start*(db: DbConn): auto =
-  ## Code your plugins start-up backend logic here, db is the database.
-  ## - Postgres Documentation: https://nim-lang.org/docs/db_postgres.html
-  ## - SQLite 3 Documentation: https://nim-lang.org/docs/db_sqlite.html
-  discard  # Your code here...
-
-"""
