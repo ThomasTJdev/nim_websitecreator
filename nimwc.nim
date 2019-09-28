@@ -4,11 +4,8 @@ import contra        # https://github.com/juancarlospaco/nim-contra#contra
 
 import
   nimwcpkg/constants/constants, nimwcpkg/enums/enums,
-  nimwcpkg/resources/administration/createdb,
-  nimwcpkg/resources/administration/create_standarddata,
-  nimwcpkg/resources/administration/connectdb,
-  nimwcpkg/resources/files/files,
-  nimwcpkg/resources/administration/create_adminuser
+  nimwcpkg/resources/database/database,
+  nimwcpkg/resources/files/files
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
