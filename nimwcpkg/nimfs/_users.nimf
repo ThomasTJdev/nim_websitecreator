@@ -2,7 +2,6 @@
 #
 #
 #proc genFormLogin(c: var TData, errorMsg = ""): string =
-# result = ""
 # if not c.loggedIn:
 #
 #   let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings")
