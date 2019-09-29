@@ -1,4 +1,4 @@
-#? stdtmpl | standard
+#? strip | stdtmpl
 #
 #
 #proc genDelayRedirect*(url: string, message="**Wait!** ⏰", delaySeconds: byte = 5): string {.inline.} =

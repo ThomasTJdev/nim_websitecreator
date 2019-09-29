@@ -1,4 +1,4 @@
-#? stdtmpl | standard
+#? strip | stdtmpl
 #
 #
 #func genEditMixed(newPage = true): string {.inline.} =

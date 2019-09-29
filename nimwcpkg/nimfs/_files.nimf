@@ -1,6 +1,6 @@
 #? stdtmpl | standard
 #
-#import mimetypes, os
+#import mimetypes
 #
 #
 #proc genFiles(c: var TData): string =

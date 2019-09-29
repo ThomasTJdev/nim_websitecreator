@@ -204,9 +204,7 @@
 
 </div>
 
-<div id="notifySaved">
-  Saved HTML
-</div>
+<div id="notifySaved"> Saved HTML </div>
 # end for
 #end proc
 #
@@ -215,19 +213,13 @@
 #
 #
 #proc genSettingsEditJs(c: var TData, customJs: bool): string =
-# result = ""
 # var jsFile: string
 # if customJs:
 #   jsFile = "public/js/js_custom.js"
 # else:
 #   jsFile = "public/js/js.js"
 # end if
-<style>
-  .CodeMirror {
-    border: 1px solid #eee;
-    height: auto!important;
-  }
-</style>
+<style> .CodeMirror { border: 1px solid #eee; height: auto!important; } </style>
 <div id="settingsEdit">
   <h1>Edit JS file</h1>
   <h4>${jsFile}</h4>
@@ -266,12 +258,7 @@ $line
 # else:
 #   cssFile = "public/css/style.css"
 # end if
-<style>
-  .CodeMirror {
-    border: 1px solid #eee;
-    height: auto!important;
-  }
-</style>
+<style> .CodeMirror { border: 1px solid #eee; height: auto!important; } </style>
 <div id="settingsEdit">
   <h1>Edit CSS file</h1>
   <h4>${cssFile}</h4>

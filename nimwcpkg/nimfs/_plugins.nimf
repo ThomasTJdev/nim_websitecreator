@@ -2,10 +2,7 @@
 #
 #
 #proc genPlugins(c: var TData): string {.inline.} =
-  <h1 style="text-align:center">Plugins</h1>
-  <ul class="pluginSettings">
-    ${ genExtensionSettings() }
-  </ul>
+  <h1 style="text-align:center">Plugins</h1><ul class="pluginSettings"> ${ genExtensionSettings() } </ul>
 #end proc
 #
 #
