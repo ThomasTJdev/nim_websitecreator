@@ -24,12 +24,12 @@ include
   "utils/_editor_imports.nimf",
 
   "blogs/_blogs.nimf",              # Blogs
-  "blogs/_edits.nimf",
-  "blogs/_creates.nimf",
+  "blogs/_editors.nimf",
+  "blogs/_creators.nimf",
 
   "pages/_pages.nimf",              # Pages
-  "pages/_edits.nimf",
-  "pages/_creates.nimf",
+  "pages/_editors.nimf",
+  "pages/_creators.nimf",
 
   "_delayredirects.nimf",           # Everthing else
   "_configs.nimf",
