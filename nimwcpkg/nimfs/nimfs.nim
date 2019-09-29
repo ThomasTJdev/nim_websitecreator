@@ -2,7 +2,7 @@
 ## This file includes all ``*.nimf`` templates of NimWC Core in proper order,
 ## so we keep them separated by topic, on subfolders and on comfy size per file.
 ## Do not put any run-time logic here.
-## To keep things simple try to follow the logic indentation of the Nim proc,
+## To keep things simple try to **follow the logic indentation of Nim**,
 ## instead of the HTML logic indentation, because HTML wont use it, but Nim does
 
 
