@@ -9,7 +9,7 @@
 template `%`(idx: untyped): untyped {.used.} = row[idx]  # Used on nimf below.
 
 
-proc twoFaKey(): string {.inline.} =
+proc twoFaKey(): string {.inline, used.} =
   ## Used on 2FA on _userprofiles.nimf line ~212.
   const items = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
     'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
