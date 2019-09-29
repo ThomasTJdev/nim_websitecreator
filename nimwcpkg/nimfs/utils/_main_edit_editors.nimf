@@ -18,7 +18,9 @@
   #
   #else:
   #
-    <textarea name="editordata" id="editordataCodemirror" class="textarea">${ content }</textarea>
+    <textarea name="editordata" id="editordataCodemirror" class="textarea">
+      ${ content }
+    </textarea>
   #
   #end if
   #

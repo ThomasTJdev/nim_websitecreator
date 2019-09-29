@@ -9,9 +9,7 @@
     <progress class="progress is-large is-success is-fullwidth is-shadowless is-unselectable is-marginless" title="$delaySeconds Seconds"> Redirecting to $url on $delaySeconds Seconds </progress>
     <hr>
     <center class="is-unselectable">
-
       ${ rst2html(message.strip) } <br>
-
     </center>
   </div>
 #end proc

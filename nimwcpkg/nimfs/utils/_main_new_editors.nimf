@@ -38,13 +38,9 @@
         <h1>
           Title
         </h1>
-        <p>
-          The first paragraph
-        </p>
+        <p>The first paragraph</p>
         <hr>
-        <p>
-          The second paragraph
-        </p>
+        <p>The second paragraph</p>
       </div>
     </textarea>
   #end if
