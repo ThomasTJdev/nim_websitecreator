@@ -79,14 +79,14 @@
       <div class="field">
         <div class="control">
           <label class="label">Publication date (visible on the blog overview)</label>
-          <input class="input" type="date" name="pubdate" value="${pubDate}" dir="auto" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" required >
+          <input class="input" type="date" name="pubdate" value="${ pubDate }" dir="auto" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" required >
           <i class="is-size-7">If no date is specified, the creation date will be used. The date has no effect and will only be shown on the blog overview page. Format the date: YYYY-MM-DD</i>
         </div>
       </div>
       <div class="field">
         <div class="control">
           <label class="label">View counter starting at</label>
-          <input class="input" type="number" name="viewcount" value="${viewCount}" dir="auto" min="0" step="1" placeholder="0" required >
+          <input class="input" type="number" name="viewcount" value="${ viewCount }" dir="auto" min="0" step="1" placeholder="0" required >
         </div>
       </div>
     </div>
@@ -99,13 +99,13 @@
     <div class="field">
       <div class="control">
         <label class="label">Category</label>
-        <input class="input" type="text" name="category" value="${category}" placeholder="Single word category" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+        <input class="input" type="text" name="category" value="${ category }" placeholder="Single word category" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
       </div>
     </div>
     <div class="field">
       <div class="control">
         <label class="label">Tags</label>
-        <input class="input" type="text" name="tags" value="${tags}" placeholder="Comma separated tags, e.g. nim,macro" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+        <input class="input" type="text" name="tags" value="${ tags }" placeholder="Comma separated tags, e.g. nim,macro" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
       </div>
     </div>
   </div>
@@ -119,21 +119,21 @@
     <div class="input-group input-group-sm">
       <div class="field">
         <div class="control">
-          <input class="checkbox" type="checkbox" id="standardhead" name="standardhead" ${checkboxToChecked($stdHead)}>
+          <input class="checkbox" type="checkbox" id="standardhead" name="standardhead" ${ checkboxToChecked($stdHead) }>
             Use standard head &lt;head&gt;
           </input>
         </div>
       </div>
       <div class="field">
         <div class="control">
-          <input class="checkbox" type="checkbox" id="standardnavbar" name="standardnavbar" ${checkboxToChecked($stdNav)}>
+          <input class="checkbox" type="checkbox" id="standardnavbar" name="standardnavbar" ${ checkboxToChecked($stdNav) }>
             Use standard navbar &lt;navbar&gt;
           </input>
         </div>
       </div>
       <div class="field">
         <div class="control">
-          <input class="checkbox" type="checkbox" id="standardfooter" name="standardfooter" ${checkboxToChecked($stdFoot)}>
+          <input class="checkbox" type="checkbox" id="standardfooter" name="standardfooter" ${ checkboxToChecked($stdFoot) }>
             Use standard footer &lt;footer&gt;
           </input>
         </div>
@@ -151,19 +151,19 @@
     <div class="field">
       <div class="control">
         <label class="label">Title</label>
-        <input class="input" type="text" name="title" value="${title}" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+        <input class="input" type="text" name="title" value="${ title }" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
       </div>
     </div>
     <div class="field">
       <div class="control">
         <label class="label">Meta description</label>
-        <textarea class="textarea" name="metadescription" placeholder="Type or paste your Meta description here..." dir="auto">${metadescription}</textarea>
+        <textarea class="textarea" name="metadescription" placeholder="Type or paste your Meta description here..." dir="auto">${ metadescription }</textarea>
       </div>
     </div>
     <div class="field">
       <div class="control">
         <label class="label">Meta keywords</label>
-        <textarea class="textarea" name="metakeywords" placeholder="Separate each keywords with a comma, e.g. blog,design,code" dir="auto">${metakeywords}</textarea>
+        <textarea class="textarea" name="metakeywords" placeholder="Separate each keywords with a comma, e.g. blog,design,code" dir="auto">${ metakeywords }</textarea>
       </div>
     </div>
   </div>
@@ -236,20 +236,16 @@
     <hr>
 
     <h4 class="has-text-centered">Delete page</h4>
-    <div class="notification is-danger">
-      If you Delete a page it can not be undone.
-    </div>
+    <div class="notification is-danger"> If you Delete a page it can not be undone </div>
     <div class="buttons" style="margin-bottom: 20px;">
     #
-    #
     #if page:
-        <span data-url="/page/delete?pageid=$pageid" class="pageDelete button is-danger" title="If you delete a page it can not be undone">Delete page</span>
+      <span data-url="/page/delete?pageid=$pageid" class="pageDelete button is-danger" title="If you delete a page it can not be undone">Delete page</span>
     #
     #else:
     #
-        <span data-url="/blogpage/delete?blogid=$pageid" class="blogDelete button is-danger" title="If you delete a blogpost it can not be undone">Delete blogpost</span>
+      <span data-url="/blogpage/delete?blogid=$pageid" class="blogDelete button is-danger" title="If you delete a blogpost it can not be undone">Delete blogpost</span>
     #end if
-    #
     #
     </div>
   #end if

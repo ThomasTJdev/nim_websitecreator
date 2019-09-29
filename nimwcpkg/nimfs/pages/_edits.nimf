@@ -48,11 +48,15 @@
           <hr>
 
           <div>
+      #
       #if newPage == "true":
         ${ genPageEditorMainNew(c, "standardpage") }
+      #
       #else:
+      #
         ${ genPageEditorMainEdit(c, page[4]) }
       #end if
+      #
           </div>
         </form>
       </div>
@@ -63,7 +67,7 @@
   #
   #else:
   #
-    <h5 style="color:red;"> Something went wrong </h5>
+    <h5 style="color:red"> Something went wrong </h5>
   #
   #end if
   #

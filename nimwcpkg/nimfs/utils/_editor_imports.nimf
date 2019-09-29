@@ -2,7 +2,6 @@
 #
 #
 #proc genPageEditorImport(c: var TData, isNewPage: bool): string =
-  #
   #if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "grape":
     <script src="https://unpkg.com/grapesjs" crossorigin="anonymous" async defer ></script>
     <script src="/js/grapesjsbs4.min.js" crossorigin="anonymous" async defer ></script>

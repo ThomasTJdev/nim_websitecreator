@@ -2,7 +2,6 @@
 #
 #
 #proc genPageEditorMainNew(c: var TData, classBlogPage: string): string =
-  #
   #if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "grape":
     <div id="gjs" class="gls">
       <div id="mainContainer" class="${ classBlogPage }">
@@ -21,7 +20,7 @@
   #
   #elif c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "summernote":
   #
-    <textarea id="summernoteHidden" name="editordata" style="display: none;"></textarea>
+    <textarea id="summernoteHidden" name="editordata" style="display:none;"></textarea>
     <div id="summernote" class="summernote">
       <div id="mainContainer" class="${ classBlogPage }">
         <h1>Title</h1>

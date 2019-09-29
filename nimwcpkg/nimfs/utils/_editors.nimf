@@ -4,7 +4,7 @@
 #func genEditMixed(newPage = true): string {.inline.} =
   #
   #if not newPage:
-    <div id="save" data-ischanged="0" style="display:none;"></div>
+    <div id="save" data-ischanged="0" style="display:none"></div>
   #
   #end if
   #

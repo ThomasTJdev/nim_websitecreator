@@ -3,7 +3,7 @@
 #
 #proc genEditBlog(c: var TData, blogid, newPage: string): string =
   #let pageData = getAllRows(db, sql"SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, url, status FROM blog WHERE id = ?", blogid)
-  #if pageData.len() > 0:
+  #if pageData.len > 0:
     #for page in pageData:
       <div id="blogData">
       <form class="standard page" method="post" action="/blogpage/update">
@@ -64,10 +64,10 @@
     #end for
     #
   #
-  # else:
+  #else:
   #
     <h5 style="color:red"> Something went wrong </h5>
-  # end if
+  #end if
   #
 
   ${ genPageEditorImport(c, false) }
