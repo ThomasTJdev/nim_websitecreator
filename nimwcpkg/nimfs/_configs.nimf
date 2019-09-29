@@ -7,13 +7,10 @@
     <form class="standard page" method="post" action="/settings/config/save">
       <textarea class="textarea is-info is-family-monospace" id="config" name="config" dir="auto" style="width:99%;height:75%" minlength=9 rows=20 autofocus spellcheck required >
         ${ configIni }
-      </textarea>
-      <br>
+      </textarea><br>
       <button type="submit" class="button is-success is-fullwidth" title="Save Config">Save</button>
-    </form>
-    <br>
-    <button class="button is-fullwidth" onclick="document.querySelector('textarea#config').select();document.execCommand('copy')">Copy</button>
-    <br>
+    </form><br>
+    <button class="button is-fullwidth" onclick="document.querySelector('textarea#config').select();document.execCommand('copy')">Copy</button><br>
     <div class="notification is-warning" style="padding-top: 15px;">
       <p title="NOT recommended to change Firejail settings here">
         Its NOT recommended to change Firejail settings here,

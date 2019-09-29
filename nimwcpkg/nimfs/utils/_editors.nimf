@@ -5,7 +5,6 @@
   #
   #if not newPage:
     <div id="save" data-ischanged="0" style="display:none"></div>
-  #
   #end if
   #
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.css" integrity="sha256-I8NyGs4wjbMuBSUE40o55W6k6P7tu/7G28/JGUUYCIs=" crossorigin="anonymous"/>

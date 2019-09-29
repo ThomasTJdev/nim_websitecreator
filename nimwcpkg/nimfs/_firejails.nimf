@@ -7,16 +7,17 @@
 #                 maxSubProcesses, maxOpenFiles, maxFileSize, maxPendingSignals,
 #                 timeout, maxCpu, maxRam, cpuCoresByNumber: int,
 #                 hostsFile, dns0, dns1, dns2, dns3: string): string =
-#  result = ""
-<div id="firejail">
+  <div id="firejail">
   <h1 class="has-text-centered">Self-Firejailing Web Framework</h1>
   <p class="has-text-centered">
-    <a href="https://firejail.wordpress.com/features-3/#filesystem">Firejail</a> security is built-in on the Core of <a href="https://nimwc.org">NimWC.</a>
+  <a href="https://firejail.wordpress.com/features-3/#filesystem">Firejail</a> security is built-in on the Core of <a href="https://nimwc.org">NimWC.</a>
   </p> <br>
   <form class="standard page"
-  # when not defined(demo):
+  #
+  #when not defined(demo):
     method="post" action="/settings/firejail/save"
-  # end when
+  #end when
+  #
   >
   <table class="table is-bordered is-striped is-hoverable is-fullwidth">
     <thead>
@@ -36,9 +37,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noDvd"
-          # if noDvd:
-            checked
-          # end if
+  #
+  #if noDvd:
+    checked
+  #end if
+  #
           > noDvd
         </label>
       </td>
@@ -48,9 +51,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noSound"
-          # if noSound:
-            checked
-          # end if
+  #
+  #if noSound:
+    checked
+  #end if
+  #
           > noSound
         </label>
       </td>
@@ -60,9 +65,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noAutoPulse"
-          # if noAutoPulse:
-            checked
-          # end if
+  #
+  #if noAutoPulse:
+    checked
+  #end if
+  #
           > noAutoPulse
         </label>
       </td>
@@ -72,9 +79,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="no3d"
-          # if no3d:
-            checked
-          # end if
+  #
+  #if no3d:
+    checked
+  #end if
+  #
           > no3d
         </label>
       </td>
@@ -84,9 +93,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noX"
-          # if noX:
-            checked
-          # end if
+  #
+  #if noX:
+    checked
+  #end if
+  #
           > noX
         </label>
       </td>
@@ -96,9 +107,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noVideo"
-          # if noVideo:
-            checked
-          # end if
+  #
+  #if noVideo:
+    checked
+  #end if
+  #
           > noVideo
         </label>
       </td>
@@ -108,9 +121,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noDbus"
-          # if noDbus:
-            checked
-          # end if
+  #
+  #if noDbus:
+    checked
+  #end if
+  #
           > noDbus
         </label>
       </td>
@@ -120,9 +135,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noShell"
-          # if noShell:
-            checked
-          # end if
+  #
+  #if noShell:
+    checked
+  #end if
+  #
           > noShell
         </label>
       </td>
@@ -132,9 +149,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noDebuggers"
-          # if noDebuggers:
-            checked
-          # end if
+  #
+  #if noDebuggers:
+    checked
+  #end if
+  #
           > noDebuggers
         </label>
       </td>
@@ -144,9 +163,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noMachineId"
-          # if noMachineId:
-            checked
-          # end if
+  #
+  #if noMachineId:
+    checked
+  #end if
+  #
           > noMachineId
         </label>
       </td>
@@ -156,9 +177,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noRoot"
-          # if noRoot:
-            checked
-          # end if
+  #
+  #if noRoot:
+    checked
+  #end if
+  #
           > noRoot
         </label>
       </td>
@@ -168,9 +191,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noAllusers"
-          # if noAllusers:
-            checked
-          # end if
+  #
+  #if noAllusers:
+    checked
+  #end if
+  #
           > noAllusers
         </label>
       </td>
@@ -180,9 +205,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noU2f"
-          # if noU2f:
-            checked
-          # end if
+  #
+  #if noU2f:
+    checked
+  #end if
+  #
           > noU2f
         </label>
       </td>
@@ -192,9 +219,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noTv"
-          # if noTv:
-            checked
-          # end if
+  #
+  #if noTv:
+    checked
+  #end if
+  #
           > noTv
         </label>
       </td>
@@ -204,9 +233,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="privateTmp"
-          # if privateTmp:
-            checked
-          # end if
+  #
+  #if privateTmp:
+    checked
+  #end if
+  #
           > privateTmp
         </label>
       </td>
@@ -216,9 +247,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="privateCache"
-          # if privateCache:
-            checked
-          # end if
+  #
+  #if privateCache:
+    checked
+  #end if
+  #
           > privateCache
         </label>
       </td>
@@ -228,9 +261,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="privateDev"
-          # if privateDev:
-            checked
-          # end if
+  #
+  #if privateDev:
+    checked
+  #end if
+  #
           > privateDev
         </label>
       </td>
@@ -240,9 +275,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="caps"
-          # if caps:
-            checked
-          # end if
+  #
+  #if caps:
+    checked
+  #end if
+  #
           > caps
         </label>
       </td>
@@ -252,9 +289,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="seccomp"
-          # if seccomp:
-            checked
-          # end if
+  #
+  #if seccomp:
+    checked
+  #end if
+  #
           > seccomp
         </label>
       </td>
@@ -264,9 +303,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="writables"
-          # if writables:
-            checked
-          # end if
+  #
+  #if writables:
+    checked
+  #end if
+  #
           > writables
         </label>
       </td>
@@ -276,9 +317,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="noMnt"
-          # if noMnt:
-            checked
-          # end if
+  #
+  #if noMnt:
+    checked
+  #end if
+  #
           > noMnt
         </label>
       </td>
@@ -288,9 +331,11 @@
       <td class="is-narrow">
         <label class="checkbox">
           <input type="checkbox" name="forceEnUsUtf8"
-          # if forceEnUsUtf8:
-            checked
-          # end if
+  #
+  #if forceEnUsUtf8:
+    checked
+  #end if
+  #
           > forceEnUsUtf8
         </label>
       </td>
@@ -420,19 +465,24 @@
   <hr>
   <h5 class="has-text-centered">Firejail Status</h5>
   <div class="tags">
-    # for capability in firejailFeatures.pairs:
-        <span
-    # if capability.val.getBool:
-        style="color:black" title="OK" class="tag is-rounded is-success is-capitalized"
+  #
+  # for capability in firejailFeatures.pairs:
+    <span
+    #
+    #if capability.val.getBool:
+      style="color:black" title="OK" class="tag is-rounded is-success is-capitalized"
+    #
     # else:
-        style="color:yellow" title="Fail (Not Installed)" class="tag is-danger is-uppercase"
+    #
+      style="color:yellow" title="Fail (Not Installed)" class="tag is-danger is-uppercase"
     # end if
-        > $capability.key </span>
-    # end for
+    #
+    > $capability.key </span>
+  # end for
+  #
   </div>
   <div class="notification is-info">
-    You are protected by Firejail version $firejailVersion
-    , <i>stay safe and use <a href="https://nim-lang.org/learn.html">Nim</a></i>.
+  You are protected by Firejail version $firejailVersion, <i>stay safe and use <a href="https://nim-lang.org/learn.html">Nim</a></i>.
   </div>
-</div>
+  </div>
 #end proc

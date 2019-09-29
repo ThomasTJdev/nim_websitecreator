@@ -1,7 +1,7 @@
 import
   asyncdispatch, base32, cgi, encodings, logging, md5, nativesockets, os,
   osproc, oswalkdir, parsecfg, random, re, rdstdin, sequtils, streams, strtabs,
-  strutils, tables, times, macros, packages/docutils/rstgen
+  strutils, tables, times, macros, mimetypes, packages/docutils/rstgen
 
 import
   bcrypt,          # https://github.com/runvnc/bcryptnim#bcrypt
