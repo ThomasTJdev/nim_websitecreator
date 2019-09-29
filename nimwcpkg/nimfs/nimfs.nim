@@ -1,8 +1,15 @@
+## Do NOT import this file directly. Do NOT include this file directly.
+## This file includes all ``*.nimf`` templates of NimWC Core in proper order,
+## so we keep them separated by topic, on subfolders and on comfy size per file.
+## Do not put any run-time logic here.
+
+
+template `%`(idx: untyped): untyped = row[idx]  # Used on some templates below.
+
 
 # Order is important here.
 include
-  "utils/_utils.nimf",              # Utils should be first.
-  "utils/_navbars.nimf",
+  "utils/_navbars.nimf",            # Utils should be first.
   "utils/_editors.nimf",
   "utils/_profiles.nimf",
   "utils/_main_new_editors.nimf",
