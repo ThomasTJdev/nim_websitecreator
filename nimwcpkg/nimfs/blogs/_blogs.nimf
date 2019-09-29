@@ -6,8 +6,6 @@
 #
 #
 #proc genBlogAllPages(c: var TData, edit = false, name = "", category = "", tags = ""): string =
-# ## Show all blog post
-# result = ""
 #
 # var status = "(2)"
 # if c.loggedIn:

@@ -5,7 +5,7 @@
   #
   #if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "grape":
     <div id="gjs" class="gls">
-      <div id="mainContainer" class="${classBlogPage}">
+      <div id="mainContainer" class="${ classBlogPage }">
         <h1>Title</h1>
         <p>The first paragraph</p>
         <hr>
@@ -23,7 +23,7 @@
   #
     <textarea id="summernoteHidden" name="editordata" style="display: none;"></textarea>
     <div id="summernote" class="summernote">
-      <div id="mainContainer" class="${classBlogPage}">
+      <div id="mainContainer" class="${ classBlogPage }">
         <h1>Title</h1>
         <p>The first paragraph</p>
         <hr>
@@ -34,7 +34,7 @@
   #else:
   #
     <textarea name="editordata" id="editordataCodemirror">
-      <div id="mainContainer" class="${classBlogPage}">
+      <div id="mainContainer" class="${ classBlogPage }">
         <h1>
           Title
         </h1>
