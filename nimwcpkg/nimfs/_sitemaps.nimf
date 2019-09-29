@@ -1,4 +1,4 @@
-#? stdtmpl
+#? strip | stdtmpl
 #
 #
 #proc genSitemap(): string {.inline.} =
