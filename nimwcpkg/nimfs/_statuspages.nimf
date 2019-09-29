@@ -1,4 +1,4 @@
-#? stdtmpl | standard
+#? strip | stdtmpl
 #
 #import httpclient  #HACK: Do NOT move to main,leave it here.
 #
