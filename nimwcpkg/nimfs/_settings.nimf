@@ -159,139 +159,120 @@
 #end proc
 #
 #
-#
-#
-#
 #proc genSettingsEdit(c: var TData): string =
-# result = ""
-#
-# let pageData = getAllRows(db, sql"SELECT analytics, head, navbar, footer, title FROM settings WHERE id = ?", "1")
-#
-# for page in pageData:
-
-<div id="settingsEdit">
-  <h1>HTML elements</h1>
-  <p>The HEAD, NAVBAR and FOOTER block will be inserted on all your pages. You can disable them for individual pages/blogposts when you are editing them. To completely disable them - delete their content below.</p>
-  <hr>
-  <form class="standard settings" method="post" action="/settings/update">
-    <div>
-      <label class="label">Title</label>
-      <input type="text" class="input" name="title" id="title" required value="${page[4]}" style="width: 300px;" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')"/>
-    </div>
-    <br>
-    <div>
-        <button type="submit" class="settingsSave button is-success">Save</button>
-    </div>
+  #let pageData = getAllRows(db, sql"SELECT analytics, head, navbar, footer, title FROM settings WHERE id = ?", "1")
+  #
+  #for page in pageData:
+    <div id="settingsEdit">
+    <h1>HTML elements</h1>
+    <p>The HEAD, NAVBAR and FOOTER block will be inserted on all your pages. You can disable them for individual pages/blogposts when you are editing them. To completely disable them - delete their content below.</p>
     <hr>
-    <div>
-      <div>HTML <code> &lt;head&gt; </code></div>
-      <textarea name="head" id="htmlSettings1">${page[1]}</textarea>
+    <form class="standard settings" method="post" action="/settings/update">
+      <div>
+        <label class="label">Title</label>
+        <input type="text" class="input" name="title" id="title" required value="${page[4]}" style="width: 300px;" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')"/>
+      </div>
+      <br>
+      <div>
+          <button type="submit" class="settingsSave button is-success">Save</button>
+      </div>
+      <hr>
+      <div>
+        <div>HTML <code> &lt;head&gt; </code></div>
+        <textarea name="head" id="htmlSettings1">${page[1]}</textarea>
+      </div>
+      <br>
+      <div>
+        <div>HTML <code> &lt;header&gt; </code> & <code> &lt;navbar&gt; </code> </div>
+        <textarea name="navbar" id="htmlSettings2">${page[2]}</textarea>
+      </div>
+      <br>
+      <div>
+        <div>HTML <code> &lt;footer&gt; </code> </div>
+        <textarea name="footer" id="htmlSettings3">${page[3]}</textarea>
+      </div>
+      <div style="margin-top: 15px;">
+          <button type="submit" class="settingsSave button is-success">Save</button>
+      </div>
+    </form>
     </div>
-    <br>
-    <div>
-      <div>HTML <code> &lt;header&gt; </code> & <code> &lt;navbar&gt; </code> </div>
-      <textarea name="navbar" id="htmlSettings2">${page[2]}</textarea>
-    </div>
-    <br>
-    <div>
-      <div>HTML <code> &lt;footer&gt; </code> </div>
-      <textarea name="footer" id="htmlSettings3">${page[3]}</textarea>
-    </div>
-    <div style="margin-top: 15px;">
-        <button type="submit" class="settingsSave button is-success">Save</button>
-    </div>
-  </form>
-
-</div>
-
-<div id="notifySaved"> Saved HTML </div>
-# end for
+    <div id="notifySaved"> Saved HTML </div>
+  #end for
 #end proc
-#
-#
-#
 #
 #
 #proc genSettingsEditJs(c: var TData, customJs: bool): string =
-# var jsFile: string
-# if customJs:
-#   jsFile = "public/js/js_custom.js"
-# else:
-#   jsFile = "public/js/js.js"
-# end if
-<style> .CodeMirror { border: 1px solid #eee; height: auto!important; } </style>
-<div id="settingsEdit">
-  <h1>Edit JS file</h1>
-  <h4>${jsFile}</h4>
-  <form class="standard settings" method="post" action="/settings/updatejs">
-    <input name="customJs" value="${customJs}" style="display: none">
-    <div>
-      <button type="submit" class="settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
-    </div>
-    <div>
-      <textarea name="js" id="settingsCode" >
-# for line in lines(jsFile):
-$line
-# end for
-      </textarea>
-    </div>
-    <div>
-      <button type="submit" class="settingsSaveCode button is-success">Save</button>
-    </div>
+  #var jsFile: string
+  #if customJs:
+    #jsFile = "public/js/js_custom.js"
+  #else:
+    #jsFile = "public/js/js.js"
+  #end if
+  #
+  <style> .CodeMirror { border: 1px solid #eee; height: auto!important; } </style>
+  <div id="settingsEdit">
+    <h1>Edit JS file</h1>
+    <h4> ${ jsFile } </h4>
+    <form class="standard settings" method="post" action="/settings/updatejs">
+      <input name="customJs" value="${ customJs }" style="display: none">
+      <div>
+        <button type="submit" class="settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
+      </div>
+      <div>
+  <textarea name="js" id="settingsCode" >
+  #
+  #for line in lines(jsFile):
+    $line
+  #end for
+  #
+  </textarea>
+  </div>
+  <div>
+  <button type="submit" class="settingsSaveCode button is-success">Save</button>
+  </div>
   </form>
-</div>
-
-<div id="notifySaved">
-  Saved ${jsFile}
-</div>
+  </div>
+  <div id="notifySaved"> Saved ${ jsFile } </div>
 #end proc
-#
-#
-#
 #
 #
 #proc genSettingsEditCss(c: var TData, customCss: bool): string =
-# result = ""
-# var cssFile: string
-# if customCss:
-#   cssFile = "public/css/style_custom.css"
-# else:
-#   cssFile = "public/css/style.css"
-# end if
-<style> .CodeMirror { border: 1px solid #eee; height: auto!important; } </style>
-<div id="settingsEdit">
+  #var cssFile: string
+  #if customCss:
+    #cssFile = "public/css/style_custom.css"
+  #else:
+    #cssFile = "public/css/style.css"
+  #end if
+  #
+  <style> .CodeMirror { border: 1px solid #eee; height: auto!important; } </style>
+  <div id="settingsEdit">
   <h1>Edit CSS file</h1>
-  <h4>${cssFile}</h4>
+  <h4> ${ cssFile } </h4>
   <form class="standard settings" method="post" action="/settings/updatecss">
-    <input name="customCss" value="${customCss}" style="display: none">
+    <input name="customCss" value="${ customCss }" style="display:none">
     <div>
       <button type="submit" class="settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
     </div>
     <div>
-      <textarea name="css" id="settingsCode" >
-# for line in lines(cssFile):
-$line
-# end for
-      </textarea>
-    </div>
-    <div>
-      <button type="submit" class="settingsSaveCode button is-success">Save</button>
-    </div>
+  <textarea name="css" id="settingsCode" >
+  #
+  #for line in lines(cssFile):
+    $line
+  #end for
+  #
+  </textarea>
+  </div>
+  <div>
+  <button type="submit" class="settingsSaveCode button is-success">Save</button>
+  </div>
   </form>
-</div>
-
-<div id="notifySaved">
-  Saved ${cssFile}
-</div>
+  </div>
+  <div id="notifySaved"> Saved ${ cssFile } </div>
 #end proc
 #
 #
-#
-#
-#
 #proc genSettingsBlog(c: var TData): string =
-# result = ""
-<div id="settingsEdit">
+  <div id="settingsEdit">
   <h1>Edit blog settings</h1>
   <form class="standard settings" method="post" action="/settings/updateblogsettings">
     <div style="max-width: 300px; margin-bottom: 20px;">
@@ -321,5 +302,5 @@ $line
       <button type="submit" class="button is-success">Save</button>
     </div>
   </form>
-</div>
+  </div>
 #end proc
