@@ -11,7 +11,7 @@ template `%`(idx: untyped): untyped {.used.} = row[idx]  # Used on nimf below.
 include
   "utils/_navbars.nimf",            # Utils should be first.
   "utils/_editors.nimf",
-  "utils/_profiles.nimf",
+  "utils/_pageoptions.nimf",
   "utils/_main_new_editors.nimf",
   "utils/_main_edit_editors.nimf",
   "utils/_editor_imports.nimf",
