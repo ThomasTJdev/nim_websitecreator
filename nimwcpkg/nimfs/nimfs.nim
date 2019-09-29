@@ -4,7 +4,7 @@
 ## Do not put any run-time logic here.
 
 
-template `%`(idx: untyped): untyped = row[idx]  # Used on some templates below.
+template `%`(idx: untyped): untyped {.used.} = row[idx]  # Used on nimf below.
 
 
 # Order is important here.
