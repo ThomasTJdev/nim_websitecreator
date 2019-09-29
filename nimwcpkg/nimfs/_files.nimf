@@ -69,15 +69,11 @@
     #inc counter
     <tr>
     <td class="is-narrow"> $counter </td>
-    <td><a href="/images/${ extractFilename(file) }" title="/images/${ extractFilename(file) }" target="_blank">
-          ${ extractFilename(file) }</a>
-    </td>
+    <td><a href="/images/${ extractFilename(file) }" title="/images/${ extractFilename(file) }" target="_blank"> ${ extractFilename(file) }</a></td>
     <td> ${ mime.getMimetype(file.splitFile.ext) } </td>
     <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
     <td> ${ getLastModificationTime(file) } </td>
-    <td class="is-danger is-narrow">
-      <span class="deleteFile delete" data-url="/files/delete/publicimage/${ extractFilename(file) }" title="Delete ${ extractFilename(file) }"></span>
-    </td>
+    <td class="is-danger is-narrow"><span class="deleteFile delete" data-url="/files/delete/publicimage/${ extractFilename(file) }" title="Delete ${ extractFilename(file) }"></span></td>
     </tr>
   #end for
   #
@@ -116,15 +112,11 @@
     #inc counter
     <tr>
     <td class="is-narrow"> $counter </td>
-    <td><a href="/files/stream/public/${ extractFilename(file) }" title="${ extractFilename(file) }" target="_blank">
-      ${ extractFilename(file) }</a>
-    </td>
+    <td><a href="/files/stream/public/${ extractFilename(file) }" title="${ extractFilename(file) }" target="_blank"> ${ extractFilename(file) }</a></td>
     <td> ${ mime.getMimetype(file.splitFile.ext) } </td>
     <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
     <td> ${ getLastModificationTime(file) } </td>
-    <td class="is-danger is-narrow">
-      <span class="deleteFile delete" data-url="/files/delete/public/${ extractFilename(file) }" title="Delete ${ extractFilename(file) }"></span>
-    </td>
+    <td class="is-danger is-narrow"><span class="deleteFile delete" data-url="/files/delete/public/${ extractFilename(file) }" title="Delete ${ extractFilename(file) }"></span></td>
     </tr>
   #end for
   #
@@ -163,23 +155,18 @@
     #inc counter
     <tr>
     <td class="is-narrow"> $counter </td>
-    <td><a href="/files/stream/private/${ extractFilename(file) }" title="${ extractFilename(file) }" target="_blank">
-      ${ extractFilename(file) }</a>
-    </td>
+    <td><a href="/files/stream/private/${ extractFilename(file) }" title="${ extractFilename(file) }" target="_blank"> ${ extractFilename(file) }</a> </td>
     <td> ${ mime.getMimetype(file.splitFile.ext) } </td>
     <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
     <td> ${ getLastModificationTime(file) } </td>
-    <td class="is-danger is-narrow">
-      <span class="deleteFile delete" data-url="/files/delete/private/${ extractFilename(file) }" title="Delete ${ extractFilename(file) }"></span>
-    </td>
+    <td class="is-danger is-narrow"><span class="deleteFile delete" data-url="/files/delete/private/${ extractFilename(file) }" title="Delete ${ extractFilename(file) }"></span></td>
     </tr>
   #end for
   #
   </tbody>
   </table>
   <b>Total files:</b> <code> $counter </code>
-  <hr>
-  <br>
+  <hr><br>
   <div class="notification is-danger">Deleting files can not be undone</div>
   </div>
 #end proc
