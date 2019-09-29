@@ -1,0 +1,44 @@
+#? stdtmpl | standard
+#
+#
+#proc genNewBlog(c: var TData): string =
+  <div id="blogData" class="new">
+    <form method="POST" action="/blogpagenew/save">
+      <div class="blogOptions" style="display:block;">
+        <h1 class="has-text-centered">Add blogpost</h1>
+        <div class="blogRequired">
+          <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+              <input id="name" name="name" class="input" type="text" placeholder="Name" minlength="2" maxlength="256" dir="auto" required >
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">URL</label>
+            <div class="control">
+              <input id="url" name="url" class="input" type="text" placeholder="eg. 2019/11/name" minlength="2" maxlength="256" dir="auto" required >
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Status</label>
+            <div class="control select">
+              <select id="status" name="status" required style="width:300px;">
+                <option disabled selected >Choose 1 Option</option>
+                <option value="0">Development Draft</option>
+                <option value="1">Private</option>
+                <option value="2">Public</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <button type="submit" class="newblogSave button is-success is-fullwidth">Create blogpost</button>
+          </div>
+        </div>
+        <hr>
+
+        ${ genPageOptions(c, false, true, false, "", "1", "1", "1") }
+
+      </div>
+    </form>
+  </div>
+#end proc
