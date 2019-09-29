@@ -35,7 +35,7 @@ include
   "_configs.nimf",
   "_files.nimf",
   "_logs.nimf",
-  "_mains.nimf",
+  "_indexes.nimf",
   "_plugins.nimf",
   "_statuspages.nimf",
   "_settings.nimf",
