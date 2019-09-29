@@ -6,7 +6,6 @@
 #
 #
 #proc genNewBlog(c: var TData): string =
-# result = ""
 <div id="blogData" class="new">
   <form method="POST" action="/blogpagenew/save">
 

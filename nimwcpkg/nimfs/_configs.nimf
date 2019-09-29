@@ -6,7 +6,9 @@
     <h1 class="has-text-centered">Nim Website Creator Configuration</h1>
     <form class="standard page" method="post" action="/settings/config/save">
       <textarea class="textarea is-info is-family-monospace" id="config" name="config" dir="auto" style="width:99%;height:75%" minlength=9 rows=20 autofocus spellcheck required >
-        $configIni.strip
+
+        ${ configIni }
+
       </textarea>
       <br>
       <button type="submit" class="button is-success is-fullwidth" title="Save Config">Save</button>

@@ -37,104 +37,125 @@
             <div class="column"><a href="/files" class="button is-small">Files</a></div>
           </div>
           <hr>
-
-          # if c.rank == Admin or defined(demo):
-
-          <label class="label">Core</label>
-          <div class="buttons columns is-mobile">
-            <div class="column"><a  class="button is-small"
-            # if c.rank == Admin:
-              href="/settings/blog"
-            # end if
-            >Blog settings</a></div>
-            <div class="column"><a class="button is-small"
-            # if c.rank == Admin:
-              href="/settings/edit"
-            # end if
-            >Edit Head, Navbar, Footer</a></div>
-          </div>
-          <hr>
-          <label class="label">CSS</label>
-          <div class="buttons columns is-mobile">
-            <div class="column"><a class="button is-small"
-            # if c.rank == Admin:
-              href="/settings/editcss"
-            # end if
-            >Edit Core CSS</a></div>
-            <div class="column"><a class="button is-small"
-            # if c.rank == Admin:
-              href="/settings/editcsscustom"
-            # end if
-            >Edit Custom CSS</a></div>
-          </div>
-          <hr>
-          <label class="label">JavaScript</label>
-          <div class="buttons columns is-mobile">
-            <div class="column"><a class="button is-small"
-            # if c.rank == Admin:
+  #
+  #if c.rank == Admin or defined(demo):
+    <label class="label">Core</label>
+    <div class="buttons columns is-mobile">
+    <div class="column"><a  class="button is-small"
+    #
+    #if c.rank == Admin:
+      href="/settings/blog"
+    #end if
+    #
+    >Blog settings</a></div>
+    <div class="column"><a class="button is-small"
+    #
+    #if c.rank == Admin:
+      href="/settings/edit"
+    #end if
+    #
+    >Edit Head, Navbar, Footer</a></div>
+    </div>
+    <hr>
+    <label class="label">CSS</label>
+    <div class="buttons columns is-mobile">
+    <div class="column"><a class="button is-small"
+    #
+    #if c.rank == Admin:
+      href="/settings/editcss"
+    #end if
+    #
+    >Edit Core CSS</a></div>
+    <div class="column"><a class="button is-small"
+    #
+    #if c.rank == Admin:
+      href="/settings/editcsscustom"
+    #end if
+    #
+    >Edit Custom CSS</a></div>
+    </div>
+    <hr>
+    <label class="label">JavaScript</label>
+    <div class="buttons columns is-mobile">
+    <div class="column"><a class="button is-small"
+    #
+    #if c.rank == Admin:
               href="/settings/editjs"
-            # end if
-            >Edit Core JS</a></div>
-            <div class="column"><a class="button is-small"
-            # if c.rank == Admin:
-              href="/settings/editjscustom"
-            # end if
-            >Edit Custom JS</a></div>
-          </div>
-          <hr>
-
-          <label class="label">Server</label>
-          <div class="buttons columns is-mobile">
-            <div class="column"><a class="button is-small restartServer" title="Force Server Restart, 1~9 Seconds delay" onclick="${ notifyHtml("Server Restarting now, please wait a few seconds") }"
-            # if c.rank == Admin:
-              href="/settings/forcerestart"
-            # end if
-            >Force Restart</a></div>
-            <div class="column"><a class="button is-small" title="Server Info"
-            # if c.rank == Admin:
-              href="/settings/serverinfo"
-            # end if
-            >Server info</a></div>
-            <div class="column"><a  class="button is-small" title="Server Config"
-            # if c.rank == Admin:
-              href="/settings/config"
-            # end if
-            >Config</a></div>
-            <div class="column"><a class="button is-small"
-            # if c.rank == Admin:
-              href="/settings/logs"
-            # end if
-            >Logs</a></div>
-          </div>
-          <hr>
-          # when defined(firejail):
-          <label class="label">Security</label>
-          <div class="buttons columns is-mobile">
-            <div class="column"><a class="button is-small" title="Firejail security is built-in on the Core of NimWC"
-            # if c.rank == Admin:
-              href="/settings/firejail"
-            # end if
-            >Firejail</a></div>
-          </div>
-          # end when
-
-
-          # end if
-
-          # when defined(demo):
-            <hr>
-            <div class="notification is-danger" style="padding-top: 15px;">
-              <b class="is-uppercase has-text-warning" title="Test user cant access the Core">
-                Some options are disabled on Demo!.
-              </b>
-            </div>
-          # end when
-
+    #end if
+    #
+    >Edit Core JS</a></div>
+    <div class="column"><a class="button is-small"
+    #
+    #if c.rank == Admin:
+      href="/settings/editjscustom"
+    #end if
+    #
+    >Edit Custom JS</a></div>
+    </div>
+    <hr>
+    <label class="label">Server</label>
+    <div class="buttons columns is-mobile">
+    <div class="column"><a class="button is-small restartServer" title="Force Server Restart, 1~9 Seconds delay" onclick="${ notifyHtml("Server Restarting now, please wait a few seconds") }"
+    #
+    #if c.rank == Admin:
+      href="/settings/forcerestart"
+    #end if
+    #
+    >Force Restart</a></div>
+    <div class="column"><a class="button is-small" title="Server Info"
+    #
+    #if c.rank == Admin:
+      href="/settings/serverinfo"
+    #end if
+    #
+    >Server info</a></div>
+    <div class="column"><a  class="button is-small" title="Server Config"
+    #
+    #if c.rank == Admin:
+      href="/settings/config"
+    #end if
+    #
+    >Config</a></div>
+    <div class="column"><a class="button is-small"
+    #
+    #if c.rank == Admin:
+      href="/settings/logs"
+    #end if
+    #
+    >Logs</a></div>
+    </div>
+    <hr>
+    #
+    #when defined(firejail):
+      <label class="label">Security</label>
+      <div class="buttons columns is-mobile">
+      <div class="column"><a class="button is-small" title="Firejail security is built-in on the Core of NimWC"
+      #
+      #if c.rank == Admin:
+        href="/settings/firejail"
+      #end if
+      #
+      >Firejail</a></div>
+      </div>
+    #end when
+    #
+  #
+  #end if  ## L40
+  #
+  #
+  #when defined(demo):
+    <hr>
+    <div class="notification is-danger" style="padding-top: 15px;">
+      <b class="is-uppercase has-text-warning" title="Test user cant access the Core">
+        Some options are disabled on Demo!.
+      </b>
+    </div>
+  #end when
+  #
         </div>
       </div>
     </div>
   </div>
-
 #end proc
 #
 #
