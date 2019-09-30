@@ -6,7 +6,17 @@
 
 
 type
-  CSSFramework* = enum  ## CSS Frameworks enumeration.
+  CSSFramework* = enum          ## CSS Frameworks enumeration.
     cssBulma = "bulma"
     cssBootstrap = "bootstrap"
     cssClean = "clean"
+
+  ConfigSections* = enum        ## Configuration Sections.
+    cfgDatabase = "Database"
+    cfgStorage = "Storage"
+    cfgLogging = "Logging"
+    cfgServer = "Server"
+    cfgProxy = "Proxy"
+    cfgRecaptcha = "reCAPTCHA"
+    cfgSmtp = "SMTP"
+    cfgFirejail = "firejail"

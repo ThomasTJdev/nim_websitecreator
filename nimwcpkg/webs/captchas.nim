@@ -1,15 +1,17 @@
 ## Do NOT import this file directly, instead import ``html_utils.nim``
 import asyncdispatch, logging, os, recaptcha, strutils, tables
-import ../utils/configs
+import ../utils/configs, ../enums/enums
+
 
 var
   useCaptcha*: bool
   captcha*: ReCaptcha
 
 let
-  dict = getConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg", "reCAPTCHA")
+  dict = getConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg", cfgRecaptcha)
   recaptchaSecretKey = dict["Secretkey"]
   recaptchaSiteKey* = dict["Sitekey"]
+
 
 proc setupReCaptcha*(recaptchaSiteKey = recaptchaSiteKey, recaptchaSecretKey = recaptchaSecretKey) =
   ## Activate Google reCAPTCHA

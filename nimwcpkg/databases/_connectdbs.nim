@@ -4,7 +4,7 @@ template connectDb*(configFile = "config/config.cfg"): untyped =
   ## Connect the Database and injects a ``db`` variable with the ``DbConn``.
   assert configFile.len > 0, "configFile must not be empty string."
   let
-    dict = getConfig(configFile, "Database")
+    dict = getConfig(configFile, cfgDatabase)
     db_host = dict["host"]
   assert db_host.len > 2, "db_host must not be empty string."
   when defined(postgres):

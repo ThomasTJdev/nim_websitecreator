@@ -350,7 +350,7 @@ routes:
     when not defined(firejail):
       redirect("/")
     else:
-      let c = getConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg", "firejail")
+      let c = getConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg", cfgFirejail)
       resp genMainAdmin(c, genFirejail(
         c["noDvd"].parseBool, c["noSound"].parseBool, c["noAutoPulse"].parseBool,
         c["no3d"].parseBool, c["noX"].parseBool, c["noVideo"].parseBool,
