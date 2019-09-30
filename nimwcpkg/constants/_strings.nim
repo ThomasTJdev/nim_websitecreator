@@ -185,6 +185,7 @@ Options:
   --vacuumdb       Vacuum database and continue (automatic database maintenance).
   --backupdb       Full backup of database (Raw SQL plain text file).
   --backupdb-gpg   Compressed signed full backup of database (GPG+SHA512+TarGz).
+  --backuplogs     Compressed full backup of all old unused rotated Logs (TarGz).
   --insertdata bulma     Insert https://bulma.io data into database (default, overrides data)
   --insertdata bootstrap Insert https://getbootstrap.com data into database (overrides data)
   --insertdata clean     Insert clean (no framework) standard data into database (overrides data)

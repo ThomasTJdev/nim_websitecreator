@@ -22,16 +22,16 @@
       </tfoot>
       <tbody class="is-family-monospace">
       <tr>
-        <td> <b>System</b> </td>            <td> ${ staticExec("uname -a").strip } </td>
+        <td> <b>System</b> </td>            <td> ${ static(staticExec("uname -a").strip) } </td>
       </tr>
       <tr>
-        <td> <b>Distro</b> </td>            <td> ${ staticExec("lsb_release -a").strip } </td>
+        <td> <b>Distro</b> </td>            <td> ${ static(staticExec("lsb_release -a").strip) } </td>
       </tr>
       <tr>
         <td> <b>Uptime</b> </td>            <td> ${ execCmdEx("uptime --pretty").output } </td>
       </tr>
       <tr>
-        <td> <b>Disk</b> </td>              <td> ${ execCmdEx("df --human-readable --local --output=avail " & getCurrentDir()).output } </td>
+        <td> <b>Disk</b> </td>              <td> ${ static(staticExec("df --human-readable --local --output=avail .").strip) } </td>
       </tr>
       <tr>
         <td> <b>Hostname</b> </td>          <td> ${ getHostname() } </td>

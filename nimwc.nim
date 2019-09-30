@@ -103,6 +103,19 @@ proc pluginSkeleton() =
   quit("\nNimWC created a new Plugin skeleton, happy hacking, bye.\n", 0)
 
 
+proc backupOldLogs(logFilePath: string): tuple[output: TaintedString, exitCode: int] =
+  ## Compress all old rotated Logs.
+  assert existsDir(logFilePath), "logFilePath File not found"
+  assert findExe("tar").len > 0, "Tar not found"
+  var files2tar: seq[string]
+  for logfile in walkFiles(logFilePath / "*.log"): files2tar.add logfile
+  if files2tar.len > 1:
+    let cmd = cmdTar & "logs-" & replace($now(), ":", "_") & ".tar.gz " & files2tar.join" "
+    result = execCmdEx(cmd)
+    if result.exitCode == 0:
+      for filename in files2tar: discard tryRemoveFile(filename)
+
+
 proc handler() {.noconv.} =
   ## Catch ctrl+c from user
   runInLoop = false
@@ -264,6 +277,7 @@ when isMainModule:
       of "vacuumdb": echo vacuumDb(db)
       of "backupdb-gpg": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"))
       of "backupdb": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"), checksum=false, sign=false, targz=false)
+      of "backuplogs": echo backupOldLogs(splitPath(cfg.getSectionValue("Logging", when defined(release): "logfile" else: "logfiledev")).head)
     of cmdArgument:
       discard
     of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)

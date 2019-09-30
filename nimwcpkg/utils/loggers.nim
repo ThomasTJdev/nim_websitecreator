@@ -15,6 +15,7 @@ addHandler(newRollingFileLogger( # Logs to rotating files.
   when defined(release): loadConfig(configFile).getSectionValue("Logging", "logfile")
   else: loadConfig(configFile).getSectionValue("Logging", "logfiledev"),
   fmtStr = verboseFmtStr))
+debug("Rolling File Logger logs at: " & defaultFilename())
 
 
 template log2admin*(msg: string) =
@@ -22,5 +23,3 @@ template log2admin*(msg: string) =
   assert msg.len > 0, "msg must not be empty string"
   when defined(adminnotify): discard sendEmailAdminError($now() & " - " & msg)
   else: error(msg)
-
-debug("Rolling File Logger logs at: " & defaultFilename())
