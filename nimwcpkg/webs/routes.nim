@@ -781,8 +781,8 @@ routes:
     let path = storageEFS & "/users/" & c.userid
     let base64 = split(c.req.body, ",")[1]
 
+    once: discard existsOrCreateDir(storageEFS / "users")
     try:
-      discard existsOrCreateDir(storageEFS & "/users")
       writeFile(path & ".txt", base64)
       discard execProcess("base64 -d > " & path & ".png < " & path & ".txt")
       removeFile(path & ".txt")

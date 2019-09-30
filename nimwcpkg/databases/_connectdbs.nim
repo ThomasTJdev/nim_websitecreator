@@ -19,5 +19,5 @@ template connectDb*(configFile = "config/config.cfg"): untyped =
   else:
     let db_folder = dict["folder"]
     assert db_folder.len > 0, "db_folder must not be empty string."
-    discard existsOrCreateDir(db_folder)  # Creating folder
+    once: discard existsOrCreateDir(db_folder)  # Creating folder
     var db {.inject.} = db_sqlite.open(db_host, "", "", "")
