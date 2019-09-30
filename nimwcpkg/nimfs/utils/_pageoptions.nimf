@@ -2,7 +2,7 @@
 #
 #
 #func genProfileJsCss(): string {.inline.} =
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.js" crossorigin="anonymous" async defer ></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.js" crossorigin="anonymous"></script>
 #end func
 #
 #
