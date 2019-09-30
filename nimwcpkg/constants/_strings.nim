@@ -20,23 +20,23 @@ const
     (when defined(recaptcha):         " -d:recaptcha"         else: "") &
     (when defined(packedjson):        " -d:packedjson"        else: "") &
 
-    (when defined(ssl):               " -d:ssl"               else: "") &              # SSL
+    (when defined(ssl):               " -d:ssl"               else: "") &  # SSL
     (when defined(release):           " -d:release --listFullPaths:off" else: "") &  # Build for Production
-    (when defined(danger):            " -d:danger"            else: "") &            # Build for Production
-    (when defined(quick):             " -d:quick"             else: "") &             # Tiny file but slow
-    (when defined(memProfiler):       " -d:memProfiler"       else: "") &       # RAM Profiler debug
-    (when defined(nimTypeNames):      " -d:nimTypeNames"      else: "") &      # Debug names
-    (when defined(useRealtimeGC):     " -d:useRealtimeGC"     else: "") &     # Real Time GC
-    (when defined(tinyc):             " -d:tinyc"             else: "") &             # TinyC compiler
-    (when defined(useNimRtl):         " -d:useNimRtl"         else: "") &         # NimRTL.dll
-    (when defined(useFork):           " -d:useFork"           else: "") &           # Fork instead of Spawn
-    (when defined(useMalloc):         " -d:useMalloc"         else: "") &         # Use Malloc for gc:none
-    (when defined(uClibc):            " -d:uClibc"            else: "") &            # uClibc instead of glibC
-    (when defined(checkAbi):          " -d:checkAbi"          else: "") &          # Check C ABI compatibility
-    (when defined(noSignalHandler):   " -d:noSignalHandler"   else: "") &   # No convert crash to signal
-    (when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg" else: "") & # Use Std Out as Std Msg
+    (when defined(danger):            " -d:danger"            else: "") &  # Build for Production
+    (when defined(quick):             " -d:quick"             else: "") &  # Tiny file but slow
+    (when defined(memProfiler):       " -d:memProfiler"       else: "") &  # RAM Profiler debug
+    (when defined(nimTypeNames):      " -d:nimTypeNames"      else: "") &  # Debug names
+    (when defined(useRealtimeGC):     " -d:useRealtimeGC"     else: "") &  # Real Time GC
+    (when defined(tinyc):             " -d:tinyc"             else: "") &  # TinyC compiler
+    (when defined(useNimRtl):         " -d:useNimRtl"         else: "") &  # NimRTL.dll
+    (when defined(useFork):           " -d:useFork"           else: "") &  # Fork instead of Spawn
+    (when defined(useMalloc):         " -d:useMalloc"         else: "") &  # Use Malloc for gc:none
+    (when defined(uClibc):            " -d:uClibc"            else: "") &  # uClibc instead of glibC
+    (when defined(checkAbi):          " -d:checkAbi"          else: "") &  # Check C ABI compatibility
+    (when defined(noSignalHandler):   " -d:noSignalHandler"   else: "") &  # No convert crash to signal
+    (when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg" else: "") &  # Use Std Out as Std Msg
     (when defined(nimOldShiftRight):  " -d:nimOldShiftRight"  else: "") &  # http://forum.nim-lang.org/t/4891#30600
-    (when defined(nimOldCaseObjects): " -d:nimOldCaseObjects" else: "")  # old case switch
+    (when defined(nimOldCaseObjects): " -d:nimOldCaseObjects" else: "")    # old case switch
   )  ## Checking for known compile options and returning them as a space separated string at Compile-Time. See README.md for explanation of the options.
 
   fileBackup* =
