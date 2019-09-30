@@ -6,6 +6,7 @@ from packages/docutils/rst import RstParseOption
 
 when defined(recaptcha): include captchas
 
+
 const
   inputNumber = r"""
     <input type="tel" value="$1" name="$2" class="$3" id="$4" placeholder="$5" title="$5"

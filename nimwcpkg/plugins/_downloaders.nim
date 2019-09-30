@@ -1,4 +1,3 @@
-
 ## Do NOT import this file directly, instead import ``plugins.nim``
 
 proc pluginDownload*(pluginGit, pluginFolder: string): bool =
@@ -7,6 +6,7 @@ proc pluginDownload*(pluginGit, pluginFolder: string): bool =
   let output = execProcess("git clone --depth 1 " & pluginGit & " " &
     replace(getAppDir(), "/nimwcpkg", "") / "plugins" / pluginFolder)
   result = output != "fatal: repository '" & pluginGit & "' does not exists"
+
 
 proc pluginUpdate*(pluginFolder: string): bool =
   ## Updates an external plugin with pull

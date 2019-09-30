@@ -433,7 +433,7 @@ https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/b
 
 ## Stars
 
-[![Stargazers over time](https://starchart.cc/ThomasTJdev/nim_websitecreator.svg)](https://starchart.cc/ThomasTJdev/nim_websitecreator)
+[![Stars over time](https://starchart.cc/ThomasTJdev/nim_websitecreator.svg)](https://starchart.cc/ThomasTJdev/nim_websitecreator "Star NimWC on GitHub!")
 
 
 #### License
