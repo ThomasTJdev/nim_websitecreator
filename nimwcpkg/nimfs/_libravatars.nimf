@@ -3,7 +3,7 @@
 #
 #proc genAvatar(c: var TData): string =
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.6/cropper.min.css"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.6/cropper.min.js" defer ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.6/cropper.min.js" crossorigin="anonymous" async defer ></script>
   <h1 class="has-text-centered">Choose your Avatar</h1>
   <div id="user" class="images" style="background:white;padding:9px;border:1px solid grey;border-radius:4px">
   <form action="/users/profile/avatar/save" method="POST">

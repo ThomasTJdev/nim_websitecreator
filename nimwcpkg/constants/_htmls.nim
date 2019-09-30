@@ -9,21 +9,17 @@ const
     <meta charset="utf-8">
     <meta name="generator" content="Nim Website Creator">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="author" href="humans.txt">
     <link rel="shortcut icon" href="/favicon.ico">
     <link rel="icon" type="image/png" href="/images/logo/favicon-16x16.png" sizes="16x16">
     <link rel="icon" type="image/png" href="/images/logo/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="/images/logo/favicon-192x192.png" sizes="192x192">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/favicon-180x180.png">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
-
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/style_custom.css">
-
-    <script src="/js/js.js" defer></script>
-    <script src="/js/js_custom.js" defer></script>
+    <script src="/js/js.js" crossorigin="anonymous" async defer ></script>
+    <script src="/js/js_custom.js" crossorigin="anonymous" async defer ></script>
 
   """.unindent
 
@@ -33,13 +29,11 @@ const
     <meta charset="utf-8">
     <meta name="generator" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="author" href="humans.txt">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/style_custom.css">
-
-    <script src="/js/js.js" defer></script>
-    <script src="/js/js_custom.js" defer></script>
+    <script src="/js/js.js" crossorigin="anonymous" async defer ></script>
+    <script src="/js/js_custom.js" crossorigin="anonymous" async defer ></script>
 
   """.unindent
 
@@ -57,10 +51,10 @@ const
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/style_custom.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous" defer></script>
-    <script src="/js/js.js" defer></script>
-    <script src="/js/js_custom.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous" async defer ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous" async defer ></script>
+    <script src="/js/js.js" crossorigin="anonymous" async defer ></script>
+    <script src="/js/js_custom.js" crossorigin="anonymous" async defer ></script>
 
   """.unindent
 
@@ -72,14 +66,12 @@ const
         <a class="navbar-item logo" href="/">
           <img src="/images/logo/NimWC_logo_blue.png" title="Nim Website Creator" />
         </a>
-
         <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarMain">
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
           <span aria-hidden="true"></span>
         </a>
       </div>
-
       <div id="navbarMain" class="navbar-menu">
         <div class="navbar-start">
           <hr class="navbar-divider">
@@ -92,7 +84,6 @@ const
           <a class="nav-link navbar-item is-hoverable is-hidden-tablet" href="/login">Login</a>
           <hr class="navbar-divider is-hidden-tablet">
         </div>
-
         <div class="navbar-end is-hidden-mobile">
           <div class="navbar-item">
             <div class="buttons">
@@ -100,7 +91,6 @@ const
             </div>
           </div>
         </div>
-
       </div>
     </nav>
 
@@ -288,7 +278,7 @@ const
 
   frontpageClean* = """
 
-    <style>#background{background-image:none}</style>
+    <style> #background{background-image:none} </style>
     <h1>Frontpage</h1>
     <p>Login to edit</p>
 
@@ -458,7 +448,7 @@ const
       <div class="spacer">
       </div>
     </div>
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <script src="https://buttons.github.io/buttons.js" crossorigin="anonymous" async defer ></script>
 
   """.unindent
 
@@ -606,9 +596,7 @@ const
   mailStyleFrom* = """
 
     <hr style="margin-top:40px;margin-bottom:20px;">
-      <div>
-        <b>Kind regards</b>
-      </div>
+    <div> <b>Kind regards</b> </div>
 
   """.unindent
 
@@ -626,7 +614,7 @@ const
           <div style="background:#171921;border-color:#123d6d;height:70px;width:100%;margin-bottom:20px;padding-top:5px;padding-bottom:5px;text-align:center;">
             <a href="$1" style="color:white;font-size:22px;line-height:64px;"> $2 </a>
           </div>
-          <div style="padding:0 10px">
+          <div style="padding:0 9px">
 
   """.unindent
 
