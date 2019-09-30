@@ -14,7 +14,7 @@ proc twoFaKey(): string {.inline, used.} =
   ## Used on 2FA on _userprofiles.nimf line ~212.
   const items = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
     'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
-  for index in countUp(0, 10): result.add random.sample(items)
+  for index in 0..10: result.add random.sample(items)
 
 
 # Order is important here.
