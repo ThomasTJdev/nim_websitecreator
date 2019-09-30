@@ -5,7 +5,7 @@ proc pluginRepoClone*(): bool =
   preconditions existsDir(replace(getAppDir(), "/nimwcpkg", "") & "/plugins/")
   postconditions fileExists("plugins/nimwc_plugins/plugins.json")
   if unlikely(not("git".findExe.len > 0)): return false
-  let folder = replace(getAppDir(), "/nimwcpkg", "") & "/plugins/"
+  let folder = replace(getAppDir(), "/nimwcpkg", "") / "plugins/"
   let output = execCmd("git clone " & pluginRepo & " " & folder & pluginRepoName)
   if output != 0: return false
   return fileExists("plugins/nimwc_plugins/plugins.json")
