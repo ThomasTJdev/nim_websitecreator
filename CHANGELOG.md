@@ -7,6 +7,9 @@
 - Version is now set using Nimbles `NimblePkgVersion` https://github.com/nim-lang/nimble/blob/master/changelog.markdown#0110---22092019
 - Add proc `getConfig(path, section)` to get a `Table` of configs, to DRY reading configs.
 - Add `--version-hash` to show Version (Git Short Hash).
+- Add `--backupdb` Full backup of database (Raw SQL plain text file).
+- Add `--backupdb-gpg` Compressed signed full backup of database (GPG+SHA512+TarGz).
+- Add `--backuplogs` Compressed full backup of all old unused rotated Logs (TarGz).
 - Internal modules reorder for performance and DRY.
 - Update Docs
 - Fix #119
