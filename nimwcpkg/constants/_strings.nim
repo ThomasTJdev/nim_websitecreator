@@ -170,27 +170,26 @@ proc $1Start*(db: DbConn): auto =
 
 
 const doc* = """Nim Website Creator 👑 https://NimWC.org 👑 Nim open-source web framework that is simple to use.
-
 Usage:            nimwc <compile options> <options>
 
 Options:
-  -h --help        Show this help and exit.
-  --version        Show Version (SemVer).
-  --version-hash   Show Version (Git Short Hash).
-  --forcebuild     Force Recompile.
-  --showconfig     Show parsed INI configuration, compile options, command parameters.
-  --newadmin       Add 1 new Admin or Moderator user (asks name, mail & password).
-  --gitupdate      Update from Git origin master then force a hard reset and exit.
-  --initplugin     Create 1 new empty plugin skeleton inside the folder ./tmp/
-  --vacuumdb       Vacuum database and continue (automatic database maintenance).
-  --backupdb       Full backup of database (Raw SQL plain text file).
-  --backupdb-gpg   Compressed signed full backup of database (GPG+SHA512+TarGz).
-  --backuplogs     Compressed full backup of all old unused rotated Logs (TarGz).
+  -h --help      Show this help and exit.
+  --version      Show Version (SemVer).
+  --version-hash Show Version (Git Short Hash).
+  --forcebuild   Force Recompile.
+  --showconfig   Show parsed INI configuration, compile options, command parameters.
+  --newadmin     Add 1 new Admin or Moderator user (asks name, mail & password).
+  --gitupdate    Update from Git origin master then force a hard reset and exit.
+  --initplugin   Create 1 new empty plugin skeleton inside the folder ./tmp/
+  --vacuumdb     Vacuum database and continue (automatic database maintenance).
+  --backupdb     Full backup of database (Raw SQL plain text file).
+  --backupdb-gpg Compressed signed full backup of database (GPG+SHA512+TarGz).
+  --backuplogs   Compressed full backup of all old unused rotated Logs (TarGz).
   --insertdata bulma     Insert https://bulma.io data into database (default, overrides data)
   --insertdata bootstrap Insert https://getbootstrap.com data into database (overrides data)
   --insertdata clean     Insert clean (no framework) standard data into database (overrides data)
-  --newdb          Generates a database with standard tables (Wont override data).
-                    If no database exists, new db will be initialized automatically.
+  --newdb        Generates a database with standard tables (Wont override data).
+                  If no database exists, new db will be initialized automatically.
 
 Compile options (features when compiling source code):
   -d:postgres    Postgres replaces SQLite (SQLite is default) https://u.nu/b1c8
@@ -205,10 +204,5 @@ Compile options (features when compiling source code):
   -d:contracts   Force Design by Contract enabled. Runs assertive.
   -d:demo        Public demo mode. Enable Test user. 2FA ignored. Pages Reset.
                   Force database reset every 1 hour. Some options Disabled.
-
-Compile options quick tip (release builds are automatically stripped/optimized):
-  Fastest       -d:release -d:danger -d:packedjson
-  Balanced      -d:release -d:firejail --styleCheck:hint
-  Safest        -d:release -d:contracts -d:hardened -d:firejail --styleCheck:hint
 
 Docs http://u.nu/q2h9 http://u.nu/lyfa http://u.nu/etkb http://u.nu/pjxf http://u.nu/ykw- http://u.nu/k0lt """
