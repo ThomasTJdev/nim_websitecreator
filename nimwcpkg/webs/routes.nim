@@ -20,12 +20,12 @@ routes:
     createTFD()
     if @"password2" != "": # DONT TOUCH, HoneyPot: https://github.com/ThomasTJdev/nim_websitecreator/issues/43#issue-403507393
       when not defined(release): echo "HONEYPOT: " & @"password2"
-      redirect("/login?msg=" & encodeUrl("Error: You need to verify, that you are not a robot!"))
+      redirect("/login?msg=" & errNeedToVerifyRecaptcha)
     when not defined(dev):
       when defined(recaptcha):
         if useCaptcha:
           if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
-            redirect("/login?msg=" & encodeUrl("Error: You need to verify, that you are not a robot!"))
+            redirect("/login?msg=" & errNeedToVerifyRecaptcha)
 
     let (loginB, loginS) = login(c, replace(toLowerAscii(@"email"), " ", ""), replace(@"password", " ", ""), @"totp")
     if loginB:
@@ -67,9 +67,9 @@ routes:
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
     if @"status" == "false":
-      redirect("/plugins/updating?status=" & @"status" & "&pluginname=" & @"pluginname" & "&pluginActivity=" & encodeUrl("installing " & @"pluginname"))
+      redirect("/plugins/updating?status=" & @"status" & "&pluginname=" & @"pluginname" & "&pluginActivity=" & msgInstallingPlugin)
     else:
-      redirect("/plugins/updating?status=" & @"status" & "&pluginname=" & @"pluginname" & "&pluginActivity=" & encodeUrl("uninstalling " & @"pluginname"))
+      redirect("/plugins/updating?status=" & @"status" & "&pluginname=" & @"pluginname" & "&pluginActivity=" & msgUninstallingPlugin)
 
 
   get "/plugins/updating":
@@ -100,7 +100,7 @@ routes:
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
     if not pluginRepoClone():
-      redirect("/error/" & encodeUrl("Error cloning the repository."))
+      redirect("/error/" & errGitClonError )
     redirect("/plugins/repo")
 
 
@@ -110,7 +110,7 @@ routes:
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
     if not pluginRepoUpdate():
-      redirect("/error/" & encodeUrl("Error cloning the repository."))
+      redirect("/error/" & errGitClonError)
     redirect("/plugins/repo")
 
 
@@ -120,9 +120,9 @@ routes:
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
     if pluginUpdate(@"pluginfolder"):
-      redirect("/plugins/updating?status=false&pluginname=" & @"pluginname" & "&pluginActivity=" & encodeUrl("Installing " & @"pluginname"))
+      redirect("/plugins/updating?status=false&pluginname=" & @"pluginname" & "&pluginActivity=" & msgInstallingPlugin)
     else:
-      redirect("/error/" & encodeUrl("Unknown Error. Please check the git: " & @"pluginfolder"))
+      redirect("/error/" & errGitPullError)
 
 
   get "/plugins/repo/deleteplugin":
@@ -138,10 +138,10 @@ routes:
           break
       if isInstalled:
         pluginEnableDisable(("plugins/" & @"pluginfolder"), @"pluginfolder", "true")
-        redirect("/plugins/updating?pluginActivity=" & encodeUrl("Uninstalling " & @"pluginname"))
+        redirect("/plugins/updating?pluginActivity=" & msgUninstallingPlugin)
       redirect("/plugins/repo")
     else:
-      redirect("/error/" & encodeUrl("Unknown Error. Please ensure that you have disabled the plugin at /plugins"))
+      redirect("/error/" & errPluginDeleteError)
 
 
   get "/plugins/repo/downloadplugin":
@@ -152,7 +152,7 @@ routes:
     if pluginDownload(@"pluginrepo", @"pluginfolder"):
       redirect("/plugins")
     else:
-      redirect("/error/" & encodeUrl("Unknown Error. Please check the git: " & @"pluginrepo"))
+      redirect("/error/" & errGitClonError)
 
 
 #
@@ -551,11 +551,11 @@ routes:
     restrictTestuser(HttpGet)
     if unlikely(not c.loggedIn): redirect("/")
     if @"name" == "" or @"email" == "":
-      redirect("/error/" & encodeUrl("Error: Name and email are required"))
+      redirect("/error/" & errUserAndEmailRequired)
     if "@" notin @"email":
-      redirect("/error/" & encodeUrl("Error: Your email has a wrong format (missing [a]: " & @"email"))
+      redirect("/error/" & errEmailWrongFormat)
     if @"password" != @"passwordConfirm":
-      redirect("/error/" & encodeUrl("Error: Your passwords did not match"))
+      redirect("/error/" & errPasswordsDontMatch)
     if @"password" != "":
       let salt = makeSalt()
       let password = makePassword(@"password", salt)
@@ -603,17 +603,17 @@ routes:
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
     if c.userid == @"userID":
-      redirect("/error/" & encodeUrl("Error: You can not delete yourself"))
+      redirect("/error/" & errCantDeleteSelf)
     let userStatus = getValue(db, sql"SELECT status FROM person WHERE id = ?", @"userID")
     if userStatus == "":
-      redirect("/error/" & encodeUrl("Error: Missing status on user"))
+      redirect("/error/" & errUnkownStatusUser)
     if userStatus == "Admin" and c.rank != Admin:
-      redirect("/error/" & encodeUrl("Error: You can not delete an admin user"))
+      redirect("/error/" & errCantDeleteAdmin)
     if tryExec(db, sql"DELETE FROM person WHERE id = ?", @"userID"):
       exec(db, sql"DELETE FROM session WHERE userid = ?", @"userID")
       redirect("/users")
     else:
-      redirect("/error/" & encodeUrl("Could not delete user"))
+      redirect("/error/" & errCantDeleteUser)
 
 
   post "/users/add":
@@ -622,17 +622,17 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     cond(@"status" in ["User", "Moderator", "Admin", "Deactivated"])
     if (c.rank != Admin and @"status" == "Admin") or c.rank == User:
-      redirect("/error/" & encodeUrl("Error: You are not allowed to add a user with this status"))
+      redirect("/error/" & errCantAddUserWithStat)
     if @"name" == "" or @"email" == "" or @"status" == "":
-      redirect("/error/" & encodeUrl("Error: Name, email and status are required"))
+      redirect("/error/" & errNameEmailStatusRequired)
     if @"email" == "test@test.com":
-      redirect("/error/" & encodeUrl("Error: test@test.com is taken by the system"))
+      redirect("/error/" & errTestuserReserved)
     if not ("@" in @"email" and "." in @"email"):
-      redirect("/error/" & encodeUrl("Error: Your email has a wrong format"))
+      redirect("/error/" & errEmailWrongFormat)
     let emailReady = toLowerAscii(@"email")
     let emailExist = getValue(db, sql"SELECT id FROM person WHERE email = ?", emailReady)
     if emailExist != "":
-      redirect("/error/" & encodeUrl("Error: A user with that email does already exists"))
+      redirect("/error/" & errUserAlreadyExists)
     let
       salt = makeSalt()
       passwordOriginal = $rand(10_00_00_00_00_01.int..89_99_99_99_99_98.int) # User Must change it anyways.
@@ -658,13 +658,13 @@ routes:
   get "/users/activate":
     createTFD()
     if @"id" == "" or @"ident" == "":
-      redirect("/error/" & encodeUrl("Error: Something is wrong with the link"))
+      redirect("/error/" & errBadLink)
     let secretUrlConfirm = getValue(db, sql"SELECT id FROM person WHERE id = ? AND secretUrl = ?", @"id", @"ident")
     if secretUrlConfirm != "":
       exec(db, sql"UPDATE person SET secretUrl = NULL WHERE id = ? AND secretUrl = ?", @"id", @"ident")
-      redirect("/login?msg=" & encodeUrl("Your account is now activated"))
+      redirect("/login?msg=" & msgAccountActivated)
     else:
-      redirect("/error/" & encodeUrl("Please login using your username and password"))
+      redirect("/error/" & msgPleaseLogin)
 
 
   get "/users/photo/stream/@filename":
@@ -709,7 +709,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     let url = encodeUrl(@"url", true).replace("%2F", "/")
     if url == getValue(db, sql"SELECT url FROM blog WHERE url = ?", url):
-      redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
+      redirect("/error/" & errBlogpostAlreadyExists)
     let status = if @"status" == "": "0" else: @"status"
     let blogID = insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags, pubDate, viewCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, status, url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"pubdate", @"viewcount")
     redirect("/editpage/blog/" & $blogID & "?newpage=true")
@@ -722,7 +722,7 @@ routes:
     if url == getValue(db, sql"SELECT url FROM blog WHERE url = ? AND id <> ?", url, @"blogid"):
       if @"inbackground" == "true":
         resp("Error: A page with same URL already exists")
-      redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
+      redirect("/error/" & errBlogpostAlreadyExists)
     discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ?, pubDate = ?, viewCount = ?, modified = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"pubdate", @"viewcount", $toInt(epochTime()), @"blogid")
     if @"inbackground" == "true": resp("OK")
     redirect("/editpage/blog/" & @"blogid")
@@ -778,7 +778,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     let url = encodeUrl(@"url", true).replace("%2F", "/")
     if url == getValue(db, sql"SELECT url FROM pages WHERE url = ?", url):
-      redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
+      redirect("/error/" & errBlogpostAlreadyExists)
     let status = if @"status" == "": "0" else: @"status"
     let pageID = insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, status, url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags")
     redirect("/editpage/page/" & $pageID & "?newpage=true")
@@ -792,7 +792,7 @@ routes:
     if url == getValue(db, sql"SELECT url FROM pages WHERE url = ? AND id <> ?", url, @"pageid"):
       if @"inbackground" == "true":
         resp("Error: A page with same URL already exists")
-      redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
+      redirect("/error/" & errBlogpostAlreadyExists)
     discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ?, modified = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", $toInt(epochTime()), @"pageid")
     if @"inbackground" == "true": resp("OK")
     redirect("/editpage/page/" & @"pageid")
