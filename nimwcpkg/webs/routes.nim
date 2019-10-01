@@ -8,8 +8,7 @@ routes:
 
   get "/":
     createTFD()
-    let pageid = getValue(db, sql"SELECT id FROM pages WHERE url = ?", "frontpage")
-    resp genPage(c, pageid)
+    resp genPage(c, getValue(db, sql"SELECT id FROM pages WHERE url = 'frontpage'"))
 
 
   get "/login":
@@ -42,7 +41,7 @@ routes:
 
   get "/error/@errorMsg":
     createTFD()
-    resp genMain(c, "<h3 style=\"text-align: center; color: red; margin-top: 100px;\">" & decodeUrl(@"errorMsg") & "</h3>")
+    resp genMain(c, "<h3 style='text-align:center;color:red;margin-top:99px'>" & decodeUrl(@"errorMsg") & "</h3>")
 
 
 #
@@ -52,10 +51,8 @@ routes:
 
   get "/plugins":
     ## Access the plugin overview
-
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genPlugins(c))
 
 
@@ -66,11 +63,9 @@ routes:
     ##                       this will enable the plugin (add a line)
     ## @"status" == true  => Plugin is enabled,
     ##                       this will disable the plugin (remove the line)
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     if @"status" == "false":
       redirect("/plugins/updating?status=" & @"status" & "&pluginname=" & @"pluginname" & "&pluginActivity=" & encodeUrl("installing " & @"pluginname"))
     else:
@@ -80,109 +75,84 @@ routes:
   get "/plugins/updating":
     ## Enable or disable a plugin
     ##
-    ## This will re-compile the program due to plugins
-    ## are loaded at compiletime. The newly compile filename
-    ## will be named ..._new. After compiling the launcher
-    ## identify the newly compiled file within 1,5 sec
-    ## and restart the process.
-
+    ## This will re-compile the program due to plugins are loaded at compiletime.
+    ## The newly compile filename will be named ..._new.
+    ## After compiling the launcher identify the newly compiled file within 1,5 sec and restart the process.
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     let pluginPath = if @"status" == "false": "" else: (@"pluginname")
     pluginEnableDisable(pluginPath, @"pluginname", @"status")
-
     let output = recompile()
-    if output == 1:
-      echo "\nrecompile(): An error occurred"
-      redirect("/plugins")
-    else:
-      redirect("/plugins")
+    redirect("/plugins")
 
 
   get "/plugins/repo":
     ## Shows all the plugins in the plugin repo
-
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genPluginsRepo(c))
 
 
   get "/plugins/repo/download":
     ## Shows all the plugins in the plugin repo
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     if not pluginRepoClone():
-      redirect("/error/" & encodeUrl("Something went wrong downloading the repository."))
-
+      redirect("/error/" & encodeUrl("Error cloning the repository."))
     redirect("/plugins/repo")
 
 
   get "/plugins/repo/update":
     ## Updates the plugins repo
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     if not pluginRepoUpdate():
-      redirect("/error/" & encodeUrl("Something went wrong downloading the repository."))
-
+      redirect("/error/" & encodeUrl("Error cloning the repository."))
     redirect("/plugins/repo")
 
 
   get "/plugins/repo/updateplugin":
     ## Updates an installed plugin
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     if pluginUpdate(@"pluginfolder"):
-      redirect("/plugins/updating?status=false&pluginname=" & @"pluginname" & "&pluginActivity=" & encodeUrl("installing " & @"pluginname"))
+      redirect("/plugins/updating?status=false&pluginname=" & @"pluginname" & "&pluginActivity=" & encodeUrl("Installing " & @"pluginname"))
     else:
-      redirect("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginfolder"))
+      redirect("/error/" & encodeUrl("Unknown Error. Please check the git: " & @"pluginfolder"))
 
 
   get "/plugins/repo/deleteplugin":
     ## Updates an installed plugin
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     if pluginDelete(@"pluginfolder"):
       var isInstalled = false
       for line in lines("plugins/plugin_import.txt"):
         if ("plugins/" & @"pluginfolder") == line:
           isInstalled = true
           break
-
       if isInstalled:
         pluginEnableDisable(("plugins/" & @"pluginfolder"), @"pluginfolder", "true")
-        redirect("/plugins/updating?pluginActivity=" & encodeUrl("uninstalling " & @"pluginname"))
-
+        redirect("/plugins/updating?pluginActivity=" & encodeUrl("Uninstalling " & @"pluginname"))
       redirect("/plugins/repo")
     else:
-      redirect("/error/" & encodeUrl("Something went wrong. Please ensure, that you have disabled the plugin at /plugins"))
+      redirect("/error/" & encodeUrl("Unknown Error. Please ensure that you have disabled the plugin at /plugins"))
 
 
   get "/plugins/repo/downloadplugin":
     ## Download a plugin
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     if pluginDownload(@"pluginrepo", @"pluginfolder"):
       redirect("/plugins")
     else:
-      redirect("/error/" & encodeUrl("Something went wrong. Please check the git: " & @"pluginrepo"))
+      redirect("/error/" & encodeUrl("Unknown Error. Please check the git: " & @"pluginrepo"))
 
 
 #
@@ -193,14 +163,14 @@ routes:
   get "/settings":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genSettings(c))
+
 
   get "/settings/edit":
     createTFD()
     restrictAccessTo(c, [Admin])
-
     resp genMainAdmin(c, genSettingsEdit(c), "edithtml")
+
 
   post "/settings/update":
     createTFD()
@@ -209,36 +179,33 @@ routes:
     else:
       restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
-
     discard execAffectedRows(db, sql"UPDATE settings SET title = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", @"title", @"head", @"navbar", @"footer", "1")
     if @"inbackground" == "true":
       resp("OK")
     redirect("/settings/edit")
 
+
   get "/settings/editjs":
     createTFD()
     restrictAccessTo(c, [Admin])
-
     resp genMainAdmin(c, genSettingsEditJs(c, false), "editjs")
+
 
   get "/settings/editjscustom":
     createTFD()
     restrictAccessTo(c, [Admin])
-
     resp genMainAdmin(c, genSettingsEditJs(c, true), "editjs")
+
 
   post "/settings/updatejs":
     createTFD()
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
-
     let jsFile = if @"customJs" == "true": "public/js/js_custom.js" else: "public/js/js.js"
-
     try:
       writeFile(jsFile, @"js")
       if @"inbackground" == "true":
         resp("OK")
-
       if @"customJs" == "true":
         redirect("/settings/editjscustom")
       else:
@@ -246,26 +213,25 @@ routes:
     except:
       resp "Error"
 
+
   get "/settings/editcss":
     createTFD()
     restrictAccessTo(c, [Admin])
-
     resp genMainAdmin(c, genSettingsEditCss(c, false), "editcss")
+
 
   get "/settings/editcsscustom":
     createTFD()
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
-
     resp genMainAdmin(c, genSettingsEditCss(c, true), "editcss")
+
 
   post "/settings/updatecss":
     createTFD()
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
-
     let cssFile = if @"customCss" == "true": "public/css/style_custom.css" else: "public/css/style.css"
-
     try:
       writeFile(cssFile, @"css")
       if @"inbackground" == "true":
@@ -278,35 +244,33 @@ routes:
     except:
       resp "Error"
 
+
   get "/settings/blog":
     createTFD()
     restrictAccessTo(c, [Admin])
-
     resp genMainAdmin(c, genSettingsBlog(c))
+
 
   post "/settings/updateblogsettings":
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin])
-
-    var blogorder: string
-    case @"blogorder"
-    of "url":
-      blogorder = "url"
-    of "published":
-      blogorder = "creation"
-    of "modified":
-      blogorder = "modified"
-    of "name":
-      blogorder = "name"
-    else:
-      redirect("/settings/blog")
-
+    let blogorder = case @"blogorder"
+      of "url":
+        blogorder = "url"
+      of "published":
+        blogorder = "creation"
+      of "modified":
+        blogorder = "modified"
+      of "name":
+        blogorder = "name"
+      else:
+        redirect("/settings/blog")
     if @"blogsort" notin ["ASC", "DESC"]:
       redirect("/settings/blog")
-
     exec(db, sql"UPDATE settings SET blogorder = ?, blogsort = ?", blogorder, @"blogsort")
     redirect("/settings/blog")
+
 
   get "/settings/logs":
     createTFD()
@@ -314,11 +278,13 @@ routes:
     restrictAccessTo(c, [Admin])
     resp genMainAdmin(c, genViewLogs(logcontent=readFile(logfile)))
 
+
   get "/settings/forcerestart":
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin])
     quit()
+
 
   get "/settings/serverinfo":
     createTFD()
@@ -326,14 +292,17 @@ routes:
     restrictAccessTo(c, [Admin])
     resp genMainAdmin(c, genServerInfo())
 
+
   get "/settings/termsofservice":
     createTFD()
-    let tos = readFile(getAppDir() & "/tmpl/tos.html")
+    let tos = readFile(getAppDir() / "tmpl/tos.html")
     resp tos
+
 
   get "/users/profile/avatar":
     createTFD()
     resp genMainAdmin(c, genAvatar(c))
+
 
   post "/users/profile/avatar/save":
     createTFD()
@@ -342,11 +311,11 @@ routes:
       exec(db, sql"UPDATE person SET avatar = ? WHERE id = ?", @"avatar", c.userid)
     redirect("/users/profile")
 
+
   get "/settings/firejail":
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin])
-
     when not defined(firejail):
       redirect("/")
     else:
@@ -365,11 +334,11 @@ routes:
         c["dns0"], c["dns1"], c["dns2"], c["dns3"],
       ))
 
+
   post "/settings/firejail/save":
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin])
-
     when not defined(firejail):
       redirect("/")
     else:
@@ -416,12 +385,14 @@ routes:
         resp $getCurrentExceptionMsg()
       redirect("/settings")
 
+
   get "/settings/config":
     createTFD()
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
-    let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
+    let konfig = replace(getAppDir(), "/nimwcpkg", "") / "config/config.cfg"
     resp genMainAdmin(c, genEditConfig(readFile(konfig)))
+
 
   post "/settings/config/save":
     createTFD()
@@ -431,7 +402,7 @@ routes:
       discard loadConfig(newStringStream(@"config")) # Not a strong Validation.
     except:
       resp $getCurrentExceptionMsg()
-    let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
+    let konfig = replace(getAppDir(), "/nimwcpkg", "") / "config/config.cfg"
     writeFile(konfig, strip(@"config"))
     redirect("/settings")
 
@@ -444,36 +415,27 @@ routes:
   get "/files":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genFiles(c), "edit")
 
 
   get "/files/raw":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genFilesRaw(c)
 
 
   get "/files/stream/@access/@filename":
-    ## Get a file
-
     createTFD()
     let filename = decodeUrl(@"filename")
-
     var filepath = ""
-
     if @"access" == "private":
       if not c.loggedIn:
         resp("Error: You are not authorized")
-      filepath = storageEFS & "/files/private/" & filename
-
+      filepath = storageEFS / "files/private" / filename
     else:
-      filepath = storageEFS & "/files/public/" & filename
-
+      filepath = storageEFS / "files/public" / filename
     if not fileExists(filepath):
       resp("Error: File was not found")
-
     var downloadCount =
       try: parseInt(getValue(db, sql"SELECT downloadCount FROM files where url = ?", filepath))
       except: 0
@@ -484,46 +446,37 @@ routes:
 
   post "/files/upload/grapesjs":
     # Upload a file via GrapesJS
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     let filename = request.formData["file[]"].fields["filename"]
-    let path = "public/images/" & filename
-
+    let path = "public/images" / filename
     if fileExists(path):
       resp("ERROR")
-
     try:
       writeFile(path, request.formData.getOrDefault("file[]").body)
       when defined(webp):
         if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
-          discard cwebp(path, path, "drawing", quality=25)  # This sets quality of WEBP
+          discard cwebp(path, path, "drawing", quality=50)  # This sets quality of WEBP
       if fileExists(path):
         # Do not insert into DB due to being a public image file
         #exec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, 0)", path)
         resp("[\"/images/" & filename & "\"]")
-
     except:
       resp("ERROR")
-
     resp("ERROR")
 
 
   post "/files/upload/@access":
     ## Upload a file
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     if @"access" notin ["private", "public", "publicimage"]:
       resp("Error: Missing access right")
-
     let
-      efspublic = storageEFS & "/files/public/"
-      efsprivate = storageEFS & "/files/private/"
+      efspublic = storageEFS / "files/public/"
+      efsprivate = storageEFS / "files/private/"
     var
       path: string
       filename  = request.formData["file"].fields["filename"]
@@ -531,59 +484,47 @@ routes:
       filedata = request.formData.getOrDefault("file").body
       fileexts = filename.splitFile.ext
       usesWebp = @"webpstatus" == "true" and fileexts in [".png", ".jpg", ".jpeg"]
-
     if not usesWebp and @"checksum" == "true":
       filename = getMD5(filedata) & fileexts
-
     if @"lowercase" == "true":
       filename = filename.toLowerAscii()
-
     if @"access" == "publicimage":
-      path = "public/images/" & filename
+      path = "public/images" / filename
     elif @"access" == "public":
       assert existsDir(efspublic), "storageEFS Public Folder not found: " & efspublic
       path = efspublic & filename
     else:
       assert existsDir(efsprivate), "storageEFS Private Folder not found: " & efsprivate
       path = efsprivate & filename
-
     if fileExists(path):
       resp("Error: A file with the same name exists")
-
     writeFile(path, filedata)
     when defined(webp):
       if usesWebp:
-        discard cwebp(path, path, "drawing", quality=25)  # This sets quality of WEBP
+        discard cwebp(path, path, "drawing", quality=50)  # This sets quality of WEBP
     if fileExists(path) and @"access" != "publicimage":
       # TODO: There should not be a row with the file. But if the user manually
       # deletes the file and reuploads it, it will still be present in th DB.
       # This query fails due to UNIQUE requirement in the DB. To prevent error and
       # try-except, it uses tryExec(). We could solve this by doing a sweep with walkDir().
       discard tryExec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, 0)", path)
-
     redirect("/files")
 
 
   get "/files/delete/@access/@filename":
     ## Delete a file
-
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     var fileDeleted = false
-
     if @"access" == "publicimage":
       fileDeleted = tryRemoveFile("public/images/" & decodeUrl(@"filename"))
-
     else:
-      let path = storageEFS & "/files/" & @"access" & "/" & decodeUrl(@"filename")
+      let path = storageEFS / "files" / @"access" / decodeUrl(@"filename")
       fileDeleted = tryRemoveFile(path)
       exec(db, sql"DELETE FROM files WHERE url = ?", path)
-
     if fileDeleted:
       redirect("/files")
-
     else:
       resp("Error: File not found")
 
@@ -595,53 +536,39 @@ routes:
 
   get "/users":
     createTFD()
-    if not c.loggedIn:
-      redirect("/")
+    if unlikely(not c.loggedIn): redirect("/")
     resp genMainAdmin(c, genUsers(c))
 
 
   get "/users/profile":
     createTFD()
-    if not c.loggedIn:
-      redirect("/")
+    if unlikely(not c.loggedIn): redirect("/")
     resp genMainAdmin(c, genUsersProfile(c), "users")
 
 
   post "/users/profile/update":
     createTFD()
     restrictTestuser(HttpGet)
-
-    if not c.loggedIn:
-      redirect("/")
-
+    if unlikely(not c.loggedIn): redirect("/")
     if @"name" == "" or @"email" == "":
       redirect("/error/" & encodeUrl("Error: Name and email are required"))
-
     if "@" notin @"email":
       redirect("/error/" & encodeUrl("Error: Your email has a wrong format (missing [a]: " & @"email"))
-
     if @"password" != @"passwordConfirm":
       redirect("/error/" & encodeUrl("Error: Your passwords did not match"))
-
     if @"password" != "":
       let salt = makeSalt()
       let password = makePassword(@"password", salt)
-
       exec(db, sql"UPDATE person SET name = ?, email = ?, password = ?, salt = ? WHERE id = ?", @"name", @"email", password, salt, c.userid)
-
     else:
       exec(db, sql"UPDATE person SET name = ?, email = ? WHERE id = ?", @"name", @"email", c.userid)
-
     redirect("/users/profile")
 
 
   post "/users/profile/update/test2fa":
     createTFD()
     restrictTestuser(HttpGet)
-
-    if not c.loggedIn:
-      redirect("/")
-
+    if unlikely(not c.loggedIn): redirect("/")
     try:
       if $newTotp(@"twofakey").now() == @"testcode":
         resp("Success, the code matched")
@@ -654,10 +581,7 @@ routes:
   post "/users/profile/update/save2fa":
     createTFD()
     restrictTestuser(HttpGet)
-
-    if not c.loggedIn:
-      redirect("/")
-
+    if unlikely(not c.loggedIn): redirect("/")
     if tryExec(db, sql"UPDATE person SET twofa = ? WHERE id = ?", @"twofakey", c.userid):
       resp("Saved 2FA key")
     else:
@@ -667,10 +591,7 @@ routes:
   post "/users/profile/update/disable2fa":
     createTFD()
     restrictTestuser(HttpGet)
-
-    if not c.loggedIn:
-      redirect("/")
-
+    if unlikely(not c.loggedIn): redirect("/")
     if tryExec(db, sql"UPDATE person SET twofa = ? WHERE id = ?", "", c.userid):
       resp("Disabled 2FA key")
     else:
@@ -681,17 +602,13 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     if c.userid == @"userID":
       redirect("/error/" & encodeUrl("Error: You can not delete yourself"))
-
     let userStatus = getValue(db, sql"SELECT status FROM person WHERE id = ?", @"userID")
     if userStatus == "":
       redirect("/error/" & encodeUrl("Error: Missing status on user"))
-
     if userStatus == "Admin" and c.rank != Admin:
       redirect("/error/" & encodeUrl("Error: You can not delete an admin user"))
-
     if tryExec(db, sql"DELETE FROM person WHERE id = ?", @"userID"):
       exec(db, sql"DELETE FROM session WHERE userid = ?", @"userID")
       redirect("/users")
@@ -703,36 +620,26 @@ routes:
     createTFD()
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin, Moderator])
-
     cond(@"status" in ["User", "Moderator", "Admin", "Deactivated"])
-
     if (c.rank != Admin and @"status" == "Admin") or c.rank == User:
       redirect("/error/" & encodeUrl("Error: You are not allowed to add a user with this status"))
-
     if @"name" == "" or @"email" == "" or @"status" == "":
       redirect("/error/" & encodeUrl("Error: Name, email and status are required"))
-
     if @"email" == "test@test.com":
       redirect("/error/" & encodeUrl("Error: test@test.com is taken by the system"))
-
     if not ("@" in @"email" and "." in @"email"):
       redirect("/error/" & encodeUrl("Error: Your email has a wrong format"))
-
     let emailReady = toLowerAscii(@"email")
     let emailExist = getValue(db, sql"SELECT id FROM person WHERE email = ?", emailReady)
     if emailExist != "":
       redirect("/error/" & encodeUrl("Error: A user with that email does already exists"))
-
     let
       salt = makeSalt()
       passwordOriginal = $rand(10_00_00_00_00_01.int..89_99_99_99_99_98.int) # User Must change it anyways.
       password = makePassword(passwordOriginal, salt)
       secretUrl = repeat($rand(10_00_00_00_00_00_00_00_00.int..int.high), 5).center(99, rand(toSeq('a'..'z')))
-
     let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, salt, secretUrl) VALUES (?, ?, ?, ?, ?, ?)", @"name", emailReady, @"status", password, salt, secretUrl)
-
     asyncCheck sendEmailActivationManual(emailReady, @"name", passwordOriginal, "/users/activate?id=" & $userID & "&ident=" & secretUrl, c.username)
-
     redirect("/users")
 
 
@@ -752,9 +659,7 @@ routes:
     createTFD()
     if @"id" == "" or @"ident" == "":
       redirect("/error/" & encodeUrl("Error: Something is wrong with the link"))
-
     let secretUrlConfirm = getValue(db, sql"SELECT id FROM person WHERE id = ? AND secretUrl = ?", @"id", @"ident")
-
     if secretUrlConfirm != "":
       exec(db, sql"UPDATE person SET secretUrl = NULL WHERE id = ? AND secretUrl = ?", @"id", @"ident")
       redirect("/login?msg=" & encodeUrl("Your account is now activated"))
@@ -765,9 +670,8 @@ routes:
   get "/users/photo/stream/@filename":
     ## Get a file
     createTFD()
-    let filename = decodeUrl(@"filename")
-    let filepath = storageEFS & "/users/" & filename
-    if not fileExists(filepath): resp("")
+    let filepath = storageEFS / "users" / decodeUrl(@"filename")
+    if unlikely(not fileExists(filepath)): resp("")
     sendFile(filepath)
 
 
@@ -775,12 +679,9 @@ routes:
     ## Uploads a new profile image for a user
     createTFD()
     restrictTestuser(c.req.reqMethod)
-
-    if not c.loggedIn: redirect("/")
-
-    let path = storageEFS & "/users/" & c.userid
+    if unlikely(not c.loggedIn): redirect("/")
+    let path = storageEFS / "users" / c.userid
     let base64 = split(c.req.body, ",")[1]
-
     once: discard existsOrCreateDir(storageEFS / "users")
     try:
       writeFile(path & ".txt", base64)
@@ -789,7 +690,6 @@ routes:
       if fileExists(path & ".png"): resp("File saved")
     except:
       resp("Error")
-
     resp("Error: Something went wrong")
 
 
@@ -801,46 +701,36 @@ routes:
   get "/blogpagenew":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genNewBlog(c), "edit")
 
 
   post "/blogpagenew/save":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     let url = encodeUrl(@"url", true).replace("%2F", "/")
     if url == getValue(db, sql"SELECT url FROM blog WHERE url = ?", url):
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
-
     let status = if @"status" == "": "0" else: @"status"
-
     let blogID = insertID(db, sql"INSERT INTO blog (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags, pubDate, viewCount) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, status, url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"pubdate", @"viewcount")
-
     redirect("/editpage/blog/" & $blogID & "?newpage=true")
 
 
   post "/blogpage/update":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     let url = encodeUrl(@"url", true).replace("%2F", "/")
     if url == getValue(db, sql"SELECT url FROM blog WHERE url = ? AND id <> ?", url, @"blogid"):
       if @"inbackground" == "true":
         resp("Error: A page with same URL already exists")
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
-
     discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ?, pubDate = ?, viewCount = ?, modified = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"pubdate", @"viewcount", $toInt(epochTime()), @"blogid")
-
-    if @"inbackground" == "true":
-      resp("OK")
+    if @"inbackground" == "true": resp("OK")
     redirect("/editpage/blog/" & @"blogid")
 
 
   get "/blogpage/delete":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     exec(db, sql"DELETE FROM blog WHERE id = ?", @"blogid")
     redirect("/editpage/blogallpages")
 
@@ -848,14 +738,12 @@ routes:
   get "/editpage/blogallpages":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genBlogAllPages(c, edit=true))
 
 
   get "/editpage/blog/@blogid":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genEditBlog(c, @"blogid", @"newpage"), "edit")
 
 
@@ -866,14 +754,9 @@ routes:
 
   get re"/blog//*.":
     createTFD()
-
     let access = if c.loggedIn: "(0,1,2)" else: "(2)"
-
     let blogid = getValue(db, sql("SELECT id FROM blog WHERE url = ? AND status IN " & access), c.req.path.replace("/blog/", ""))
-
-    if blogid == "":
-      redirect("/")
-
+    if blogid == "": redirect("/")
     resp genPageBlog(c, blogid)
 
 
@@ -886,7 +769,6 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genNewPage(c), "edit")
 
 
@@ -894,15 +776,11 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     let url = encodeUrl(@"url", true).replace("%2F", "/")
     if url == getValue(db, sql"SELECT url FROM pages WHERE url = ?", url):
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
-
     let status = if @"status" == "": "0" else: @"status"
-
     let pageID = insertID(db, sql"INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords, category, tags) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", c.userid, status, url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags")
-
     redirect("/editpage/page/" & $pageID & "?newpage=true")
 
 
@@ -910,17 +788,13 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     let url = encodeUrl(@"url", true).replace("%2F", "/")
     if url == getValue(db, sql"SELECT url FROM pages WHERE url = ? AND id <> ?", url, @"pageid"):
       if @"inbackground" == "true":
         resp("Error: A page with same URL already exists")
       redirect("/error/" & encodeUrl("Error, a blogpost with the same URL already exists"))
-
     discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ?, modified = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", $toInt(epochTime()), @"pageid")
-
-    if @"inbackground" == "true":
-      resp("OK")
+    if @"inbackground" == "true": resp("OK")
     redirect("/editpage/page/" & @"pageid")
 
 
@@ -928,7 +802,6 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-
     exec(db, sql"DELETE FROM pages WHERE id = ?", @"pageid")
     redirect("/editpage/allpages")
 
@@ -936,27 +809,20 @@ routes:
   get "/editpage/allpages":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genAllPagesEdit(c))
 
 
   get "/editpage/page/@pageid":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-
     resp genMainAdmin(c, genEditPage(c, @"pageid", @"newpage"), "edit")
 
 
   get re"/p//*.":
     createTFD()
-
     let access = if c.loggedIn: "(0,1,2)" else: "(2)"
-
     let pageid = getValue(db, sql("SELECT id FROM pages WHERE url = ? AND status IN " & access), c.req.path.replace("/p/", ""))
-
-    if pageid == "":
-      redirect("/")
-
+    if pageid == "": redirect("/")
     resp genPage(c, pageid)
 
 

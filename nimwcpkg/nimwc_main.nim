@@ -349,7 +349,7 @@ template createTFD() =
   new(c)
   init(c)
   c.req = request
-  if request.cookies.len > 0:
+  if likely(request.cookies.len > 0):  # Make it faster for Logged-in Users.
     checkLoggedIn(c)
   c.loggedIn = loggedIn(c)
 
