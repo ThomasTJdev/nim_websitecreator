@@ -83,7 +83,7 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     let pluginPath = if @"status" == "false": "" else: (@"pluginname")
     pluginEnableDisable(pluginPath, @"pluginname", @"status")
-    let output = recompile()
+    echo recompile()
     redirect("/plugins")
 
 
@@ -99,8 +99,7 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-    if not pluginRepoClone():
-      redirect("/error/" & errGitClonError )
+    if unlikely(not pluginRepoClone()): redirect("/error/" & errGitClonError)
     redirect("/plugins/repo")
 
 
@@ -109,8 +108,7 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-    if not pluginRepoUpdate():
-      redirect("/error/" & errGitClonError)
+    if unlikely(not pluginRepoUpdate()): redirect("/error/" & errGitClonError)
     redirect("/plugins/repo")
 
 
@@ -119,7 +117,7 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-    if pluginUpdate(@"pluginfolder"):
+    if likely(pluginUpdate(@"pluginfolder")):
       redirect("/plugins/updating?status=false&pluginname=" & @"pluginname" & "&pluginActivity=" & msgInstallingPlugin)
     else:
       redirect("/error/" & errGitPullError)
@@ -256,16 +254,11 @@ routes:
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin])
     let blogorder = case @"blogorder"
-      of "url":
-        blogorder = "url"
-      of "published":
-        blogorder = "creation"
-      of "modified":
-        blogorder = "modified"
-      of "name":
-        blogorder = "name"
-      else:
-        redirect("/settings/blog")
+      of "url":       "url"
+      of "published": "creation"
+      of "modified":  "modified"  # BUG: TODO:
+      of "name":      "name"
+      else:           redirect("/settings/blog")
     if @"blogsort" notin ["ASC", "DESC"]:
       redirect("/settings/blog")
     exec(db, sql"UPDATE settings SET blogorder = ?, blogsort = ?", blogorder, @"blogsort")
@@ -276,7 +269,7 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin])
-    resp genMainAdmin(c, genViewLogs(logcontent=readFile(logfile)))
+    resp genMainAdmin(c, genViewLogs(logcontent = readFile(logfile)))
 
 
   get "/settings/forcerestart":
@@ -319,7 +312,7 @@ routes:
     when not defined(firejail):
       redirect("/")
     else:
-      let c = getConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg", cfgFirejail)
+      let c = getConfig(replace(getAppDir(), "/nimwcpkg", "") / "config/config.cfg", cfgFirejail)
       resp genMainAdmin(c, genFirejail(
         c["noDvd"].parseBool, c["noSound"].parseBool, c["noAutoPulse"].parseBool,
         c["no3d"].parseBool, c["noX"].parseBool, c["noVideo"].parseBool,
@@ -342,7 +335,7 @@ routes:
     when not defined(firejail):
       redirect("/")
     else:
-      let konfig = replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"
+      let konfig = replace(getAppDir(), "/nimwcpkg", "") / "config/config.cfg"
       var dict = loadConfig(konfig)
       try:  # HTML Checkbox returns empty string for false and "on" for true.
         dict.setSectionKey("firejail", "noDvd",         $(len(@"noDvd") > 0))
@@ -832,5 +825,5 @@ routes:
 
 
   get "/sitemap.xml":
-    writeFile("public/sitemap.xml", genSitemap())
+    writeFile("public/sitemap.xml", genSitemap())  #TODO:
     sendFile("public/sitemap.xml")
