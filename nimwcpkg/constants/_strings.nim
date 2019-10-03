@@ -8,6 +8,8 @@ const
 
   commitHash* = staticExec"git rev-parse --short HEAD" & "" ## NimWC Version (Git Hash)
 
+  termsOfServices* = staticRead"../nimfs/tos.html"
+
   compileOptions* = (
     (when defined(adminnotify):       " -d:adminnotify"       else: "") &
     (when defined(dev):               " -d:dev"               else: "") &

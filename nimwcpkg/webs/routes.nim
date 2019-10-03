@@ -252,11 +252,11 @@ routes:
     restrictAccessTo(c, [Admin])
     var blogorder: string
     case @"blogorder"
-    of "url":       blogorder = "url"
+    of "url": blogorder = "url"
     of "published": blogorder = "creation"
-    of "modified":  blogorder = "modified"
-    of "name":      blogorder = "name"
-    else:           redirect("/settings/blog")
+    of "modified": blogorder = "modified"
+    of "name": blogorder = "name"
+    else: redirect("/settings/blog")
     if @"blogsort" notin ["ASC", "DESC"]:
       redirect("/settings/blog")
     exec(db, sql"UPDATE settings SET blogorder = ?, blogsort = ?", blogorder, @"blogsort")
@@ -286,7 +286,7 @@ routes:
 
   get "/settings/termsofservice":
     createTFD()
-    resp readFile(getAppDir() / "tmpl/tos.html")
+    resp termsOfServices
 
 
   get "/users/profile/avatar":
@@ -334,42 +334,42 @@ routes:
     else:
       let konfig = replace(getAppDir(), "/nimwcpkg", "") / "config/config.cfg"
       var dict = loadConfig(konfig)
-      try:  # HTML Checkbox returns empty string for false and "on" for true.
-        dict.setSectionKey("firejail", "noDvd",         $(len(@"noDvd") > 0))
-        dict.setSectionKey("firejail", "noSound",       $(len(@"noSound") > 0))
-        dict.setSectionKey("firejail", "noAutoPulse",   $(len(@"noAutoPulse") > 0))
-        dict.setSectionKey("firejail", "no3d",          $(len(@"no3d") > 0))
-        dict.setSectionKey("firejail", "noX",           $(len(@"noX") > 0))
-        dict.setSectionKey("firejail", "noVideo",       $(len(@"noVideo") > 0))
-        dict.setSectionKey("firejail", "noDbus",        $(len(@"noDbus") > 0))
-        dict.setSectionKey("firejail", "noShell",       $(len(@"noShell") > 0))
-        dict.setSectionKey("firejail", "noDebuggers",   $(len(@"noDebuggers") > 0))
-        dict.setSectionKey("firejail", "noMachineId",   $(len(@"noMachineId") > 0))
-        dict.setSectionKey("firejail", "noRoot",        $(len(@"noRoot") > 0))
-        dict.setSectionKey("firejail", "noAllusers",    $(len(@"noAllusers") > 0))
-        dict.setSectionKey("firejail", "noU2f",         $(len(@"noU2f") > 0))
-        dict.setSectionKey("firejail", "privateTmp",    $(len(@"privateTmp") > 0))
-        dict.setSectionKey("firejail", "privateCache",  $(len(@"privateCache") > 0))
-        dict.setSectionKey("firejail", "privateDev",    $(len(@"privateDev") > 0))
+      try: # HTML Checkbox returns empty string for false and "on" for true.
+        dict.setSectionKey("firejail", "noDvd", $(len(@"noDvd") > 0))
+        dict.setSectionKey("firejail", "noSound", $(len(@"noSound") > 0))
+        dict.setSectionKey("firejail", "noAutoPulse", $(len(@"noAutoPulse") > 0))
+        dict.setSectionKey("firejail", "no3d", $(len(@"no3d") > 0))
+        dict.setSectionKey("firejail", "noX", $(len(@"noX") > 0))
+        dict.setSectionKey("firejail", "noVideo", $(len(@"noVideo") > 0))
+        dict.setSectionKey("firejail", "noDbus", $(len(@"noDbus") > 0))
+        dict.setSectionKey("firejail", "noShell", $(len(@"noShell") > 0))
+        dict.setSectionKey("firejail", "noDebuggers", $(len(@"noDebuggers") > 0))
+        dict.setSectionKey("firejail", "noMachineId", $(len(@"noMachineId") > 0))
+        dict.setSectionKey("firejail", "noRoot", $(len(@"noRoot") > 0))
+        dict.setSectionKey("firejail", "noAllusers", $(len(@"noAllusers") > 0))
+        dict.setSectionKey("firejail", "noU2f", $(len(@"noU2f") > 0))
+        dict.setSectionKey("firejail", "privateTmp", $(len(@"privateTmp") > 0))
+        dict.setSectionKey("firejail", "privateCache", $(len(@"privateCache") > 0))
+        dict.setSectionKey("firejail", "privateDev", $(len(@"privateDev") > 0))
         dict.setSectionKey("firejail", "forceEnUsUtf8", $(len(@"forceEnUsUtf8") > 0))
-        dict.setSectionKey("firejail", "caps",          $(len(@"caps") > 0))
-        dict.setSectionKey("firejail", "seccomp",       $(len(@"seccomp") > 0))
-        dict.setSectionKey("firejail", "noTv",          $(len(@"noTv") > 0))
-        dict.setSectionKey("firejail", "writables",     $(len(@"writables") > 0))
-        dict.setSectionKey("firejail", "noMnt",         $(len(@"noMnt") > 0))
-        dict.setSectionKey("firejail", "maxSubProcesses",   @"maxSubProcesses")
-        dict.setSectionKey("firejail", "maxOpenFiles",      @"maxOpenFiles")
-        dict.setSectionKey("firejail", "maxFileSize",       @"maxFileSize")
+        dict.setSectionKey("firejail", "caps", $(len(@"caps") > 0))
+        dict.setSectionKey("firejail", "seccomp", $(len(@"seccomp") > 0))
+        dict.setSectionKey("firejail", "noTv", $(len(@"noTv") > 0))
+        dict.setSectionKey("firejail", "writables", $(len(@"writables") > 0))
+        dict.setSectionKey("firejail", "noMnt", $(len(@"noMnt") > 0))
+        dict.setSectionKey("firejail", "maxSubProcesses", @"maxSubProcesses")
+        dict.setSectionKey("firejail", "maxOpenFiles", @"maxOpenFiles")
+        dict.setSectionKey("firejail", "maxFileSize", @"maxFileSize")
         dict.setSectionKey("firejail", "maxPendingSignals", @"maxPendingSignals")
-        dict.setSectionKey("firejail", "timeout",           @"timeout")
-        dict.setSectionKey("firejail", "maxCpu",            @"maxCpu")
-        dict.setSectionKey("firejail", "maxRam",            @"maxRam")
-        dict.setSectionKey("firejail", "cpuCoresByNumber",  @"cpuCoresByNumber")
+        dict.setSectionKey("firejail", "timeout", @"timeout")
+        dict.setSectionKey("firejail", "maxCpu", @"maxCpu")
+        dict.setSectionKey("firejail", "maxRam", @"maxRam")
+        dict.setSectionKey("firejail", "cpuCoresByNumber", @"cpuCoresByNumber")
         dict.setSectionKey("firejail", "hostsFile", @"hostsFile")
-        dict.setSectionKey("firejail", "dns0",      @"dns0")
-        dict.setSectionKey("firejail", "dns1",      @"dns1")
-        dict.setSectionKey("firejail", "dns2",      @"dns2")
-        dict.setSectionKey("firejail", "dns3",      @"dns3")
+        dict.setSectionKey("firejail", "dns0", @"dns0")
+        dict.setSectionKey("firejail", "dns1", @"dns1")
+        dict.setSectionKey("firejail", "dns2", @"dns2")
+        dict.setSectionKey("firejail", "dns3", @"dns3")
         dict.writeConfig(konfig)
       except:
         resp $getCurrentExceptionMsg()
@@ -445,7 +445,7 @@ routes:
       writeFile(path, request.formData.getOrDefault("file[]").body)
       when defined(webp):
         if path.endsWith(".png") or path.endsWith(".jpg") or path.endsWith(".jpeg"):
-          discard cwebp(path, path, "drawing", quality=50)  # This sets quality of WEBP
+          discard cwebp(path, path, "drawing", quality = 50) # This sets quality of WEBP
       if fileExists(path):
         # Do not insert into DB due to being a public image file
         #exec(db, sql"INSERT INTO files(url, downloadCount) VALUES (?, 0)", path)
@@ -467,7 +467,7 @@ routes:
       efsprivate = storageEFS / "files/private/"
     var
       path: string
-      filename  = request.formData["file"].fields["filename"]
+      filename = request.formData["file"].fields["filename"]
     let
       filedata = request.formData.getOrDefault("file").body
       fileexts = filename.splitFile.ext
@@ -489,7 +489,7 @@ routes:
     writeFile(path, filedata)
     when defined(webp):
       if usesWebp:
-        discard cwebp(path, path, "drawing", quality=50)  # This sets quality of WEBP
+        discard cwebp(path, path, "drawing", quality = 50) # This sets quality of WEBP
     if fileExists(path) and @"access" != "publicimage":
       # TODO: There should not be a row with the file. But if the user manually
       # deletes the file and reuploads it, it will still be present in th DB.
@@ -726,7 +726,7 @@ routes:
   get "/editpage/blogallpages":
     createTFD()
     restrictAccessTo(c, [Admin, Moderator])
-    resp genMainAdmin(c, genBlogAllPages(c, edit=true))
+    resp genMainAdmin(c, genBlogAllPages(c, edit = true))
 
 
   get "/editpage/blog/@blogid":
@@ -820,5 +820,5 @@ routes:
 
 
   get "/sitemap.xml":
-    writeFile("public/sitemap.xml", genSitemap())  #TODO:
+    writeFile("public/sitemap.xml", genSitemap())
     sendFile("public/sitemap.xml")
