@@ -250,12 +250,13 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin])
-    let blogorder = case @"blogorder"
-      of "url":       "url"
-      of "published": "creation"
-      of "modified":  "modified"  # BUG: TODO:
-      of "name":      "name"
-      else:           redirect("/settings/blog")
+    var blogorder: string
+    case @"blogorder"
+    of "url":       blogorder = "url"
+    of "published": blogorder = "creation"
+    of "modified":  blogorder = "modified"
+    of "name":      blogorder = "name"
+    else:           redirect("/settings/blog")
     if @"blogsort" notin ["ASC", "DESC"]:
       redirect("/settings/blog")
     exec(db, sql"UPDATE settings SET blogorder = ?, blogsort = ?", blogorder, @"blogsort")
