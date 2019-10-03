@@ -81,8 +81,7 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-    let pluginPath = if @"status" == "false": "" else: (@"pluginname")
-    pluginEnableDisable(pluginPath, @"pluginname", @"status")
+    pluginEnableDisable((if @"status" == "false": "" else: (@"pluginname")), @"pluginname", @"status")
     echo recompile()
     redirect("/plugins")
 
@@ -199,9 +198,8 @@ routes:
     createTFD()
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
-    let jsFile = if @"customJs" == "true": "public/js/js_custom.js" else: "public/js/js.js"
     try:
-      writeFile(jsFile, @"js")
+      writeFile((if @"customJs" == "true": "public/js/js_custom.js" else: "public/js/js.js"), @"js")
       if @"inbackground" == "true":
         resp("OK")
       if @"customJs" == "true":
@@ -229,9 +227,8 @@ routes:
     createTFD()
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
-    let cssFile = if @"customCss" == "true": "public/css/style_custom.css" else: "public/css/style.css"
     try:
-      writeFile(cssFile, @"css")
+      writeFile((if @"customCss" == "true": "public/css/style_custom.css" else: "public/css/style.css"), @"css")
       if @"inbackground" == "true":
         resp("OK")
 
@@ -288,8 +285,7 @@ routes:
 
   get "/settings/termsofservice":
     createTFD()
-    let tos = readFile(getAppDir() / "tmpl/tos.html")
-    resp tos
+    resp readFile(getAppDir() / "tmpl/tos.html")
 
 
   get "/users/profile/avatar":
@@ -383,8 +379,7 @@ routes:
     createTFD()
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
-    let konfig = replace(getAppDir(), "/nimwcpkg", "") / "config/config.cfg"
-    resp genMainAdmin(c, genEditConfig(readFile(konfig)))
+    resp genMainAdmin(c, genEditConfig(readFile(replace(getAppDir(), "/nimwcpkg", "") / "config/config.cfg")))
 
 
   post "/settings/config/save":
@@ -395,8 +390,7 @@ routes:
       discard loadConfig(newStringStream(@"config")) # Not a strong Validation.
     except:
       resp $getCurrentExceptionMsg()
-    let konfig = replace(getAppDir(), "/nimwcpkg", "") / "config/config.cfg"
-    writeFile(konfig, strip(@"config"))
+    writeFile(replace(getAppDir(), "/nimwcpkg", "") / "config/config.cfg", strip(@"config"))
     redirect("/settings")
 
 
@@ -749,7 +743,7 @@ routes:
     createTFD()
     let access = if c.loggedIn: "(0,1,2)" else: "(2)"
     let blogid = getValue(db, sql("SELECT id FROM blog WHERE url = ? AND status IN " & access), c.req.path.replace("/blog/", ""))
-    if blogid == "": redirect("/")
+    if unlikely(blogid == ""): redirect("/")
     resp genPageBlog(c, blogid)
 
 
@@ -815,7 +809,7 @@ routes:
     createTFD()
     let access = if c.loggedIn: "(0,1,2)" else: "(2)"
     let pageid = getValue(db, sql("SELECT id FROM pages WHERE url = ? AND status IN " & access), c.req.path.replace("/p/", ""))
-    if pageid == "": redirect("/")
+    if unlikely(pageid == ""): redirect("/")
     resp genPage(c, pageid)
 
 
