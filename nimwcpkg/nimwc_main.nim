@@ -280,10 +280,8 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[isLoginOk: bool, s
       return (false, "Email must not be test@test.com")
   if unlikely(email.len == 0 and pass.len == 0 and totpRaw.len == 0):
     return (false, "Username, password and 2 Factor Authentication are all empty")
-  if email.len == 0:
-    return (false, "Empty username")
-  if pass.len == 0:
-    return (false, "Empty password")
+  if email.len == 0 or pass.len == 0:
+    return (false, "Empty password or username")
   if totpRaw.len == 0:
     return (false, "Empty 2 Factor Authentication")
 
