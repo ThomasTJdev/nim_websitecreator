@@ -272,7 +272,7 @@ proc checkLoggedIn(c: var TData) =
 #
 
 
-proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string] =
+proc login(c: var TData, email, pass, totpRaw: string): tuple[isLoginOk: bool, statusMessage: string] =
   ## User login
   # preconditions email.len > 5, pass.len > 3, email.len < 255, pass.len < 301
   when not defined(demo):
