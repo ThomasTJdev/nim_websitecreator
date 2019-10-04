@@ -81,8 +81,9 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
+    when defined(dev): echo((if not parseBool(@"status"): "" else: (@"pluginname")), @"pluginname", @"status")
     pluginEnableDisable((if not parseBool(@"status"): "" else: (@"pluginname")), @"pluginname", @"status")
-    echo recompile()
+    when defined(dev): echo recompile() else: discard recompile()
     redirect("/plugins")
 
 
@@ -130,7 +131,7 @@ routes:
     if pluginDelete(@"pluginfolder"):
       var isInstalled = false
       for line in lines("plugins/plugin_import.txt"):
-        if ("plugins/" & @"pluginfolder") == line:
+        if ("plugins" / @"pluginfolder") == line:
           isInstalled = true
           break
       if isInstalled:
