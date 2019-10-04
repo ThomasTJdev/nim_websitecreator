@@ -28,7 +28,7 @@ routes:
           when defined(dev): echo "Recaptcha: " & $isRecaptchaOk
           if isRecaptchaOk:
             redirect("/login?msg=" & errNeedToVerifyRecaptcha)
-    let (loginB, loginS) = login(c, replace(toLowerAscii(@"email"), " ", ""), replace(@"password", " ", ""), @"totp")
+    let (loginB, loginS) = login(c, replace(toLowerAscii(@"email"), " ", ""), replace(@"password", " ", ""), replace(@"totp", " ", ""))
     when defined(dev): echo "Mail: ", @"email", "\nPassword: ", @"password", "\nTOTP: ", @"totp", "\n(loginB, loginS): ", (loginB, loginS)
     if loginB:
       jester.setCookie("sid", loginS, daysForward(7))
