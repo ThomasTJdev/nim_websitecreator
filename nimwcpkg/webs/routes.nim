@@ -68,7 +68,7 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-    if not parseBool(@"status"):
+    if @"status" == "false":
       redirect("/plugins/updating?status=" & @"status" & "&pluginname=" & @"pluginname" & "&pluginActivity=" & msgInstallingPlugin)
     else:
       redirect("/plugins/updating?status=" & @"status" & "&pluginname=" & @"pluginname" & "&pluginActivity=" & msgUninstallingPlugin)
@@ -83,8 +83,8 @@ routes:
     createTFD()
     restrictTestuser(c.req.reqMethod)
     restrictAccessTo(c, [Admin, Moderator])
-    when defined(dev): echo((if not parseBool(@"status"): "" else: (@"pluginname")), @"pluginname", @"status")
-    pluginEnableDisable((if not parseBool(@"status"): "" else: (@"pluginname")), @"pluginname", @"status")
+    when defined(dev): echo((if @"status" == "false": "" else: (@"pluginname")), @"pluginname", @"status")
+    pluginEnableDisable((if @"status" == "false": "" else: (@"pluginname")), @"pluginname", @"status")
     when defined(dev): echo recompile() else: discard recompile()
     redirect("/plugins")
 
@@ -174,13 +174,13 @@ routes:
 
   post "/settings/update":
     createTFD()
-    if parseBool(@"inbackground"):
+    if @"inbackground" == "true":
       restrictTestuser(c.req.reqMethod)
     else:
       restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
     discard execAffectedRows(db, sql"UPDATE settings SET title = ?, head = ?, navbar = ?, footer = ? WHERE id = ?", @"title", @"head", @"navbar", @"footer", "1")
-    if parseBool(@"inbackground"): resp("OK")
+    if @"inbackground" == "true": resp("OK")
     redirect("/settings/edit")
 
 
@@ -201,10 +201,10 @@ routes:
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
     try:
-      writeFile((if parseBool(@"customJs"): "public/js/js_custom.js" else: "public/js/js.js"), @"js")
-      if parseBool(@"inbackground"):
+      writeFile((if @"customJs" == "true": "public/js/js_custom.js" else: "public/js/js.js"), @"js")
+      if @"inbackground" == "true":
         resp("OK")
-      if parseBool(@"customJs"):
+      if @"customJs" == "true":
         redirect("/settings/editjscustom")
       else:
         redirect("/settings/editjs")
@@ -230,11 +230,11 @@ routes:
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
     try:
-      writeFile((if parseBool(@"customCss"): "public/css/style_custom.css" else: "public/css/style.css"), @"css")
-      if parseBool(@"inbackground"):
+      writeFile((if @"customCss" == "true": "public/css/style_custom.css" else: "public/css/style.css"), @"css")
+      if @"inbackground" == "true":
         resp("OK")
 
-      if parseBool(@"customCss"):
+      if @"customCss" == "true":
         redirect("/settings/editcsscustom")
       else:
         redirect("/settings/editcss")
@@ -473,10 +473,10 @@ routes:
     let
       filedata = request.formData.getOrDefault("file").body
       fileexts = filename.splitFile.ext
-      usesWebp = parseBool(@"webpstatus") and fileexts in [".png", ".jpg", ".jpeg"]
-    if not usesWebp and parseBool(@"checksum"):
+      usesWebp = @"webpstatus" == "true" and fileexts in [".png", ".jpg", ".jpeg"]
+    if not usesWebp and @"checksum" == "true":
       filename = getMD5(filedata) & fileexts
-    if parseBool(@"lowercase"):
+    if @"lowercase" == "true":
       filename = filename.toLowerAscii()
     if @"access" == "publicimage":
       path = "public/images" / filename
@@ -639,7 +639,7 @@ routes:
     restrictAccessTo(c, [Admin])
     discard tryExec(db, sql"DELETE FROM session WHERE userid = ?", @"userid")
     discard tryExec(db, sql"UPDATE person SET avatar = NULL, twofa = NULL, timezone = NULL WHERE id = ?", @"userid")
-    if parseBool(@"cleanout"):
+    if @"cleanout" == "true":
       discard tryExec(db, sql"DELETE FROM pages WHERE author_id = ?", @"userid")
       discard tryExec(db, sql"DELETE FROM blog WHERE author_id = ?", @"userid")
     redirect("/users")
@@ -710,11 +710,11 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     let url = encodeUrl(@"url", true).replace("%2F", "/")
     if url == getValue(db, sql"SELECT url FROM blog WHERE url = ? AND id <> ?", url, @"blogid"):
-      if parseBool(@"inbackground"):
+      if @"inbackground" == "true":
         resp("Error: A page with same URL already exists")
       redirect("/error/" & errBlogpostAlreadyExists)
     discard execAffectedRows(db, sql"UPDATE blog SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ?, pubDate = ?, viewCount = ?, modified = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", @"pubdate", @"viewcount", $toInt(epochTime()), @"blogid")
-    if parseBool(@"inbackground"): resp("OK")
+    if @"inbackground" == "true": resp("OK")
     redirect("/editpage/blog/" & @"blogid")
 
 
@@ -780,11 +780,11 @@ routes:
     restrictAccessTo(c, [Admin, Moderator])
     let url = encodeUrl(@"url", true).replace("%2F", "/")
     if url == getValue(db, sql"SELECT url FROM pages WHERE url = ? AND id <> ?", url, @"pageid"):
-      if parseBool(@"inbackground"):
+      if  @"inbackground" == "true":
         resp("Error: A page with same URL already exists")
       redirect("/error/" & errBlogpostAlreadyExists)
     discard execAffectedRows(db, sql"UPDATE pages SET author_id = ?, status = ?, url = ?, name = ?, description = ?, standardhead = ?, standardnavbar = ?, standardfooter = ?, title = ?, metadescription = ?, metakeywords = ?, category = ?, tags = ?, modified = ? WHERE id = ?", c.userid, @"status", url, @"name", @"editordata", checkboxToInt(@"standardhead"), checkboxToInt(@"standardnavbar"), checkboxToInt(@"standardfooter"), @"title", @"metadescription", @"metakeywords", @"category", @"tags", $toInt(epochTime()), @"pageid")
-    if parseBool(@"inbackground"): resp("OK")
+    if  @"inbackground" == "true": resp("OK")
     redirect("/editpage/page/" & @"pageid")
 
 
