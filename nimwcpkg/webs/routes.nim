@@ -19,15 +19,17 @@ routes:
   post "/dologin":
     createTFD()
     if @"password2" != "": # DONT TOUCH, HoneyPot: https://github.com/ThomasTJdev/nim_websitecreator/issues/43#issue-403507393
-      when not defined(release): echo "HONEYPOT: " & @"password2"
+      when defined(dev): echo "Honeypot: " & @"password2"
       redirect("/login?msg=" & errNeedToVerifyRecaptcha)
     when not defined(dev):
       when defined(recaptcha):
         if useCaptcha:
-          if not await checkReCaptcha(@"g-recaptcha-response", c.req.ip):
+          let isRecaptchaOk = not(await checkReCaptcha(@"g-recaptcha-response", c.req.ip))
+          when defined(dev): echo "Recaptcha: " & $isRecaptchaOk
+          if isRecaptchaOk:
             redirect("/login?msg=" & errNeedToVerifyRecaptcha)
-
     let (loginB, loginS) = login(c, replace(toLowerAscii(@"email"), " ", ""), replace(@"password", " ", ""), @"totp")
+    when defined(dev): echo "Mail: ", @"email", "\nPassword: ", @"password", "\nTOTP: ", @"totp", "\n(loginB, loginS): ", (loginB, loginS)
     if loginB:
       jester.setCookie("sid", loginS, daysForward(7))
       redirect("/settings")
