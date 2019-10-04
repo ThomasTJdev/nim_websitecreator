@@ -278,12 +278,14 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[isLoginOk: bool, s
   when not defined(demo):
     if email == "test@test.com":
       return (false, "Email must not be test@test.com")
+  if unlikely(email.len == 0 and pass.len == 0 and totpRaw.len == 0):
+    return (false, "Username, password and 2 Factor Authentication are all empty")
   if email.len == 0:
     return (false, "Empty username")
   if pass.len == 0:
     return (false, "Empty password")
   if totpRaw.len == 0:
-    return (false, "Empty 2 Factor Authentication Number")
+    return (false, "Empty 2 Factor Authentication")
 
   const query = sql"SELECT id, name, password, email, salt, status, secretUrl, twofa FROM person WHERE email = ? AND status <> 'Deactivated'"
 
