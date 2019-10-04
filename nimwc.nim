@@ -281,8 +281,7 @@ when isMainModule:
       discard
     of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)
 
-    if keys.len() != 0:
-      quit(0)
+    if keys.len != 0: quit("Run again with no Arguments, please see Help with: --help", 0)
 
   startupCheck(cfg)
   launcherActivated(cfg)
