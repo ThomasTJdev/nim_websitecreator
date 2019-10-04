@@ -179,7 +179,6 @@ Options:
   --version      Show Version (SemVer).
   --version-hash Show Version (Git Short Hash).
   --forcebuild   Force Recompile.
-  --showconfig   Show parsed INI configuration, compile options, command parameters.
   --newadmin     Add 1 new Admin or Moderator user (asks name, mail & password).
   --gitupdate    Update from Git origin master then force a hard reset and exit.
   --initplugin   Create 1 new empty plugin skeleton inside the folder ./tmp/
