@@ -2,9 +2,6 @@ import asyncdispatch, contra, strutils, times, os, parsecfg, smtp, logging
 
 import ../constants/constants
 
-when defined(postgres): import db_postgres
-else: import db_sqlite
-
 
 ## Base Header for SMTP.
 const otherHeaders = @[("Content-Type", "text/html; charset=\"UTF-8\"")]
