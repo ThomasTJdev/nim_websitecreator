@@ -46,6 +46,12 @@
         <td> <b>Nim Version</b> </td>       <td> $NimVersion </td>
       </tr>
       <tr>
+        <td> <b>NimWC Version</b> </td>     <td> $NimblePkgVersion </td>
+      </tr>
+      <tr>
+        <td> <b>NimWC Git Commit</b> </td>  <td> $commitHash </td>
+      </tr>
+      <tr>
         <td> <b>Firejail Version</b> </td>  <td>  $jailv </td>
       </tr>
       <tr>
@@ -110,6 +116,9 @@
       </tr>
       <tr>
         <td> <b>Update from GIT enabled</b></td>   <td>${ defined(gitupdate) }</td>
+      </tr>
+      <tr>
+        <td> <b>Compile Options</b></td>    <td> $compileOptions </td>
       </tr>
       <tr>
         <td> <b>Free Memory</b> </td>       <td>${ getFreeMem() }</td>
