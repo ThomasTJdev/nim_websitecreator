@@ -285,6 +285,19 @@ routes:
     restrictAccessTo(c, [Admin])
     resp genMainAdmin(c, genServerInfo())
 
+  get "/settings/logsbackup":
+    createTFD()
+    restrictTestuser(c.req.reqMethod)
+    restrictAccessTo(c, [Admin])
+    echo backupOldLogs(splitPath(dict.getSectionValue("Logging", when defined(release): "logfile" else: "logfiledev")).head)
+    redirect("/settings")
+
+  get "/settings/databasebackup":
+    createTFD()
+    restrictTestuser(c.req.reqMethod)
+    restrictAccessTo(c, [Admin])
+    echo backupDb(dict.getSectionValue("Database", when defined(postgres): "name" else: "host"), checksum=false, sign=false, targz=false)
+    redirect("/settings")
 
   get "/settings/termsofservice":
     createTFD()
