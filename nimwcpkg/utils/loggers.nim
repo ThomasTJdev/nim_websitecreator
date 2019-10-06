@@ -1,5 +1,5 @@
 import os, parsecfg, times, logging, strutils
-import ../constants/constants, ../emails/emails
+import ../emails/emails
 
 
 let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
