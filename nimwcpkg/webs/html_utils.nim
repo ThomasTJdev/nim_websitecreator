@@ -4,8 +4,6 @@ from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
 from packages/docutils/rst import RstParseOption
 
-import ../constants/constants
-
 when defined(recaptcha): include captchas
 
 
