@@ -4,7 +4,7 @@ import contra        # https://github.com/juancarlospaco/nim-contra#contra
 
 import
   nimwcpkg/constants/constants, nimwcpkg/enums/enums,
-  nimwcpkg/databases/databases, nimwcpkg/files/files
+  nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
@@ -101,19 +101,6 @@ proc pluginSkeleton() =
   writeFile(folder / "plugin.json",
     pluginJson.format(capitalizeAscii(pluginName), pluginName, user, NimblePkgVersion.substr(0, 2)))
   quit("\nNimWC created a new Plugin skeleton, happy hacking, bye.\n", 0)
-
-
-proc backupOldLogs(logFilePath: string): tuple[output: TaintedString, exitCode: int] =
-  ## Compress all old rotated Logs.
-  assert existsDir(logFilePath), "logFilePath File not found"
-  assert findExe("tar").len > 0, "Tar not found"
-  var files2tar: seq[string]
-  for logfile in walkFiles(logFilePath / "*.log"): files2tar.add logfile
-  if files2tar.len > 1:
-    let cmd = cmdTar & "logs-" & replace($now(), ":", "_") & ".tar.gz " & files2tar.join" "
-    result = execCmdEx(cmd)
-    if result.exitCode == 0:
-      for filename in files2tar: discard tryRemoveFile(filename)
 
 
 proc handler() {.noconv.} =
