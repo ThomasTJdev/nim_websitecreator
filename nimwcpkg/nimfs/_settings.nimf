@@ -95,7 +95,7 @@
     <hr>
     <label class="label">Server</label>
     <div class="buttons columns is-mobile">
-    <div class="column"><a class="button is-small restartServer" title="Force Server Restart, 1~9 Seconds delay" onclick="${ notifyHtml("Server Restarting now, please wait a few seconds") }"
+    <div class="column"><a class="button is-small restartServer" title="Force Server Restart, 9 Seconds delay" onclick="${ notifyHtml("Server Restarting now, please wait a few seconds") }"
     #
     #if c.rank == Admin:
       href="/settings/forcerestart"
@@ -116,13 +116,28 @@
     #end if
     #
     >Config</a></div>
-    <div class="column"><a class="button is-small"
+    <div class="column"><a class="button is-small" title="Server Logs"
     #
     #if c.rank == Admin:
       href="/settings/logs"
     #end if
     #
     >Logs</a></div>
+    <div class="column"><a class="button is-small" title="Logs Compressed Backup"
+    #
+    #if c.rank == Admin:
+      href="/settings/logsbackup"
+    #end if
+    #
+    >Backup Logs</a></div>
+
+    <div class="column"><a class="button is-small" title="Database Compressed Backup"
+    #
+    #if c.rank == Admin:
+      href="/settings/databasebackup"
+    #end if
+    #
+    >Backup Database</a></div>
     </div>
     <hr>
     #
