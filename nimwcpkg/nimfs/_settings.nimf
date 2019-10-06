@@ -130,7 +130,6 @@
     #end if
     #
     >Backup Logs</a></div>
-
     <div class="column"><a class="button is-small" title="Database Compressed Backup"
     #
     #if c.rank == Admin:
