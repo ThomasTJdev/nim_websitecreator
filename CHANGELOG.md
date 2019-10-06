@@ -10,6 +10,7 @@
 - Add `--backupdb` Full backup of database (Raw SQL plain text file).
 - Add `--backupdb-gpg` Compressed signed full backup of database (GPG+SHA512+TarGz).
 - Add `--backuplogs` Compressed full backup of all old unused rotated Logs (TarGz).
+- Add button for Admin that can Backup Database and Logs from Dashboard.
 - Internal modules reorder for performance and DRY.
 - Update Docs
 - Fix #119
