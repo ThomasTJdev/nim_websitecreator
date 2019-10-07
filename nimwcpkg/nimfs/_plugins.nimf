@@ -8,7 +8,7 @@
 #
 #proc genPluginsRepo(c: var TData): string =
   <div id="plugins">
-  <h1 style="text-align: center">Plugin Store</h1>
+  <h1 style="text-align: center">App Store</h1>
   #
   #if not(findExe"git".len > 0):
     <div class="notification is-danger">
