@@ -258,7 +258,7 @@ when isMainModule:
       of "newadmin": createAdminUser(db)
       of "insertdata":
         if "bootstrap" in commandLineParams(): createStandardData(db, cssBootstrap, on)
-        elif "clean" in commandLineParams():   createStandardData(db, cssClean, on)
+        elif "water" in commandLineParams():   createStandardData(db, cssWater, on)
         else:                                  createStandardData(db, cssBulma, on)
       of "vacuumdb": echo vacuumDb(db)
       of "backupdb-gpg": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"))
