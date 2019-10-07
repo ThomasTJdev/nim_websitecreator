@@ -208,9 +208,9 @@ These arguments should be prepended to executable file, e.g. `./nimwc cdata`
 * `--backupdb-gpg` = Compressed signed full backup of database.
 * `--newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
 * `--insertdata` = Insert standard data, e.g `--insertdata bulma` (this will override existing data)
-  * `bulma` = Use Bulma CSS
+  * `bulma` = Use Bulma CSS, No JS required
   * `bootstrap` = Use Bootstrap and jQuery
-  * `clean` = No framework is used
+  * `water` = Water CSS framework, No JS, HTML Classless (No classes on HTML required)
 
 
 ## Compile options:
