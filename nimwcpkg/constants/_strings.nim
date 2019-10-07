@@ -186,9 +186,9 @@ Options:
   --backupdb     Full backup of database (Raw SQL plain text file).
   --backupdb-gpg Compressed signed full backup of database (GPG+SHA512+TarGz).
   --backuplogs   Compressed full backup of all old unused rotated Logs (TarGz).
-  --insertdata bulma     Insert https://bulma.io data into database (default, overrides data)
-  --insertdata bootstrap Insert https://getbootstrap.com data into database (overrides data)
-  --insertdata clean     Insert clean (no framework) standard data into database (overrides data)
+  --insertdata bulma     Insert https://bulma.io data to database (No JS, Default, overrides data)
+  --insertdata bootstrap Insert https://getbootstrap.com data to database (jQuery, overrides data)
+  --insertdata water     Insert Water CSS data to database (No JS, HTML Classless, overrides data)
   --newdb        Generates a database with standard tables (Wont override data).
                   If no database exists, new db will be initialized automatically.
 
