@@ -12,6 +12,8 @@
 - Add `--backuplogs` Compressed full backup of all old unused rotated Logs (TarGz).
 - Add button for Admin that can Backup Database and Logs from Dashboard.
 - Internal modules reorder for performance and DRY.
+- Removed `--insertdata clean`, not too useful.
+- Add `--insertdata water` Water CSS framework, No JS, classless HTML (No classes on HTML required), is like a better `--insertdata clean` https://u.nu/yosc
 - Update Docs
 - Fix #119
 - Minor bugs
