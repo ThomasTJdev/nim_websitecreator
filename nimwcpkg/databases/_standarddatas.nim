@@ -8,7 +8,7 @@ proc standardDataSettings*(db: DbConn, dataStyle = cssBulma) =
   case dataStyle
   of cssBootstrap:
     discard insertID(db, sqlDataSettings, title, headBootstrap, navbarBootstrap, footer)
-  of cssClean:
+  of cssWater:
     discard insertID(db, sqlDataSettings, title, headClean, navbarClean, footerClean)
   else:
     discard insertID(db, sqlDataSettings, title, head, navbar, footer)
@@ -24,7 +24,7 @@ proc standardDataFrontpage*(db: DbConn, dataStyle = cssBulma) =
   const sqlFrontpageData = sql"""
     INSERT INTO pages (author_id, status, url, name, description, standardhead, standardnavbar, standardfooter, title, metadescription, metakeywords)
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
-  if dataStyle == cssClean:
+  if dataStyle == cssWater:
     discard insertID(db, sqlFrontpageData, "1", "2", "frontpage", "Frontpage", frontpageClean, "1", "1", "1", "", "", "")
   else:
       discard insertID(db, sqlFrontpageData, "1", "2", "frontpage", "Frontpage", frontpage, "1", "1", "1", "NimWC Nim Website Creator", "NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.", "website,blog,nim,nimwc")
@@ -83,7 +83,7 @@ proc createStandardData*(db: DbConn, dataStyle = cssBulma, confirm = false) {.di
   info("Standard data: Inserting standard data.")
   standardDataSettings(db, dataStyle)
   standardDataFrontpage(db, dataStyle)
-  if dataStyle != cssClean:
+  if dataStyle != cssWater:
     standardDataAbout(db)
     standardDataBlogpost1(db)
     standardDataBlogpost2(db)
