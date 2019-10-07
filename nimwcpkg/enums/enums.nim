@@ -9,7 +9,7 @@ type
   CSSFramework* = enum          ## CSS Frameworks enumeration.
     cssBulma = "bulma"
     cssBootstrap = "bootstrap"
-    cssClean = "clean"
+    cssWater = "water"
 
   ConfigSections* = enum        ## Configuration Sections.
     cfgDatabase = "Database"
