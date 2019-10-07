@@ -130,9 +130,9 @@ const
 
   startup_msg* = """
 
-  Package:      Nim Website Creator - https://NimWC.org
-  Description:  Nim open-source website framework that is simple to use.
-  Author name:  Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (http://github.com/juancarlospaco)
+  Package:     Nim Website Creator https://NimWC.org
+  Description: Nim open-source website framework that is simple to use.
+  Author name: Thomas Toftgaard Jarløv (https://ttj.dk) & Juan Carlos (http://github.com/juancarlospaco)
 
   """
 
