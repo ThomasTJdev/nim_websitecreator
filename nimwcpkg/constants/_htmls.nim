@@ -46,12 +46,16 @@ const
   headClean* = """
 
     <meta charset="utf-8">
-    <meta name="generator" content="">
+    <meta name="generator" content="Nim Website Creator">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="author" href="humans.txt">
-    <link rel="stylesheet" href="/css/style.css">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" href="/images/logo/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/images/logo/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/images/logo/favicon-192x192.png" sizes="192x192">
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/favicon-180x180.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css"> <!-- Delete this line to remove CSS -->
     <link rel="stylesheet" href="/css/style_custom.css">
-    <script src="/js/js.js" crossorigin="anonymous"></script>
     <script src="/js/js_custom.js" crossorigin="anonymous"></script>
 
   """.unindent
@@ -118,12 +122,10 @@ const
 
   navbarClean* = """
 
-    <nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item logo" href="/">Home</a>
-        <a class="navbar-item logo" href="/blog">Blog</a>
-        <a class="button is-small is-outlined" href="/login">Login</a>
-      </div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/blog">Blog</a>
+      <a href="/login">Login</a>
     </nav>
 
   """.unindent
@@ -184,10 +186,8 @@ const
 
   footerClean* = """
 
-    <footer class="footer">
-      <div id="footerInside" class="content has-text-centered">
-        <p> &#169; 2019</p>
-      </div>
+    <footer>
+      <center> &#169; 2019 </center>
     </footer>
 
   """.unindent
@@ -297,9 +297,167 @@ const
 
   frontpageClean* = """
 
-    <style> #background{background-image:none} </style>
-    <h1>Frontpage</h1>
-    <p>Login to edit</p>
+    <style> #background{ background-image: none !important } </style>
+    <div id="frontpage">
+      <div>
+        <h1>Nim Website Creator</h1>
+        <h2>Open-source website framework</h2>
+        <h2>
+          <a href="#start">Get started today!</a>
+        </h2>
+      </div>
+      <div id="start">
+        <h2>NimWC is a new tool for<br>
+        generating websites on the fly</h2>
+        <div>
+          <ul>
+            <li>Explore the dashboard with access to the plugin store</li>
+            <li>Admin configuration of the backend from the browser</li>
+            <li>Custom profiles with Libravatar/Gravatar</li>
+            <li>SEO optimized</li>
+            <li>Secured by self-firejailing and 2FA</li>
+            <li>1 language for the whole stack</li>
+            <li>C speed</li>
+            <li>Python-like syntax</li>
+            <li>Seamlessly integration with anything that has a C API</li>
+            <li>.. and much more!</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <h4>One click install </h4>
+                <p>Install using Nim's <a href="http://nimble.directory">package manager Nimble</a>,
+                <a href="https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/docker">use the Docker template</a> or
+                <a href="https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/autoinstall.sh">use the AutoInstall script</a>.</p>
+                <br>
+                <p>For more options <a href="https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops">checkout the DevOps resources</a>.</p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <h4>Plugin Store</h4>
+                <p>Its like an App Store but for features. Install plugins within the browser - a feature, a click.</p>
+                <br>
+                <p><a href="https://github.com/ThomasTJdev/nimwc_plugins#contribute">Code your ideas into features, create your own Plugin</a>.</p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <h4>Speed + Security </h4>
+                <p>Written using <a href="https://nim-lang.org">the Nim programming language</a> to <a href="https://nim-lang.org/features.html">ensure high performance</a>.</p>
+                <br>
+                <p><a href="https://github.com/ThomasTJdev/nim_websitecreator#security">Firejail and 2 Factor Authentication is enabled by default.</a></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2>Install & Run</h2>
+        <div>
+          <div>
+            <div>
+              <div>
+                <div>
+                  <h4>Nimble</h4>
+                  <p>
+                    <label>Install:</label>
+                    <kbd>nimble install nimwc</kbd>
+                  </p>
+                  <p>
+                    <label>Run:</label>
+                    <kbd>nimwc</kbd>
+                  </p>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <h4>Compile</h4>
+                  <p>
+                    <label>Clone:</label>
+                    <kbd>git clone https://github.com/ThomasTJdev/nim_websitecreator.git</kbd>
+                  </p>
+                  <p>
+                    <label>Compile:</label>
+                    <kbd>nim c -r nimwc.nim</kbd>
+                  </p>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <h4>Auto install</h4>
+                  <p>
+                    <label>Install:</label>
+                    <kbd>curl https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/devops/autoinstall.sh -sSf | sh</kbd>
+                  </p>
+                  <p>
+                    <span>Follow the tutorial in the terminal</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <br>
+        <iframe width="100%" height="480" src="https://www.youtube-nocookie.com/embed/3R1l4Ha0tDI" frameborder=0 allowfullscreen
+        style="height:480px !important;">https://youtu.be/3R1l4Ha0tDI</iframe>
+      </div>
+      <div>
+        <h2>Less code, more performance<br>use Nim-Lang</h2>
+        <h4>
+          Nim compiles to tiny single-file which is a dependency-free optimized native binaries.
+          The C sources will still compile 100 years in the future, will your stack compile 1 year in the future?.</h4>
+      </div>
+      <div>
+        <div>
+          <div>
+            <div>
+              <div>
+                <div>
+                  <h4>Try NimWC</h4>
+                  <p>You can try NimWC without registration or installation.</p>
+                  <br>
+                  <p><a href="/login">Login</a> with the test users credentials to explore NimWC options.</p>
+                </div>
+              </div>
+              <div>
+                <div>
+                  <h4>Learn more</h4>
+                  <p>Visit the <a href="https://github.com/ThomasTJdev/nim_websitecreator">Github page</a> to see the examples on how to use NimWC.</p>
+                  <br>
+                  <p>Got a question? Open an issue!.</p>
+                  <br>
+                  <a href="https://github.com/ThomasTJdev/nim_websitecreator" data-icon="octicon-star" data-size="large" aria-label="Star ThomasTJdev/nim_websitecreator on GitHub">Star</a>
+                  <a href="https://github.com/ThomasTJdev/nim_websitecreator/fork" data-icon="octicon-repo-forked" data-size="large" aria-label="Fork ThomasTJdev/nim_websitecreator on GitHub">Fork</a>
+                  <a href="https://github.com/ThomasTJdev/nim_websitecreator/issues" data-icon="octicon-issue-opened" data-size="large" aria-label="Issue ThomasTJdev/nim_websitecreator on GitHub">Issue</a>
+                </div>
+              </div>
+              <div>
+              <div>
+                <h4>Keep pushing the limits</h4>
+                <p>Can you write YAML? then you can code a web app and a NimWC plugin!</p>
+                <br>
+                <p><b>Keep It Simple</b><br>this is how a <i>Hello World</i> looks like:</p>
+                <textarea rows=3 readonly disabled >
+                routes:
+                  get "/yourUrlHere":
+                    resp "Hello World"</textarea>
+                <br>
+                <small><a href="https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/basico/jester/hello_web_3.nim#L38">A more complete example</a></small>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+      </div>
+    </div>
+    <script src="https://buttons.github.io/buttons.js" crossorigin="anonymous" async defer ></script>
 
   """.unindent
 
