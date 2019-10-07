@@ -1,4 +1,4 @@
-## v5.5.5
+## v6.0.0
 ### Changes
 - Nim V1.0 compatible
 - PackedJSON Compile-Time optional compatible performance optimization, via `-d:packedjson` https://github.com/Araq/packedjson#packedjson
