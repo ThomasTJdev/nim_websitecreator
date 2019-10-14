@@ -24,7 +24,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
   <link rel="stylesheet" href="/css/style_admin.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous" defer></script>
-  <script src="/js/js_admin.js" crossorigin="anonymous" async defer ></script>
+  <script src="/js/js_admin.js" crossorigin="anonymous"></script>
   </head>
   <body class="body">
   <div id="pagewrapper" class="container is-fluid">
