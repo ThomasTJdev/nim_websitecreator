@@ -1,6 +1,6 @@
 ## Static string HTML constants, do NOT put any run-time logic here, only consts.
 ## Do NOT import this file directly, instead import ``constants.nim``
-from strutils import unindent
+from strutils import unindent, strip
 
 
 const
@@ -40,7 +40,7 @@ const
     <script src="/js/js.js" crossorigin="anonymous"></script>
     <script src="/js/js_custom.js" crossorigin="anonymous"></script>
 
-  """.unindent
+  """.unindent.strip
 
 
   headClean* = """
@@ -58,7 +58,7 @@ const
     <link rel="stylesheet" href="/css/style_custom.css">
     <script src="/js/js_custom.js" crossorigin="anonymous"></script>
 
-  """.unindent
+  """.unindent.strip
 
 
   headBootstrap* = """
@@ -79,7 +79,7 @@ const
     <script src="/js/js.js" crossorigin="anonymous"></script>
     <script src="/js/js_custom.js" crossorigin="anonymous"></script>
 
-  """.unindent
+  """.unindent.strip
 
 
   navbar* = """
@@ -117,7 +117,7 @@ const
       </div>
     </nav>
 
-  """.unindent
+  """.unindent.strip
 
 
   navbarClean* = """
@@ -128,7 +128,7 @@ const
       <a href="/login">Login</a>
     </nav>
 
-  """.unindent
+  """.unindent.strip
 
 
   navbarBootstrap* = """
@@ -181,7 +181,7 @@ const
       </div>
     </nav>
 
-  """.unindent
+  """.unindent.strip
 
 
   footerClean* = """
@@ -190,7 +190,7 @@ const
       <center> &#169; 2019 </center>
     </footer>
 
-  """.unindent
+  """.unindent.strip
 
 
   footer* = """
@@ -220,7 +220,7 @@ const
       </div>
     </div>
 
-  """.unindent
+  """.unindent.strip
 
 
   about* = """
@@ -292,7 +292,7 @@ const
       </div>
     </div>
 
-  """.unindent
+  """.unindent.strip
 
 
   frontpageClean* = """
@@ -459,7 +459,7 @@ const
     </div>
     <script src="https://buttons.github.io/buttons.js" crossorigin="anonymous" async defer ></script>
 
-  """.unindent
+  """.unindent.strip
 
 
   frontpage* = """
@@ -627,7 +627,7 @@ const
     </div>
     <script src="https://buttons.github.io/buttons.js" crossorigin="anonymous" async defer ></script>
 
-  """.unindent
+  """.unindent.strip
 
 
   blogpost1* = """
@@ -645,7 +645,7 @@ const
       <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </div>
 
-  """.unindent
+  """.unindent.strip
 
 
   blogpost2* = """
@@ -694,7 +694,7 @@ const
       </div>
     </div>
 
-  """.unindent
+  """.unindent.strip
 
 
   blogpost3* = """
@@ -748,7 +748,7 @@ const
       </div>
     </div>
 
-  """.unindent
+  """.unindent.strip
 
 
   adminErrorMsg* = """
@@ -767,7 +767,7 @@ const
       <br>
     </center>
 
-  """.unindent
+  """.unindent.strip
 
 
   mailStyleFrom* = """
@@ -775,7 +775,7 @@ const
     <hr style="margin-top:40px;margin-bottom:20px;">
     <div> <b>Kind regards</b> </div>
 
-  """.unindent
+  """.unindent.strip
 
 
   mailStyleHeaderMsg* = """
@@ -793,7 +793,7 @@ const
           </div>
           <div style="padding:0 9px">
 
-  """.unindent
+  """.unindent.strip
 
 
   mailStyleFooterMsg* = """
@@ -807,7 +807,7 @@ const
       </body>
     </html>
 
-  """.unindent
+  """.unindent.strip
 
 
   activationMsg* = """
@@ -833,7 +833,7 @@ const
     <br><br>
     Thank you for registering and becoming a part of $6!.
 
-  """.unindent
+  """.unindent.strip
 
 
   registrationMsg* = """
@@ -848,7 +848,7 @@ const
     <br><br>
     Thank you for registering and becoming a part of $2!.
 
-  """.unindent
+  """.unindent.strip
 
 
   pluginHtmlListItem* = """
@@ -859,4 +859,4 @@ const
       <div class="disablePlugin" title="Turn OFF"> Stop  </div>
     </li>
 
-  """.unindent
+  """.unindent.strip
