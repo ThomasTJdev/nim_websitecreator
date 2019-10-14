@@ -65,7 +65,7 @@
       #if useCaptcha:
           <div id="recaptcha">
             <div class="g-recaptcha" data-sitekey="${ recaptchaSiteKey }" data-theme="light" style="transform:scale(0.93);-webkit-transform:scale(0.93);transform-origin:0 0;-webkit-transform-origin:0 0;"></div>
-            <script src="https://www.google.com/recaptcha/api.js" crossorigin="anonymous" async defer ></script>
+            <script src="https://www.google.com/recaptcha/api.js" crossorigin="anonymous"></script>
           </div>
       #end if
       #
