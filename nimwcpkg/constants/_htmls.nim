@@ -195,30 +195,19 @@ const
 
   footer* = """
 
-    <div id="footerInside" class="content has-text-centered">
-      <div class="container-fluid">
-        <div class="columns row">
-          <div class="column col-12 col-md-3 footerLeft">
-            <h5>
-              Copyright
-            </h5>
-            <p>
-              <p>&#169; 2019 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a> & <a href="https://github.com/juancarlospaco"><u>Juan Carlos</u></a></p>
-            </p>
-          </div>
-          <div class="column col-12 col-md-6 footerMiddle">
-          </div>
-          <div class="column col-12 col-md-3 footerRight">
-            <h5>
-              Nim Website Creator
-            </h5>
-            <p>
-              <p>License: PPL - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></p>
-            </p>
-          </div>
-        </div>
+  <div class="container" class="footer is-light">
+    <div class="columns">
+      <div class="column is-4 has-text-centered is-hidden-tablet"><a class="title is-4" href="/">Nim Website Creator</a></div>
+      <div class="column is-4">
+        <div class="level"><p>&#169; 2019 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a> & <a href="https://github.com/juancarlospaco"><u>Juan Carlos</u></a></p></div>
+      </div>
+      <div class="column is-4 has-text-centered is-hidden-mobile"><a class="title is-4" href="/">Nim Website Creator</a></div>
+      <div class="column is-4 has-text-right">
+        <div class="level"><a class="level-item" href="https://nim-lang.org">Powered by Nim</a></div>
       </div>
     </div>
+    <p class="subtitle has-text-centered is-6">&copy; PPL - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></p><br>
+  </div>
 
   """.unindent.strip
 
