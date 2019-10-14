@@ -2,12 +2,15 @@
 #
 #
 #proc genFormLogin(c: var TData, errorMsg = ""): string =
+  #let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings")
   #if not c.loggedIn:
-    #let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings")
     <head>
     ${ standardElements[0] }
     </head>
-    <div id="login">
+    <section class="section" >
+    <div class="container has-text-centered">
+    <div class="columns is-centered">
+    <div class="column is-5 is-4-desktop">
     <form name="login" action="/dologin" method="POST" class="box">
     <h3 style="line-height:1.9rem;">Login to<br>
     ${ standardElements[3] }
@@ -48,7 +51,7 @@
     </div>
       </div>
       <details class="field form-group">
-        <summary class="label">2 Factor Auth (TOTP)</summary>
+        <summary class="label" style="cursor:pointer">2 Factor Auth (TOTP)</summary>
         <div class="control has-icons-left has-icons-right">
           <input type="tel" class="input is-rounded has-text-centered is-family-monospace" name="totp" placeholder="6 Digit Number" min="000000" max="999999" step="1" maxlength="6" dir="auto" pattern="\d*" autocomplete="off"
     #
@@ -87,15 +90,30 @@
     ## DONT TOUCH, HoneyPot: https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377
     </form>
     </div>
-
+    </div>
+    </div>
+    </section>
     <footer>
-      ${standardElements[2]}
+      ${ standardElements[2] }
     </footer>
     #
     #else:
-      <div class="notification is-danger" style="text-align: center">
-        <h1>You are already logged in!</h1>
-      </div>
+      <head>
+      ${ standardElements[0] }
+      <meta http-equiv="refresh" content="5; url=/"/>
+      </head>
+      <section class="section">
+        <div class="container has-text-centered">
+          <div class="columns is-centered">
+            <div class="column is-7">
+              <h1 class="title is-1" data-config-id="header">You are already logged in!</h1>
+            </div>
+          </div><a class="button is-primary" href="/" data-config-id="primary-action">Go Back Home</a>
+        </div>
+      </section>
+      <footer>
+      ${ standardElements[2] }
+      </footer>
     #end if
     #
 #end proc
