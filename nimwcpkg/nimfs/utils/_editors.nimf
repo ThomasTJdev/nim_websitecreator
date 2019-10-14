@@ -35,8 +35,8 @@
   <div id="save" data-ischanged="0" style="display:none;"></div>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.css" integrity="sha256-o/v/5fOniPHMAww4EAIfRBFV0SeoqksPrY0Yq5x+wSM=" crossorigin="anonymous"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/theme/monokai.min.css" integrity="sha256-6ov3WWd9ybfZPeJBlXBgQuD/aLhTRCEp5kBhqD9ke0o=" crossorigin="anonymous"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.min.js" integrity="sha256-U/4XQwZXDFDdAHjIZt1Lm7sFfmMiFDZzFYprq6XJ0gk=" crossorigin="anonymous" async defer ></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/javascript/javascript.min.js" integrity="sha256-MyRbKGolllWYWwxW8jH3jYdhK0p0LpgNjR8PqCa/UNQ=" crossorigin="anonymous" async defer ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.min.js" integrity="sha256-U/4XQwZXDFDdAHjIZt1Lm7sFfmMiFDZzFYprq6XJ0gk=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/javascript/javascript.min.js" integrity="sha256-MyRbKGolllWYWwxW8jH3jYdhK0p0LpgNjR8PqCa/UNQ=" crossorigin="anonymous"></script>
   <script src="/js/codemirror_custom.js" crossorigin="anonymous"></script>
   <script src="/js/editors.js" crossorigin="anonymous"></script>
 #end func
@@ -46,8 +46,8 @@
   <div id="save" data-ischanged="0" style="display:none;"></div>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.css" integrity="sha256-o/v/5fOniPHMAww4EAIfRBFV0SeoqksPrY0Yq5x+wSM=" crossorigin="anonymous" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/theme/monokai.min.css" integrity="sha256-6ov3WWd9ybfZPeJBlXBgQuD/aLhTRCEp5kBhqD9ke0o=" crossorigin="anonymous" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.min.js" integrity="sha256-U/4XQwZXDFDdAHjIZt1Lm7sFfmMiFDZzFYprq6XJ0gk=" crossorigin="anonymous" async defer ></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/css/css.min.js" integrity="sha256-YVb7n24DLwrjN0DghcwJYL17MI/X7e3c4EJZr6PwNdY=" crossorigin="anonymous" async defer ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.min.js" integrity="sha256-U/4XQwZXDFDdAHjIZt1Lm7sFfmMiFDZzFYprq6XJ0gk=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/css/css.min.js" integrity="sha256-YVb7n24DLwrjN0DghcwJYL17MI/X7e3c4EJZr6PwNdY=" crossorigin="anonymous"></script>
   <script src="/js/codemirror_custom.js" crossorigin="anonymous"></script>
   <script src="/js/editors.js" crossorigin="anonymous"></script>
 #end func
