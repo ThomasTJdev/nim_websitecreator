@@ -199,7 +199,7 @@ const
     <div class="columns">
       <div class="column is-4 has-text-centered is-hidden-tablet"><a class="title is-4" href="/">Nim Website Creator</a></div>
       <div class="column is-4">
-        <div class="level"><p>&#169; 2019 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a> & <a href="https://github.com/juancarlospaco"><u>Juan Carlos</u></a></p></div>
+        <div class="level"><p>2019 - <a href="https://ttj.dk"><u>Thomas T. Jarløv</u></a> & <a href="https://github.com/juancarlospaco"><u>Juan Carlos</u></a></p></div>
       </div>
       <div class="column is-4 has-text-centered is-hidden-mobile"><a class="title is-4" href="/">Nim Website Creator</a></div>
       <div class="column is-4 has-text-right">
