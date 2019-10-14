@@ -1,7 +1,6 @@
 ## Static string HTML constants, do NOT put any run-time logic here, only consts.
 ## Do NOT import this file directly, instead import ``constants.nim``
-from strutils import unindent, strip
-
+import ../webs/html_utils
 
 const
   inputNumber* = r"""
@@ -23,7 +22,7 @@ const
     </script>
   """
 
-  head* = """
+  head* = minifyHtml"""
 
     <meta charset="utf-8">
     <meta name="generator" content="Nim Website Creator">
@@ -40,10 +39,10 @@ const
     <script src="/js/js.js" crossorigin="anonymous"></script>
     <script src="/js/js_custom.js" crossorigin="anonymous"></script>
 
-  """.unindent.strip
+  """
 
 
-  headClean* = """
+  headClean* = minifyHtml"""
 
     <meta charset="utf-8">
     <meta name="generator" content="Nim Website Creator">
@@ -54,14 +53,14 @@ const
     <link rel="icon" type="image/png" href="/images/logo/favicon-32x32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="/images/logo/favicon-192x192.png" sizes="192x192">
     <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/favicon-180x180.png">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css"> <!-- Delete this line to remove CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css"> <!-- Delete this line to remove Water CSS -->
     <link rel="stylesheet" href="/css/style_custom.css">
     <script src="/js/js_custom.js" crossorigin="anonymous"></script>
 
-  """.unindent.strip
+  """
 
 
-  headBootstrap* = """
+  headBootstrap* = minifyHtml"""
 
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="author" href="humans.txt">
@@ -79,10 +78,10 @@ const
     <script src="/js/js.js" crossorigin="anonymous"></script>
     <script src="/js/js_custom.js" crossorigin="anonymous"></script>
 
-  """.unindent.strip
+  """
 
 
-  navbar* = """
+  navbar* = minifyHtml"""
 
     <nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
@@ -117,10 +116,10 @@ const
       </div>
     </nav>
 
-  """.unindent.strip
+  """
 
 
-  navbarClean* = """
+  navbarClean* = minifyHtml"""
 
     <nav>
       <a href="/">Home</a>
@@ -128,10 +127,10 @@ const
       <a href="/login">Login</a>
     </nav>
 
-  """.unindent.strip
+  """
 
 
-  navbarBootstrap* = """
+  navbarBootstrap* = minifyHtml"""
 
     <nav id="navbar" class="navbar navbar-expand-md navbar-light">
       <div id="navbarInside">
@@ -181,19 +180,19 @@ const
       </div>
     </nav>
 
-  """.unindent.strip
+  """
 
 
-  footerClean* = """
+  footerClean* = minifyHtml"""
 
     <footer>
       <center> &#169; 2019 </center>
     </footer>
 
-  """.unindent.strip
+  """
 
 
-  footer* = """
+  footer* = minifyHtml"""
 
   <div class="container" class="footer is-light">
     <div class="columns">
@@ -209,10 +208,10 @@ const
     <p class="subtitle has-text-centered is-6">&copy; PPL - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></p><br>
   </div>
 
-  """.unindent.strip
+  """
 
 
-  about* = """
+  about* = minifyHtml"""
 
     <div id="about">
       <div class="title reveal reveal-bottom">
@@ -281,7 +280,7 @@ const
       </div>
     </div>
 
-  """.unindent.strip
+  """
 
 
   frontpageClean* = """
@@ -448,7 +447,7 @@ const
     </div>
     <script src="https://buttons.github.io/buttons.js" crossorigin="anonymous" async defer ></script>
 
-  """.unindent.strip
+  """
 
 
   frontpage* = """
@@ -616,10 +615,10 @@ const
     </div>
     <script src="https://buttons.github.io/buttons.js" crossorigin="anonymous" async defer ></script>
 
-  """.unindent.strip
+  """
 
 
-  blogpost1* = """
+  blogpost1* = minifyHtml"""
 
     <div id="mainContainer" class="blogpage">
       <h1>Insert blog title</h1>
@@ -634,10 +633,10 @@ const
       <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
     </div>
 
-  """.unindent.strip
+  """
 
 
-  blogpost2* = """
+  blogpost2* = minifyHtml"""
 
     <style>
       body [class*="para_"] {
@@ -683,10 +682,10 @@ const
       </div>
     </div>
 
-  """.unindent.strip
+  """
 
 
-  blogpost3* = """
+  blogpost3* = minifyHtml"""
 
     <div style="background: white; color: black; padding: 20px; max-width: 1200px; padding: 20px; border-radius: 10px; margin-left: auto; margin-right: auto; margin-top: 100px;">
       <h1>Standard blog
@@ -737,7 +736,7 @@ const
       </div>
     </div>
 
-  """.unindent.strip
+  """
 
 
   adminErrorMsg* = """
@@ -756,18 +755,18 @@ const
       <br>
     </center>
 
-  """.unindent.strip
+  """
 
 
-  mailStyleFrom* = """
+  mailStyleFrom* = minifyHtml"""
 
     <hr style="margin-top:40px;margin-bottom:20px;">
     <div> <b>Kind regards</b> </div>
 
-  """.unindent.strip
+  """
 
 
-  mailStyleHeaderMsg* = """
+  mailStyleHeaderMsg* = minifyHtml"""
 
     <!DOCTYPE html>
       <html lang="EN" style="3D&quot;background:#FAFAFA;min-height:100%=">
@@ -782,10 +781,10 @@ const
           </div>
           <div style="padding:0 9px">
 
-  """.unindent.strip
+  """
 
 
-  mailStyleFooterMsg* = """
+  mailStyleFooterMsg* = minifyHtml"""
 
         </div>
           <div style="background:#171921;border-color:#123d6d;height:35px;width:100%;margin-top:20px;text-align:center;">
@@ -796,10 +795,10 @@ const
       </body>
     </html>
 
-  """.unindent.strip
+  """
 
 
-  activationMsg* = """
+  activationMsg* = minifyHtml"""
 
     <h3>Hello $1 </h3>
     <br><br>
@@ -822,10 +821,10 @@ const
     <br><br>
     Thank you for registering and becoming a part of $6!.
 
-  """.unindent.strip
+  """
 
 
-  registrationMsg* = """
+  registrationMsg* = minifyHtml"""
 
     <h3>Hello $1 </h3>
     <br><br>
@@ -837,10 +836,10 @@ const
     <br><br>
     Thank you for registering and becoming a part of $2!.
 
-  """.unindent.strip
+  """
 
 
-  pluginHtmlListItem* = """
+  pluginHtmlListItem* = minifyHtml"""
 
     <li data-plugin="$1" class="pluginSettings $6" data-enabled="$2">
       <div class="name"> <a href="$3"><b>$4</b> <i>($5)</i></a> </div>
@@ -848,4 +847,4 @@ const
       <div class="disablePlugin" title="Turn OFF"> Stop  </div>
     </li>
 
-  """.unindent.strip
+  """
