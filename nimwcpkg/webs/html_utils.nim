@@ -1,4 +1,4 @@
-import strutils, re
+import strutils
 
 from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
@@ -62,7 +62,7 @@ template notifyHtml*(message: string, title="NimWC 👑", iconUrl="/favicon.ico"
 
 
 template minifyHtml*(htmlstr: string): string =
-  when defined(release): replace(htmlstr, re">\s+<", "> <").strip else: htmlstr
+  when defined(release): htmlstr.unindent.strip.replace(">\n", ">") else: htmlstr
 
 
 template rst2html*(stringy: string, options={roSupportMarkdown}): string =
