@@ -3,7 +3,7 @@
 #
 #proc genFormLogin(c: var TData, errorMsg = ""): string =
   #let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings")
-  #if not c.loggedIn:
+  #if c.loggedIn:
     <head>
     ${ standardElements[0] }
     </head>
@@ -90,6 +90,13 @@
     ## DONT TOUCH, HoneyPot: https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377
     </form>
     </div>
+    </div>
+    <div class="notification" style="opacity:.5">
+      <button class="delete"></button>
+      <small> <b>Cookies:</b>
+      <i>This web use cookies to personalise content and to provide a better user experience.
+        By interacting with this web you agree to use cookies.
+      </i></small>
     </div>
     </div>
     </section>
