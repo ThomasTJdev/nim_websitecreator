@@ -1,4 +1,3 @@
-
 ## Do NOT import this file directly, instead import ``database.nim``
 
 proc backupDb*(dbname: string,

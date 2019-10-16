@@ -4,7 +4,7 @@
 
 
 const
-  NimblePkgVersion* {.strdefine.} = "5.5.5"  ## NimWC Version (SemVer)
+  NimblePkgVersion* {.strdefine.} = "6.0.0"  ## NimWC Version (SemVer)
 
   commitHash* = staticExec"git rev-parse --short HEAD" & "" ## NimWC Version (Git Hash)
 
