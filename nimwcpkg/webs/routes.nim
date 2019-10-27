@@ -8,7 +8,8 @@ routes:
 
   get "/":
     createTFD()
-    resp genPage(c, getValue(db, sql"SELECT id FROM pages WHERE url = 'frontpage'"))
+    let data = getValue(db, sql"SELECT id FROM pages WHERE url = 'frontpage'")
+    resp genPage(c, data)
 
 
   get "/login":
@@ -29,7 +30,7 @@ routes:
           if isRecaptchaOk:
             redirect("/login?msg=" & errNeedToVerifyRecaptcha)
     let (loginB, loginS) = login(c, replace(toLowerAscii(@"email"), " ", ""), replace(@"password", " ", ""), replace(@"totp", " ", ""))
-    when defined(dev): echo "\nMail: ", @"email", "\nPassword2 (HoneyPot): ",  @"password2", "\n(loginB, loginS): ", (loginB, loginS)
+    when defined(dev): echo("\nMail: ", @"email", "\nPassword2 (HoneyPot): ",  @"password2", "\n(loginB, loginS): ", (loginB, loginS))
     if loginB:
       jester.setCookie("sid", loginS, daysForward(7))
       redirect("/settings")
