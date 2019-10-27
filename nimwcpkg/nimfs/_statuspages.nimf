@@ -1,6 +1,5 @@
 #? strip | stdtmpl
 #
-#import httpclient  #HACK: Do NOT move to main,leave it here.
 #
 #proc genServerInfo(): string =
   #const jailv = when defined(firejail): $firejailVersion else: "<i> Firejail is Disabled </i>"
