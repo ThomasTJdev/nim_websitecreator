@@ -24,7 +24,7 @@ else:                   from webp import cwebp
 when not defined(firejail): {. warning: "Firejail is disabled, running unsecure." .}
 else:                       from firejail import firejailVersion, firejailFeatures
 
-when defined(packedjson): import packedjson  # https://github.com/Araq/packedjson#packedjson
+when defined(packedjson): import packedjson
 else: import json
 
 hardenedBuild()
