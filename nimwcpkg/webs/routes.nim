@@ -325,19 +325,19 @@ routes:
     when not defined(firejail):
       redirect("/")
     else:
-      let c = getConfig(replace(getAppDir(), "/nimwcpkg", "") / "config/config.cfg", cfgFirejail)
+      let cFire = getConfig(replace(getAppDir(), "/nimwcpkg", "") / "config/config.cfg", cfgFirejail)
       resp genMainAdmin(c, genFirejail(
-        c["noDvd"].parseBool, c["noSound"].parseBool, c["noAutoPulse"].parseBool,
-        c["no3d"].parseBool, c["noX"].parseBool, c["noVideo"].parseBool,
-        c["noDbus"].parseBool, c["noShell"].parseBool, c["noDebuggers"].parseBool,
-        c["noMachineId"].parseBool, c["noRoot"].parseBool, c["noAllusers"].parseBool,
-        c["noU2f"].parseBool, c["privateTmp"].parseBool, c["privateCache"].parseBool,
-        c["privateDev"].parseBool, c["forceEnUsUtf8"].parseBool, c["caps"].parseBool,
-        c["seccomp"].parseBool, c["noTv"].parseBool, c["writables"].parseBool,
-        c["noMnt"].parseBool, c["maxSubProcesses"].parseInt, c["maxOpenFiles"].parseInt,
-        c["maxFileSize"].parseInt, c["maxPendingSignals"].parseInt, c["timeout"].parseInt,
-        c["maxCpu"].parseInt, c["maxRam"].parseInt, c["cpuCoresByNumber"].parseInt, c["hostsFile"],
-        c["dns0"], c["dns1"], c["dns2"], c["dns3"],
+        cFire["noDvd"].parseBool, cFire["noSound"].parseBool, cFire["noAutoPulse"].parseBool,
+        cFire["no3d"].parseBool, cFire["noX"].parseBool, cFire["noVideo"].parseBool,
+        cFire["noDbus"].parseBool, cFire["noShell"].parseBool, cFire["noDebuggers"].parseBool,
+        cFire["noMachineId"].parseBool, cFire["noRoot"].parseBool, cFire["noAllusers"].parseBool,
+        cFire["noU2f"].parseBool, cFire["privateTmp"].parseBool, cFire["privateCache"].parseBool,
+        cFire["privateDev"].parseBool, cFire["forceEnUsUtf8"].parseBool, cFire["caps"].parseBool,
+        cFire["seccomp"].parseBool, cFire["noTv"].parseBool, cFire["writables"].parseBool,
+        cFire["noMnt"].parseBool, cFire["maxSubProcesses"].parseInt, cFire["maxOpenFiles"].parseInt,
+        cFire["maxFileSize"].parseInt, cFire["maxPendingSignals"].parseInt, cFire["timeout"].parseInt,
+        cFire["maxCpu"].parseInt, cFire["maxRam"].parseInt, cFire["cpuCoresByNumber"].parseInt, cFire["hostsFile"],
+        cFire["dns0"], cFire["dns1"], cFire["dns2"], cFire["dns3"],
       ))
 
 
