@@ -206,4 +206,10 @@ Compile options (features when compiling source code):
   -d:demo        Public demo mode. Enable Test user. 2FA ignored. Pages Reset.
                   Force database reset every 1 hour. Some options Disabled.
 
-Docs http://u.nu/q2h9 http://u.nu/lyfa http://u.nu/etkb http://u.nu/pjxf http://u.nu/ykw- http://u.nu/k0lt """
+Docs:
+  - https://nim-lang.org/learn.html
+  - https://nim-lang.org/documentation.html
+  - https://nim-lang.org/docs/lib.html
+  - https://nim-lang.org/docs/theindex.html
+  - https://nimble.directory
+  - https://github.com/niv/nim-docset/releases """
