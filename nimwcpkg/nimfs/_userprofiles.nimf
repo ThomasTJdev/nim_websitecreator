@@ -79,7 +79,7 @@
       FALSE
     #end if
     #
-    <td class="is-danger has-text-centered"><a class="delete" href="/users/delete/${user[0]}" title="Kill ${user[1]} ?"></a></td>
+    <td class="is-danger has-text-centered"><span class="delete deleteUser" data-url="/users/delete/${user[0]}"></span></td>
   #end for
   #
   </tbody>

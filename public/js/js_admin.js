@@ -53,7 +53,6 @@ function pluginChangeStatus(pluginName, pluginStatus) {
     Files
 */
 const $btnFileDelete = document.querySelectorAll("span.deleteFile");
-
 if ($btnFileDelete.length) {
   $btnFileDelete.forEach( el => {
     el.addEventListener('click', function (event) {
@@ -106,6 +105,19 @@ if (btnUserAdd != null) {
     document.querySelector("form#usersAdd").classList.toggle("hidden");
   });
 }
+
+const $btnUserDelete = document.querySelectorAll("span.deleteUser");
+if ($btnUserDelete.length) {
+  $btnUserDelete.forEach(el => {
+    el.addEventListener('click', function (event) {
+      var result = confirm("Delete user?");
+      if (result) {
+        window.location.href = event.srcElement.getAttribute("data-url");
+      }
+    });
+  });
+}
+
 
 
 /*
