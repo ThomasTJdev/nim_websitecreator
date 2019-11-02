@@ -60,7 +60,7 @@ proc updateNimwc() =
 proc pluginSkeleton() =
   ## Creates the skeleton (folders and files) for a plugin
   styledEcho(fgCyan, bgBlack, skeletonMsg)
-  let pluginName = normalize(readLineFromStdin("Plugin name?: "))
+  let pluginName = normalize(readLineFromStdin("Plugin name: "))
   assert pluginName.len > 1, "Plugin name must not be empty string: " & pluginName
 
   # Create dirs
