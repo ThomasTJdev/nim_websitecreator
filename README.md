@@ -92,13 +92,13 @@ Development dependencies (automatically installed by Nimble):
 - [bCrypt](https://github.com/runvnc/bcryptnim) >= `0.2.1`
 - [Contra](https://github.com/juancarlospaco/nim-contra) >= `0.2.0`
 - [datetime2human](https://github.com/juancarlospaco/nim-datetime2human) >= `0.2.2`
-- [Firejail](https://github.com/juancarlospaco/nim-firejail) >= `0.5.0`
 - [Jester](https://github.com/dom96/jester/) >= `0.4.1`
 - [Libravatar](https://github.com/juancarlospaco/nim-libravatar#nim-libravatar) >= `0.4.0`
 - [otp](https://github.com/OpenSystemsLab/otp.nim) >= `0.1.1`
-- [reCAPTCHA](https://github.com/euantorano/recaptcha.nim) >= `1.0.2`
-- [WebP](https://github.com/juancarlospaco/nim-webp-tools) >= `0.2.0`
-- [PackedJSON](https://github.com/Araq/packedjson#packedjson) >= `0.1.0`
+- [Firejail](https://github.com/juancarlospaco/nim-firejail) >= `0.5.0` (optional)
+- [reCAPTCHA](https://github.com/euantorano/recaptcha.nim) >= `1.0.2` (optional)
+- [WebP](https://github.com/juancarlospaco/nim-webp-tools) >= `0.2.0` (optional)
+- [PackedJSON](https://github.com/Araq/packedjson#packedjson) >= `0.1.0` (optional)
 
 Foreing optional dependencies:
 
