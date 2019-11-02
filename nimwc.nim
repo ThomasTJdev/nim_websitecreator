@@ -63,10 +63,11 @@ proc pluginSkeleton() =
   let pluginName = normalize(readLineFromStdin("Plugin name: "))
   assert pluginName.len > 1, "Plugin name must not be empty string: " & pluginName
 
+  let authorName = readLineFromStdin("Author name: ")
+
   # Create dirs
   discard existsOrCreateDir("tmp")
   let folder = "tmp" / pluginName
-  let user = getEnv("USER", "YourUser")
   discard existsOrCreateDir(folder)
   discard existsOrCreateDir(folder / "public")
 
@@ -94,12 +95,12 @@ proc pluginSkeleton() =
     writeFile(folder / "LICENSE." & ext, "See https://tldrlegal.com/licenses/browse\n")
     writeFile(folder / "CODE_OF_CONDUCT." & ext, "")
     writeFile(folder / "CONTRIBUTING." & ext, "")
-    writeFile(folder / "AUTHORS." & ext, "# Authors\n\n- " & user & "\n")
+    writeFile(folder / "AUTHORS." & ext, "# Authors\n\n- " & authorName & "\n")
     writeFile(folder / "README." & ext, "# " & pluginName & "\n")
     writeFile(folder / "CHANGELOG." & ext, "# 0.0.1\n\n- First initial version of " & pluginName & " created at " & $now())
 
   writeFile(folder / "plugin.json",
-    pluginJson.format(capitalizeAscii(pluginName), pluginName, user, NimblePkgVersion.substr(0, 2)))
+    pluginJson.format(capitalizeAscii(pluginName), pluginName, authorName, NimblePkgVersion.substr(0, 2)))
   quit("\nNimWC created a new Plugin skeleton, happy hacking, bye.\n", 0)
 
 
