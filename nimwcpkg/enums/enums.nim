@@ -20,3 +20,10 @@ type
     cfgRecaptcha = "reCAPTCHA"
     cfgSmtp = "SMTP"
     cfgFirejail = "firejail"
+
+  Rank* = enum                  ## Rank for the User.
+    User
+    Moderator
+    Admin
+    Deactivated
+    NotLoggedin

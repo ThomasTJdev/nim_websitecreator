@@ -2,13 +2,6 @@ from jester import Request
 
 
 type
-  Rank* = enum                ## Rank for the User.
-    User
-    Moderator
-    Admin
-    Deactivated
-    NotLoggedin
-
   Session* = object of RootObj
     loggedIn*: bool
     username*, userpass*, email*: string
