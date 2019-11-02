@@ -26,5 +26,5 @@ proc sendAdminMailNow*(subject, message: string) {.async.} =
     await client.auth(smtpUser, smtpPassword)
     await client.sendMail(from_addr, toList, $encoded)
   except:
-    info("Error in sending mail: " & recipient)
+    error("Error in sending mail: " & recipient)
   when defined(dev): info("Admin email sent")
