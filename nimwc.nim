@@ -1,6 +1,6 @@
 import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times
 
-import contra        # https://github.com/juancarlospaco/nim-contra#contra
+import contra
 
 import
   nimwcpkg/constants/constants, nimwcpkg/enums/enums,
