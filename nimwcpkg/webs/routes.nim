@@ -202,7 +202,7 @@ routes:
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
     try:
-      writeFile((if @"customJs" == "true": "public/js/js_custom.js" else: "public/js/js.js"), @"js")
+      writeFile((if @"customJs" == "true": "public/js/js_custom.js" else: "public/js/js.js"), @"js".strip())
       if @"inbackground" == "true":
         resp("OK")
       if @"customJs" == "true":
@@ -231,7 +231,7 @@ routes:
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
     try:
-      writeFile((if @"customCss" == "true": "public/css/style_custom.css" else: "public/css/style.css"), @"css")
+      writeFile((if @"customCss" == "true": "public/css/style_custom.css" else: "public/css/style.css"), @"css".strip())
       if @"inbackground" == "true":
         resp("OK")
 
