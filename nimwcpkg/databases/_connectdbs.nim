@@ -2,7 +2,7 @@
 
 template connectDb*(configFile = "config/config.cfg"): untyped =
   ## Connect the Database and injects a ``db`` variable with the ``DbConn``.
-  assert configFile.len > 0, "configFile must not be empty string."
+  assert configFile.len > 0, "config.cfg is empty."
   let
     dict = getConfig(configFile, cfgDatabase)
     db_host = dict["host"]
