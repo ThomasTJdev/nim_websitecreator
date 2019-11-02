@@ -224,7 +224,7 @@ proc startupCheck(cfg: Config) =
   connectDb()
   generateDB(db)
 
-  if not fileExists(appPath):
+  if not fileExists(appPath) or defined(rc):
     # Ensure that the DB tables are created
     styledEcho(fgGreen, bgBlack, compile_start_msg & userArgs)
     let (output, exitCode) = execCmdEx("nim c --out:" & appPath & " " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
