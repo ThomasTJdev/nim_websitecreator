@@ -230,7 +230,7 @@
     <form class="standard settings" method="post" action="/settings/updatejs">
       <input name="customJs" value="${ customJs }" style="display: none">
       <div>
-        <button type="submit" class="settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
+        <button type="submit" onclick="document.getElementById('save').setAttribute('data-ischanged', '0');" class="settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
       </div>
       <div>
   <textarea name="js" id="settingsCode" >
@@ -242,7 +242,7 @@ $line
   </textarea>
   </div>
   <div>
-  <button type="submit" class="settingsSaveCode button is-success">Save</button>
+  <button type="submit" onclick="document.getElementById('save').setAttribute('data-ischanged', '0');" class="settingsSaveCode button is-success">Save</button>
   </div>
   </form>
   </div>
@@ -265,7 +265,7 @@ $line
   <form class="standard settings" method="post" action="/settings/updatecss">
     <input name="customCss" value="${ customCss }" style="display:none">
     <div>
-      <button type="submit" class="settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
+      <button type="submit" onclick="document.getElementById('save').setAttribute('data-ischanged', '0');" class="settingsSaveCode button is-success" style="margin-bottom: 5px;">Save</button>
     </div>
     <div>
   <textarea name="css" id="settingsCode" >
@@ -277,7 +277,7 @@ $line
   </textarea>
   </div>
   <div>
-  <button type="submit" class="settingsSaveCode button is-success">Save</button>
+  <button type="submit" onclick="document.getElementById('save').setAttribute('data-ischanged', '0');" class="settingsSaveCode button is-success">Save</button>
   </div>
   </form>
   </div>
