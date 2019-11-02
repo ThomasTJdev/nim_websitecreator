@@ -61,7 +61,8 @@ proc pluginSkeleton() =
   ## Creates the skeleton (folders and files) for a plugin
   styledEcho(fgCyan, bgBlack, skeletonMsg)
   let pluginName = normalize(readLineFromStdin("Plugin name: "))
-  assert pluginName.len > 1, "Plugin name must not be empty string: " & pluginName
+  assert pluginName.len > 1, "Plugin name needs to be longer: " & pluginName
+  assert " " notin pluginName, "Plugin name may not contain spaces: " & pluginName
 
   let authorName = readLineFromStdin("Author name: ")
 
