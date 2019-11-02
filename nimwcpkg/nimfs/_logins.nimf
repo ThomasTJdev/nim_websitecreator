@@ -92,7 +92,6 @@
     </div>
     </div>
     <div class="notification" style="opacity:.5">
-      <button class="delete"></button>
       <small> <b>Cookies:</b>
       <i>This website uses cookies to personalise content and to provide a better user experience.
         By interacting with this website you agree to use cookies.
