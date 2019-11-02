@@ -9,15 +9,15 @@ import
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
-when not defined(firejail): {. warning: "Firejail is disabled, running unsecure." .}
+when not defined(firejail): {.warning: "Firejail is disabled, running unsecure.".}
 else:                       from firejail import firejailVersion, firejailFeatures
 
 hardenedBuild()
 
 
-when not defined(contracts): {.warning: "Design by Contract is Disabled, Running Unassertive.".}
-when not defined(ssl):       {.warning: "SSL is Disabled, Running Unsecure.".}
-when not defined(firejail):  {.warning: "Firejail is Disabled, Running Unsecure.".}
+when not defined(contracts): {.warning: "Design by Contract is Disabled, running unassertive.".}
+when not defined(ssl):       {.warning: "SSL is Disabled, running unsecure.".}
+when not defined(firejail):  {.warning: "Firejail is Disabled, running unsecure.".}
 
 
 var
