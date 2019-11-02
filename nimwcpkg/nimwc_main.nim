@@ -158,7 +158,7 @@ proc extensionJs*(): string {.compiletime.} =
 
     if staticRead(ppath & "/public/js.js") != "":
       discard staticExec("cp " & ppath & "/public/js.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
-      extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" crossorigin=anonymous ></script>\n")
+      extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer ></script>\n")
 
     if staticRead(ppath & "/public/js_private.js") != "":
       discard staticExec("cp " & ppath & "/public/js_private.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
