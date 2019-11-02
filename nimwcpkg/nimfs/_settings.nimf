@@ -236,7 +236,7 @@
   <textarea name="js" id="settingsCode" >
   #
   #for line in lines(jsFile):
-    $line
+$line
   #end for
   #
   </textarea>
@@ -271,7 +271,7 @@
   <textarea name="css" id="settingsCode" >
   #
   #for line in lines(cssFile):
-    $line
+$line
   #end for
   #
   </textarea>
