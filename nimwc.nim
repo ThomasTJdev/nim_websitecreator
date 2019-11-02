@@ -268,9 +268,9 @@ when isMainModule:
       of "backuplogs": echo backupOldLogs(splitPath(cfg.getSectionValue("Logging", when defined(release): "logfile" else: "logfiledev")).head)
     of cmdArgument:
       discard
-    of cmdEnd: quit("Wrong Arguments, please see Help with: --help", 1)
+    of cmdEnd: quit("Wrong arguments, please see help with: --help", 1)
 
-    if keys.len != 0: quit("Run again with no Arguments, please see Help with: --help", 0)
+    if keys.len != 0: quit("Run again with no arguments, please see help with: --help", 0)
 
   startupCheck(cfg)
   launcherActivated(cfg)
