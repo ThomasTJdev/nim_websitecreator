@@ -1,3 +1,9 @@
+## v6.0.1
+### Changes
+- Bug in loading recaptcha JS (crossorigin anonymous)
+- Removed minifyhtml on demo HTML to give user pretty HTML to edit
+
+
 ## v6.0.0
 ### Changes
 - Nim V1.0 compatible.
