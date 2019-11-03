@@ -1,0 +1,488 @@
+#? stdtmpl | standard
+#
+#
+#proc genFirejail(noDvd,noSound,noAutoPulse,no3d,noX,noVideo,noDbus,noShell,
+  #                 noDebuggers,noMachineId,noRoot,noAllusers,noU2f,privateTmp,privateCache,
+  #                 privateDev,forceEnUsUtf8,caps,seccomp,noTv,writables,noMnt: bool,
+  #                 maxSubProcesses, maxOpenFiles, maxFileSize, maxPendingSignals,
+  #                 timeout, maxCpu, maxRam, cpuCoresByNumber: int,
+  #                 hostsFile, dns0, dns1, dns2, dns3: string): string =
+  <div id="firejail">
+  <h1 class="has-text-centered">Self-Firejailing Web Framework</h1>
+  <p class="has-text-centered">
+  <a href="https://firejail.wordpress.com/features-3/#filesystem">Firejail</a> security is built-in on the Core of <a href="https://nimwc.org">NimWC.</a>
+  </p> <br>
+  <form class="standard page"
+  #
+  #when not defined(demo):
+    method="post" action="/settings/firejail/save"
+  #end when
+  #
+  >
+  <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>Name & Status</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>Name & Status</th>
+        <th>Description</th>
+      </tr>
+    </tfoot>
+    <tbody>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noDvd"
+  #
+  #if noDvd:
+    checked
+  #end if
+  #
+          > noDvd
+        </label>
+      </td>
+      <td> No DVD/CD/BlueRay hardware access. The DVD from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noSound"
+  #
+  #if noSound:
+    checked
+  #end if
+  #
+          > noSound
+        </label>
+      </td>
+      <td> No Sound hardware access. The Sound from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noAutoPulse"
+  #
+  #if noAutoPulse:
+    checked
+  #end if
+  #
+          > noAutoPulse
+        </label>
+      </td>
+      <td> No <a href="https://www.freedesktop.org/wiki/Software/PulseAudio">PulseAudio</a> Sound access (<code>~/.config/pulse/</code>). The PulseAudio from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="no3d"
+  #
+  #if no3d:
+    checked
+  #end if
+  #
+          > no3d
+        </label>
+      </td>
+      <td> No 3D Accelerated hardware (GPU) access. The GPU from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noX"
+  #
+  #if noX:
+    checked
+  #end if
+  #
+          > noX
+        </label>
+      </td>
+      <td> No Xorg access. <a href="https://en.wikipedia.org/wiki/Xvfb">Use XVFb instead, requires XVFb Installed.</a> The X from outside of NimWC are untouched. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noVideo"
+  #
+  #if noVideo:
+    checked
+  #end if
+  #
+          > noVideo
+        </label>
+      </td>
+      <td> No Video hardware access, runs with no Video hardware. The Video from outside of NimWC are untouched. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noDbus"
+  #
+  #if noDbus:
+    checked
+  #end if
+  #
+          > noDbus
+        </label>
+      </td>
+      <td> No <a href-"https://www.freedesktop.org/wiki/Software/dbus">D-Bus</a> (System Bus Protocol) access. The D-Bus from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noShell"
+  #
+  #if noShell:
+    checked
+  #end if
+  #
+          > noShell
+        </label>
+      </td>
+      <td> No System Shell access, runs without Shell. The Shell from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noDebuggers"
+  #
+  #if noDebuggers:
+    checked
+  #end if
+  #
+          > noDebuggers
+        </label>
+      </td>
+      <td> No Source Code Debuggers like <a href="https://www.gnu.org/software/gdb">GDB</a>, <a href="https://strace.io">STrace</a>, etc access. The Debuggers from outside of NimWC are untouched.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noMachineId"
+  #
+  #if noMachineId:
+    checked
+  #end if
+  #
+          > noMachineId
+        </label>
+      </td>
+      <td> No Machine ID unique identifier config (<code>/etc/machine-id</code>) access. The Machine ID from outside of NimWC are untouched. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noRoot"
+  #
+  #if noRoot:
+    checked
+  #end if
+  #
+          > noRoot
+        </label>
+      </td>
+      <td> No root, no one can become root ever from inside of NimWC. Normal root and sudo from outside of NimWC are untouched. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noAllusers"
+  #
+  #if noAllusers:
+    checked
+  #end if
+  #
+          > noAllusers
+        </label>
+      </td>
+      <td> No home directories from other users are visible from inside of NimWC. The home directory of the user running NimWC are untouched. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noU2f"
+  #
+  #if noU2f:
+    checked
+  #end if
+  #
+          > noU2f
+        </label>
+      </td>
+      <td> No <a href="https://github.com/hillbrad/U2FReviews#yubico-u2f-security-key">U2F Universal 2 Factor Authentication hardware</a> access. The U2F from outside of NimWC are untouched. 2 Factor Authentication Software are untouched. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noTv"
+  #
+  #if noTv:
+    checked
+  #end if
+  #
+          > noTv
+        </label>
+      </td>
+      <td> No DVB (Digital Video Broadcasting), Analog TV hardware, Digital TV hardware. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="privateTmp"
+  #
+  #if privateTmp:
+    checked
+  #end if
+  #
+          > privateTmp
+        </label>
+      </td>
+      <td> Use a private temporary unique autogenerated <a href="https://en.wikipedia.org/wiki/Tmpfs">TmpFS</a> for <code>/tmp/</code>. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="privateCache"
+  #
+  #if privateCache:
+    checked
+  #end if
+  #
+          > privateCache
+        </label>
+      </td>
+      <td> Use a private temporary unique autogenerated <a href="https://en.wikipedia.org/wiki/Tmpfs">TmpFS</a> for <code>~/.cache/</code>. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="privateDev"
+  #
+  #if privateDev:
+    checked
+  #end if
+  #
+          > privateDev
+        </label>
+      </td>
+      <td> Use a private temporary unique autogenerated <a href="https://en.wikipedia.org/wiki/Tmpfs">TmpFS</a> for <code>/dev/</code>. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="caps"
+  #
+  #if caps:
+    checked
+  #end if
+  #
+          > caps
+        </label>
+      </td>
+      <td> <a href="https://wiki.archlinux.org/index.php/capabilities">Linux Capabilities.</a> This disables the default Capabilities inside NimWC. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="seccomp"
+  #
+  #if seccomp:
+    checked
+  #end if
+  #
+          > seccomp
+        </label>
+      </td>
+      <td> <a href="https://en.wikipedia.org/wiki/Seccomp">Linux Secure Computing Mode SecComp</a>, enable using the default SecComp list (<code>@default</code>). </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="writables"
+  #
+  #if writables:
+    checked
+  #end if
+  #
+          > writables
+        </label>
+      </td>
+      <td> Force Writable <code>/etc/</code>, <code>/run/user/</code>, <code>/var/</code>, <code>/var/log/</code> (Readable too). </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="noMnt"
+  #
+  #if noMnt:
+    checked
+  #end if
+  #
+          > noMnt
+        </label>
+      </td>
+      <td> No <code>/mnt/</code>, <code>/media/</code>, <code>/run/mount/</code> and <code>/run/media/</code> access. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="checkbox" name="forceEnUsUtf8"
+  #
+  #if forceEnUsUtf8:
+    checked
+  #end if
+  #
+          > forceEnUsUtf8
+        </label>
+      </td>
+      <td> Force <code>EN</code> English and <code>UTF-8</code> Unicode inside of NimWC. This sets several environment variables to <code>EN</code> and <code>UTF-8</code> inside of NimWC. </td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="number" name="maxSubProcesses" min="0" max="255" step="1" placeholder="0" class="input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$maxSubProcesses">
+          <br>maxSubProcesses
+        </label>
+      </td>
+      <td>Maximum Sub-Processes on Hundreds that can be created per Linux user inside of NimWC. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, <code>0</code> is Maximum Performance, <code>255</code> is Maximum, if you dont know or dont understand just leave it as <code>0</code>. Anti-ForkBomb protection.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="number" name="maxOpenFiles" min="0" max="2147483647" step="1" placeholder="0" class="input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$maxOpenFiles">
+          <br>maxOpenFiles
+        </label>
+      </td>
+      <td>Maximum number of opened files on Hundreds per process inside of NimWC. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, if you dont know or dont understand just leave it as <code>0</code>. IO Death Lock protection.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="number" name="maxFileSize" min="0" max="255" step="1" placeholder="0" class="input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$maxFileSize">
+          <br>maxFileSize
+        </label>
+      </td>
+      <td>Maximum file size on GigaBytes that can be created per process inside of NimWC. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, <code>255</code> GigaBytes is Maximum, if you dont know or dont understand just leave it as <code>0</code>.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="number" name="maxPendingSignals" min="0" max="2147483647" step="1" placeholder="0" class="input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$maxPendingSignals">
+          <br>maxPendingSignals
+        </label>
+      </td>
+      <td>Maximum number of <a href="https://en.wikipedia.org/wiki/Signal_(IPC)#POSIX_signals">pending blocked signals</a> per process inside of NimWC. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, <code>0</code> is Maximum Performance, if you dont know or dont understand just leave it as <code>0</code>.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="number" name="timeout" min="0" max="99" step="1" placeholder="0" class="input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$timeout">
+          <br>timeout
+        </label>
+      </td>
+      <td>Force Restart after elapsed time on Hours. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, <code>99</code> Hours is Maximum, 99 Hours is 4 Days, restart has 1 to 9 Seconds delay. Use this if you want your server to automatically restart every day, if you dont know or dont understand just leave it as <code>0</code>.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="number" name="maxCpu" min="0" max="255" step="1" placeholder="0" class="input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$maxCpu">
+          <br>maxCpu
+        </label>
+      </td>
+      <td>Maximum CPU time in seconds, you can control how much CPU NimWC uses. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, <code>0</code> is Maximum Performance, <code>255</code> is Maximum, if you dont know or dont understand just leave it as <code>0</code>.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="number" name="maxRam" min="0" max="255" step="1" placeholder="0" class="input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$maxRam">
+          <br>maxRam
+        </label>
+      </td>
+      <td>Maximum size of RAM on GigaBytes, you can control how much RAM NimWC uses. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, <code>0</code> is Maximum Performance, <code>255</code> GigaBytes is Maximum, if you dont know or dont understand just leave it as <code>0</code>.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="number" name="cpuCoresByNumber" min="0" max="${countProcessors() - 1}" step="1" placeholder="0" class="input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$cpuCoresByNumber">
+          <br>cpuCoresByNumber
+        </label>
+      </td>
+      <td>Dedicated CPU Cores to use, you can control how many CPU Cores NimWC uses. Positive integer number is Valid, <code>0</code> is Disabled, <code>0</code> is Default, <code>0</code> is Maximum Performance, <code> ${countProcessors() - 1} </code> is Maximum, if you dont know or dont understand just leave it as <code>0</code>.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="text" name="hostsFile" placeholder="/etc/hosts" class="input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" required value="$hostsFile">
+          <br>hostsFile
+        </label>
+      </td>
+      <td><a href="https://en.wikipedia.org/wiki/Hosts_%28file%29">Alternative or Fake <code>/etc/hosts</code> file</a> to use, you can use a limited or tweaked <code>/etc/hosts</code> for NimWC. <code>/etc/hosts</code> is Default, <code>/etc/hosts</code> is the real hosts file, the file must exist, the hosts file of NimWC can be different than the hosts file of the operating system, you can use this to block suspicious domains (Spamm, Scamm, BotNets, etc), if you dont know or dont understand just leave it as <code>/etc/hosts</code>.</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="text" name="dns0" placeholder="1.1.1.1" class="input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" value="$dns0">
+          <br>dns0
+        </label>
+      </td>
+      <td><a href="https://en.wikipedia.org/wiki/Domain_Name_System">Alternative or Custom DNS Server IP Address Number 0</a>, the 4 DNS Servers must be provided or leave it Empty Blank, you can use a limited or tweaked DNS for NimWC. Empty blank field is Default, the DNS of NimWC can be different than the DNS of the operating system, if you dont know or dont understand just leave it as Empty Blank field (Empty string).</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="text" name="dns1" placeholder="1.0.0.1" class="input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" value="$dns1">
+          <br>dns1
+        </label>
+      </td>
+      <td><a href="https://en.wikipedia.org/wiki/Domain_Name_System">Alternative or Custom DNS Server IP Address Number 1</a>, the 4 DNS Servers must be provided or leave it Empty Blank, you can use a limited or tweaked DNS for NimWC. Empty blank field is Default, the DNS of NimWC can be different than the DNS of the operating system, if you dont know or dont understand just leave it as Empty Blank field (Empty string).</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="text" name="dns2" placeholder="8.8.8.8" class="input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" value="$dns2">
+          <br>dns2
+        </label>
+      </td>
+      <td><a href="https://en.wikipedia.org/wiki/Domain_Name_System">Alternative or Custom DNS Server IP Address Number 2</a>, the 4 DNS Servers must be provided or leave it Empty Blank, you can use a limited or tweaked DNS for NimWC. Empty blank field is Default, the DNS of NimWC can be different than the DNS of the operating system, if you dont know or dont understand just leave it as Empty Blank field (Empty string).</td>
+    </tr>
+    <tr>
+      <td class="is-narrow">
+        <label class="checkbox">
+          <input type="text" name="dns3" placeholder="8.8.4.4" class="input has-text-centered is-narrow is-small" autocomplete="off" dir="auto" value="$dns3">
+          <br>dns3
+        </label>
+      </td>
+      <td><a href="https://en.wikipedia.org/wiki/Domain_Name_System">Alternative or Custom DNS Server IP Address Number 3</a>, the 4 DNS Servers must be provided or leave it Empty Blank, you can use a limited or tweaked DNS for NimWC. Empty blank field is Default, the DNS of NimWC can be different than the DNS of the operating system, if you dont know or dont understand just leave it as Empty Blank field (Empty string).</td>
+    </tr>
+    </tbody>
+  </table>
+  <button type="submit" class="button is-success is-rounded is-fullwidth" title="Save Firejail Config" autofocus >Save</button>
+  </form>
+  <hr>
+  <h5 class="has-text-centered">Firejail Status</h5>
+  <div class="tags">
+  #
+  # for capability in firejailFeatures.pairs:
+    <span
+    #
+    #if capability.val.getBool:
+      style="color:black" title="OK" class="tag is-rounded is-success is-capitalized"
+    #
+    # else:
+    #
+      style="color:yellow" title="Fail (Not Installed)" class="tag is-danger is-uppercase"
+    # end if
+    #
+    > $capability.key </span>
+  # end for
+  #
+  </div>
+  <div class="notification is-info">
+  You are protected by Firejail version $firejailVersion, <i>stay safe and use <a href="https://nim-lang.org/learn.html">Nim</a></i>.
+  </div>
+  </div>
+#end proc

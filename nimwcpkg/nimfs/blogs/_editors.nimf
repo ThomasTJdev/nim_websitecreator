@@ -1,0 +1,75 @@
+#? stdtmpl | standard
+#
+#
+#proc genEditBlog(c: var TData, blogid, newPage: string): string =
+  #let pageData = getAllRows(db, sql"SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, url, status FROM blog WHERE id = ?", blogid)
+  #if pageData.len > 0:
+    #for page in pageData:
+      <div id="blogData">
+      <form class="standard page" method="post" action="/blogpage/update">
+      <input name="blogid" value="$blogid" style="display:none"/>
+      <div id="save" data-ischanged="0" style="display:none"></div>
+      <div id="blogHeader">
+        <div class="blogOptions main">
+          <h1>Edit blog post</h1>
+          <div class="field">
+            <label class="label">Name</label>
+            <div class="control">
+              <input id="name" name="name" class="input" required value="${ page[7] }" dir="auto">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">URL</label>
+            <div class="control">
+              <input id="url" name="url" class="input" type="text" required placeholder="eg. 2019/12/name" value="${ decodeUrl(page[8]) }" dir="auto">
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Status</label>
+            <div class="control select">
+              <select id="status" name="status">
+                <option value="0" ${ statusIntToCheckbox(page[9], "0") } >Development</option>
+                <option value="1" ${ statusIntToCheckbox(page[9], "1") } >Private</option>
+                <option value="2" ${ statusIntToCheckbox(page[9], "2") } >Public</option>
+              </select>
+            </div>
+          </div>
+          <div class="buttonGroup">
+            <button type="button" class="blogSave button is-small is-success">Save</button>
+            <a href="#!" class="blogOptions button is-small is-link">Options</a>
+            <a href="/blog/${ page[8] }" class="button is-small is-link isBlog preview">View blog</a>
+          </div>
+        </div>
+        <div class="blogOptions details">
+          ${ genPageOptions(c, false, true, true, $blogid, page[0], page[2], page[5]) }
+        </div>
+      </div>
+
+      <hr>
+
+      <div>
+      #
+      #if newPage == "true":
+        ${ genPageEditorMainNew(c, "blogpage") }
+      #
+      #else:
+      #
+        ${ genPageEditorMainEdit(c, page[4]) }
+      #end if
+      #
+      </div>
+      </form>
+      </div>
+      <div id="notifySaved"> Saved blog </div>
+    #end for
+    #
+  #
+  #else:
+  #
+    <h5 style="color:red"> Something went wrong </h5>
+  #end if
+  #
+
+  ${ genPageEditorImport(c, false) }
+
+#end proc

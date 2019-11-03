@@ -1,0 +1,34 @@
+#? stdtmpl | standard
+#
+#
+#proc genAllPagesEdit(c: var TData): string =
+  #let allPages = getAllRows(db, sql"SELECT id, name, description, status, modified, metadescription FROM pages ORDER BY modified DESC")
+  <div style="text-align:center"> <h1> Edit a page </h1> </div>
+  <div id="allpagePosts">
+  #
+  #if allPages.len < 1:
+    <div style="text-align:center"> <h3> <i> No pages </i> </h3> </div>
+  #
+  #else:
+  #
+    <ul>
+    #
+    #for page in allPages:
+      <a href="/editpage/page/${ page[0] }">
+        <div>
+          <div class="is-pulled-right is-hidden-mobile">
+            <small> ${ epochDate(page[4], "YYYY-MM-DD") } </small>
+            <small style="display:block"> ${ statusIntToText(page[3]) } </small>
+          </div>
+          <h5> ${ page[1] } </h5>
+          <small class="is-hidden-tablet"> ${ epochDate(page[4], "YYYY-MM-DD") } </small>
+          <div style="margin-top:9px"> ${ page[5] } </div>
+        </div>
+      </a>
+    #end for
+    #
+  </ul>
+  # end if
+  #
+  </div>
+#end proc

@@ -1,0 +1,32 @@
+#? strip | stdtmpl
+#
+#
+#proc genSitemap(): string {.inline.} =
+  <?xml version="1.0" encoding="UTF-8"?>
+    <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+      <url>
+        <loc>${ mainWebsite }</loc>
+        <lastmod>${ now() }</lastmod>
+        <priority>1.00</priority>
+      </url>
+  #
+  #
+  #for page in getAllRows(db, sql"SELECT url, modified FROM pages WHERE status IN (2) ORDER BY modified DESC"):
+    <url>
+      <loc>${ mainWebsite }/p/${ page[0] }</loc>
+      <lastmod>${ fromUnix(parseInt(page[1])) }</lastmod>
+      <priority>0.90</priority>
+    </url>
+  #end for
+  #
+  #
+  #for page in getAllRows(db, sql"SELECT url, modified FROM blog WHERE status IN (2) ORDER BY modified DESC"):
+    <url>
+      <loc>${ mainWebsite }/blog/${ page[0] }</loc>
+      <lastmod>${ fromUnix(parseInt(page[1])) }</lastmod>
+      <priority>0.90</priority>
+    </url>
+  #end for
+  #
+  </urlset>
+#end proc

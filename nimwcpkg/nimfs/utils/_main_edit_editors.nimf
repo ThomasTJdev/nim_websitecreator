@@ -1,0 +1,26 @@
+#? stdtmpl | standard
+#
+#
+#proc genPageEditorMainEdit(c: var TData, content: string): string =
+  #
+  #if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "grape":
+    <div id="gjs" class="gls">${ content }</div>
+    <textarea id="gjshidden" name="editordata" style="display: none"></textarea>
+  #
+  #elif c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "summernote":
+  #
+    <div id="summernoteContainer">
+      <textarea id="summernoteHidden" name="editordata" style="display:none;"></textarea>
+      <div id="summernote" class="summernote">
+        ${ content }
+      </div>
+    </div>
+  #
+  #else:
+  #
+    <textarea name="editordata" id="editordataCodemirror" class="textarea">
+      ${ content }
+    </textarea>
+  #end if
+  #
+#end proc

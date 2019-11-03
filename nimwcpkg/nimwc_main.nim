@@ -1,29 +1,19 @@
-#        TTJ
-#        (c) Copyright 2019 Thomas Toftgaard Jarløv
-#        Look at LICENSE for more info.
-#        All rights reserved.
 import
-  asyncdispatch, bcrypt, cgi, jester, json, macros, os, osproc, logging, otp,
-  parsecfg, random, re, sequtils, strutils, times, datetime2human,
-  base32, streams, encodings, nativesockets, libravatar, contra,
-  oswalkdir
+  asyncdispatch, base32, cgi, encodings, logging, md5, nativesockets, os,
+  osproc, oswalkdir, parsecfg, random, re, rdstdin, sequtils, streams, strtabs,
+  strutils, tables, times, macros, mimetypes, packages/docutils/rstgen
 
 import
-  resources/administration/create_adminuser,
-  resources/administration/create_standarddata,
-  resources/email/email_registration,
-  resources/files/files_efs,
-  resources/files/files_utils,
-  resources/password/password_generate,
-  resources/password/salt_generate,
-  resources/session/user_data,
-  resources/utils/logging_nimwc,
-  resources/utils/plugins,
-  resources/web/html_utils
+  bcrypt,
+  contra,
+  datetime2human,
+  jester,
+  libravatar,
+  otp
 
-from md5 import getMD5
-from strtabs import newStringTable, modeStyleInsensitive
-from packages/docutils/rstgen import rstToHtml
+import
+  constants/constants, enums/enums, databases/databases, emails/emails, files/files,
+  passwords/passwords, sessions/sessions, utils/loggers, plugins/plugins, webs/html_utils
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
@@ -34,52 +24,11 @@ else:                   from webp import cwebp
 when not defined(firejail): {. warning: "Firejail is disabled, running unsecure." .}
 else:                       from firejail import firejailVersion, firejailFeatures
 
+when defined(packedjson): import packedjson
+else: import json
+
 hardenedBuild()
 randomize()
-
-const
-  cmdStrip = "strip --strip-all --remove-section=.note.gnu.gold-version --remove-section=.comment --remove-section=.note --remove-section=.note.gnu.build-id --remove-section=.note.ABI-tag "
-
-  startup_msg = """
-  Package:      Nim Website Creator - https://NimWC.org
-  Description:  Nim open-source website framework that is simple to use.
-  Author name:  Thomas Toftgaard Jarløv (TTJ) & Juan Carlos (http://github.com/juancarlospaco)"""
-
-  checkCompileOptions* = ["",
-    when defined(adminnotify):     " -d:adminnotify",
-    when defined(dev):             " -d:dev",
-    when defined(devemailon):      " -d:devemailon",
-    when defined(demo):            " -d:demo",
-    when defined(postgres):        " -d:postgres",
-    when defined(webp):            " -d:webp",
-    when defined(firejail):        " -d:firejail",
-    when defined(contracts):       " -d:contracts",
-    when defined(recaptcha):       " -d:recaptcha",
-
-    when defined(ssl):               " -d:ssl",               # SSL
-    when defined(release):           " -d:release --listFullPaths:off",  # Build for Production
-    when defined(danger):            " -d:danger",            # Build for Production
-    when defined(quick):             " -d:quick",             # Tiny file but slow
-    when defined(memProfiler):       " -d:memProfiler",       # RAM Profiler debug
-    when defined(nimTypeNames):      " -d:nimTypeNames",      # Debug names
-    when defined(useRealtimeGC):     " -d:useRealtimeGC",     # Real Time GC
-    when defined(tinyc):             " -d:tinyc",             # TinyC compiler
-    when defined(useNimRtl):         " -d:useNimRtl",         # NimRTL.dll
-    when defined(useFork):           " -d:useFork",           # Fork instead of Spawn
-    when defined(useMalloc):         " -d:useMalloc",         # Use Malloc for gc:none
-    when defined(uClibc):            " -d:uClibc",            # uClibc instead of glibC
-    when defined(checkAbi):          " -d:checkAbi",          # Check C ABI compatibility
-    when defined(noSignalHandler):   " -d:noSignalHandler",   # No convert crash to signal
-    when defined(useStdoutAsStdmsg): " -d:useStdoutAsStdmsg", # Use Std Out as Std Msg
-    when defined(nimOldShiftRight):  " -d:nimOldShiftRight",  # http://forum.nim-lang.org/t/4891#30600
-    when defined(nimOldCaseObjects): " -d:nimOldCaseObjects", # old case switch
-    when defined(nimBinaryStdFiles): " -d:nimBinaryStdFiles", # stdin/stdout old binary open
-  ].deduplicate.join  ## Checking for known compile options and returning them as a space separated string.
-  # Used within plugin route, where a recompile is required to include/exclude a plugin.
-
-  sql_now =
-    when defined(postgres): "(extract(epoch from now()))" # Postgres epoch.
-    else:                   "(strftime('%s', 'now'))"     # SQLite 3 epoch.
 
 
 #
@@ -123,7 +72,7 @@ macro extensionImport(): untyped =
   ## Generate code for importing modules from extensions.
   ## The extensions main module needs to be in plugins/plugin_import.txt
   ## to be activated. Only 1 module will be imported.
-  preconditions pluginsPath.allIt(it.len > 0)
+  # preconditions pluginsPath.allIt(it.len > 0)
   var extensions = ""
   for ppath in pluginsPath:
     let splitted = split(ppath, "/")
@@ -143,7 +92,7 @@ macro extensionUpdateDatabase(): untyped =
   ## Generate proc for updating the database with new tables etc.
   ## The extensions main module shall contain a proc named 'proc <extensionname>Start(db: DbConn) ='
   ## The proc will be executed when the program is executed.
-  preconditions pluginsPath.allIt(it.len > 0)
+  # preconditions pluginsPath.allIt(it.len > 0)
   var extensions = ""
 
   extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
@@ -172,7 +121,7 @@ proc extensionCss(): string {.compiletime.} =
   ## renaming to <extensionname>.css
   ##
   ## 2) Insert <style>-link into HTML
-  preconditions pluginsPath.allIt(it.len > 0)
+  # preconditions pluginsPath.allIt(it.len > 0)
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -199,7 +148,7 @@ proc extensionJs*(): string {.compiletime.} =
   ## renaming to <extensionname>.js
   ##
   ## 2) Insert <js>-link into HTML
-  preconditions pluginsPath.allIt(it.len > 0)
+  # preconditions pluginsPath.allIt(it.len > 0)
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -209,7 +158,7 @@ proc extensionJs*(): string {.compiletime.} =
 
     if staticRead(ppath & "/public/js.js") != "":
       discard staticExec("cp " & ppath & "/public/js.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & ".js")
-      extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer></script>\n")
+      extensions.add("<script src=\"/js/" & splitted[splitted.len-1] & ".js\" defer ></script>\n")
 
     if staticRead(ppath & "/public/js_private.js") != "":
       discard staticExec("cp " & ppath & "/public/js_private.js " & mainDir & "/public/js/" & splitted[splitted.len-1] & "_private.js")
@@ -272,11 +221,11 @@ func init(c: var TData) {.inline.} =
 
 proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
-  preconditions checkCompileOptions.len > 0
+  # preconditions compileOptions.len > 0
   postconditions result == 0
   let appName = dict.getSectionValue("Server", "appname")
   let appPath = getAppDir() / appName
-  result = execCmd("nim c " & checkCompileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
+  result = execCmd("nim c " & compileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
   when defined(release):
     if result == 0 and findExe"strip".len > 0: discard execCmd(cmdStrip & appPath & "_new_tmp")
   moveFile(getAppDir() & "/" & appName & "_new_tmp", getAppDir() & "/" & appName & "_new")
@@ -323,14 +272,18 @@ proc checkLoggedIn(c: var TData) =
 #
 
 
-proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string] =
+proc login(c: var TData, email, pass, totpRaw: string): tuple[isLoginOk: bool, statusMessage: string] =
   ## User login
-  preconditions email.len > 5, pass.len > 3, email.len < 255, pass.len < 301
+  # preconditions email.len > 5, pass.len > 3, email.len < 255, pass.len < 301
   when not defined(demo):
     if email == "test@test.com":
-      return (false, "Email may not be test@test.com")
+      return (false, "Email must not be test@test.com")
+  if unlikely(email.len == 0 and pass.len == 0 and totpRaw.len == 0):
+    return (false, "Username, password and 2 Factor Authentication are all empty")
   if email.len == 0 or pass.len == 0:
     return (false, "Empty password or username")
+  if totpRaw.len == 0:
+    return (false, "Empty 2 Factor Authentication")
 
   const query = sql"SELECT id, name, password, email, salt, status, secretUrl, twofa FROM person WHERE email = ? AND status <> 'Deactivated'"
 
@@ -382,11 +335,9 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[b: bool, s: string
 
 
 proc logout(c: var TData) {.inline.} =
-  ## Logout
-  const query = sql"DELETE FROM session WHERE ip = ? AND key = ?"
+  exec(db, sql"DELETE FROM session WHERE ip = ? AND key = ?", c.req.ip, c.req.cookies["sid"])
   c.username = ""
   c.userpass = ""
-  exec(db, query, c.req.ip, c.req.cookies["sid"])
 
 
 #
@@ -400,7 +351,7 @@ template createTFD() =
   new(c)
   init(c)
   c.req = request
-  if request.cookies.len > 0:
+  if likely(request.cookies.len > 0):  # Make it faster for Logged-in Users.
     checkLoggedIn(c)
   c.loggedIn = loggedIn(c)
 
@@ -441,15 +392,11 @@ when isMainModule:
   extensionUpdateDB(db)
 
   # Insert standard data
-  if "insertdata" in commandLineParams():
-    echo "\n\nInsert standard data?\nThis will override existing data (y/N):"
-    if readLine(stdin).string.strip.toLowerAscii == "y":
-      if "bootstrap" in commandLineParams():
-        createStandardData(db, "bootstrap")
-      elif "clean" in commandLineParams():
-        createStandardData(db, "clean")
-      else:
-        createStandardData(db, "bulma")
+  if "insertdata" in commandLineParams() and readLineFromStdin(
+    "Insert standard data?\nThis will override existing data! (y/n):").normalize == "y":
+    if "bootstrap" in commandLineParams(): createStandardData(db, cssBootstrap)
+    elif "water" in commandLineParams():   createStandardData(db, cssWater)
+    else:                                  createStandardData(db, cssBulma)
 
   # If user has provided arguments then quit
   if commandLineParams().len != 0:
@@ -470,28 +417,7 @@ when isMainModule:
 #
 # Include HTML files
 #
-
-
-include
-  "tmpl/utils.nimf",  # Utils should be first.
-  "tmpl/blog.nimf",
-  "tmpl/blogedit.nimf",
-  "tmpl/blognew.nimf",
-  "tmpl/delayredirect.nimf",
-  "tmpl/editconfig.nimf",
-  "tmpl/files.nimf",
-  "tmpl/logs.nimf",
-  "tmpl/main.nimf",
-  "tmpl/page.nimf",
-  "tmpl/pageedit.nimf",
-  "tmpl/pagenew.nimf",
-  "tmpl/plugins.nimf",
-  "tmpl/serverinfo.nimf",
-  "tmpl/settings.nimf",
-  "tmpl/sitemap.nimf",
-  "tmpl/user.nimf"
-when defined(firejail): include "tmpl/firejail.nimf"
-
+include nimfs/nimfs
 
 #
 # Routes for WWW
@@ -522,9 +448,9 @@ template restrictAccessTo(c: var TData, ranks: varargs[Rank]) =
 
 macro generateRoutes() =
   ## The macro generates the routes for Jester.
-  ## Routes are found in the resources/web/routes.nim.
+  ## Routes are found in the webs/routes.nim.
   ## All plugins "routes.nim" are also included.
-  var extensions = staticRead("resources/web/routes.nim")
+  var extensions = staticRead("webs/routes.nim")
 
   for ppath in pluginsPath:
     extensions.add("\n\n" & staticRead(ppath & "/routes.nim"))

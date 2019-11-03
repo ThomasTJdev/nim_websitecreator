@@ -1,0 +1,203 @@
+#? stdtmpl | standard
+#
+#
+#proc genFiles(c: var TData): string =
+  #let mime            = newMimetypes()
+  #let allFilesPrivate = filesListPrivate()
+  #let allFilesPublic  = filesListPublic()
+  #let allFilesPublicImages = filesListPublicFolderFiles()
+  <div id="files">
+  <h1 class="has-text-centered">Files</h1>
+  <hr>
+  <details id="fileAddContainer">
+    <summary class="label">Upload new file</summary>
+    <form id="fileAdd" >
+      <div class="form-group">
+        <div style="margin-bottom:9px;">
+          <div class="custom-control custom-radio">
+            <input data-value="publicimage" type="radio" id="fileRadio1" name="fileRadio" class="custom-control-input" checked required >
+            <label class="custom-control-label" for="fileRadio1">Public image</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input data-value="private" type="radio" id="fileRadio2" name="fileRadio" class="custom-control-input" required >
+            <label class="custom-control-label" for="fileRadio2">Private file</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input data-value="public" type="radio" id="fileRadio3" name="fileRadio" class="custom-control-input" required >
+            <label class="custom-control-label" for="fileRadio3">Public file</label>
+          </div>
+          <label title="WebP is ~50% size of JPG"><input type="checkbox" name="webpstatus" id="webpstatus"> Compress PNG and JPG using WEBP </label><br>
+          <label title="Force lowercase filename"><input type="checkbox" name="lowercase" id="lowercase"> Lowercase filename </label><br>
+          <label title="Use the MD5 CheckSum as filename"><input type="checkbox" name="checksum" id="checksum"> Use CheckSum as filename </label>
+        </div>
+        <input type="file" class="form-control-file" id="file" name="file" required >
+      </div>
+      <button type="button" class="fileUpload button is-success" onClick="uploadFile()">Upload</button>
+    </form>
+  </details>
+
+  <hr>
+  <h4>Public Files (<code>/public/images/</code>)</h4>
+
+  <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>Last Modification</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>Last Modification</th>
+        <th>Delete</th>
+      </tr>
+    </tfoot>
+    <tbody>
+  #
+  #var counter: int
+  #for file in allFilesPublicImages:
+    #inc counter
+    <tr>
+    <td class="is-narrow"> $counter </td>
+    <td><a href="/images/${ extractFilename(file) }" title="/images/${ extractFilename(file) }" target="_blank"> ${ extractFilename(file) }</a></td>
+    <td> ${ mime.getMimetype(file.splitFile.ext) } </td>
+    <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
+    <td> ${ getLastModificationTime(file) } </td>
+    <td class="is-danger is-narrow"><span class="deleteFile delete" data-url="/files/delete/publicimage/${ extractFilename(file) }" title="Delete ${ extractFilename(file) }"></span></td>
+    </tr>
+  #end for
+  #
+  </tbody>
+  </table>
+  <b>Total files:</b> <code> $counter </code>
+
+  <hr>
+  <h4>Public files (available to all)</h4>
+
+  <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>Last Modification</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>Last Modification</th>
+        <th>Delete</th>
+      </tr>
+    </tfoot>
+    <tbody>
+  #
+  #counter = 0
+  #for file in allFilesPublic:
+    #inc counter
+    <tr>
+    <td class="is-narrow"> $counter </td>
+    <td><a href="/files/stream/public/${ extractFilename(file) }" title="${ extractFilename(file) }" target="_blank"> ${ extractFilename(file) }</a></td>
+    <td> ${ mime.getMimetype(file.splitFile.ext) } </td>
+    <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
+    <td> ${ getLastModificationTime(file) } </td>
+    <td class="is-danger is-narrow"><span class="deleteFile delete" data-url="/files/delete/public/${ extractFilename(file) }" title="Delete ${ extractFilename(file) }"></span></td>
+    </tr>
+  #end for
+  #
+  </tbody>
+  </table>
+  <b>Total files:</b> <code> $counter </code>
+
+  <hr>
+  <h4>Private files (only for logged in users)</h4>
+
+  <table class="table is-bordered is-striped is-hoverable is-fullwidth">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>Last Modification</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tfoot>
+      <tr>
+        <th>#</th>
+        <th>Filename</th>
+        <th>MimeType</th>
+        <th>Size</th>
+        <th>Last Modification</th>
+        <th>Delete</th>
+      </tr>
+    </tfoot>
+    <tbody>
+  #
+  #counter = 0
+  #for file in allFilesPrivate:
+    #inc counter
+    <tr>
+    <td class="is-narrow"> $counter </td>
+    <td><a href="/files/stream/private/${ extractFilename(file) }" title="${ extractFilename(file) }" target="_blank"> ${ extractFilename(file) }</a> </td>
+    <td> ${ mime.getMimetype(file.splitFile.ext) } </td>
+    <td> ${ formatSize(file.getFileSize, prefix = bpColloquial, includeSpace = true) } </td>
+    <td> ${ getLastModificationTime(file) } </td>
+    <td class="is-danger is-narrow"><span class="deleteFile delete" data-url="/files/delete/private/${ extractFilename(file) }" title="Delete ${ extractFilename(file) }"></span></td>
+    </tr>
+  #end for
+  #
+  </tbody>
+  </table>
+  <b>Total files:</b> <code> $counter </code>
+  <hr><br>
+  <div class="notification is-danger">Deleting files can not be undone</div>
+  </div>
+#end proc
+#
+#
+#proc genFilesRaw(c: var TData): string =
+  <div class="container-fluid">
+  <div class="row">
+  #
+  #for file in filesListPrivate():
+    #
+    #if file == "":
+      #continue
+    #end if
+    #
+    <div class="col-6 col-md-2 img-item">
+    <img class="col-md-12 thumbnail" data-url="/files/stream/private/${ extractFilename(file) }" data-filename="${ extractFilename(file) }" src="/files/stream/private/${ extractFilename(file) }" alt="">
+    <i class="fa fa-check"></i>
+    </div>
+  #end for
+  #
+  #for file in filesListPublic():
+    #
+    #if file == "":
+      #continue
+    #end if
+    #
+    <div class="col-6 col-md-2 img-item">
+    <img class="col-md-12 thumbnail" data-url="/files/stream/public/${ extractFilename(file) }" data-filename="${ extractFilename(file)}" src="/files/stream/public/${ extractFilename(file) }" alt="">
+    <i class="fa fa-check"></i>
+    </div>
+  #end for
+  #
+  </div>
+  </div>
+#end proc

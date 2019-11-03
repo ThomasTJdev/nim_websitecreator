@@ -1,6 +1,27 @@
+## v6.0.0
+### Changes
+- Nim V1.0 compatible.
+- PackedJSON Compile-Time optional compatible performance optimization, via `-d:packedjson` https://github.com/Araq/packedjson#packedjson
+- Move static `const` very long strings to a dedicated `constants.nim` file, to keep code clean of long static strings.
+- Version is now set using Nimbles `NimblePkgVersion` https://github.com/nim-lang/nimble/blob/master/changelog.markdown#0110---22092019
+- Add proc `getConfig(path, section)` to get a `Table` of configs, to DRY reading configs.
+- Add `--version-hash` to show Version (Git Short Hash).
+- Add `--backupdb` Full backup of database (Raw SQL plain text file).
+- Add `--backupdb-gpg` Compressed signed full backup of database (GPG+SHA512+TarGz).
+- Add `--backuplogs` Compressed full backup of all old unused rotated Logs (TarGz).
+- Add button for Admin that can Backup Database and Logs from Dashboard.
+- Internal modules reorder for performance and DRY.
+- Removed `--insertdata clean`, not too useful.
+- Add `--insertdata water` Water CSS framework, No JS, classless HTML (No classes on HTML required), is like a better `--insertdata clean` https://u.nu/yosc
+- Update Docs.
+- Fix #119
+- Minor bugs.
+
+
 ## v5.5.2
 ### Changes
 - ReCaptcha compile flag missing + minor bugs
+
 
 ## v5.5.1
 ### Changes
@@ -101,24 +122,27 @@ ALTER TABLE blog ADD COLUMN pubDate VARCHAR(100);
 - Dependency [webp](https://github.com/juancarlospaco/nim-webp-tools), install libwebp on your system
 
 
-
 ## v4.0.11
 ### Changes
 - Remove min and max length on meta text
 - Include blogsort when creating database
 
+
 ## v4.0.10
 ### Changes
 - Redirect to "/" when not logged in and accessing users/<profile>
+
 
 ## v4.0.9
 ### Changes
 - Admin user was not added
 
+
 ## v4.0.8
 ### Changes
 - Front slash is preserved in the url for blogposts and pages
 - Styling of tags and categories on blogposts
+
 
 ## v4.0.7
 ### Changes
@@ -126,10 +150,12 @@ ALTER TABLE blog ADD COLUMN pubDate VARCHAR(100);
 - `-d:demoloadbackup` is removed
 - Testuser can not edit pages
 
+
 ## v4.0.6
 ### Changes
 - Fix robots.txt to avoid problems with Google Webmaster
 - Fix #29, #31
+
 
 ## v4.0.5
 ### Changes
@@ -142,22 +168,27 @@ ALTER TABLE blog ADD COLUMN pubDate VARCHAR(100);
 - UI Redesign.
 - Allow special chars in url with `encodeUrl(@"url", true)`
 
+
 ## v4.0.4
 ### Changes
 - Include meta info on pages
 
+
 ## v4.0.2
 ### Changes
 - The user are prompted before deleting a file, page and blogpost.
+
 
 ## v4.0.0
 ### Changes
 - When adding a new page only basic information is available. Right after saving the new page, the user is redirected to the editing page.
 - When viewing all the blogpost the metadescription is inserted below.
 
+
 ## v3.2.0
 ### Changes
 - Include Summernote as editor
+
 
 ## v3.1.1
 ### Changes
@@ -175,6 +206,7 @@ $ [paste and run]
 ALTER TABLE settings ADD COLUMN blogorder TEXT;
 ALTER TABLE settings ADD COLUMN blogsort TEXT;
 ```
+
 
 ## v3.0.0
 ### Changes

@@ -1,0 +1,15 @@
+#? strip | stdtmpl
+#
+#
+#proc genDelayRedirect*(url: string, message="**Wait!** ⏰", delaySeconds: byte = 5): string {.inline.} =
+  <meta http-equiv="refresh" content="$delaySeconds; url=$url"/>
+  <br>
+  <div class="has-background-white has-text-black is-fullwidth" style="padding:9px;border: 1px solid grey;border-radius:4px">
+    <h1 class="has-text-centered has-text-weight-bold is-size-1"> Loading... </h1>
+    <progress class="progress is-large is-success is-fullwidth is-shadowless is-unselectable is-marginless" title="$delaySeconds Seconds"> Redirecting to $url on $delaySeconds Seconds </progress>
+    <hr>
+    <center class="is-unselectable">
+      ${ rst2html(message.strip) } <br>
+    </center>
+  </div>
+#end proc

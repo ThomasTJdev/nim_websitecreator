@@ -85,19 +85,20 @@ As alternative, [try AndOTP](https://github.com/andOTP/andOTP) (5Mb size).
 To get started you only need:
 
 - Linux (For Windows [see Docker-for-Windows](http://docs.docker.com/docker-for-windows))
-- Nim >= `0.20.2` (Stable Release)
+- Nim >= `1.0.0` (Stable Release)
 
 Development dependencies (automatically installed by Nimble):
 
 - [bCrypt](https://github.com/runvnc/bcryptnim) >= `0.2.1`
 - [Contra](https://github.com/juancarlospaco/nim-contra) >= `0.2.0`
 - [datetime2human](https://github.com/juancarlospaco/nim-datetime2human) >= `0.2.2`
-- [Firejail](https://github.com/juancarlospaco/nim-firejail) >= `0.5.0`
 - [Jester](https://github.com/dom96/jester/) >= `0.4.1`
 - [Libravatar](https://github.com/juancarlospaco/nim-libravatar#nim-libravatar) >= `0.4.0`
 - [otp](https://github.com/OpenSystemsLab/otp.nim) >= `0.1.1`
-- [reCAPTCHA](https://github.com/euantorano/recaptcha.nim) >= `1.0.2`
-- [WebP](https://github.com/juancarlospaco/nim-webp-tools) >= `0.2.0`
+- [Firejail](https://github.com/juancarlospaco/nim-firejail) >= `0.5.0` (optional)
+- [reCAPTCHA](https://github.com/euantorano/recaptcha.nim) >= `1.0.2` (optional)
+- [WebP](https://github.com/juancarlospaco/nim-webp-tools) >= `0.2.0` (optional)
+- [PackedJSON](https://github.com/Araq/packedjson#packedjson) >= `0.1.0` (optional)
 
 Foreing optional dependencies:
 
@@ -207,9 +208,9 @@ These arguments should be prepended to executable file, e.g. `./nimwc cdata`
 * `--backupdb-gpg` = Compressed signed full backup of database.
 * `--newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
 * `--insertdata` = Insert standard data, e.g `--insertdata bulma` (this will override existing data)
-  * `bulma` = Use Bulma CSS
+  * `bulma` = Use Bulma CSS, No JS required
   * `bootstrap` = Use Bootstrap and jQuery
-  * `clean` = No framework is used
+  * `water` = Water CSS framework, No JS, HTML Classless (No classes on HTML required)
 
 
 ## Compile options:
@@ -225,6 +226,7 @@ These options are only available at compiletime:
 * `-d:postgres` = Use Postgres database instead of SQLite.
 * `-d:contracts` = Checks pre- and post-conditions when compiled with `-d:release`.
 * `-d:hardened` = Hardens security, requires `-d:contracts`. Performance cost ~20% max.
+* `-d:packedjson` = Use [PackedJSON](https://github.com/Araq/packedjson#packedjson) instead of [std lib JSON](https://nim-lang.github.io/Nim/json.html). Performance optimization.
 
 
 # User profiles
@@ -427,3 +429,22 @@ https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/b
 - [NimWC Telegram Stickers on the Nim Pack.](https://t.me/addstickers/nimlang)
 
 </details>
+
+
+# Stars
+
+[![Stars over time](https://starchart.cc/ThomasTJdev/nim_websitecreator.svg)](https://starchart.cc/ThomasTJdev/nim_websitecreator "Star NimWC on GitHub!")
+
+
+# License
+
+NimWC uses The Peer Production License ([PPL](https://tldrlegal.com/license/peer-production-license)).
+
+PPL is derived from the Creative Commons *Attribution-NonCommercial-ShareAlike* license.
+However unlike CC-BY-NC-SA, PPL demands reciprocation (whether monetary or otherwise)
+from non-contributing commercial entities (aka Big Corporations). This means, that **mega-corporation cannot just take all your code, rename it, and sell it without contributing back to you.**
+
+The Peer Production License is a reciprocity-based license by which commons are freely accessible to those who contribute to create them,
+while third party non-contributing entities profiting from these commons can be charged a license fee to sustain the project in the long run.
+
+For all other meanings of license, is very similar to [MIT license.](https://tldrlegal.com/license/mit-license)

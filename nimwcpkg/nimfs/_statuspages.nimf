@@ -1,0 +1,137 @@
+#? strip | stdtmpl
+#
+#
+#proc genServerInfo(): string =
+  #const jailv = when defined(firejail): $firejailVersion else: "<i> Firejail is Disabled </i>"
+  #let jailf = when defined(firejail): $firejailFeatures.pretty.strip else: "<i> Firejail is Disabled </i>"
+  <div id="serverinfo">
+    <h1 class="has-text-centered">Server Info</h1>
+    <table border=1 class="table is-bordered is-striped is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th style="width: 200px;">Name</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tfoot>
+        <tr>
+          <th>Name</th>
+          <th>Value</th>
+        </tr>
+      </tfoot>
+      <tbody class="is-family-monospace">
+      <tr>
+        <td> <b>System</b> </td>            <td> ${ static(staticExec("uname -a").strip) } </td>
+      </tr>
+      <tr>
+        <td> <b>Distro</b> </td>            <td> ${ static(staticExec("lsb_release -a").strip) } </td>
+      </tr>
+      <tr>
+        <td> <b>Uptime</b> </td>            <td> ${ execCmdEx("uptime --pretty").output } </td>
+      </tr>
+      <tr>
+        <td> <b>Disk</b> </td>              <td> ${ static(staticExec("df --human-readable --local --output=avail .").strip) } </td>
+      </tr>
+      <tr>
+        <td> <b>Hostname</b> </td>          <td> ${ getHostname() } </td>
+      </tr>
+      <tr>
+        <td> <b>Compile Date</b> </td>      <td> $CompileDate </td>
+      </tr>
+      <tr>
+        <td> <b>Compile Time</b> </td>      <td> $CompileTime </td>
+      </tr>
+      <tr>
+        <td> <b>Nim Version</b> </td>       <td> $NimVersion </td>
+      </tr>
+      <tr>
+        <td> <b>NimWC Version</b> </td>     <td> $NimblePkgVersion </td>
+      </tr>
+      <tr>
+        <td> <b>NimWC Git Commit</b> </td>  <td> $commitHash </td>
+      </tr>
+      <tr>
+        <td> <b>Firejail Version</b> </td>  <td>  $jailv </td>
+      </tr>
+      <tr>
+        <td> <b>Firejail Status</b> </td>   <td> $jailf </td>
+      </tr>
+      <tr>
+        <td> <b>CPU</b> </td>               <td> $hostCPU.toUpperAscii </td>
+      </tr>
+      <tr>
+        <td> <b>CPU Count</b> </td>         <td>${ countProcessors() }</td>
+      </tr>
+      <tr>
+        <td> <b>OS</b> </td>                <td>$hostOS.toUpperAscii</td>
+      </tr>
+      <tr>
+        <td> <b>Endian</b> </td>            <td>$cpuEndian</td>
+      </tr>
+      <tr>
+        <td> <b>Temp Directory</b> </td>    <td>${ getTempDir() }</td>
+      </tr>
+      <tr>
+        <td> <b>Current Directory</b> </td> <td>${ getCurrentDir() }</td>
+      </tr>
+      <tr>
+        <td> <b>Log File</b> </td>          <td>${ logfile }</td>
+      </tr>
+      <tr>
+        <td> <b>App Directory</b> </td>     <td>${ getAppDir() }</td>
+      </tr>
+      <tr>
+        <td> <b>Biggest Integer</b> </td>   <td>$int.high</td>
+      </tr>
+      <tr>
+        <td> <b>Server DateTime</b> </td>   <td>${ now() }</td>
+      </tr>
+      <tr>
+        <td> <b>Encoding</b> </td>          <td>${ getCurrentEncoding() }</td>
+      </tr>
+      <tr>
+        <td> <b>SSL enabled</b> </td>       <td>${ defined(ssl) }</td>
+      </tr>
+      <tr>
+        <td> <b>ReCaptcha enabled</b> </td> <td>${ defined(recaptcha) }</td>
+      </tr>
+      <tr>
+        <td> <b>WebP enabled</b> </td>      <td>${ defined(webp) }</td>
+      </tr>
+      <tr>
+        <td> <b>Release Build</b> </td>    <td>${ defined(release) }</td>
+      </tr>
+      <tr>
+        <td> <b>Demo Mode enabled</b> </td> <td>${ defined(demo) }</td>
+      </tr>
+      <tr>
+        <td> <b>Admin Notify enabled</b> </td><td>${ defined(adminnotify) }</td>
+      </tr>
+      <tr>
+        <td> <b>Force Recompile enabled</b> </td>  <td>${ defined(rc) }</td>
+      </tr>
+      <tr>
+        <td> <b>Development Mode enabled</b> </td> <td>${ defined(dev) }</td>
+      </tr>
+      <tr>
+        <td> <b>Update from GIT enabled</b></td>   <td>${ defined(gitupdate) }</td>
+      </tr>
+      <tr>
+        <td> <b>Compile Options</b></td>    <td> $compileOptions </td>
+      </tr>
+      <tr>
+        <td> <b>Free Memory</b> </td>       <td>${ getFreeMem() }</td>
+      </tr>
+      <tr>
+        <td> <b>Total Memory</b> </td>      <td>${ getTotalMem() }</td>
+      </tr>
+      <tr>
+        <td> <b>Occupied Memory</b> </td>   <td>${ getOccupiedMem() }</td>
+      </tr>
+      <tr>
+        <td> <b>Garbage Collector</b> </td> <td>${ GC_getStatistics() }</td>
+      </tr>
+    </tbody>
+    </table>
+  </div>
+#end proc

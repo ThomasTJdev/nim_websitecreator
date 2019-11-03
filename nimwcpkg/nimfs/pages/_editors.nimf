@@ -1,0 +1,77 @@
+#? stdtmpl | standard
+#
+#
+#proc genEditPage(c: var TData, pageid, newPage: string): string =
+  #let pageData = getAllRows(db, sql"SELECT standardhead, head, standardnavbar, navbar, description, standardfooter, footer, name, url, status FROM pages WHERE id = ?", pageid)
+  #if pageData.len > 0:
+    #for page in pageData:
+      <div id="pageData">
+        <form class="standard page" method="post" action="/page/update">
+          <input name="pageid" value="$pageid" style="display: none" />
+          <div id="save" data-ischanged="0" style="display: none;"></div>
+          <div id="pageHeader">
+            <div class="pageOptions main">
+              <h1>Edit page</h1>
+              <div class="field">
+                <div class="control">
+                  <label class="label">Name</label>
+                  <input class="input" type="text" id="name" name="name" minlength="2" maxlength="128" placeholder="Type Name for new Page" required value="${ page[7] }" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+                </div>
+              </div>
+              <div class="field">
+                <div class="control">
+                  <label class="label">URL</label>
+                  <input class="input" type="text" id="url" name="url" minlength="2" maxlength="128" placeholder="eg. portfolio" value="${ decodeUrl(page[8]) }" required dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Status</label>
+                <div class="control select">
+                  <select id="status" name="status" required >
+                    <option value="0" ${ statusIntToCheckbox(page[9], "0") }>Development</option>
+                    <option value="1" ${ statusIntToCheckbox(page[9], "1") }>Private</option>
+                    <option value="2" ${ statusIntToCheckbox(page[9], "2") }>Public</option>
+                  </select>
+                </div>
+              </div>
+              <div>
+                <button type="button" class="pageSave button is-small is-success">Save</button>
+                <a href="#!" class="pageOptions button is-small is-link">Options</a>
+                <a href="/p/${ page[8] }" class="button is-small is-link preview">View page</a>
+              </div>
+            </div>
+            <div class="pageOptions details">
+              ${ genPageOptions(c, true, false, true, $pageid, page[0], page[2], page[5]) }
+            </div>
+          </div>
+
+          <hr>
+
+          <div>
+      #
+      #if newPage == "true":
+        ${ genPageEditorMainNew(c, "standardpage") }
+      #
+      #else:
+      #
+        ${ genPageEditorMainEdit(c, page[4]) }
+      #end if
+      #
+          </div>
+        </form>
+      </div>
+      <div id="notifySaved"> Saved page </div>
+    #
+    #end for
+    #
+  #
+  #else:
+  #
+    <h5 style="color:red"> Something went wrong </h5>
+  #
+  #end if
+  #
+
+  ${ genPageEditorImport(c, false) }
+
+#end proc

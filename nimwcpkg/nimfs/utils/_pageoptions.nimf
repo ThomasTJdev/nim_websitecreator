@@ -1,0 +1,252 @@
+#? stdtmpl | standard
+#
+#
+#func genProfileJsCss(): string {.inline.} =
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.css"/><script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/3.1.4/cropper.min.js" crossorigin="anonymous" defer></script>
+#end func
+#
+#
+#proc genPageOptions(c: var TData, page, blog, edit: bool, pageid, stdHead, stdNav, stdFoot: string): string =
+  #var title, metadescription, metakeywords, category, tags: string
+  #var pubDate = currentDatetime("date")
+  #var viewCount = "0"
+  #
+  #
+  #if edit and blog:
+    #let pageOrBlog = if page == true: "pages" else: "blog"
+    #let details = getRow(db, sql("SELECT title, metadescription, metakeywords, category, tags, pubDate, creation, viewCount FROM " & pageOrBlog & " WHERE id = ?"), pageid)
+    #
+    #title = details[0]
+    #metadescription = details[1]
+    #metakeywords = details[2]
+    #category = details[3]
+    #tags = details[4]
+    #pubDate = if details[5] != "": details[5] else: epochDate(details[6], "YYYY-MM-DD")
+    #viewCount = details[7]
+  #end if
+  #
+  #
+  #if edit and page:
+    #let pageOrBlog = if page == true: "pages" else: "blog"
+    #let details = getRow(db, sql("SELECT title, metadescription, metakeywords, category, tags FROM " & pageOrBlog & " WHERE id = ?"), pageid)
+    #
+    #title = details[0]
+    #metadescription = details[1]
+    #metakeywords = details[2]
+    #category = details[3]
+    #tags = details[4]
+  #end if
+  #
+  #
+  #if edit:
+    <h4 class="has-text-centered">Change editor</h4>
+    <div class="buttons has-addons columns">
+      <div class="column">
+        <a href="#!"
+    #
+    #if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "html":
+      disabled="disabled"
+    #end if
+    #
+        class="switchEditorRawHTML button is-small is-fullwidth is-info">Switch to raw HTML</a>
+      </div>
+      <div class="column">
+        <a href="#!"
+    #
+    #if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "summernote":
+      disabled="disabled"
+    #end if
+    #
+        class="switchEditorSummernote button is-small is-fullwidth is-info">Switch to Summernote</a>
+      </div>
+      <div class="column">
+        <a href="#!"
+    #
+    #if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "grape":
+      disabled="disabled"
+    #end if
+    #
+        class="switchEditorGrapesJS button is-small is-fullwidth is-info">Switch to GrapesJS</a>
+      </div>
+    </div>
+    <hr>
+  #end if
+  #
+  #
+  #if blog:
+    <h4 class="has-text-centered">Customize blog</h4>
+    <div>
+      <div class="field">
+        <div class="control">
+          <label class="label">Publication date (visible on the blog overview)</label>
+          <input class="input" type="date" name="pubdate" value="${ pubDate }" dir="auto" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" required >
+          <i class="is-size-7">If no date is specified, the creation date will be used. The date has no effect and will only be shown on the blog overview page. Format the date: YYYY-MM-DD</i>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <label class="label">View counter starting at</label>
+          <input class="input" type="number" name="viewcount" value="${ viewCount }" dir="auto" min="0" step="1" placeholder="0" required >
+        </div>
+      </div>
+    </div>
+    <hr>
+  #end if
+  #
+  <h4 class="has-text-centered">Categorize</h4>
+  <div>
+    <div class="field">
+      <div class="control">
+        <label class="label">Category</label>
+        <input class="input" type="text" name="category" value="${ category }" placeholder="Single word category" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <label class="label">Tags</label>
+        <input class="input" type="text" name="tags" value="${ tags }" placeholder="Comma separated tags, e.g. nim,macro" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+      </div>
+    </div>
+  </div>
+  <hr>
+  <h4 class="has-text-centered">HTML</h4>
+  <div style="margin-bottom:20px;">
+    <div class="notification is-warning">
+      If you disable standard default components (CSS/JS),
+      you have to include Style and JavaScript tags by yourself.
+    </div>
+    <div class="input-group input-group-sm">
+      <div class="field">
+        <div class="control">
+          <input class="checkbox" type="checkbox" id="standardhead" name="standardhead" ${ checkboxToChecked($stdHead) }>
+            Use standard head &lt;head&gt;
+          </input>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input class="checkbox" type="checkbox" id="standardnavbar" name="standardnavbar" ${ checkboxToChecked($stdNav) }>
+            Use standard navbar &lt;navbar&gt;
+          </input>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <input class="checkbox" type="checkbox" id="standardfooter" name="standardfooter" ${ checkboxToChecked($stdFoot) }>
+            Use standard footer &lt;footer&gt;
+          </input>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <h4 class="has-text-centered">SEO</h4>
+  <div class="notification is-warning">
+    HTML is not allowed, only plain text (ASCII).
+  </div>
+  <div>
+    <div class="field">
+      <div class="control">
+        <label class="label">Title</label>
+        <input class="input" type="text" name="title" value="${ title }" dir="auto" onblur="this.value=this.value.replace(/\s\s+/g, ' ').replace(/^\s+|\s+$$/g, '')">
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <label class="label">Meta description</label>
+        <textarea class="textarea" name="metadescription" placeholder="Type or paste your Meta description here..." dir="auto">${ metadescription }</textarea>
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <label class="label">Meta keywords</label>
+        <textarea class="textarea" name="metakeywords" placeholder="Separate each keywords with a comma, e.g. blog,design,code" dir="auto">${ metakeywords }</textarea>
+      </div>
+    </div>
+  </div>
+  #
+  #
+  #if edit:
+    <hr>
+    <h4 class="has-text-centered">Highlight code snippets</h4>
+    <div>
+      <div class="field">
+        <div class="control">
+          <label class="label">Format code snippet</label>
+          <pre>&lt;pre>
+      &lt;code class="line-numbers language-nim">
+        proc nimProc() =
+          echo "Hello World"
+      &lt;/code>
+    &lt;/pre></pre>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <label class="label">Import the syntax files you need (examples below)</label>
+          <pre>&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.min.css">
+    &lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.css">
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js">&lt;/script>
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.js">&lt;/script>
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-nim.min.js">&lt;/script>
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-markup.min.js">&lt;/script>
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-css.min.js">&lt;/script>
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-javascript.min.js">&lt;/script>
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-python.min.js">&lt;/script>
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-bash.min.js">&lt;/script></pre>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <label class="label">Highlight code snippets</label>
+          <pre>&lt;script>
+      window.onload = function(){
+        Prism.highlightAll(false, function (){});
+      }
+    &lt;/script></pre>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <h4 class="has-text-centered">Animate content</h4>
+    <div>
+      <div class="field">
+        <div class="control">
+          <label class="label">To enable animations add the class</label>
+          <div>
+            <span class="tag is-dark">.reveal</span>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <label class="label">Add the animation type class</label>
+          <div>
+            <span class="tag is-dark">.reveal-bottom</span>
+            <span class="tag is-dark">.reveal-left</span>
+            <span class="tag is-dark">.reveal-right</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <h4 class="has-text-centered">Delete page</h4>
+    <div class="notification is-danger"> If you Delete a page it can not be undone </div>
+    <div class="buttons" style="margin-bottom: 20px;">
+    #
+    #if page:
+      <span data-url="/page/delete?pageid=$pageid" class="pageDelete button is-danger" title="If you delete a page it can not be undone">Delete page</span>
+    #
+    #else:
+    #
+      <span data-url="/blogpage/delete?blogid=$pageid" class="blogDelete button is-danger" title="If you delete a blogpost it can not be undone">Delete blogpost</span>
+    #end if
+    #
+    </div>
+  #end if
+  #
+#end proc

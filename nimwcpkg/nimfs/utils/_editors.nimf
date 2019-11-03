@@ -1,0 +1,53 @@
+#? strip | stdtmpl
+#
+#
+#func genEditMixed(newPage = true): string {.inline.} =
+  #
+  #if not newPage:
+    <div id="save" data-ischanged="0" style="display:none"></div>
+  #end if
+  #
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.css" integrity="sha256-I8NyGs4wjbMuBSUE40o55W6k6P7tu/7G28/JGUUYCIs=" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/theme/monokai.min.css" integrity="sha256-jAukb65gp2gG6t4FtxpHgB3eFwM/rDUwrE2OaAp6+o8=" crossorigin="anonymous"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/codemirror.min.js" integrity="sha256-uRIJ6Wfou5cTtmcCvQNA9lvsYl8sUbZXxnfG+P79ssY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/mode/xml/xml.min.js" integrity="sha256-QmQ8vh5c1+UzpnyWXYB7nnY1aqpJmXPVkFWtJHJkLnE=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/mode/javascript/javascript.min.js" integrity="sha256-soPk2bgFhLwixxuyUzaWVadUMcVwWNE5JZwYdQhL4Xk=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/mode/css/css.min.js" integrity="sha256-YVb7n24DLwrjN0DghcwJYL17MI/X7e3c4EJZr6PwNdY=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.2/mode/htmlmixed/htmlmixed.min.js" integrity="sha256-CcVYnZJocbbLCyjOo/tA2QEH56hhTBEPZX+che0RYSo=" crossorigin="anonymous" defer></script>
+  <script src="/js/codemirror_custom.js" crossorigin="anonymous" defer></script>
+  <script src="/js/editors.js" crossorigin="anonymous" defer></script>
+#end func
+#
+#
+#func genEditHtml(): string {.inline.} =
+  <div id="save" data-ischanged="0" style="display:none;"></div>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.css" integrity="sha256-o/v/5fOniPHMAww4EAIfRBFV0SeoqksPrY0Yq5x+wSM=" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/theme/monokai.min.css" integrity="sha256-6ov3WWd9ybfZPeJBlXBgQuD/aLhTRCEp5kBhqD9ke0o=" crossorigin="anonymous"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.min.js" integrity="sha256-U/4XQwZXDFDdAHjIZt1Lm7sFfmMiFDZzFYprq6XJ0gk=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/xml/xml.min.js" integrity="sha256-QmQ8vh5c1+UzpnyWXYB7nnY1aqpJmXPVkFWtJHJkLnE=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/htmlmixed/htmlmixed.min.js" integrity="sha256-CcVYnZJocbbLCyjOo/tA2QEH56hhTBEPZX+che0RYSo=" crossorigin="anonymous" defer></script>
+  <script src="/js/codemirror_custom.js" crossorigin="anonymous" defer></script>
+  <script src="/js/editors.js" crossorigin="anonymous" defer></script>
+#end func
+#
+#
+#func genEditJs(): string {.inline.} =
+  <div id="save" data-ischanged="0" style="display:none;"></div>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.css" integrity="sha256-o/v/5fOniPHMAww4EAIfRBFV0SeoqksPrY0Yq5x+wSM=" crossorigin="anonymous"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/theme/monokai.min.css" integrity="sha256-6ov3WWd9ybfZPeJBlXBgQuD/aLhTRCEp5kBhqD9ke0o=" crossorigin="anonymous"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.min.js" integrity="sha256-U/4XQwZXDFDdAHjIZt1Lm7sFfmMiFDZzFYprq6XJ0gk=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/javascript/javascript.min.js" integrity="sha256-MyRbKGolllWYWwxW8jH3jYdhK0p0LpgNjR8PqCa/UNQ=" crossorigin="anonymous" defer></script>
+  <script src="/js/codemirror_custom.js" crossorigin="anonymous" defer></script>
+  <script src="/js/editors.js" crossorigin="anonymous" defer></script>
+#end func
+#
+#
+#func genEditCss(): string {.inline.} =
+  <div id="save" data-ischanged="0" style="display:none;"></div>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.css" integrity="sha256-o/v/5fOniPHMAww4EAIfRBFV0SeoqksPrY0Yq5x+wSM=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/theme/monokai.min.css" integrity="sha256-6ov3WWd9ybfZPeJBlXBgQuD/aLhTRCEp5kBhqD9ke0o=" crossorigin="anonymous" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/codemirror.min.js" integrity="sha256-U/4XQwZXDFDdAHjIZt1Lm7sFfmMiFDZzFYprq6XJ0gk=" crossorigin="anonymous" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.37.0/mode/css/css.min.js" integrity="sha256-YVb7n24DLwrjN0DghcwJYL17MI/X7e3c4EJZr6PwNdY=" crossorigin="anonymous" defer></script>
+  <script src="/js/codemirror_custom.js" crossorigin="anonymous" defer></script>
+  <script src="/js/editors.js" crossorigin="anonymous" defer></script>
+#end func

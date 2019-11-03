@@ -314,7 +314,7 @@ setStandardData() {
   ToggleCommand=(whiptail --separate-output --radiolist "Insert standard data?" ${r} ${c} 6)
   ChooseOptions=("Bulma (Recommended)" "" on
       Bootstrap "" off
-      Clean "" off
+      Water "" off
       Off "" off)
   Choices=$("${ToggleCommand[@]}" "${ChooseOptions[@]}" 2>&1 >/dev/tty) || (printf "  %bCancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}" && exit 1)
   case ${Choices} in
@@ -326,9 +326,9 @@ setStandardData() {
           printf "  %b Bootstrap standard data\\n" "${INFO}"
           CFG_STANDARDDATA="--insertdata bootstrap"
           ;;
-      Clean)
-          printf "  %b No framework standard data\\n" "${INFO}"
-          CFG_STANDARDDATA="--insertdata clean"
+      Water)
+          printf "  %b Water standard data (HTML Classless)\\n" "${INFO}"
+          CFG_STANDARDDATA="--insertdata water"
           ;;
       Off)
           printf "  %b Standard data off\\n" "${INFO}"
@@ -479,7 +479,7 @@ compile_nimwc() {
 
   # Add admin user
   printf "  %b %s\\n" "${INFO}" "To finish the setup of NimWC, add an Admin user:"
-  printf "  %b %s\\n" "${INFO}" " .${installLoc}/nimwc --newadmin"
+  printf "  %b %s\\n" "${INFO}" " ${installLoc}/nimwc --newadmin"
 
   if [[ "${EUID}" -eq 1 ]]; then
     printf "\\n\\n"

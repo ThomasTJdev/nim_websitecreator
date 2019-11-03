@@ -1,0 +1,131 @@
+#? stdtmpl | standard
+#
+#
+#proc genBlogAllPages(c: var TData, edit = false, name = "", category = "", tags = ""): string =
+  #var status = "(2)"
+  #if c.loggedIn: status = "(0,1,2)" else: status = "(2)"
+  #end if
+  #
+  #var sortingOrder = "modified DESC"
+  #let blogSorting = getRow(db, sql"SELECT blogorder, blogsort FROM settings")
+  #if blogSorting[0].len != 0 and blogSorting[1].len != 0:
+  #  sortingOrder = blogSorting[0] & " " & blogSorting[1]
+  #end if
+  #
+  #var allBlogPages: seq[Row]
+  #
+  #if name.len != 0:
+    #allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags, viewCount, pubDate FROM blog WHERE status IN " & status & " AND name LIKE ? ORDER BY " & sortingOrder), "%" & name & "%")
+  #elif category.len != 0:
+    #allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags, viewCount, pubDate FROM blog WHERE status IN " & status & " AND category = ? ORDER BY " & sortingOrder), category)
+  #elif tags.len != 0:
+    #allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags, viewCount, pubDate FROM blog WHERE status IN " & status & " AND tags LIKE ? ORDER BY " & sortingOrder), "%" & tags & "%")
+  #else:
+    #allBlogPages = getAllRows(db, sql("SELECT id, url, name, description, status, creation, metadescription, category, tags, viewCount, pubDate FROM blog WHERE status IN " & status & " ORDER BY " & sortingOrder))
+  #end if
+  #
+  #let allCategories = getAllRows(db, sql("SELECT DISTINCT category FROM blog WHERE status IN " & status & " ORDER BY category ASC"))
+  <div id="allblogPosts">
+  <div class="has-text-centered blogHeading">
+  <h1>All blog posts</h1>
+  #
+  #if c.loggedIn:
+    <h4>You are logged in, so all post are visible</h4>
+  #end if
+  #
+  </div>
+  #
+  #if allBlogPages.len < 1:
+    <div class="has-text-centered blogInfo">
+    <h3 class="has-text-centered"><i>No blog posts</i></h3>
+    </div>
+  #
+  #else:
+  #
+    #
+    #if category.len != 0:
+      <div class="has-text-centered sortValue"><h3 class="has-text-centered"><i>${ category }</i></h3></div>
+    #
+    #elif tags.len != 0:
+    #
+      <div class="has-text-centered sortValue"><h3 class="has-text-centered"><i>${ tags }</i></h3></div>
+    #end if
+    #
+    #
+    #if allCategories.len > 0:
+      <div class="categories">
+      #for cat in allCategories:
+        #
+        #if cat[0] == "":
+          #continue
+        #end if
+        #
+        <div>
+        #
+        #if category.len > 0 and category == cat[0]:
+          <a href="/blog?category=${ cat[0] }" class="category active">${ cat[0] }</a>
+        #
+        #else:
+        #
+          <a href="/blog?category=${ cat[0] }" class="category">${ cat[0] }</a>
+        #end if
+        #
+        </div>
+      #end for
+      #
+    </div>
+    #end if
+    #
+    <ul>
+    #
+    #for blog in allBlogPages:
+      #var blogTitle = ""
+      #
+      #if edit:
+        #blogTitle = "<h5><a class='button is-link is-small' href='/editpage/blog/" & blog[0] & "'>edit</a> - <a class='blognameEdit' href='/blog/" & blog[1] & "'>" & blog[2] & "</a></h5>"
+      #
+      #else:
+      #
+        #blogTitle = "<h5 class='blogName'><a class='blogName' href='/blog/" & blog[1] & "'>" & blog[2] & "</a></h5>"
+      #end if
+      #
+      <li>
+      <div>
+      <div class="is-pulled-right is-hidden-mobile float-right d-none d-md-block">
+      <small> ${ if blog[10] != "": blog[10] else: epochDate(blog[5], "YYYY-MM-DD") } </small>
+      <small class="blogViews" style="display:block;">Views: ${ blog[9] }</small>
+      #
+      #if c.loggedIn:
+        <small style="display: block;">${ statusIntToText(blog[4]) }</small>
+      #end if
+      #
+      </div>
+      $blogTitle
+      <small class="is-hidden-tablet d-md-none">${ epochDate(blog[5], "YYYY-MM-DD") }</small>
+      <div style="margin-top:10px;">${ blog[6] }</div>
+      <div class="categorize">
+      #
+      #if blog[7].len != 0:
+        <a href="/blog?category=${ blog[7] }" class="category">${ blog[7] }</a>
+      #end if
+      #
+      #
+      #if blog[8].len != 0:
+        #
+        #for tag in split(blog[8], ","):
+          <a href="/blog?tags=${ tag }" class="tags">${ tag }</a>
+        #end for
+        #
+      #end if
+      #
+      </div>
+      </div>
+      </li>
+    #end for
+    #
+    </ul>
+  #
+  #end if
+  #
+  </div>
+#end proc

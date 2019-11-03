@@ -1,0 +1,59 @@
+#? stdtmpl | standard
+#
+#
+#proc genPageEditorImport(c: var TData, isNewPage: bool): string =
+  #if c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "grape":
+    <script src="https://unpkg.com/grapesjs" crossorigin="anonymous" defer></script>
+    <script src="/js/grapesjsbs4.min.js" crossorigin="anonymous" defer></script>
+    <script src="/js/grapesjs_custom.js" crossorigin="anonymous" defer></script>
+    <script src="/js/editors.js" crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" href="https://unpkg.com/grapesjs/dist/css/grapes.min.css"/>
+    <script>
+    function grapeJsLoadAssets() {
+      const am = editor.AssetManager;
+      am.add([
+    #
+    #var multiple = false
+    #for file in walkFiles("public/images/*"):
+      #
+      #if multiple:
+        ,{src: '${replace(file, "public", "")}'}
+      #
+      #else:
+      #
+        {src: '${replace(file, "public", "")}'}
+        #multiple = true
+      #end if
+      #
+    #end for
+    #
+      ]);
+      am.render();
+    }
+    </script>
+  #
+  #elif c.req.cookies.hasKey("editor") and c.req.cookies["editor"] == "summernote":
+  #
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.css" integrity="sha256-ADCoAb8+4Q0aUjknVls52/iuqleXITKP65owZtLSGBI=" crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" defer></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-bs4.min.js" integrity="sha256-EqzdHRQ0S25bXoh1W7841pzdUUgmlUk90Ov1Ckj1nk4=" crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/themes/prism.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/prism.min.js" crossorigin="anonymous" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/plugins/line-numbers/prism-line-numbers.min.js" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-nim.min.js" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-css.min.js" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-javascript.min.js" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-python.min.js" crossorigin="anonymous" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.15.0/components/prism-bash.min.js" crossorigin="anonymous" defer></script>
+    <script src="/js/editors.js" crossorigin="anonymous" defer></script>
+  #
+  #else:
+  #
+    ${ genEditMixed(isNewPage) }
+  #end if
+  #
+#end proc
