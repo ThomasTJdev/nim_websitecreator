@@ -479,7 +479,7 @@ compile_nimwc() {
 
   # Add admin user
   printf "  %b %s\\n" "${INFO}" "To finish the setup of NimWC, add an Admin user:"
-  printf "  %b %s\\n" "${INFO}" " .${installLoc}/nimwc --newadmin"
+  printf "  %b %s\\n" "${INFO}" " ${installLoc}/nimwc --newadmin"
 
   if [[ "${EUID}" -eq 1 ]]; then
     printf "\\n\\n"
