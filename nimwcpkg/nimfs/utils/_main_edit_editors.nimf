@@ -19,7 +19,7 @@
   #else:
   #
     <textarea name="editordata" id="editordataCodemirror" class="textarea">
-      ${ content }
+${ content }
     </textarea>
   #end if
   #
