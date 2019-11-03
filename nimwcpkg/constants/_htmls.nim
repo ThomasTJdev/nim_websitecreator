@@ -1,6 +1,6 @@
 ## Static string HTML constants, do NOT put any run-time logic here, only consts.
 ## Do NOT import this file directly, instead import ``constants.nim``
-import ../webs/html_utils
+import strutils, ../webs/html_utils
 
 const
   inputNumber* = r"""
