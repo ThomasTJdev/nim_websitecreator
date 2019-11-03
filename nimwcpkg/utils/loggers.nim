@@ -32,7 +32,7 @@ proc backupOldLogs*(logFilePath: string): tuple[output: TaintedString, exitCode:
   var files2tar: seq[string]
   for logfile in walkFiles(logFilePath / "*.log"): files2tar.add logfile
   if files2tar.len > 1:
-    let cmd = cmdTar & "logs-" & replace($now(), ":", "_") & ".tar.gz " & files2tar.join" "
+    let cmd = cmdTar & logFilePath / "logs-" & replace($now(), ":", "_") & ".tar.gz " & files2tar.join" "
     result = execCmdEx(cmd)
     if result.exitCode == 0:
       for filename in files2tar: discard tryRemoveFile(filename)
