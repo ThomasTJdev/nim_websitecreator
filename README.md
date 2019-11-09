@@ -192,6 +192,12 @@ This will guide you through the installation.
 curl https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/devops/autoinstall.sh -sSf | sh
 ```
 
+OR
+
+```
+curl https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/devops/autoinstall.sh -sSfLO && echo "6cc7510305db7b0ae5e3755137e71c23c7e08829264ddfb82702e6cac297f1063b46c48c01eafb16156c27a53aa23d1737c34f354ae1834c8498f5bd64b81b3c autoinstall.sh" | sha512sum -c - && sh ./autoinstall.sh
+```
+
 
 # Use
 
