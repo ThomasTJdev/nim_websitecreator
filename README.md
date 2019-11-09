@@ -447,6 +447,11 @@ https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/b
 </details>
 
 
+# Videos
+
+[<img src="https://img.youtube.com/vi/3R1l4Ha0tDI/maxresdefault.jpg" width="99%">](https://youtu.be/3R1l4Ha0tDI "NimWC Video!")
+
+
 # Stars
 
 [![Stars over time](https://starchart.cc/ThomasTJdev/nim_websitecreator.svg)](https://starchart.cc/ThomasTJdev/nim_websitecreator "Star NimWC on GitHub!")
