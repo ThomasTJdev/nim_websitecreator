@@ -66,8 +66,8 @@ proc pluginSkeleton() =
 
   let
     authorName = readLineFromStdin("Author name: ").string.strip
-    authorMail = readLineFromStdin("Your email: ").string.strip.toLowerAscii
-    authorWeb = readLineFromStdin("Your personal website HTTP URL (if any): ").string.strip
+    authorMail = readLineFromStdin("Author email: ").string.strip.toLowerAscii
+    authorWeb = readLineFromStdin("Author website HTTP URL: ").string.strip
 
   # Create dirs
   discard existsOrCreateDir("plugins")
