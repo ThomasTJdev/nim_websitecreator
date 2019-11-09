@@ -60,15 +60,18 @@ proc updateNimwc() =
 proc pluginSkeleton() =
   ## Creates the skeleton (folders and files) for a plugin
   styledEcho(fgCyan, bgBlack, skeletonMsg)
-  let pluginName = normalize(readLineFromStdin("Plugin name: "))
+  let pluginName = normalize(readLineFromStdin("Plugin name: ").string.strip.toLowerAscii)
   assert pluginName.len > 1, "Plugin name needs to be longer: " & pluginName
   assert " " notin pluginName, "Plugin name may not contain spaces: " & pluginName
 
-  let authorName = readLineFromStdin("Author name: ")
+  let
+    authorName = readLineFromStdin("Author name: ").string.strip
+    authorMail = readLineFromStdin("Your email: ").string.strip.toLowerAscii
+    authorWeb = readLineFromStdin("Your personal website HTTP URL (if any): ").string.strip
 
   # Create dirs
-  discard existsOrCreateDir("tmp")
-  let folder = "tmp" / pluginName
+  discard existsOrCreateDir("plugins")
+  let folder = "plugins" / pluginName
   discard existsOrCreateDir(folder)
   discard existsOrCreateDir(folder / "public")
 
@@ -80,12 +83,16 @@ proc pluginSkeleton() =
   writeFile(folder / "public" / "style.css",
     "/* https://bulma.io/documentation OR https://getbootstrap.com OR clean CSS */\n")
 
+  if readLineFromStdin("Generate optional compile-time config files? (y/N): ").normalize == "y":
+    if readLineFromStdin("Use NimScript instead of CFG? (y/N): ").normalize == "y":
+      writeFile(folder / pluginName & ".nims", "# https://nim-lang.org/docs/nims.html\n")
+    else:
+      writeFile(folder / pluginName & ".nim.cfg", "# https://nim-lang.org/docs/parsecfg.html\n")
+
   if readLineFromStdin("Generate optional NimWC files? (y/N): ").string.strip.toLowerAscii == "y":
     writeFile(folder / "public/js_private.js", "")
     writeFile(folder / "public/style_private.css", "")
     writeFile(folder / "html.nimf", "<!-- https://nim-lang.org/docs/filters.html -->\n")
-    writeFile(folder / pluginName & ".nim.cfg",
-      "# https://nim-lang.org/docs/parsecfg.html\n")
 
   if readLineFromStdin("Generate optional .gitignore file? (y/N): ").normalize == "y":
     writeFile(folder / ".gitattributes", "*.* linguist-language=Nim\n")
@@ -100,9 +107,9 @@ proc pluginSkeleton() =
     writeFile(folder / "README." & ext, "# " & pluginName & "\n")
     writeFile(folder / "CHANGELOG." & ext, "# 0.0.1\n\n- First initial version of " & pluginName & " created at " & $now())
 
-  writeFile(folder / "plugin.json",
-    pluginJson.format(capitalizeAscii(pluginName), pluginName, authorName, NimblePkgVersion.substr(0, 2)))
-  quit("\nNimWC created a new Plugin skeleton, happy hacking, bye.\n", 0)
+  writeFile(folder / "plugin.json", pluginJson.format(
+    capitalizeAscii(pluginName), pluginName, authorName, authorMail, authorWeb, NimblePkgVersion.substr(0, 2)))
+  quit("New Plugin at /plugins/\n\nNimWC created a new Plugin skeleton, happy hacking, bye.", 0)
 
 
 proc handler() {.noconv.} =

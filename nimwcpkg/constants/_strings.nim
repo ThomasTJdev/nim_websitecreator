@@ -4,7 +4,7 @@
 
 
 const
-  NimblePkgVersion* {.strdefine.} = "6.0.1"  ## NimWC Version (SemVer)
+  NimblePkgVersion* {.strdefine.} = "6.0.2"  ## NimWC Version (SemVer)
 
   commitHash* = staticExec"git rev-parse --short HEAD" & "" ## NimWC Version (Git Hash)
 
@@ -116,13 +116,13 @@ const
       "name": "$1",
       "foldername": "$2",
       "version": "0.1",
-      "requires": "$4",
+      "requires": "$6",
       "url": "https://github.com/$3/$2",
       "method": "git",
       "description": "$2 plugin for Nim Website Creator.",
       "license": "MIT",
-      "web": "",
-      "email": "",
+      "web": "$5",
+      "email": "$4",
       "sustainability": ""
     }
   ]
@@ -160,12 +160,17 @@ const
 
 
 const reqCode* = """
+when defined(postgres): import db_postgres
+else: import db_sqlite
+include "html.nimf"
+
 
 # Code your plugins backend logic in this file.
 proc $1Start*(db: DbConn): auto =
   ## Code your plugins start-up backend logic here, db is the database.
   ## - Postgres Documentation: https://nim-lang.org/docs/db_postgres.html
   ## - SQLite 3 Documentation: https://nim-lang.org/docs/db_sqlite.html
+  ## - proc names must have public export star "*" to be seen from outside this file.
   discard  # Your code here...
 
 """
