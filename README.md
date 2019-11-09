@@ -462,3 +462,6 @@ The Peer Production License is a reciprocity-based license by which commons are 
 while third party non-contributing entities profiting from these commons can be charged a license fee to sustain the project in the long run.
 
 For all other meanings of license, is very similar to [MIT license.](https://tldrlegal.com/license/mit-license)
+
+
+[  ⬆️  ⬆️  ⬆️  ⬆️  ](#nim-website-creator "Go to top")
