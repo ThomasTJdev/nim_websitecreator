@@ -12,7 +12,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 ![](https://img.shields.io/github/issues-pr-raw/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
 ![](https://img.shields.io/github/last-commit/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
 
-<img src="http://feeds.feedburner.com/RecentCommitsToNimWC.1.gif" alt="Recent Commits to NimWC">
+<img src="http://feeds.feedburner.com/RecentCommitsToNimWC.1.gif" alt="Recent Commits to NimWC" title="Recent Commits to NimWC" width="99%" height="75px">
 
 
 # Features
