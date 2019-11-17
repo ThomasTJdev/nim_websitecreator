@@ -64,6 +64,9 @@ jobs:
         export PATH=$HOME/.nimble/bin:$PATH
         nimble build
 
+    - name: Strip Binary
+      run: strip --strip-all nimwc
+
     #- name: Unittest project
     #  run: |
     #    export PATH=$HOME/.nimble/bin:$PATH
