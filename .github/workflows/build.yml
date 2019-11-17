@@ -59,10 +59,15 @@ jobs:
         export PATH=$HOME/.nimble/bin:$PATH
         nimble check
 
-    - name: Compile project
+    - name: Compile DEBUG Mode
       run: |
         export PATH=$HOME/.nimble/bin:$PATH
         nimble build
+
+    - name: Compile RELEASE Mode
+      run: |
+        export PATH=$HOME/.nimble/bin:$PATH
+        nimble build -d:release -d:danger
 
     - name: Strip Binary
       run: strip --strip-all nimwc
