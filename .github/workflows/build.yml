@@ -59,10 +59,10 @@ jobs:
         export PATH=$HOME/.nimble/bin:$PATH
         nimble check
 
-    #- name: Compile project
-    #  run: |
-    #    export PATH=$HOME/.nimble/bin:$PATH
-    #    nimble build
+    - name: Compile project
+      run: |
+        export PATH=$HOME/.nimble/bin:$PATH
+        nimble build
 
     #- name: Unittest project
     #  run: |
