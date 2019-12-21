@@ -479,8 +479,8 @@ routes:
     if @"access" notin ["private", "public", "publicimage"]:
       resp("Error: Missing access right")
     let
-      efspublic = storageEFS / "files/public/"
-      efsprivate = storageEFS / "files/private/"
+      efspublic = storageEFS / "files/public"
+      efsprivate = storageEFS / "files/private"
     var
       path: string
       filename = request.formData["file"].fields["filename"]
@@ -496,10 +496,10 @@ routes:
       path = "public/images" / filename
     elif @"access" == "public":
       assert existsDir(efspublic), "storageEFS Public Folder not found: " & efspublic
-      path = efspublic & filename
+      path = efspublic / filename
     else:
       assert existsDir(efsprivate), "storageEFS Private Folder not found: " & efsprivate
-      path = efsprivate & filename
+      path = efsprivate / filename
     if fileExists(path):
       resp("Error: A file with the same name exists")
     writeFile(path, filedata)
