@@ -1,5 +1,5 @@
 # Package
-version       = "6.0.1"
+version       = "6.0.3"
 author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev) & Juan Carlos (https://github.com/juancarlospaco)"
 description   = "Generate and host a website. Run the package and access your new webpage."
 license       = "PPL"

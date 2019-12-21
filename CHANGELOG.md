@@ -1,3 +1,13 @@
+## v6.0.3
+## Changes
+- Fix #121, #122 and #123
+- Bug in uploading files to the public and private folder. A slash / was messing with the folder location.
+
+## v6.0.2
+### Changes
+- Bug, if 2fa field was empty login was not possible.
+
+
 ## v6.0.1
 ### Changes
 - Bug in loading recaptcha JS (crossorigin anonymous)
