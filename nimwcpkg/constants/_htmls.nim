@@ -396,10 +396,13 @@ const
             <p>Can you write YAML? then you can code a web app and a NimWC plugin!</p>
             <br>
             <p><b>Keep It Simple</b><br>this is how a <i>Hello World</i> looks like:</p>
-            <textarea rows=3 readonly disabled >
-            routes:
-              get "/yourUrlHere":
-                resp "Hello World"</textarea>
+            <div id="code">
+              <span class="route1">routes:</span>
+              <br>
+              <span class="route2">get "/yourUrlHere":</span>
+              <br>
+              <span class="route3">resp "Hello World"</span>
+            </div>
             <br>
             <small><a href="https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/basico/jester/hello_web_3.nim#L38">A more complete example</a></small>
           </div>
@@ -560,10 +563,13 @@ const
             <p>Can you write YAML? then you can code a web app and a NimWC plugin!</p>
             <br>
             <p><b>Keep It Simple</b><br>this is how a <i>Hello World</i> looks like:</p>
-            <textarea rows=3 readonly disabled >
-            routes:
-              get "/yourUrlHere":
-                resp "Hello World"</textarea>
+            <div id="code">
+              <span class="route1">routes:</span>
+              <br>
+              <span class="route2">get "/yourUrlHere":</span>
+              <br>
+              <span class="route3">resp "Hello World"</span>
+            </div>
             <br>
             <small><a href="https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/basico/jester/hello_web_3.nim#L38">A more complete example</a></small>
           </div>
