@@ -1,11 +1,5 @@
 
 routes:
-  #error Http404:
-  #  redirect("/")
-  # Duplicated issue #152 & #155
-  #error Http404:
-  #  discard
-
   get "/":
     createTFD()
     let data = getValue(db, sql"SELECT id FROM pages WHERE url = 'frontpage'")
