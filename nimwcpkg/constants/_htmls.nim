@@ -179,7 +179,7 @@ const
       <div class="level"><a class="level-item" href="https://nim-lang.org">Powered by Nim</a></div>
     </div>
   </div>
-  <p class="subtitle has-text-centered is-6">&copy; PPL - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></p><br>
+  <p class="subtitle has-text-centered is-6">&copy; PPL - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></p>
 </div>"""
 
 
