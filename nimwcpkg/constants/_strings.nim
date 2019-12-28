@@ -97,7 +97,7 @@ const
   skeletonMsg* = """
 
   NimWC: Creating plugin skeleton.
-  New plugin template will be created inside the folder:  tmp/
+  New plugin template will be created inside the folder:  plugins/
   (The files will have useful comments with help & links).
 
   """
@@ -186,7 +186,7 @@ Options:
   --forcebuild   Force Recompile.
   --newadmin     Add 1 new Admin or Moderator user (asks name, mail & password).
   --gitupdate    Update from Git origin master then force a hard reset and exit.
-  --initplugin   Create 1 new empty plugin skeleton inside the folder ./tmp/
+  --initplugin   Create 1 new empty plugin skeleton inside the folder ./plugins/
   --vacuumdb     Vacuum database and continue (automatic database maintenance).
   --backupdb     Full backup of database (Raw SQL plain text file).
   --backupdb-gpg Compressed signed full backup of database (GPG+SHA512+TarGz).
