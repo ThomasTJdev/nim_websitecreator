@@ -34,8 +34,8 @@ const
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/style_custom.css">
-<script src="/js/js.js" crossorigin="anonymous"></script>
-<script src="/js/js_custom.js" crossorigin="anonymous"></script>"""
+<script src="/js/js.js" crossorigin="anonymous" defer></script>
+<script src="/js/js_custom.js" crossorigin="anonymous" defer></script>"""
 
 
   headClean* = """<meta charset="utf-8">
@@ -49,7 +49,7 @@ const
 <link rel="apple-touch-icon" sizes="180x180" href="/images/logo/favicon-180x180.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.min.css"> <!-- Delete this line to remove Water CSS -->
 <link rel="stylesheet" href="/css/style_custom.css">
-<script src="/js/js_custom.js" crossorigin="anonymous"></script>"""
+<script src="/js/js_custom.js" crossorigin="anonymous" defer></script>"""
 
 
   headBootstrap* = """<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -62,11 +62,11 @@ const
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha256-YLGeXaapI0/5IgZopewRJcFXomhRMlYYjugPLSyNjTY=" crossorigin="anonymous" />
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/style_custom.css">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous"></script>
-<script src="/js/js.js" crossorigin="anonymous"></script>
-<script src="/js/js_custom.js" crossorigin="anonymous"></script>"""
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha256-CjSoeELFOcH0/uxWu6mC/Vlrc1AARqbm/jiiImDGV3s=" crossorigin="anonymous" defer></script>
+<script src="/js/js.js" crossorigin="anonymous" defer></script>
+<script src="/js/js_custom.js" crossorigin="anonymous" defer></script>"""
 
 
   navbar* = """<nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
