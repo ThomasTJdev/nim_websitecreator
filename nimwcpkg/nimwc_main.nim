@@ -36,7 +36,7 @@ randomize()
 #
 
 
-func getPluginsPath*(): seq[string] {.compileTime.} =
+proc getPluginsPath*(): seq[string] {.compileTime.} =
   ## Get all plugins path
   ##
   ## Generates a seq[string] with the path to the plugins
