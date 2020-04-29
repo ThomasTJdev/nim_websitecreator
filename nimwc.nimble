@@ -1,5 +1,5 @@
 # Package
-version       = "6.0.4"
+version       = "6.0.5"
 author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev) & Juan Carlos (https://github.com/juancarlospaco)"
 description   = "Generate and host a website. Run the package and access your new webpage."
 license       = "PPL"
@@ -18,7 +18,7 @@ requires "datetime2human >= 0.2.5"
 requires "firejail >= 0.5.0"
 requires "libravatar >= 0.5.0"
 requires "otp >= 0.1.1"
-requires "recaptcha >= 1.0.2"
+requires "recaptcha >= 1.0.3"
 requires "webp >= 0.2.5"
 requires "packedjson >= 0.1.0"
 
