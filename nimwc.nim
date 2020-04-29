@@ -268,6 +268,7 @@ when isMainModule:
       of "insertdata":
         if "bootstrap" in commandLineParams(): createStandardData(db, cssBootstrap, on)
         elif "water" in commandLineParams():   createStandardData(db, cssWater, on)
+        elif "official" in commandLineParams():createStandardData(db, cssOfficial, on)
         else:                                  createStandardData(db, cssBulma, on)
       of "vacuumdb": echo vacuumDb(db)
       of "backupdb-gpg": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"))

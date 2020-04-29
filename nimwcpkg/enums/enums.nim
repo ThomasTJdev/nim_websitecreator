@@ -10,6 +10,7 @@ type
     cssBulma = "bulma"
     cssBootstrap = "bootstrap"
     cssWater = "water"
+    cssOfficial = "official"
 
   ConfigSections* = enum        ## Configuration Sections.
     cfgDatabase = "Database"
