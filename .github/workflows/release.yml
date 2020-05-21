@@ -1,0 +1,45 @@
+name: Build NimWC release 👑
+
+on:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - uses: jiro4989/setup-nim-action@master
+      with:
+        nim-version: ${{ matrix.version }}
+
+    - name: Print Nim version
+      run: nim -v
+
+    - name: Print Nimble version
+      run: nimble -v
+
+    - name: Nimble Refresh
+      run: nimble -y refresh
+
+    - name: Nimble Install dependencies
+      run: nimble -y install --depsOnly
+
+    - name: Build binaries
+      run: nimble build -d:release
+
+    - name: Archive Release
+      uses: papeloto/action-zip@v1
+      with:
+        files: config/ nimwcpkg/ plugins/ public/ nimwc nimwc.nim nimwc.nim.cfg nimwc.nimble
+        dest: release-${{ matrix.os }}.zip
+
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: release-${{ matrix.os }}.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
