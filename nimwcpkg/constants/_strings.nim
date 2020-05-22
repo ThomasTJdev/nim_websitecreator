@@ -194,6 +194,7 @@ Options:
   --insertdata bulma     Insert https://bulma.io data to database (No JS, Default, overrides data)
   --insertdata bootstrap Insert https://getbootstrap.com data to database (jQuery, overrides data)
   --insertdata water     Insert Water CSS data to database (No JS, HTML Classless, overrides data)
+  --insertdata official  Insert official nimwc.org data to database (overrides data, CSS, JS)
   --newdb        Generates a database with standard tables (Wont override data).
                   If no database exists, new db will be initialized automatically.
 

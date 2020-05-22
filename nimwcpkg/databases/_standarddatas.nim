@@ -10,6 +10,10 @@ proc standardDataSettings*(db: DbConn, dataStyle = cssBulma) =
     discard insertID(db, sqlDataSettings, title, headBootstrap, navbarBootstrap, footer)
   of cssWater:
     discard insertID(db, sqlDataSettings, title, headClean, navbarClean, footerClean)
+  of cssOfficial:
+    discard insertID(db, sqlDataSettings, title, headOfficial, navbarOfficial, footerOfficial)
+    writeFile("public/js/js_custom.js", officialJs)
+    writeFile("public/css/style_custom.css", officialCss)
   else:
     discard insertID(db, sqlDataSettings, title, head, navbar, footer)
 
@@ -26,6 +30,8 @@ proc standardDataFrontpage*(db: DbConn, dataStyle = cssBulma) =
     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"""
   if dataStyle == cssWater:
     discard insertID(db, sqlFrontpageData, "1", "2", "frontpage", "Frontpage", frontpageClean, "1", "1", "1", "", "", "")
+  elif dataStyle == cssOfficial:
+    discard insertID(db, sqlFrontpageData, "1", "2", "frontpage", "Frontpage", frontpageOfficial, "1", "1", "1", "", "", "")
   else:
       discard insertID(db, sqlFrontpageData, "1", "2", "frontpage", "Frontpage", frontpage, "1", "1", "1", "NimWC Nim Website Creator", "NimWC is an online webpage editor for users with little HTML knowledge, but it also offers experienced users a freedom to customize everything.", "website,blog,nim,nimwc")
 
