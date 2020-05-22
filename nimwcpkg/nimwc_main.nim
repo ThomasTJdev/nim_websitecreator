@@ -392,10 +392,10 @@ when isMainModule:
   # Insert standard data
   if "insertdata" in commandLineParams() and readLineFromStdin(
     "Insert standard data?\nThis will override existing data! (y/n):").normalize == "y":
-    if "bootstrap" in commandLineParams(): createStandardData(db, cssBootstrap)
-    elif "water" in commandLineParams():   createStandardData(db, cssWater)
-    elif "official" in commandLineParams():createStandardData(db, cssOfficial, on)
-    else:                                  createStandardData(db, cssBulma)
+    if "bootstrap" in commandLineParams():  createStandardData(db, cssBootstrap)
+    elif "water" in commandLineParams():    createStandardData(db, cssWater)
+    elif "official" in commandLineParams(): createStandardData(db, cssOfficial, on)
+    else:                                   createStandardData(db, cssBulma)
 
   # If user has provided arguments then quit
   if commandLineParams().len != 0:
