@@ -1,4 +1,4 @@
-import parsecfg, os, strutils, logging, contra
+import parsecfg, os, strutils, logging
 
 const section = when defined(dev): "storagedev" else: "storage"
 
