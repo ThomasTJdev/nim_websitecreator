@@ -1,10 +1,11 @@
 ## Do NOT import this file directly, instead import ``plugins.nim``
 
-proc pluginDownload*(pluginGit, pluginFolder: string): bool =
+proc pluginDownload*(pluginGit, pluginFolder: string): bool {.inline.} =
   ## Downloads an external plugin with clone
   assert pluginGit.len > 0 and pluginFolder.len > 0
   execCmdEx("git clone --depth 1 " & pluginGit & " " &
-    replace(getAppDir(), "/nimwcpkg", "") / "plugins" / pluginFolder).exitCode == 0
+    replace(getAppDir(), "/nimwcpkg", "") / "plugins" / pluginFolder,
+    options = {poStdErrToStdOut, poUsePath, poEchoCmd}).exitCode == 0
 
 
 proc pluginUpdate*(pluginFolder: string): bool =
