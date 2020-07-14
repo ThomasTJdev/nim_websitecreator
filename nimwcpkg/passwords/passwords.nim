@@ -1,4 +1,4 @@
-import md5, bcrypt, contra, random
+import md5, bcrypt, random
 
 
 var urandom: File
@@ -11,7 +11,7 @@ template makeSessionKey*(): string =
 
 template makePassword*(password, salt: string, comparingTo = ""): string =
   ## Creates an MD5 hash by combining password and salt.
-  preconditions password.len > 3, password.len < 301
+  assert password.len > 3 and password.len < 301
   bcrypt.hash(getMD5(salt & getMD5(password)), if comparingTo != "": comparingTo else: genSalt(8))
 
 
