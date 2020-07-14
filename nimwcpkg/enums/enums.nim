@@ -8,7 +8,6 @@
 type
   CSSFramework* = enum          ## CSS Frameworks enumeration.
     cssBulma = "bulma"
-    cssBootstrap = "bootstrap"
     cssWater = "water"
     cssOfficial = "official"
 
