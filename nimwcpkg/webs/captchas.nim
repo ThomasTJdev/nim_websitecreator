@@ -13,7 +13,7 @@ let
   recaptchaSiteKey* = dict["Sitekey"]
 
 
-proc setupReCaptcha*(recaptchaSiteKey = recaptchaSiteKey, recaptchaSecretKey = recaptchaSecretKey) =
+template setupReCaptcha*(recaptchaSiteKey = recaptchaSiteKey, recaptchaSecretKey = recaptchaSecretKey) =
   ## Activate Google reCAPTCHA
   if len(recaptchaSecretKey) > 0 and len(recaptchaSiteKey) > 0:
     useCaptcha = true
