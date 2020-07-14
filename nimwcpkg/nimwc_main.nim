@@ -1,6 +1,6 @@
 import
   asyncdispatch, base32, cgi, encodings, logging, md5, nativesockets, os,
-  osproc, oswalkdir, parsecfg, random, re, rdstdin, sequtils, streams, strtabs,
+  osproc, parsecfg, random, re, rdstdin, sequtils, streams, strtabs,
   strutils, tables, times, macros, mimetypes, packages/docutils/rstgen
 
 import
@@ -11,7 +11,7 @@ import
   otp
 
 import
-  constants/constants, enums/enums, databases/databases, emails/emails, files/files,
+  constants/constants, enums/enums, databases/databases, emails/emails, files/files, utils/utils,
   passwords/passwords, sessions/sessions, utils/loggers, plugins/plugins, webs/html_utils
 
 when defined(postgres): import db_postgres
@@ -48,7 +48,7 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
     extensions: seq[string]
 
   # Loop through all files and folders
-  for plugin in oswalkdir.walkDir("plugins/"):
+  for plugin in walkDir("plugins/"):
     let (pd, ppath) = plugin
     discard pd
 
