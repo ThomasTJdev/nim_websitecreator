@@ -6,8 +6,6 @@ proc standardDataSettings*(db: DbConn, dataStyle = cssBulma) =
   exec(db, sql"DELETE FROM settings")
   const sqlDataSettings = sql"INSERT INTO settings (title, head, navbar, footer) VALUES (?, ?, ?, ?)"
   case dataStyle
-  of cssBootstrap:
-    discard insertID(db, sqlDataSettings, title, headBootstrap, navbarBootstrap, footer)
   of cssWater:
     discard insertID(db, sqlDataSettings, title, headClean, navbarClean, footerClean)
   of cssOfficial:
