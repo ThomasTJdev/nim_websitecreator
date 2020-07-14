@@ -1,4 +1,4 @@
-import strutils
+import strutils, times
 
 from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
