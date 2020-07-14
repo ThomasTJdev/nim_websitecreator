@@ -2,7 +2,7 @@
 
 proc pluginDelete*(pluginFolder: string): bool =
   ## Delete a Plugin from the filesystem.
-  preconditions pluginFolder.len > 0, existsFile"plugins/plugin_import.txt"
+  assert pluginFolder.len > 0 and existsFile"plugins/plugin_import.txt"
   for line in lines("plugins/plugin_import.txt"):
     if line == pluginFolder:
       return false
