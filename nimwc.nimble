@@ -1,5 +1,5 @@
 # Package
-version       = "6.0.5"
+version       = "6.0.6"
 author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev) & Juan Carlos (https://github.com/juancarlospaco)"
 description   = "Generate and host a website. Run the package and access your new webpage."
 license       = "PPL"
@@ -10,7 +10,7 @@ installDirs   = @["config", "nimwcpkg", "plugins", "public"]
 
 
 # Dependencies
-requires "nim >= 1.0.0"
+requires "nim >= 1.2.4"
 requires "jester >= 0.4.3"
 requires "bcrypt >= 0.2.1"
 requires "contra >= 0.2.5"
