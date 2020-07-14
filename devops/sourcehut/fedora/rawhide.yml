@@ -19,7 +19,7 @@ tasks:
       curl https://nim-lang.org/choosenim/init.sh -sSf > init.sh
       sh init.sh -y
       /home/build/.nimble/bin/nimble -y refresh
-      /home/build/.nimble/bin/nimble -y install jester recaptcha bcrypt otp firejail webp libravatar
+      /home/build/.nimble/bin/nimble -y install jester recaptcha bcrypt otp firejail webp
 
   - build: |
       cd nim_websitecreator
