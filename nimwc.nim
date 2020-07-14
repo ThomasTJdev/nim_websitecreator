@@ -1,9 +1,7 @@
 import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times
 
-import contra
-
 import
-  nimwcpkg/constants/constants, nimwcpkg/enums/enums,
+  nimwcpkg/constants/constants, nimwcpkg/enums/enums, nimwcpkg/utils/common,
   nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers
 
 when defined(postgres): import db_postgres
@@ -15,7 +13,6 @@ else:                       from firejail import firejailVersion, firejailFeatur
 hardenedBuild()
 
 
-when not defined(contracts): {.warning: "Design by Contract is Disabled, running unassertive.".}
 when not defined(ssl):       {.warning: "SSL is Disabled, running unsecure.".}
 when not defined(firejail):  {.warning: "Firejail is Disabled, running unsecure.".}
 
@@ -37,10 +34,9 @@ configExists()
 
 proc updateNimwc() =
   ## GIT hard update
-  preconditions(dirExists"plugins/", dirExists"public/css/", dirExists"public/js/",
-    fileExists"plugins/plugin_import.txt", fileExists"public/css/style_custom.css",
-    fileExists"public/js/js_custom.js", findExe"git".len > 0)
-  # No postconditions because we directly quit anyways.
+  assert dirExists"plugins/" and dirExists"public/css/" and dirExists"public/js/"
+  assert fileExists"plugins/plugin_import.txt" and fileExists"public/css/style_custom.css"
+  assert fileExists"public/js/js_custom.js" and findExe"git".len > 0
   const cmd = "git fetch --all ; git reset --hard origin/master"
   let
     pluginImport = readFile"plugins/plugin_import.txt"  # Save contents
@@ -217,7 +213,7 @@ proc startupCheck(cfg: Config) =
   ## Checking if the main-program file exists. If not it will
   ## be compiled with args and compiler options (compiler
   ## options should be specified in the *.nim.pkg)
-  preconditions compileOptions.len > 0, storageEFS.len > 0, fileExists(getAppDir() & "/nimwcpkg/nimwc_main.nim")
+  assert compileOptions.len > 0 and storageEFS.len > 0 and fileExists(getAppDir() & "/nimwcpkg/nimwc_main.nim")
   # Storage location. Folders are created in the module files.nim
   let
     args = replace(commandLineParams().join(" "), "-", "")
