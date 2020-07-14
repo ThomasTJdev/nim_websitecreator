@@ -1,6 +1,5 @@
 
 template hardenedBuild*() =
-  ## Optional Security Hardened mode (Based from Debian Hardened & Gentoo Hardened).
   ## See: http:wiki.debian.org/Hardening & http:wiki.gentoo.org/wiki/Hardened_Gentoo
   ## http:security.stackexchange.com/questions/24444/what-is-the-most-hardened-set-of-options-for-gcc-compiling-c-c
   when defined(hardened) and defined(gcc) and not defined(objc) and not defined(js):
@@ -26,8 +25,7 @@ template getLibravatarUrl*(email: string, size: range[1..512] = 100, default = "
 template cwebp*(inputFilename: string, outputFilename = "", preset = "drawing",
     verbose = false, threads = true, lossless = false, noalpha = false,
     quality: range[0..100] = 50): tuple[output: TaintedString, exitCode: int] =
-  ## Compress an image file to a WebP file.
-  ## Input format can be either PNG, JPEG, TIFF, WebP.
+  ## Compress an image file to a WebP file. Input format can be either PNG, JPEG, TIFF, WebP.
   assert inputFilename.len > 0, "inputFilename must not be empty string"
   assert preset in ["default", "photo", "picture", "drawing", "icon", "text"]
   execCmdEx(
