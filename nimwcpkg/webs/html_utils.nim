@@ -30,14 +30,10 @@ template statusIntToText*(status: string): string =
 
 template statusIntToCheckbox*(status, value: string): string =
   ## When parsing DB status convert to HTML selected on selects
-  if status == "0" and value == "0":
-    "selected"
-  elif status == "1" and value == "1":
-    "selected"
-  elif status == "2" and value == "2":
-    "selected"
-  else:
-    ""
+  if status == "0" and value == "0":   "selected"
+  elif status == "1" and value == "1": "selected"
+  elif status == "2" and value == "2": "selected"
+  else:                                ""
 
 
 template inputNumberHtml*(value="", name="", class="input", id="", placeholder="0", required=true, min:byte=0.byte, max:int=byte.high.int, maxlenght=3): string =
