@@ -5,7 +5,6 @@ import
 
 import
   bcrypt,
-  datetime2human,
   jester,
   libravatar,
   otp
