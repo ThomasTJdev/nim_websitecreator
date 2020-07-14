@@ -2,7 +2,7 @@
 
 proc sendMailNow*(subject, message, recipient: string) {.async.} =
   ## Send the email through smtp
-  preconditions subject.len > 0, message.len > 0, recipient.len > 0
+  assert subject.len > 0 and message.len > 0 and recipient.len > 0
   setCurrentDir(appDir)
   when defined(dev) and not defined(devemailon):
     info("Dev is true, email is not send")
