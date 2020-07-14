@@ -30,7 +30,6 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 ## Security
 - Self-Firejailing Web Framework (It Firejails itself) Best Linux Security integrated on the Core.
 - 2 Factor Athentication TOTP
-- [Design by Contract, Contract Programming](https://dev.to/juancarlospaco/design-by-contract-immutability-side-effects-and-gulag-44fk).
 - Security Hardened by default (based from [Gentoo Hardened](https://wiki.gentoo.org/wiki/Hardened_Gentoo) and [Debian Hardened](https://wiki.debian.org/Hardening), checked with [`hardening-check`](https://bitbucket.org/Alexander-Shukaev/hardening-check)).
 - Coded following the [Power of 10: NASA Coding guidelines for safety-critical code](https://en.wikipedia.org/wiki/The_Power_of_10:_Rules_for_Developing_Safety-Critical_Code#Rules) (as much as possible).
 - ReCAPTCHA (Optional)
@@ -100,7 +99,6 @@ To get started you only need:
 Development dependencies (automatically installed by Nimble):
 
 - [bCrypt](https://github.com/runvnc/bcryptnim) >= `0.2.1`
-- [Contra](https://github.com/juancarlospaco/nim-contra) >= `0.2.0`
 - [datetime2human](https://github.com/juancarlospaco/nim-datetime2human) >= `0.2.2`
 - [Jester](https://github.com/dom96/jester/) >= `0.4.1`
 - [Libravatar](https://github.com/juancarlospaco/nim-libravatar#nim-libravatar) >= `0.4.0`
@@ -177,7 +175,7 @@ cp config/config_default.cfg config/config.cfg
 nano config/config.cfg
 
 # Install dependencies
-nimble install jester recaptcha bcrypt datetime2human otp firejail webp, contra
+nimble install jester recaptcha bcrypt datetime2human otp firejail webp
 
 # Compile nimwc
 nim c nimwc.nim
@@ -240,8 +238,7 @@ These options are only available at compiletime:
 * `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org). This option will override the database every 1 hour with the standard data.
 * `-d:gitupdate` = Updates directly from Git and force a hard reset.
 * `-d:postgres` = Use Postgres database instead of SQLite.
-* `-d:contracts` = Checks pre- and post-conditions when compiled with `-d:release`.
-* `-d:hardened` = Hardens security, requires `-d:contracts`. Performance cost ~20% max.
+* `-d:hardened` = Hardens security. Performance cost ~20% max.
 * `-d:packedjson` = Use [PackedJSON](https://github.com/Araq/packedjson#packedjson) instead of [std lib JSON](https://nim-lang.github.io/Nim/json.html). Performance optimization.
 
 
