@@ -1,3 +1,7 @@
+## v6.0.6
+## Changes
+- Fixes and updates for Nim >= 1.2.4
+
 ## v6.0.3
 ## Changes
 - Fix #121, #122 and #123
