@@ -2,8 +2,6 @@
 
 func ask4UserPass*(): tuple[iName, iEmail, iPwd: string] {.inline.} =
   ## Ask the user for user, mail, password, and return them.
-  postconditions(result.iName.len > nameMinLen, result.iEmail.len > emailMinLen, result.iPwd.len > passwordMinLen,
-    result.iName.len < nameMaxLen, result.iEmail.len < emailMaxLen, result.iPwd.len < passwordMaxLen)
   var iName, iEmail, iPwd, iPwd2: string
   while not(iName.len > nameMinLen and iName.len < nameMaxLen):  # Max len from DB SQL
     iName = readLineFromStdin("\nType Username: ").strip
