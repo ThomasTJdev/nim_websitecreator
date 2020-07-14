@@ -3,12 +3,10 @@
 proc pluginGetDetails*(pluginFolder: string): tuple[name, version, description, url: string] =
   ## Get plugin data from [pluginName]/plugin.json
   assert pluginFolder.len > 0
-  let pluginJsonPath = "plugins" / pluginFolder / "plugin.json"
-  let pluginJson = parseFile(pluginJsonPath)
-  for plugin in items(pluginJson):
-    let
-      name = plugin["name"].getStr.strip
-      version = plugin["version"].getStr.strip
-      description = plugin["description"].getStr.strip
-      url = plugin["url"].getStr.strip
-    return (name, version, description, url)
+  for plugin in items(parseFile("plugins" / pluginFolder / "plugin.json")):
+    return (
+      plugin["name"].getStr,
+      plugin["version"].getStr,
+      plugin["description"].getStr,
+      plugin["url"].getStr
+    )
