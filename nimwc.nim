@@ -12,9 +12,8 @@ else:                       from firejail import firejailVersion, firejailFeatur
 
 hardenedBuild()
 
-
-when not defined(ssl):       {.warning: "SSL is Disabled, running unsecure.".}
-when not defined(firejail):  {.warning: "Firejail is Disabled, running unsecure.".}
+when not defined(ssl):      {.warning: "SSL is Disabled, running unsecure.".}
+when not defined(firejail): {.warning: "Firejail is Disabled, running unsecure.".}
 
 
 var
