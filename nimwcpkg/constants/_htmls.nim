@@ -70,23 +70,6 @@ const
 <script src="/js/js_custom.js" crossorigin="anonymous" defer></script>"""
 
 
-  headBootstrap* = """<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="author" href="humans.txt">
-<link rel="shortcut icon" href="/images/logo/favicon.ico">
-<link rel="icon" type="image/png" href="/images/logo/favicon-16x16.png" sizes="16x16">
-<link rel="icon" type="image/png" href="/images/logo/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/images/logo/favicon-192x192.png" sizes="192x192">
-<link rel="apple-touch-icon" sizes="180x180" href="/images/logo/favicon-180x180.png">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
-<link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/style_custom.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" integrity="sha256-x3YZWtRjM8bJqf48dFAv/qmgL68SI4jqNWeSLMZaMGA=" crossorigin="anonymous" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha256-WqU1JavFxSAMcLP2WIOI+GB2zWmShMI82mTpLDcqFUg=" crossorigin="anonymous" defer></script>
-<script src="/js/js.js" crossorigin="anonymous" defer></script>
-<script src="/js/js_custom.js" crossorigin="anonymous" defer></script>"""
-
-
   navbar* = """<nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item logo" href="/">
@@ -125,55 +108,6 @@ const
   <a href="/">Home</a>
   <a href="/blog">Blog</a>
   <a href="/login">Login</a>
-</nav>"""
-
-
-  navbarBootstrap* = """<nav id="navbar" class="navbar navbar-expand-md navbar-light">
-  <div id="navbarInside">
-    <a class="navbar-brand" href="/">
-      <img src="/images/logo/NimWC_logo_blue.png" />
-      <div>Nim Website Creator</div>
-    </a>
-    <div class="navbar-toggler mainMenu">
-      <div class="baricon bar1"></div>
-      <div class="baricon bar2"></div>
-      <div class="baricon bar3"></div>
-    </div>
-    <div class="menu" id="mainMenu">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Frontpage</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/blog">Blog</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/p/about">About</a>
-        </li>
-      </ul>
-    </div>
-    <div class="menu hidden" id="mobileMenu">
-      <div class="navbar-toggler">
-        <div class="baricon bar1"></div>
-        <div class="baricon bar2"></div>
-        <div class="baricon bar3"></div>
-      </div>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Frontpage</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/blog">Blog</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/p/about">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
-        </li>
-      </ul>
-    </div>
-  </div>
 </nav>"""
 
 
