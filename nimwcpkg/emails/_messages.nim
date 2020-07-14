@@ -2,6 +2,5 @@
 
 proc genEmailMessage*(msgContent: string): string {.inline.} =
   ## Generate email content
-  preconditions msgContent.len > 0
-  postconditions result.len > msgContent.len
+  assert msgContent.len > 0
   mailStyleHeader & msgContent & mailStyleFrom & mailStyleFooter
