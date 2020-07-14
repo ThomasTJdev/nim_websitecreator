@@ -5,8 +5,7 @@ proc backupDb*(dbname: string,
     host = "localhost", port = Port(5432), username = getEnv("USER", "root"),
     dataOnly = false, inserts = false, checksum = true, sign = true, targz = true): tuple[output: TaintedString, exitCode: int] =
   ## Backup the whole Database to a plain-text Raw SQL Query human-readable file.
-  preconditions(dbname.len > 0, host.len > 0, username.len > 0,
-    when defined(postgres): findExe("pg_dump").len > 0 else: findExe("sqlite3").len > 0)
+  assert dbname.len > 0 and host.len > 0 and username.len > 0
   setCurrentDir(nimwcpkgDir)
   once: discard existsOrCreateDir(nimwcpkgDir / "backup")
 
