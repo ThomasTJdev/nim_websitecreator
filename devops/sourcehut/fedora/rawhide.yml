@@ -10,7 +10,7 @@ sources:
   - https://github.com/ThomasTJdev/nim_websitecreator
 
 environment:
-  CHOOSENIM_CHOOSE_VERSION: "0.19.6"
+  CHOOSENIM_CHOOSE_VERSION: "1.2.4"
   CHOOSENIM_NO_ANALYTICS: 1
   PATH: $HOME/.nimble/bin:$PATH
 
