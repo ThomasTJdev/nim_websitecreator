@@ -313,7 +313,6 @@ setStandardData() {
 
   ToggleCommand=(whiptail --separate-output --radiolist "Insert standard data?" ${r} ${c} 6)
   ChooseOptions=("Bulma (Recommended)" "" on
-      Bootstrap "" off
       Water "" off
       Off "" off)
   Choices=$("${ToggleCommand[@]}" "${ChooseOptions[@]}" 2>&1 >/dev/tty) || (printf "  %bCancel was selected, exiting installer%b\\n" "${COL_LIGHT_RED}" "${COL_NC}" && exit 1)
@@ -321,10 +320,6 @@ setStandardData() {
       "Bulma (Recommended)")
           printf "  %b Bulma standard data On\\n" "${INFO}"
           CFG_STANDARDDATA="--insertdata bulma"
-          ;;
-      Bootstrap)
-          printf "  %b Bootstrap standard data\\n" "${INFO}"
-          CFG_STANDARDDATA="--insertdata bootstrap"
           ;;
       Water)
           printf "  %b Water standard data (HTML Classless)\\n" "${INFO}"
