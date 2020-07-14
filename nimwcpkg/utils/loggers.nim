@@ -4,8 +4,8 @@ import ../constants/constants, ../emails/emails
 
 let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
 let configFile = nimwcpkgDir / "config/config.cfg"
-assert existsDir(nimwcpkgDir), "nimwcpkg directory not found: " & nimwcpkgDir
-assert existsFile(configFile), "config/config.cfg file not found"
+assert dirExists(nimwcpkgDir), "nimwcpkg directory not found: " & nimwcpkgDir
+assert fileExists(configFile), "config/config.cfg file not found"
 
 setCurrentDir(nimwcpkgDir)
 once: discard existsOrCreateDir("log")
@@ -27,7 +27,7 @@ template log2admin*(msg: string) =
 
 proc backupOldLogs*(logFilePath: string): tuple[output: TaintedString, exitCode: int] =
   ## Compress all old rotated Logs.
-  assert existsDir(logFilePath), "logFilePath File not found"
+  assert dirExists(logFilePath), "logFilePath File not found"
   assert findExe("tar").len > 0, "Tar not found"
   var files2tar: seq[string]
   for logfile in walkFiles(logFilePath / "*.log"): files2tar.add logfile
