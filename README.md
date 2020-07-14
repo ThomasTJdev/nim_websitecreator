@@ -99,7 +99,6 @@ To get started you only need:
 Development dependencies (automatically installed by Nimble):
 
 - [bCrypt](https://github.com/runvnc/bcryptnim) >= `0.2.1`
-- [datetime2human](https://github.com/juancarlospaco/nim-datetime2human) >= `0.2.2`
 - [Jester](https://github.com/dom96/jester/) >= `0.4.1`
 - [Libravatar](https://github.com/juancarlospaco/nim-libravatar#nim-libravatar) >= `0.4.0`
 - [otp](https://github.com/OpenSystemsLab/otp.nim) >= `0.1.1`
@@ -175,7 +174,7 @@ cp config/config_default.cfg config/config.cfg
 nano config/config.cfg
 
 # Install dependencies
-nimble install jester recaptcha bcrypt datetime2human otp firejail webp
+nimble install jester recaptcha bcrypt otp firejail webp
 
 # Compile nimwc
 nim c nimwc.nim
