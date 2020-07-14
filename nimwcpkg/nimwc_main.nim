@@ -5,7 +5,6 @@ import
 
 import
   bcrypt,
-  contra,
   datetime2human,
   jester,
   libravatar,
@@ -40,7 +39,6 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
   ## Get all plugins path
   ##
   ## Generates a seq[string] with the path to the plugins
-  postconditions result.allIt(it.len > 0)
   let
     dir = parentDir(currentSourcePath())
     realPath = replace(dir, "/nimwcpkg", "")
@@ -72,7 +70,6 @@ macro extensionImport(): untyped =
   ## Generate code for importing modules from extensions.
   ## The extensions main module needs to be in plugins/plugin_import.txt
   ## to be activated. Only 1 module will be imported.
-  # preconditions pluginsPath.allIt(it.len > 0)
   var extensions = ""
   for ppath in pluginsPath:
     let splitted = split(ppath, "/")
@@ -92,7 +89,6 @@ macro extensionUpdateDatabase(): untyped =
   ## Generate proc for updating the database with new tables etc.
   ## The extensions main module shall contain a proc named 'proc <extensionname>Start(db: DbConn) ='
   ## The proc will be executed when the program is executed.
-  # preconditions pluginsPath.allIt(it.len > 0)
   var extensions = ""
 
   extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
@@ -121,7 +117,6 @@ proc extensionCss(): string {.compiletime.} =
   ## renaming to <extensionname>.css
   ##
   ## 2) Insert <style>-link into HTML
-  # preconditions pluginsPath.allIt(it.len > 0)
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -148,7 +143,6 @@ proc extensionJs*(): string {.compiletime.} =
   ## renaming to <extensionname>.js
   ##
   ## 2) Insert <js>-link into HTML
-  # preconditions pluginsPath.allIt(it.len > 0)
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -221,8 +215,6 @@ func init(c: var TData) {.inline.} =
 
 proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
-  # preconditions compileOptions.len > 0
-  postconditions result == 0
   let appName = dict.getSectionValue("Server", "appname")
   let appPath = getAppDir() / appName
   result = execCmd("nim c " & compileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
@@ -274,7 +266,6 @@ proc checkLoggedIn(c: var TData) =
 
 proc login(c: var TData, email, pass, totpRaw: string): tuple[isLoginOk: bool, statusMessage: string] =
   ## User login
-  # preconditions email.len > 5, pass.len > 3, email.len < 255, pass.len < 301
   when not defined(demo):
     if email == "test@test.com":
       return (false, "Email must not be test@test.com")
