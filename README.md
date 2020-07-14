@@ -100,7 +100,6 @@ Development dependencies (automatically installed by Nimble):
 
 - [bCrypt](https://github.com/runvnc/bcryptnim) >= `0.2.1`
 - [Jester](https://github.com/dom96/jester/) >= `0.4.1`
-- [Libravatar](https://github.com/juancarlospaco/nim-libravatar#nim-libravatar) >= `0.4.0`
 - [otp](https://github.com/OpenSystemsLab/otp.nim) >= `0.1.1`
 - [Firejail](https://github.com/juancarlospaco/nim-firejail) >= `0.5.0` (optional)
 - [reCAPTCHA](https://github.com/euantorano/recaptcha.nim) >= `1.0.2` (optional)
