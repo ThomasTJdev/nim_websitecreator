@@ -6,7 +6,6 @@ import
 import
   bcrypt,
   jester,
-  libravatar,
   otp
 
 import
