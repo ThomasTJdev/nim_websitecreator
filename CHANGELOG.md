@@ -1,6 +1,7 @@
 ## v6.0.6
 ## Changes
-- Fixes and updates for Nim >= 1.2.4
+- Fixes and updates for Nim >= 1.2.4.
+- Clean out and optimizations.
 
 ## v6.0.3
 ## Changes
