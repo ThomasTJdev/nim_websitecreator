@@ -103,7 +103,6 @@ Development dependencies (automatically installed by Nimble):
 - [otp](https://github.com/OpenSystemsLab/otp.nim) >= `0.1.1`
 - [Firejail](https://github.com/juancarlospaco/nim-firejail) >= `0.5.0` (optional)
 - [reCAPTCHA](https://github.com/euantorano/recaptcha.nim) >= `1.0.2` (optional)
-- [WebP](https://github.com/juancarlospaco/nim-webp-tools) >= `0.2.0` (optional)
 - [PackedJSON](https://github.com/Araq/packedjson#packedjson) >= `0.1.0` (optional)
 
 Foreing optional dependencies:
@@ -173,7 +172,7 @@ cp config/config_default.cfg config/config.cfg
 nano config/config.cfg
 
 # Install dependencies
-nimble install jester recaptcha bcrypt otp firejail webp
+nimble install jester recaptcha bcrypt otp firejail
 
 # Compile nimwc
 nim c nimwc.nim
