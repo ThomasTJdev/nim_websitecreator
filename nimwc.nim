@@ -81,7 +81,7 @@ proc pluginSkeleton() =
   writeFile(folder / "public" / "js.js",
     "/* https://github.com/pragmagic/karax OR Vanilla JavaScript */\n")
   writeFile(folder / "public" / "style.css",
-    "/* https://bulma.io/documentation OR https://getbootstrap.com OR clean CSS */\n")
+    "/* https://bulma.io/documentation OR clean CSS */\n")
 
   if readLineFromStdin("Generate optional compile-time config files? (y/N): ").normalize == "y":
     if readLineFromStdin("Use NimScript instead of CFG? (y/N): ").normalize == "y":
@@ -266,8 +266,7 @@ when isMainModule:
       of "newdb": generateDB(db)
       of "newadmin": createAdminUser(db)
       of "insertdata":
-        if "bootstrap" in commandLineParams():  createStandardData(db, cssBootstrap, on)
-        elif "water" in commandLineParams():    createStandardData(db, cssWater, on)
+        if "water" in commandLineParams():    createStandardData(db, cssWater, on)
         elif "official" in commandLineParams(): createStandardData(db, cssOfficial, on)
         else:                                   createStandardData(db, cssBulma, on)
       of "vacuumdb": echo vacuumDb(db)
