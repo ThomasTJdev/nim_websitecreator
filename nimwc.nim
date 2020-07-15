@@ -2,7 +2,7 @@ import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times
 
 import
   nimwcpkg/constants/constants, nimwcpkg/enums/enums, nimwcpkg/utils/utils, nimwcpkg/utils/projectgen,
-  nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers
+  nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers, nimwcpkg/utils/sysinfo,
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
@@ -195,6 +195,7 @@ when isMainModule:
       case keys
       of "version": quit(NimblePkgVersion, 0)
       of "version-hash": quit(commitHash, 0)
+      of "debug": quit(getSystemInfo().pretty, 0)
       of "help", "fullhelp": styledEcho(fgGreen, bgBlack, doc)
       of "initplugin": pluginSkeleton() # Interactive (Asks to user).
       of "gitupdate": updateNimwc()
