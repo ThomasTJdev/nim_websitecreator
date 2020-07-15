@@ -67,7 +67,6 @@ macro extensionUpdateDatabase(procs: static[seq[string]]) =
   ## Macro to generate proc for plugins init proc.
   ## Generate proc for updating the database with new tables etc.
   ## The extensions main module shall contain a proc named 'proc <extensionname>Start(db: DbConn) ='
-  ## The proc will be executed when the program is executed.
   result = newStmtList()
   for it in procs:
     let function = newIdentNode(it & "Start") # pluginStart
