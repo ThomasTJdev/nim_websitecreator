@@ -32,27 +32,15 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
   ## Get all plugins path
   ##
   ## Generates a seq[string] with the path to the plugins
-  let
-    dir = parentDir(currentSourcePath())
-    realPath = replace(dir, "/nimwcpkg", "")
-
-  var
-    plugins = (staticRead(realPath & "/plugins/plugin_import.txt").split("\n"))
-    extensions: seq[string]
-
+  const
+    realPath = replace(parentDir(currentSourcePath()), "/nimwcpkg", "")
+    plugins = staticRead(realPath & "/plugins/plugin_import.txt").splitLines
   # Loop through all files and folders
   for plugin in walkDir("plugins/"):
-    let (pd, ppath) = plugin
-    discard pd
-
+    let (_, ppath) = plugin
     # If the path matches a name in the plugin_import.txt
     if replace(ppath, "plugins/", "") in plugins:
-      if extensions.len() == 0:
-        extensions = @[realPath & "/" & ppath]
-      else:
-        extensions.add(realPath & "/" & ppath)
-
-  return extensions
+      result.add realPath & "/" & ppath
 
 const pluginsPath = getPluginsPath()
 
