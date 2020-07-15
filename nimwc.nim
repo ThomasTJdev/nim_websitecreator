@@ -21,8 +21,8 @@ var
   nimwcMain: Process
 
 
-macro configExists(): untyped =
-  ## Macro to check if the config file is present
+template configExists() =
+  ## Check if the config file is present
   let dir = parentDir(currentSourcePath())
   if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
     echo config_not_found_msg
