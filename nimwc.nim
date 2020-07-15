@@ -1,7 +1,7 @@
 import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times
 
 import
-  nimwcpkg/constants/constants, nimwcpkg/enums/enums, nimwcpkg/utils/utils,
+  nimwcpkg/constants/constants, nimwcpkg/enums/enums, nimwcpkg/utils/utils, nimwcpkg/utils/projectgen,
   nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers
 
 when defined(postgres): import db_postgres
@@ -46,61 +46,6 @@ proc updateNimwc() =
   writeFile("public/humans.txt", humansTxt)
   echo "\n\n\nTo finish the update:\n - Compile NimWC\n - Run with the arg `--newdb`\n"
   quit("Git fetch done\n", 0)
-
-
-proc pluginSkeleton() =
-  ## Creates the skeleton (folders and files) for a plugin
-  styledEcho(fgCyan, bgBlack, skeletonMsg)
-  let pluginName = normalize(readLineFromStdin("Plugin name: ").string.strip.toLowerAscii)
-  assert pluginName.len > 1, "Plugin name needs to be longer: " & pluginName
-  assert " " notin pluginName, "Plugin name may not contain spaces: " & pluginName
-
-  let
-    authorName = readLineFromStdin("Author name: ").string.strip
-    authorMail = readLineFromStdin("Author email: ").string.strip.toLowerAscii
-    authorWeb = readLineFromStdin("Author website HTTP URL: ").string.strip
-
-  # Create dirs
-  discard existsOrCreateDir("plugins")
-  let folder = "plugins" / pluginName
-  discard existsOrCreateDir(folder)
-  discard existsOrCreateDir(folder / "public")
-
-  # Create files
-  writeFile(folder / pluginName & ".nim", reqCode.format(pluginName))
-  writeFile(folder / "routes.nim", reqRoutes.format(pluginName))
-  writeFile(folder / "public" / "js.js",
-    "/* https://github.com/pragmagic/karax OR Vanilla JavaScript */\n")
-  writeFile(folder / "public" / "style.css",
-    "/* https://bulma.io/documentation OR clean CSS */\n")
-
-  if readLineFromStdin("Generate optional compile-time config files? (y/N): ").normalize == "y":
-    if readLineFromStdin("Use NimScript instead of CFG? (y/N): ").normalize == "y":
-      writeFile(folder / pluginName & ".nims", "# https://nim-lang.org/docs/nims.html\n")
-    else:
-      writeFile(folder / pluginName & ".nim.cfg", "# https://nim-lang.org/docs/parsecfg.html\n")
-
-  if readLineFromStdin("Generate optional NimWC files? (y/N): ").string.strip.toLowerAscii == "y":
-    writeFile(folder / "public/js_private.js", "")
-    writeFile(folder / "public/style_private.css", "")
-    writeFile(folder / "html.nimf", "<!-- https://nim-lang.org/docs/filters.html -->\n")
-
-  if readLineFromStdin("Generate optional .gitignore file? (y/N): ").normalize == "y":
-    writeFile(folder / ".gitattributes", "*.* linguist-language=Nim\n")
-    writeFile(folder / ".gitignore", "*.c\n*.h\n*.o\n*.sql\n*.log\n*.s")
-
-  if readLineFromStdin("Generate optional Documentation files? (y/N): ").normalize == "y":
-    let ext = if readLineFromStdin("Use Markdown(MD) instead of ReSTructuredText(RST)? (y/N): ").normalize == "y": "md" else: "rst"
-    writeFile(folder / "LICENSE." & ext, "See https://tldrlegal.com/licenses/browse\n")
-    writeFile(folder / "CODE_OF_CONDUCT." & ext, "")
-    writeFile(folder / "CONTRIBUTING." & ext, "")
-    writeFile(folder / "AUTHORS." & ext, "# Authors\n\n- " & authorName & "\n")
-    writeFile(folder / "README." & ext, "# " & pluginName & "\n")
-    writeFile(folder / "CHANGELOG." & ext, "# 0.0.1\n\n- First initial version of " & pluginName & " created at " & $now())
-
-  writeFile(folder / "plugin.json", pluginJson.format(
-    capitalizeAscii(pluginName), pluginName, authorName, authorMail, authorWeb, NimblePkgVersion.substr(0, 2)))
-  quit("New Plugin at /plugins/\n\nNimWC created a new Plugin skeleton, happy hacking, bye.", 0)
 
 
 proc handler() {.noconv.} =
