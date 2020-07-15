@@ -63,31 +63,16 @@ macro extensionImport() =
 extensionImport()
 
 
-macro extensionUpdateDatabase(): untyped =
-  ## Macro to generate proc for plugins init proc
-  ##
+macro extensionUpdateDatabase(procs: static[seq[string]]) =
+  ## Macro to generate proc for plugins init proc.
   ## Generate proc for updating the database with new tables etc.
   ## The extensions main module shall contain a proc named 'proc <extensionname>Start(db: DbConn) ='
   ## The proc will be executed when the program is executed.
-  var extensions = ""
-
-  extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
-  if pluginsPath.len == 0:
-    extensions.add("  discard  # Plugin list is currently empty.")
-
-  else:
-    for ppath in pluginsPath:
-      let splitted = split(ppath, "/")
-      extensions.add("  " & splitted[splitted.len-1] & "Start(db)\n")
-
-    extensions.add("  echo \" \"")
-
-  when defined(dev):
-    echo "Plugins - required proc:\n" & $extensions
-
-  result = parseStmt(extensions)
-
-extensionUpdateDatabase()
+  result = newStmtList()
+  for it in procs:
+    let function = newIdentNode(it & "Start") # pluginStart
+    let database = newIdentNode("db")         # db
+    result.add newCall(function, database)    # pluginStart(db)
 
 
 proc extensionCss(): string {.compiletime.} =
@@ -358,7 +343,7 @@ when isMainModule:
     info("Demo Mode: Database reverted to default")
 
   # Update sql database from extensions
-  extensionUpdateDB(db)
+  extensionUpdateDatabase(pluginsPath)
 
   # Insert standard data
   if "insertdata" in commandLineParams() and readLineFromStdin(
