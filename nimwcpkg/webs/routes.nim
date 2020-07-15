@@ -633,9 +633,9 @@ routes:
       redirect("/error/" & errUserAlreadyExists)
     let
       salt = makeSalt()
-      passwordOriginal = $sample(10_00_00_00_00_01.int..89_99_99_99_99_98.int) # User Must change it anyways.
+      passwordOriginal = $rand(10_00_00_00_00_01.int..89_99_99_99_99_98.int) # User Must change it anyways.
       password = makePassword(passwordOriginal, salt)
-      secretUrl = repeat($sample(10_00_00_00_00_00_00_00_00.int..int.high), 5).center(99, sample(toSeq('a'..'z')))
+      secretUrl = repeat($rand(10_00_00_00_00_00_00_00_00.int..int.high), 5).center(99, rand(toSeq('a'..'z')))
     let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, salt, secretUrl) VALUES (?, ?, ?, ?, ?, ?)", @"name", emailReady, @"status", password, salt, secretUrl)
     asyncCheck sendEmailActivationManual(emailReady, @"name", passwordOriginal, "/users/activate?id=" & $userID & "&ident=" & secretUrl, c.username)
     redirect("/users")
