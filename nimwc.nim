@@ -23,10 +23,11 @@ var
 
 template configExists() =
   ## Check if the config file is present
-  let dir = parentDir(currentSourcePath())
-  if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
-    echo config_not_found_msg
-    discard staticExec("cp " & dir & "/config/config_default.cfg " & dir & "/config/config.cfg")
+  static:
+    let dir = parentDir(currentSourcePath())
+    if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
+      echo config_not_found_msg
+      discard staticExec("cp " & dir & "/config/config_default.cfg " & dir & "/config/config.cfg")
 
 configExists()
 
