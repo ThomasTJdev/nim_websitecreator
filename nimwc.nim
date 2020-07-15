@@ -2,7 +2,7 @@ import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times
 
 import
   nimwcpkg/constants/constants, nimwcpkg/enums/enums, nimwcpkg/utils/utils, nimwcpkg/utils/projectgen,
-  nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers, nimwcpkg/utils/sysinfo,
+  nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers, nimwcpkg/utils/sysinfo
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
