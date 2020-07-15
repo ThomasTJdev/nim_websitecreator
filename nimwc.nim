@@ -1,4 +1,4 @@
-import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times
+import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times, json
 
 import
   nimwcpkg/constants/constants, nimwcpkg/enums/enums, nimwcpkg/utils/utils, nimwcpkg/utils/projectgen,
