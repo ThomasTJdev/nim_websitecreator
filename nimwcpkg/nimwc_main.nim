@@ -3,10 +3,7 @@ import
   osproc, parsecfg, random, re, rdstdin, sequtils, streams, strtabs,
   strutils, tables, times, macros, mimetypes, packages/docutils/rstgen
 
-import
-  bcrypt,
-  jester,
-  otp
+import bcrypt, jester, otp
 
 import
   constants/constants, enums/enums, databases/databases, emails/emails, files/files, utils/utils,
