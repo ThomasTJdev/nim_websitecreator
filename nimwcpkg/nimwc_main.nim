@@ -51,12 +51,14 @@ macro extensionImport() =
   ## Generate code for importing modules from extensions.
   ## The extensions main module needs to be in plugins/plugin_import.txt
   ## to be activated. Only 1 module will be imported.
-  result = newStmtList()
-  for it in pluginsPath:
-    let splitted = split(it, "/")
-    let module = it / splitted[splitted.len - 1]
-    result.add quote do:
-      import `module`
+  when pluginsPath.len > 0:
+    result = newStmtList()
+    for it in pluginsPath:
+      let splitted = split(it, "/")
+      let module = it / splitted[splitted.len - 1]
+      result.add quote do:
+        import `module`
+  else: discard # Error: implementation of 'extensionImport' expected.
 
 extensionImport()
 
