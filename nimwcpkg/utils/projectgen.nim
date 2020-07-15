@@ -33,7 +33,7 @@ template pluginSkeleton*() =
       writeFile(folder / pluginName & ".nim.cfg", "# https://nim-lang.org/docs/parsecfg.html\n")
 
   if readLineFromStdin("Generate Unitests files on ./tests/ ? (y/N): ") == "y":
-    discard existsOrCreateDir(namex[] / "tests")
+    discard existsOrCreateDir(folder / "tests")
     writeFile(folder / "tests" / "test1.nim", "")
 
   if readLineFromStdin("Generate GitHub files including GitHub Actions on ./github/ ? (y/N): ") == "y":
