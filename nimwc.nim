@@ -19,8 +19,8 @@ when not defined(firejail): {.warning: "Firejail is Disabled, running unsecure."
 var
   runInLoop = true
   nimwcMain: Process
-block:
-  static:
+block:     # block so "dir" is not defined after it.
+  static:  # static because it must run at compile time.
     let dir = parentDir(currentSourcePath())
     if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
       echo config_not_found_msg
