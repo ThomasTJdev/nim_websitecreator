@@ -85,7 +85,7 @@
 
     ## DONT TOUCH, HoneyPot: https://github.com/ThomasTJdev/nim_websitecreator/issues/43#issue-403507393
     <input type="password" class="input is-rounded" name="password2" autocomplete="false" tabindex="-1" placeholder="Password" dir="auto" minlength="10" value="" style="
-    ${ ["display:none !important", "visibility:hidden !important", "opacity:0 !important"].rand }
+    ${ ["display:none !important", "visibility:hidden !important", "opacity:0 !important"].sample }
     " >
     ## DONT TOUCH, HoneyPot: https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377
     </form>
