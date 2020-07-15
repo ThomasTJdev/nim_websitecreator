@@ -45,21 +45,18 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
 const pluginsPath = getPluginsPath()
 
 
-macro extensionImport(): untyped =
+macro extensionImport() =
   ## Macro to import plugins
   ##
   ## Generate code for importing modules from extensions.
   ## The extensions main module needs to be in plugins/plugin_import.txt
   ## to be activated. Only 1 module will be imported.
-  var extensions = ""
-  for ppath in pluginsPath:
-    let splitted = split(ppath, "/")
-    extensions.add("import " & ppath & "/" & splitted[splitted.len-1] & "\n")
-
-  when defined(dev):
-    echo "Plugins - imports:\n" & $extensions
-
-  result = parseStmt(extensions)
+  result = newStmtList()
+  for it in pluginsPath:
+    let splitted = split(it, "/")
+    let module = it / splitted[splitted.len - 1]
+    result.add quote do:
+      import `module`
 
 extensionImport()
 
