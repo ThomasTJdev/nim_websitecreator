@@ -98,7 +98,6 @@ To get started you only need:
 
 Development dependencies (automatically installed by Nimble):
 
-- [bCrypt](https://github.com/runvnc/bcryptnim) >= `0.2.1`
 - [Jester](https://github.com/dom96/jester/) >= `0.4.1`
 - [otp](https://github.com/OpenSystemsLab/otp.nim) >= `0.1.1`
 - [Firejail](https://github.com/juancarlospaco/nim-firejail) >= `0.5.0` (optional)
@@ -172,7 +171,7 @@ cp config/config_default.cfg config/config.cfg
 nano config/config.cfg
 
 # Install dependencies
-nimble install jester recaptcha bcrypt otp firejail
+nimble install jester recaptcha otp firejail
 
 # Compile nimwc
 nim c nimwc.nim
