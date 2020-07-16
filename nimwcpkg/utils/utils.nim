@@ -1,3 +1,5 @@
+import macros
+
 
 template hardenedBuild*() =
   ## See: http:wiki.debian.org/Hardening & http:wiki.gentoo.org/wiki/Hardened_Gentoo
@@ -37,3 +39,20 @@ template cwebp*(inputFilename: string, outputFilename = "", preset = "drawing",
     (if outputFilename.len == 0: quoteShell(inputFilename & ".webp") else: quoteShell(outputFilename)) &
     " " & quoteShell(inputFilename)
   )
+
+
+template `:=`*(name: untyped; value: any) =
+  var name {.inject.} = create(type(value), sizeOf type(value))
+  name[] = value
+
+
+macro deallocs*(variables: varargs[typed]) =
+  result = newStmtList()
+  for it in variables: result.add newCall(bindSym"dealloc", it)
+
+
+macro creates*(value: any; variables: varargs[untyped]) =
+  result = newStmtList()
+  for it in variables: result.add quote do:
+    var `it` = create(type(`value`), sizeOf type(`value`))
+    `it`[] = `value`
