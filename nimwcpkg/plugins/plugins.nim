@@ -3,7 +3,7 @@ import os, strutils, osproc
 when defined(packedjson): import packedjson
 else:                     import json
 
-import ../constants/constants
+import ../constants/constants, ../utils/utils
 
 
 # Order is important here.
