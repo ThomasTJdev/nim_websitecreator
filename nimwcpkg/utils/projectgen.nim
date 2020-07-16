@@ -15,6 +15,7 @@ template pluginSkeleton*() =
   # Create dirs
   discard existsOrCreateDir("plugins")
   folder[] = "plugins" / pluginName[]
+  discard existsOrCreateDir("plugins")
   discard existsOrCreateDir(folder[])
   discard existsOrCreateDir(folder[] / "public")
 
@@ -67,6 +68,7 @@ template pluginSkeleton*() =
   writeFile(folder[] / "plugin.json", pluginJson.format(
     capitalizeAscii(pluginName[]), pluginName[], authorName[], authorMail[], authorWeb[], NimblePkgVersion.substr(0, 2)))
 
+  setCurrentDir folder[]
   if findExe"git".len > 0 and readLineFromStdin("Run 'git init .' on the Plugin folder? (y/N): ") == "y":
     if execShellCmd("git init .") == 0:
       if readLineFromStdin("Run 'git add .' on the Plugin folder? (y/N): ") == "y":
