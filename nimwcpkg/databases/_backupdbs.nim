@@ -6,6 +6,7 @@ proc backupDb*(dbname: string,
     dataOnly = false, inserts = false, checksum = true, sign = true, targz = true): tuple[output: TaintedString, exitCode: int] =
   ## Backup the whole Database to a plain-text Raw SQL Query human-readable file.
   assert dbname.len > 0 and host.len > 0 and username.len > 0
+  const optionsx = {poStdErrToStdOut, poUsePath, poEchoCmd} # poEchoCmd does echo cmd
   setCurrentDir(nimwcpkgDir)
   once: discard existsOrCreateDir(nimwcpkgDir / "backup")
 
@@ -14,25 +15,19 @@ proc backupDb*(dbname: string,
     (if dataOnly: " --data-only " else: "") & (if inserts: " --inserts " else: ""))
   else:  # TODO: SQLite .dump is Not working, Docs says it should.
     var cmd = cmdBackup.format(dbname, filename)
-
-  when not defined(release): info("Database backup: " & cmd)
-  result = execCmdEx(cmd)
+  result = execCmdEx(cmd, options = optionsx)
 
   if checksum and result.exitCode == 0 and findExe("sha512sum").len > 0:
-    cmd = cmdChecksum & filename & " > " & filename & ".sha512"
-    when not defined(release): info("Database backup (sha512sum): " & cmd)
-    result = execCmdEx(cmd)
+    result = execCmdEx(cmdChecksum & filename & " > " & filename & ".sha512", options = optionsx)
 
     if sign and result.exitCode == 0 and findExe("gpg").len > 0:
-      cmd = cmdSign & filename
-      when not defined(release): info("Database backup (gpg): " & cmd)
-      result = execCmdEx(cmd)
+      result = execCmdEx(cmdSign & filename, options = optionsx)
 
       if targz and result.exitCode == 0 and findExe("tar").len > 0:
-        cmd = cmdTar & filename & ".tar.gz " & filename & " " & filename & ".sha512 " & filename & ".asc"
-
-        when not defined(release): info("Database backup (tar): " & cmd)
-        result = execCmdEx(cmd)
+        result = execCmdEx(
+          cmdTar & filename & ".tar.gz " & filename & " " & filename & ".sha512 " & filename & ".asc",
+          options = optionsx
+        )
 
         if result.exitCode == 0:
           removeFile(filename)
