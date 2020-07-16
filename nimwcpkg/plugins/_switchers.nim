@@ -8,16 +8,17 @@ proc pluginEnableDisable*(pluginPath, pluginName, status: string) =
   ## @"status" == true  => Plugin is enabled,
   ##                       this will disable the plugin (remove the line)
   assert pluginName.len > 0 and status in ["false", "true"] and existsFile"plugins/plugin_import.txt"
-  var newFile = ""
+  newFile := ""
   for line in lines("plugins/plugin_import.txt"):
     if line == "" or line == pluginPath:
       continue
     else:
-      newFile.add(line)
+      newFile[].add(line)
 
-    newFile.add("\n")
+    newFile[].add("\n")
 
   if status == "false":
-    newFile.add(pluginName)
+    newFile[].add(pluginName)
 
-  writeFile("plugins/plugin_import.txt", newFile)
+  writeFile("plugins/plugin_import.txt", newFile[])
+  dealloc newFile
