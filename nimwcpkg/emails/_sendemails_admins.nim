@@ -10,21 +10,16 @@ proc sendAdminMailNow*(subject, message: string) {.async.} =
   if adminEmail == "":
     info("No admin email specified")
     return
-
-  let from_addr = adminEmail
   var
     headers = otherHeaders
     client = newAsyncSmtp(useSsl = true, debug = false)
-  headers.add(("From", from_addr))
-  let
-    recipient = adminEmail
-    toList = @[recipient]
-    encoded = createMessage("Admin - " & subject, message, toList, @[], headers)
+  headers.add(("From", adminEmail))
+  let encoded = createMessage("Admin - " & subject, message, @[adminEmail], @[], headers)
 
   try:
     await client.connect(smtpAddress, Port(parseInt(smtpPort)))
     await client.auth(smtpUser, smtpPassword)
-    await client.sendMail(from_addr, toList, $encoded)
+    await client.sendMail(adminEmail, @[adminEmail], $encoded)
   except:
-    error("Error in sending mail: " & recipient)
+    error("Error in sending mail: " & adminEmail)
   when defined(dev): info("Admin email sent")
