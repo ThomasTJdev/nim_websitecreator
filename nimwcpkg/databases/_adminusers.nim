@@ -2,15 +2,16 @@
 
 func ask4UserPass*(): tuple[iName, iEmail, iPwd: string] {.inline.} =
   ## Ask the user for user, mail, password, and return them.
-  var iName, iEmail, iPwd, iPwd2: string
-  while not(iName.len > nameMinLen and iName.len < nameMaxLen):  # Max len from DB SQL
-    iName = readLineFromStdin("\nType Username: ").strip
-  while not(iEmail.len > emailMinLen and iEmail.len < emailMaxLen):
-    iEmail = readLineFromStdin("\nType Email (Lowercase): ").strip.toLowerAscii
-  while not(iPwd.len > passwordMinLen and iPwd.len < passwordMaxLen and iPwd == iPwd2):
-    iPwd = readLineFromStdin("\nType Password: ").strip  # Type it Twice.
-    iPwd2 = readLineFromStdin("\nConfirm Password (Repeat it again): ").strip
-  result = (iName: iName, iEmail: iEmail, iPwd: iPwd)
+  creates "", iName, iEmail, iPwd, iPwd2
+  while not(iName[].len > nameMinLen and iName[].len < nameMaxLen):  # Max len from DB SQL
+    iName[] = readLineFromStdin("\nType Username: ").strip
+  while not(iEmail[].len > emailMinLen and iEmail[].len < emailMaxLen):
+    iEmail[] = readLineFromStdin("\nType Email (Lowercase): ").strip.toLowerAscii
+  while not(iPwd[].len > passwordMinLen and iPwd[].len < passwordMaxLen and iPwd[] == iPwd2[]):
+    iPwd[] = readLineFromStdin("\nType Password: ").strip  # Type it Twice.
+    iPwd2[] = readLineFromStdin("\nConfirm Password (Repeat it again): ").strip
+  result = (iName: iName[], iEmail: iEmail[], iPwd: iPwd[])
+  deallocs iName, iEmail, iPwd, iPwd2
 
 
 proc createAdminUser*(db: DbConn) {.discardable.} =
