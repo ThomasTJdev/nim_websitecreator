@@ -1,4 +1,7 @@
-import os, osproc, json, strutils, posix, posix_utils
+import os, osproc, strutils, posix, posix_utils
+
+when defined(packedjson): import packedjson
+else: import json
 
 template isSsd(): bool =
   when defined(linux): # Returns `true` if main disk is SSD (Solid). Linux only
