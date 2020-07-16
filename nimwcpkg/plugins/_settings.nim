@@ -5,10 +5,11 @@ proc extensionSettings(): seq[string] =
   ## are enabled or disabled. The result will be "true:pluginname"
   ## or "false:pluginname".
   assert existsDir"plugins/" and existsFile"plugins/plugin_import.txt"
-  let plugins = readFile("plugins/plugin_import.txt").splitLines
+  var extensions = create(seq[string], sizeOf seq[string])
+  var plugins = create(seq[string], sizeOf seq[string])
+  plugins[] = readFile("plugins/plugin_import.txt").splitLines
 
   # Walk through files and folders in the plugin directory
-  var extensions: seq[string]
   for plugin in walkDir("plugins/"):
     let (_, ppath) = plugin
     let ppathName = replace(ppath, "plugins/", "")
@@ -18,19 +19,20 @@ proc extensionSettings(): seq[string] =
 
     # If the plugins is present in plugin_import, set the
     # plugin status to true, else false
-    if ppathName in plugins:
-      if extensions.len == 0:
-        extensions = @["true:" & ppathName]
+    if ppathName in plugins[]:
+      if extensions[].len == 0:
+        extensions[] = @["true:" & ppathName]
       else:
-        extensions.add("true:" & ppathName)
+        extensions[].add("true:" & ppathName)
 
     else:
-      if extensions.len == 0:
-        extensions = @["false:" & ppathName]
+      if extensions[].len == 0:
+        extensions[] = @["false:" & ppathName]
       else:
-        extensions.add("false:" & ppathName)
+        extensions[].add("false:" & ppathName)
 
-  return extensions
+  result = extensions[]
+  deallocs plugins, extensions
 
 
 proc genExtensionSettings*(): string =
