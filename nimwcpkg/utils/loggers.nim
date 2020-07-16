@@ -3,17 +3,16 @@ import ../constants/constants, ../emails/emails
 
 
 let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
-let configFile = nimwcpkgDir / "config/config.cfg"
 assert dirExists(nimwcpkgDir), "nimwcpkg directory not found: " & nimwcpkgDir
-assert fileExists(configFile), "config/config.cfg file not found"
+assert fileExists(nimwcpkgDir / "config/config.cfg"), "config/config.cfg file not found"
 
 setCurrentDir(nimwcpkgDir)
 once: discard existsOrCreateDir("log")
 
 addHandler(newConsoleLogger(fmtStr = verboseFmtStr))
 addHandler(newRollingFileLogger( # Logs to rotating files.
-  when defined(release): loadConfig(configFile).getSectionValue("Logging", "logfile")
-  else: loadConfig(configFile).getSectionValue("Logging", "logfiledev"),
+  when defined(release): loadConfig(nimwcpkgDir / "config/config.cfg").getSectionValue("Logging", "logfile")
+  else: loadConfig(nimwcpkgDir / "config/config.cfg").getSectionValue("Logging", "logfiledev"),
   fmtStr = verboseFmtStr))
 debug("Rolling File Logger logs at: " & defaultFilename())
 
