@@ -35,24 +35,25 @@ proc extensionSettings(): seq[string] =
 
 proc genExtensionSettings*(): string =
   ## Generate HTML list items with plugins
+  pluginName := ""
   for plugin in extensionSettings():
-    let pluginName = (split(plugin, ":"))[1]
+    pluginName[] = (split(plugin, ":"))[1]
 
     result.add(pluginHtmlListItem.format(
       # $1
-      pluginName,
+      pluginName[],
 
       # $2
       (split(plugin, ":"))[0] == "true",
 
       # $3
       if (split(plugin, ":"))[0] == "true":
-        pluginName & "/settings"
+        pluginName[] & "/settings"
       else:
         "#",
 
       # $4
-      pluginName.capitalizeAscii,
+      pluginName[].capitalizeAscii,
 
       # $5
       if (split(plugin, ":"))[0] == "true":
@@ -66,3 +67,4 @@ proc genExtensionSettings*(): string =
       else:
         "disabled"
     ))
+  dealloc pluginName
