@@ -1,6 +1,6 @@
 import os, parsecfg, tables, osproc, logging, times, nativesockets, strutils, rdstdin
 
-import ../constants/constants, ../utils/configs, ../passwords/passwords, ../enums/enums
+import ../constants/constants, ../utils/configs, ../utils/utils, ../passwords/passwords, ../enums/enums
 export head, navbar, footer, title  # HTML template fragments
 
 when defined(postgres): import db_postgres
