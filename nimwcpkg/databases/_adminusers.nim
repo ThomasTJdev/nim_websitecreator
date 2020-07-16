@@ -1,6 +1,6 @@
 ## Do NOT import this file directly, instead import ``database.nim``
 
-func ask4UserPass*(): tuple[iName, iEmail, iPwd: string] {.inline.} =
+proc ask4UserPass*(): tuple[iName, iEmail, iPwd: string] {.inline.} =
   ## Ask the user for user, mail, password, and return them.
   creates "", iName, iEmail, iPwd, iPwd2
   while not(iName[].len > nameMinLen and iName[].len < nameMaxLen):  # Max len from DB SQL
