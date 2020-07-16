@@ -7,20 +7,16 @@ proc sendMailNow*(subject, message, recipient: string) {.async.} =
   when defined(dev) and not defined(devemailon):
     info("Dev is true, email is not send")
     return
-
-  let
-    from_addr = smtpFrom
-    toList = @[recipient]
   var
     client = newAsyncSmtp(useSsl = true, debug = false)
     headers = otherHeaders
-  headers.add(("From", from_addr))
-  let encoded = createMessage(subject, message, toList, @[], headers)
+  headers.add(("From", smtpFrom))
+  let encoded = createMessage(subject, message, @[recipient], @[], headers)
 
   try:
     await client.connect(smtpAddress, Port(parseInt(smtpPort)))
     await client.auth(smtpUser, smtpPassword)
-    await client.sendMail(from_addr, toList, $encoded)
+    await client.sendMail(smtpFrom, @[recipient], $encoded)
   except:
     error("Error in sending mail: " & recipient)
   when defined(dev): info("Email sent")
