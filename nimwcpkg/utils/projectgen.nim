@@ -1,4 +1,4 @@
-import os, times, rdstdin, strutils
+import os, times, rdstdin, strutils, ./utils
 
 
 template pluginSkeleton*() =
