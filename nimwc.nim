@@ -2,7 +2,7 @@ import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times, json
 
 import
   nimwcpkg/constants/constants, nimwcpkg/enums/enums, nimwcpkg/utils/utils, nimwcpkg/utils/projectgen,
-  nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers, nimwcpkg/utils/sysinfo
+  nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers, nimwcpkg/utils/sysinfo, nimwcpkg/utils/updaters
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
@@ -25,27 +25,6 @@ block:     # block so "dir" is not defined after it.
     if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
       echo config_not_found_msg
       discard staticExec("cp " & dir & "/config/config_default.cfg " & dir & "/config/config.cfg")
-
-
-proc updateNimwc() =
-  ## GIT hard update
-  assert dirExists"plugins/" and dirExists"public/css/" and dirExists"public/js/"
-  assert fileExists"plugins/plugin_import.txt" and fileExists"public/css/style_custom.css"
-  assert fileExists"public/js/js_custom.js" and findExe"git".len > 0
-  const cmd = "git fetch --all ; git reset --hard origin/master"
-  let
-    pluginImport = readFile"plugins/plugin_import.txt"  # Save contents
-    styleCustom = readFile"public/css/style_custom.css"
-    jsCustom = readFile"public/js/js_custom.js"
-    humansTxt = readFile"public/humans.txt"
-  when not defined(release): echo cmd
-  discard execCmd(cmd)
-  writeFile("plugins/plugin_import.txt", pluginImport)  # Write contents back
-  writeFile("public/css/style_custom.css", styleCustom)
-  writeFile("public/js/js_custom.js", jsCustom)
-  writeFile("public/humans.txt", humansTxt)
-  echo "\n\n\nTo finish the update:\n - Compile NimWC\n - Run with the arg `--newdb`\n"
-  quit("Git fetch done\n", 0)
 
 
 proc handler() {.noconv.} =
