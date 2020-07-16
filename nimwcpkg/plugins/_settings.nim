@@ -10,8 +10,7 @@ proc extensionSettings(): seq[string] =
   # Walk through files and folders in the plugin directory
   var extensions: seq[string]
   for plugin in walkDir("plugins/"):
-    let (pd, ppath) = plugin
-    discard pd
+    let (_, ppath) = plugin
     let ppathName = replace(ppath, "plugins/", "")
 
     # Skip these files/folders
