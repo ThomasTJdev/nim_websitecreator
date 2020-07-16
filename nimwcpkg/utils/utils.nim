@@ -24,7 +24,7 @@ template getLibravatarUrl*(email: string, size: range[1..512] = 100, default = "
 
 template cwebp*(inputFilename: string, outputFilename = "", preset = "drawing",
     verbose = false, threads = true, lossless = false, noalpha = false,
-    quality: range[0..100] = 50): tuple[output: TaintedString, exitCode: int] =
+    quality: range[0..100] = 75): tuple[output: TaintedString, exitCode: int] =
   ## Compress an image file to a WebP file. Input format can be either PNG, JPEG, TIFF, WebP.
   assert inputFilename.len > 0, "inputFilename must not be empty string"
   assert preset in ["default", "photo", "picture", "drawing", "icon", "text"]
