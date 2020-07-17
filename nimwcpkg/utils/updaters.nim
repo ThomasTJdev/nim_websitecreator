@@ -1,4 +1,7 @@
-import os, osproc, ./utils
+import os, osproc
+
+import ../utils/utils
+
 
 proc updateNimwc*() =
   ## GIT hard update
