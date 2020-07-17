@@ -42,17 +42,65 @@ template cwebp*(inputFilename: string, outputFilename = "", preset = "drawing",
 
 
 template `:=`*(name: untyped; value: any) =
+  ## Assistent for variables at compile-time. Uses system.nim
+  ##
+  ## expandMacros:
+  ##   foo := 42
+  ##
+  ## var foo = create(int, sizeOf int)
+  ## foo[] = 42
+  ##
+  ## expandMacros:
+  ##   bar := "Hello"
+  ##
+  ## var bar = create(string, sizeOf string)
+  ## bar[] = "Hello"
+  ##
+  ## https://nim-lang.github.io/Nim/system.html#create%2Ctypedesc
   var name {.inject.} = create(type(value), sizeOf type(value))
   name[] = value
 
 
 macro deallocs*(variables: varargs[typed]) =
-  result = newStmtList()
-  for it in variables: result.add newCall(bindSym"dealloc", it)
+  ## This unrolls destruction of several variables at compile-time. Uses system.nim
+  ##
+  ## expandMacros:
+  ##   deallocs foo, bar, baz
+  ##
+  ## dealloc foo
+  ## dealloc bar
+  ## dealloc baz
+  ##
+  ## https://nim-lang.github.io/Nim/system.html#dealloc.t%2Cpointer
+  result = newStmtList() # Creates a list of lines of code to be run.
+  for it in variables: result.add newCall(bindSym"dealloc", it) # Fills the list.
 
 
 macro creates*(value: any; variables: varargs[untyped]) =
-  result = newStmtList()
-  for it in variables: result.add quote do:
+  ## This unrolls creation of several variables at compile-time. Uses system.nim
+  ##
+  ## expandMacros:
+  ##   creates 42, foo, bar, baz
+  ##
+  ## var foo = create(int, sizeOf int)
+  ## foo[] = 42
+  ## var bar = create(int, sizeOf int)
+  ## bar[] = 42
+  ## var baz = create(int, sizeOf int)
+  ## baz[] = 42
+  ##
+  ## expandMacros:
+  ##   creates "", foo, bar, baz
+  ##
+  ## var foo = create(string, sizeOf string)
+  ## foo[] = ""
+  ## var bar = create(string, sizeOf string)
+  ## bar[] = ""
+  ## var baz = create(string, sizeOf string)
+  ## baz[] = ""
+  ##
+  ## https://nim-lang.github.io/Nim/system.html#create%2Ctypedesc
+  result = newStmtList() # Creates a list of lines of code to be run.
+  for it in variables: result.add quote do: # Fills the list with code.
     var `it` = create(type(`value`), sizeOf type(`value`))
     `it`[] = `value`
