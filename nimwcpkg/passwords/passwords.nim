@@ -10,9 +10,9 @@ func bcrypt_gensalt(rounds: int8): cstring        {.cdecl, mydll, importc: "bcry
 func blowfish(key, salt, encrypted: cstring): int {.cdecl, mydll, importc: "crypt_blowfish".}
 func compare_string(s1, s2: cstring): int         {.cdecl, mydll, importc: "compare_string".}
 
-func genSalt(rounds: int8): string {.inline, used.} = $(bcrypt_gensalt(rounds))
+func genSalt(rounds: int8): string {.inline.} = $(bcrypt_gensalt(rounds))
 
-func compare(s1, s2: string): bool {.inline, used.} = compare_string(s1, s2) != 0
+func compare(s1, s2: string): bool {.inline.} = compare_string(s1, s2) != 0
 
 func hash(key, salt: string): string =
   var encrypted = newString(60)
