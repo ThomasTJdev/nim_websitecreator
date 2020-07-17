@@ -1,4 +1,6 @@
-import parsecfg, tables, os, ../enums/enums
+import parsecfg, tables, os
+
+import ../enums/enums
 
 
 proc getConfig*(configPath: string, section: ConfigSections): Table[string, string] =
