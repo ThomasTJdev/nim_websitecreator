@@ -16,6 +16,7 @@ requires "firejail >= 0.5.0"
 requires "otp >= 0.1.1"
 requires "recaptcha >= 1.0.3"
 requires "packedjson >= 0.1.0"
+requires "gatabase >= 0.9.9"
 
 
 import distros
