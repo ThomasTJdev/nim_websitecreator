@@ -181,9 +181,7 @@ proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
   let appName = dict.getSectionValue("Server", "appname")
   let appPath = getAppDir() / appName
-  result = execCmd("nim c " & compileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
-  when defined(release):
-    if result == 0 and findExe"strip".len > 0: discard execCmd(cmdStrip & appPath & "_new_tmp")
+  result = execCmd("nim c -d:strip -d:lto " & compileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
   moveFile(getAppDir() & "/" & appName & "_new_tmp", getAppDir() & "/" & appName & "_new")
 
 
