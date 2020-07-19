@@ -149,14 +149,12 @@ proc startupCheck(cfg: Config) =
   if not fileExists(appPath) or defined(rc):
     # Ensure that the DB tables are created
     styledEcho(fgGreen, bgBlack, compile_start_msg & userArgs)
-    let (output, exitCode) = execCmdEx("nim c --out:" & appPath & " " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
+    let (output, exitCode) = execCmdEx("nim c -d:strip -d:lto --out:" & appPath & " " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
     if exitCode != 0:
       styledEcho(fgRed, bgBlack, compile_fail_msg & output)
       quit(exitCode)
     else:
       styledEcho(fgGreen, bgBlack, compile_ok_msg)
-      when defined(release):
-        if findExe"strip".len > 0: discard execCmd(cmdStrip & appPath)
 
 
 #
