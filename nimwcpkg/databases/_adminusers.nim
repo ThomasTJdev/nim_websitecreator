@@ -16,8 +16,7 @@ proc ask4UserPass*(): tuple[iName, iEmail, iPwd: string] {.inline.} =
 
 proc createAdminUser*(db: DbConn) {.discardable.} =
   ## Create new admin user.
-  const sqlAnyAdmin = sql"SELECT id FROM person WHERE status = 'Admin'"
-  let anyAdmin = getAllRows(db, sqlAnyAdmin)
+  let anyAdmin = getAllRows(db, adminusers_createAdminUser0)
   info(createAdminUserMsg.format(anyAdmin.len))
 
   let (iName, iEmail, iPwd) = ask4UserPass() # Ask for User/Password/Mail
@@ -25,10 +24,7 @@ proc createAdminUser*(db: DbConn) {.discardable.} =
   let
     salt = makeSalt()
     password = makePassword(iPwd, salt)
-  const sqlAddAdmin = sql"""
-    INSERT INTO person (name, email, password, salt, status)
-    VALUES (?, ?, ?, ?, ?)"""
 
-  discard insertID(db, sqlAddAdmin, iName, iEmail, password, salt,
+  discard insertID(db, adminusers_createAdminUser1, iName, iEmail, password, salt,
     if readLineFromStdin("\nis Admin? (y/N): ").normalize == "y": "Admin" else: "Moderator")
   info("1 new user added: " & iName)
