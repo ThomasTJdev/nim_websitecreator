@@ -2,17 +2,13 @@
 
 proc createTestUser*(db: DbConn) {.discardable.} =
   ## Create new admin user.
-  const sqlAnyAdmin = sql"SELECT id FROM person WHERE email = 'test@test.com'"
-  let anyAdmin = getAllRows(db, sqlAnyAdmin)
+  let anyAdmin = getAllRows(db, testusers_createTestUser0)
   info(createTestUserMsg.format(anyAdmin.len))
 
   if anyAdmin.len < 1:
     const salt = "0".repeat(128)  # Weak Salt for Test user only.
-    const sqlAddTestUser = sql("""
-      INSERT INTO person (name, email, password, salt, status)
-      VALUES ('Testuser', 'test@test.com', ?, '$1', 'Moderator')""".format(salt))
-
-    discard insertID(db, sqlAddTestUser, makePassword("test", salt))
+    discard insertID(db, testusers_createTestUser1,
+      "Testuser", "test@test.com", makePassword("test", salt), salt, "Moderator")
 
     info("Test user added!.")
   else:
