@@ -104,27 +104,23 @@ func makeCommand*(
   )
 
 
-#[
-
-when isMainModule:
-  echo makeCommand(
-    command = "echo 42", timeout = 99, name = "myAppName", gateway = "10.0.0.1",
-    hostsFile = "/etc/hosts", logfile = "/tmp/myApp.log", chroot = "/tmp/chroot/",
-    tmpfs = "/tmp/tmpfs", dnsServers = ["8.8.8.8", "8.8.4.4", "1.1.1.1", "1.1.1.2"],
-    whitelist = @["/tmp/one", "/tmp/two"], blacklist = @["/usr/bin", "/share/bin"],
-    maxSubProcesses = int8.high, maxOpenFiles = int8.high, maxFileSize = int32.high,
-    maxPendingSignals = int16.high, maxRam = int16.high, maxCpu = int32.high,
-    cpuCoresByNumber = @[0, 2],
-
-    noAllusers = false, apparmor = false, caps = true, noKeepDevShm = false,
-    noMachineId = false, noRamWriteExec = true, no3d = true, noDbus = true,
-    noDvd = true, noGroups = true, noNewPrivs = true, noRoot = true, noSound = true,
-    noAutoPulse = true, noVideo = true, forceEnUsUtf8 = true, noU2f = true,
-    privateTmp = true, private = true, privateCache = true, noMnt = true,
-    privateDev = true, seccomp = true, noShell = true, noNet = true, noIp = true,
-    noDebuggers = false, newIpcNamespace = true, appimage = true, noTv = true,
-    useMtuJumbo9000 = true, useNice20 = true, noX = true, useRandomMac = true,
-    writables = false
-  )
-
-#]
+# when isMainModule:
+#   echo makeCommand(
+#     command = "echo 42", timeout = 99, name = "myAppName", gateway = "10.0.0.1",
+#     hostsFile = "/etc/hosts", logfile = "/tmp/myApp.log", chroot = "/tmp/chroot/",
+#     tmpfs = "/tmp/tmpfs", dnsServers = ["8.8.8.8", "8.8.4.4", "1.1.1.1", "1.1.1.2"],
+#     whitelist = @["/tmp/one", "/tmp/two"], blacklist = @["/usr/bin", "/share/bin"],
+#     maxSubProcesses = int8.high, maxOpenFiles = int8.high, maxFileSize = int32.high,
+#     maxPendingSignals = int16.high, maxRam = int16.high, maxCpu = int32.high,
+#     cpuCoresByNumber = @[0, 2],
+#
+#     noAllusers = false, apparmor = false, caps = true, noKeepDevShm = false,
+#     noMachineId = false, noRamWriteExec = true, no3d = true, noDbus = true,
+#     noDvd = true, noGroups = true, noNewPrivs = true, noRoot = true, noSound = true,
+#     noAutoPulse = true, noVideo = true, forceEnUsUtf8 = true, noU2f = true,
+#     privateTmp = true, private = true, privateCache = true, noMnt = true,
+#     privateDev = true, seccomp = true, noShell = true, noNet = true, noIp = true,
+#     noDebuggers = false, newIpcNamespace = true, appimage = true, noTv = true,
+#     useMtuJumbo9000 = true, useNice20 = true, noX = true, useRandomMac = true,
+#     writables = false
+#   )
