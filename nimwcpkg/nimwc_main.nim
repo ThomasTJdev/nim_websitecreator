@@ -12,9 +12,8 @@ import
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
-when not defined(webp): {. warning: "WebP is disabled, no image optimizations possible." .}
-when not defined(firejail): {. warning: "Firejail is disabled, running unsecure." .}
-else:                       from firejail import firejailVersion, firejailFeatures
+when not defined(webp):     {.warning: "WebP is disabled, no image optimizations possible.".}
+when not defined(firejail): {.warning: "Firejail is disabled, running unsecure.".}
 
 when defined(packedjson): import packedjson
 else: import json
