@@ -1,19 +1,17 @@
 import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times, json
 
 import
-  nimwcpkg/constants/constants, nimwcpkg/enums/enums, nimwcpkg/utils/utils, nimwcpkg/utils/projectgen,
+  nimwcpkg/constants/constants, nimwcpkg/enums/enums, nimwcpkg/utils/utils, nimwcpkg/utils/projectgen, nimwcpkg/utils/jail,
   nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers, nimwcpkg/utils/sysinfo, nimwcpkg/utils/updaters
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
-when not defined(firejail): {.warning: "Firejail is disabled, running unsecure.".}
-else:                       from firejail import firejailVersion, firejailFeatures
-
 hardenedBuild()
 
 when not defined(ssl):      {.warning: "SSL is Disabled, running unsecure.".}
 when not defined(firejail): {.warning: "Firejail is Disabled, running unsecure.".}
+when not defined(firejail): {.warning: "Firejail is disabled, running unsecure.".}
 
 
 var
@@ -58,43 +56,44 @@ proc launcherActivated(cfg: Config) =
               cfg.getSectionValue("firejail", "dns2").strip, cfg.getSectionValue("firejail", "dns3").strip]
     assert countProcessors() > cpuCores, "Dedicated CPU Cores must be less or equal to the actual CPU Cores: " & $cpuCores
     assert hostz.fileExists, "Hosts file not found: " & hostz
-    let myjail = Firejail(
-      noDvd:         cfg.getSectionValue("firejail", "noDvd").parseBool,
-      noSound:       cfg.getSectionValue("firejail", "noSound").parseBool,
-      noAutoPulse:   cfg.getSectionValue("firejail", "noAutoPulse").parseBool,
-      no3d:          cfg.getSectionValue("firejail", "no3d").parseBool,
-      noX:           cfg.getSectionValue("firejail", "noX").parseBool,
-      noVideo:       cfg.getSectionValue("firejail", "noVideo").parseBool,
-      noDbus:        cfg.getSectionValue("firejail", "noDbus").parseBool,
-      noShell:       cfg.getSectionValue("firejail", "noShell").parseBool,
-      noDebuggers:   cfg.getSectionValue("firejail", "noDebuggers").parseBool,
-      noMachineId:   cfg.getSectionValue("firejail", "noMachineId").parseBool,
-      noRoot:        cfg.getSectionValue("firejail", "noRoot").parseBool,
-      noAllusers:    cfg.getSectionValue("firejail", "noAllusers").parseBool,
-      noU2f:         cfg.getSectionValue("firejail", "noU2f").parseBool,
-      privateTmp:    cfg.getSectionValue("firejail", "privateTmp").parseBool,
-      privateCache:  cfg.getSectionValue("firejail", "privateCache").parseBool,
-      privateDev:    cfg.getSectionValue("firejail", "privateDev").parseBool,
-      forceEnUsUtf8: cfg.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
-      caps:          cfg.getSectionValue("firejail", "caps").parseBool,
-      seccomp:       cfg.getSectionValue("firejail", "seccomp").parseBool,
-      noTv:          cfg.getSectionValue("firejail", "noTv").parseBool,
-      writables:     cfg.getSectionValue("firejail", "writables").parseBool,
-      noMnt:         cfg.getSectionValue("firejail", "noMnt").parseBool,
-    )
-    nimwcCommand = myjail.makeCommand(
-      command=appPath & userArgsRun,
-      name = cfg.getSectionValue("Server", "appname"), # whitelist= @[getAppDir(), getCurrentDir()],
+
+    nimwcCommand: string = jail.makeCommand(
+
+      command       = appPath & userArgsRun,
+      name          = cfg.getSectionValue("Server", "appname"), # whitelist= @[getAppDir(), getCurrentDir()],
       maxSubProcesses = cfg.getSectionValue("firejail", "maxSubProcesses").parseInt * 1_000_000,  # 1 is Ok, 0 is Disabled, int.high max.
-      maxOpenFiles = cfg.getSectionValue("firejail", "maxOpenFiles").parseInt * 1_000,        # Below 1000 NimWC may not start.
-      maxFileSize = cfg.getSectionValue("firejail", "maxFileSize").parseInt * 1_000_000_000,  # Below 1Mb NimWC may not start.
+      maxOpenFiles  = cfg.getSectionValue("firejail", "maxOpenFiles").parseInt * 1_000,        # Below 1000 NimWC may not start.
+      maxFileSize   = cfg.getSectionValue("firejail", "maxFileSize").parseInt * 1_000_000_000,  # Below 1Mb NimWC may not start.
       maxPendingSignals = cfg.getSectionValue("firejail", "maxPendingSignals").parseInt * 10, # 1 is Ok, 0 is Disabled, int.high max.
-      timeout = cfg.getSectionValue("firejail", "timeout").parseInt,                          # 1 is Ok, 0 is Disabled, 255 max. It will actually Restart instead of Stopping.
-      maxRam = cfg.getSectionValue("firejail", "maxRam").parseInt * 1_000_000_000,            # Below 1Gb NimWC may fail.
-      maxCpu = cfg.getSectionValue("firejail", "maxCpu").parseInt,                            # 1 is Ok, 0 is Disabled, 255 max.
+      timeout       = cfg.getSectionValue("firejail", "timeout").parseInt,                          # 1 is Ok, 0 is Disabled, 255 max. It will actually Restart instead of Stopping.
+      maxRam        = cfg.getSectionValue("firejail", "maxRam").parseInt * 1_000_000_000,            # Below 1Gb NimWC may fail.
+      maxCpu        = cfg.getSectionValue("firejail", "maxCpu").parseInt,                            # 1 is Ok, 0 is Disabled, 255 max.
       cpuCoresByNumber = corez,                                                                # 0 is Disabled, else toSeq(0..corez)
-      hostsFile = hostz,        # Optional Alternative/Fake /etc/hosts
-      dnsServers = dnsz,        # Optional Alternative/Fake DNS, 4 Servers must be provided
+      hostsFile     = hostz,        # Optional Alternative/Fake /etc/hosts
+      dnsServers    = dnsz,        # Optional Alternative/Fake DNS, 4 Servers must be provided
+
+      noDvd         = cfg.getSectionValue("firejail", "noDvd").parseBool,
+      noSound       = cfg.getSectionValue("firejail", "noSound").parseBool,
+      noAutoPulse   = cfg.getSectionValue("firejail", "noAutoPulse").parseBool,
+      no3d          = cfg.getSectionValue("firejail", "no3d").parseBool,
+      noX           = cfg.getSectionValue("firejail", "noX").parseBool,
+      noVideo       = cfg.getSectionValue("firejail", "noVideo").parseBool,
+      noDbus        = cfg.getSectionValue("firejail", "noDbus").parseBool,
+      noShell       = cfg.getSectionValue("firejail", "noShell").parseBool,
+      noDebuggers   = cfg.getSectionValue("firejail", "noDebuggers").parseBool,
+      noMachineId   = cfg.getSectionValue("firejail", "noMachineId").parseBool,
+      noRoot        = cfg.getSectionValue("firejail", "noRoot").parseBool,
+      noAllusers    = cfg.getSectionValue("firejail", "noAllusers").parseBool,
+      noU2f         = cfg.getSectionValue("firejail", "noU2f").parseBool,
+      privateTmp    = cfg.getSectionValue("firejail", "privateTmp").parseBool,
+      privateCache  = cfg.getSectionValue("firejail", "privateCache").parseBool,
+      privateDev    = cfg.getSectionValue("firejail", "privateDev").parseBool,
+      forceEnUsUtf8 = cfg.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
+      caps          = cfg.getSectionValue("firejail", "caps").parseBool,
+      seccomp       = cfg.getSectionValue("firejail", "seccomp").parseBool,
+      noTv          = cfg.getSectionValue("firejail", "noTv").parseBool,
+      writables     = cfg.getSectionValue("firejail", "writables").parseBool,
+      noMnt         = cfg.getSectionValue("firejail", "noMnt").parseBool,
     )
 
   const processOpts =
