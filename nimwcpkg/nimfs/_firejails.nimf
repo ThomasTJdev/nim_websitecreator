@@ -464,25 +464,8 @@
   </form>
   <hr>
   <h5 class="has-text-centered">Firejail Status</h5>
-  <div class="tags">
-  #
-  # for capability in firejailFeatures.pairs:
-    <span
-    #
-    #if capability.val.getBool:
-      style="color:black" title="OK" class="tag is-rounded is-success is-capitalized"
-    #
-    # else:
-    #
-      style="color:yellow" title="Fail (Not Installed)" class="tag is-danger is-uppercase"
-    # end if
-    #
-    > $capability.key </span>
-  # end for
-  #
-  </div>
   <div class="notification is-info">
-  You are protected by Firejail version $firejailVersion, <i>stay safe and use <a href="https://nim-lang.org/learn.html">Nim</a></i>.
+  You are protected by Firejail, <i>stay safe and use <a href="https://nim-lang.org/learn.html">Nim</a></i>.
   </div>
   </div>
 #end proc

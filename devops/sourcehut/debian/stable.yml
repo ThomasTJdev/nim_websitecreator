@@ -9,7 +9,7 @@ sources:
   - https://github.com/ThomasTJdev/nim_websitecreator
 
 environment:
-  CHOOSENIM_CHOOSE_VERSION: "0.19.6"
+  CHOOSENIM_CHOOSE_VERSION: "1.2.4"
   CHOOSENIM_NO_ANALYTICS: 1
   PATH: $HOME/.nimble/bin:$PATH
 
@@ -18,7 +18,7 @@ tasks:
       curl https://nim-lang.org/choosenim/init.sh -sSf > init.sh
       sh init.sh -y
       /home/build/.nimble/bin/nimble -y refresh
-      /home/build/.nimble/bin/nimble -y install jester recaptcha bcrypt datetime2human otp firejail webp libravatar
+      /home/build/.nimble/bin/nimble -y install jester recaptcha otp firejail
 
   - build: |
       cd nim_websitecreator

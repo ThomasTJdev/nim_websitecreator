@@ -1,28 +1,19 @@
 import
   asyncdispatch, base32, cgi, encodings, logging, md5, nativesockets, os,
-  osproc, oswalkdir, parsecfg, random, re, rdstdin, sequtils, streams, strtabs,
+  osproc, parsecfg, random, re, rdstdin, sequtils, streams, strtabs,
   strutils, tables, times, macros, mimetypes, packages/docutils/rstgen
 
-import
-  bcrypt,
-  contra,
-  datetime2human,
-  jester,
-  libravatar,
-  otp
+import jester, otp
 
 import
-  constants/constants, enums/enums, databases/databases, emails/emails, files/files,
+  constants/constants, enums/enums, databases/databases, emails/emails, files/files, utils/utils,
   passwords/passwords, sessions/sessions, utils/loggers, plugins/plugins, webs/html_utils
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
-when not defined(webp): {. warning: "WebP is disabled, no image optimizations possible." .}
-else:                   from webp import cwebp
-
-when not defined(firejail): {. warning: "Firejail is disabled, running unsecure." .}
-else:                       from firejail import firejailVersion, firejailFeatures
+when not defined(webp):     {.warning: "WebP is disabled, no image optimizations possible.".}
+when not defined(firejail): {.warning: "Firejail is disabled, running unsecure.".}
 
 when defined(packedjson): import packedjson
 else: import json
@@ -40,78 +31,46 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
   ## Get all plugins path
   ##
   ## Generates a seq[string] with the path to the plugins
-  postconditions result.allIt(it.len > 0)
-  let
-    dir = parentDir(currentSourcePath())
-    realPath = replace(dir, "/nimwcpkg", "")
-
-  var
-    plugins = (staticRead(realPath & "/plugins/plugin_import.txt").split("\n"))
-    extensions: seq[string]
-
+  const
+    realPath = replace(parentDir(currentSourcePath()), "/nimwcpkg", "")
+    plugins = staticRead(realPath & "/plugins/plugin_import.txt").splitLines
   # Loop through all files and folders
-  for plugin in oswalkdir.walkDir("plugins/"):
-    let (pd, ppath) = plugin
-    discard pd
-
+  for plugin in walkDir("plugins/"):
+    let (_, ppath) = plugin
     # If the path matches a name in the plugin_import.txt
     if replace(ppath, "plugins/", "") in plugins:
-      if extensions.len() == 0:
-        extensions = @[realPath & "/" & ppath]
-      else:
-        extensions.add(realPath & "/" & ppath)
-
-  return extensions
+      result.add realPath & "/" & ppath
 
 const pluginsPath = getPluginsPath()
 
 
-macro extensionImport(): untyped =
+macro extensionImport() =
   ## Macro to import plugins
   ##
   ## Generate code for importing modules from extensions.
   ## The extensions main module needs to be in plugins/plugin_import.txt
   ## to be activated. Only 1 module will be imported.
-  # preconditions pluginsPath.allIt(it.len > 0)
-  var extensions = ""
-  for ppath in pluginsPath:
-    let splitted = split(ppath, "/")
-    extensions.add("import " & ppath & "/" & splitted[splitted.len-1] & "\n")
-
-  when defined(dev):
-    echo "Plugins - imports:\n" & $extensions
-
-  result = parseStmt(extensions)
+  when pluginsPath.len > 0:
+    result = newStmtList()
+    for it in pluginsPath:
+      let splitted = split(it, "/")
+      let module = it / splitted[splitted.len - 1]
+      result.add quote do:
+        import `module`
+  else: discard # Error: implementation of 'extensionImport' expected.
 
 extensionImport()
 
 
-macro extensionUpdateDatabase(): untyped =
-  ## Macro to generate proc for plugins init proc
-  ##
+macro extensionUpdateDatabase(procs: static[seq[string]]) =
+  ## Macro to generate proc for plugins init proc.
   ## Generate proc for updating the database with new tables etc.
   ## The extensions main module shall contain a proc named 'proc <extensionname>Start(db: DbConn) ='
-  ## The proc will be executed when the program is executed.
-  # preconditions pluginsPath.allIt(it.len > 0)
-  var extensions = ""
-
-  extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
-  if pluginsPath.len == 0:
-    extensions.add("  discard  # Plugin list is currently empty.")
-
-  else:
-    for ppath in pluginsPath:
-      let splitted = split(ppath, "/")
-      extensions.add("  " & splitted[splitted.len-1] & "Start(db)\n")
-
-    extensions.add("  echo \" \"")
-
-  when defined(dev):
-    echo "Plugins - required proc:\n" & $extensions
-
-  result = parseStmt(extensions)
-
-extensionUpdateDatabase()
+  result = newStmtList()
+  for it in procs:
+    let function = newIdentNode(it & "Start") # pluginStart
+    let database = newIdentNode("db")         # db
+    result.add newCall(function, database)    # pluginStart(db)
 
 
 proc extensionCss(): string {.compiletime.} =
@@ -121,7 +80,6 @@ proc extensionCss(): string {.compiletime.} =
   ## renaming to <extensionname>.css
   ##
   ## 2) Insert <style>-link into HTML
-  # preconditions pluginsPath.allIt(it.len > 0)
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -148,7 +106,6 @@ proc extensionJs*(): string {.compiletime.} =
   ## renaming to <extensionname>.js
   ##
   ## 2) Insert <js>-link into HTML
-  # preconditions pluginsPath.allIt(it.len > 0)
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -221,13 +178,9 @@ func init(c: var TData) {.inline.} =
 
 proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
-  # preconditions compileOptions.len > 0
-  postconditions result == 0
   let appName = dict.getSectionValue("Server", "appname")
   let appPath = getAppDir() / appName
-  result = execCmd("nim c " & compileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
-  when defined(release):
-    if result == 0 and findExe"strip".len > 0: discard execCmd(cmdStrip & appPath & "_new_tmp")
+  result = execCmd("nim c -d:strip -d:lto " & compileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
   moveFile(getAppDir() & "/" & appName & "_new_tmp", getAppDir() & "/" & appName & "_new")
 
 
@@ -274,7 +227,6 @@ proc checkLoggedIn(c: var TData) =
 
 proc login(c: var TData, email, pass, totpRaw: string): tuple[isLoginOk: bool, statusMessage: string] =
   ## User login
-  # preconditions email.len > 5, pass.len > 3, email.len < 255, pass.len < 301
   when not defined(demo):
     if email == "test@test.com":
       return (false, "Email must not be test@test.com")
@@ -387,13 +339,12 @@ when isMainModule:
     info("Demo Mode: Database reverted to default")
 
   # Update sql database from extensions
-  extensionUpdateDB(db)
+  extensionUpdateDatabase(pluginsPath)
 
   # Insert standard data
   if "insertdata" in commandLineParams() and readLineFromStdin(
     "Insert standard data?\nThis will override existing data! (y/n):").normalize == "y":
-    if "bootstrap" in commandLineParams():  createStandardData(db, cssBootstrap)
-    elif "water" in commandLineParams():    createStandardData(db, cssWater)
+    if "water" in commandLineParams():    createStandardData(db, cssWater)
     elif "official" in commandLineParams(): createStandardData(db, cssOfficial)
     else:                                   createStandardData(db, cssBulma)
 

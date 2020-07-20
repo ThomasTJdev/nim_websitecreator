@@ -1,16 +1,14 @@
 import os, parsecfg, tables, osproc, logging, times, nativesockets, strutils, rdstdin
 
-import contra
-
-import ../constants/constants, ../utils/configs, ../passwords/passwords, ../enums/enums
+import ../constants/constants, ../utils/configs, ../utils/utils, ../passwords/passwords, ../enums/enums
 export head, navbar, footer, title  # HTML template fragments
 
-when defined(postgres): import db_postgres
-else:                   import db_sqlite
+import gatabase
+when not defined(postgres): import db_sqlite
 
 
 let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
-assert existsDir(nimwcpkgDir), "nimwcpkg directory not found"
+assert dirExists(nimwcpkgDir), "nimwcpkg directory not found"
 
 
 template vacuumDb*(db: DbConn): bool = db.tryExec(sqlVacuum)

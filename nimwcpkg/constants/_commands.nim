@@ -4,8 +4,6 @@
 
 
 const
-  cmdStrip* = "strip --strip-all --remove-section=.note.gnu.gold-version --remove-section=.comment --remove-section=.note --remove-section=.note.gnu.build-id --remove-section=.note.ABI-tag"           # Defined statically on nimwc.nim.cfg,
-
   cmdSign* = "gpg --armor --detach-sign --yes --digest-algo sha512 "
 
   cmdChecksum* = "sha512sum --tag "

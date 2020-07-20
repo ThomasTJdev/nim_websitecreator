@@ -1,17 +1,14 @@
 ## Do NOT import this file directly, instead import ``plugins.nim``
 
-proc pluginRepoClone*(): bool =
+proc pluginRepoClone*(): bool {.inline.} =
   ## Clones (updates) the plugin repo
-  preconditions pluginRepo.len > 0
-  let cmd = "git clone " & pluginRepo & " " & replace(getAppDir(), "/nimwcpkg", "") / "plugins/nimwc_plugins"
-  when defined(dev): echo cmd
-  execCmdEx(cmd).exitCode == 0
+  assert pluginRepo.len > 0 # poEchoCmd does echo cmd
+  execCmdEx("git clone " & pluginRepo & " " & replace(getAppDir(), "/nimwcpkg", "") / "plugins/nimwc_plugins",
+    options = {poStdErrToStdOut, poUsePath, poEchoCmd}).exitCode == 0
 
 
-proc pluginRepoUpdate*(): bool =
+proc pluginRepoUpdate*(): bool {.inline.} =
   ## Clones (updates) the plugin repo
-  preconditions existsDir("plugins" / pluginRepoName)
-  postconditions fileExists("plugins/nimwc_plugins/plugins.json")
-  let cmd = "git -C plugins" / pluginRepoName & " pull"
-  when defined(dev): echo cmd
-  execCmdEx(cmd).exitCode == 0
+  assert existsDir("plugins" / pluginRepoName)
+  execCmdEx("git -C plugins" / pluginRepoName & " pull",
+    options = {poStdErrToStdOut, poUsePath, poEchoCmd}).exitCode == 0

@@ -12,7 +12,7 @@ sources:
   - https://github.com/ThomasTJdev/nim_websitecreator
 
 environment:
-  CHOOSENIM_CHOOSE_VERSION: "0.19.6"
+  CHOOSENIM_CHOOSE_VERSION: "1.2.4"
   CHOOSENIM_NO_ANALYTICS: 1
   PATH: /home/build/nim-$CHOOSENIM_CHOOSE_VERSION/bin:$PATH
 
@@ -25,7 +25,7 @@ tasks:
       bin/nim c koch
       ./koch tools
       bin/nimble -y refresh
-      bin/nimble -y install jester recaptcha bcrypt datetime2human otp firejail webp libravatar
+      bin/nimble -y install jester recaptcha otp firejail
 
   - build: |
       cd

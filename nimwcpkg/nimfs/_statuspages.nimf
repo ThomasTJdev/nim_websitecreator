@@ -2,8 +2,7 @@
 #
 #
 #proc genServerInfo(): string =
-  #const jailv = when defined(firejail): $firejailVersion else: "<i> Firejail is Disabled </i>"
-  #let jailf = when defined(firejail): $firejailFeatures.pretty.strip else: "<i> Firejail is Disabled </i>"
+  #const jailv = when defined(firejail): "<i> Firejail is Enabled </i>" else: "<i> Firejail is Disabled </i>"
   <div id="serverinfo">
     <h1 class="has-text-centered">Server Info</h1>
     <table border=1 class="table is-bordered is-striped is-hoverable is-fullwidth">
@@ -52,9 +51,6 @@
       </tr>
       <tr>
         <td> <b>Firejail Version</b> </td>  <td>  $jailv </td>
-      </tr>
-      <tr>
-        <td> <b>Firejail Status</b> </td>   <td> $jailf </td>
       </tr>
       <tr>
         <td> <b>CPU</b> </td>               <td> $hostCPU.toUpperAscii </td>

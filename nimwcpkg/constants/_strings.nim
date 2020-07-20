@@ -4,7 +4,7 @@
 
 
 const
-  NimblePkgVersion* {.strdefine.} = "6.0.3"  ## NimWC Version (SemVer)
+  NimblePkgVersion* {.strdefine.} = "6.0.6"  ## NimWC Version (SemVer)
 
   commitHash* = staticExec"git rev-parse --short HEAD" & "" ## NimWC Version (Git Hash)
 
@@ -18,7 +18,6 @@ const
     (when defined(postgres):          " -d:postgres"          else: "") &
     (when defined(webp):              " -d:webp"              else: "") &
     (when defined(firejail):          " -d:firejail"          else: "") &
-    (when defined(contracts):         " -d:contracts"         else: "") &
     (when defined(recaptcha):         " -d:recaptcha"         else: "") &
     (when defined(packedjson):        " -d:packedjson"        else: "") &
 
@@ -79,7 +78,7 @@ const
 
   Compile Error
   ⚠️ Compile-time or Configuration or Plugin error occurred.
-  ➡️ Check the configuration file of NimWC and enabled plugins. Recompile with -d:contracts.
+  ➡️ Check the configuration file of NimWC and enabled plugins.
   ➡️ Remove new plugins, restore previous configuration.
   ➡️ ️️Check that you have the latest NimWC version and check the documentation.
   ➡️ Check your source code: nim check YourFile.nim; nimpretty YourFile.nim
@@ -191,24 +190,22 @@ Options:
   --backupdb     Full backup of database (Raw SQL plain text file).
   --backupdb-gpg Compressed signed full backup of database (GPG+SHA512+TarGz).
   --backuplogs   Compressed full backup of all old unused rotated Logs (TarGz).
-  --insertdata bulma     Insert https://bulma.io data to database (No JS, Default, overrides data)
-  --insertdata bootstrap Insert https://getbootstrap.com data to database (jQuery, overrides data)
-  --insertdata water     Insert Water CSS data to database (No JS, HTML Classless, overrides data)
-  --insertdata official  Insert official nimwc.org data to database (overrides data, CSS, JS)
+  --insertdata bulma    Insert https://bulma.io data to database (No JS, Default, overrides data)
+  --insertdata water    Insert Water CSS data to database (No JS, HTML Classless, overrides data)
+  --insertdata official Insert official nimwc.org data to database (overrides data, CSS, JS)
   --newdb        Generates a database with standard tables (Wont override data).
                   If no database exists, new db will be initialized automatically.
 
 Compile options (features when compiling source code):
-  -d:postgres    Postgres replaces SQLite (SQLite is default) https://u.nu/b1c8
-  -d:firejail    Firejail is enabled. Runs secure and isolated. https://u.nu/teb6
-  -d:webp        WebP is enabled. Optimize images and photos. https://u.nu/0o5t
-  -d:recaptcha   Recaptcha AntiSpamm enabled (wont work on Tor) https://u.nu/hbc7
-  -d:packedjson  PackedJSON replaces JSON. Performance optimization. https://u.nu/byf-
+  -d:postgres    Postgres replaces SQLite (SQLite is default)
+  -d:firejail    Firejail is enabled. Runs secure and isolated.
+  -d:webp        WebP is enabled. Optimize images and photos.
+  -d:recaptcha   Recaptcha AntiSpamm enabled (wont work on Tor)
+  -d:packedjson  PackedJSON replaces JSON. Performance optimization.
   -d:hardened    Security Hardened mode. Runs Hardened. ~20% Performance cost max.
   -d:adminnotify Send error logs (ERROR) to the specified Admin email.
   -d:dev         Development (ignore reCaptcha, no emails, more Verbose).
   -d:devemailon  Send error logs email when -d:dev is activated.
-  -d:contracts   Force Design by Contract enabled. Runs assertive.
   -d:demo        Public demo mode. Enable Test user. 2FA ignored. Pages Reset.
                   Force database reset every 1 hour. Some options Disabled.
 

@@ -1,7 +1,6 @@
 ## Do NOT import this file directly, instead import ``email.nim``
 
-proc genEmailMessage*(msgContent: string): string {.inline.} =
+template genEmailMessage*(msgContent: string): string =
   ## Generate email content
-  preconditions msgContent.len > 0
-  postconditions result.len > msgContent.len
+  assert msgContent.len > 0
   mailStyleHeader & msgContent & mailStyleFrom & mailStyleFooter

@@ -1,115 +1,28 @@
-import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times
-
-import contra
+import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times, json
 
 import
-  nimwcpkg/constants/constants, nimwcpkg/enums/enums,
-  nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers
+  nimwcpkg/constants/constants, nimwcpkg/enums/enums, nimwcpkg/utils/utils, nimwcpkg/utils/projectgen, nimwcpkg/utils/jail,
+  nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers, nimwcpkg/utils/sysinfo, nimwcpkg/utils/updaters
 
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
-when not defined(firejail): {.warning: "Firejail is disabled, running unsecure.".}
-else:                       from firejail import firejailVersion, firejailFeatures
-
 hardenedBuild()
 
-
-when not defined(contracts): {.warning: "Design by Contract is Disabled, running unassertive.".}
-when not defined(ssl):       {.warning: "SSL is Disabled, running unsecure.".}
-when not defined(firejail):  {.warning: "Firejail is Disabled, running unsecure.".}
+when not defined(ssl):      {.warning: "SSL is Disabled, running unsecure.".}
+when not defined(firejail): {.warning: "Firejail is Disabled, running unsecure.".}
+when not defined(firejail): {.warning: "Firejail is disabled, running unsecure.".}
 
 
 var
   runInLoop = true
   nimwcMain: Process
-
-
-macro configExists(): untyped =
-  ## Macro to check if the config file is present
-  let dir = parentDir(currentSourcePath())
-  if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
-    echo config_not_found_msg
-    discard staticExec("cp " & dir & "/config/config_default.cfg " & dir & "/config/config.cfg")
-
-configExists()
-
-
-proc updateNimwc() =
-  ## GIT hard update
-  preconditions(existsDir"plugins/", existsDir"public/css/", existsDir"public/js/",
-    existsFile"plugins/plugin_import.txt", existsFile"public/css/style_custom.css",
-    existsFile"public/js/js_custom.js", findExe"git".len > 0)
-  # No postconditions because we directly quit anyways.
-  const cmd = "git fetch --all ; git reset --hard origin/master"
-  let
-    pluginImport = readFile"plugins/plugin_import.txt"  # Save contents
-    styleCustom = readFile"public/css/style_custom.css"
-    jsCustom = readFile"public/js/js_custom.js"
-    humansTxt = readFile"public/humans.txt"
-  when not defined(release): echo cmd
-  discard execCmd(cmd)
-  writeFile("plugins/plugin_import.txt", pluginImport)  # Write contents back
-  writeFile("public/css/style_custom.css", styleCustom)
-  writeFile("public/js/js_custom.js", jsCustom)
-  writeFile("public/humans.txt", humansTxt)
-  echo "\n\n\nTo finish the update:\n - Compile NimWC\n - Run with the arg `--newdb`\n"
-  quit("Git fetch done\n", 0)
-
-
-proc pluginSkeleton() =
-  ## Creates the skeleton (folders and files) for a plugin
-  styledEcho(fgCyan, bgBlack, skeletonMsg)
-  let pluginName = normalize(readLineFromStdin("Plugin name: ").string.strip.toLowerAscii)
-  assert pluginName.len > 1, "Plugin name needs to be longer: " & pluginName
-  assert " " notin pluginName, "Plugin name may not contain spaces: " & pluginName
-
-  let
-    authorName = readLineFromStdin("Author name: ").string.strip
-    authorMail = readLineFromStdin("Author email: ").string.strip.toLowerAscii
-    authorWeb = readLineFromStdin("Author website HTTP URL: ").string.strip
-
-  # Create dirs
-  discard existsOrCreateDir("plugins")
-  let folder = "plugins" / pluginName
-  discard existsOrCreateDir(folder)
-  discard existsOrCreateDir(folder / "public")
-
-  # Create files
-  writeFile(folder / pluginName & ".nim", reqCode.format(pluginName))
-  writeFile(folder / "routes.nim", reqRoutes.format(pluginName))
-  writeFile(folder / "public" / "js.js",
-    "/* https://github.com/pragmagic/karax OR Vanilla JavaScript */\n")
-  writeFile(folder / "public" / "style.css",
-    "/* https://bulma.io/documentation OR https://getbootstrap.com OR clean CSS */\n")
-
-  if readLineFromStdin("Generate optional compile-time config files? (y/N): ").normalize == "y":
-    if readLineFromStdin("Use NimScript instead of CFG? (y/N): ").normalize == "y":
-      writeFile(folder / pluginName & ".nims", "# https://nim-lang.org/docs/nims.html\n")
-    else:
-      writeFile(folder / pluginName & ".nim.cfg", "# https://nim-lang.org/docs/parsecfg.html\n")
-
-  if readLineFromStdin("Generate optional NimWC files? (y/N): ").string.strip.toLowerAscii == "y":
-    writeFile(folder / "public/js_private.js", "")
-    writeFile(folder / "public/style_private.css", "")
-    writeFile(folder / "html.nimf", "<!-- https://nim-lang.org/docs/filters.html -->\n")
-
-  if readLineFromStdin("Generate optional .gitignore file? (y/N): ").normalize == "y":
-    writeFile(folder / ".gitattributes", "*.* linguist-language=Nim\n")
-    writeFile(folder / ".gitignore", "*.c\n*.h\n*.o\n*.sql\n*.log\n*.s")
-
-  if readLineFromStdin("Generate optional Documentation files? (y/N): ").normalize == "y":
-    let ext = if readLineFromStdin("Use Markdown(MD) instead of ReSTructuredText(RST)? (y/N): ").normalize == "y": "md" else: "rst"
-    writeFile(folder / "LICENSE." & ext, "See https://tldrlegal.com/licenses/browse\n")
-    writeFile(folder / "CODE_OF_CONDUCT." & ext, "")
-    writeFile(folder / "CONTRIBUTING." & ext, "")
-    writeFile(folder / "AUTHORS." & ext, "# Authors\n\n- " & authorName & "\n")
-    writeFile(folder / "README." & ext, "# " & pluginName & "\n")
-    writeFile(folder / "CHANGELOG." & ext, "# 0.0.1\n\n- First initial version of " & pluginName & " created at " & $now())
-
-  writeFile(folder / "plugin.json", pluginJson.format(
-    capitalizeAscii(pluginName), pluginName, authorName, authorMail, authorWeb, NimblePkgVersion.substr(0, 2)))
-  quit("New Plugin at /plugins/\n\nNimWC created a new Plugin skeleton, happy hacking, bye.", 0)
+block:     # block so "dir" is not defined after it.
+  static:  # static because it must run at compile time.
+    let dir = parentDir(currentSourcePath())
+    if not fileExists(replace(dir, "/nimwcpkg", "") & "/config/config.cfg"):
+      echo config_not_found_msg
+      discard staticExec("cp " & dir & "/config/config_default.cfg " & dir & "/config/config.cfg")
 
 
 proc handler() {.noconv.} =
@@ -142,44 +55,45 @@ proc launcherActivated(cfg: Config) =
       dnsz = [cfg.getSectionValue("firejail", "dns0").strip, cfg.getSectionValue("firejail", "dns1").strip,
               cfg.getSectionValue("firejail", "dns2").strip, cfg.getSectionValue("firejail", "dns3").strip]
     assert countProcessors() > cpuCores, "Dedicated CPU Cores must be less or equal to the actual CPU Cores: " & $cpuCores
-    assert hostz.existsFile, "Hosts file not found: " & hostz
-    let myjail = Firejail(
-      noDvd:         cfg.getSectionValue("firejail", "noDvd").parseBool,
-      noSound:       cfg.getSectionValue("firejail", "noSound").parseBool,
-      noAutoPulse:   cfg.getSectionValue("firejail", "noAutoPulse").parseBool,
-      no3d:          cfg.getSectionValue("firejail", "no3d").parseBool,
-      noX:           cfg.getSectionValue("firejail", "noX").parseBool,
-      noVideo:       cfg.getSectionValue("firejail", "noVideo").parseBool,
-      noDbus:        cfg.getSectionValue("firejail", "noDbus").parseBool,
-      noShell:       cfg.getSectionValue("firejail", "noShell").parseBool,
-      noDebuggers:   cfg.getSectionValue("firejail", "noDebuggers").parseBool,
-      noMachineId:   cfg.getSectionValue("firejail", "noMachineId").parseBool,
-      noRoot:        cfg.getSectionValue("firejail", "noRoot").parseBool,
-      noAllusers:    cfg.getSectionValue("firejail", "noAllusers").parseBool,
-      noU2f:         cfg.getSectionValue("firejail", "noU2f").parseBool,
-      privateTmp:    cfg.getSectionValue("firejail", "privateTmp").parseBool,
-      privateCache:  cfg.getSectionValue("firejail", "privateCache").parseBool,
-      privateDev:    cfg.getSectionValue("firejail", "privateDev").parseBool,
-      forceEnUsUtf8: cfg.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
-      caps:          cfg.getSectionValue("firejail", "caps").parseBool,
-      seccomp:       cfg.getSectionValue("firejail", "seccomp").parseBool,
-      noTv:          cfg.getSectionValue("firejail", "noTv").parseBool,
-      writables:     cfg.getSectionValue("firejail", "writables").parseBool,
-      noMnt:         cfg.getSectionValue("firejail", "noMnt").parseBool,
-    )
-    nimwcCommand = myjail.makeCommand(
-      command=appPath & userArgsRun,
-      name = cfg.getSectionValue("Server", "appname"), # whitelist= @[getAppDir(), getCurrentDir()],
+    assert hostz.fileExists, "Hosts file not found: " & hostz
+
+    nimwcCommand: string = jail.makeCommand(
+
+      command       = appPath & userArgsRun,
+      name          = cfg.getSectionValue("Server", "appname"), # whitelist= @[getAppDir(), getCurrentDir()],
       maxSubProcesses = cfg.getSectionValue("firejail", "maxSubProcesses").parseInt * 1_000_000,  # 1 is Ok, 0 is Disabled, int.high max.
-      maxOpenFiles = cfg.getSectionValue("firejail", "maxOpenFiles").parseInt * 1_000,        # Below 1000 NimWC may not start.
-      maxFileSize = cfg.getSectionValue("firejail", "maxFileSize").parseInt * 1_000_000_000,  # Below 1Mb NimWC may not start.
+      maxOpenFiles  = cfg.getSectionValue("firejail", "maxOpenFiles").parseInt * 1_000,        # Below 1000 NimWC may not start.
+      maxFileSize   = cfg.getSectionValue("firejail", "maxFileSize").parseInt * 1_000_000_000,  # Below 1Mb NimWC may not start.
       maxPendingSignals = cfg.getSectionValue("firejail", "maxPendingSignals").parseInt * 10, # 1 is Ok, 0 is Disabled, int.high max.
-      timeout = cfg.getSectionValue("firejail", "timeout").parseInt,                          # 1 is Ok, 0 is Disabled, 255 max. It will actually Restart instead of Stopping.
-      maxRam = cfg.getSectionValue("firejail", "maxRam").parseInt * 1_000_000_000,            # Below 1Gb NimWC may fail.
-      maxCpu = cfg.getSectionValue("firejail", "maxCpu").parseInt,                            # 1 is Ok, 0 is Disabled, 255 max.
+      timeout       = cfg.getSectionValue("firejail", "timeout").parseInt,                          # 1 is Ok, 0 is Disabled, 255 max. It will actually Restart instead of Stopping.
+      maxRam        = cfg.getSectionValue("firejail", "maxRam").parseInt * 1_000_000_000,            # Below 1Gb NimWC may fail.
+      maxCpu        = cfg.getSectionValue("firejail", "maxCpu").parseInt,                            # 1 is Ok, 0 is Disabled, 255 max.
       cpuCoresByNumber = corez,                                                                # 0 is Disabled, else toSeq(0..corez)
-      hostsFile = hostz,        # Optional Alternative/Fake /etc/hosts
-      dnsServers = dnsz,        # Optional Alternative/Fake DNS, 4 Servers must be provided
+      hostsFile     = hostz,        # Optional Alternative/Fake /etc/hosts
+      dnsServers    = dnsz,        # Optional Alternative/Fake DNS, 4 Servers must be provided
+
+      noDvd         = cfg.getSectionValue("firejail", "noDvd").parseBool,
+      noSound       = cfg.getSectionValue("firejail", "noSound").parseBool,
+      noAutoPulse   = cfg.getSectionValue("firejail", "noAutoPulse").parseBool,
+      no3d          = cfg.getSectionValue("firejail", "no3d").parseBool,
+      noX           = cfg.getSectionValue("firejail", "noX").parseBool,
+      noVideo       = cfg.getSectionValue("firejail", "noVideo").parseBool,
+      noDbus        = cfg.getSectionValue("firejail", "noDbus").parseBool,
+      noShell       = cfg.getSectionValue("firejail", "noShell").parseBool,
+      noDebuggers   = cfg.getSectionValue("firejail", "noDebuggers").parseBool,
+      noMachineId   = cfg.getSectionValue("firejail", "noMachineId").parseBool,
+      noRoot        = cfg.getSectionValue("firejail", "noRoot").parseBool,
+      noAllusers    = cfg.getSectionValue("firejail", "noAllusers").parseBool,
+      noU2f         = cfg.getSectionValue("firejail", "noU2f").parseBool,
+      privateTmp    = cfg.getSectionValue("firejail", "privateTmp").parseBool,
+      privateCache  = cfg.getSectionValue("firejail", "privateCache").parseBool,
+      privateDev    = cfg.getSectionValue("firejail", "privateDev").parseBool,
+      forceEnUsUtf8 = cfg.getSectionValue("firejail", "forceEnUsUtf8").parseBool,
+      caps          = cfg.getSectionValue("firejail", "caps").parseBool,
+      seccomp       = cfg.getSectionValue("firejail", "seccomp").parseBool,
+      noTv          = cfg.getSectionValue("firejail", "noTv").parseBool,
+      writables     = cfg.getSectionValue("firejail", "writables").parseBool,
+      noMnt         = cfg.getSectionValue("firejail", "noMnt").parseBool,
     )
 
   const processOpts =
@@ -217,14 +131,14 @@ proc startupCheck(cfg: Config) =
   ## Checking if the main-program file exists. If not it will
   ## be compiled with args and compiler options (compiler
   ## options should be specified in the *.nim.pkg)
-  preconditions compileOptions.len > 0, storageEFS.len > 0, existsFile(getAppDir() & "/nimwcpkg/nimwc_main.nim")
+  assert compileOptions.len > 0 and storageEFS.len > 0 and fileExists(getAppDir() & "/nimwcpkg/nimwc_main.nim")
   # Storage location. Folders are created in the module files.nim
   let
     args = replace(commandLineParams().join(" "), "-", "")
     userArgs = if args == "": "" else: " " & args
     appPath = getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname")
   when not defined(ignoreefs):
-    if not existsDir(storageEFS):  # Check access to EFS file system.
+    if not dirExists(storageEFS):  # Check access to EFS file system.
       quit("No access to storage in release mode. Critical.")
 
   # Ensure that the tables are present in the DB
@@ -234,14 +148,12 @@ proc startupCheck(cfg: Config) =
   if not fileExists(appPath) or defined(rc):
     # Ensure that the DB tables are created
     styledEcho(fgGreen, bgBlack, compile_start_msg & userArgs)
-    let (output, exitCode) = execCmdEx("nim c --out:" & appPath & " " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
+    let (output, exitCode) = execCmdEx("nim c -d:strip -d:lto --out:" & appPath & " " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
     if exitCode != 0:
       styledEcho(fgRed, bgBlack, compile_fail_msg & output)
       quit(exitCode)
     else:
       styledEcho(fgGreen, bgBlack, compile_ok_msg)
-      when defined(release):
-        if findExe"strip".len > 0: discard execCmd(cmdStrip & appPath)
 
 
 #
@@ -259,6 +171,7 @@ when isMainModule:
       case keys
       of "version": quit(NimblePkgVersion, 0)
       of "version-hash": quit(commitHash, 0)
+      of "debug": quit(getSystemInfo().pretty, 0)
       of "help", "fullhelp": styledEcho(fgGreen, bgBlack, doc)
       of "initplugin": pluginSkeleton() # Interactive (Asks to user).
       of "gitupdate": updateNimwc()
@@ -266,8 +179,7 @@ when isMainModule:
       of "newdb": generateDB(db)
       of "newadmin": createAdminUser(db)
       of "insertdata":
-        if "bootstrap" in commandLineParams():  createStandardData(db, cssBootstrap, on)
-        elif "water" in commandLineParams():    createStandardData(db, cssWater, on)
+        if "water" in commandLineParams():    createStandardData(db, cssWater, on)
         elif "official" in commandLineParams(): createStandardData(db, cssOfficial, on)
         else:                                   createStandardData(db, cssBulma, on)
       of "vacuumdb": echo vacuumDb(db)

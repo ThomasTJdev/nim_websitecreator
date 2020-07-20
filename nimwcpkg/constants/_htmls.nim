@@ -70,23 +70,6 @@ const
 <script src="/js/js_custom.js" crossorigin="anonymous" defer></script>"""
 
 
-  headBootstrap* = """<meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="author" href="humans.txt">
-<link rel="shortcut icon" href="/images/logo/favicon.ico">
-<link rel="icon" type="image/png" href="/images/logo/favicon-16x16.png" sizes="16x16">
-<link rel="icon" type="image/png" href="/images/logo/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/images/logo/favicon-192x192.png" sizes="192x192">
-<link rel="apple-touch-icon" sizes="180x180" href="/images/logo/favicon-180x180.png">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha256-L/W5Wfqfa0sdBNIKN9cG6QA5F2qx4qICmU2VgLruv9Y=" crossorigin="anonymous" />
-<link rel="stylesheet" href="/css/style.css">
-<link rel="stylesheet" href="/css/style_custom.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js" integrity="sha256-x3YZWtRjM8bJqf48dFAv/qmgL68SI4jqNWeSLMZaMGA=" crossorigin="anonymous" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha256-WqU1JavFxSAMcLP2WIOI+GB2zWmShMI82mTpLDcqFUg=" crossorigin="anonymous" defer></script>
-<script src="/js/js.js" crossorigin="anonymous" defer></script>
-<script src="/js/js_custom.js" crossorigin="anonymous" defer></script>"""
-
-
   navbar* = """<nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item logo" href="/">
@@ -125,55 +108,6 @@ const
   <a href="/">Home</a>
   <a href="/blog">Blog</a>
   <a href="/login">Login</a>
-</nav>"""
-
-
-  navbarBootstrap* = """<nav id="navbar" class="navbar navbar-expand-md navbar-light">
-  <div id="navbarInside">
-    <a class="navbar-brand" href="/">
-      <img src="/images/logo/NimWC_logo_blue.png" />
-      <div>Nim Website Creator</div>
-    </a>
-    <div class="navbar-toggler mainMenu">
-      <div class="baricon bar1"></div>
-      <div class="baricon bar2"></div>
-      <div class="baricon bar3"></div>
-    </div>
-    <div class="menu" id="mainMenu">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Frontpage</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/blog">Blog</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/p/about">About</a>
-        </li>
-      </ul>
-    </div>
-    <div class="menu hidden" id="mobileMenu">
-      <div class="navbar-toggler">
-        <div class="baricon bar1"></div>
-        <div class="baricon bar2"></div>
-        <div class="baricon bar3"></div>
-      </div>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Frontpage</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/blog">Blog</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/p/about">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/login">Login</a>
-        </li>
-      </ul>
-    </div>
-  </div>
 </nav>"""
 
 
@@ -1061,8 +995,66 @@ h1, h2, h3, h4 {color: black;}
 .installmethod h4 {margin-top: 15px; color: black; margin-bottom: 15px; font-size: 26px;}
 main {padding-top: 40px;}"""
 
-  officialJs* = """!function(){
-const $wel = document.querySelector("#welcome");
-if ($wel != null) {  
-  const t=window,e=document.documentElement;if(e.classList.remove("no-js"),e.classList.add("js"),document.body.classList.contains("has-animations")){const t=window.sr=ScrollReveal();t.reveal(".feature",{duration:600,distance:"20px",easing:"cubic-bezier(0.5, -0.01, 0, 1.005)",origin:"right",interval:100}),t.reveal(".media-canvas",{duration:600,scale:".95",easing:"cubic-bezier(0.5, -0.01, 0, 1.005)",viewFactor:.5})}const n=document.querySelector(".device-mockup");function i(){n.classList.add("has-loaded")}n.complete?i():n.addEventListener("load",i);const s=document.querySelector(".features"),a=s.querySelector(".section-title"),o=document.querySelector(".feature-inner");function r(){let t=s.querySelector(".features-inner").getBoundingClientRect().left,e=o.getBoundingClientRect().left,n=parseInt(e-t);a.style.marginLeft=e>t?`${n}px`:0}r(),t.addEventListener("resize",r);const c=document.querySelectorAll(".is-moving-object");let l=0,d=0,u=0,g=0,f=0,m=e.clientWidth,p=e.clientHeight;c&&t.addEventListener("mousemove",function(t,e){let n=null,i=e;return(...e)=>{let s=Date.now();(!n||s-n>=i)&&(n=s,t.apply(this,e))}}(function(e){!function(e,n){l=e.pageX,d=e.pageY,u=t.scrollY,g=m/2-l,f=p/2-(d-u);for(let t=0;t<n.length;t++){const e=n[t].getAttribute("data-translating-factor")||20,i=n[t].getAttribute("data-rotating-factor")||20,s=n[t].getAttribute("data-perspective")||500;let a=[];n[t].classList.contains("is-translating")&&a.push("translate("+g/e+"px, "+f/e+"px)"),n[t].classList.contains("is-rotating")&&a.push("perspective("+s+"px) rotateY("+-g/i+"deg) rotateX("+f/i+"deg)"),(n[t].classList.contains("is-translating")||n[t].classList.contains("is-rotating"))&&(a=a.join(" "),n[t].style.transform=a,n[t].style.transition="transform 1s ease-out",n[t].style.transformStyle="preserve-3d",n[t].style.backfaceVisibility="hidden")}}(e,c)},150))
-}}();"""
+  officialJs* = """
+
+  ! function() {
+      const $wel = document.querySelector("#welcome");
+      if ($wel != null) {
+          const t = window, e = document.documentElement;
+          if (e.classList.remove("no-js"), e.classList.add("js"), document.body.classList.contains("has-animations")) {
+              const t = window.sr = ScrollReveal();
+              t.reveal(".feature", {
+                  duration: 600,
+                  distance: "20px",
+                  easing: "cubic-bezier(0.5, -0.01, 0, 1.005)",
+                  origin: "right",
+                  interval: 100
+              }), t.reveal(".media-canvas", {
+                  duration: 600,
+                  scale: ".95",
+                  easing: "cubic-bezier(0.5, -0.01, 0, 1.005)",
+                  viewFactor: .5
+              })
+          }
+          const n = document.querySelector(".device-mockup");
+
+          function i() {
+              n.classList.add("has-loaded")
+          }
+          n.complete ? i() : n.addEventListener("load", i);
+          const s = document.querySelector(".features"),
+              a = s.querySelector(".section-title"),
+              o = document.querySelector(".feature-inner");
+
+          function r() {
+              let t = s.querySelector(".features-inner").getBoundingClientRect().left,
+                  e = o.getBoundingClientRect().left,
+                  n = parseInt(e - t);
+              a.style.marginLeft = e > t ? `${n}px` : 0
+          }
+          r(), t.addEventListener("resize", r);
+          const c = document.querySelectorAll(".is-moving-object");
+          let l = 0, d = 0, u = 0, g = 0, f = 0, m = e.clientWidth, p = e.clientHeight;
+          c && t.addEventListener("mousemove", function(t, e) {
+              let n = null,
+                  i = e;
+              return (...e) => {
+                  let s = Date.now();
+                  (!n || s - n >= i) && (n = s, t.apply(this, e))
+              }
+          }(function(e) {
+              ! function(e, n) {
+                  l = e.pageX, d = e.pageY, u = t.scrollY, g = m / 2 - l, f = p / 2 - (d - u);
+                  for (let t = 0; t < n.length; t++) {
+                      const e = n[t].getAttribute("data-translating-factor") || 20,
+                          i = n[t].getAttribute("data-rotating-factor") || 20,
+                          s = n[t].getAttribute("data-perspective") || 500;
+                      let a = [];
+                      n[t].classList.contains("is-translating") && a.push("translate(" + g / e + "px, " + f / e + "px)"), n[t].classList.contains("is-rotating") && a.push("perspective(" + s + "px) rotateY(" + -g / i + "deg) rotateX(" + f / i + "deg)"), (n[t].classList.contains("is-translating") || n[t].classList.contains("is-rotating")) && (a = a.join(" "), n[t].style.transform = a, n[t].style.transition = "transform 1s ease-out", n[t].style.transformStyle = "preserve-3d", n[t].style.backfaceVisibility = "hidden")
+                  }
+              }(e, c)
+          }, 150))
+      }
+  }();
+
+  """.strip.unindent

@@ -4,13 +4,13 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 <img src="private/screenshots/NimWC_logo_shadow.png" style="max-height: 250px; display: block;" />
 
-![](https://img.shields.io/github/languages/top/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
-![](https://img.shields.io/github/stars/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
+![](https://img.shields.io/github/languages/top/ThomasTJdev/nim_websitecreator?style=for-the-badge)
+![](https://img.shields.io/github/stars/ThomasTJdev/nim_websitecreator?style=for-the-badge)
 ![](https://img.shields.io/maintenance/yes/2019?style=for-the-badge)
-![](https://img.shields.io/github/languages/code-size/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
-![](https://img.shields.io/github/issues-raw/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
-![](https://img.shields.io/github/issues-pr-raw/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
-![](https://img.shields.io/github/last-commit/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
+![](https://img.shields.io/github/languages/code-size/ThomasTJdev/nim_websitecreator?style=for-the-badge)
+![](https://img.shields.io/github/issues-raw/ThomasTJdev/nim_websitecreator?style=for-the-badge)
+![](https://img.shields.io/github/issues-pr-raw/ThomasTJdev/nim_websitecreator?style=for-the-badge)
+![](https://img.shields.io/github/last-commit/ThomasTJdev/nim_websitecreator?style=for-the-badge)
 
 <img src="http://feeds.feedburner.com/RecentCommitsToNimWC.1.gif" alt="Recent Commits to NimWC" title="Recent Commits to NimWC" width="99%" height="75px">
 
@@ -30,7 +30,6 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 ## Security
 - Self-Firejailing Web Framework (It Firejails itself) Best Linux Security integrated on the Core.
 - 2 Factor Athentication TOTP
-- [Design by Contract, Contract Programming](https://dev.to/juancarlospaco/design-by-contract-immutability-side-effects-and-gulag-44fk).
 - Security Hardened by default (based from [Gentoo Hardened](https://wiki.gentoo.org/wiki/Hardened_Gentoo) and [Debian Hardened](https://wiki.debian.org/Hardening), checked with [`hardening-check`](https://bitbucket.org/Alexander-Shukaev/hardening-check)).
 - Coded following the [Power of 10: NASA Coding guidelines for safety-critical code](https://en.wikipedia.org/wiki/The_Power_of_10:_Rules_for_Developing_Safety-Critical_Code#Rules) (as much as possible).
 - ReCAPTCHA (Optional)
@@ -79,7 +78,7 @@ As alternative, [try AndOTP](https://github.com/andOTP/andOTP) (5Mb size).
 - No Global Interpreter Lock, no single-Thread, no single-Core, no Interpreter. Use all your 32 CPU Cores.
 
 ## Responsive
-- Uses responsive [Bulma CSS framework](https://bulma.io), supports [Bootstrap CSS framework](https://getbootstrap.com).
+- Uses responsive [Bulma CSS framework](https://bulma.io).
 - JavaScript framework agnostic, use Nim, [Karax](https://github.com/pragmagic/karax), vanilla JS, you choose.
 
 ## Other
@@ -99,15 +98,9 @@ To get started you only need:
 
 Development dependencies (automatically installed by Nimble):
 
-- [bCrypt](https://github.com/runvnc/bcryptnim) >= `0.2.1`
-- [Contra](https://github.com/juancarlospaco/nim-contra) >= `0.2.0`
-- [datetime2human](https://github.com/juancarlospaco/nim-datetime2human) >= `0.2.2`
 - [Jester](https://github.com/dom96/jester/) >= `0.4.1`
-- [Libravatar](https://github.com/juancarlospaco/nim-libravatar#nim-libravatar) >= `0.4.0`
 - [otp](https://github.com/OpenSystemsLab/otp.nim) >= `0.1.1`
-- [Firejail](https://github.com/juancarlospaco/nim-firejail) >= `0.5.0` (optional)
 - [reCAPTCHA](https://github.com/euantorano/recaptcha.nim) >= `1.0.2` (optional)
-- [WebP](https://github.com/juancarlospaco/nim-webp-tools) >= `0.2.0` (optional)
 - [PackedJSON](https://github.com/Araq/packedjson#packedjson) >= `0.1.0` (optional)
 
 Foreing optional dependencies:
@@ -177,7 +170,7 @@ cp config/config_default.cfg config/config.cfg
 nano config/config.cfg
 
 # Install dependencies
-nimble install jester recaptcha bcrypt datetime2human otp firejail webp, contra
+nimble install jester recaptcha otp firejail
 
 # Compile nimwc
 nim c nimwc.nim
@@ -225,7 +218,7 @@ These arguments should be prepended to executable file, e.g. `./nimwc cdata`
 * `--newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
 * `--insertdata` = Insert standard data, e.g `--insertdata bulma` (this will override existing data)
   * `bulma` = Use Bulma CSS, No JS required
-  * `bootstrap` = Use Bootstrap and jQuery
+  * `official` = Use Official CSS Themes
   * `water` = Water CSS framework, No JS, HTML Classless (No classes on HTML required)
 
 
@@ -240,8 +233,7 @@ These options are only available at compiletime:
 * `-d:demo` = Used on public test site [Nim Website Creator](https://nimwc.org). This option will override the database every 1 hour with the standard data.
 * `-d:gitupdate` = Updates directly from Git and force a hard reset.
 * `-d:postgres` = Use Postgres database instead of SQLite.
-* `-d:contracts` = Checks pre- and post-conditions when compiled with `-d:release`.
-* `-d:hardened` = Hardens security, requires `-d:contracts`. Performance cost ~20% max.
+* `-d:hardened` = Hardens security. Performance cost ~20% max.
 * `-d:packedjson` = Use [PackedJSON](https://github.com/Araq/packedjson#packedjson) instead of [std lib JSON](https://nim-lang.github.io/Nim/json.html). Performance optimization.
 
 
@@ -302,7 +294,7 @@ When editing a blogpage or a normal page press Ctrl+S to save.
 
 # GrapesJS
 
-GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma or Bootstrap), you have to edit `public/js/grapejs_custom.js` and `public/js/grapejsbs4.min.js`. Bootstrap support in `public/js/grapejs_custom.js` is commented out.
+GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma), you have to edit `public/js/grapejs_custom.js` and `public/js/grapejsbs4.min.js`.
 
 
 # DevOps

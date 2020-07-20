@@ -42,7 +42,6 @@
 
 - SQLite or Postgres database
 - Bulma CSS framework by default (wont use any JS)
-- Bootstrap CSS framework supported
 - JavaScript framework agnostic
 - No JavaScript framework shipped
 - HTTP-Beast & Jester

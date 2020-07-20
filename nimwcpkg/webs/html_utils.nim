@@ -1,4 +1,4 @@
-import strutils
+import strutils, times
 
 from strtabs import newStringTable, modeStyleInsensitive
 from packages/docutils/rstgen import rstToHtml
@@ -30,14 +30,70 @@ template statusIntToText*(status: string): string =
 
 template statusIntToCheckbox*(status, value: string): string =
   ## When parsing DB status convert to HTML selected on selects
-  if status == "0" and value == "0":
-    "selected"
-  elif status == "1" and value == "1":
-    "selected"
-  elif status == "2" and value == "2":
-    "selected"
+  if status == "0" and value == "0":   "selected"
+  elif status == "1" and value == "1": "selected"
+  elif status == "2" and value == "2": "selected"
+  else:                                ""
+
+
+template currentDatetime*(formatting: string): string =
+  ## Getting the current local time
+  case formatting
+  of "full": format(local(getTime()), "yyyy-MM-dd HH:mm:ss")
+  of "date": format(local(getTime()), "yyyy-MM-dd")
+  of "year": format(local(getTime()), "yyyy")
+  of "month": format(local(getTime()), "MM")
+  of "day": format(local(getTime()), "dd")
+  of "time": format(local(getTime()), "HH:mm:ss")
+  else: format(local(getTime()), "yyyyMMdd")
+
+
+template getDaysInMonthU*(month: range[1..12], year: Positive): int =
+  ## Gets the number of days in the month and year
+  getDaysInMonth(Month(month), year)
+
+
+template dateEpoch*(date, format: string): int =
+  ## Transform a date in user format to epoch. Does not utilize timezone.
+  assert date.len > 0, "date must not be empty string"
+  assert format.len > 0, "format must not be empty string"
+  assert format in ["YYYYMMDD", "YYYY-MM-DD", "YYYY-MM-DD HH:mm", "DD-MM-YYYY"]
+  case format
+  of "YYYYMMDD": toUnix(toTime(parse(date, "yyyyMMdd"))).int
+  of "YYYY-MM-DD": toUnix(toTime(parse(date, "yyyy-MM-dd"))).int
+  of "YYYY-MM-DD HH:mm": toUnix(toTime(parse(date, "yyyy-MM-dd HH:mm"))).int
+  of "DD-MM-YYYY": toUnix(toTime(parse(date, "dd-MM-yyyy"))).int
+  else: 0
+
+
+template epochDate*(epochTime, format: string, timeZone: Natural = 0): string =
+  ## Transform epoch to user formatted date
+  assert epochTime.len > 0, "epochTime must not be empty string"
+  const monthNames = [
+    "", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+  ]
+  let t = $(utc(fromUnix(parseInt(epochTime))) + initTimeInterval(hours = timeZone))
+  case format
+  of "YYYY":
+    t.substr(0, 3)
+  of "YYYY_MM_DD-HH_mm":
+    t.substr(0, 3) & "_" & t.substr(5, 6) & "_" & t.substr(8, 9) & "-" & t.substr(11, 12) & "_" & t.substr(14, 15)
+  of "YYYY MM DD":
+    t.substr(0, 3) & " " & t.substr(5, 6) & " " & t.substr(8, 9)
+  of "YYYY-MM-DD":
+    t.substr(0, 9)
+  of "YYYY-MM-DD HH:mm":
+    t.substr(0, 9) & " - " & t.substr(11, 15)
+  of "DD MM YYYY":
+    t.substr(8, 9) & " " & t.substr(5, 6) & " " & t.substr(0, 3)
+  of "DD":
+    t.substr(8, 9)
+  of "MMM DD":
+    monthNames[parseInt(t.substr(5, 6))] & " " & t.substr(8, 9)
+  of "MMM":
+    monthNames[parseInt(t.substr(5, 6))]
   else:
-    ""
+    t.substr(0, 9)
 
 
 template inputNumberHtml*(value="", name="", class="input", id="", placeholder="0", required=true, min:byte=0.byte, max:int=byte.high.int, maxlenght=3): string =
