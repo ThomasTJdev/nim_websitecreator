@@ -12,7 +12,6 @@ installDirs   = @["config", "nimwcpkg", "plugins", "public"]
 # Dependencies
 requires "nim >= 1.2.4"
 requires "jester >= 0.4.3"
-requires "firejail >= 0.5.0"
 requires "otp >= 0.1.1"
 requires "recaptcha >= 1.0.3"
 requires "packedjson >= 0.1.0"
