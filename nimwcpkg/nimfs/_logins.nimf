@@ -31,7 +31,7 @@
     <div class="field form-group">
     <label class="label">Email</label>
     <div class="control has-icons-left has-icons-right">
-    <input type="email" id="email" name="email" value="${ (when defined(demo): "test@test.com" else: "") }" class="input is-rounded email"  placeholder="Email" title="Email" required autocomplete="email" minlength="5" maxlength="254" onClick="if(this.value===''){this.value='@'}" onblur="this.value=this.value.replace(/\s\s+/g,' ').replace(/^\s+|\s+$$/g,'').toLowerCase()" dir="auto" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$$">
+    <input type="email" id="email" name="email" value="${ (when defined(demo): "test@test.com" else: "") }" class="input is-rounded email"  placeholder="Email" title="Email" required autocomplete="email" minlength="5" maxlength="254" onblur="this.value=this.value.replace(/\s\s+/g,' ').replace(/^\s+|\s+$$/g,'').toLowerCase()" dir="auto" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$$">
     </div>
     </div>
     <div class="field form-group">
