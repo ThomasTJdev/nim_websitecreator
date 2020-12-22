@@ -333,10 +333,10 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[isLoginOk: bool, s
 
 
 proc logout(c: var TData) {.inline.} =
-  exec(db, sql"DELETE FROM session WHERE ip = ? AND key = ?", c.req.ip, c.req.cookies["sid"])
+  if c.req.cookies.hasKey("sid"):
+    exec(db, sql"DELETE FROM session WHERE ip = ? AND key = ?", c.req.ip, c.req.cookies["sid"])
   c.username = ""
   c.userpass = ""
-
 
 #
 # Check if logged in
