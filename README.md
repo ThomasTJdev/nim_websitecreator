@@ -5,14 +5,8 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 <img src="private/screenshots/NimWC_logo_shadow.png" style="max-height: 250px; display: block;" />
 
 ![](https://img.shields.io/github/languages/top/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
-![](https://img.shields.io/github/stars/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
-![](https://img.shields.io/maintenance/yes/2019?style=for-the-badge)
+![](https://img.shields.io/github/stars/ThomasTJdev/nim_websitecreator?style=for-the-badge)
 ![](https://img.shields.io/github/languages/code-size/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
-![](https://img.shields.io/github/issues-raw/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
-![](https://img.shields.io/github/issues-pr-raw/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
-![](https://img.shields.io/github/last-commit/ThomasTJdev/nim_websitecreator?style=for-the-badge) 
-
-<img src="http://feeds.feedburner.com/RecentCommitsToNimWC.1.gif" alt="Recent Commits to NimWC" title="Recent Commits to NimWC" width="99%" height="75px">
 
 
 # Features
