@@ -2,110 +2,105 @@
 #
 #
 #proc genFormLogin(c: var TData, errorMsg = ""): string =
-  #let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings")
-  #if not c.loggedIn:
+  # let standardElements = getRow(db, sql"SELECT head, navbar, footer, title FROM settings")
+  # if not c.loggedIn:
     <head>
     ${ standardElements[0] }
     </head>
+
     <section class="section" >
-    <div class="container has-text-centered">
-    <div class="columns is-centered">
-    <div class="column is-5 is-4-desktop">
-    <form name="login" action="/dologin" method="POST" class="box">
-    <h3 style="line-height:1.9rem;">Login to<br>
-    ${ standardElements[3] }
-    </h3>
-    #
-    #when defined(demo):
-      <div class="notification is-link">
-        <p> <b>User:</b> test@test.com</p>
-        <p> <b>Pass:</b> test</p>
-        <p> <b>2FA: </b> 123456</p>
-      </div>
-    #end when
-    #
-    #if errorMsg.len != 0:
-      <div class="notification is-danger" style="text-align: center;font-size: 1.2rem; line-height: 1.8rem;"><b>$errorMsg</b></div>
-    #end if
-    #
-    <div class="field form-group">
-    <label class="label">Email</label>
-    <div class="control has-icons-left has-icons-right">
-    <input type="email" id="email" name="email" value="${ (when defined(demo): "test@test.com" else: "") }" class="input is-rounded email"  placeholder="Email" title="Email" required autocomplete="email" minlength="5" maxlength="254" onblur="this.value=this.value.replace(/\s\s+/g,' ').replace(/^\s+|\s+$$/g,'').toLowerCase()" dir="auto" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$$">
-    </div>
-    </div>
-    <div class="field form-group">
-        <label class="label">Password</label>
-        <div class="control has-icons-left has-icons-right">
-          <input type="password" class="input is-rounded" name="password" autocomplete="current-password" placeholder="Password" dir="auto" required
-    #
-    #when defined(demo) or defined(dev):
-      minlength="4"  value="test"
-    #
-    #else:
-    #
-      minlength="10" value=""
-    #end when
-    #
-    >
-    </div>
-      </div>
-      <details class="field form-group">
-        <summary class="label" style="cursor:pointer">2 Factor Auth (TOTP)</summary>
-        <div class="control has-icons-left has-icons-right">
-          <input type="tel" class="input is-rounded has-text-centered is-family-monospace" name="totp" placeholder="6 Digit Number" min="000000" max="999999" step="1" maxlength="6" dir="auto" pattern="\d*" autocomplete="off"
-    #
-    #when defined(demo):
-      value="123456"
-    #end when
-    #
-    >
-    </div>
-    </details>
-    #
-    #when defined(recaptcha):
-      #
-      #if useCaptcha:
-          <div id="recaptcha">
-            <div class="g-recaptcha" data-sitekey="${ recaptchaSiteKey }" data-theme="light" style="transform:scale(0.93);-webkit-transform:scale(0.93);transform-origin:0 0;-webkit-transform-origin:0 0;"></div>
-            <script src="https://www.google.com/recaptcha/api.js"></script>
+      <div class="container has-text-centered">
+        <div class="columns is-centered">
+          <div class="column is-5 is-4-desktop">
+            <form name="login" action="/dologin" method="POST" class="box">
+              <h3 style="margin-top: 0;">Login to<br>
+              ${ standardElements[3] }
+              </h3>
+              #
+              #when defined(demo):
+                <div class="notification is-link">
+                  <p> <b>User:</b> test@test.com</p>
+                  <p> <b>Pass:</b> test</p>
+                  <p> <b>2FA: </b> 123456</p>
+                </div>
+              #end when
+              #
+              #if errorMsg.len != 0:
+                <div class="notification is-danger" style="text-align: center;font-size: 1.2rem; line-height: 1.8rem;"><b>$errorMsg</b></div>
+              #end if
+              #
+              <div class="field form-group">
+                <label class="label">Email</label>
+                <div class="control">
+                  <input type="email" id="email" name="email" value="${ (when defined(demo): "test@test.com" else: "") }" class="input email"  placeholder="Email" title="Email" required autocomplete="email" minlength="5" maxlength="254" onblur="this.value=this.value.replace(/\s\s+/g,' ').replace(/^\s+|\s+$$/g,'').toLowerCase()" dir="auto" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]+$$">
+                </div>
+              </div>
+
+              <div class="field form-group">
+                <label class="label">Password</label>
+                <div class="control">
+                  <input type="password" class="input" name="password" autocomplete="current-password" placeholder="Password" dir="auto" required minlength="4"  value="${ (when defined(demo): "test" else: "") }">
+                </div>
+              </div>
+
+              <details class="field form-group">
+                <summary class="label" style="cursor:pointer;">2 Factor Auth (TOTP)</summary>
+                <div class="control">
+                  #
+                  #when defined(demo):
+                  #  let passvalue="123456"
+                  #else:
+                  #  let passvalue=""
+                  #end when
+                  #
+                  <input type="tel" class="input has-text-centered is-family-monospace" name="totp" placeholder="6 Digit Number" min="000000" max="999999" step="1" maxlength="6" dir="auto" pattern="\d*" autocomplete="off" value="${passvalue}">
+                  </div>
+                  </details>
+                  #
+                  #when defined(recaptcha):
+                    #
+                    #if useCaptcha:
+                      <div id="recaptcha">
+                        <div class="g-recaptcha" data-sitekey="${ recaptchaSiteKey }" data-theme="light" style="transform:scale(0.93);-webkit-transform:scale(0.93);transform-origin:0 0;-webkit-transform-origin:0 0;"></div>
+                        <script src="https://www.google.com/recaptcha/api.js"></script>
+                      </div>
+                    #end if
+                    #
+                  #end when
+                  #
+                  <div class="field form-group">
+                    <label class="checkbox">
+                      <input type="checkbox" title="I agree to the Terms Of Service and Cookies" required checked >
+                      <a href="/settings/termsofservice"><small><i style="opacity:.5">I accept the Terms of Service</i></small></a>
+                    </label>
+                  </div>
+
+                  <input type="submit" class="button is-primary is-fullwidth" value="Login"/>
+
+              ## DONT TOUCH, HoneyPot: https://github.com/ThomasTJdev/nim_websitecreator/issues/43#issue-403507393
+              <input type="password" class="input is-rounded" name="password2" autocomplete="false" tabindex="-1" placeholder="Password" dir="auto" minlength="10" value="" style="display:none !important">
+              ## DONT TOUCH, HoneyPot: https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377
+
+            </form>
           </div>
-      #end if
-      #
-    #end when
-    #
-    <div class="field form-group">
-        <label class="checkbox">
-          <input type="checkbox" title="I agree to the Terms Of Service and Cookies" required checked >
-            <a href="/settings/termsofservice"><small><i style="opacity:.5">I accept the Terms of Service</i></small></a>
-        </label>
+        </div>
+
+        <div class="notification" style="opacity:.5">
+          <small> <b>Cookies:</b>
+          <i>This website uses cookies to personalise content and to provide a better user experience.
+            By interacting with this website you agree to use cookies.
+          </i></small>
+        </div>
       </div>
-
-    <input type="submit" class="button is-primary is-fullwidth is-rounded" value="Login"/>
-
-    ## DONT TOUCH, HoneyPot: https://github.com/ThomasTJdev/nim_websitecreator/issues/43#issue-403507393
-    <input type="password" class="input is-rounded" name="password2" autocomplete="false" tabindex="-1" placeholder="Password" dir="auto" minlength="10" value="" style="
-    ${ ["display:none !important", "visibility:hidden !important", "opacity:0 !important"].rand }
-    " >
-    ## DONT TOUCH, HoneyPot: https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377
-    </form>
-    </div>
-    </div>
-    <div class="notification" style="opacity:.5">
-      <small> <b>Cookies:</b>
-      <i>This website uses cookies to personalise content and to provide a better user experience.
-        By interacting with this website you agree to use cookies.
-      </i></small>
-    </div>
-    </div>
     </section>
+
     <footer>
       ${ standardElements[2] }
     </footer>
     #
     #else:
       <head>
-      ${ standardElements[0] }
+        ${ standardElements[0] }
       <meta http-equiv="refresh" content="5; url=/"/>
       </head>
       <section class="section">
