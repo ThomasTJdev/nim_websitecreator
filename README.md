@@ -11,108 +11,25 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 # Features
 
-## Blogs and pages
-- 1 Click Blogging posts directly from browser.
-- 1 Click Static web pages directly from browser.
-- WYSIWYG & Drag'n'Drop Editors with [Summernote](https://summernote.org), [CodeMirror](https://codemirror.net) or [GrapesJS](https://grapesjs.com).
-- Custom title, meta description and keywords for each page, SEO friendly.
-- Custom head, navbar and footer, no hardcoded watermarks, links or logos.
-- Upload/Download files and images (private or public), option to use MD5 CheckSum as filename.
-- [Libravatar/Gravatar support](https://wiki.libravatar.org/libraries/#index2h1) for profile photos builtin.
-- 1 language for the whole stack, including high performance modules, scripting, devops, deploy, from WebAssembly to Assembly.
+* Blog with custom meta-information and URL's
+* Security - 2FA, Firejail, reCAPTCHA
+* Fully customizable - log viewer, custom JS & CSS
+* Plugins with many features
 
-## Security
-- Self-Firejailing Web Framework (It Firejails itself) Best Linux Security integrated on the Core.
-- 2 Factor Athentication TOTP
-- [Design by Contract, Contract Programming](https://dev.to/juancarlospaco/design-by-contract-immutability-side-effects-and-gulag-44fk).
-- Security Hardened by default (based from [Gentoo Hardened](https://wiki.gentoo.org/wiki/Hardened_Gentoo) and [Debian Hardened](https://wiki.debian.org/Hardening), checked with [`hardening-check`](https://bitbucket.org/Alexander-Shukaev/hardening-check)).
-- Coded following the [Power of 10: NASA Coding guidelines for safety-critical code](https://en.wikipedia.org/wiki/The_Power_of_10:_Rules_for_Developing_Safety-Critical_Code#Rules) (as much as possible).
-- ReCAPTCHA (Optional)
-- [HoneyPot-Field](https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377)
-- BCrypt+Salt password hashing
-- No user Tracking Analytics by default
-- SQL Type-checked and Query-checked at compile-time, no SQL injections.
-- No XML nor YAML nor ZIP used on the Core, No XML Vulnerabilities, No YAML Vulnerabilities, etc (you can still use XML and YAML and ZIP).
-- Multiple users with different ranks, role based access control.
-- Admin can choose how much CPU & RAM NimWC can use from the Admin Dashboard (using the compile flag `-d:firejail`)
-- We recommend [FreeOTP 2 Factor Athentication App](https://freeotp.github.io) because is Open Source (400Kb size),
-As alternative, [try AndOTP](https://github.com/andOTP/andOTP) (5Mb size).
-
-## Configuration
-- Edit core or custom JS and CSS directly from browser, UI/UX Designer friendly.
-- Log Viewer directly from browser.
-- Auto-Rotating file Logger.
-- Server Info Page for Admins.
-- Force Server restart for Admins.
-- Edit main config file directly from browser
-- Recompilation without down times.
-- Webserver hosting your page on 127.0.0.1:7000
-- Colored output on the Terminal.
-- Email notification on critical errors.
-
-## Plugins
-- Plugin Store integrated
-- Enable and disable plugins directly from browser. Open Source or Private Plugins.
-- Plugin skeleton creator to create your own new plugins.
-- Plugins can do anything you want on Frontend and Backend.
-- Develop your own plugins - [NimWC plugin repository](https://github.com/ThomasTJdev/nimwc_plugins)
-
-## Database
-- [Postgres](https://www.postgresql.org) (if you are using the NimWC docker file, you do not need to install Postgres)
-- SQLite
-
-## Performance
-- High performance with low resources (RPi, VPS, cloud, old pc, etc).
-- Runs on any non-Windows OS, Architecture and Hardware that can compile C code.
-- Independent [TechEmpower Benchmarks](https://www.techempower.com/benchmarks/#section=data-r17&hw=cl&test=json) show Nim web server as one of the fastest in the world.
-- High Availability design by default.
-- Full Stack with the same programming language, including DevOps and Scripting.
-- 0 Dependency binary (Postgres/SSL/WebP/Firejail required if using it).
-- No `/node_modules/`, but very powerful builtin Templating engine.
-- Compile-Time precomputed arbitrary function execution is used when possible.
-- No Global Interpreter Lock, no single-Thread, no single-Core, no Interpreter. Use all your 32 CPU Cores.
-
-## Responsive
-- Uses responsive [Bulma CSS framework](https://bulma.io), supports [Bootstrap CSS framework](https://getbootstrap.com).
-- JavaScript framework agnostic, use Nim, [Karax](https://github.com/pragmagic/karax), vanilla JS, you choose.
-
-## Other
-- [WebP](https://caniuse.com/#feat=webp) automatic Image and Photo Optimizations.
-- [NGINX Config](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template.
-- [SystemD Service](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template.
-- [Vagrantfile](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/) template.
-- [Dockerfile](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/devops/docker/) template.
+**See more in FEATURES.md**
 
 
 # Requirements
 
 To get started you only need:
 
-- Linux (For Windows [see Docker-for-Windows](http://docs.docker.com/docker-for-windows))
-- Nim >= `1.0.0` (Stable Release)
+- Nim >= `1.0.0` (tested with `1.4.8`)
 
-Development dependencies (automatically installed by Nimble):
+Optional dependencies (disabled by default):
 
-- [bCrypt](https://github.com/runvnc/bcryptnim) >= `0.2.1`
-- [Contra](https://github.com/juancarlospaco/nim-contra) >= `0.2.0`
-- [datetime2human](https://github.com/juancarlospaco/nim-datetime2human) >= `0.2.2`
-- [Jester](https://github.com/dom96/jester/) >= `0.4.1`
-- [Libravatar](https://github.com/juancarlospaco/nim-libravatar#nim-libravatar) >= `0.4.0`
-- [otp](https://github.com/OpenSystemsLab/otp.nim) >= `0.1.1`
-- [Firejail](https://github.com/juancarlospaco/nim-firejail) >= `0.5.0` (optional)
-- [reCAPTCHA](https://github.com/euantorano/recaptcha.nim) >= `1.0.2` (optional)
-- [WebP](https://github.com/juancarlospaco/nim-webp-tools) >= `0.2.0` (optional)
-- [PackedJSON](https://github.com/Araq/packedjson#packedjson) >= `0.1.0` (optional)
-
-Foreing optional dependencies:
-
-- webp (`libwebp`)
-- firejail >= `0.9.58`
+- webp (`libwebp`) (only required when using [WebP](https://github.com/juancarlospaco/nim-webp-tools))
+- firejail >= `0.9.58` (only required when using [Firejail](https://github.com/juancarlospaco/nim-firejail))
 - Xvfb (`xorg-server-xvfb`, required by firejail setting `noX=`)
-
-OBS:
-- **Use Nim Stable Release**, Devel may or may not work.
-
 - **When using Firejail and enabling/disabling a plugin a manual full restart of NimWC is required.** It is therefore not advised to enable/disable plugins in the browser when using Firejail.
 
 
@@ -142,7 +59,7 @@ nimble install nimwc
 
 # Edit the config.cfg accordingly
 # (change the confg.cfg path to your nimble folder and the correct package version)
-nano ~/.nimble/pkgs/nimwc-5.5.1/config/config.cfg
+nano ~/.nimble/pkgs/nimwc-[PACKAGE-VERSION]/config/config.cfg
 
 # Run nimwc
 # (to add an Admin append the arg "newadmin": nimwc --newadmin)
@@ -170,11 +87,8 @@ cd nim_websitecreator
 cp config/config_default.cfg config/config.cfg
 nano config/config.cfg
 
-# Install dependencies
-nimble install jester recaptcha bcrypt datetime2human otp firejail webp, contra
-
-# Compile nimwc
-nim c nimwc.nim
+# Compile
+nimble -d:release build
 
 # Run nimwc
 # (to add an Admin append the arg "newadmin": nimwc --newadmin)
@@ -194,11 +108,7 @@ This will guide you through the installation.
 
 ```
 curl https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/devops/autoinstall.sh -sSf | sh
-```
-
-OR
-
-```
+# OR
 curl https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/devops/autoinstall.sh -sSfLO && echo "6cc7510305db7b0ae5e3755137e71c23c7e08829264ddfb82702e6cac297f1063b46c48c01eafb16156c27a53aa23d1737c34f354ae1834c8498f5bd64b81b3c autoinstall.sh" | sha512sum -c - && sh ./autoinstall.sh
 ```
 
@@ -218,7 +128,7 @@ These arguments should be prepended to executable file, e.g. `./nimwc cdata`
 * `--backupdb-gpg` = Compressed signed full backup of database.
 * `--newdb` = Generates the database with standard tables (does **not** override or delete tables). `newdb` will be initialized automatic, if no database exists.
 * `--insertdata` = Insert standard data, e.g `--insertdata bulma` (this will override existing data)
-  * `bulma` = Use Bulma CSS, No JS required
+  * `bulma` = Use Bulma CSS, No JS required (official design) [Default official theme]
   * `bootstrap` = Use Bootstrap and jQuery
   * `water` = Water CSS framework, No JS, HTML Classless (No classes on HTML required)
 
@@ -268,6 +178,8 @@ The "Admin" has access to anything.
 
 You can easily add and edit blogpages. The blogpages support metadata: meta description and meta keywords. It is also possible to specify a category and tags.
 
+<details>
+
 ## Blog sorting
 
 In the settings menu you can specify how your blogposts should be sorted, e.g. on modfied date in ascending order.
@@ -282,6 +194,8 @@ website.com/blog?category=article
 website.com/blog?tags=code
 ```
 
+</details>
+
 # Plugins
 
 Multiple plugins are available. You can download them within the program at `<webpage>/plugins/repo`.
@@ -292,11 +206,6 @@ The plugin repository are located here: [NimWC plugin repository](https://github
 # Shortcuts
 
 When editing a blogpage or a normal page press Ctrl+S to save.
-
-
-# GrapesJS
-
-GrapesJS is a Web Builder Framework. To use GrapeJS with a CSS framework (Bulma or Bootstrap), you have to edit `public/js/grapejs_custom.js` and `public/js/grapejsbs4.min.js`. Bootstrap support in `public/js/grapejs_custom.js` is commented out.
 
 
 # DevOps
@@ -364,6 +273,8 @@ heres how you can do it, without a virtual machine with an old Linux to build.
 
 # How to Firejail
 
+Optional dependency.
+
 <details>
 
 - Default settings will work Ok on most systems, sane defaults.
@@ -424,21 +335,14 @@ cd firejail
 </details>
 
 
-##### How to Jester
 
-https://github.com/juancarlospaco/nim-presentation-slides/blob/master/ejemplos/basico/jester/hello_web_3.nim#L38
-
-
-##### Resources
-
-<details>
+# Resources
 
 - [NimWC Logo, high quality, PNG.](https://github.com/ThomasTJdev/nim_websitecreator/tree/master/public/images/logo)
 - [NimWC Presentation Slides, HTML5 3D, English.](http://htmlpreview.github.io/?https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/nimwc-presentation-presentation.html)
 - [NimWC Presentation Slides, HTML5 3D, Spanish.](http://htmlpreview.github.io/?https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/nimwc-presentation-es-presentation.html)
 - [NimWC Telegram Stickers on the Nim Pack.](https://t.me/addstickers/nimlang)
 
-</details>
 
 
 # Videos
@@ -463,6 +367,3 @@ The Peer Production License is a reciprocity-based license by which commons are 
 while third party non-contributing entities profiting from these commons can be charged a license fee to sustain the project in the long run.
 
 For all other meanings of license, is very similar to [MIT license.](https://tldrlegal.com/license/mit-license)
-
-
-[  ⬆️  ⬆️  ⬆️  ⬆️  ](#nim-website-creator "Go to top")
