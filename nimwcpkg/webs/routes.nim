@@ -828,7 +828,16 @@ routes:
 # Sitemap
 #
 
-
   get "/sitemap.xml":
     writeFile("public/sitemap.xml", genSitemap())
     sendFile("public/sitemap.xml")
+
+
+#
+# Other
+#
+
+  error {Http401 .. Http408}:
+    createTFD()
+    if error.data.code in [Http401, Http403]: pass
+    resp error.data.code, "<h1>Page not found</h1><p>You should go back.</p>"
