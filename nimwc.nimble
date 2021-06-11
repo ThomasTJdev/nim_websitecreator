@@ -1,5 +1,5 @@
 # Package
-version       = "6.0.6"
+version       = "6.1.0"
 author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev) & Juan Carlos (https://github.com/juancarlospaco)"
 description   = "Generate and host a website. Run the package and access your new webpage."
 license       = "PPL"
@@ -41,13 +41,6 @@ task setup, "Generating executable":
 
   if defined(demo):
     echo "Demo Mode: Database will reset each hour with the standard data."
-
-  if not defined(ssl):
-    echo "SSL not defined: SSL is disabled, running unsecure."
-
-  if not defined(firejail):
-    echo "Firejail not defined: Firejail is disabled, running unsecure."
-
 
 before install:
   setupTask()
