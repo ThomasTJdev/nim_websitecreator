@@ -1,7 +1,27 @@
 import
-  asyncdispatch, base32, cgi, encodings, logging, md5, nativesockets, os,
-  osproc, oswalkdir, parsecfg, random, re, rdstdin, sequtils, streams, strtabs,
-  strutils, tables, times, macros, mimetypes, packages/docutils/rstgen
+  std/asyncdispatch,
+  # std/base32,
+  std/cgi,
+  std/encodings,
+  std/logging,
+  std/md5,
+  std/nativesockets,
+  std/os,
+  std/osproc,
+  std/oswalkdir,
+  std/parsecfg,
+  std/random,
+  std/re,
+  std/rdstdin,
+  std/sequtils,
+  std/streams,
+  std/strtabs,
+  std/strutils,
+  std/tables,
+  std/times,
+  std/macros,
+  std/mimetypes#,
+  #packages/docutils/rstgen
 
 import
   bcrypt,
@@ -18,14 +38,12 @@ import
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
-when not defined(webp): {. warning: "WebP is disabled, no image optimizations possible." .}
-else:                   from webp import cwebp
+when defined(webp): from webp import cwebp
 
-when not defined(firejail): {. warning: "Firejail is disabled, running unsecure." .}
-else:                       from firejail import firejailVersion, firejailFeatures
+when defined(firejail): from firejail import firejailVersion, firejailFeatures
 
 when defined(packedjson): import packedjson
-else: import json
+else:                     import json
 
 hardenedBuild()
 randomize()
@@ -174,7 +192,7 @@ proc extensionJs*(): string {.compiletime.} =
 
 
 var db {.global.}: DbConn
-assert existsFile(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"), "config.cfg not found"
+assert fileExists(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"), "config.cfg not found"
 let
   dict = loadConfig(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg")
 
