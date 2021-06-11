@@ -9,15 +9,9 @@ import
 when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
-when not defined(firejail): {.warning: "Firejail is disabled, running unsecure.".}
-else:                       from firejail import firejailVersion, firejailFeatures
+when defined(firejail): from firejail import firejailVersion, firejailFeatures
 
 hardenedBuild()
-
-
-when not defined(contracts): {.warning: "Design by Contract is Disabled, running unassertive.".}
-when not defined(ssl):       {.warning: "SSL is Disabled, running unsecure.".}
-when not defined(firejail):  {.warning: "Firejail is Disabled, running unsecure.".}
 
 
 var
@@ -37,9 +31,10 @@ configExists()
 
 proc updateNimwc() =
   ## GIT hard update
-  preconditions(existsDir"plugins/", existsDir"public/css/", existsDir"public/js/",
-    existsFile"plugins/plugin_import.txt", existsFile"public/css/style_custom.css",
-    existsFile"public/js/js_custom.js", findExe"git".len > 0)
+  preconditions(dirExists"plugins/", dirExists"public/css/", dirExists"public/js/",
+    fileExists"plugins/plugin_import.txt", fileExists"public/css/style_custom.css",
+    fileExists"public/js/js_custom.js", findExe"git".len > 0)
+
   # No postconditions because we directly quit anyways.
   const cmd = "git fetch --all ; git reset --hard origin/master"
   let
@@ -47,7 +42,9 @@ proc updateNimwc() =
     styleCustom = readFile"public/css/style_custom.css"
     jsCustom = readFile"public/js/js_custom.js"
     humansTxt = readFile"public/humans.txt"
-  when not defined(release): echo cmd
+  when not defined(release):
+    echo cmd
+
   discard execCmd(cmd)
   writeFile("plugins/plugin_import.txt", pluginImport)  # Write contents back
   writeFile("public/css/style_custom.css", styleCustom)
@@ -142,7 +139,7 @@ proc launcherActivated(cfg: Config) =
       dnsz = [cfg.getSectionValue("firejail", "dns0").strip, cfg.getSectionValue("firejail", "dns1").strip,
               cfg.getSectionValue("firejail", "dns2").strip, cfg.getSectionValue("firejail", "dns3").strip]
     assert countProcessors() > cpuCores, "Dedicated CPU Cores must be less or equal to the actual CPU Cores: " & $cpuCores
-    assert hostz.existsFile, "Hosts file not found: " & hostz
+    assert hostz.fileExists, "Hosts file not found: " & hostz
     let myjail = Firejail(
       noDvd:         cfg.getSectionValue("firejail", "noDvd").parseBool,
       noSound:       cfg.getSectionValue("firejail", "noSound").parseBool,
@@ -217,14 +214,14 @@ proc startupCheck(cfg: Config) =
   ## Checking if the main-program file exists. If not it will
   ## be compiled with args and compiler options (compiler
   ## options should be specified in the *.nim.pkg)
-  preconditions compileOptions.len > 0, storageEFS.len > 0, existsFile(getAppDir() & "/nimwcpkg/nimwc_main.nim")
+  preconditions compileOptions.len > 0, storageEFS.len > 0, fileExists(getAppDir() & "/nimwcpkg/nimwc_main.nim")
   # Storage location. Folders are created in the module files.nim
   let
     args = replace(commandLineParams().join(" "), "-", "")
     userArgs = if args == "": "" else: " " & args
     appPath = getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname")
   when not defined(ignoreefs):
-    if not existsDir(storageEFS):  # Check access to EFS file system.
+    if not dirExists(storageEFS):  # Check access to EFS file system.
       quit("No access to storage in release mode. Critical.")
 
   # Ensure that the tables are present in the DB
@@ -240,8 +237,6 @@ proc startupCheck(cfg: Config) =
       quit(exitCode)
     else:
       styledEcho(fgGreen, bgBlack, compile_ok_msg)
-      when defined(release):
-        if findExe"strip".len > 0: discard execCmd(cmdStrip & appPath)
 
 
 #
@@ -252,7 +247,7 @@ proc startupCheck(cfg: Config) =
 when isMainModule:
   let cfg = loadConfig(getAppDir() / "config/config.cfg") # cfg is Config.
   connectDb() # Read config, connect database, inject it as "db" variable.
-  when defined(dev): echo($compileOptions, "\n\n", $cfg)
+  when defined(dev): echo($compileOptions, "\n\n")
   for keysType, keys, values in getopt():
     case keysType
     of cmdShortOption, cmdLongOption:
@@ -268,7 +263,6 @@ when isMainModule:
       of "insertdata":
         if "bootstrap" in commandLineParams():  createStandardData(db, cssBootstrap, on)
         elif "water" in commandLineParams():    createStandardData(db, cssWater, on)
-        elif "official" in commandLineParams(): createStandardData(db, cssOfficial, on)
         else:                                   createStandardData(db, cssBulma, on)
       of "vacuumdb": echo vacuumDb(db)
       of "backupdb-gpg": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"))
