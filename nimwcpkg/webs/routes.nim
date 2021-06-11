@@ -621,23 +621,33 @@ routes:
     cond(@"status" in ["User", "Moderator", "Admin", "Deactivated"])
     if (c.rank != Admin and @"status" == "Admin") or c.rank == User:
       redirect("/error/" & errCantAddUserWithStat)
+
     if @"name" == "" or @"email" == "" or @"status" == "":
       redirect("/error/" & errNameEmailStatusRequired)
+
     if @"email" == "test@test.com":
       redirect("/error/" & errTestuserReserved)
+
     if not ("@" in @"email" and "." in @"email"):
       redirect("/error/" & errEmailWrongFormat)
-    let emailReady = toLowerAscii(@"email")
-    let emailExist = getValue(db, sql"SELECT id FROM person WHERE email = ?", emailReady)
+
+    let
+      emailReady = toLowerAscii(@"email")
+      emailExist = getValue(db, sql"SELECT id FROM person WHERE email = ?", emailReady)
+
     if emailExist != "":
       redirect("/error/" & errUserAlreadyExists)
+
     let
-      salt = makeSalt()
+      salt             = makeSalt()
       passwordOriginal = $rand(10_00_00_00_00_01.int..89_99_99_99_99_98.int) # User Must change it anyways.
-      password = makePassword(passwordOriginal, salt)
-      secretUrl = repeat($rand(10_00_00_00_00_00_00_00_00.int..int.high), 5).center(99, rand(toSeq('a'..'z')))
+      password         = makePassword(passwordOriginal, salt)
+      secretUrl        = repeat($rand(10_00_00_00_00_00_00_00_00.int..int.high), 5) #.center(99, rand(toSeq('a'..'z')))
+
     let userID = insertID(db, sql"INSERT INTO person (name, email, status, password, salt, secretUrl) VALUES (?, ?, ?, ?, ?, ?)", @"name", emailReady, @"status", password, salt, secretUrl)
+
     asyncCheck sendEmailActivationManual(emailReady, @"name", passwordOriginal, "/users/activate?id=" & $userID & "&ident=" & secretUrl, c.username)
+
     redirect("/users")
 
 
@@ -645,11 +655,11 @@ routes:
     createTFD()
     restrictTestuser(HttpGet)
     restrictAccessTo(c, [Admin])
-    discard tryExec(db, sql"DELETE FROM session WHERE userid = ?", @"userid")
-    discard tryExec(db, sql"UPDATE person SET avatar = NULL, twofa = NULL, timezone = NULL WHERE id = ?", @"userid")
+    exec(db, sql"DELETE FROM session WHERE userid = ?", @"userid")
+    exec(db, sql"UPDATE person SET avatar = NULL, twofa = NULL, timezone = NULL WHERE id = ?", @"userid")
     if @"cleanout" == "true":
-      discard tryExec(db, sql"DELETE FROM pages WHERE author_id = ?", @"userid")
-      discard tryExec(db, sql"DELETE FROM blog WHERE author_id = ?", @"userid")
+      exec(db, sql"DELETE FROM pages WHERE author_id = ?", @"userid")
+      exec(db, sql"DELETE FROM blog WHERE author_id = ?", @"userid")
     redirect("/users")
 
 
