@@ -10,7 +10,7 @@ else:                   import db_sqlite
 
 
 let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
-assert existsDir(nimwcpkgDir), "nimwcpkg directory not found"
+assert dirExists(nimwcpkgDir), "nimwcpkg directory not found"
 
 
 template vacuumDb*(db: DbConn): bool = db.tryExec(sqlVacuum)

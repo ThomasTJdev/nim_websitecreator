@@ -489,10 +489,10 @@ routes:
     if @"access" == "publicimage":
       path = "public/images" / filename
     elif @"access" == "public":
-      assert existsDir(efspublic), "storageEFS Public Folder not found: " & efspublic
+      assert dirExists(efspublic), "storageEFS Public Folder not found: " & efspublic
       path = efspublic / filename
     else:
-      assert existsDir(efsprivate), "storageEFS Private Folder not found: " & efsprivate
+      assert dirExists(efsprivate), "storageEFS Private Folder not found: " & efsprivate
       path = efsprivate / filename
     if fileExists(path):
       resp("Error: A file with the same name exists")

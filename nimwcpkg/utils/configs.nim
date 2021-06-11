@@ -5,7 +5,7 @@ proc getConfig*(configPath: string, section: ConfigSections): Table[string, stri
   ## Take file path & section, return Table of config, to access using cfg["key"]
   assert configPath.len > 0, "configPath must not be empty string"
   assert configPath[^4..^1] == ".cfg", "configPath must be .cfg file extension"
-  assert existsFile(configPath), "configPath file not found"
+  assert fileExists(configPath), "configPath file not found"
   let dict = loadConfig(configPath)
   case section
   of cfgDatabase:

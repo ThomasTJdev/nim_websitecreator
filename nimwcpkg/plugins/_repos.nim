@@ -10,7 +10,7 @@ proc pluginRepoClone*(): bool =
 
 proc pluginRepoUpdate*(): bool =
   ## Clones (updates) the plugin repo
-  preconditions existsDir("plugins" / pluginRepoName)
+  preconditions dirExists("plugins" / pluginRepoName)
   postconditions fileExists("plugins/nimwc_plugins/plugins.json")
   let cmd = "git -C plugins" / pluginRepoName & " pull"
   when defined(dev): echo cmd
