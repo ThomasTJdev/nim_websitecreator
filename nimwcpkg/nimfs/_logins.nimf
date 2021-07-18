@@ -26,7 +26,7 @@
               #end when
               #
               #if errorMsg.len != 0:
-                <div class="notification is-danger" style="text-align: center;font-size: 1.2rem; line-height: 1.8rem;"><b>$errorMsg</b></div>
+                <div class="notification is-danger" style="text-align: center;font-size: 1.2rem; line-height: 1.8rem;"><b>${xmlEncode(errorMsg)}</b></div>
               #end if
               #
               <div class="field form-group">
