@@ -1,3 +1,7 @@
+## v6.1.3
+## Changes
+- Deprecate libravatar
+
 ## v6.0.3
 ## Changes
 - Fix #121, #122 and #123
