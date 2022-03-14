@@ -2,7 +2,6 @@
 
 proc sendAdminMailNow*(subject, message: string) {.async.} =
   ## Send email only to Admin.
-  preconditions subject.len > 0, message.len > 0
   setCurrentDir(appDir)
   when defined(dev) and not defined(devemailon):
     info("Dev is true, email is not sent")

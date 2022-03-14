@@ -1,6 +1,8 @@
 ## v6.1.3
 ## Changes
-- Deprecate libravatar
+- Deprecate libravatar package
+- Deprecate contra package
+- Fix nim v1.6.x
 
 ## v6.0.3
 ## Changes

@@ -2,7 +2,6 @@
 
 proc pluginRepoClone*(): bool =
   ## Clones (updates) the plugin repo
-  preconditions pluginRepo.len > 0
   let cmd = "git clone " & pluginRepo & " " & replace(getAppDir(), "/nimwcpkg", "") / "plugins/nimwc_plugins"
   when defined(dev): echo cmd
   execCmdEx(cmd).exitCode == 0
@@ -10,8 +9,6 @@ proc pluginRepoClone*(): bool =
 
 proc pluginRepoUpdate*(): bool =
   ## Clones (updates) the plugin repo
-  preconditions dirExists("plugins" / pluginRepoName)
-  postconditions fileExists("plugins/nimwc_plugins/plugins.json")
   let cmd = "git -C plugins" / pluginRepoName & " pull"
   when defined(dev): echo cmd
   execCmdEx(cmd).exitCode == 0
