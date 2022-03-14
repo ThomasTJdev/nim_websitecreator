@@ -1,4 +1,4 @@
-import os, strutils, contra, osproc
+import os, strutils, osproc
 
 when defined(packedjson): import packedjson
 else:                     import json

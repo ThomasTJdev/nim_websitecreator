@@ -15,7 +15,6 @@
       <th>Last online</th>
       <th>Rank</th>
       <th>2FA</th>
-      <th>Avatar</th>
       <th>Delete</th>
     </tr>
   </thead>
@@ -28,7 +27,6 @@
       <th>Last online</th>
       <th>Rank</th>
       <th>2FA</th>
-      <th>Avatar</th>
       <th>Delete</th>
     </tr>
   </tfoot>
@@ -65,19 +63,10 @@
     <td>
     #
     #if c.rank == Admin:
-       ${ toUpperAscii($(user[6].len > 6)) }
+      ${ toUpperAscii($(user[6].len > 6)) }
     #end if
     #
     </td>
-    <td>
-    #
-    #if user[7].len > 0:
-      <a href="${user[7]}" target="_blank">${toUpperAscii($(user[7].len > 0))}</a> </td>
-    #
-    #else:
-    #
-      FALSE
-    #end if
     #
     <td class="is-danger has-text-centered"><span class="delete deleteUser" data-url="/users/delete/${user[0]}"></span></td>
   #end for
@@ -125,7 +114,7 @@
     <summary class="label">Quick user reset</summary>
     <b>Reset user by ID</b>
     <p>
-      Disables 2 Factor Authentication and removes Avatar.
+      Disables 2 Factor Authentication.
       The <code>name</code>, <code>password</code> and <code>email</code> will not be changed.
       Blogs and Pages created by the user can be deleted.
       The user will be logged out. The user must login as soon as possible to reconfigure.
@@ -244,11 +233,6 @@
     </div>
     <div class="column">
     <div class="column" style="background: white; padding: 10px; border: 1px solid grey; border-radius: 4px;">
-          <h5 class="has-text-centered">Avatar</h5>
-          <center>
-            <img class="is-128x128 libravatar" title="${c.email}'s Avatar" alt="${c.email}'s Avatar" src="${if user[6] == "": "/images/avatar.jpg" else: user[6]}" style="width:128px;height:128px;text-align:center">
-          </center>
-          <a href="/users/profile/avatar" class="button is-success is-fullwidth">Change photo</a>
           <div class="field" style="margin-bottom:9px">
             <label class="label">Status</label>
             <input type="text" class="input" disabled="disabled" value="${user[3]}" dir="auto">

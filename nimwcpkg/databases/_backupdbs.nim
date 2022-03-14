@@ -3,10 +3,14 @@
 proc backupDb*(dbname: string,
     filename = "backup" / fileBackup & replace($now(), ":", "_") & ".sql",
     host = "localhost", port = Port(5432), username = getEnv("USER", "root"),
-    dataOnly = false, inserts = false, checksum = true, sign = true, targz = true): tuple[output: TaintedString, exitCode: int] =
+    dataOnly = false, inserts = false, checksum = true, sign = true, targz = true): tuple[output: string, exitCode: int] =
   ## Backup the whole Database to a plain-text Raw SQL Query human-readable file.
-  preconditions(dbname.len > 0, host.len > 0, username.len > 0,
-    when defined(postgres): findExe("pg_dump").len > 0 else: findExe("sqlite3").len > 0)
+  if dbname.len == 0 or host.len == 0 or username.len == 0:
+    return ("Error #1", 1)
+
+  if (when defined(postgres): findExe("pg_dump").len == 0 else: findExe("sqlite3").len == 0):
+    return ("Error #2", 2)
+
   setCurrentDir(nimwcpkgDir)
   once: discard existsOrCreateDir(nimwcpkgDir / "backup")
 

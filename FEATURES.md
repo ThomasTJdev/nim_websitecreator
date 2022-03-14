@@ -7,14 +7,11 @@
 - Custom title, meta description and keywords for each page, SEO friendly.
 - Custom head, navbar and footer, no hardcoded watermarks, links or logos.
 - Upload/Download files and images (private or public), option to use MD5 CheckSum as filename.
-- [Libravatar/Gravatar support](https://wiki.libravatar.org/libraries/#index2h1) for profile photos builtin.
 - 1 language for the whole stack, including high performance modules, scripting, devops, deploy, from WebAssembly to Assembly.
 
 ## Security
 - Self-Firejailing Web Framework (It Firejails itself) Best Linux Security integrated on the Core.
 - 2 Factor Athentication TOTP
-- [Design by Contract, Contract Programming](https://dev.to/juancarlospaco/design-by-contract-immutability-side-effects-and-gulag-44fk).
-- Security Hardened by default (based from [Gentoo Hardened](https://wiki.gentoo.org/wiki/Hardened_Gentoo) and [Debian Hardened](https://wiki.debian.org/Hardening), checked with [`hardening-check`](https://bitbucket.org/Alexander-Shukaev/hardening-check)).
 - Coded following the [Power of 10: NASA Coding guidelines for safety-critical code](https://en.wikipedia.org/wiki/The_Power_of_10:_Rules_for_Developing_Safety-Critical_Code#Rules) (as much as possible).
 - ReCAPTCHA (Optional)
 - [HoneyPot-Field](https://stackoverflow.com/questions/36227376/better-honeypot-implementation-form-anti-spam/36227377)

@@ -1,4 +1,4 @@
-import asyncdispatch, contra, strutils, times, os, parsecfg, smtp, logging
+import asyncdispatch, strutils, times, os, parsecfg, smtp, logging
 
 import ../constants/constants
 

@@ -8,12 +8,10 @@ import
   std/nativesockets,
   std/os,
   std/osproc,
-  std/oswalkdir,
   std/parsecfg,
   std/random,
   std/re,
   std/rdstdin,
-  std/sequtils,
   std/streams,
   std/strtabs,
   std/strutils,
@@ -25,27 +23,35 @@ import
 
 import
   bcrypt,
-  contra,
   datetime2human,
   jester,
-  libravatar,
   otp
 
 import
   constants/constants, enums/enums, databases/databases, emails/emails, files/files,
   passwords/passwords, sessions/sessions, utils/loggers, plugins/plugins, webs/html_utils
 
-when defined(postgres): import db_postgres
-else:                   import db_sqlite
 
-when defined(webp): from webp import cwebp
+when defined(postgres):
+  import db_postgres
+else:
+  import db_sqlite
 
-when defined(firejail): from firejail import firejailVersion, firejailFeatures
 
-when defined(packedjson): import packedjson
-else:                     import json
+when defined(webp):
+  from webp import cwebp
 
-hardenedBuild()
+
+when defined(firejail):
+  from firejail import firejailVersion, firejailFeatures
+
+
+when defined(packedjson):
+  import packedjson
+else:
+  import json
+
+
 randomize()
 
 
@@ -58,7 +64,6 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
   ## Get all plugins path
   ##
   ## Generates a seq[string] with the path to the plugins
-  postconditions result.allIt(it.len > 0)
   let
     dir = parentDir(currentSourcePath())
     realPath = replace(dir, "/nimwcpkg", "")
@@ -68,7 +73,7 @@ proc getPluginsPath*(): seq[string] {.compileTime.} =
     extensions: seq[string]
 
   # Loop through all files and folders
-  for plugin in oswalkdir.walkDir("plugins/"):
+  for plugin in walkDir("plugins/"):
     let (pd, ppath) = plugin
     discard pd
 
@@ -90,7 +95,6 @@ macro extensionImport(): untyped =
   ## Generate code for importing modules from extensions.
   ## The extensions main module needs to be in plugins/plugin_import.txt
   ## to be activated. Only 1 module will be imported.
-  # preconditions pluginsPath.allIt(it.len > 0)
   var extensions = ""
   for ppath in pluginsPath:
     let splitted = split(ppath, "/")
@@ -110,7 +114,6 @@ macro extensionUpdateDatabase(): untyped =
   ## Generate proc for updating the database with new tables etc.
   ## The extensions main module shall contain a proc named 'proc <extensionname>Start(db: DbConn) ='
   ## The proc will be executed when the program is executed.
-  # preconditions pluginsPath.allIt(it.len > 0)
   var extensions = ""
 
   extensions.add("proc extensionUpdateDB*(db: DbConn) =\n")
@@ -139,7 +142,6 @@ proc extensionCss(): string {.compiletime.} =
   ## renaming to <extensionname>.css
   ##
   ## 2) Insert <style>-link into HTML
-  # preconditions pluginsPath.allIt(it.len > 0)
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -166,7 +168,6 @@ proc extensionJs*(): string {.compiletime.} =
   ## renaming to <extensionname>.js
   ##
   ## 2) Insert <js>-link into HTML
-  # preconditions pluginsPath.allIt(it.len > 0)
   let dir = parentDir(currentSourcePath())
   let mainDir = replace(dir, "/nimwcpkg", "")
 
@@ -186,10 +187,10 @@ proc extensionJs*(): string {.compiletime.} =
   return extensions
 
 
+
 #
 # Loading config file
 #
-
 
 var db {.global.}: DbConn
 assert fileExists(replace(getAppDir(), "/nimwcpkg", "") & "/config/config.cfg"), "config.cfg not found"
@@ -235,12 +236,8 @@ func init(c: var TData) {.inline.} =
 #
 # Recompile
 #
-
-
 proc recompile*(): int {.inline.} =
   ## Recompile nimwc_main
-  # preconditions compileOptions.len > 0
-  postconditions result == 0
   let appName = dict.getSectionValue("Server", "appname")
   let appPath = getAppDir() / appName
   result = execCmd("nim c " & compileOptions & " -o:" & appPath & "_new_tmp " & getAppDir() & "/nimwc_main.nim")
@@ -252,8 +249,6 @@ proc recompile*(): int {.inline.} =
 #
 # Validation check
 #
-
-
 func loggedIn(c: TData): bool {.inline.} =
   ## Check if user is logged in by verifying that c.username is more than 0:int
   c.username.len > 0
@@ -262,8 +257,6 @@ func loggedIn(c: TData): bool {.inline.} =
 #
 # Check if user is signed in
 #
-
-
 proc checkLoggedIn(c: var TData) =
   ## Check if user is logged in
   if not c.req.cookies.hasKey("sid"): return
@@ -288,11 +281,8 @@ proc checkLoggedIn(c: var TData) =
 #
 # User login
 #
-
-
 proc login(c: var TData, email, pass, totpRaw: string): tuple[isLoginOk: bool, statusMessage: string] =
   ## User login
-  # preconditions email.len > 5, pass.len > 3, email.len < 255, pass.len < 301
   when not defined(demo):
     if email == "test@test.com":
       return (false, "Email must not be test@test.com")
@@ -352,22 +342,21 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[isLoginOk: bool, s
 
 proc logout(c: var TData) {.inline.} =
   if c.req.cookies.hasKey("sid"):
-    exec(db, sql"DELETE FROM session WHERE ip = ? AND key = ?", c.req.ip, c.req.cookies["sid"])
+    exec(db, sql"DELETE FROM session WHERE key = ?", c.req.cookies["sid"])
   c.username = ""
   c.userpass = ""
+
 
 #
 # Check if logged in
 #
-
-
 template createTFD() =
   ## Check if logged in and assign data to user
   var c {.inject.}: TData
   new(c)
   init(c)
   c.req = request
-  if likely(request.cookies.len > 0):  # Make it faster for Logged-in Users.
+  if cookies(request).len > 0:  # Make it faster for Logged-in Users.
     checkLoggedIn(c)
   c.loggedIn = loggedIn(c)
 
@@ -375,8 +364,6 @@ template createTFD() =
 #
 # Main module
 #
-
-
 when isMainModule:
   echo startup_msg
 
@@ -431,15 +418,55 @@ when isMainModule:
   info("Up and running!")
 
 
+
+proc twoFaKey(): string {.inline, used.} =
+  ## Used on 2FA on _userprofiles.nimf line ~212.
+  const items = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
+    'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+  for index in 0..10: result.add random.sample(items)
+
 #
 # Include HTML files
 #
-include nimfs/nimfs
+# Order is important here.
+include
+  # Utils should be first.
+  "nimfs/utils/_navbars.nimf",
+  "nimfs/utils/_editors.nimf",
+  "nimfs/utils/_pageoptions.nimf",
+  "nimfs/utils/_main_new_editors.nimf",
+  "nimfs/utils/_main_edit_editors.nimf",
+  "nimfs/utils/_editor_imports.nimf",
+  # Blogs
+  "nimfs/blogs/_blogs.nimf",
+  "nimfs/blogs/_editors.nimf",
+  "nimfs/blogs/_creators.nimf",
+  # Pages
+  "nimfs/pages/_pages.nimf",
+  "nimfs/pages/_editors.nimf",
+  "nimfs/pages/_creators.nimf",
+  # Everthing else
+  "nimfs/_delayredirects.nimf",
+  "nimfs/_configs.nimf",
+  "nimfs/_files.nimf",
+  "nimfs/_logs.nimf",
+  "nimfs/_indexes.nimf",
+  "nimfs/_plugins.nimf",
+  "nimfs/_statuspages.nimf",
+  "nimfs/_settings.nimf",
+  "nimfs/_sitemaps.nimf",
+  "nimfs/_logins.nimf",
+  "nimfs/_userprofiles.nimf"
+
+
+when defined(firejail):
+  include "_firejails.nimf"         # Firejail
+
+
 
 #
 # Routes for WWW
 #
-
 
 template restrictTestuser(httpMethod: HttpMethod) =
   ## Check if this is the testuser. If it is true, return

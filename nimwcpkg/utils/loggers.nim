@@ -25,7 +25,7 @@ template log2admin*(msg: string) =
   else: error(msg)
 
 
-proc backupOldLogs*(logFilePath: string): tuple[output: TaintedString, exitCode: int] =
+proc backupOldLogs*(logFilePath: string): tuple[output: string, exitCode: int] =
   ## Compress all old rotated Logs.
   assert dirExists(logFilePath), "logFilePath File not found"
   assert findExe("tar").len > 0, "Tar not found"

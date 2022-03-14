@@ -27,7 +27,6 @@
 - Firejail integrado en el Core (se Firejailea a si mismo)
 - 2 Factor Authentication por defecto (TOTP, FreeOTP)
 - [WebP](https://developers.google.com/speed/webp/docs/cwebp) automatico de Imagenes & Fotos (~50% de JPG)
-- [Libravatar/Gravatar](https://wiki.libravatar.org/libraries/#index2h1) fotos avatar automaticos (desde mail del usuario)
 - Editores [Summernote](https://summernote.org), [CodeMirror](https://codemirror.net), [GrapesJS](https://grapesjs.com)
 - Personaliza head, header, navbar, footer, title, meta tags, url, SEO-Friendly
 - Subidas/Descargas archivos & imagenes con contador (privado & publico)
@@ -122,10 +121,6 @@
 ##### CPU, Cores, RAM, SubProcesos
 
 ![User Reset](https://raw.githubusercontent.com/ThomasTJdev/nim_websitecreator/master/docs/nimwc-admin-power.png)
-
------
-
-![Libravatar](https://user-images.githubusercontent.com/1189414/53709326-72ef5180-3e16-11e9-944e-8120d6ab2959.png)
 
 -----
 

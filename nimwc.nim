@@ -1,7 +1,5 @@
 import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times
 
-import contra
-
 import
   nimwcpkg/constants/constants, nimwcpkg/enums/enums,
   nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers
@@ -10,8 +8,6 @@ when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
 when defined(firejail): from firejail import firejailVersion, firejailFeatures
-
-hardenedBuild()
 
 
 var
@@ -31,11 +27,6 @@ configExists()
 
 proc updateNimwc() =
   ## GIT hard update
-  preconditions(dirExists"plugins/", dirExists"public/css/", dirExists"public/js/",
-    fileExists"plugins/plugin_import.txt", fileExists"public/css/style_custom.css",
-    fileExists"public/js/js_custom.js", findExe"git".len > 0)
-
-  # No postconditions because we directly quit anyways.
   const cmd = "git fetch --all ; git reset --hard origin/master"
   let
     pluginImport = readFile"plugins/plugin_import.txt"  # Save contents
@@ -214,7 +205,6 @@ proc startupCheck(cfg: Config) =
   ## Checking if the main-program file exists. If not it will
   ## be compiled with args and compiler options (compiler
   ## options should be specified in the *.nim.pkg)
-  preconditions compileOptions.len > 0, storageEFS.len > 0, fileExists(getAppDir() & "/nimwcpkg/nimwc_main.nim")
   # Storage location. Folders are created in the module files.nim
   let
     args = replace(commandLineParams().join(" "), "-", "")
@@ -230,13 +220,15 @@ proc startupCheck(cfg: Config) =
 
   if not fileExists(appPath) or defined(rc):
     # Ensure that the DB tables are created
-    styledEcho(fgGreen, bgBlack, compile_start_msg & userArgs)
+    echo compile_start_msg & userArgs & "\n\n"
+
     let (output, exitCode) = execCmdEx("nim c --out:" & appPath & " " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
     if exitCode != 0:
-      styledEcho(fgRed, bgBlack, compile_fail_msg & output)
+      styledEcho(fgRed, bgBlack, compile_fail_msg)
+      echo output
       quit(exitCode)
     else:
-      styledEcho(fgGreen, bgBlack, compile_ok_msg)
+      echo compile_ok_msg
 
 
 #
@@ -247,32 +239,51 @@ proc startupCheck(cfg: Config) =
 when isMainModule:
   let cfg = loadConfig(getAppDir() / "config/config.cfg") # cfg is Config.
   connectDb() # Read config, connect database, inject it as "db" variable.
-  when defined(dev): echo($compileOptions, "\n\n")
+
+  when defined(dev):
+    echo($compileOptions, "\n\n")
+
   for keysType, keys, values in getopt():
     case keysType
     of cmdShortOption, cmdLongOption:
       case keys
-      of "version": quit(NimblePkgVersion, 0)
-      of "version-hash": quit(commitHash, 0)
-      of "help", "fullhelp": styledEcho(fgGreen, bgBlack, doc)
-      of "initplugin": pluginSkeleton() # Interactive (Asks to user).
-      of "gitupdate": updateNimwc()
-      of "forcebuild", "f": echo tryRemoveFile(getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname"))
-      of "newdb": generateDB(db)
-      of "newadmin": createAdminUser(db)
+      of "version":
+        quit(NimblePkgVersion, 0)
+      of "version-hash":
+        quit(commitHash, 0)
+      of "help", "fullhelp":
+        echo doc
+      of "initplugin":
+        pluginSkeleton() # Interactive (Asks to user).
+      of "gitupdate":
+        updateNimwc()
+      of "forcebuild", "f":
+        echo tryRemoveFile(getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname"))
+      of "newdb":
+        generateDB(db)
+      of "newadmin":
+        createAdminUser(db)
       of "insertdata":
         if "bootstrap" in commandLineParams():  createStandardData(db, cssBootstrap, on)
         elif "water" in commandLineParams():    createStandardData(db, cssWater, on)
         else:                                   createStandardData(db, cssBulma, on)
-      of "vacuumdb": echo vacuumDb(db)
-      of "backupdb-gpg": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"))
-      of "backupdb": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"), checksum=false, sign=false, targz=false)
-      of "backuplogs": echo backupOldLogs(splitPath(cfg.getSectionValue("Logging", when defined(release): "logfile" else: "logfiledev")).head)
+      of "vacuumdb":
+        echo vacuumDb(db)
+      of "backupdb-gpg":
+        echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"))
+      of "backupdb":
+        echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"), checksum=false, sign=false, targz=false)
+      of "backuplogs":
+        echo backupOldLogs(splitPath(cfg.getSectionValue("Logging", when defined(release): "logfile" else: "logfiledev")).head)
+
     of cmdArgument:
       discard
-    of cmdEnd: quit("Wrong arguments, please see help with: --help", 1)
 
-    if keys.len != 0: quit("Run again with no arguments, please see help with: --help", 0)
+    of cmdEnd:
+      quit("Wrong arguments, please see help with: --help", 1)
+
+    if keys.len != 0:
+      quit("Run again with no arguments, please see help with: --help", 0)
 
   startupCheck(cfg)
   launcherActivated(cfg)

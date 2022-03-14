@@ -315,7 +315,6 @@ const
       <ul>
         <li>Explore the dashboard with access to the plugin store</li>
         <li>Admin configuration of the backend from the browser</li>
-        <li>Custom profiles with Libravatar/Gravatar</li>
         <li>SEO optimized</li>
         <li>Secured by self-firejailing and 2FA</li>
         <li>1 language for the whole stack</li>
