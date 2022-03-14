@@ -18,7 +18,6 @@ const
     (when defined(postgres):          " -d:postgres"          else: "") &
     (when defined(webp):              " -d:webp"              else: "") &
     (when defined(firejail):          " -d:firejail"          else: "") &
-    (when defined(contracts):         " -d:contracts"         else: "") &
     (when defined(recaptcha):         " -d:recaptcha"         else: "") &
     (when defined(packedjson):        " -d:packedjson"        else: "") &
 
@@ -79,7 +78,7 @@ const
 
   Compile Error
   ⚠️ Compile-time or Configuration or Plugin error occurred.
-  ➡️ Check the configuration file of NimWC and enabled plugins. Recompile with -d:contracts.
+  ➡️ Check the configuration file of NimWC and enabled plugins.
   ➡️ Remove new plugins, restore previous configuration.
   ➡️ ️️Check that you have the latest NimWC version and check the documentation.
   ➡️ Check your source code: nim check YourFile.nim; nimpretty YourFile.nim
@@ -208,7 +207,6 @@ Compile options (features when compiling source code):
   -d:adminnotify Send error logs (ERROR) to the specified Admin email.
   -d:dev         Development (ignore reCaptcha, no emails, more Verbose).
   -d:devemailon  Send error logs email when -d:dev is activated.
-  -d:contracts   Force Design by Contract enabled. Runs assertive.
   -d:demo        Public demo mode. Enable Test user. 2FA ignored. Pages Reset.
                   Force database reset every 1 hour. Some options Disabled.
 

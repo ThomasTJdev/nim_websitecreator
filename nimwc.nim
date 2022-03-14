@@ -1,7 +1,5 @@
 import os, osproc, parsecfg, parseopt, rdstdin, strutils, terminal, times
 
-import contra
-
 import
   nimwcpkg/constants/constants, nimwcpkg/enums/enums,
   nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers
@@ -10,8 +8,6 @@ when defined(postgres): import db_postgres
 else:                   import db_sqlite
 
 when defined(firejail): from firejail import firejailVersion, firejailFeatures
-
-hardenedBuild()
 
 
 var
@@ -31,11 +27,6 @@ configExists()
 
 proc updateNimwc() =
   ## GIT hard update
-  preconditions(dirExists"plugins/", dirExists"public/css/", dirExists"public/js/",
-    fileExists"plugins/plugin_import.txt", fileExists"public/css/style_custom.css",
-    fileExists"public/js/js_custom.js", findExe"git".len > 0)
-
-  # No postconditions because we directly quit anyways.
   const cmd = "git fetch --all ; git reset --hard origin/master"
   let
     pluginImport = readFile"plugins/plugin_import.txt"  # Save contents
@@ -214,7 +205,6 @@ proc startupCheck(cfg: Config) =
   ## Checking if the main-program file exists. If not it will
   ## be compiled with args and compiler options (compiler
   ## options should be specified in the *.nim.pkg)
-  preconditions compileOptions.len > 0, storageEFS.len > 0, fileExists(getAppDir() & "/nimwcpkg/nimwc_main.nim")
   # Storage location. Folders are created in the module files.nim
   let
     args = replace(commandLineParams().join(" "), "-", "")
