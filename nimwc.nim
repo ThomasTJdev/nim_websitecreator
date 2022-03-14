@@ -247,32 +247,51 @@ proc startupCheck(cfg: Config) =
 when isMainModule:
   let cfg = loadConfig(getAppDir() / "config/config.cfg") # cfg is Config.
   connectDb() # Read config, connect database, inject it as "db" variable.
-  when defined(dev): echo($compileOptions, "\n\n")
+
+  when defined(dev):
+    echo($compileOptions, "\n\n")
+
   for keysType, keys, values in getopt():
     case keysType
     of cmdShortOption, cmdLongOption:
       case keys
-      of "version": quit(NimblePkgVersion, 0)
-      of "version-hash": quit(commitHash, 0)
-      of "help", "fullhelp": styledEcho(fgGreen, bgBlack, doc)
-      of "initplugin": pluginSkeleton() # Interactive (Asks to user).
-      of "gitupdate": updateNimwc()
-      of "forcebuild", "f": echo tryRemoveFile(getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname"))
-      of "newdb": generateDB(db)
-      of "newadmin": createAdminUser(db)
+      of "version":
+        quit(NimblePkgVersion, 0)
+      of "version-hash":
+        quit(commitHash, 0)
+      of "help", "fullhelp":
+        styledEcho(fgGreen, bgBlack, doc)
+      of "initplugin":
+        pluginSkeleton() # Interactive (Asks to user).
+      of "gitupdate":
+        updateNimwc()
+      of "forcebuild", "f":
+        echo tryRemoveFile(getAppDir() / "nimwcpkg" / cfg.getSectionValue("Server", "appname"))
+      of "newdb":
+        generateDB(db)
+      of "newadmin":
+        createAdminUser(db)
       of "insertdata":
         if "bootstrap" in commandLineParams():  createStandardData(db, cssBootstrap, on)
         elif "water" in commandLineParams():    createStandardData(db, cssWater, on)
         else:                                   createStandardData(db, cssBulma, on)
-      of "vacuumdb": echo vacuumDb(db)
-      of "backupdb-gpg": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"))
-      of "backupdb": echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"), checksum=false, sign=false, targz=false)
-      of "backuplogs": echo backupOldLogs(splitPath(cfg.getSectionValue("Logging", when defined(release): "logfile" else: "logfiledev")).head)
+      of "vacuumdb":
+        echo vacuumDb(db)
+      of "backupdb-gpg":
+        echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"))
+      of "backupdb":
+        echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"), checksum=false, sign=false, targz=false)
+      of "backuplogs":
+        echo backupOldLogs(splitPath(cfg.getSectionValue("Logging", when defined(release): "logfile" else: "logfiledev")).head)
+
     of cmdArgument:
       discard
-    of cmdEnd: quit("Wrong arguments, please see help with: --help", 1)
 
-    if keys.len != 0: quit("Run again with no arguments, please see help with: --help", 0)
+    of cmdEnd:
+      quit("Wrong arguments, please see help with: --help", 1)
+
+    if keys.len != 0:
+      quit("Run again with no arguments, please see help with: --help", 0)
 
   startupCheck(cfg)
   launcherActivated(cfg)
