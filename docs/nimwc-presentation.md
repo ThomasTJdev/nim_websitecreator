@@ -28,7 +28,6 @@
 - Firejail is integrated in the Core (it Firejails itself)
 - 2 Factor Authentication by default (TOTP, FreeOTP)
 - [WebP](https://developers.google.com/speed/webp/docs/cwebp) automatic Image & Photo Optimization (~50% of JPG)
-- [Libravatar/Gravatar](https://wiki.libravatar.org/libraries/#index2h1) automatic avatar photos (from user Mail)
 - Editors are [Summernote](https://summernote.org), [CodeMirror](https://codemirror.net), [GrapesJS](https://grapesjs.com)
 - Custom head, header, navbar, footer, title, meta tags, url, SEO friendly
 - Upload/Download files & images with counter (private & public)
@@ -127,9 +126,6 @@
 
 -----
 
-![Libravatar](https://user-images.githubusercontent.com/1189414/53709326-72ef5180-3e16-11e9-944e-8120d6ab2959.png)
-
------
 
 ##### Plugin Store
 

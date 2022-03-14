@@ -299,18 +299,6 @@ routes:
     resp termsOfServices
 
 
-  get "/users/profile/avatar":
-    createTFD()
-    resp genMainAdmin(c, genAvatar(c))
-
-
-  post "/users/profile/avatar/save":
-    createTFD()
-    restrictTestuser(c.req.reqMethod)
-    if len(@"avatar") > 0:
-      exec(db, sql"UPDATE person SET avatar = ? WHERE id = ?", @"avatar", c.userid)
-    redirect("/users/profile")
-
 
   get "/settings/firejail":
     createTFD()

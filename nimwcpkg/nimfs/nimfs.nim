@@ -44,8 +44,7 @@ include
   "_settings.nimf",
   "_sitemaps.nimf",
   "_logins.nimf",
-  "_userprofiles.nimf",
-  "_libravatars.nimf"
+  "_userprofiles.nimf"
 
 
 when defined(firejail):

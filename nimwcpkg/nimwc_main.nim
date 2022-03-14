@@ -28,7 +28,6 @@ import
   contra,
   datetime2human,
   jester,
-  libravatar,
   otp
 
 import

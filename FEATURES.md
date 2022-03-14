@@ -7,7 +7,6 @@
 - Custom title, meta description and keywords for each page, SEO friendly.
 - Custom head, navbar and footer, no hardcoded watermarks, links or logos.
 - Upload/Download files and images (private or public), option to use MD5 CheckSum as filename.
-- [Libravatar/Gravatar support](https://wiki.libravatar.org/libraries/#index2h1) for profile photos builtin.
 - 1 language for the whole stack, including high performance modules, scripting, devops, deploy, from WebAssembly to Assembly.
 
 ## Security

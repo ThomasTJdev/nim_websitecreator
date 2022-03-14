@@ -74,15 +74,6 @@
         #
           </h5>
           </div>
-        #let mail = plugin["email"].getStr.toLowerAscii.strip
-        #
-        #if mail != "":
-          <center>
-            <div class="image is-128x128">
-              <img class="image is-128x128 is-rounded libravatar" src="${ getLibravatarUrl(mail) }" style="width:128px;height:128px;text-align:center">
-            </div>
-          </center>
-        #end if
         #
           <div class="message-body">
             ${ rst2html(plugin["description"].getStr) } <br><br>
@@ -109,6 +100,7 @@
               </details>
               <br>
           #
+          # let mail = plugin["email"].getStr.toLowerAscii.strip
           #if mail != "":
             <a href="${ if mail.startsWith("http"): mail else: "mailto:" & mail }" class="button is-fullwidth is-small" title="Help, Support, Feedback, etc" target="_blank" style="opacity:.7">Talk to the Developer</a><br>
           #end if
