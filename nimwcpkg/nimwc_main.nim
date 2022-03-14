@@ -12,7 +12,6 @@ import
   std/random,
   std/re,
   std/rdstdin,
-  std/sequtils,
   std/streams,
   std/strtabs,
   std/strutils,
