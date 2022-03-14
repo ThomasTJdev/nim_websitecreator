@@ -220,13 +220,15 @@ proc startupCheck(cfg: Config) =
 
   if not fileExists(appPath) or defined(rc):
     # Ensure that the DB tables are created
-    styledEcho(fgGreen, bgBlack, compile_start_msg & userArgs)
+    echo compile_start_msg & userArgs & "\n\n"
+
     let (output, exitCode) = execCmdEx("nim c --out:" & appPath & " " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
     if exitCode != 0:
-      styledEcho(fgRed, bgBlack, compile_fail_msg & output)
+      styledEcho(fgRed, bgBlack, compile_fail_msg)
+      echo output
       quit(exitCode)
     else:
-      styledEcho(fgGreen, bgBlack, compile_ok_msg)
+      echo compile_ok_msg
 
 
 #
@@ -250,7 +252,7 @@ when isMainModule:
       of "version-hash":
         quit(commitHash, 0)
       of "help", "fullhelp":
-        styledEcho(fgGreen, bgBlack, doc)
+        echo doc
       of "initplugin":
         pluginSkeleton() # Interactive (Asks to user).
       of "gitupdate":
