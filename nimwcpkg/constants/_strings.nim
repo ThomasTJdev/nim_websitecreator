@@ -203,7 +203,6 @@ Compile options (features when compiling source code):
   -d:webp        WebP is enabled. Optimize images and photos. https://u.nu/0o5t
   -d:recaptcha   Recaptcha AntiSpamm enabled (wont work on Tor) https://u.nu/hbc7
   -d:packedjson  PackedJSON replaces JSON. Performance optimization. https://u.nu/byf-
-  -d:hardened    Security Hardened mode. Runs Hardened. ~20% Performance cost max.
   -d:adminnotify Send error logs (ERROR) to the specified Admin email.
   -d:dev         Development (ignore reCaptcha, no emails, more Verbose).
   -d:devemailon  Send error logs email when -d:dev is activated.
