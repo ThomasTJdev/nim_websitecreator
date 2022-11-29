@@ -19,6 +19,7 @@ requires "otp >= 0.1.1"
 requires "recaptcha >= 1.0.3"
 requires "webp >= 0.2.5"
 requires "packedjson >= 0.1.0"
+requires "smtp"
 
 
 import distros
