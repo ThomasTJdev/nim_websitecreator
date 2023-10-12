@@ -4,8 +4,8 @@ import
   nimwcpkg/constants/constants, nimwcpkg/enums/enums,
   nimwcpkg/databases/databases, nimwcpkg/files/files, nimwcpkg/utils/loggers
 
-when defined(postgres): import db_postgres
-else:                   import db_sqlite
+when defined(postgres): import db_connector/db_postgres
+else:                   import db_connector/db_sqlite
 
 when defined(firejail): from firejail import firejailVersion, firejailFeatures
 
