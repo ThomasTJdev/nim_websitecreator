@@ -1,7 +1,7 @@
 ## Static Postgres/SQLite string constants, do NOT put any run-time logic here, only consts.
 ## Do NOT import this file directly, instead import ``constants.nim``
 from strutils import format
-from db_common import sql
+from db_connector/db_common import sql
 
 
 when defined(postgres):
