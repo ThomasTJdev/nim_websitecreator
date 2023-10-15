@@ -31,12 +31,12 @@ import
   constants/constants, enums/enums, databases/databases, emails/emails, files/files,
   passwords/passwords, sessions/sessions, utils/loggers, plugins/plugins, webs/html_utils
 
-
-when defined(postgres):
-  import db_connector/db_postgres
+when NimMajor < 2:
+    when defined(postgres): import db_postgres
+    else:                   import db_sqlite
 else:
-  import db_connector/db_sqlite
-
+    when defined(postgres): import db_connector/db_postgres
+    else:                   import db_connector/db_sqlite
 
 when defined(webp):
   from webp import cwebp
