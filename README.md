@@ -23,7 +23,7 @@ A quick website tool. Run the nim file and access your webpage. Website: [https:
 
 To get started you only need:
 
-- Nim >= `1.0.0` (tested with `1.4.8`)
+- Nim >= `1.6.14` (tested with +`2.0`)
 
 Optional dependencies (disabled by default):
 
