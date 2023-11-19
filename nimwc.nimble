@@ -8,6 +8,10 @@ skipDirs      = @["private", "tmp", "devops", "docs"]
 installDirs   = @["config", "nimwcpkg", "plugins", "public"]
 
 
+# Nim v2
+when NimMajor >= 2:
+  requires "smtp >= 0.1.0"
+
 
 # Dependencies
 requires "nim >= 1.6.0"
