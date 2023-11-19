@@ -3,9 +3,12 @@ import os, parsecfg, tables, osproc, logging, times, nativesockets, strutils, rd
 import ../constants/constants, ../utils/configs, ../passwords/passwords, ../enums/enums
 export head, navbar, footer, title  # HTML template fragments
 
-when defined(postgres): import db_postgres
-else:                   import db_sqlite
-
+when NimMajor < 2:
+    when defined(postgres): import db_postgres
+    else:                   import db_sqlite
+else:
+    when defined(postgres): import db_connector/db_postgres
+    else:                   import db_connector/db_sqlite
 
 let nimwcpkgDir = getAppDir().replace("/nimwcpkg", "")
 assert dirExists(nimwcpkgDir), "nimwcpkg directory not found"

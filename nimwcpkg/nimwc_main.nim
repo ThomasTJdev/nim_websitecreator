@@ -31,12 +31,12 @@ import
   constants/constants, enums/enums, databases/databases, emails/emails, files/files,
   passwords/passwords, sessions/sessions, utils/loggers, plugins/plugins, webs/html_utils
 
-
-when defined(postgres):
-  import db_postgres
+when NimMajor < 2:
+    when defined(postgres): import db_postgres
+    else:                   import db_sqlite
 else:
-  import db_sqlite
-
+    when defined(postgres): import db_connector/db_postgres
+    else:                   import db_connector/db_sqlite
 
 when defined(webp):
   from webp import cwebp
@@ -316,7 +316,7 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[isLoginOk: bool, s
         if totp in [000000, 111111, 222222, 333333, 444444, 555555, 666666, 777777, 888888, 999999]:
           return (false, "2 Factor Authentication Number must not be 6 identical digits")
 
-        let totpServerSide = $newTotp(row[7]).now()
+        let totpServerSide = $(Totp.init(row[7]).now())
         when not defined(release):
           echo "TOTP SERVER: " & totpServerSide
           echo "TOTP USER  : " & $totp
