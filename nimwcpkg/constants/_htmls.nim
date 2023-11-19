@@ -228,7 +228,7 @@ const
       <div class="level"><a class="level-item" href="https://nim-lang.org">Powered by Nim</a></div>
     </div>
   </div>
-  <span class="subtitle has-text-centered is-6">&copy; PPL - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></span>
+  <span class="subtitle has-text-centered is-6">&copy; MIT - <a href="https://github.com/ThomasTJdev/nim_websitecreator"><u>Github</u></a></span>
 </div>"""
 
   about* = """<div id="about">

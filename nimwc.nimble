@@ -2,7 +2,7 @@
 version       = "6.1.4"
 author        = "Thomas T. Jarløv (https://github.com/ThomasTJdev) & Juan Carlos (https://github.com/juancarlospaco)"
 description   = "Generate and host a website. Run the package and access your new webpage."
-license       = "PPL"
+license       = "MIT"
 bin           = @["nimwc"]
 skipDirs      = @["private", "tmp", "devops", "docs"]
 installDirs   = @["config", "nimwcpkg", "plugins", "public"]
