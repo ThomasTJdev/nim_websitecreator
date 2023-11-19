@@ -10,6 +10,7 @@ installDirs   = @["config", "nimwcpkg", "plugins", "public"]
 
 # Nim v2
 when NimMajor >= 2:
+  requires "db_connector >= 0.1.0"
   requires "smtp >= 0.1.0"
 
 

@@ -3,9 +3,11 @@
 from strutils import format
 
 when NimMajor < 2:
-    from db_common import sql
+  when defined(postgres): import db_postgres
+  else:                   import db_sqlite
 else:
-    from db_connector/db_common import sql
+  when defined(postgres): import db_connector/db_postgres
+  else:                   import db_connector/db_sqlite
 
 when defined(postgres):
   const
