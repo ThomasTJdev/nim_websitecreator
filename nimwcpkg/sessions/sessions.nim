@@ -1,5 +1,9 @@
-from jester import Request
 
+
+when NimMajor > 2:
+  from jester_fork import Request
+else:
+  from jester import Request
 
 type
   Rank* = enum                ## Rank for the User.

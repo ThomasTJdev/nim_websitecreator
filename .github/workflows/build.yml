@@ -17,7 +17,8 @@ jobs:
           #- windows-latest
           #- macOS-latest
         version:
-          - stable
+          - 1.6.18
+          # - stable
 
     steps:
     - uses: actions/checkout@v1
@@ -41,7 +42,10 @@ jobs:
       run: nimble build
 
     - name: Compile RELEASE Mode
-      run: nimble build -d:release
+      run: |
+        nimble build -d:release
+        cp config/config_default.cfg config/config.cfg
+        ./nimwc --quitAfterCompile
 
     - name: Nimble install
       run: nimble install

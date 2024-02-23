@@ -24,8 +24,12 @@ import
 import
   bcrypt,
   datetime2human,
-  jester,
   otp
+
+when NimMajor > 2:
+  import jester_fork
+else:
+  import jester
 
 import
   constants/constants, enums/enums, databases/databases, emails/emails, files/files,
@@ -316,7 +320,10 @@ proc login(c: var TData, email, pass, totpRaw: string): tuple[isLoginOk: bool, s
         if totp in [000000, 111111, 222222, 333333, 444444, 555555, 666666, 777777, 888888, 999999]:
           return (false, "2 Factor Authentication Number must not be 6 identical digits")
 
-        let totpServerSide = $(Totp.init(row[7]).now())
+        when NimMajor >= 2:
+          let totpServerSide = $(Totp.init(row[7]).now())
+        else:
+          let totpServerSide = $(newTotp(row[7]).now())
         when not defined(release):
           echo "TOTP SERVER: " & totpServerSide
           echo "TOTP USER  : " & $totp
