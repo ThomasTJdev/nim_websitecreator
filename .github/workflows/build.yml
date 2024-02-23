@@ -17,7 +17,8 @@ jobs:
           #- windows-latest
           #- macOS-latest
         version:
-          - stable
+          - 1.6.18
+          # - stable
 
     steps:
     - uses: actions/checkout@v1
