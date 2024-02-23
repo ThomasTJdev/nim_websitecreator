@@ -227,7 +227,7 @@ proc startupCheck(cfg: Config) =
     echo compile_start_msg & userArgs & "\n\n"
     let nimv2 = if NimMajor >= 2: " --mm:orc " else: ""
 
-    let (output, exitCode) = execCmdEx("nim c --out:" & appPath & " " & compileOptions & " " & nimv2& " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
+    let (output, exitCode) = execCmdEx("nim c --out:" & appPath & " " & compileOptions & " " & nimv2 & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
     if exitCode != 0:
       styledEcho(fgRed, bgBlack, compile_fail_msg)
       echo output
@@ -247,6 +247,8 @@ when isMainModule:
 
   when defined(dev):
     echo($compileOptions, "\n\n")
+
+  var quitAfterCompile = false
 
   for keysType, keys, values in getopt():
     case keysType
@@ -280,6 +282,8 @@ when isMainModule:
         echo backupDb(cfg.getSectionValue("Database", when defined(postgres): "name" else: "host"), checksum=false, sign=false, targz=false)
       of "backuplogs":
         echo backupOldLogs(splitPath(cfg.getSectionValue("Logging", when defined(release): "logfile" else: "logfiledev")).head)
+      of "quitAfterCompile":
+        quitAfterCompile = true
 
     of cmdArgument:
       discard
@@ -287,8 +291,11 @@ when isMainModule:
     of cmdEnd:
       quit("Wrong arguments, please see help with: --help", 1)
 
-    if keys.len != 0:
+    if keys.len != 0 and not quitAfterCompile:
       quit("Run again with no arguments, please see help with: --help", 0)
 
   startupCheck(cfg)
+  if quitAfterCompile:
+    sleep(1000)
   launcherActivated(cfg)
+

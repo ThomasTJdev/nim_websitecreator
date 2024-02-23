@@ -45,7 +45,7 @@ jobs:
       run: |
         nimble build -d:release
         cp config/config_default.cfg config/config.cfg
-        ./nimwc
+        ./nimwc --quitAfterCompile
 
     - name: Nimble install
       run: nimble install
