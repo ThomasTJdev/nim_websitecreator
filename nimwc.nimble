@@ -12,15 +12,18 @@ installDirs   = @["config", "nimwcpkg", "plugins", "public"]
 when NimMajor >= 2:
   requires "db_connector >= 0.1.0"
   requires "smtp >= 0.1.0"
+  requires "https://github.com/ThomasTJdev/otp.nim == 0.3.3"
+  requires "https://github.com/ThomasTJdev/jester_fork >= 1.0.0"
+else:
+  requires "https://github.com/ThomasTJdev/otp.nim == 0.1.5"
+  requires "jester >= 0.4.3"
 
 
 # Dependencies
 requires "nim >= 1.6.0"
-requires "jester >= 0.4.3"
 requires "bcrypt >= 0.2.1"
 requires "datetime2human >= 0.2.5"
 requires "firejail >= 0.5.0"
-requires "otp >= 0.1.1"
 requires "recaptcha >= 1.0.3"
 requires "webp >= 0.2.5"
 requires "packedjson >= 0.1.0"

@@ -225,8 +225,9 @@ proc startupCheck(cfg: Config) =
   if not fileExists(appPath) or defined(rc):
     # Ensure that the DB tables are created
     echo compile_start_msg & userArgs & "\n\n"
+    let nimv2 = if NimMajor >= 2: " --mm:orc " else: ""
 
-    let (output, exitCode) = execCmdEx("nim c --out:" & appPath & " " & compileOptions & " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
+    let (output, exitCode) = execCmdEx("nim c --out:" & appPath & " " & compileOptions & " " & nimv2& " " & getAppDir() & "/nimwcpkg/nimwc_main.nim")
     if exitCode != 0:
       styledEcho(fgRed, bgBlack, compile_fail_msg)
       echo output

@@ -556,10 +556,16 @@ routes:
     restrictTestuser(HttpGet)
     if unlikely(not c.loggedIn): redirect("/")
     try:
-      if $(Totp.init(@"twofakey").now()) == @"testcode":
-        resp("Success, the code matched")
+      when NimMajor >= 2:
+        if $(Totp.init(@"twofakey").now()) == @"testcode":
+          resp("Success, the code matched")
+        else:
+          resp("Error, code did not match")
       else:
-        resp("Error, code did not match")
+        if $(newTotp(@"twofakey").now()) == @"testcode":
+          resp("Success, the code matched")
+        else:
+          resp("Error, code did not match")
     except:
       resp("Error generating 2FA")
 
