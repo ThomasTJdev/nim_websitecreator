@@ -24,8 +24,12 @@ import
 import
   bcrypt,
   datetime2human,
-  jester,
   otp
+
+when NimMajor > 2:
+  import jester_fork
+else:
+  import jester
 
 import
   constants/constants, enums/enums, databases/databases, emails/emails, files/files,

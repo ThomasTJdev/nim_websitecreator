@@ -26,7 +26,10 @@ routes:
     let (loginB, loginS) = login(c, replace(toLowerAscii(@"email"), " ", ""), replace(@"password", " ", ""), replace(@"totp", " ", ""))
     when defined(dev): echo("\nMail: ", @"email", "\nPassword2 (HoneyPot): ",  @"password2", "\n(loginB, loginS): ", (loginB, loginS))
     if loginB:
-      jester.setCookie("sid", loginS, daysForward(7))
+      when NimMajor > 2:
+        jester_fork.setCookie("sid", loginS, daysForward(7))
+      else:
+        jester.setCookie("sid", loginS, daysForward(7))
       redirect("/settings")
     else:
       redirect("/login?msg=" & encodeUrl(loginS))
